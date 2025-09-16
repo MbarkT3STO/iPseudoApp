@@ -71,3 +71,8 @@ ipcMain.handle('dialog:saveFile', async (_evt, args: { filePath?: string; conten
   await fs.promises.writeFile(filePath, content, 'utf8');
   return { canceled: false, filePath };
 });
+
+ipcMain.handle('show-open-dialog', async (event, options) => {
+  const { canceled, filePaths } = await dialog.showOpenDialog(options);
+  return { canceled, filePaths };
+});

@@ -102,7 +102,11 @@ require(['vs/editor/editor.main'], function() {
         wordWrap: 'on'
     });
 
-    // Monaco finished initialization. Avoid writing to the debug overlay to keep UI clean.
+    // Make editor globally available
+    window.editor = editor;
+
+    // Set up editor change listeners
+    setupEditorListeners();
 
     // Register completion provider with only reserved pseudocode keywords
     const reservedKeywords = ['var','input','print','if','then','elseif','else','endif','while','endwhile','for','to','endfor','function','return','endfunction','and','or','not','break','continue','true','false','null'];
@@ -147,12 +151,6 @@ require(['vs/editor/editor.main'], function() {
             return { suggestions };
         }
     });
-
-    // Cursor position display intentionally removed per user preference.
-    // No onDidChangeCursorPosition handler is registered so no Col/Line updates occur.
-
-    // Add to window for access from other scripts
-    window.editor = editor;
 
     // Add content change listener to handle run button state
     const runButton = document.getElementById('btnRun');
@@ -221,3 +219,50 @@ require(['vs/editor/editor.main'], function() {
         }
     });
 });
+
+function setupEditorListeners() {
+    if (!window.editor) return;
+
+    // Track cursor position changes
+    window.editor.onDidChangeCursorPosition((e) => {
+        if (window.activeFilePath && window.openFiles && window.openFiles.has(window.activeFilePath)) {
+            const file = window.openFiles.get(window.activeFilePath);
+            if (file) {
+                file.cursorPosition = e.position;
+            }
+        }
+    });
+
+    // Track scroll position changes
+    window.editor.onDidScrollChange((e) => {
+        if (window.activeFilePath && window.openFiles && window.openFiles.has(window.activeFilePath)) {
+            const file = window.openFiles.get(window.activeFilePath);
+            if (file) {
+                file.scrollPosition = e.scrollTop;
+            }
+        }
+    });
+
+    // Track content changes
+    window.editor.onDidChangeModelContent(() => {
+        if (window.activeFilePath && window.openFiles && window.openFiles.has(window.activeFilePath)) {
+            const content = window.editor.getValue();
+            const file = window.openFiles.get(window.activeFilePath);
+            if (file) {
+                file.content = content;
+                const isDirty = content !== (file.originalContent || '');
+                if (file.dirty !== isDirty) {
+                    file.dirty = isDirty;
+                    updateTabDirtyState(window.activeFilePath, isDirty);
+                    
+                    // Update window title
+                    const fileName = window.activeFilePath.split('/').pop();
+                    document.title = `${fileName}${isDirty ? ' *' : ''} - iPseudo IDE`;
+                }
+            }
+        }
+    });
+}
+
+// Make this function globally available
+window.setupEditorListeners = setupEditorListeners;

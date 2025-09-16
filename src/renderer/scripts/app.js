@@ -5,6 +5,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const runButton = document.getElementById('btnRun');
     const clearButton = document.getElementById('clearConsole');
     const runStatus = document.getElementById('runStatus');
+    const addTabButton = document.querySelector('.add-tab');
+
+    // Track open files and their content
+    const openFiles = new Map();
+    let activeFilePath = '';
+
+    // Remove the default tab that's created in the HTML
+    const defaultTab = document.querySelector('.tab[data-path=""]');
+    if (defaultTab) {
+        defaultTab.remove();
+    }
 
     function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]); }
     // out: by default include timestamp; for type 'stdout' and 'print' show raw text only
@@ -221,4 +232,237 @@ document.addEventListener('DOMContentLoaded', () => {
         execute(code);
     });
 
+    // Function to open a file in a new tab
+    async function openFile(filePath, content) {
+        try {
+            // Store file content
+            openFiles.set(filePath, {
+                content,
+                dirty: false,
+                originalContent: content
+            });
+            
+            // Create new tab or switch to existing one
+            createOrSwitchToTab(filePath);
+            
+            // Update editor content
+            if (window.editor) {
+                window.editor.setValue(content);
+                window.editor.getModel().setEOL(monaco.editor.EndOfLineSequence.LF);
+                window.editor.focus();
+            }
+            
+            // Update window title
+            document.title = `${filePath.split('/').pop()} - iPseudo IDE`;
+            
+        } catch (error) {
+            console.error('Error opening file:', error);
+            handleError({ message: `Failed to open file: ${error.message}` });
+        }
+    }
+
+    // Function to create or switch to a tab
+    function createOrSwitchToTab(filePath) {
+        const tabBar = document.getElementById('tabBar');
+        if (!tabBar) return;
+        
+        // Check if tab already exists
+        const existingTab = tabBar.querySelector(`[data-path="${filePath}"]`);
+        if (existingTab) {
+            // Switch to existing tab
+            switchToTab(existingTab);
+            return;
+        }
+        
+        // Find the new tab button (it should be the last child)
+        const newTabButton = tabBar.lastElementChild;
+        
+        // Create new tab
+        const tab = document.createElement('div');
+        tab.className = 'tab active';
+        tab.dataset.path = filePath;
+        
+        const fileName = filePath.split('/').pop();
+        tab.innerHTML = `
+            <span class="tab-label">${fileName}</span>
+            <span class="dirty-indicator" aria-hidden="true"></span>
+            <button class="tab-close" title="Close">✕</button>
+        `;
+        
+        // Add click handler to switch tabs
+        tab.addEventListener('click', (e) => {
+            if (e.target.classList.contains('tab-close')) {
+                closeTab(filePath);
+                e.stopPropagation();
+                return;
+            }
+            switchToTab(tab);
+        });
+        
+        // Deactivate other tabs
+        tabBar.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        
+        // Insert the new tab before the new tab button
+        tabBar.insertBefore(tab, newTabButton);
+        
+        // Set as active file path
+        activeFilePath = filePath;
+    }
+
+    // Function to switch tabs
+    function switchToTab(tab) {
+        if (!tab) return;
+        
+        const filePath = tab.dataset.path;
+        if (!filePath) return;
+        
+        // Save current editor content before switching
+        if (window.editor && activeFilePath && openFiles.has(activeFilePath)) {
+            const currentContent = window.editor.getValue();
+            const currentFile = openFiles.get(activeFilePath);
+            if (currentFile) {
+                currentFile.content = currentContent;
+                currentFile.dirty = currentContent !== currentFile.originalContent;
+                updateTabDirtyState(activeFilePath, currentFile.dirty);
+            }
+        }
+        
+        // Update active tab
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        
+        // Update editor content for the selected tab
+        if (window.editor) {
+            if (openFiles.has(filePath)) {
+                const file = openFiles.get(filePath);
+                // Store the current scroll position and cursor position
+                const scrollPosition = window.editor.getScrollTop();
+                const cursorPosition = window.editor.getPosition();
+                
+                // Update editor content
+                window.editor.setValue(file.content || '');
+                
+                // Restore scroll and cursor position if available
+                if (file.scrollPosition !== undefined) {
+                    window.editor.setScrollTop(file.scrollPosition);
+                } else if (scrollPosition) {
+                    window.editor.setScrollTop(scrollPosition);
+                }
+                
+                if (file.cursorPosition) {
+                    window.editor.setPosition(file.cursorPosition);
+                    window.editor.revealPositionInCenter(file.cursorPosition);
+                } else if (cursorPosition) {
+                    window.editor.setPosition(cursorPosition);
+                }
+                
+                window.editor.focus();
+                
+                // Update window title
+                const fileName = filePath.split('/').pop();
+                document.title = `${fileName}${file.dirty ? ' *' : ''} - iPseudo IDE`;
+            }
+        }
+        
+        // Update active file path
+        activeFilePath = filePath;
+    }
+
+    // Function to close a tab
+    function closeTab(filePath) {
+        const tab = document.querySelector(`.tab[data-path="${filePath}"]`);
+        if (!tab) return;
+        
+        // Remove tab
+        tab.remove();
+        
+        // Remove from open files
+        openFiles.delete(filePath);
+        
+        // If this was the active tab, switch to another tab
+        if (activeFilePath === filePath) {
+            const remainingTabs = document.querySelectorAll('.tab');
+            if (remainingTabs.length > 0) {
+                switchToTab(remainingTabs[0]);
+            } else {
+                // No tabs left, clear editor
+                if (window.editor) {
+                    window.editor.setValue('');
+                }
+                document.title = 'iPseudo IDE';
+                activeFilePath = '';
+            }
+        }
+    }
+
+    // Add event listener for the new tab button
+    const newTabButton = document.getElementById('btnNewTab');
+    if (newTabButton) {
+        newTabButton.addEventListener('click', () => {
+            // Create a unique identifier for the new tab
+            const tabId = `untitled-${Date.now()}.pseudo`;
+            
+            // Create a new empty tab
+            createOrSwitchToTab(tabId);
+            
+            // Clear the editor for the new tab
+            if (window.editor) {
+                window.editor.setValue('');
+                window.editor.focus();
+            }
+            
+            // Store empty content for the new tab
+            openFiles.set(tabId, {
+                content: '',
+                dirty: false,
+                originalContent: ''
+            });
+            
+            // Update window title
+            document.title = `${tabId} - iPseudo IDE`;
+        });
+    }
+
+    // Add event listener for the open button
+    const openButton = document.getElementById('btnOpen');
+    if (openButton) {
+        openButton.addEventListener('click', async () => {
+            try {
+                // Use IPC to show file open dialog and get file content
+                const { ipcRenderer } = window.nodeRequire('electron');
+                const { canceled, filePath, content } = await ipcRenderer.invoke('dialog:openFile');
+                
+                if (!canceled && filePath && content !== undefined) {
+                    await openFile(filePath, content);
+                }
+            } catch (error) {
+                console.error('Error in file open dialog:', error);
+                handleError({ message: `Failed to open file dialog: ${error.message}` });
+            }
+        });
+    }
+
+    function updateTabDirtyState(filePath, isDirty) {
+        const tab = document.querySelector(`.tab[data-path="${filePath}"]`);
+        if (tab) {
+            const dirtyIndicator = tab.querySelector('.dirty-indicator');
+            if (dirtyIndicator) {
+                dirtyIndicator.style.display = isDirty ? 'inline-block' : 'none';
+            }
+        }
+    }
+
+    function createNewTab() {
+        const tabId = `untitled-${Date.now()}.pseudo`;
+        createOrSwitchToTab(tabId);
+        openFiles.set(tabId, {
+            content: '',
+            dirty: false,
+            originalContent: ''
+        });
+        document.title = `${tabId} - iPseudo IDE`;
+    }
+
+    // Initialize the first tab when the DOM is loaded
+    createNewTab();
 });
