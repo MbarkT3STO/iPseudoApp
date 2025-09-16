@@ -272,6 +272,100 @@ body {
     background: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.04));
 }
 
+/* Enhanced Error Message Styling */
+.error-message {
+    color: #ff6b6b;
+    font-weight: 600;
+    font-size: 1.1em;
+    margin: 12px 0 8px;
+    font-family: var(--font-mono);
+    white-space: pre-wrap;
+    line-height: 1.5;
+}
+
+.error-location {
+    color: #a8a8a8;
+    font-size: 0.9em;
+    margin: 8px 0 4px;
+    font-family: var(--font-mono);
+}
+
+.error-code {
+    background-color: #2d2f36;
+    border-left: 3px solid #ff6b6b;
+    padding: 8px 12px;
+    margin: 4px 0;
+    border-radius: 0 4px 4px 0;
+    font-family: var(--font-mono);
+    white-space: pre;
+    overflow-x: auto;
+}
+
+.error-code pre {
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+    white-space: pre;
+}
+
+.error-pointer {
+    color: #ff9e7d;
+    font-family: var(--font-mono);
+    margin: 0 0 8px;
+    padding-left: 2px;
+}
+
+.error-context {
+    color: #8f9ba8;
+    font-size: 0.9em;
+    margin: 8px 0 4px;
+    font-style: italic;
+}
+
+.error-tip {
+    background-color: rgba(255, 184, 108, 0.1);
+    border-left: 3px solid #ffb86c;
+    padding: 10px 12px;
+    margin: 12px 0;
+    border-radius: 0 4px 4px 0;
+    color: #ffd8a6;
+    font-size: 0.95em;
+    line-height: 1.5;
+}
+
+.error-separator {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 107, 107, 0.3), transparent);
+    margin: 16px 0;
+}
+
+/* Style the output console to better handle error messages */
+#output {
+    padding: 12px 16px;
+    overflow-y: auto;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #e6eef6;
+}
+
+/* Update existing error class to match our new styling */
+#output .error {
+    color: #ff6b6b;
+    white-space: pre-wrap;
+    line-height: 1.5;
+    margin: 8px 0;
+    padding: 0;
+    background: none;
+    border: none;
+}
+
+/* Make sure the output scrolls to show the latest error */
+#output:after {
+    content: '';
+    display: block;
+    height: 20px;
+}
+
 /* Error highlighting */
 .severity-high {
     background: rgba(244, 67, 54, 0.2);

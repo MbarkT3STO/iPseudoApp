@@ -36,6 +36,50 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function handleError(err, src) {
+        // Check if this is a pre-formatted error message from the worker
+        if (err.formatted) {
+            // Split the message into lines and handle each line appropriately
+            const lines = (err.message || '').split('\n');
+            
+            // Display the main error message (first line) with proper styling
+            if (lines.length > 0) {
+                const mainError = lines[0];
+                outputConsole.innerHTML += `<div class="error-message">${mainError}</div>`;
+            }
+            
+            // Display the rest of the error message with context
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue;
+                
+                // Style different parts of the error message
+                if (line.startsWith('At line')) {
+                    outputConsole.innerHTML += `<div class="error-location">${line}</div>`;
+                } else if (line.startsWith('  ') && line.trim() !== '^') {
+                    // This is a line of code with the error
+                    outputConsole.innerHTML += `<div class="error-code"><pre>${line}</pre></div>`;
+                } else if (line.trim() === '^') {
+                    // This is the pointer to the error location
+                    outputConsole.innerHTML += `<div class="error-pointer">${line}</div>`;
+                } else if (line.startsWith('Previous line')) {
+                    outputConsole.innerHTML += `<div class="error-context">${line}</div>`;
+                } else if (line.startsWith('💡')) {
+                    // This is a tip/suggestion
+                    outputConsole.innerHTML += `<div class="error-tip">${line}</div>`;
+                } else {
+                    // Default styling for other lines
+                    outputConsole.innerHTML += `<div>${line}</div>`;
+                }
+            }
+            
+            // Add a separator after the error
+            outputConsole.innerHTML += '<div class="error-separator"></div>';
+            
+            // Scroll to the bottom to show the error
+            outputConsole.scrollTop = outputConsole.scrollHeight;
+            return;
+        }
+        
         // Handle pseudo-code validation errors
         if (err.issues && Array.isArray(err.issues)) {
             err.issues.forEach(issue => {

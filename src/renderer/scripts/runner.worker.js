@@ -237,18 +237,69 @@ self.onmessage = function(e) {
         } catch (syntaxError) {
             // try to map the error to original pseudocode line if mapping exists
             let original = null;
-            if (mapping && mapping.length) {
-                // extract line number from syntaxError if available (some engines include it)
-                const match = String(syntaxError.stack || syntaxError.message || '').match(/:(\d+):\d+/);
-                if (match) {
-                    const errLine = parseInt(match[1],10);
-                    if (!Number.isNaN(errLine) && mapping[errLine-1]) original = mapping[errLine-1];
+            let lineNumber = 0;
+            let columnNumber = 0;
+            
+            // Extract line and column numbers from the error if available
+            const lineMatch = String(syntaxError.stack || syntaxError.message || '').match(/(\d+):(\d+)/);
+            if (lineMatch) {
+                lineNumber = parseInt(lineMatch[1], 10) || 0;
+                columnNumber = parseInt(lineMatch[2], 10) || 0;
+                
+                // Adjust for the wrapper function if needed
+                if (lineNumber > 1) {
+                    lineNumber -= 1; // Account for the wrapper function line
+                }
+                
+                if (mapping && mapping.length >= lineNumber && lineNumber > 0) {
+                    original = mapping[lineNumber - 1];
                 }
             }
-            postError({ name: syntaxError.name, message: syntaxError.message, stack: syntaxError.stack, line: original ? original.srcLine : 0, originalText: original ? original.srcText : null, phase: 'syntax' });
+            
+            // Create a more detailed error message
+            let errorMessage = `❌ ${syntaxError.name || 'Syntax Error'}: ${syntaxError.message || 'Invalid syntax'}`;
+            
+            if (original) {
+                errorMessage += `\n\n  At line ${original.srcLine}:`;
+                errorMessage += `\n  ${original.srcText}`;
+                
+                // Add a pointer to the error location if we have column info
+                if (columnNumber > 0) {
+                    const pointer = ' '.repeat(2 + columnNumber) + '^';
+                    errorMessage += `\n  ${pointer}`;
+                }
+                
+                // Add context if available
+                if (original.srcLine > 1) {
+                    const contextLine = mapping[lineNumber - 2]; // Previous line
+                    if (contextLine) {
+                        errorMessage += `\n\n  Previous line (${contextLine.srcLine}):`;
+                        errorMessage += `\n  ${contextLine.srcText}`;
+                    }
+                }
+                
+                // Add suggestions for common errors
+                if (syntaxError.message.includes('Unexpected token') || 
+                    syntaxError.message.includes('Missing')) {
+                    errorMessage += '\n\n💡 Tip: Check for missing or mismatched brackets, parentheses, or quotes.';
+                } else if (syntaxError.message.includes('Unexpected end of input')) {
+                    errorMessage += '\n\n💡 Tip: You might be missing a closing bracket, parenthesis, or quote.';
+                }
+            }
+            
+            postError({ 
+                name: 'SyntaxError', 
+                message: errorMessage, 
+                stack: syntaxError.stack, 
+                line: original ? original.srcLine : lineNumber,
+                column: columnNumber,
+                originalText: original ? original.srcText : null, 
+                phase: 'syntax',
+                formatted: true // Flag to indicate this is a formatted error message
+            });
             return;
         }
-
+        
         let finished = false;
         const TIMEOUT_MS = typeof msg.timeout === 'number' ? Math.max(1000, msg.timeout) : 5000;
         const timer = setTimeout(() => {
@@ -269,7 +320,59 @@ self.onmessage = function(e) {
                 if (finished) return;
                 finished = true;
                 clearTimeout(timer);
-                postError({ name: err && err.name || 'Error', message: err && err.message || String(err), stack: err && err.stack || '', phase: 'runtime' });
+                
+                // Format runtime errors nicely
+                let errorMessage = `❌ ${err.name || 'Runtime Error'}: ${err.message || 'An error occurred during execution'}`;
+                
+                // Try to extract line number from stack trace
+                let lineNumber = 0;
+                let columnNumber = 0;
+                const stackMatch = (err.stack || '').match(/<anonymous>:(\d+):(\d+)/);
+                if (stackMatch) {
+                    lineNumber = parseInt(stackMatch[1], 10) - 1; // Adjust for wrapper
+                    columnNumber = parseInt(stackMatch[2], 10);
+                    
+                    if (mapping && mapping.length >= lineNumber && lineNumber > 0) {
+                        const original = mapping[lineNumber - 1];
+                        if (original) {
+                            errorMessage += `\n\n  At line ${original.srcLine}:`;
+                            errorMessage += `\n  ${original.srcText}`;
+                            
+                            // Add a pointer to the error location if we have column info
+                            if (columnNumber > 0) {
+                                const pointer = ' '.repeat(2 + columnNumber) + '^';
+                                errorMessage += `\n  ${pointer}`;
+                            }
+                            
+                            // Add context if available
+                            if (lineNumber > 1) {
+                                const contextLine = mapping[lineNumber - 2];
+                                if (contextLine) {
+                                    errorMessage += `\n\n  Previous line (${contextLine.srcLine}):`;
+                                    errorMessage += `\n  ${contextLine.srcText}`;
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                // Add common error suggestions
+                if (err.message.includes('is not defined')) {
+                    errorMessage += '\n\n💡 Tip: You might have a typo in a variable or function name, or you might be trying to use a variable that hasn\'t been declared.';
+                } else if (err.message.includes('Cannot read properties of undefined') || 
+                          err.message.includes('Cannot read property')) {
+                    errorMessage += '\n\n💡 Tip: You might be trying to access a property of an undefined or null value. Check if the variable exists and has the expected value.';
+                }
+                
+                postError({ 
+                    name: err.name || 'RuntimeError', 
+                    message: errorMessage, 
+                    stack: err.stack, 
+                    line: lineNumber,
+                    column: columnNumber,
+                    phase: 'runtime',
+                    formatted: true
+                });
             });
         } catch (err) {
             if (!finished) {
