@@ -96,14 +96,13 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 8px;
-    background: rgba(124, 77, 255, 0.08);
-    border: 1px solid rgba(124, 77, 255, 0.12);
+    background: transparent;
+    border: none;
     color: var(--text);
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .tool::before {
@@ -113,110 +112,79 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    transform: scale(0);
     opacity: 0;
-    transition: opacity 0.2s ease;
-}
-
-.tool:hover {
-    transform: translateY(-2px);
-    background: rgba(124, 77, 255, 0.15);
-    border-color: rgba(124, 77, 255, 0.2);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .tool:hover::before {
+    transform: scale(1);
     opacity: 1;
 }
 
 .tool:active {
-    transform: translateY(0) scale(0.98);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: scale(0.95);
 }
 
-/* Button Icons */
 .tool svg {
-    width: 20px;
-    height: 20px;
+    position: relative;
+    z-index: 1;
+    width: 22px;
+    height: 22px;
     transition: all 0.2s ease;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
-}
-
-.tool:hover svg {
-    transform: scale(1.1);
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
 /* Specific Button Styles */
 #btnRun {
-    background: linear-gradient(135deg, #4caf50, #43a047);
-    border: 1px solid rgba(76, 175, 80, 0.3);
-    color: white;
+    background: rgba(76, 175, 80, 0.1);
+    color: #4caf50;
 }
 
 #btnRun:hover {
-    background: linear-gradient(135deg, #43a047, #388e3c);
-    box-shadow: 0 4px 16px rgba(76, 175, 80, 0.3);
+    background: rgba(76, 175, 80, 0.2);
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
 }
 
-#btnRun svg {
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+#btnRun:active {
+    background: rgba(76, 175, 80, 0.3);
 }
 
 #btnSave {
     color: #2196f3;
-    background: rgba(33, 150, 243, 0.1);
-    border-color: rgba(33, 150, 243, 0.2);
 }
 
 #btnSave:hover {
-    background: rgba(33, 150, 243, 0.2);
-    box-shadow: 0 4px 16px rgba(33, 150, 243, 0.15);
+    background: rgba(33, 150, 243, 0.1);
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.15);
 }
 
 #btnOpen {
     color: #ff9800;
-    background: rgba(255, 152, 0, 0.1);
-    border-color: rgba(255, 152, 0, 0.2);
 }
 
 #btnOpen:hover {
-    background: rgba(255, 152, 0, 0.2);
-    box-shadow: 0 4px 16px rgba(255, 152, 0, 0.15);
+    background: rgba(255, 152, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(255, 152, 0, 0.15);
 }
 
 #btnThemeToggle {
     color: #9c27b0;
-    background: rgba(156, 39, 176, 0.1);
-    border-color: rgba(156, 39, 176, 0.2);
 }
 
 #btnThemeToggle:hover {
-    background: rgba(156, 39, 176, 0.2);
-    box-shadow: 0 4px 16px rgba(156, 39, 176, 0.15);
+    background: rgba(156, 39, 176, 0.1);
+    box-shadow: 0 4px 12px rgba(156, 39, 176, 0.15);
 }
 
 #btnSettings {
-    color: #00bcd4;
-    background: rgba(0, 188, 212, 0.1);
-    border-color: rgba(0, 188, 212, 0.2);
+    color: #607d8b;
 }
 
 #btnSettings:hover {
-    background: rgba(0, 188, 212, 0.2);
-    box-shadow: 0 4px 16px rgba(0, 188, 212, 0.15);
-}
-
-/* Active State for Toggle Buttons */
-.tool[aria-pressed="true"] {
-    background: var(--accent);
-    color: white;
-    border-color: var(--accent-hover);
-}
-
-.tool[aria-pressed="true"]:hover {
-    background: var(--accent-hover);
-    box-shadow: 0 4px 16px rgba(124, 77, 255, 0.3);
+    background: rgba(96, 125, 139, 0.1);
+    box-shadow: 0 4px 12px rgba(96, 125, 139, 0.15);
 }
 
 /* Status Dot */
@@ -227,55 +195,140 @@ body {
     width: 32px;
     height: 32px;
     border-radius: 8px;
-    margin: 0 4px;
+    margin: 0 8px;
     background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--border-color);
     transition: all 0.2s ease;
 }
 
 .status-dot:hover {
     background: rgba(255, 255, 255, 0.1);
-    transform: translateY(-1px);
 }
 
 .status-dot svg {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     transition: all 0.3s ease;
 }
 
-.status-dot[title='Running'] {
-    animation: pulse 2s infinite;
+/* Tab Close Button */
+.tab-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    margin-left: 6px;
+    border-radius: 4px;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 12px;
+    line-height: 1;
+    padding: 0;
 }
 
+.tab-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text);
+    transform: scale(1.1);
+}
+
+/* Clear Console Button */
+#clearConsole {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-muted);
+}
+
+#clearConsole:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+#clearConsole:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* Button Focus States */
+button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--accent);
+}
+
+/* Icon Enhancements */
+.tool svg {
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+.tool:hover svg {
+    transform: scale(1.1);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+/* Specific icon colors */
+#btnRun svg {
+    color: #4caf50;
+}
+
+#btnSave svg {
+    color: #2196f3;
+}
+
+#btnOpen svg {
+    color: #ff9800;
+}
+
+#btnThemeToggle svg {
+    color: #9c27b0;
+}
+
+#btnSettings svg {
+    color: #607d8b;
+}
+
+/* Pulse animation for active state */
 @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4); }
-    70% { box-shadow: 0 0 0 8px rgba(76, 175, 80, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+    0% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.7; }
 }
 
-/* Tooltips */
+.tool:active svg {
+    animation: pulse 0.3s ease;
+}
+
+/* Tooltip */
+.tool[title] {
+    position: relative;
+}
+
 .tool[title]:hover::after {
     content: attr(title);
     position: absolute;
-    bottom: -32px;
+    bottom: -30px;
     left: 50%;
     transform: translateX(-50%);
     background: rgba(0, 0, 0, 0.8);
-    color: white;
-    font-size: 12px;
-    padding: 4px 10px;
+    color: #fff;
+    font-size: 11px;
+    padding: 4px 8px;
     border-radius: 4px;
     white-space: nowrap;
-    z-index: 1000;
     pointer-events: none;
-    opacity: 0;
-    animation: fadeIn 0.2s ease forwards;
-}
-
-@keyframes fadeIn {
-    to { opacity: 1; transform: translateX(-50%) translateY(0); }
-    from { opacity: 0; transform: translateX(-50%) translateY(-5px); }
+    z-index: 1000;
+    backdrop-filter: blur(4px);
 }
 
 /* Main Content Area */
