@@ -1,22 +1,30 @@
-/* General Styles */
+/* Modern Color Palette */
 :root {
     --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
-    --transition-speed: 0.2s;
-    /* PyCharm-like palette */
-    --bg: #1e1f26;
-    --panel: #2b2d33;
-    --accent: #ffb86c;
-    --accent-2: #8bd0ff;
-    --text: #e6eef6;
-    --muted: #9aa5b1;
-    --border-color: rgba(255,255,255,0.06);
-    --button-bg: transparent;
-    --button-text: var(--text);
-    --button-hover-bg: rgba(255,255,255,0.02);
-    --active-tab-color: rgba(255,255,255,0.03);
+    --transition-speed: 0.25s;
+    
+    /* Modern color palette */
+    --bg: #1a1c23;
+    --panel: #242731;
+    --accent: #7c4dff;
+    --accent-hover: #9a76ff;
+    --text: #e4e6eb;
+    --text-muted: #a0a4b3;
+    --border-color: rgba(255, 255, 255, 0.08);
+    --button-bg: rgba(124, 77, 255, 0.1);
+    --button-hover-bg: rgba(124, 77, 255, 0.2);
+    --active-tab-color: rgba(124, 77, 255, 0.2);
     --editor-font-size: 20px;
+    --border-radius: 10px;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+    --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.2);
+    --success: #4caf50;
+    --warning: #ff9800;
+    --error: #f44336;
+    --info: #2196f3;
 }
 
+/* Base Styles */
 * {
     margin: 0;
     padding: 0;
@@ -25,251 +33,443 @@
 
 html, body {
     height: 100%;
+    scroll-behavior: smooth;
 }
 
 body {
-    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     color: var(--text);
-    background: linear-gradient(180deg, var(--bg), #141517);
+    background: var(--bg);
     overflow: hidden;
-    height: 100vh;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
+/* App Layout */
 .app-container {
     display: flex;
     flex-direction: column;
-    height: 100vh; /* ensure children with flex:1 can expand */
+    height: 100vh;
     min-height: 0;
+    background: var(--bg);
 }
 
-.tool {
-    transition: all 0.3s ease;
-}
-
-.tool:hover {
-    background: rgba(255,255,255,0.05);
-    border-color: rgba(255,255,255,0.1);
-    transform: translateY(-1px) scale(1.05);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.tool:active {
-    transform: translateY(0) scale(0.95);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-}
-
-/* Smooth icon svg transitions */
-.tool svg {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.tool:hover svg {
-    transform: translateY(-1px);
-    filter: brightness(1.2);
-}
-
-/* Special effects for the Run button */
-#btnRun.tool:hover svg {
-    filter: brightness(1.2) drop-shadow(0 0 8px rgba(46, 204, 113, 0.4));
-}
-
-/* Special effects for the Save button */
-#btnSave.tool:hover svg {
-    filter: brightness(1.2) drop-shadow(0 0 8px rgba(52, 152, 219, 0.4));
-}
-
-/* Special effects for the Open button */
-#btnOpen.tool:hover svg {
-    filter: brightness(1.2) drop-shadow(0 0 8px rgba(241, 196, 15, 0.4));
-}
-
-/* Special effects for New Tab button */
-#btnNewTab.tool:hover svg {
-    filter: brightness(1.2) drop-shadow(0 0 8px rgba(168, 230, 207, 0.4));
-}
-
-/* Menu Bar */
+/* Top Toolbar */
 .top-toolbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 8px 12px;
-    height: 64px;
+    padding: 0 16px;
+    height: 60px;
+    background: rgba(26, 28, 35, 0.9);
     border-bottom: 1px solid var(--border-color);
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
-    backdrop-filter: blur(6px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
 }
 
-.top-toolbar .toolbar-left,
-.top-toolbar .toolbar-right {
+.toolbar-left, .toolbar-right {
     display: flex;
     gap: 8px;
     align-items: center;
 }
 
-.top-toolbar .brand {
+.brand {
+    font-size: 16px;
     font-weight: 700;
-    font-size: 13px;
-    letter-spacing: 0.3px;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+    padding: 0 16px;
+    background: linear-gradient(90deg, var(--accent), #b388ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
-.tool.colorful svg { filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4)); }
-
-.brand { color: var(--accent); }
-
-/* Editor font size and family for Monaco container */
-#editor, .monaco-editor {
-    font-family: var(--font-mono) !important;
-    font-size: var(--editor-font-size) !important;
-}
-
+/* Tool Buttons */
 .tool {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 56px;
-    height: 56px;
+    width: 40px;
+    height: 40px;
     border-radius: 8px;
-    background: transparent;
-    border: 1px solid transparent;
-    padding: 0;
+    background: rgba(124, 77, 255, 0.08);
+    border: 1px solid rgba(124, 77, 255, 0.12);
+    color: var(--text);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tool::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+    opacity: 0;
+    transition: opacity 0.2s ease;
 }
 
 .tool:hover {
-    background: rgba(255,255,255,0.05);
-    border-color: rgba(255,255,255,0.1);
+    transform: translateY(-2px);
+    background: rgba(124, 77, 255, 0.15);
+    border-color: rgba(124, 77, 255, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.tool:active {
-    transform: scale(0.95);
-    background: rgba(255,255,255,0.02);
-}
-
-.tool[title] {
-    position: relative;
-}
-
-.tool[title]:hover::after {
-    content: attr(title);
-    position: absolute;
-    top: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0,0,0,0.8);
-    color: #fff;
-    font-size: 11px;
-    padding: 4px 8px;
-    border-radius: 4px;
-    white-space: nowrap;
-}
-
-/* Specific icon colors */
-#btnRun svg path {
-    transition: all 0.2s ease;
-}
-
-#btnRun:hover svg path {
-    fill: #27ae60;
-    stroke: #27ae60;
-}
-
-.tool svg {
-    opacity: 0.9;
-    transition: all 0.2s ease;
-}
-
-.tool:hover svg {
+.tool:hover::before {
     opacity: 1;
 }
 
-/* Run status dot */
-.status-dot { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 6px; }
-.status-dot svg { transition: all 0.18s ease; }
-.status-dot[title='Running'] svg circle { fill: #39D353; }
-.status-dot[title='Idle'] svg circle { fill: #6c757d; }
+.tool:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-/* small pulsing when running */
-.status-dot.running #runPulse { animation: pulse 1200ms ease-out infinite; }
-@keyframes pulse { 0% { transform: scale(1); opacity: 0.08 } 50% { transform: scale(1.6); opacity: 0.02 } 100% { transform: scale(1); opacity: 0.08 } }
+/* Button Icons */
+.tool svg {
+    width: 20px;
+    height: 20px;
+    transition: all 0.2s ease;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+.tool:hover svg {
+    transform: scale(1.1);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+/* Specific Button Styles */
+#btnRun {
+    background: linear-gradient(135deg, #4caf50, #43a047);
+    border: 1px solid rgba(76, 175, 80, 0.3);
+    color: white;
+}
+
+#btnRun:hover {
+    background: linear-gradient(135deg, #43a047, #388e3c);
+    box-shadow: 0 4px 16px rgba(76, 175, 80, 0.3);
+}
+
+#btnRun svg {
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+#btnSave {
+    color: #2196f3;
+    background: rgba(33, 150, 243, 0.1);
+    border-color: rgba(33, 150, 243, 0.2);
+}
+
+#btnSave:hover {
+    background: rgba(33, 150, 243, 0.2);
+    box-shadow: 0 4px 16px rgba(33, 150, 243, 0.15);
+}
+
+#btnOpen {
+    color: #ff9800;
+    background: rgba(255, 152, 0, 0.1);
+    border-color: rgba(255, 152, 0, 0.2);
+}
+
+#btnOpen:hover {
+    background: rgba(255, 152, 0, 0.2);
+    box-shadow: 0 4px 16px rgba(255, 152, 0, 0.15);
+}
+
+#btnThemeToggle {
+    color: #9c27b0;
+    background: rgba(156, 39, 176, 0.1);
+    border-color: rgba(156, 39, 176, 0.2);
+}
+
+#btnThemeToggle:hover {
+    background: rgba(156, 39, 176, 0.2);
+    box-shadow: 0 4px 16px rgba(156, 39, 176, 0.15);
+}
+
+#btnSettings {
+    color: #00bcd4;
+    background: rgba(0, 188, 212, 0.1);
+    border-color: rgba(0, 188, 212, 0.2);
+}
+
+#btnSettings:hover {
+    background: rgba(0, 188, 212, 0.2);
+    box-shadow: 0 4px 16px rgba(0, 188, 212, 0.15);
+}
+
+/* Active State for Toggle Buttons */
+.tool[aria-pressed="true"] {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent-hover);
+}
+
+.tool[aria-pressed="true"]:hover {
+    background: var(--accent-hover);
+    box-shadow: 0 4px 16px rgba(124, 77, 255, 0.3);
+}
+
+/* Status Dot */
+.status-dot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    margin: 0 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+}
+
+.status-dot:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+}
+
+.status-dot svg {
+    width: 16px;
+    height: 16px;
+    transition: all 0.3s ease;
+}
+
+.status-dot[title='Running'] {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4); }
+    70% { box-shadow: 0 0 0 8px rgba(76, 175, 80, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+}
+
+/* Tooltips */
+.tool[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: -32px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    z-index: 1000;
+    pointer-events: none;
+    opacity: 0;
+    animation: fadeIn 0.2s ease forwards;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    from { opacity: 0; transform: translateX(-50%) translateY(-5px); }
+}
 
 /* Main Content Area */
 .main-content {
     display: flex;
-    flex: 1 1 auto;
+    flex: 1;
     overflow: hidden;
+    position: relative;
+    background: var(--bg);
+    padding: 0;
+    margin: 0;
 }
 
-/* Ensure editor area doesn't collapse: reserve space and allow Monaco to fill */
-.editor-container { min-height: 160px; min-width: 280px; }
-#editor { min-height: 160px; overflow: auto; }
-
-/* Sidebar */
-.sidebar { display: none; }
-
-/* Editor Container */
 .editor-container {
-    flex: 1 1 auto;
-    min-height: 0; /* allow children to scroll */
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    background: var(--panel);
+    border-radius: var(--border-radius);
+    margin: 16px;
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    position: relative;
+    min-height: 200px; /* Ensure minimum height */
 }
 
-/* status bar removed: editor + output remain */
-/* ensure New Tab icon is visible and compact */
-#tabBar #btnNewTab svg { width: 12px; height: 12px; display: block; }
-.dirty-indicator {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    background: var(--accent-2);
-    border-radius: 50%;
-    margin-left: 8px;
-    opacity: 0; /* hidden by default */
-    transition: opacity 140ms ease;
+/* Monaco Editor Container */
+#editor {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+    overflow: hidden;
+    position: relative;
 }
-.tab.dirty .dirty-indicator { opacity: 1; }
 
-/* New tab button inside tab bar */
-#btnNewTab { width: 34px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; }
-#btnNewTab:hover { background: rgba(255,255,255,0.02); }
+/* Ensure Monaco fills its container */
+.monaco-editor {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/* Tab bar adjustments */
+.tab-bar {
+    display: flex;
+    align-items: center;
+    background: rgba(36, 39, 49, 0.9);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0 8px;
+    height: 40px;
+    flex-shrink: 0;
+    z-index: 10;
+}
+
+.tab {
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    height: 100%;
+    font-size: 13px;
+    color: var(--text-muted);
+    border-right: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
 
 .tab.active {
-    background-color: var(--panel);
     color: var(--text);
-    box-shadow: inset 0 -2px 0 var(--accent);
+    background: rgba(255, 255, 255, 0.03);
 }
 
-/* Tabs container */
-#tabBar { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-bottom: 1px solid rgba(255,255,255,0.02); background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent); }
-
-.tab { padding: 6px 10px; border-radius: 6px; margin-right: 6px; font-size: 13px; }
-.tab .tab-close { margin-left: 8px; background: transparent; border: none; color: var(--muted); cursor: pointer; }
-.tab.active { background: var(--panel); box-shadow: inset 0 -2px 0 var(--accent); }
-.tab-bar { display: flex; align-items: center; }
-
-.tab-bar .spacer { flex: 1 1 auto; }
-
-#btnNewTab { margin-left: auto; }
-
-/* Editor */
-#editor {
-    flex: 1 1 auto;
-    position: relative;
-    min-height: 0;
+.tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 2px 2px 0 0;
 }
 
-/* Bottom Panel */
+.tab-close {
+    margin-left: 8px;
+    opacity: 0.5;
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.tab-close:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Bottom panel adjustments */
 .bottom-panel {
-    height: 30vh;
-    max-height: 360px;
-    min-height: 120px;
-    border-top: 1px solid rgba(255,255,255,0.04);
     display: flex;
     flex-direction: column;
-    background: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.04));
+    background: var(--panel);
+    border-top: 1px solid var(--border-color);
+    height: 200px; /* Fixed height for the output panel */
+    min-height: 120px;
+    max-height: 50vh;
+    overflow: hidden;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    margin: 0 16px 16px;
+    box-shadow: var(--shadow-md);
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid var(--border-color);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+}
+
+#clearConsole {
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#clearConsole:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text);
+}
+
+.output-console {
+    flex: 1;
+    padding: 12px 16px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.5;
+    overflow-y: auto;
+    color: var(--text);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.08; }
+    50% { transform: scale(1.6); opacity: 0.02; }
+    100% { transform: scale(1); opacity: 0.08; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    :root {
+        --editor-font-size: 16px;
+    }
+    
+    .top-toolbar {
+        padding: 0 8px;
+    }
+    
+    .tool {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .brand {
+        font-size: 14px;
+        padding: 0 8px;
+    }
+    
+    .editor-container, .bottom-panel {
+        margin: 8px;
+        border-radius: 8px;
+    }
 }
 
 /* Enhanced Error Message Styling with Icons */
@@ -703,7 +903,7 @@ button {
     border-radius: 4px;
     cursor: pointer;
     background-color: var(--button-bg);
-    color: var(--button-text);
+    color: var(--text);
     transition: background-color var(--transition-speed);
 }
 
