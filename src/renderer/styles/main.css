@@ -272,7 +272,7 @@ body {
     background: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.04));
 }
 
-/* Enhanced Error Message Styling */
+/* Enhanced Error Message Styling with Icons */
 .error-message {
     color: #ff6b6b;
     font-weight: 600;
@@ -281,6 +281,19 @@ body {
     font-family: var(--font-mono);
     white-space: pre-wrap;
     line-height: 1.5;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: rgba(255, 107, 107, 0.08);
+    border-radius: 4px;
+    border-left: 3px solid #ff6b6b;
+}
+
+.error-message:before {
+    content: '⚠️';
+    font-size: 1.3em;
+    flex-shrink: 0;
 }
 
 .error-location {
@@ -288,17 +301,36 @@ body {
     font-size: 0.9em;
     margin: 8px 0 4px;
     font-family: var(--font-mono);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.error-location:before {
+    content: '📍';
+    font-size: 0.9em;
 }
 
 .error-code {
     background-color: #2d2f36;
     border-left: 3px solid #ff6b6b;
-    padding: 8px 12px;
-    margin: 4px 0;
+    padding: 10px 14px;
+    margin: 6px 0;
     border-radius: 0 4px 4px 0;
     font-family: var(--font-mono);
     white-space: pre;
     overflow-x: auto;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.error-code:before {
+    content: '📄';
+    position: absolute;
+    left: -24px;
+    top: 10px;
+    font-size: 0.9em;
+    opacity: 0.7;
 }
 
 .error-code pre {
@@ -306,37 +338,110 @@ body {
     padding: 0;
     font-family: inherit;
     white-space: pre;
+    line-height: 1.5;
 }
 
 .error-pointer {
     color: #ff9e7d;
     font-family: var(--font-mono);
-    margin: 0 0 8px;
+    margin: -4px 0 8px 2px;
     padding-left: 2px;
+    font-weight: bold;
+    letter-spacing: 2px;
 }
 
 .error-context {
     color: #8f9ba8;
     font-size: 0.9em;
-    margin: 8px 0 4px;
+    margin: 10px 0 6px;
     font-style: italic;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.error-context:before {
+    content: '🔍';
+    font-size: 0.9em;
+    opacity: 0.8;
 }
 
 .error-tip {
-    background-color: rgba(255, 184, 108, 0.1);
+    background-color: rgba(255, 184, 108, 0.15);
     border-left: 3px solid #ffb86c;
-    padding: 10px 12px;
-    margin: 12px 0;
+    padding: 12px 16px;
+    margin: 16px 0;
     border-radius: 0 4px 4px 0;
     color: #ffd8a6;
     font-size: 0.95em;
-    line-height: 1.5;
+    line-height: 1.6;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.error-tip:before {
+    content: '💡';
+    position: absolute;
+    left: -22px;
+    top: 12px;
+    font-size: 1.1em;
 }
 
 .error-separator {
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 107, 107, 0.3), transparent);
-    margin: 16px 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 107, 107, 0.2), transparent);
+    margin: 20px 0;
+    position: relative;
+}
+
+.error-separator:after {
+    content: '⋯';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--bg);
+    color: rgba(255, 107, 107, 0.6);
+    padding: 0 10px;
+    font-size: 1.2em;
+    line-height: 0;
+}
+
+/* Animation for error appearance */
+@keyframes fadeInError {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.error-message,
+.error-code,
+.error-tip {
+    animation: fadeInError 0.3s ease-out forwards;
+}
+
+/* Hover effects for better interactivity */
+.error-code:hover {
+    background-color: #33353d;
+    transition: background-color 0.2s ease;
+}
+
+.error-tip:hover {
+    background-color: rgba(255, 184, 108, 0.2);
+    transition: background-color 0.2s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .error-message,
+    .error-tip {
+        padding: 10px 12px;
+        font-size: 0.95em;
+    }
+    
+    .error-code {
+        padding: 8px 10px;
+        font-size: 0.9em;
+    }
 }
 
 /* Style the output console to better handle error messages */
