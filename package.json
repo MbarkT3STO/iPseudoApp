@@ -1,0 +1,25 @@
+{
+  "name": "ipseudo-app",
+  "version": "1.0.0",
+  "description": "A modern Pseudocode IDE built with Electron",
+  "main": "dist/main/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "tsc && npm run copy-files && electron .",
+    "build": "tsc && npm run copy-files",
+    "watch": "tsc -w",
+  "copy-files": "mkdir -p dist/renderer && cp -r src/renderer/* dist/renderer/ && mkdir -p dist/renderer/monaco && cp -r node_modules/monaco-editor/min/* dist/renderer/monaco/"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/electron": "^1.6.10",
+    "@types/node": "^20.8.0",
+    "electron": "^26.2.2",
+    "typescript": "^5.2.2",
+    "electron-builder": "^24.6.4"
+  },
+  "dependencies": {
+    "monaco-editor": "^0.43.0"
+  }
+}

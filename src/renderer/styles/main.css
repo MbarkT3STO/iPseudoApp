@@ -1,0 +1,519 @@
+/* General Styles */
+:root {
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+    --transition-speed: 0.2s;
+    /* PyCharm-like palette */
+    --bg: #1e1f26;
+    --panel: #2b2d33;
+    --accent: #ffb86c;
+    --accent-2: #8bd0ff;
+    --text: #e6eef6;
+    --muted: #9aa5b1;
+    --border-color: rgba(255,255,255,0.06);
+    --button-bg: transparent;
+    --button-text: var(--text);
+    --button-hover-bg: rgba(255,255,255,0.02);
+    --active-tab-color: rgba(255,255,255,0.03);
+    --editor-font-size: 20px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    color: var(--text);
+    background: linear-gradient(180deg, var(--bg), #141517);
+    overflow: hidden;
+    height: 100vh;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* ensure children with flex:1 can expand */
+    min-height: 0;
+}
+
+.tool {
+    transition: all 0.3s ease;
+}
+
+.tool:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.1);
+    transform: translateY(-1px) scale(1.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.tool:active {
+    transform: translateY(0) scale(0.95);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* Smooth icon svg transitions */
+.tool svg {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tool:hover svg {
+    transform: translateY(-1px);
+    filter: brightness(1.2);
+}
+
+/* Special effects for the Run button */
+#btnRun.tool:hover svg {
+    filter: brightness(1.2) drop-shadow(0 0 8px rgba(46, 204, 113, 0.4));
+}
+
+/* Special effects for the Save button */
+#btnSave.tool:hover svg {
+    filter: brightness(1.2) drop-shadow(0 0 8px rgba(52, 152, 219, 0.4));
+}
+
+/* Special effects for the Open button */
+#btnOpen.tool:hover svg {
+    filter: brightness(1.2) drop-shadow(0 0 8px rgba(241, 196, 15, 0.4));
+}
+
+/* Special effects for New Tab button */
+#btnNewTab.tool:hover svg {
+    filter: brightness(1.2) drop-shadow(0 0 8px rgba(168, 230, 207, 0.4));
+}
+
+/* Menu Bar */
+.top-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    height: 64px;
+    border-bottom: 1px solid var(--border-color);
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+    backdrop-filter: blur(6px);
+}
+
+.top-toolbar .toolbar-left,
+.top-toolbar .toolbar-right {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.top-toolbar .brand {
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.3px;
+}
+
+.tool.colorful svg { filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4)); }
+
+.brand { color: var(--accent); }
+
+/* Editor font size and family for Monaco container */
+#editor, .monaco-editor {
+    font-family: var(--font-mono) !important;
+    font-size: var(--editor-font-size) !important;
+}
+
+.tool {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    background: transparent;
+    border: 1px solid transparent;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tool:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.1);
+}
+
+.tool:active {
+    transform: scale(0.95);
+    background: rgba(255,255,255,0.02);
+}
+
+.tool[title] {
+    position: relative;
+}
+
+.tool[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+/* Specific icon colors */
+#btnRun svg path {
+    transition: all 0.2s ease;
+}
+
+#btnRun:hover svg path {
+    fill: #27ae60;
+    stroke: #27ae60;
+}
+
+.tool svg {
+    opacity: 0.9;
+    transition: all 0.2s ease;
+}
+
+.tool:hover svg {
+    opacity: 1;
+}
+
+/* Run status dot */
+.status-dot { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 6px; }
+.status-dot svg { transition: all 0.18s ease; }
+.status-dot[title='Running'] svg circle { fill: #39D353; }
+.status-dot[title='Idle'] svg circle { fill: #6c757d; }
+
+/* small pulsing when running */
+.status-dot.running #runPulse { animation: pulse 1200ms ease-out infinite; }
+@keyframes pulse { 0% { transform: scale(1); opacity: 0.08 } 50% { transform: scale(1.6); opacity: 0.02 } 100% { transform: scale(1); opacity: 0.08 } }
+
+/* Main Content Area */
+.main-content {
+    display: flex;
+    flex: 1 1 auto;
+    overflow: hidden;
+}
+
+/* Ensure editor area doesn't collapse: reserve space and allow Monaco to fill */
+.editor-container { min-height: 160px; min-width: 280px; }
+#editor { min-height: 160px; overflow: auto; }
+
+/* Sidebar */
+.sidebar { display: none; }
+
+/* Editor Container */
+.editor-container {
+    flex: 1 1 auto;
+    min-height: 0; /* allow children to scroll */
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* status bar removed: editor + output remain */
+/* ensure New Tab icon is visible and compact */
+#tabBar #btnNewTab svg { width: 12px; height: 12px; display: block; }
+.dirty-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--accent-2);
+    border-radius: 50%;
+    margin-left: 8px;
+    opacity: 0; /* hidden by default */
+    transition: opacity 140ms ease;
+}
+.tab.dirty .dirty-indicator { opacity: 1; }
+
+/* New tab button inside tab bar */
+#btnNewTab { width: 34px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; }
+#btnNewTab:hover { background: rgba(255,255,255,0.02); }
+
+.tab.active {
+    background-color: var(--panel);
+    color: var(--text);
+    box-shadow: inset 0 -2px 0 var(--accent);
+}
+
+/* Tabs container */
+#tabBar { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-bottom: 1px solid rgba(255,255,255,0.02); background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent); }
+
+.tab { padding: 6px 10px; border-radius: 6px; margin-right: 6px; font-size: 13px; }
+.tab .tab-close { margin-left: 8px; background: transparent; border: none; color: var(--muted); cursor: pointer; }
+.tab.active { background: var(--panel); box-shadow: inset 0 -2px 0 var(--accent); }
+.tab-bar { display: flex; align-items: center; }
+
+.tab-bar .spacer { flex: 1 1 auto; }
+
+#btnNewTab { margin-left: auto; }
+
+/* Editor */
+#editor {
+    flex: 1 1 auto;
+    position: relative;
+    min-height: 0;
+}
+
+/* Bottom Panel */
+.bottom-panel {
+    height: 30vh;
+    max-height: 360px;
+    min-height: 120px;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.04));
+}
+
+/* Error highlighting */
+.severity-high {
+    background: rgba(244, 67, 54, 0.2);
+    border-left: 3px solid #f44336;
+}
+
+.severity-medium {
+    background: rgba(255, 152, 0, 0.2);
+    border-left: 3px solid #ff9800;
+}
+
+.severity-low {
+    background: rgba(255, 193, 7, 0.2);
+    border-left: 3px solid #ffc107;
+}
+
+.error-glyph {
+    margin-left: 5px;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.severity-high .error-glyph {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%23f44336'/%3E%3Cpath d='M7 4h2v5H7z' fill='white'/%3E%3Ccircle cx='8' cy='11.2' r='1' fill='white'/%3E%3C/svg%3E");
+}
+
+.severity-medium .error-glyph {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 1L1 14h14L8 1z' fill='%23ff9800'/%3E%3Cpath d='M7 6h2v4H7z' fill='white'/%3E%3Ccircle cx='8' cy='12' r='1' fill='white'/%3E%3C/svg%3E");
+}
+
+.severity-low .error-glyph {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%23ffc107'/%3E%3Cpath d='M7 7h2v5H7z' fill='white'/%3E%3Ccircle cx='8' cy='5' r='1' fill='white'/%3E%3C/svg%3E");
+}
+
+/* Error context in output */
+.error-context {
+    margin: 8px 0;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.error-context pre {
+    margin: 0;
+    padding: 0;
+    white-space: pre-wrap;
+}
+
+.error-line {
+    color: #f44336;
+    font-weight: bold;
+}
+
+.error-suggestion {
+    margin-top: 8px;
+    padding: 8px;
+    background: rgba(33, 150, 243, 0.1);
+    border-left: 3px solid #2196f3;
+    font-style: italic;
+}
+
+.error-stack {
+    margin-top: 8px;
+    font-size: 0.9em;
+    color: #888;
+}
+
+.panel-header {
+    padding: 6px 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.output-console {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px;
+    font-family: var(--font-mono);
+    white-space: pre-wrap;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+/* Console output styling */
+.output-console .output-line {
+    padding: 4px 0;
+    min-height: 1.5em;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.output-console .output-section {
+    padding: 8px 0;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.output-console .standalone-message {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(52, 152, 219, 0.2);
+    margin: 8px 0;
+}
+
+.output-console .system-message {
+    margin: 8px 0;
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.output-console .success {
+    color: #2ecc71;
+    font-weight: 500;
+    display: inline-block;
+    padding: 1px 0;
+}
+
+.output-console .error {
+    color: #e74c3c;
+    font-weight: 500;
+}
+
+.output-console .info {
+    color: #3498db;
+    font-weight: 500;
+    display: block;
+    padding: 4px 0;
+}
+
+.output-console .spacer {
+    height: 10px;
+}
+
+.output-console .standalone-message {
+    padding: 8px 0;
+    margin: 4px 0;
+    color: #3498db;
+    font-weight: 500;
+}
+
+.output-console .warning {
+    color: #f1c40f;
+    font-weight: 500;
+}
+
+.output-console .system {
+    color: #9b59b6;
+    font-style: italic;
+}
+
+.output-console .error-line {
+    color: #e74c3c;
+    background: rgba(231, 76, 60, 0.1);
+    padding: 2px 4px;
+    border-radius: 3px;
+    margin: 2px 0;
+}
+
+.output-console .error-context {
+    color: #95a5a6;
+    padding-left: 20px;
+}
+
+.output-console .error-pointer {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+.output-console .output-section {
+    margin: 4px 0;
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.output-console .timestamp {
+    color: #7f8c8d;
+    font-size: 0.9em;
+    margin-right: 8px;
+}
+
+/* Status Bar */
+.status-bar {
+    display: flex;
+    align-items: center;
+    padding: 0 6px;
+    height: 20px; /* target VS Code density */
+    min-height: 20px;
+    border-top: 1px solid var(--border-color);
+    font-size: 11px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.01), rgba(0,0,0,0.02));
+}
+
+.status-item {
+    margin-right: 8px;
+    line-height: 1;
+    padding: 0 6px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* position display removed (no #status-pos element) */
+#status-message { flex: 1 1 auto; }
+
+/* ensure New Tab icon is visible and compact */
+#tabBar #btnNewTab svg { width: 12px; height: 12px; display: block; }
+
+/* Ensure inline SVGs inside compact tool buttons remain visible */
+.tool svg { width: 14px; height: 14px; fill: currentColor; stroke: currentColor; }
+
+/* Theme toggle icons: show appropriate icon state */
+#btnThemeToggle { position: relative; }
+#btnThemeToggle[aria-pressed="true"] #icon-sun { display: none; }
+#btnThemeToggle[aria-pressed="true"] #icon-moon { display: block; }
+#btnThemeToggle[aria-pressed="false"] #icon-sun { display: block; }
+#btnThemeToggle[aria-pressed="false"] #icon-moon { display: none; }
+
+#btnThemeToggle:hover { transform: translateY(-1px); }
+#btnSettings:hover { transform: translateY(-1px); }
+
+/* Button Styles */
+button {
+    padding: 4px 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    transition: background-color var(--transition-speed);
+}
+
+button:hover {
+    background-color: var(--button-hover-bg);
+}
+
+/* Resizable Panels */
+.resizer {
+    width: 100%;
+    height: 4px;
+    background-color: var(--border-color);
+    cursor: ns-resize;
+}

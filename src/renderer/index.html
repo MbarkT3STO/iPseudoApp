@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- JetBrains Mono from jsDelivr (fallback for local use) -->
+    <link href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@4.5.3/index.css" rel="stylesheet">
+    <title>iPseudo IDE</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/theme.css">
+    <!-- Monaco + Electron: stash Node's require to avoid AMD conflict, then load loader -->
+    <script>
+        // Save Node's require so Monaco's AMD loader can set window.require
+        window.nodeRequire = window.require;
+        // Remove Node globals that may interfere
+        try { window.require = undefined; window.module = undefined; window.exports = undefined; } catch(e) {}
+    </script>
+    <script src="./monaco/vs/loader.js"></script>
+    <script src="scripts/errorManager.js"></script>
+    <script>
+        // After loader runs, AMD's `require` is available at window.require
+        // Node's require is preserved at window.nodeRequire
+        // Access Node APIs with window.nodeRequire(...) in renderer scripts
+    </script>
+</head>
+<body class="theme-dark">
+    <div class="app-container">
+    <!-- Debug overlay to help diagnose renderer initialization -->
+
+        <!-- Top Toolbar -->
+        <div class="top-toolbar">
+            <div class="toolbar-left">
+                <button class="tool" id="btnRun" title="Run">
+                    <!-- Clean Play Icon -->
+                    <svg width="45" height="45" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M9 6.5v11l9-5.5-9-5.5z" fill="#2ecc71" stroke="#2ecc71" stroke-width="1.2" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <!-- Runtime status indicator -->
+                <div id="runStatus" class="status-dot" title="Idle" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="8" fill="#6c757d" opacity="0.96"/>
+                        <circle id="runPulse" cx="12" cy="12" r="4" fill="#ffffff" opacity="0.06"/>
+                    </svg>
+                </div>
+                <button class="tool" id="btnOpen" title="Open">
+                    <!-- Clean Folder Icon -->
+                    <svg width="45" height="45" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M4 5a1 1 0 0 1 1-1h4l2 2h8a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5z" stroke="#cfcfcf" stroke-width="1.2" stroke-linejoin="round" fill="none"/>
+                    </svg>
+                </button>
+                <button class="tool" id="btnSave" title="Save">
+                    <!-- Clean Save Icon -->
+                    <svg width="45" height="45" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M5 5v14a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7l-2-2H6a1 1 0 0 0-1 1z" stroke="#cfcfcf" stroke-width="1.2" stroke-linejoin="round" fill="none"/>
+                        <path d="M12 15V8" stroke="#cfcfcf" stroke-width="1.2" stroke-linecap="round"/>
+                        <path d="M9 13l3 3 3-3" stroke="#cfcfcf" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="toolbar-center">
+                <div class="brand">iPseudo IDE</div>
+            </div>
+            <div class="toolbar-right">
+                <button class="tool" id="btnThemeToggle" title="Toggle Theme" aria-pressed="false">
+                    <!-- Theme Toggle: Sun / Moon (stateful via JS) -->
+                    <svg id="icon-sun" width="36" height="36" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <circle cx="12" cy="12" r="4" fill="#FFD166"></circle>
+                        <g stroke="#FFD166" stroke-width="1.2" stroke-linecap="round">
+                            <path d="M12 2v2"/>
+                            <path d="M12 20v2"/>
+                            <path d="M4.22 4.22l1.42 1.42"/>
+                            <path d="M18.36 18.36l1.42 1.42"/>
+                            <path d="M2 12h2"/>
+                            <path d="M20 12h2"/>
+                            <path d="M4.22 19.78l1.42-1.42"/>
+                            <path d="M18.36 5.64l1.42-1.42"/>
+                        </g>
+                    </svg>
+                    <svg id="icon-moon" width="36" height="36" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:none">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="#A7B0C0"></path>
+                    </svg>
+                </button>
+                <button class="tool" id="btnSettings" title="Settings">
+                    <!-- Compact gear + slider icon -->
+                    <svg width="36" height="36" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M12 15.5A3.5 3.5 0 1 0 12 8.5a3.5 3.5 0 0 0 0 7z" stroke="#cfcfcf" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M19.4 13.1a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33" stroke="#cfcfcf" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                        <rect x="3.5" y="16" width="6" height="2" rx="1" fill="#3a3f45" opacity="0.6" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Editor Area -->
+            <div class="editor-container">
+                <!-- Tab Bar -->
+                <div class="tab-bar" id="tabBar">
+                    <div class="tab active" data-path="">untitled.pseudo <span class="dirty-indicator" aria-hidden="true"></span><button class="tab-close" title="Close">✕</button></div>
+                    <button id="btnNewTab" class="tool" title="New Tab" aria-label="New Tab">
+                        <svg width="36" height="36" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M12 6v12M6 12h12" stroke="#cfcfcf" stroke-width="1.2" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Monaco Editor will be mounted here -->
+                <div id="editor"></div>
+            </div>
+        </div>
+
+        <!-- Bottom Panel -->
+        <div class="bottom-panel">
+            <div class="panel-header">
+                <span>Output</span>
+                <button id="clearConsole">Clear</button>
+            </div>
+            <div id="output" class="output-console"></div>
+        </div>
+
+    <!-- (Status bar removed) -->
+    </div>
+
+    <script src="scripts/editor.js"></script>
+    <script src="scripts/theme.js"></script>
+    <script src="scripts/app.js"></script>
+</body>
+</html>

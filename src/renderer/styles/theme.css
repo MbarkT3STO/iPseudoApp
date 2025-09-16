@@ -1,0 +1,78 @@
+/* Dark Theme (default) */
+.theme-dark {
+    --bg-color: #1e1e1e;
+    --text-color: #d4d4d4;
+    --border-color: #3c3c3c;
+    --hover-color: #2a2a2a;
+    --active-tab-color: #2d2d2d;
+    --button-bg: #0e639c;
+    --button-hover-bg: #1177bb;
+    --button-text: #ffffff;
+    --console-bg: #1e1e1e;
+    --console-text: #a8ff60;
+    --icon-color: #d4d4d4;
+    --tab-text: #d4d4d4;
+    --toolbar-bg: #2d2d2d;
+    --editor-bg: #1e1e1e;
+}
+
+/* Light Theme */
+.theme-light {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --border-color: #e0e0e0;
+    --hover-color: #f0f0f0;
+    --active-tab-color: #f5f5f5;
+    --button-bg: #007acc;
+    --button-hover-bg: #0098ff;
+    --button-text: #ffffff;
+    --console-bg: #f5f5f5;
+    --console-text: #008000;
+    --icon-color: #424242;
+    --tab-text: #333333;
+    --toolbar-bg: #f5f5f5;
+    --editor-bg: #ffffff;
+}
+
+/* Apply theme colors with transitions */
+* {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.output-console {
+    background-color: var(--console-bg);
+    color: var(--console-text);
+}
+
+.tool svg {
+    stroke: var(--icon-color);
+    fill: var(--icon-color);
+}
+
+.tab {
+    color: var(--tab-text);
+}
+
+.toolbar {
+    background-color: var(--toolbar-bg);
+    border-color: var(--border-color);
+}
+
+.editor-container {
+    background-color: var(--editor-bg);
+}
+
+/* Theme specific button styles */
+.button {
+    background-color: var(--button-bg);
+    color: var(--button-text);
+}
+
+.button:hover {
+    background-color: var(--button-hover-bg);
+}

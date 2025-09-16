@@ -1,0 +1,10 @@
+# Sample factorial pseudocode
+var n = 5
+var fact = 1
+
+for i = 1 to n
+    fact = fact * i
+endfor
+
+print "Factorial of", n
+print fact

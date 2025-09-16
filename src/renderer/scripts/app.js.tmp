@@ -1,0 +1,74 @@
+// Minimal clean app.js - renderer wiring for runner.worker.js and ErrorManager
+
+document.addEventListener('DOMContentLoaded', () => {
+  const outputConsole = document.getElementById('output');
+  const runButton = document.getElementById('btnRun');
+  const clearButton = document.getElementById('clearConsole');
+  const runStatus = document.getElementById('runStatus');
+
+  function escapeHtml(s) { return String(s).replace(/[&<>\"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'})[c]); }
+  function out(text, type='info') { if (!outputConsole) return; const ts = new Date().toLocaleTimeString(); outputConsole.innerHTML += `<div class="out ${type}">[${ts}] ${escapeHtml(text)}</div>`; }
+
+  if (clearButton) clearButton.addEventListener('click', () => { if (outputConsole) outputConsole.innerHTML = ''; });
+
+  const ErrorManagerCtor = window.ErrorManager || null;
+  const errorManager = ErrorManagerCtor ? new ErrorManagerCtor() : null;
+
+  let runnerWorker = null;
+
+  function cleanupWorker() {
+    if (runnerWorker) {
+      try { runnerWorker.onmessage = null; runnerWorker.onerror = null; runnerWorker.terminate(); } catch(e) { console.error(e); }
+      runnerWorker = null;
+    }
+    if (runButton) runButton.disabled = false;
+    if (runStatus) runStatus.title = 'Idle';
+  }
+
+  function handleError(err, src) {
+    if (errorManager && src) {
+      try {
+        const analysis = errorManager.analyzeError(err, src);
+        errorManager.updateDecorations(window.editor, [analysis]);
+        out(errorManager.formatError(analysis),'error');
+        if (analysis.suggestion) out('Suggestion: ' + analysis.suggestion, 'info');
+        return;
+      } catch(e) { console.warn('ErrorManager failed', e); }
+    }
+    out(err && err.message ? err.message : String(err), 'error');
+  }
+
+  function execute(code) {
+    if (!code || !code.trim()) { out('Nothing to run','warning'); return; }
+    try {
+      if (runButton) runButton.disabled = true;
+      if (runStatus) runStatus.title = 'Running';
+
+      cleanupWorker();
+      runnerWorker = new Worker('./scripts/runner.worker.js');
+
+      runnerWorker.onerror = (e) => { out('Worker error: ' + (e && e.message? e.message : JSON.stringify(e)),'error'); cleanupWorker(); };
+
+      runnerWorker.onmessage = (ev) => {
+        const m = ev.data; if (!m) return;
+        try {
+          if (m.type === 'stdout') { (m.text||'').split('\n').forEach(l=>{ if (l.trim()) out(l,'success'); }); }
+          else if (m.type === 'stderr') { out(m.text||'stderr','error'); }
+          else if (m.type === 'error') { const eobj = m.error || { message: m.message||m.text||'error' }; const e = new Error(eobj.message); e.name = eobj.name || 'Error'; e.stack = eobj.stack || ''; handleError(e, code); cleanupWorker(); }
+          else if (m.type === 'input-request') { const val = window.prompt(m.prompt||'Input:')||''; runnerWorker.postMessage({ type: 'input-response', id: m.id, value: val }); }
+          else if (m.type === 'done') { out('Done','info'); cleanupWorker(); }
+          else { console.warn('unknown message',m); }
+        } catch(err) { out('Message handler error: '+err.message,'error'); cleanupWorker(); }
+      };
+
+      runnerWorker.postMessage({ code });
+    } catch(err) { handleError(err, code); cleanupWorker(); }
+  }
+
+  if (runButton) runButton.addEventListener('click', () => {
+    const code = window.editor && typeof window.editor.getValue === 'function' ? window.editor.getValue() : '';
+    if (outputConsole) outputConsole.innerHTML = '';
+    execute(code);
+  });
+
+});
