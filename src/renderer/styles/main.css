@@ -95,96 +95,156 @@ body {
     justify-content: center;
     width: 40px;
     height: 40px;
-    border-radius: 8px;
-    background: transparent;
-    border: none;
+    border-radius: 12px;
+    background: var(--panel);
+    border: 1px solid var(--border-color);
     color: var(--text);
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.tool::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    transform: scale(0);
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.tool:hover::before {
-    transform: scale(1);
-    opacity: 1;
+.tool:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-color: var(--accent);
 }
 
 .tool:active {
-    transform: scale(0.95);
+    transform: translateY(0);
+    transition: transform 0.1s ease;
 }
 
 .tool svg {
     position: relative;
     z-index: 1;
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     transition: all 0.2s ease;
 }
 
 /* Specific Button Styles */
 #btnRun {
-    background: rgba(76, 175, 80, 0.1);
-    color: #4caf50;
+    background: linear-gradient(135deg, #4caf50 0%, #43a047 100%);
+    border: none;
+    color: white;
 }
 
 #btnRun:hover {
-    background: rgba(76, 175, 80, 0.2);
-    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+    background: linear-gradient(135deg, #43a047 0%, #2e7d32 100%);
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
 }
 
 #btnRun:active {
-    background: rgba(76, 175, 80, 0.3);
+    background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
 }
 
 #btnSave {
-    color: #2196f3;
+    background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+    border: none;
+    color: white;
 }
 
 #btnSave:hover {
-    background: rgba(33, 150, 243, 0.1);
-    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.15);
+    background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
 }
 
 #btnOpen {
-    color: #ff9800;
+    background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+    border: none;
+    color: white;
 }
 
 #btnOpen:hover {
-    background: rgba(255, 152, 0, 0.1);
-    box-shadow: 0 4px 12px rgba(255, 152, 0, 0.15);
+    background: linear-gradient(135deg, #f57c00 0%, #e65100 100%);
+    box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+}
+
+#btnNewTab {
+    background: var(--panel);
+    border: 1px dashed var(--border-color);
+    color: var(--text-muted);
+    margin-left: 8px;
+    transition: all 0.2s ease;
+}
+
+#btnNewTab:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 4px 12px rgba(124, 77, 255, 0.15);
 }
 
 #btnThemeToggle {
-    color: #9c27b0;
+    background: var(--panel);
+    border: 1px solid var(--border-color);
 }
 
 #btnThemeToggle:hover {
-    background: rgba(156, 39, 176, 0.1);
-    box-shadow: 0 4px 12px rgba(156, 39, 176, 0.15);
+    background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%);
+    border-color: #9c27b0;
+    box-shadow: 0 4px 12px rgba(156, 39, 176, 0.3);
 }
 
 #btnSettings {
-    color: #607d8b;
+    background: var(--panel);
+    border: 1px solid var(--border-color);
 }
 
 #btnSettings:hover {
-    background: rgba(96, 125, 139, 0.1);
-    box-shadow: 0 4px 12px rgba(96, 125, 139, 0.15);
+    background: linear-gradient(135deg, #607d8b 0%, #455a64 100%);
+    border-color: #607d8b;
+    box-shadow: 0 4px 12px rgba(96, 125, 139, 0.3);
+}
+
+/* Tab close button */
+.tab-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0;
+    margin-left: 6px;
+    font-size: 10px;
+    line-height: 1;
+    transition: all 0.2s ease;
+}
+
+.tab-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text);
+    transform: scale(1.1);
+}
+
+/* Clear console button */
+#clearConsole {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#clearConsole:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--text);
+    border-color: var(--accent);
+    box-shadow: 0 2px 8px rgba(124, 77, 255, 0.15);
 }
 
 /* Status Dot */
