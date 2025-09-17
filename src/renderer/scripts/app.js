@@ -336,14 +336,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to create or switch to a tab
     function createOrSwitchToTab(filePath, initialContent = '') {
-        const tabBar = document.getElementById('tabBar');
-        if (!tabBar) return;
+        const tabBar = document.getElementById('tabsContainer');
+        if (!tabBar) {
+            console.error('Tab container not found');
+            return;
+        }
         
         // Save current editor state before switching
         saveEditorState();
         
         // Check if tab already exists
-        const existingTab = tabBar.querySelector(`.tab[data-path="${filePath}"]`);
+        const existingTab = tabBar.querySelector(`.tab[data-tab-id="${filePath}"]`);
         if (existingTab) {
             switchToTab(existingTab);
             return;
@@ -473,32 +476,41 @@ document.addEventListener('DOMContentLoaded', () => {
                         content: currentContent
                     });
 
-                    if (saveResult.canceled) {
-                        return; // User cancelled save
-                    }
-
-                    // Update the tab with new path
-                    filePath = saveResult.filePath; // Update filePath with the new saved path
-                    tabElement.dataset.path = filePath;
-                    const fileName = filePath.split(/[\\/]/).pop();
-                    tabElement.querySelector('.tab-label').textContent = fileName;
-                    
-                    // Update file data with new path
-                    openFiles.set(filePath, {
-                        content: currentContent,
-                        originalContent: currentContent,
-                        dirty: false,
-                        tabId: tabId
-                    });
-                    
-                    // Remove old entry if it exists
-                    if (filePath !== tabElement.dataset.path && openFiles.has(tabElement.dataset.path)) {
-                        openFiles.delete(tabElement.dataset.path);
-                    }
-                    
-                    // Update active file path if needed
-                    if (activeFilePath === tabElement.dataset.path) {
-                        activeFilePath = filePath;
+                    if (!saveResult.canceled) {
+                        const newPath = saveResult.filePath; // Update filePath with the new saved path
+                        tabElement.dataset.path = newPath;
+                        const fileName = newPath.split(/[\\/]/).pop();
+                        
+                        // Update the tab's label
+                        tabElement.querySelector('.tab-label').textContent = fileName;
+                        
+                        // Get or create file data
+                        let fileData = openFiles.get(currentPath) || {
+                            content: currentContent,
+                            originalContent: currentContent,
+                            dirty: false,
+                            cursorPosition: window.editor.getPosition(),
+                            scrollPosition: window.editor.getScrollTop(),
+                            tabId: tabId
+                        };
+                        
+                        // Update file data
+                        fileData.content = currentContent;
+                        fileData.originalContent = currentContent;
+                        fileData.dirty = false;
+                        
+                        // Save with new path
+                        openFiles.set(newPath, fileData);
+                        
+                        // Remove old entry if it exists
+                        if (filePath !== tabElement.dataset.path && openFiles.has(tabElement.dataset.path)) {
+                            openFiles.delete(tabElement.dataset.path);
+                        }
+                        
+                        // Update active file path if needed
+                        if (activeFilePath === tabElement.dataset.path) {
+                            activeFilePath = newPath;
+                        }
                     }
                 } catch (error) {
                     console.error('Error saving file:', error);
@@ -583,7 +595,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Update the tab close button click handler
-    document.getElementById('tabBar')?.addEventListener('click', (e) => {
+    document.getElementById('tabsContainer')?.addEventListener('click', (e) => {
         const closeButton = e.target.closest('.tab-close');
         if (closeButton) {
             e.stopPropagation();
@@ -650,8 +662,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
 
                     if (!result.canceled && result.filePath) {
-                        const newPath = result.filePath;
-                        // Update the active tab with the new path
+                        const newPath = result.filePath; // Update filePath with the new saved path
                         activeTab.dataset.path = newPath;
                         const fileName = newPath.split(/[\\/]/).pop();
                         
@@ -715,33 +726,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Add event listener for the new button
+    const newButton = document.getElementById('btnNew');
+    if (newButton) {
+        newButton.addEventListener('click', () => {
+            createNewTab();
+        });
+    }
+
     // Add event listener for the new tab button
     const newTabButton = document.getElementById('btnNewTab');
     if (newTabButton) {
         newTabButton.addEventListener('click', () => {
-            // Create a unique identifier for the new tab
-            const tabId = `untitled-${Date.now()}.pseudo`;
-            
-            // Create a new empty tab
-            createOrSwitchToTab(tabId);
-            
-            // Clear the editor for the new tab
-            if (window.editor) {
-                window.editor.setValue('');
-                window.editor.focus();
-            }
-            
-            // Store empty content for the new tab
-            openFiles.set(tabId, {
-                content: '',
-                originalContent: '',
-                dirty: false,
-                cursorPosition: { lineNumber: 1, column: 1 },
-                scrollPosition: 0
-            });
-            
-            // Update window title
-            document.title = `${tabId} - iPseudo IDE`;
+            createNewTab();
         });
     }
 
