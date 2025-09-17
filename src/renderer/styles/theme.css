@@ -884,3 +884,45 @@ body {
   .tab { height: 34px !important; padding: 0 12px !important; }
   .btn span { display: none !important; }
 }
+
+/* Tabs: support both legacy .tab-title and new .tab-label from app.js */
+.theme-dark #tabsContainer .tab .tab-title,
+.theme-dark #tabsContainer .tab .tab-label,
+.theme-light #tabsContainer .tab .tab-title,
+.theme-light #tabsContainer .tab .tab-label {
+  font-weight: 600 !important;
+  letter-spacing: .01em !important;
+}
+
+/* Dirty indicator dot */
+.theme-dark #tabsContainer .tab .dirty-indicator,
+.theme-light #tabsContainer .tab .dirty-indicator {
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+  margin-left: 8px !important;
+  background: #f59e0b !important;
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.15) !important;
+  display: none; /* app.js toggles display */
+}
+
+/* Console output modern styles (supports #output .out classes from app.js) */
+/* Base */
+#output .out { padding: 6px 8px; border-radius: 8px; margin: 4px 0; }
+
+/* Dark theme variants */
+.theme-dark #output .out.info { color: #93c5fd; background: rgba(59,130,246,0.12); }
+.theme-dark #output .out.success { color: #86efac; background: rgba(16,185,129,0.12); }
+.theme-dark #output .out.warning { color: #fde68a; background: rgba(245,158,11,0.12); }
+.theme-dark #output .out.error { color: #fca5a5; background: rgba(239,68,68,0.12); border-left: 3px solid #ef4444; }
+.theme-dark #output .out.raw { color: var(--text); background: rgba(255,255,255,0.06); }
+
+/* Light theme variants */
+.theme-light #output .out.info { color: #1d4ed8; background: rgba(59,130,246,0.12); }
+.theme-light #output .out.success { color: #047857; background: rgba(16,185,129,0.12); }
+.theme-light #output .out.warning { color: #92400e; background: rgba(245,158,11,0.15); }
+.theme-light #output .out.error { color: #b91c1c; background: rgba(239,68,68,0.1); border-left: 3px solid #ef4444; }
+.theme-light #output .out.raw { color: #0b1020; background: rgba(2,6,23,0.04); }
+
+/* Subtle divider between log chunks */
+#output .out + .out { scroll-margin-top: 8px; }
