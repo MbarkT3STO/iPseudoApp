@@ -636,18 +636,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Function to create a new empty tab
+    function getNextUntitledNumber() {
+        const untitledRegex = /^Untitled-(\d+)\.pseudo$/;
+        const existingNumbers = [];
+
+        for (const filePath of openFiles.keys()) {
+            const match = filePath.match(untitledRegex);
+            if (match && match[1]) {
+                existingNumbers.push(parseInt(match[1], 10));
+            }
+        }
+
+        let nextNumber = 1;
+        while (existingNumbers.includes(nextNumber)) {
+            nextNumber++;
+        }
+        return nextNumber;
+    }
+
     function createNewTab() {
-        const tabId = `untitled-${Date.now()}.pseudo`;
-        createOrSwitchToTab(tabId);
-        openFiles.set(tabId, {
+        const newTabId = `Untitled-${getNextUntitledNumber()}.pseudo`;
+        createOrSwitchToTab(newTabId);
+        openFiles.set(newTabId, {
             content: '',
             originalContent: '',
             dirty: false,
             cursorPosition: { lineNumber: 1, column: 1 },
             scrollPosition: 0
         });
-        document.title = `${tabId} - iPseudo IDE`;
+        document.title = `${newTabId} - iPseudo IDE`;
     }
 
     // Add event listener for the save button
