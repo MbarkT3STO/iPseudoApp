@@ -379,6 +379,99 @@
   transform: translateY(-1px) !important;
 }
 
+/* ===== Modern Button System ===== */
+/* Base button */
+.btn {
+  --btn-bg: rgba(255,255,255,0.06);
+  --btn-border: var(--neo-border);
+  --btn-text: var(--text);
+  --btn-shadow: 0 6px 18px rgba(0,0,0,.18);
+  --btn-radius: 12px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid var(--btn-border);
+  border-radius: var(--btn-radius);
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  font-weight: 600;
+  letter-spacing: .01em;
+  box-shadow: var(--btn-shadow);
+  transform: translateZ(0);
+  transition: background .18s ease, color .18s ease, border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+
+/* Hover/active/focus */
+.btn:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(0,0,0,.20); }
+.btn:active { transform: translateY(0); box-shadow: 0 6px 16px rgba(0,0,0,.18); }
+.btn:focus-visible { outline: 2px solid #22d3ee; outline-offset: 2px; }
+
+/* Disabled */
+.btn:disabled, .btn[disabled] { opacity: .6; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* Icon-only buttons */
+.btn.btn-icon { width: 40px; height: 40px; padding: 0; border-radius: 999px; }
+.btn.btn-icon i { font-size: 1.2rem; }
+
+/* Text buttons */
+.btn.btn-text { background: transparent; border-color: transparent; color: var(--text-secondary); box-shadow: none; }
+.btn.btn-text:hover { background: rgba(255,255,255,0.08); color: var(--text); }
+.theme-light .btn.btn-text:hover { background: rgba(2,6,23,0.06); }
+
+/* Primary "Run" button with neon gradient */
+.btn.btn-run, #btnRun {
+  border: 0;
+  color: #fff !important;
+  background: linear-gradient(135deg, #22d3ee 0%, #6366f1 50%, #a855f7 100%) !important;
+  box-shadow: 0 12px 30px rgba(99,102,241,.35) !important;
+}
+.btn.btn-run:hover, #btnRun:hover { transform: translateY(-1px); box-shadow: 0 16px 36px rgba(99,102,241,.45) !important; }
+.btn.btn-run:active, #btnRun:active { transform: translateY(0); }
+
+/* File actions with distinct hues */
+#btnNew { background: linear-gradient(135deg, #10b981 0%, #22d3ee 100%) !important; color: #062023 !important; border: 0 !important; }
+#btnOpen { background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%) !important; color: #1f1300 !important; border: 0 !important; }
+#btnSave { background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%) !important; color: #fff !important; border: 0 !important; }
+
+/* New Tab pill to match chips */
+#btnNewTab { background: rgba(255,255,255,0.08) !important; border: 1px dashed var(--neo-border) !important; color: var(--text-secondary) !important; }
+#btnNewTab:hover { background: rgba(255,255,255,0.12) !important; color: var(--text) !important; border-style: solid !important; }
+.theme-light #btnNewTab { background: rgba(2,6,23,0.04) !important; border-color: rgba(15,23,42,0.12) !important; }
+.theme-light #btnNewTab:hover { background: rgba(2,6,23,0.06) !important; }
+
+/* Toolbar icon buttons */
+#btnThemeToggle, #btnSettings { background: rgba(255,255,255,0.06) !important; border: 1px solid var(--neo-border) !important; color: var(--text) !important; }
+#btnThemeToggle:hover, #btnSettings:hover { background: rgba(255,255,255,0.1) !important; }
+.theme-light #btnThemeToggle, .theme-light #btnSettings { background: rgba(255,255,255,0.9) !important; border-color: rgba(15,23,42,0.12) !important; color: var(--text) !important; }
+.theme-light #btnThemeToggle:hover, .theme-light #btnSettings:hover { background: rgba(255,255,255,1) !important; }
+
+/* Subtle shine on hover for all buttons */
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,255,255,.12), transparent 35%, transparent 65%, rgba(0,0,0,.06));
+  opacity: 0;
+  transition: opacity .18s ease;
+}
+.btn:hover::after { opacity: 1; }
+
+/* Compact size for status bar or dense areas (if needed) */
+.btn.btn-sm { min-height: 30px; padding: 0 10px; border-radius: 10px; font-weight: 600; }
+
+/* Light theme adjustments for base button */
+.theme-light .btn { --btn-bg: rgba(255,255,255,0.9); --btn-border: rgba(15,23,42,0.12); --btn-text: #0b1020; --btn-shadow: 0 6px 18px rgba(0,0,0,.10); }
+
+/* Ensure icons align nicely with text */
+.btn i { margin-right: 2px; }
+.btn i + span { margin-left: 2px; }
+
 /* ===== Base Styles ===== */
 * {
   box-sizing: border-box;
