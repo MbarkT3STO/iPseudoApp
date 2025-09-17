@@ -232,6 +232,81 @@ document.addEventListener('DOMContentLoaded', () => {
         execute(code);
     });
 
+    // Function to save the current editor state
+    function saveEditorState() {
+        if (!window.editor || !activeFilePath || !window.editor.getModel) return;
+        
+        try {
+            const content = window.editor.getValue();
+            const position = window.editor.getPosition();
+            const scrollTop = window.editor.getScrollTop ? window.editor.getScrollTop() : 0;
+            
+            if (openFiles.has(activeFilePath)) {
+                const file = openFiles.get(activeFilePath);
+                file.content = content;
+                file.cursorPosition = position || { lineNumber: 1, column: 1 };
+                file.scrollPosition = scrollTop;
+                file.dirty = content !== (file.originalContent || '');
+                updateTabDirtyState(activeFilePath, file.dirty);
+            }
+        } catch (e) {
+            console.error('Error saving editor state:', e);
+        }
+    }
+
+    // Function to refresh editor content for the current tab
+    function refreshEditorForCurrentTab() {
+        if (!window.editor || !activeFilePath || !window.editor.getModel) {
+            // If editor isn't ready, try again shortly
+            if (activeFilePath && !window.editor) {
+                setTimeout(refreshEditorForCurrentTab, 100);
+            }
+            return;
+        }
+        
+        const file = openFiles.get(activeFilePath);
+        if (!file) return;
+        
+        try {
+            // Store current state
+            const model = window.editor.getModel();
+            if (!model) return;
+            
+            const oldContent = model.getValue();
+            const oldPosition = window.editor.getPosition();
+            const oldScrollTop = window.editor.getScrollTop ? window.editor.getScrollTop() : 0;
+            
+            // Update editor content if it's different
+            if (oldContent !== file.content) {
+                model.setValue(file.content || '');
+            }
+            
+            // Restore cursor position
+            if (file.cursorPosition) {
+                window.editor.setPosition(file.cursorPosition);
+                window.editor.revealPositionInCenter(file.cursorPosition);
+            } else if (oldPosition) {
+                window.editor.setPosition(oldPosition);
+            }
+            
+            // Restore scroll position
+            if (file.scrollPosition !== undefined && window.editor.setScrollTop) {
+                window.editor.setScrollTop(file.scrollPosition);
+            } else if (oldScrollTop && window.editor.setScrollTop) {
+                window.editor.setScrollTop(oldScrollTop);
+            }
+            
+            // Update window title
+            const fileName = activeFilePath.split('/').pop();
+            document.title = `${fileName}${file.dirty ? ' *' : ''} - iPseudo IDE`;
+            
+            // Focus the editor
+            window.editor.focus();
+        } catch (e) {
+            console.error('Error refreshing editor:', e);
+        }
+    }
+
     // Function to open a file in a new tab
     async function openFile(filePath, content) {
         try {
@@ -239,18 +314,13 @@ document.addEventListener('DOMContentLoaded', () => {
             openFiles.set(filePath, {
                 content,
                 dirty: false,
-                originalContent: content
+                originalContent: content,
+                cursorPosition: { lineNumber: 1, column: 1 },
+                scrollPosition: 0
             });
             
             // Create new tab or switch to existing one
-            createOrSwitchToTab(filePath);
-            
-            // Update editor content
-            if (window.editor) {
-                window.editor.setValue(content);
-                window.editor.getModel().setEOL(monaco.editor.EndOfLineSequence.LF);
-                window.editor.focus();
-            }
+            createOrSwitchToTab(filePath, content);
             
             // Update window title
             document.title = `${filePath.split('/').pop()} - iPseudo IDE`;
@@ -262,14 +332,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Function to create or switch to a tab
-    function createOrSwitchToTab(filePath) {
+    function createOrSwitchToTab(filePath, initialContent = '') {
         const tabBar = document.getElementById('tabBar');
         if (!tabBar) return;
+        
+        // Save current editor state before switching
+        saveEditorState();
         
         // Check if tab already exists
         const existingTab = tabBar.querySelector(`[data-path="${filePath}"]`);
         if (existingTab) {
-            // Switch to existing tab
             switchToTab(existingTab);
             return;
         }
@@ -305,8 +377,20 @@ document.addEventListener('DOMContentLoaded', () => {
         // Insert the new tab before the new tab button
         tabBar.insertBefore(tab, newTabButton);
         
-        // Set as active file path
+        // Initialize file in openFiles if it doesn't exist
+        if (!openFiles.has(filePath)) {
+            openFiles.set(filePath, {
+                content: initialContent,
+                originalContent: initialContent,
+                dirty: false,
+                cursorPosition: { lineNumber: 1, column: 1 },
+                scrollPosition: 0
+            });
+        }
+        
+        // Update active file path and refresh editor
         activeFilePath = filePath;
+        refreshEditorForCurrentTab();
     }
 
     // Function to switch tabs
@@ -316,56 +400,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const filePath = tab.dataset.path;
         if (!filePath) return;
         
-        // Save current editor content before switching
-        if (window.editor && activeFilePath && openFiles.has(activeFilePath)) {
-            const currentContent = window.editor.getValue();
-            const currentFile = openFiles.get(activeFilePath);
-            if (currentFile) {
-                currentFile.content = currentContent;
-                currentFile.dirty = currentContent !== currentFile.originalContent;
-                updateTabDirtyState(activeFilePath, currentFile.dirty);
-            }
-        }
+        // Save current editor state before switching
+        saveEditorState();
         
         // Update active tab
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         
-        // Update editor content for the selected tab
-        if (window.editor) {
-            if (openFiles.has(filePath)) {
-                const file = openFiles.get(filePath);
-                // Store the current scroll position and cursor position
-                const scrollPosition = window.editor.getScrollTop();
-                const cursorPosition = window.editor.getPosition();
-                
-                // Update editor content
-                window.editor.setValue(file.content || '');
-                
-                // Restore scroll and cursor position if available
-                if (file.scrollPosition !== undefined) {
-                    window.editor.setScrollTop(file.scrollPosition);
-                } else if (scrollPosition) {
-                    window.editor.setScrollTop(scrollPosition);
-                }
-                
-                if (file.cursorPosition) {
-                    window.editor.setPosition(file.cursorPosition);
-                    window.editor.revealPositionInCenter(file.cursorPosition);
-                } else if (cursorPosition) {
-                    window.editor.setPosition(cursorPosition);
-                }
-                
-                window.editor.focus();
-                
-                // Update window title
-                const fileName = filePath.split('/').pop();
-                document.title = `${fileName}${file.dirty ? ' *' : ''} - iPseudo IDE`;
-            }
-        }
-        
-        // Update active file path
+        // Update active file path and refresh editor
         activeFilePath = filePath;
+        refreshEditorForCurrentTab();
     }
 
     // Function to close a tab
@@ -414,8 +458,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // Store empty content for the new tab
             openFiles.set(tabId, {
                 content: '',
+                originalContent: '',
                 dirty: false,
-                originalContent: ''
+                cursorPosition: { lineNumber: 1, column: 1 },
+                scrollPosition: 0
             });
             
             // Update window title
@@ -457,12 +503,24 @@ document.addEventListener('DOMContentLoaded', () => {
         createOrSwitchToTab(tabId);
         openFiles.set(tabId, {
             content: '',
+            originalContent: '',
             dirty: false,
-            originalContent: ''
+            cursorPosition: { lineNumber: 1, column: 1 },
+            scrollPosition: 0
         });
         document.title = `${tabId} - iPseudo IDE`;
     }
 
     // Initialize the first tab when the DOM is loaded
-    createNewTab();
+    // Wait for the editor to be ready
+    function initializeFirstTab() {
+        if (!window.editor || !window.editor.getModel) {
+            setTimeout(initializeFirstTab, 100);
+            return;
+        }
+        createNewTab();
+    }
+    
+    // Start the initialization
+    initializeFirstTab();
 });
