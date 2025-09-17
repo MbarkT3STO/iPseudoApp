@@ -1,137 +1,132 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- JetBrains Mono from jsDelivr (fallback for local use) -->
-    <link href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@4.5.3/index.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>iPseudo IDE</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet">
+    <!-- Styles -->
     <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/theme.css">
-    <!-- Monaco + Electron: stash Node's require to avoid AMD conflict, then load loader -->
+    
+    <!-- Monaco Editor Setup -->
     <script>
-        // Save Node's require so Monaco's AMD loader can set window.require
         window.nodeRequire = window.require;
-        // Remove Node globals that may interfere
         try { window.require = undefined; window.module = undefined; window.exports = undefined; } catch(e) {}
     </script>
     <script src="./monaco/vs/loader.js"></script>
-    <script src="scripts/errorManager.js"></script>
-    <script>
-        // After loader runs, AMD's `require` is available at window.require
-        // Node's require is preserved at window.nodeRequire
-        // Access Node APIs with window.nodeRequire(...) in renderer scripts
-    </script>
 </head>
 <body class="theme-dark">
     <div class="app-container">
-    <!-- Debug overlay to help diagnose renderer initialization -->
-
-        <!-- Top Toolbar -->
-        <div class="top-toolbar">
-            <div class="toolbar-left">
-                <button class="tool" id="btnRun" title="Run (Ctrl+Enter)">
-                    <!-- Play Icon -->
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M8 5V19L19 12L8 5Z" fill="white"/>
-                    </svg>
+        <!-- Top Navigation -->
+        <nav class="app-nav">
+            <div class="app-brand">
+                <i class="ri-code-s-slash-line"></i>
+                <span>iPseudo</span>
+            </div>
+            
+            <div class="file-actions">
+                <button class="btn" id="btnNew" title="New File">
+                    <i class="ri-file-add-line"></i>
+                    <span>New</span>
                 </button>
-                <!-- Runtime status indicator -->
-                <div id="runStatus" class="status-dot" title="Idle" aria-hidden="true">
-                    <svg width="14" height="14" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="10" fill="#4caf50" opacity="0.9"/>
-                        <circle id="runPulse" cx="12" cy="12" r="5" fill="#ffffff" opacity="0.8"/>
-                    </svg>
+                <button class="btn" id="btnOpen" title="Open File">
+                    <i class="ri-folder-open-line"></i>
+                    <span>Open</span>
+                </button>
+                <button class="btn" id="btnSave" title="Save File">
+                    <i class="ri-save-line"></i>
+                    <span>Save</span>
+                </button>
+            </div>
+            
+            <div class="editor-actions">
+                <button class="btn btn-run" id="btnRun" title="Run (Ctrl+Enter)">
+                    <i class="ri-play-line"></i>
+                    <span>Run</span>
+                </button>
+                <div class="status-indicator" id="runStatus" title="Status: Ready">
+                    <div class="status-dot"></div>
                 </div>
-                <button class="tool" id="btnOpen" title="Open File (Ctrl+O)">
-                    <!-- Folder Icon -->
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M22 19C22 19.5304 21.7893 20.0391 21.4142 20.4142C21.0391 20.7893 20.5304 21 20 21H4C3.46957 21 2.96086 20.7893 2.58579 20.4142C2.21071 20.0391 2 19.5304 2 19V8C2 7.46957 2.21071 6.96086 2.58579 6.58579C2.96086 6.21071 3.46957 6 4 6H8L10 4H14L16 6H20C20.5304 6 21.0391 6.21071 21.4142 6.58579C21.7893 6.96086 22 7.46957 22 8V19Z" fill="white"/>
-                    </svg>
+            </div>
+            
+            <div class="app-controls">
+                <button class="btn btn-icon" id="btnThemeToggle" title="Toggle Theme">
+                    <i class="ri-sun-line"></i>
                 </button>
-                <button class="tool" id="btnSave" title="Save (Ctrl+S)">
-                    <!-- Save Icon -->
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19 21H5C4.73478 21 4.48043 20.8946 4.29289 20.7071C4.10536 20.5196 4 20.2652 4 20V6C4 5.73478 4.10536 5.48043 4.29289 5.29289C4.48043 5.10536 4.73478 5 5 5H16L20 9V20C20 20.2652 19.8946 20.5196 19.7071 20.7071C19.5196 20.8946 19.2652 21 19 21Z" fill="white"/>
-                        <path d="M17 21V13H7V21" fill="white"/>
-                        <path d="M7 3V8H15" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                    </svg>
+                <button class="btn btn-icon" id="btnSettings" title="Settings">
+                    <i class="ri-settings-3-line"></i>
                 </button>
             </div>
-            <div class="toolbar-center">
-                <div class="brand">iPseudo IDE</div>
-            </div>
-            <div class="toolbar-right">
-                <button class="tool" id="btnThemeToggle" title="Toggle Theme (Ctrl+T)" aria-pressed="false">
-                    <!-- Theme Toggle: Sun / Moon -->
-                    <svg id="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z" fill="currentColor"/>
-                        <path d="M12 2V4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M12 20V22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M4.93 4.93L6.34 6.34" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M17.66 17.66L19.07 19.07" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M2 12H4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M20 12H22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M6.34 17.66L4.93 19.07" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M19.07 4.93L17.66 6.34" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    <svg id="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:none">
-                        <path d="M21 12.79C19.99 15.3 17.89 17.11 15.5 17.72C14.27 18.04 12.96 18.04 11.73 17.72C9.34 17.11 7.24 15.3 6.23 12.79C5.22 10.28 5.42 7.5 6.77 5.18C7.16 4.5 7.64 3.89 8.19 3.34C8.56 2.97 8.93 2.65 9.33 2.37C9.73 2.09 10.16 1.85 10.6 1.65C11.04 1.45 11.5 1.3 11.97 1.2C12.44 1.1 12.92 1.05 13.4 1.05C14.5 1.05 15.57 1.26 16.57 1.69C17.57 2.12 18.48 2.76 19.25 3.55C20.02 4.34 20.64 5.26 21.07 6.26C21.5 7.26 21.72 8.33 21.72 9.44C21.72 10.55 21.5 11.61 21.07 12.62C20.64 13.62 20.02 14.54 19.25 15.33C18.48 16.12 17.57 16.76 16.57 17.19C15.57 17.62 14.5 17.83 13.4 17.83C12.92 17.83 12.44 17.78 11.97 17.68C11.5 17.58 11.04 17.43 10.6 17.23C10.16 17.03 9.73 16.79 9.33 16.51C8.93 16.23 8.56 15.91 8.19 15.54C7.64 14.99 7.16 14.38 6.77 13.7C7.5 15.06 8.64 16.11 10 16.62C11.36 17.13 12.85 17.07 14.17 16.44C15.49 15.81 16.53 14.66 17.03 13.24C17.53 11.82 17.45 10.26 16.81 8.91C16.17 7.56 15.02 6.52 13.6 6.02C12.18 5.52 10.62 5.6 9.27 6.24C7.92 6.88 6.87 8.02 6.36 9.38C5.85 10.74 5.91 12.23 6.54 13.55C6.17 12.55 6 11.5 6 10.44C6 8.34 6.79 6.37 8.19 4.93C9.59 3.49 11.5 2.67 13.5 2.67C14.5 2.67 15.47 2.87 16.36 3.26C15.09 3.06 13.79 3.16 12.57 3.57C11.35 3.98 10.24 4.68 9.33 5.61C8.42 6.54 7.73 7.67 7.33 8.9C6.93 10.13 6.83 11.43 7.04 12.7C7.25 13.97 7.77 15.16 8.55 16.16C9.33 17.16 10.35 17.93 11.5 18.4C12.65 18.87 13.89 19.03 15.11 18.87C16.33 18.71 17.49 18.24 18.47 17.5C19.45 16.76 20.22 15.78 20.7 14.65C21.18 13.52 21.35 12.28 21.2 11.06C21.05 9.84 20.58 8.68 19.84 7.7C19.1 6.72 18.12 5.95 16.99 5.47C15.86 4.99 14.62 4.82 13.4 4.97C12.18 5.12 11.01 5.59 10.02 6.33C10.69 5.58 11.53 5.01 12.47 4.67C13.41 4.33 14.42 4.23 15.4 4.38C16.38 4.53 17.3 4.93 18.07 5.54C18.84 6.15 19.43 6.95 19.79 7.86C20.15 8.77 20.26 9.76 20.12 10.73C19.98 11.7 19.59 12.61 19 13.36C18.41 14.11 17.63 14.68 16.76 15C15.89 15.32 14.95 15.38 14.05 15.17C13.15 14.96 12.33 14.48 11.7 13.8C11.07 13.12 10.65 12.27 10.5 11.36C10.35 10.45 10.48 9.51 10.87 8.68C11.26 7.85 11.9 7.16 12.7 6.71C13.5 6.26 14.43 6.07 15.35 6.18C16.27 6.29 17.13 6.69 17.81 7.32C18.49 7.95 18.96 8.78 19.15 9.68C19.34 10.58 19.24 11.51 18.88 12.35C18.52 13.19 17.9 13.89 17.12 14.34C16.34 14.79 15.43 14.98 14.54 14.87C13.65 14.76 12.83 14.37 12.19 13.75C11.55 13.13 11.11 12.31 10.95 11.41C10.79 10.51 10.91 9.57 11.3 8.73C11.69 7.89 12.33 7.18 13.13 6.71C13.93 6.24 14.85 6.03 15.76 6.11C16.67 6.19 17.53 6.56 18.21 7.15C18.89 7.74 19.35 8.52 19.52 9.38C19.69 10.24 19.57 11.13 19.17 11.92C18.77 12.71 18.13 13.36 17.36 13.75C16.59 14.14 15.73 14.25 14.9 14.07C14.07 13.89 13.32 13.43 12.8 12.78C12.28 12.13 12.01 11.33 12.05 10.52C12.09 9.71 12.43 8.94 13.02 8.34C13.61 7.74 14.41 7.35 15.23 7.25C16.05 7.15 16.84 7.35 17.49 7.81C18.14 8.27 18.61 8.96 18.8 9.76C18.99 10.56 18.89 11.41 18.53 12.15C18.17 12.89 17.57 13.48 16.84 13.8C16.11 14.12 15.3 14.15 14.55 13.89C13.8 13.63 13.16 13.09 12.77 12.38C12.38 11.67 12.26 10.85 12.44 10.06C12.62 9.27 13.08 8.57 13.73 8.11C14.38 7.65 15.17 7.46 15.94 7.58C16.71 7.7 17.41 8.13 17.88 8.77C18.35 9.41 18.56 10.2 18.46 10.98C18.36 11.76 17.96 12.47 17.36 12.95C16.76 13.43 16 13.65 15.25 13.56C14.5 13.47 13.82 13.08 13.37 12.5C12.92 11.92 12.73 11.19 12.85 10.48C12.97 9.77 13.39 9.15 14 8.78C14.61 8.41 15.35 8.33 16.02 8.56C16.69 8.79 17.22 9.31 17.47 10" fill="currentColor"/>
-                    </svg>
-                </button>
-                <button class="tool" id="btnSettings" title="Settings">
-                    <!-- Settings Icon -->
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" fill="currentColor"/>
-                        <path d="M19.4 15C19.2663 15.3016 19.3019 15.6483 19.433 15.9167C19.6024 16.2636 19.5942 16.6738 19.4 17C19.2359 17.2556 19.0377 17.4713 18.8 17.7L18.68 17.8C18.4783 17.9845 18.2446 18.1235 17.9917 18.2141C17.7388 18.3046 17.4705 18.345 17.2 18.3C16.7 18.2 16.35 18.3 16 18.5C15.6879 18.6786 15.3506 18.8029 15 18.9C14.68 19 14.3 19 12 19C9.8 19 9.3 19 8.9 18.9C8.54995 18.8035 8.21333 18.68 7.9 18.5C7.6 18.3 7.3 18.2 6.8 18.3C6.52949 18.345 6.26121 18.3046 6.0083 18.2141C5.75539 18.1235 5.52169 17.9845 5.32 17.8L5.2 17.7C4.96234 17.4713 4.76414 17.2556 4.6 17C4.40581 16.6738 4.39756 16.2636 4.567 15.9167C4.69814 15.6483 4.73375 15.3016 4.6 15C4.4 14.6 4.3 14.3 4.3 13.8C4.25499 13.5295 4.29543 13.2612 4.38596 13.0083C4.47649 12.7554 4.61546 12.5217 4.8 12.32L4.9 12.2C5.12868 11.9623 5.34437 11.7641 5.6 11.6C5.92616 11.4058 6.33641 11.3976 6.68333 11.567C6.95172 11.6981 7.29837 11.6625 7.6 11.5C8 11.3 8.3 11.2 8.8 11.3C9.07051 11.345 9.33879 11.3046 9.5917 11.2141C9.84461 11.1235 10.0783 10.9845 10.28 10.8L10.4 10.7C10.6287 10.4623 10.8444 10.2641 11.1 10.1C11.4262 9.90581 11.4344 9.49556 11.265 9.14864C11.1339 8.88025 11.1695 8.5336 11.4 8.2C11.6 7.9 11.5 7.6 11.3 7.1C11.2 6.7 11.2 6.4 11.2 4C11.2 3.46957 11.4107 2.96086 11.7858 2.58579C12.1609 2.21071 12.6696 2 13.2 2H13.3C13.7 2 14 2.1 14.4 2.3C14.7 2.5 15 2.6 15.4 2.5C15.7 2.4 15.9 2.3 16.2 2.1C16.5 1.9 16.8 1.9 17.1 2.1L17.2 2.2C17.4 2.4 17.6 2.6 17.8 2.8C18 3 18.2 3.2 18.4 3.3C18.6 3.5 18.6 3.8 18.5 4.1C18.4 4.5 18.5 4.8 18.7 5.2C18.9 5.5 19.1 5.7 19.4 5.8C19.7 5.9 19.9 6 20.2 5.9C20.5 5.8 20.7 5.7 20.9 5.5C21.1 5.3 21.3 5.1 21.4 4.8C21.5 4.5 21.5 4.2 21.3 3.9C21.1 3.6 21 3.3 21 3C21 2.7 21 2.4 21.1 2.1C21.2 1.8 21.4 1.6 21.6 1.4C21.8 1.2 22 1 22.3 0.9C22.6 0.8 22.9 0.8 23.2 1C23.5 1.2 23.8 1.4 24 1.7C24.1 2 24.1 2.3 24 2.6C24 2.9 24 3.2 24 3.5C24 3.8 24 4.1 23.9 4.4C23.8 4.7 23.6 5 23.4 5.2C23.2 5.4 23 5.6 22.7 5.7C22.4 5.8 22.1 5.8 21.8 5.7C21.5 5.6 21.2 5.8 21 6C20.8 6.2 20.6 6.4 20.5 6.7C20.4 7 20.4 7.3 20.5 7.6C20.6 7.9 20.5 8.2 20.3 8.5C20.1 8.8 19.9 9 19.6 9.1C19.3 9.2 19 9.3 18.7 9.2C18.4 9.1 18.2 9.2 18 9.4C17.8 9.6 17.6 9.8 17.5 10.1C17.4 10.4 17.4 10.7 17.5 11C17.6 11.3 17.5 11.6 17.3 11.9C17.1 12.2 16.9 12.4 16.6 12.5C16.3 12.6 16 12.6 15.7 12.5C15.4 12.4 15.2 12.5 15 12.7C14.8 12.9 14.6 13.1 14.5 13.4C14.4 13.7 14.4 14 14.5 14.3C14.6 14.6 14.5 14.9 14.3 15.2C14.1 15.5 13.9 15.7 13.6 15.8C13.3 15.9 13 16 12.7 15.9C12.4 15.8 12.2 15.7 12 15.5C11.8 15.3 11.6 15.1 11.5 14.8C11.4 14.5 11.4 14.2 11.5 13.9C11.6 13.6 11.5 13.3 11.3 13C11.1 12.7 10.9 12.5 10.6 12.4C10.3 12.3 10 12.2 9.7 12.3C9.4 12.4 9.2 12.3 9 12.1C8.8 11.9 8.6 11.7 8.5 11.4C8.4 11.1 8.4 10.8 8.5 10.5C8.6 10.2 8.5 9.9 8.3 9.6C8.1 9.3 7.9 9.1 7.6 9C7.3 8.9 7 8.8 6.7 8.9C6.4 9 6.2 8.9 6 8.7C5.8 8.5 5.6 8.3 5.5 8C5.4 7.7 5.4 7.4 5.5 7.1C5.6 6.8 5.5 6.5 5.3 6.2C5.1 5.9 4.9 5.7 4.6 5.6C4.3 5.5 4 5.4 3.7 5.5C3.4 5.6 3.2 5.5 3 5.3C2.8 5.1 2.6 4.9 2.5 4.6C2.4 4.3 2.4 4 2.5 3.7C2.6 3.4 2.5 3.1 2.3 2.8C2.1 2.5 1.9 2.3 1.6 2.2C1.3 2.1 1 2 0.7 2.1C0.4 2.2 0.2 2.1 0 1.9C0 1.9 0 1.8 0 1.8C0 1.8 0 1.7 0 1.7C0 1.7 0 1.6 0 1.6C0 1.6 0.1 1.5 0.1 1.5C0.1 1.5 0.2 1.4 0.2 1.4C0.2 1.4 0.3 1.3 0.3 1.3C0.3 1.3 0.4 1.3 0.4 1.2C0.4 1.2 0.5 1.2 0.5 1.2C0.5 1.2 0.6 1.1 0.6 1.1C0.6 1.1 0.7 1.1 0.7 1.1C0.7 1.1 0.8 1.1 0.8 1.1C0.8 1.1 0.9 1.1 0.9 1.1C0.9 1.1 1 1.1 1 1.1C1 1.1 1.1 1.1 1.1 1.1C1.1 1.1 1.2 1.1 1.2 1.1C1.2 1.1 1.3 1.1 1.3 1.1C1.3 1.1 1.4 1.1 1.4 1.1C1.4 1.1 1.5 1.2 1.5 1.2C1.5 1.2 1.6 1.2 1.6 1.2C1.6 1.2 1.7 1.2 1.7 1.3C1.7 1.3 1.8 1.3 1.8 1.3C1.8 1.3 1.9 1.4 1.9 1.4C1.9 1.4 2 1.5 2 1.5C2 1.5 2 1.6 2 1.6C2 1.6 2.1 1.7 2.1 1.7C2.1 1.7 2.1 1.8 2.1 1.8C2.1 1.8 2.1 1.9 2.1 1.9C2.1 1.9 2.1 2 2.1 2C2.1 2 2.1 2.1 2.1 2.1C2.1 2.1 2.1 2.2 2.1 2.2C2.1 2.2 2.1 2.3 2.1 2.3C2.1 2.3 2.1 2.4 2.1 2.4C2.1 2.4 2 2.5 2 2.5C2 2.5 1.9 2.6 1.9 2.6C1.9 2.6 1.8 2.7 1.8 2.7C1.8 2.7 1.7 2.8 1.7 2.8C1.7 2.8 1.6 2.8 1.6 2.9C1.6 2.9 1.5 2.9 1.5 2.9C1.5 2.9 1.4 2.9 1.4 2.9C1.4 2.9 1.3 2.9 1.3 2.9C1.3 2.9 1.2 2.9 1.2 2.9C1.2 2.9 1.1 2.9 1.1 2.9C1.1 2.9 1 2.9 1 2.9C1 2.9 0.9 2.9 0.9 2.9C0.9 2.9 0.8 2.9 0.8 2.9C0.8 2.9 0.7 2.9 0.7 2.9C0.7 2.9 0.6 2.8 0.6 2.8C0.6 2.8 0.5 2.8 0.5 2.8C0.5 2.8 0.4 2.7 0.4 2.7C0.4 2.7 0.3 2.6 0.3 2.6C0.3 2.6 0.2 2.5 0.2 2.5C0.2 2.5 0.1 2.4 0.1 2.4C0.1 2.4 0.1 2.3 0.1 2.3C0.1 2.3 0 2.2 0 2.2C0 2.2 0 2.1 0 2.1C0 2.1 0 2 0 2C0 2 0 1.9 0 1.9C0 1.9 0 1.8 0 1.8C0 1.8 0 1.7 0 1.7C0 1.7 0 1.6 0 1.6Z" fill="currentColor"/>
-                    </svg>
-                </button>
-            </div>
-        </div>
-
-        <!-- Main Content Area -->
-        <div class="main-content">
-            <!-- Editor Area -->
-            <div class="editor-container">
-                <!-- Tab Bar -->
-                <div class="tab-bar" id="tabBar">
-                    <div class="tab active" data-path="">
-                        <span class="tab-label">untitled.pseudo</span>
-                        <span class="dirty-indicator" aria-hidden="true"></span>
-                        <button class="tab-close" title="Close" aria-label="Close tab">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </button>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="app-main">
+            <!-- Tabs -->
+            <div class="tabs-container">
+                <div class="tabs" id="tabsContainer">
+                    <div class="tab active" data-tab-id="untitled">
+                        <span class="tab-title">Untitled</span>
+                        <button class="tab-close">&times;</button>
                     </div>
-                    <button id="btnNewTab" class="tool" title="New Tab" aria-label="New Tab">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+                </div>
+                <button class="btn btn-icon" id="btnNewTab" title="New Tab">
+                    <i class="ri-add-line"></i>
+                </button>
+            </div>
+            
+            <!-- Editor -->
+            <div class="editor-container">
+                <div id="editor" class="editor"></div>
+            </div>
+            
+            <!-- Console -->
+            <div class="console-container">
+                <div class="console-header">
+                    <div class="console-title">
+                        <i class="ri-terminal-line"></i>
+                        <span>Output</span>
+                    </div>
+                    <button class="btn btn-text" id="clearConsole">
+                        <i class="ri-delete-bin-line"></i>
+                        <span>Clear</span>
                     </button>
                 </div>
-
-                <!-- Monaco Editor will be mounted here -->
-                <div id="editor"></div>
+                <div id="output" class="console-output">
+                    <div class="console-message">Ready. Press Ctrl+Enter to run your code.</div>
+                </div>
             </div>
-        </div>
-
-        <!-- Bottom Panel -->
-        <div class="bottom-panel">
-            <div class="panel-header">
-                <span>Output</span>
-                <button id="clearConsole" class="clear-btn">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19 7L18.1327 19.1425C18.0579 20.1891 17.187 21 16.1378 21H7.86224C6.81296 21 5.94208 20.1891 5.86732 19.1425L5 7M10 11V17M14 11V17M15 7V4C15 3.44772 14.5523 3 14 3H10C9.44772 3 9 3.44772 9 4V7M4 7H20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    Clear
-                </button>
+        </main>
+        
+        <!-- Status Bar -->
+        <footer class="status-bar">
+            <div class="status-item">
+                <span id="statusLineCol">Ln 1, Col 1</span>
             </div>
-            <div id="output" class="output-console"></div>
-        </div>
+            <div class="status-divider"></div>
+            <div class="status-item">
+                <span id="statusEncoding">UTF-8</span>
+            </div>
+            <div class="status-divider"></div>
+            <div class="status-item">
+                <span id="statusFileType">Pseudo</span>
+            </div>
+        </footer>
     </div>
 
+    <!-- Scripts -->
+    <script src="scripts/errorManager.js"></script>
     <script src="scripts/editor.js"></script>
     <script src="scripts/theme.js"></script>
     <script src="scripts/app.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('iPseudo IDE initialized');
+        });
+    </script>
 </body>
 </html>
