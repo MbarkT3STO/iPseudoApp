@@ -5,7 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const runButton = document.getElementById('btnRun');
     const clearButton = document.getElementById('clearConsole');
     const runStatus = document.getElementById('runStatus');
-    const addTabButton = document.querySelector('.add-tab');
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+    const appShell = document.querySelector('.app-shell');
+    const activityBar = document.querySelector('.activity-bar');
 
     // Track open files and their content
     const openFiles = new Map();
@@ -476,7 +478,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         content: currentContent
                     });
 
-                    if (!saveResult.canceled) {
+                    if (!saveResult.canceled && saveResult.filePath) {
                         const newPath = saveResult.filePath; // Update filePath with the new saved path
                         tabElement.dataset.path = newPath;
                         const fileName = newPath.split(/[\\/]/).pop();
@@ -757,6 +759,33 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (error) {
                 console.error('Error in file open dialog:', error);
                 handleError({ message: `Failed to open file dialog: ${error.message}` });
+            }
+        });
+    }
+
+    // Sidebar and Activity Bar Interactivity
+    if (sidebarToggle && appShell) {
+        sidebarToggle.addEventListener('click', () => {
+            appShell.classList.toggle('sidebar-collapsed');
+        });
+    }
+
+    if (activityBar) {
+        activityBar.addEventListener('click', (e) => {
+            const target = e.target.closest('.activity-bar-item');
+            if (!target || !target.dataset.view) return;
+
+            const viewId = target.dataset.view;
+
+            // Update active button in activity bar
+            document.querySelectorAll('.activity-bar-item').forEach(item => item.classList.remove('active'));
+            target.classList.add('active');
+
+            // Update visible view in sidebar
+            document.querySelectorAll('.sidebar-view').forEach(view => view.classList.remove('active'));
+            const activeView = document.getElementById(`view-${viewId}`);
+            if (activeView) {
+                activeView.classList.add('active');
             }
         });
     }

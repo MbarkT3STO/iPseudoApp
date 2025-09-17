@@ -1,3 +1,77 @@
+/* Theme Variables for iPseudo IDE */
+:root {
+  /* ===== Design Tokens ===== */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-full: 999px;
+
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.12);
+  --shadow-inset: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+
+  /* ===== Light Theme (Default) ===== */
+  --bg: #f4f7fe;
+  --nav-bg: rgba(255, 255, 255, 0.7);
+  --nav-border: rgba(0, 0, 0, 0.1);
+  --editor-bg: #ffffff;
+  --console-bg: #ffffff;
+  --tab-bg: transparent;
+  --tab-hover-bg: #eef2ff;
+  --tab-border: #e0e7ff;
+
+  --text: #3c4257;
+  --text-muted: #6b7280;
+  --text-heading: #111827;
+
+  --btn-bg: #eef2ff;
+  --btn-hover-bg: #e0e7ff;
+  --btn-text: #4f46e5;
+
+  --accent-primary: #6366f1;
+  --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+
+  --status-idle: #a0aec0;
+  --status-running: #f59e0b;
+  --status-success: #10b981;
+  --status-error: #ef4444;
+
+  --scrollbar-thumb: rgba(0, 0, 0, 0.2);
+  --scrollbar-thumb-hover: rgba(0, 0, 0, 0.3);
+}
+
+/* ===== Dark Theme ===== */
+.theme-dark {
+  --bg: #0f172a;
+  --nav-bg: rgba(30, 41, 59, 0.7);
+  --nav-border: rgba(255, 255, 255, 0.1);
+  --editor-bg: #1e293b;
+  --console-bg: #131c2b;
+  --tab-bg: transparent;
+  --tab-hover-bg: #334155;
+  --tab-border: #334155;
+
+  --text: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-heading: #f8fafc;
+
+  --btn-bg: #334155;
+  --btn-hover-bg: #475569;
+  --btn-text: #e2e8f0;
+
+  --accent-primary: #818cf8;
+  --gradient-primary: linear-gradient(135deg, #818cf8 0%, #a78bfa 100%);
+
+  --status-idle: #4a5568;
+  --status-running: #f59e0b;
+  --status-success: #34d399;
+  --status-error: #f87171;
+
+  --scrollbar-thumb: rgba(255, 255, 255, 0.2);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.3);
+}
+
 /* ===== MODERN THEME VARIABLES ===== */
 :root {
   /* ===== Light Theme (Default) ===== */

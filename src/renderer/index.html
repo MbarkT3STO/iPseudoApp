@@ -10,9 +10,9 @@
     <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet">
     <!-- Styles -->
-    <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/theme.css">
-    
+    <link rel="stylesheet" href="styles/main.css">
+
     <!-- Monaco Editor Setup -->
     <script>
         window.nodeRequire = window.require;
@@ -20,102 +20,46 @@
     </script>
     <script src="./monaco/vs/loader.js"></script>
 </head>
-<body class="theme-dark">
+<body>
     <div class="app-container">
-        <!-- Top Navigation -->
-        <nav class="app-nav">
-            <div class="app-brand">
+        <!-- Floating Top Navigation -->
+        <header class="top-nav">
+            <div class="brand">
                 <i class="ri-sparkling-2-line"></i>
                 <span>iPseudo</span>
             </div>
-            
             <div class="file-actions">
-                <button class="btn" id="btnNew" title="New File">
-                    <i class="ri-file-add-line"></i>
-                    <span>New</span>
-                </button>
-                <button class="btn" id="btnOpen" title="Open File">
-                    <i class="ri-folder-open-line"></i>
-                    <span>Open</span>
-                </button>
-                <button class="btn" id="btnSave" title="Save File">
-                    <i class="ri-save-line"></i>
-                    <span>Save</span>
-                </button>
+                <button class="btn" id="btnNew" title="New File"><i class="ri-file-add-line"></i></button>
+                <button class="btn" id="btnOpen" title="Open File"><i class="ri-folder-open-line"></i></button>
+                <button class="btn" id="btnSave" title="Save File"><i class="ri-save-line"></i></button>
             </div>
-            
-            <div class="editor-actions">
-                <button class="btn btn-run" id="btnRun" title="Run (Ctrl+Enter)">
-                    <i class="ri-play-circle-line"></i>
-                    <span>Run</span>
-                </button>
-                <div class="status-indicator" id="runStatus" title="Status: Ready">
-                    <div class="status-dot"></div>
-                </div>
+            <button class="btn btn-run" id="btnRun" title="Run (Ctrl+Enter)">
+                <i class="ri-play-fill"></i>
+                <span>Run</span>
+            </button>
+            <div class="settings-actions">
+                <button class="btn" id="btnThemeToggle" title="Toggle Theme"><i class="ri-sun-line"></i></button>
+                <button class="btn" id="btnSettings" title="Settings"><i class="ri-settings-3-line"></i></button>
             </div>
-            
-            <div class="app-controls">
-                <button class="btn btn-icon" id="btnThemeToggle" title="Toggle Theme">
-                    <i class="ri-sun-line"></i>
-                </button>
-                <button class="btn btn-icon" id="btnSettings" title="Settings">
-                    <i class="ri-settings-5-line"></i>
-                </button>
-            </div>
-        </nav>
-        
+        </header>
+
         <!-- Main Content -->
-        <main class="app-main">
-            <!-- Tabs -->
-            <div class="tabs-container">
-                <div class="tabs" id="tabsContainer">
-                    <div class="tab active" data-tab-id="untitled">
-                        <span class="tab-title">Untitled</span>
-                        <button class="tab-close">&times;</button>
-                    </div>
-                </div>
-                <button class="btn btn-icon" id="btnNewTab" title="New Tab">
-                    <i class="ri-add-circle-line"></i>
-                </button>
-            </div>
-            
-            <!-- Editor -->
+        <main class="main-content">
+            <div class="tabs-container" id="tabsContainer"></div>
             <div class="editor-container">
-                <div id="editor" class="editor"></div>
+                <div id="editor"></div>
             </div>
-            
-            <!-- Console -->
             <div class="console-container">
                 <div class="console-header">
-                    <div class="console-title">
-                        <i class="ri-terminal-line"></i>
-                        <span>Output</span>
+                    <h4><i class="ri-terminal-box-line"></i> Output</h4>
+                    <div class="console-actions">
+                        <div class="status-indicator" id="runStatus" title="Status: Ready"><div class="status-dot"></div></div>
+                        <button class="btn btn-icon" id="clearConsole" title="Clear Output"><i class="ri-delete-bin-line"></i></button>
                     </div>
-                    <button class="btn btn-text" id="clearConsole">
-                        <i class="ri-delete-bin-line"></i>
-                        <span>Clear</span>
-                    </button>
                 </div>
-                <div id="output" class="console-output">
-                    <div class="console-message">Ready. Press Ctrl+Enter to run your code.</div>
-                </div>
+                <div class="console-output" id="output"></div>
             </div>
         </main>
-        
-        <!-- Status Bar -->
-        <footer class="status-bar">
-            <div class="status-item">
-                <span id="statusLineCol">Ln 1, Col 1</span>
-            </div>
-            <div class="status-divider"></div>
-            <div class="status-item">
-                <span id="statusEncoding">UTF-8</span>
-            </div>
-            <div class="status-divider"></div>
-            <div class="status-item">
-                <span id="statusFileType">Pseudo</span>
-            </div>
-        </footer>
     </div>
 
     <!-- Scripts -->
@@ -123,10 +67,22 @@
     <script src="scripts/editor.js"></script>
     <script src="scripts/theme.js"></script>
     <script src="scripts/app.js"></script>
-    
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('iPseudo IDE initialized');
+            // Ensure at least one tab exists for the app logic; create a default in DOM for initial render
+            const tabs = document.getElementById('tabsContainer');
+            if (tabs && tabs.children.length === 0) {
+                const tab = document.createElement('div');
+                tab.className = 'tab active';
+                tab.dataset.tabId = 'untitled';
+                tab.dataset.path = '';
+                tab.innerHTML = `
+                    <span class="tab-label">Untitled</span>
+                    <span class="dirty-indicator" aria-hidden="true"></span>
+                    <button class="tab-close" title="Close">✕</button>
+                `;
+                tabs.appendChild(tab);
+            }
         });
     </script>
 </body>
