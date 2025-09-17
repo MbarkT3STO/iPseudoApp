@@ -73,6 +73,94 @@
   color-scheme: dark;
 }
 
+/* ===== Light Theme Neon Overrides ===== */
+.theme-light {
+  /* brighten the background gradients */
+  --neo-bg: radial-gradient(1200px 800px at 100% -20%, rgba(99,102,241,.12), transparent 60%),
+            radial-gradient(1000px 700px at -10% 80%, rgba(236,72,153,.10), transparent 55%),
+            var(--bg);
+  --neo-glass: rgba(255,255,255,0.65);
+  --neo-border: rgba(15,23,42,0.12);
+  --neo-blur: saturate(120%) blur(10px);
+  --neo-shadow: 0 10px 30px rgba(0,0,0,.12);
+  /* ensure light theme text tokens override main.css defaults */
+  --text: #0b1020;
+  --text-muted: #475569;
+}
+
+.theme-light .app-nav {
+  background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.65)) !important;
+  border-bottom: 1px solid var(--neo-border) !important;
+}
+
+.theme-light .btn {
+  background: rgba(255,255,255,0.9) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid rgba(15,23,42,0.08) !important;
+}
+
+.theme-light #btnThemeToggle,
+.theme-light #btnSettings {
+  background: rgba(255,255,255,0.85) !important;
+}
+
+.theme-light .tabs-container {
+  background: transparent !important;
+  border-bottom: 1px solid rgba(15,23,42,0.08) !important;
+}
+
+.theme-light .tab {
+  background: rgba(255,255,255,0.9) !important;
+  color: var(--text-secondary) !important;
+  border: 1px solid rgba(15,23,42,0.08) !important;
+}
+
+.theme-light .tab:hover { background: rgba(255,255,255,0.95) !important; }
+
+.theme-light .tab.active {
+  color: #0b1020 !important;
+  background: linear-gradient(135deg, #c7d2fe 0%, #f5d0fe 100%) !important;
+}
+
+.theme-light .editor-container {
+  background: rgba(255,255,255,0.9) !important;
+  border: 1px solid rgba(15,23,42,0.08) !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,.08) !important;
+}
+
+.theme-light .console-container {
+  background: rgba(255,255,255,0.9) !important;
+  border-top: 1px solid rgba(15,23,42,0.08) !important;
+}
+
+.theme-light .console-header {
+  background: rgba(255,255,255,0.95) !important;
+  border-bottom: 1px solid rgba(15,23,42,0.08) !important;
+}
+
+.theme-light #clearConsole {
+  background: rgba(255,255,255,0.95) !important;
+  border: 1px solid rgba(15,23,42,0.08) !important;
+  color: var(--text-secondary) !important;
+}
+
+.theme-light .status-bar {
+  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7)) !important;
+  border-top: 1px solid rgba(15,23,42,0.08) !important;
+}
+
+.theme-light .status-dot {
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.9) !important;
+}
+
+.theme-light #output,
+.theme-light .console-output {
+  color: #0b1020 !important;
+  background: #ffffff !important;
+}
+
+.theme-light .console-message { color: #334155 !important; }
+
 /* ===== Base Styles ===== */
 * {
   box-sizing: border-box;
@@ -401,7 +489,7 @@ body {
   --neo-blur: saturate(120%) blur(10px);
   --neo-radius: 14px;
   --neo-radius-lg: 18px;
-  --neo-shadow: 0 10px 30px rgba(0,0,0,.25);
+  --neo-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --neo-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 40%, #ec4899 100%);
   --neo-gradient-alt: linear-gradient(135deg, #22d3ee 0%, #6366f1 60%, #a855f7 100%);
 }

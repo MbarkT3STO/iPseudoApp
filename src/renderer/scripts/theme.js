@@ -5,8 +5,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const isDark = savedTheme === 'dark';
     
     // Apply the saved theme immediately to prevent flash of default theme
-    document.documentElement.classList.add('theme-' + savedTheme);
+    const initialThemeClass = 'theme-' + savedTheme;
+    document.documentElement.classList.remove('theme-light', 'theme-dark');
+    document.documentElement.classList.add(initialThemeClass);
     document.documentElement.setAttribute('data-theme', savedTheme);
+    // Keep body in sync as some legacy markup may carry theme classes
+    document.body.classList.remove('theme-light', 'theme-dark');
+    document.body.classList.add(initialThemeClass);
     
     // Wait for the next frame to ensure the initial theme is applied
     requestAnimationFrame(() => {
@@ -18,9 +23,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const theme = useDarkTheme ? 'dark' : 'light';
         
         // Update class on html element
+        const themeClass = 'theme-' + theme;
         document.documentElement.classList.remove('theme-light', 'theme-dark');
-        document.documentElement.classList.add('theme-' + theme);
+        document.documentElement.classList.add(themeClass);
         document.documentElement.setAttribute('data-theme', theme);
+        // Sync body as well to ensure full cascade of variables/overrides
+        document.body.classList.remove('theme-light', 'theme-dark');
+        document.body.classList.add(themeClass);
         
         // Save preference
         localStorage.setItem('theme', theme);
