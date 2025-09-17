@@ -99,11 +99,27 @@ require(['vs/editor/editor.main'], function() {
         readOnly: false,
         contextmenu: true,
         mouseWheelZoom: true,
-        wordWrap: 'on'
+        wordWrap: 'on',
+        scrollbar: {
+            alwaysConsumeMouseWheel: true,
+            vertical: 'auto',
+            horizontal: 'auto'
+        }
     });
 
     // Make editor globally available
     window.editor = editor;
+
+    // Add keydown listener for Enter key
+    editor.onKeyDown((e) => {
+        if (e.keyCode === 3 /* Enter */) {
+            // Use setTimeout to ensure this runs after the new line is created
+            setTimeout(() => {
+                const position = editor.getPosition();
+                editor.revealLineInCenter(position.lineNumber, 0); // Scroll to the new line
+            }, 0);
+        }
+    });
 
     // Set up editor change listeners
     setupEditorListeners();
