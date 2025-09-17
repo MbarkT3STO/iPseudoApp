@@ -564,18 +564,19 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // If this was the active tab, switch to another tab
         if (wasActive) {
-            const remainingTabs = document.querySelectorAll('.tab');
+            const remainingTabs = document.querySelectorAll('.tab:not(#newTabButton)'); // Exclude the new tab button
             if (remainingTabs.length > 0) {
                 // Try to activate the next tab, or previous if no next tab exists
                 const nextTab = tabElement.nextElementSibling || tabElement.previousElementSibling;
-                if (nextTab) {
+                if (nextTab && !nextTab.id === 'newTabButton') {
                     nextTab.click();
-                } else {
-                    // If no tabs left, create a new empty tab
-                    createNewTab();
+                } else if (tabElement.previousElementSibling && tabElement.previousElementSibling !== document.getElementById('newTabButton')) {
+                    tabElement.previousElementSibling.click();
+                } else if (tabElement.nextElementSibling) {
+                    tabElement.nextElementSibling.click();
                 }
             } else {
-                // No tabs left, create a new empty tab
+                // Only create new tab if there are absolutely no tabs left
                 createNewTab();
             }
         }
