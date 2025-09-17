@@ -389,8 +389,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 originalContent: initialContent,
                 dirty: false,
                 cursorPosition: { lineNumber: 1, column: 1 },
-                scrollPosition: 0,
-                tabId: tabId  // Store tab ID with file data
+                scrollPosition: 0
             });
         } else {
             // Update existing file data with tab ID
@@ -431,77 +430,111 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!tabElement) return;
         
         const tabId = tabElement.dataset.tabId;
-        const filePath = tabElement.dataset.path;
-        console.log('Closing tab:', { tabId, filePath });
+        let filePath = tabElement.dataset.path;
+        const isNewFile = !filePath || filePath === 'untitled.pseudo' || !filePath.includes('/');
         
-        // Get file data using tab ID if available
-        let fileData = null;
-        if (tabId) {
-            for (const [path, data] of openFiles.entries()) {
-                if (data.tabId === tabId) {
-                    fileData = data;
-                    break;
-                }
-            }
+        // Get current content from editor if this is the active tab
+        let currentContent = '';
+        const isActiveTab = tabElement.classList.contains('active');
+        if (isActiveTab && window.editor) {
+            currentContent = window.editor.getValue();
+        } else {
+            // If not active, get content from openFiles
+            const fileData = openFiles.get(filePath);
+            currentContent = fileData?.content || '';
         }
         
-        // If still no file data, try by path
-        if (!fileData && filePath) {
-            fileData = openFiles.get(filePath);
-        }
+        const fileData = openFiles.get(filePath);
+        const isEmpty = currentContent.trim() === '';
+        const isModified = fileData?.dirty || false;
         
-        // Check for unsaved changes
-        if (fileData && fileData.dirty) {
-            console.log('Tab has unsaved changes, showing save dialog');
+        // Case 1: Empty tab - close immediately
+        if (isEmpty) {
+            // No need to save, just close the tab
+        }
+        // Case 2: New unsaved file with content
+        else if (isNewFile) {
             const { response } = await window.nodeRequire('electron').ipcRenderer.invoke('show-message-box', {
                 type: 'question',
                 buttons: ['Save', "Don't Save", 'Cancel'],
                 title: 'Save Changes',
-                message: 'Do you want to save the changes you made?',
-                detail: `Your changes will be lost if you don't save them.`,
+                message: 'You have unsaved changes. Do you want to save them?',
+                detail: 'Your changes will be lost if you don\'t save them.',
                 defaultId: 0,
                 cancelId: 2
             });
 
-            if (response === 2) {
-                console.log('User cancelled close operation');
-                return; // Cancel
-            }
+            if (response === 2) return; // Cancel
             
             if (response === 0) { // Save
                 try {
                     const saveResult = await window.nodeRequire('electron').ipcRenderer.invoke('dialog:saveFile', {
-                        filePath: filePath === 'untitled.pseudo' ? undefined : filePath,
-                        content: fileData.content
+                        filePath: undefined, // Show save dialog
+                        content: currentContent
                     });
 
                     if (saveResult.canceled) {
-                        console.log('User cancelled save dialog');
                         return; // User cancelled save
                     }
 
-                    console.log('Save result:', saveResult);
+                    // Update the tab with new path
+                    filePath = saveResult.filePath; // Update filePath with the new saved path
+                    tabElement.dataset.path = filePath;
+                    const fileName = filePath.split(/[\\/]/).pop();
+                    tabElement.querySelector('.tab-label').textContent = fileName;
                     
-                    if (saveResult.filePath) {
-                        // Update the tab with new path
-                        const newPath = saveResult.filePath;
-                        tabElement.dataset.path = newPath;
-                        const fileName = newPath.split(/[\\/]/).pop();
-                        tabElement.querySelector('.tab-label').textContent = fileName;
-                        
-                        // Update openFiles
-                        const newFileData = { ...fileData, dirty: false };
-                        openFiles.set(newPath, newFileData);
-                        
-                        // Remove old entry
-                        if (filePath && filePath !== newPath) {
-                            openFiles.delete(filePath);
-                        }
-                        
-                        // Update active file path if needed
-                        if (activeFilePath === filePath) {
-                            activeFilePath = newPath;
-                        }
+                    // Update file data with new path
+                    openFiles.set(filePath, {
+                        content: currentContent,
+                        originalContent: currentContent,
+                        dirty: false,
+                        tabId: tabId
+                    });
+                    
+                    // Remove old entry if it exists
+                    if (filePath !== tabElement.dataset.path && openFiles.has(tabElement.dataset.path)) {
+                        openFiles.delete(tabElement.dataset.path);
+                    }
+                    
+                    // Update active file path if needed
+                    if (activeFilePath === tabElement.dataset.path) {
+                        activeFilePath = filePath;
+                    }
+                } catch (error) {
+                    console.error('Error saving file:', error);
+                    return; // Don't close if there was an error saving
+                }
+            }
+        }
+        // Case 3: Existing file with unsaved changes
+        else if (isModified) {
+            const fileName = filePath.split(/[\\/]/).pop();
+            const { response } = await window.nodeRequire('electron').ipcRenderer.invoke('show-message-box', {
+                type: 'question',
+                buttons: ['Save', "Don't Save", 'Cancel'],
+                title: 'Save Changes',
+                message: `Do you want to save the changes to ${fileName}?`,
+                detail: 'Your changes will be lost if you don\'t save them.',
+                defaultId: 0,
+                cancelId: 2
+            });
+
+            if (response === 2) return; // Cancel
+            
+            if (response === 0) { // Save
+                try {
+                    await window.nodeRequire('electron').ipcRenderer.invoke('dialog:saveFile', {
+                        filePath: filePath,
+                        content: currentContent
+                    });
+
+                    // Update file data to mark as saved
+                    if (fileData) {
+                        fileData.content = currentContent;
+                        fileData.originalContent = currentContent;
+                        fileData.dirty = false;
+                        openFiles.set(filePath, fileData);
+                        updateTabDirtyState(filePath, false);
                     }
                 } catch (error) {
                     console.error('Error saving file:', error);
@@ -510,11 +543,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         
+        // If we get here, it's either:
+        // 1. An empty tab (close immediately)
+        // 2. User chose to save/don't save a new file
+        // 3. User chose to save/don't save changes to an existing file
+        
         // Remove tab from DOM
         const wasActive = tabElement.classList.contains('active');
         tabElement.remove();
         
-        // Remove from openFiles if this was the last tab with this path
+        // Clean up openFiles if this was the last tab with this path
         if (filePath) {
             const isPathUsed = Array.from(document.querySelectorAll('.tab')).some(
                 t => t.dataset.path === filePath
@@ -528,8 +566,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (wasActive) {
             const remainingTabs = document.querySelectorAll('.tab');
             if (remainingTabs.length > 0) {
-                const nextTab = remainingTabs[remainingTabs.length - 1];
-                nextTab.click();
+                // Try to activate the next tab, or previous if no next tab exists
+                const nextTab = tabElement.nextElementSibling || tabElement.previousElementSibling;
+                if (nextTab) {
+                    nextTab.click();
+                } else {
+                    // If no tabs left, create a new empty tab
+                    createNewTab();
+                }
             } else {
                 // No tabs left, create a new empty tab
                 createNewTab();
