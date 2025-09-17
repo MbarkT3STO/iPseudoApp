@@ -227,8 +227,64 @@ body {
   padding: 12px;
   overflow-y: auto;
   font-family: 'Fira Code', monospace;
-  font-size: 13px;
+  font-size: 14px;
   color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.console-output > div {
+  padding: 4px 12px;
+  border-radius: var(--radius-sm);
+  line-height: 1.6;
+  animation: fadeIn 0.3s ease;
+}
+
+.out.success { color: var(--status-success); }
+.out.warning { color: var(--status-warning); }
+.out.raw, .out.stdout, .out.print { white-space: pre-wrap; color: var(--text); }
+
+.error-message {
+  font-weight: 600;
+  color: var(--status-error);
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+.error-location, .error-context, .error-tip {
+  font-size: 12px;
+  color: var(--text-muted);
+  background-color: var(--console-bg);
+}
+
+.error-tip { color: var(--accent-primary); }
+
+.error-code {
+  width: 100%;
+  background: var(--console-bg);
+}
+
+.error-code pre {
+  background: rgba(0,0,0,0.1);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  overflow-x: auto;
+  color: var(--text);
+}
+
+.theme-light .error-code pre { background: var(--bg); }
+
+.error-pointer {
+  color: var(--status-error);
+  font-weight: bold;
+  background: var(--console-bg);
+}
+
+.error-separator { display: none; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Custom Scrollbar */

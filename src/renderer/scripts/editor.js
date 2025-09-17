@@ -81,7 +81,7 @@ require(['vs/editor/editor.main'], function() {
         value: initialValue,
         language: 'pseudocode',
         theme: 'pseudoTheme',
-        fontSize: cssFontSize,
+        fontSize: 18,
         fontFamily: 'JetBrains Mono, Fira Code, monospace',
         minimap: {
             enabled: false
