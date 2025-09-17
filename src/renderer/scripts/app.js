@@ -27,11 +27,28 @@ document.addEventListener('DOMContentLoaded', () => {
     function out(text, type='info') {
         if (!outputConsole) return;
         const safe = escapeHtml(String(text));
-        if (type === 'stdout' || type === 'print' || type === 'success') {
-            outputConsole.innerHTML += `<div class="out raw">${safe}</div>`;
+
+        if (type === 'stdout' || type === 'print') {
+            let printContainer = outputConsole.querySelector('.print-output-container');
+            if (!printContainer) {
+                printContainer = document.createElement('div');
+                printContainer.className = 'print-output-container';
+                outputConsole.appendChild(printContainer);
+            }
+            const line = document.createElement('div');
+            line.className = 'out raw';
+            line.innerHTML = safe;
+            printContainer.appendChild(line);
         } else {
-            const ts = new Date().toLocaleTimeString();
-            outputConsole.innerHTML += `<div class="out ${type}">[${ts}] ${safe}</div>`;
+            const messageContainer = document.createElement('div');
+            messageContainer.className = `out ${type}`;
+            if (type === 'success') {
+                messageContainer.innerHTML = safe;
+            } else {
+                const ts = new Date().toLocaleTimeString();
+                messageContainer.innerHTML = `[${ts}] ${safe}`;
+            }
+            outputConsole.appendChild(messageContainer);
         }
     }
 

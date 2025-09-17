@@ -282,6 +282,16 @@ body {
 
 .error-separator { display: none; }
 
+.print-output-container {
+  background: var(--console-bg);
+  border: 1px solid var(--tab-border);
+  border-radius: var(--radius-sm);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(5px); }
   to { opacity: 1; transform: translateY(0); }
