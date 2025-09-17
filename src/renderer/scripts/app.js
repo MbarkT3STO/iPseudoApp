@@ -16,12 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Global tab counter
     let tabCounter = 0;
 
-    // Remove the default tab that's created in the HTML
-    const defaultTab = document.querySelector('.tab[data-path=""]');
-    if (defaultTab) {
-        defaultTab.remove();
-    }
-
     function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]); }
     // out: by default include timestamp; for type 'stdout' and 'print' show raw text only
     function out(text, type='info') {

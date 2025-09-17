@@ -67,23 +67,5 @@
     <script src="scripts/editor.js"></script>
     <script src="scripts/theme.js"></script>
     <script src="scripts/app.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Ensure at least one tab exists for the app logic; create a default in DOM for initial render
-            const tabs = document.getElementById('tabsContainer');
-            if (tabs && tabs.children.length === 0) {
-                const tab = document.createElement('div');
-                tab.className = 'tab active';
-                tab.dataset.tabId = 'untitled';
-                tab.dataset.path = '';
-                tab.innerHTML = `
-                    <span class="tab-label">Untitled</span>
-                    <span class="dirty-indicator" aria-hidden="true"></span>
-                    <button class="tab-close" title="Close">✕</button>
-                `;
-                tabs.appendChild(tab);
-            }
-        });
-    </script>
 </body>
 </html>
