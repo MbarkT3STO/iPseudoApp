@@ -227,6 +227,158 @@
   margin-left: 8px !important;
 }
 
+/* ===== Modern Neon/Glass Tabs Redesign ===== */
+/* Container shell */
+.theme-dark .tabs-container,
+.theme-light .tabs-container {
+  display: flex !important;
+  align-items: center !important;
+  padding: 6px 10px !important;
+  margin: 0 !important;
+  border-bottom-width: 1px !important;
+  border-bottom-style: solid !important;
+}
+
+/* Surface treatments per theme */
+.theme-dark .tabs-container {
+  background: rgba(2,6,23,0.55) !important;
+  border-bottom-color: var(--neo-border) !important;
+  backdrop-filter: saturate(120%) blur(8px) !important;
+  -webkit-backdrop-filter: saturate(120%) blur(8px) !important;
+}
+
+.theme-light .tabs-container {
+  background: rgba(255,255,255,0.85) !important;
+  border-bottom-color: rgba(15,23,42,0.08) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+/* Inner track */
+.theme-dark #tabsContainer,
+.theme-light #tabsContainer {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 10px !important;
+  flex: 1 1 auto !important;
+  overflow-x: auto !important;
+  white-space: nowrap !important;
+  scrollbar-width: none !important;
+}
+
+.theme-dark #tabsContainer::-webkit-scrollbar,
+.theme-light #tabsContainer::-webkit-scrollbar { display: none !important; }
+
+/* Tabs as glass chips */
+.theme-dark #tabsContainer .tab,
+.theme-light #tabsContainer .tab {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  height: 34px !important;
+  padding: 0 14px !important;
+  border-radius: 999px !important;
+  border: 1px solid transparent !important;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease, border-color .18s ease !important;
+  user-select: none !important;
+}
+
+/* Theme-specific base states */
+.theme-dark #tabsContainer .tab {
+  background: rgba(255,255,255,0.05) !important;
+  color: var(--text-muted) !important;
+  border-color: var(--neo-border) !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,.15) inset !important;
+}
+
+.theme-light #tabsContainer .tab {
+  background: rgba(255,255,255,0.9) !important;
+  color: var(--text-secondary) !important;
+  border-color: rgba(15,23,42,0.08) !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,.06) !important;
+}
+
+/* Hover lift */
+.theme-dark #tabsContainer .tab:hover,
+.theme-light #tabsContainer .tab:hover {
+  transform: translateY(-1px) !important;
+}
+
+/* Active gradient chip */
+.theme-dark #tabsContainer .tab.active,
+.theme-light #tabsContainer .tab.active {
+  background: var(--neo-gradient) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+  box-shadow: 0 8px 24px rgba(99,102,241,.35) !important;
+}
+
+/* Soft glow ring for active */
+.theme-dark #tabsContainer .tab.active::after,
+.theme-light #tabsContainer .tab.active::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(60% 60% at 50% 50%, rgba(168,85,247,.45), transparent 70%);
+  opacity: .6;
+}
+
+/* Remove old active underline */
+.theme-dark #tabsContainer .tab.active::before,
+.theme-light #tabsContainer .tab.active::before { display: none !important; }
+
+/* Tab title truncation */
+.theme-dark #tabsContainer .tab .tab-title,
+.theme-light #tabsContainer .tab .tab-title {
+  max-width: 220px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* Close button styling */
+.theme-dark #tabsContainer .tab .tab-close,
+.theme-light #tabsContainer .tab .tab-close {
+  width: 18px !important;
+  height: 18px !important;
+  margin-left: 8px !important;
+  border-radius: 50% !important;
+  border: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  opacity: .65 !important;
+  transition: background .18s ease, opacity .18s ease, transform .18s ease !important;
+}
+
+.theme-dark #tabsContainer .tab .tab-close { color: rgba(248,250,252,.85) !important; }
+.theme-light #tabsContainer .tab .tab-close { color: rgba(15,23,42,.75) !important; }
+
+.theme-dark #tabsContainer .tab .tab-close:hover,
+.theme-light #tabsContainer .tab .tab-close:hover {
+  opacity: 1 !important;
+  transform: scale(1.05) !important;
+  background: rgba(255,255,255,0.12) !important;
+}
+
+/* New Tab button to match chips */
+.theme-dark #btnNewTab,
+.theme-light #btnNewTab {
+  height: 34px !important;
+  border-radius: 999px !important;
+  padding: 0 12px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+/* New Tab hover */
+.theme-dark #btnNewTab:hover,
+.theme-light #btnNewTab:hover {
+  transform: translateY(-1px) !important;
+}
+
 /* ===== Base Styles ===== */
 * {
   box-sizing: border-box;
