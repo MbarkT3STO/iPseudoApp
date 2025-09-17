@@ -11,6 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const openFiles = new Map();
     let activeFilePath = '';
 
+    // Global tab counter
+    let tabCounter = 0;
+
     // Remove the default tab that's created in the HTML
     const defaultTab = document.querySelector('.tab[data-path=""]');
     if (defaultTab) {
@@ -340,57 +343,68 @@ document.addEventListener('DOMContentLoaded', () => {
         saveEditorState();
         
         // Check if tab already exists
-        const existingTab = tabBar.querySelector(`[data-path="${filePath}"]`);
+        const existingTab = tabBar.querySelector(`.tab[data-path="${filePath}"]`);
         if (existingTab) {
             switchToTab(existingTab);
             return;
         }
         
-        // Find the new tab button (it should be the last child)
-        const newTabButton = tabBar.lastElementChild;
+        // Generate a unique tab ID
+        const tabId = `tab-${Date.now()}-${++tabCounter}`;
         
         // Create new tab
         const tab = document.createElement('div');
         tab.className = 'tab active';
         tab.dataset.path = filePath;
+        tab.dataset.tabId = tabId;
         
-        const fileName = filePath.split('/').pop();
+        const fileName = filePath.split(/[\\/]/).pop();
         tab.innerHTML = `
             <span class="tab-label">${fileName}</span>
             <span class="dirty-indicator" aria-hidden="true"></span>
-            <button class="tab-close" title="Close">✕</button>
+            <button class="tab-close" data-tab-id="${tabId}" title="Close">✕</button>
         `;
         
-        // Add click handler to switch tabs
-        tab.addEventListener('click', (e) => {
-            if (e.target.classList.contains('tab-close')) {
-                closeTab(filePath);
-                e.stopPropagation();
-                return;
-            }
-            switchToTab(tab);
-        });
-        
-        // Deactivate other tabs
-        tabBar.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        
-        // Insert the new tab before the new tab button
+        // Insert before the new tab button
+        const newTabButton = tabBar.lastElementChild;
         tabBar.insertBefore(tab, newTabButton);
         
-        // Initialize file in openFiles if it doesn't exist
+        // Update active tab state
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        
+        // Initialize editor with content
+        if (window.editor) {
+            window.editor.setValue(initialContent);
+            window.editor.focus();
+        }
+        
+        // Update document title
+        document.title = `${fileName} - iPseudo IDE`;
+        
+        // Add to open files if not already there
         if (!openFiles.has(filePath)) {
             openFiles.set(filePath, {
                 content: initialContent,
                 originalContent: initialContent,
                 dirty: false,
                 cursorPosition: { lineNumber: 1, column: 1 },
-                scrollPosition: 0
+                scrollPosition: 0,
+                tabId: tabId  // Store tab ID with file data
             });
+        } else {
+            // Update existing file data with tab ID
+            const fileData = openFiles.get(filePath);
+            if (fileData) {
+                fileData.tabId = tabId;
+                openFiles.set(filePath, fileData);
+            }
         }
         
-        // Update active file path and refresh editor
+        // Update active file path
         activeFilePath = filePath;
-        refreshEditorForCurrentTab();
+        
+        return tab;
     }
 
     // Function to switch tabs
@@ -412,24 +426,36 @@ document.addEventListener('DOMContentLoaded', () => {
         refreshEditorForCurrentTab();
     }
 
-    // Function to close a tab
-    async function closeTab(filePath) {
-        // Normalize the file path for comparison
-        const normalizedPath = filePath || 'untitled.pseudo';
-        const tab = document.querySelector(`.tab[data-path="${normalizedPath}"]`);
-        if (!tab) return;
-
-        // Check if the tab has unsaved changes using the exact path from the tab
-        const tabPath = tab.dataset.path || 'untitled.pseudo';
-        const fileData = openFiles.get(tabPath);
-        const hasUnsavedChanges = fileData && fileData.dirty;
-        const isEmpty = !fileData || !fileData.content || fileData.content.trim() === '';
-
-        // If there are unsaved changes, show confirmation dialog
-        if (hasUnsavedChanges && !isEmpty) {
+    // Function to close a tab by its DOM element
+    async function closeTabElement(tabElement) {
+        if (!tabElement) return;
+        
+        const tabId = tabElement.dataset.tabId;
+        const filePath = tabElement.dataset.path;
+        console.log('Closing tab:', { tabId, filePath });
+        
+        // Get file data using tab ID if available
+        let fileData = null;
+        if (tabId) {
+            for (const [path, data] of openFiles.entries()) {
+                if (data.tabId === tabId) {
+                    fileData = data;
+                    break;
+                }
+            }
+        }
+        
+        // If still no file data, try by path
+        if (!fileData && filePath) {
+            fileData = openFiles.get(filePath);
+        }
+        
+        // Check for unsaved changes
+        if (fileData && fileData.dirty) {
+            console.log('Tab has unsaved changes, showing save dialog');
             const { response } = await window.nodeRequire('electron').ipcRenderer.invoke('show-message-box', {
                 type: 'question',
-                buttons: ['Save', 'Don\'t Save', 'Cancel'],
+                buttons: ['Save', "Don't Save", 'Cancel'],
                 title: 'Save Changes',
                 message: 'Do you want to save the changes you made?',
                 detail: `Your changes will be lost if you don't save them.`,
@@ -437,69 +463,94 @@ document.addEventListener('DOMContentLoaded', () => {
                 cancelId: 2
             });
 
-            if (response === 2) return; // Cancel
+            if (response === 2) {
+                console.log('User cancelled close operation');
+                return; // Cancel
+            }
             
             if (response === 0) { // Save
-                const saveResult = await window.nodeRequire('electron').ipcRenderer.invoke('dialog:saveFile', {
-                    filePath: tabPath === 'untitled.pseudo' ? undefined : tabPath,
-                    content: fileData.content
-                });
+                try {
+                    const saveResult = await window.nodeRequire('electron').ipcRenderer.invoke('dialog:saveFile', {
+                        filePath: filePath === 'untitled.pseudo' ? undefined : filePath,
+                        content: fileData.content
+                    });
 
-                if (saveResult.canceled) return; // User cancelled save
+                    if (saveResult.canceled) {
+                        console.log('User cancelled save dialog');
+                        return; // User cancelled save
+                    }
 
-                // Update file path if this was a new file
-                if (tabPath === 'untitled.pseudo' && saveResult.filePath) {
-                    tab.dataset.path = saveResult.filePath;
-                    const fileName = saveResult.filePath.split(/[\\/]/).pop();
-                    tab.querySelector('.tab-label').textContent = fileName;
-                    openFiles.set(saveResult.filePath, { ...fileData, dirty: false });
-                    openFiles.delete('untitled.pseudo');
+                    console.log('Save result:', saveResult);
+                    
+                    if (saveResult.filePath) {
+                        // Update the tab with new path
+                        const newPath = saveResult.filePath;
+                        tabElement.dataset.path = newPath;
+                        const fileName = newPath.split(/[\\/]/).pop();
+                        tabElement.querySelector('.tab-label').textContent = fileName;
+                        
+                        // Update openFiles
+                        const newFileData = { ...fileData, dirty: false };
+                        openFiles.set(newPath, newFileData);
+                        
+                        // Remove old entry
+                        if (filePath && filePath !== newPath) {
+                            openFiles.delete(filePath);
+                        }
+                        
+                        // Update active file path if needed
+                        if (activeFilePath === filePath) {
+                            activeFilePath = newPath;
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error saving file:', error);
+                    return; // Don't close if there was an error saving
                 }
             }
         }
-
-        // Remove the tab
-        const isActiveTab = tab.classList.contains('active');
         
-        // Remove from openFiles using the exact path from the tab
-        openFiles.delete(tab.dataset.path || 'untitled.pseudo');
+        // Remove tab from DOM
+        const wasActive = tabElement.classList.contains('active');
+        tabElement.remove();
         
-        // Remove the tab element
-        tab.remove();
+        // Remove from openFiles if this was the last tab with this path
+        if (filePath) {
+            const isPathUsed = Array.from(document.querySelectorAll('.tab')).some(
+                t => t.dataset.path === filePath
+            );
+            if (!isPathUsed) {
+                openFiles.delete(filePath);
+            }
+        }
         
         // If this was the active tab, switch to another tab
-        if (isActiveTab) {
+        if (wasActive) {
             const remainingTabs = document.querySelectorAll('.tab');
             if (remainingTabs.length > 0) {
-                // Try to activate the next tab, or the previous one if this was the last tab
-                const nextTab = tab.nextElementSibling || tab.previousElementSibling;
-                if (nextTab) {
-                    nextTab.click();
-                }
+                const nextTab = remainingTabs[remainingTabs.length - 1];
+                nextTab.click();
             } else {
-                // No tabs left, clear the editor
-                if (window.editor) {
-                    window.editor.setValue('');
-                }
-                activeFilePath = '';
+                // No tabs left, create a new empty tab
+                createNewTab();
             }
-        }
-        
-        // If no tabs left, create a new empty tab
-        if (document.querySelectorAll('.tab').length === 0) {
-            createNewTab();
         }
     }
 
-    // Add event delegation for tab close buttons
+    // Update the tab close button click handler
     document.getElementById('tabBar')?.addEventListener('click', (e) => {
         const closeButton = e.target.closest('.tab-close');
         if (closeButton) {
             e.stopPropagation();
             const tab = closeButton.closest('.tab');
             if (tab) {
-                const filePath = tab.dataset.path || 'untitled.pseudo';
-                closeTab(filePath);
+                closeTabElement(tab);
+            }
+        } else if (e.target.closest('.tab')) {
+            // Handle tab switching
+            const tab = e.target.closest('.tab');
+            if (tab && !tab.classList.contains('active')) {
+                switchToTab(tab);
             }
         }
     });
@@ -537,7 +588,10 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const content = window.editor.getValue();
             const activeTab = document.querySelector('.tab.active');
-            const currentPath = activeTab ? activeTab.dataset.path : '';
+            if (!activeTab) return;
+            
+            const currentPath = activeTab.dataset.path;
+            const tabId = activeTab.dataset.tabId;
             
             // Check if this is a new/unsaved file
             const isNewFile = !currentPath || currentPath === 'untitled.pseudo' || !currentPath.includes('/');
@@ -553,46 +607,65 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (!result.canceled && result.filePath) {
                         const newPath = result.filePath;
                         // Update the active tab with the new path
-                        if (activeTab) {
-                            activeTab.dataset.path = newPath;
-                            const fileName = newPath.split(/[\\/]/).pop();
-                            activeTab.innerHTML = `${fileName} <span class="dirty-indicator" aria-hidden="true"></span><button class="tab-close" title="Close">✕</button>`;
-                            
-                            // Add to openFiles map
-                            openFiles.set(newPath, {
-                                content: content,
-                                originalContent: content,
-                                dirty: false
-                            });
-                            
-                            // Update active file path
-                            activeFilePath = newPath;
-                            
-                            // Update the tab's dirty state
-                            updateTabDirtyState(newPath, false);
-                            out(`File saved: ${newPath}`, 'success');
+                        activeTab.dataset.path = newPath;
+                        const fileName = newPath.split(/[\\/]/).pop();
+                        
+                        // Update the tab's label
+                        activeTab.querySelector('.tab-label').textContent = fileName;
+                        
+                        // Get or create file data
+                        let fileData = openFiles.get(currentPath) || {
+                            content: content,
+                            originalContent: content,
+                            dirty: false,
+                            cursorPosition: window.editor.getPosition(),
+                            scrollPosition: window.editor.getScrollTop(),
+                            tabId: tabId
+                        };
+                        
+                        // Update file data
+                        fileData.content = content;
+                        fileData.originalContent = content;
+                        fileData.dirty = false;
+                        
+                        // Save with new path
+                        openFiles.set(newPath, fileData);
+                        
+                        // Remove old entry if it exists and is different
+                        if (currentPath && currentPath !== newPath) {
+                            openFiles.delete(currentPath);
                         }
+                        
+                        // Update active file path
+                        activeFilePath = newPath;
+                        
+                        // Update the tab's dirty state
+                        updateTabDirtyState(newPath, false);
+                        out(`File saved: ${newPath}`, 'success');
                     }
                 } else {
-                    // For existing files, save directly to the known path
-                    await window.nodeRequire('electron').ipcRenderer.invoke('dialog:saveFile', {
+                    // For existing files, save directly
+                    const result = await window.nodeRequire('electron').ipcRenderer.invoke('dialog:saveFile', {
                         filePath: currentPath,
                         content: content
                     });
                     
-                    // Update the original content in openFiles
-                    if (openFiles.has(currentPath)) {
+                    if (!result.canceled) {
+                        // Update file data
                         const fileData = openFiles.get(currentPath);
-                        fileData.originalContent = content;
-                        fileData.dirty = false;
-                        openFiles.set(currentPath, fileData);
-                        updateTabDirtyState(currentPath, false);
-                        out(`File saved: ${currentPath}`, 'success');
+                        if (fileData) {
+                            fileData.content = content;
+                            fileData.originalContent = content;
+                            fileData.dirty = false;
+                            openFiles.set(currentPath, fileData);
+                            updateTabDirtyState(currentPath, false);
+                            out(`File saved: ${currentPath}`, 'success');
+                        }
                     }
                 }
-            } catch (err) {
-                console.error('Error saving file:', err);
-                out(`Error saving file: ${err.message}`, 'error');
+            } catch (error) {
+                console.error('Error saving file:', error);
+                out(`Error saving file: ${error.message}`, 'error');
             }
         });
     }
