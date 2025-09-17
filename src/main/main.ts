@@ -46,6 +46,13 @@ app.on('window-all-closed', () => {
 
 // IPC handlers for file operations and pseudocode execution will go here
 
+// Add message box handler
+ipcMain.handle('show-message-box', async (event, options) => {
+  const win = BrowserWindow.getFocusedWindow();
+  const result = await dialog.showMessageBox(win!, options);
+  return result;
+});
+
 ipcMain.handle('dialog:openFile', async () => {
   const win = BrowserWindow.getFocusedWindow();
   const { canceled, filePaths } = await dialog.showOpenDialog(win!, {

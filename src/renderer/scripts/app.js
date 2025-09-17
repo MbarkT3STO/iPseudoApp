@@ -413,30 +413,188 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Function to close a tab
-    function closeTab(filePath) {
-        const tab = document.querySelector(`.tab[data-path="${filePath}"]`);
+    async function closeTab(filePath) {
+        // Normalize the file path for comparison
+        const normalizedPath = filePath || 'untitled.pseudo';
+        const tab = document.querySelector(`.tab[data-path="${normalizedPath}"]`);
         if (!tab) return;
+
+        // Check if the tab has unsaved changes using the exact path from the tab
+        const tabPath = tab.dataset.path || 'untitled.pseudo';
+        const fileData = openFiles.get(tabPath);
+        const hasUnsavedChanges = fileData && fileData.dirty;
+        const isEmpty = !fileData || !fileData.content || fileData.content.trim() === '';
+
+        // If there are unsaved changes, show confirmation dialog
+        if (hasUnsavedChanges && !isEmpty) {
+            const { response } = await window.nodeRequire('electron').ipcRenderer.invoke('show-message-box', {
+                type: 'question',
+                buttons: ['Save', 'Don\'t Save', 'Cancel'],
+                title: 'Save Changes',
+                message: 'Do you want to save the changes you made?',
+                detail: `Your changes will be lost if you don't save them.`,
+                defaultId: 0,
+                cancelId: 2
+            });
+
+            if (response === 2) return; // Cancel
+            
+            if (response === 0) { // Save
+                const saveResult = await window.nodeRequire('electron').ipcRenderer.invoke('dialog:saveFile', {
+                    filePath: tabPath === 'untitled.pseudo' ? undefined : tabPath,
+                    content: fileData.content
+                });
+
+                if (saveResult.canceled) return; // User cancelled save
+
+                // Update file path if this was a new file
+                if (tabPath === 'untitled.pseudo' && saveResult.filePath) {
+                    tab.dataset.path = saveResult.filePath;
+                    const fileName = saveResult.filePath.split(/[\\/]/).pop();
+                    tab.querySelector('.tab-label').textContent = fileName;
+                    openFiles.set(saveResult.filePath, { ...fileData, dirty: false });
+                    openFiles.delete('untitled.pseudo');
+                }
+            }
+        }
+
+        // Remove the tab
+        const isActiveTab = tab.classList.contains('active');
         
-        // Remove tab
+        // Remove from openFiles using the exact path from the tab
+        openFiles.delete(tab.dataset.path || 'untitled.pseudo');
+        
+        // Remove the tab element
         tab.remove();
         
-        // Remove from open files
-        openFiles.delete(filePath);
-        
         // If this was the active tab, switch to another tab
-        if (activeFilePath === filePath) {
+        if (isActiveTab) {
             const remainingTabs = document.querySelectorAll('.tab');
             if (remainingTabs.length > 0) {
-                switchToTab(remainingTabs[0]);
+                // Try to activate the next tab, or the previous one if this was the last tab
+                const nextTab = tab.nextElementSibling || tab.previousElementSibling;
+                if (nextTab) {
+                    nextTab.click();
+                }
             } else {
-                // No tabs left, clear editor
+                // No tabs left, clear the editor
                 if (window.editor) {
                     window.editor.setValue('');
                 }
-                document.title = 'iPseudo IDE';
                 activeFilePath = '';
             }
         }
+        
+        // If no tabs left, create a new empty tab
+        if (document.querySelectorAll('.tab').length === 0) {
+            createNewTab();
+        }
+    }
+
+    // Add event delegation for tab close buttons
+    document.getElementById('tabBar')?.addEventListener('click', (e) => {
+        const closeButton = e.target.closest('.tab-close');
+        if (closeButton) {
+            e.stopPropagation();
+            const tab = closeButton.closest('.tab');
+            if (tab) {
+                const filePath = tab.dataset.path || 'untitled.pseudo';
+                closeTab(filePath);
+            }
+        }
+    });
+
+    // Function to update the dirty state of a tab
+    function updateTabDirtyState(filePath, isDirty) {
+        const tab = document.querySelector(`.tab[data-path="${filePath}"]`);
+        if (tab) {
+            const dirtyIndicator = tab.querySelector('.dirty-indicator');
+            if (dirtyIndicator) {
+                dirtyIndicator.style.display = isDirty ? 'inline-block' : 'none';
+            }
+        }
+    }
+
+    // Function to create a new empty tab
+    function createNewTab() {
+        const tabId = `untitled-${Date.now()}.pseudo`;
+        createOrSwitchToTab(tabId);
+        openFiles.set(tabId, {
+            content: '',
+            originalContent: '',
+            dirty: false,
+            cursorPosition: { lineNumber: 1, column: 1 },
+            scrollPosition: 0
+        });
+        document.title = `${tabId} - iPseudo IDE`;
+    }
+
+    // Add event listener for the save button
+    const saveButton = document.getElementById('btnSave');
+    if (saveButton) {
+        saveButton.addEventListener('click', async () => {
+            if (!window.editor) return;
+            
+            const content = window.editor.getValue();
+            const activeTab = document.querySelector('.tab.active');
+            const currentPath = activeTab ? activeTab.dataset.path : '';
+            
+            // Check if this is a new/unsaved file
+            const isNewFile = !currentPath || currentPath === 'untitled.pseudo' || !currentPath.includes('/');
+            
+            try {
+                if (isNewFile) {
+                    // For new files, show save dialog
+                    const result = await window.nodeRequire('electron').ipcRenderer.invoke('dialog:saveFile', {
+                        filePath: undefined, // This will trigger the save dialog
+                        content: content
+                    });
+
+                    if (!result.canceled && result.filePath) {
+                        const newPath = result.filePath;
+                        // Update the active tab with the new path
+                        if (activeTab) {
+                            activeTab.dataset.path = newPath;
+                            const fileName = newPath.split(/[\\/]/).pop();
+                            activeTab.innerHTML = `${fileName} <span class="dirty-indicator" aria-hidden="true"></span><button class="tab-close" title="Close">✕</button>`;
+                            
+                            // Add to openFiles map
+                            openFiles.set(newPath, {
+                                content: content,
+                                originalContent: content,
+                                dirty: false
+                            });
+                            
+                            // Update active file path
+                            activeFilePath = newPath;
+                            
+                            // Update the tab's dirty state
+                            updateTabDirtyState(newPath, false);
+                            out(`File saved: ${newPath}`, 'success');
+                        }
+                    }
+                } else {
+                    // For existing files, save directly to the known path
+                    await window.nodeRequire('electron').ipcRenderer.invoke('dialog:saveFile', {
+                        filePath: currentPath,
+                        content: content
+                    });
+                    
+                    // Update the original content in openFiles
+                    if (openFiles.has(currentPath)) {
+                        const fileData = openFiles.get(currentPath);
+                        fileData.originalContent = content;
+                        fileData.dirty = false;
+                        openFiles.set(currentPath, fileData);
+                        updateTabDirtyState(currentPath, false);
+                        out(`File saved: ${currentPath}`, 'success');
+                    }
+                }
+            } catch (err) {
+                console.error('Error saving file:', err);
+                out(`Error saving file: ${err.message}`, 'error');
+            }
+        });
     }
 
     // Add event listener for the new tab button
@@ -486,29 +644,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 handleError({ message: `Failed to open file dialog: ${error.message}` });
             }
         });
-    }
-
-    function updateTabDirtyState(filePath, isDirty) {
-        const tab = document.querySelector(`.tab[data-path="${filePath}"]`);
-        if (tab) {
-            const dirtyIndicator = tab.querySelector('.dirty-indicator');
-            if (dirtyIndicator) {
-                dirtyIndicator.style.display = isDirty ? 'inline-block' : 'none';
-            }
-        }
-    }
-
-    function createNewTab() {
-        const tabId = `untitled-${Date.now()}.pseudo`;
-        createOrSwitchToTab(tabId);
-        openFiles.set(tabId, {
-            content: '',
-            originalContent: '',
-            dirty: false,
-            cursorPosition: { lineNumber: 1, column: 1 },
-            scrollPosition: 0
-        });
-        document.title = `${tabId} - iPseudo IDE`;
     }
 
     // Initialize the first tab when the DOM is loaded
