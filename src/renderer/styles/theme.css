@@ -161,6 +161,72 @@
 
 .theme-light .console-message { color: #334155 !important; }
 
+/* Light theme tabs layout fixes */
+.theme-light #tabsContainer {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex-wrap: nowrap !important;
+  white-space: nowrap !important;
+}
+
+.theme-light #tabsContainer .tab {
+  display: inline-flex !important;
+  align-items: center !important;
+  height: 36px !important;
+  padding: 0 14px !important;
+  border-radius: 999px !important;
+}
+
+.theme-light #btnNewTab {
+  margin-left: 8px !important;
+}
+
+/* Tabs container visual + alignment tweaks */
+.theme-light .tabs-container {
+  background: rgba(255,255,255,0.85) !important;
+  border-bottom: 1px solid rgba(15,23,42,0.08) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  height: 44px !important;
+}
+
+.theme-dark .tabs-container {
+  background: rgba(2,6,23,0.55) !important;
+  border-bottom: 1px solid var(--neo-border) !important;
+  backdrop-filter: saturate(120%) blur(8px) !important;
+  -webkit-backdrop-filter: saturate(120%) blur(8px) !important;
+  height: 44px !important;
+}
+
+/* Ensure horizontal layout + vertical centering for inner container in both themes */
+.theme-light #tabsContainer,
+.theme-dark #tabsContainer {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex-wrap: nowrap !important;
+  white-space: nowrap !important;
+  height: 100% !important;
+}
+
+/* Center tabs vertically and unify chip sizing in both themes */
+.theme-light #tabsContainer .tab,
+.theme-dark #tabsContainer .tab {
+  display: inline-flex !important;
+  align-items: center !important;
+  height: 32px !important;
+  padding: 0 14px !important;
+}
+
+/* New Tab button spacing remains consistent in both themes */
+.theme-light #btnNewTab,
+.theme-dark #btnNewTab {
+  margin-left: 8px !important;
+}
+
 /* ===== Base Styles ===== */
 * {
   box-sizing: border-box;
