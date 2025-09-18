@@ -92,7 +92,7 @@ require(['vs/editor/editor.main'], function() {
         scrollBeyondLastLine: false,
         automaticLayout: true,
         tabSize: 4,
-        rulers: [80],
+        rulers: [],
         bracketPairColorization: {
             enabled: true
         },
