@@ -242,10 +242,46 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch(err) { handleError(err, code); cleanupWorker(); }
     }
 
-    if (runButton) runButton.addEventListener('click', () => {
+    if (runButton) runButton.addEventListener('click', async () => {
+        // Add running state
+        runButton.classList.add('running');
+        runButton.disabled = true;
+        
+        // Update status indicator
+        if (runStatus) {
+            runStatus.title = 'Status: Running...';
+            const statusDot = runStatus.querySelector('.status-dot');
+            if (statusDot) statusDot.style.backgroundColor = 'var(--status-running)';
+        }
+        
+        // Get the code and clear console
         const code = window.editor && typeof window.editor.getValue === 'function' ? window.editor.getValue() : '';
         if (outputConsole) outputConsole.innerHTML = '';
-        execute(code);
+        
+        try {
+            // Execute the code
+            await execute(code);
+            
+            // Update status to success if execution completes without errors
+            if (runStatus) {
+                runStatus.title = 'Status: Execution completed';
+                const statusDot = runStatus.querySelector('.status-dot');
+                if (statusDot) statusDot.style.backgroundColor = 'var(--status-success)';
+            }
+        } catch (error) {
+            // Error handling is done in the execute function
+            if (runStatus) {
+                runStatus.title = 'Status: Error occurred';
+                const statusDot = runStatus.querySelector('.status-dot');
+                if (statusDot) statusDot.style.backgroundColor = 'var(--status-error)';
+            }
+        } finally {
+            // Reset button state after a short delay to show completion
+            setTimeout(() => {
+                runButton.classList.remove('running');
+                runButton.disabled = false;
+            }, 300);
+        }
     });
 
     // Function to save the current editor state
