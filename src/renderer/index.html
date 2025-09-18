@@ -124,12 +124,45 @@
         const closeModal = document.getElementById('closeModal');
         const brand = document.querySelector('.brand');
 
+        // Handle external links
+        document.addEventListener('click', (e) => {
+            const link = e.target.closest('a');
+            if (link && link.href) {
+                // Check if it's an external link or has target="_blank"
+                if (link.target === '_blank' || 
+                    link.hostname !== window.location.hostname) {
+                    e.preventDefault();
+                    // Check if electron API is available
+                    if (window.electron && typeof window.electron.openExternal === 'function') {
+                        window.electron.openExternal(link.href);
+                    } else {
+                        // Fallback to default behavior if electron API is not available
+                        window.open(link.href, '_blank', 'noopener,noreferrer');
+                    }
+                }
+            }
+        });
+
+        // Handle mailto links
+        document.addEventListener('click', (e) => {
+            const mailtoLink = e.target.closest('a[href^="mailto:"]');
+            if (mailtoLink) {
+                e.preventDefault();
+                if (window.electron && typeof window.electron.openExternal === 'function') {
+                    window.electron.openExternal(mailtoLink.href);
+                } else {
+                    window.location.href = mailtoLink.href;
+                }
+            }
+        });
+
         brand.addEventListener('click', () => {
             aboutModal.classList.add('active');
             document.body.style.overflow = 'hidden';
         });
 
-        closeModal.addEventListener('click', () => {
+        closeModal.addEventListener('click', (e) => {
+            e.preventDefault();
             aboutModal.classList.remove('active');
             document.body.style.overflow = '';
         });

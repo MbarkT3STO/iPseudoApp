@@ -8,7 +8,7 @@
     "dev": "tsc && npm run copy-files && electron .",
     "build": "tsc && npm run copy-files",
     "watch": "tsc -w",
-  "copy-files": "mkdir -p dist/renderer && cp -r src/renderer/* dist/renderer/ && mkdir -p dist/renderer/monaco && cp -r node_modules/monaco-editor/min/* dist/renderer/monaco/"
+    "copy-files": "mkdir -p dist/renderer && cp -r src/renderer/* dist/renderer/ && mkdir -p dist/renderer/monaco && cp -r node_modules/monaco-editor/min/* dist/renderer/monaco/ && cp src/renderer/preload.js dist/renderer/"
   },
   "author": "",
   "license": "MIT",

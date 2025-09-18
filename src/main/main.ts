@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, dialog } from 'electron';
+import { app, BrowserWindow, ipcMain, dialog, shell } from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
 
@@ -7,8 +7,10 @@ function createWindow() {
     width: 1200,
     height: 800,
     webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false
+      nodeIntegration: false,
+      contextIsolation: true,
+      preload: path.join(__dirname, '../renderer/preload.js'),
+      sandbox: false
     },
     // Set minimum dimensions
     minWidth: 800,
@@ -82,4 +84,9 @@ ipcMain.handle('dialog:saveFile', async (_evt, args: { filePath?: string; conten
 ipcMain.handle('show-open-dialog', async (event, options) => {
   const { canceled, filePaths } = await dialog.showOpenDialog(options);
   return { canceled, filePaths };
+});
+
+// Add openExternal handler
+ipcMain.handle('open-external', (event, url) => {
+  return shell.openExternal(url);
 });
