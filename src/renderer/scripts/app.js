@@ -385,9 +385,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to create or switch to a tab
     function createOrSwitchToTab(filePath, initialContent = '') {
-        const tabBar = document.getElementById('tabsContainer');
+        const tabBar = document.getElementById('tabsTrack');
         if (!tabBar) {
-            console.error('Tab container not found');
+            console.error('Tab track not found');
             return;
         }
         
@@ -395,7 +395,7 @@ document.addEventListener('DOMContentLoaded', () => {
         saveEditorState();
         
         // Check if tab already exists
-        const existingTab = tabBar.querySelector(`.tab[data-tab-id="${filePath}"]`);
+        const existingTab = tabBar.querySelector(`.modern-tab[data-tab-id="${filePath}"]`);
         if (existingTab) {
             switchToTab(existingTab);
             return;
@@ -406,7 +406,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Create new tab
         const tab = document.createElement('div');
-        tab.className = 'tab active';
+        tab.className = 'modern-tab active';
         tab.dataset.path = filePath;
         tab.dataset.tabId = tabId;
         
@@ -418,11 +418,11 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         
         // Insert before the new tab button
-        const newTabButton = tabBar.lastElementChild;
+        const newTabButton = document.getElementById('btnNewTab');
         tabBar.insertBefore(tab, newTabButton);
         
         // Update active tab state
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.modern-tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         
         // Initialize editor with content
@@ -615,7 +615,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Clean up openFiles if this was the last tab with this path
         if (filePath) {
-            const isPathUsed = Array.from(document.querySelectorAll('.tab')).some(
+            const isPathUsed = Array.from(document.querySelectorAll('.modern-tab')).some(
                 t => t.dataset.path === filePath
             );
             if (!isPathUsed) {
@@ -625,13 +625,13 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // If this was the active tab, switch to another tab
         if (wasActive) {
-            const remainingTabs = document.querySelectorAll('.tab:not(#newTabButton)'); // Exclude the new tab button
+            const remainingTabs = document.querySelectorAll('.modern-tab:not(#btnNewTab)'); // Exclude the new tab button
             if (remainingTabs.length > 0) {
                 // Try to activate the next tab, or previous if no next tab exists
                 const nextTab = tabElement.nextElementSibling || tabElement.previousElementSibling;
-                if (nextTab && !nextTab.id === 'newTabButton') {
+                if (nextTab && nextTab.id !== 'btnNewTab') {
                     nextTab.click();
-                } else if (tabElement.previousElementSibling && tabElement.previousElementSibling !== document.getElementById('newTabButton')) {
+                } else if (tabElement.previousElementSibling && tabElement.previousElementSibling.id !== 'btnNewTab') {
                     tabElement.previousElementSibling.click();
                 } else if (tabElement.nextElementSibling) {
                     tabElement.nextElementSibling.click();
@@ -648,13 +648,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const closeButton = e.target.closest('.tab-close');
         if (closeButton) {
             e.stopPropagation();
-            const tab = closeButton.closest('.tab');
+            const tab = closeButton.closest('.modern-tab');
             if (tab) {
                 closeTabElement(tab);
             }
-        } else if (e.target.closest('.tab')) {
+        } else if (e.target.closest('.modern-tab')) {
             // Handle tab switching
-            const tab = e.target.closest('.tab');
+            const tab = e.target.closest('.modern-tab');
             if (tab && !tab.classList.contains('active')) {
                 switchToTab(tab);
             }
@@ -663,12 +663,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to update the dirty state of a tab
     function updateTabDirtyState(filePath, isDirty) {
-        const tab = document.querySelector(`.tab[data-path="${filePath}"]`);
+        const tab = document.querySelector(`.modern-tab[data-path="${filePath}"]`);
         if (tab) {
             const dirtyIndicator = tab.querySelector('.dirty-indicator');
             if (dirtyIndicator) {
                 dirtyIndicator.style.display = isDirty ? 'inline-block' : 'none';
             }
+            tab.classList.toggle('dirty', isDirty);
         }
     }
 
@@ -710,8 +711,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!window.editor) return;
             
             const content = window.editor.getValue();
-            const activeTab = document.querySelector('.tab.active');
-            if (!activeTab) return;
+        const activeTab = document.querySelector('.modern-tab.active');
+        if (!activeTab) return;
             
             const currentPath = activeTab.dataset.path;
             const tabId = activeTab.dataset.tabId;
@@ -805,6 +806,81 @@ document.addEventListener('DOMContentLoaded', () => {
     if (newTabButton) {
         newTabButton.addEventListener('click', () => {
             createNewTab();
+        });
+    }
+
+    // Add event listeners for new action buttons
+    const formatButton = document.getElementById('btnFormat');
+    if (formatButton) {
+        formatButton.addEventListener('click', () => {
+            if (window.editor) {
+                // Basic formatting - you can enhance this
+                const content = window.editor.getValue();
+                // Simple indentation fix
+                const formatted = content.split('\n').map(line => {
+                    // Basic indentation logic
+                    return line.trim() ? line : line;
+                }).join('\n');
+                window.editor.setValue(formatted);
+                out('Code formatted', 'success');
+            }
+        });
+    }
+
+    const minimapButton = document.getElementById('btnMinimap');
+    if (minimapButton) {
+        minimapButton.addEventListener('click', () => {
+            if (window.editor) {
+                const currentValue = window.editor.getOption('minimap');
+                window.editor.updateOptions({ minimap: { enabled: !currentValue.enabled } });
+                minimapButton.classList.toggle('active', !currentValue.enabled);
+                out(`Minimap ${!currentValue.enabled ? 'enabled' : 'disabled'}`, 'info');
+            }
+        });
+    }
+
+    const wordWrapButton = document.getElementById('btnWordWrap');
+    if (wordWrapButton) {
+        wordWrapButton.addEventListener('click', () => {
+            if (window.editor) {
+                const currentValue = window.editor.getOption('wordWrap');
+                window.editor.updateOptions({ wordWrap: currentValue === 'on' ? 'off' : 'on' });
+                wordWrapButton.classList.toggle('active', currentValue !== 'on');
+                out(`Word wrap ${currentValue === 'on' ? 'disabled' : 'enabled'}`, 'info');
+            }
+        });
+    }
+
+    const copyOutputButton = document.getElementById('btnCopyOutput');
+    if (copyOutputButton) {
+        copyOutputButton.addEventListener('click', () => {
+            if (outputConsole) {
+                const text = outputConsole.innerText;
+                navigator.clipboard.writeText(text).then(() => {
+                    out('Output copied to clipboard', 'success');
+                }).catch(() => {
+                    out('Failed to copy output', 'error');
+                });
+            }
+        });
+    }
+
+    const exportOutputButton = document.getElementById('btnExportOutput');
+    if (exportOutputButton) {
+        exportOutputButton.addEventListener('click', () => {
+            if (outputConsole) {
+                const text = outputConsole.innerText;
+                const blob = new Blob([text], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `output-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                out('Output exported', 'success');
+            }
         });
     }
 

@@ -16,8 +16,8 @@
     "@types/electron": "^1.6.10",
     "@types/node": "^20.8.0",
     "electron": "^26.2.2",
-    "typescript": "^5.2.2",
-    "electron-builder": "^24.6.4"
+    "electron-builder": "^24.6.4",
+    "typescript": "^5.9.2"
   },
   "dependencies": {
     "monaco-editor": "^0.43.0"

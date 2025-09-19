@@ -679,7 +679,7 @@ body {
   to { transform: rotate(360deg); }
 }
 
-/* Modern Main Content Layout */
+/* Modern Main Content Layout - Overridden by modern-editor.css */
 .main-content {
   display: grid;
   grid-template-rows: auto 1fr auto;

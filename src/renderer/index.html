@@ -12,6 +12,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="styles/theme.css">
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/modern-editor.css">
 
     <!-- Monaco Editor Setup -->
     <script>
@@ -47,22 +48,76 @@
 
         <!-- Main Content -->
         <main class="main-content">
-            <div class="tabs-container" id="tabsContainer"></div>
-            <div class="editor-container">
-                <div id="editor"></div>
+            <!-- Modern Tab System -->
+            <div class="modern-tabs-container" id="tabsContainer">
+                <div class="tabs-wrapper">
+                    <div class="tabs-track" id="tabsTrack"></div>
+                </div>
+                <button class="new-tab-btn" id="btnNewTab" title="New Tab">
+                    <i class="ri-add-line"></i>
+                </button>
             </div>
-            <div class="console-container">
-                <div class="console-header">
-                    <h4><i class="ri-terminal-box-fill"></i> Console Output</h4>
-                    <div class="console-actions">
+
+            <!-- Modern Editor Area -->
+            <div class="modern-editor-section">
+                <div class="editor-header">
+                    <div class="editor-title">
+                        <i class="ri-code-s-slash-line"></i>
+                        <span>Code Editor</span>
+                    </div>
+                    <div class="editor-actions">
+                        <button class="action-btn" id="btnFormat" title="Format Code">
+                            <i class="ri-code-s-slash-line"></i>
+                        </button>
+                        <button class="action-btn" id="btnMinimap" title="Toggle Minimap">
+                            <i class="ri-map-line"></i>
+                        </button>
+                        <button class="action-btn" id="btnWordWrap" title="Toggle Word Wrap">
+                            <i class="ri-text-wrap"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="editor-container">
+                    <div class="editor-wrapper">
+                        <div id="editor"></div>
+                        <div class="editor-overlay">
+                            <div class="editor-glow"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modern Output Area -->
+            <div class="modern-output-section">
+                <div class="output-header">
+                    <div class="output-title">
+                        <i class="ri-terminal-box-fill"></i>
+                        <span>Output Console</span>
+                    </div>
+                    <div class="output-actions">
                         <div class="status-indicator" id="runStatus" title="Status: Ready">
                             <div class="status-dot"></div>
                             <span class="status-text">Ready</span>
                         </div>
-                        <button class="btn btn-icon" id="clearConsole" title="Clear Output"><i class="ri-delete-bin-6-line"></i></button>
+                        <button class="action-btn" id="clearConsole" title="Clear Output">
+                            <i class="ri-delete-bin-6-line"></i>
+                        </button>
+                        <button class="action-btn" id="btnCopyOutput" title="Copy Output">
+                            <i class="ri-file-copy-line"></i>
+                        </button>
+                        <button class="action-btn" id="btnExportOutput" title="Export Output">
+                            <i class="ri-download-line"></i>
+                        </button>
                     </div>
                 </div>
-                <div class="console-output" id="output"></div>
+                <div class="output-container">
+                    <div class="output-wrapper">
+                        <div class="console-output" id="output"></div>
+                        <div class="output-overlay">
+                            <div class="output-glow"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
