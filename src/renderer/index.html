@@ -26,28 +26,22 @@
         <header class="top-nav">
             <div class="brand">
                 <div class="logo-icon">
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path class="logo-bg" d="M12 2L4 7V17L12 22L20 17V7L12 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                        <path class="logo-line" d="M8 10L12 13L16 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                    </svg>
+                    <img src="assets/logo-dark.svg" alt="iPseudo Logo" class="logo-image logo-dark">
+                    <img src="assets/logo-light.svg" alt="iPseudo Logo" class="logo-image logo-light">
                 </div>
-                <span class="app-name">
-                    <span class="app-name-text">iPseudo</span>
-                    <span class="app-name-underline"></span>
-                </span>
             </div>
             <div class="file-actions">
-                <button class="btn" id="btnNew" title="New File"><i class="ri-file-add-line"></i></button>
-                <button class="btn" id="btnOpen" title="Open File"><i class="ri-folder-open-line"></i></button>
-                <button class="btn" id="btnSave" title="Save File"><i class="ri-save-line"></i></button>
+                <button class="btn btn-new" id="btnNew" title="New File"><i class="ri-add-circle-fill"></i><span>New</span></button>
+                <button class="btn btn-open" id="btnOpen" title="Open File"><i class="ri-folder-open-fill"></i><span>Open</span></button>
+                <button class="btn btn-save" id="btnSave" title="Save File"><i class="ri-save-3-fill"></i><span>Save</span></button>
             </div>
             <button class="btn btn-run" id="btnRun" title="Run (Ctrl+Enter)">
-                <i class="ri-play-fill"></i>
+                <i class="ri-play-circle-fill"></i>
                 <span>Run</span>
             </button>
             <div class="settings-actions">
-                <button class="btn" id="btnThemeToggle" title="Toggle Theme"><i class="ri-sun-line"></i></button>
-                <button class="btn" id="btnSettings" title="Settings"><i class="ri-settings-3-line"></i></button>
+                <button class="btn btn-theme" id="btnThemeToggle" title="Toggle Theme"><i class="ri-contrast-2-fill"></i></button>
+                <button class="btn btn-settings" id="btnSettings" title="Settings"><i class="ri-settings-4-fill"></i></button>
             </div>
         </header>
 
@@ -59,10 +53,13 @@
             </div>
             <div class="console-container">
                 <div class="console-header">
-                    <h4><i class="ri-terminal-box-line"></i> Output</h4>
+                    <h4><i class="ri-terminal-box-fill"></i> Console Output</h4>
                     <div class="console-actions">
-                        <div class="status-indicator" id="runStatus" title="Status: Ready"><div class="status-dot"></div></div>
-                        <button class="btn btn-icon" id="clearConsole" title="Clear Output"><i class="ri-delete-bin-line"></i></button>
+                        <div class="status-indicator" id="runStatus" title="Status: Ready">
+                            <div class="status-dot"></div>
+                            <span class="status-text">Ready</span>
+                        </div>
+                        <button class="btn btn-icon" id="clearConsole" title="Clear Output"><i class="ri-delete-bin-6-line"></i></button>
                     </div>
                 </div>
                 <div class="console-output" id="output"></div>
@@ -80,10 +77,8 @@
             </div>
             <div class="modal-body">
                 <div class="app-icon">
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2L4 7V17L12 22L20 17V7L12 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                        <path d="M8 10L12 13L16 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                    </svg>
+                    <img src="assets/logo-dark.svg" alt="iPseudo Logo" class="modal-logo modal-logo-dark">
+                    <img src="assets/logo-light.svg" alt="iPseudo Logo" class="modal-logo modal-logo-light">
                 </div>
                 <p class="app-description">
                     iPseudo is a modern, lightweight IDE for writing and executing pseudocode. 
