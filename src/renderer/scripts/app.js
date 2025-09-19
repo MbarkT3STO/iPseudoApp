@@ -317,19 +317,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         const file = openFiles.get(activeFilePath);
-        if (!file) return;
+        if (!file) {
+            console.warn('No file data found for:', activeFilePath);
+            return;
+        }
+        
         
         try {
-            // Store current state
             const model = window.editor.getModel();
             if (!model) return;
             
-            const oldContent = model.getValue();
-            const oldPosition = window.editor.getPosition();
-            const oldScrollTop = window.editor.getScrollTop ? window.editor.getScrollTop() : 0;
-            
-            // Update editor content if it's different
-            if (oldContent !== file.content) {
+            // Update editor content
+            const currentContent = model.getValue();
+            if (currentContent !== file.content) {
                 model.setValue(file.content || '');
             }
             
@@ -337,15 +337,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (file.cursorPosition) {
                 window.editor.setPosition(file.cursorPosition);
                 window.editor.revealPositionInCenter(file.cursorPosition);
-            } else if (oldPosition) {
-                window.editor.setPosition(oldPosition);
             }
             
             // Restore scroll position
             if (file.scrollPosition !== undefined && window.editor.setScrollTop) {
                 window.editor.setScrollTop(file.scrollPosition);
-            } else if (oldScrollTop && window.editor.setScrollTop) {
-                window.editor.setScrollTop(oldScrollTop);
             }
             
             // Update window title
@@ -354,6 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Focus the editor
             window.editor.focus();
+            
         } catch (e) {
             console.error('Error refreshing editor:', e);
         }
@@ -409,6 +406,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tab.className = 'modern-tab active';
         tab.dataset.path = filePath;
         tab.dataset.tabId = tabId;
+        tab.style.animation = 'tabSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
         
         const fileName = filePath.split(/[\\/]/).pop();
         tab.innerHTML = `
@@ -417,9 +415,8 @@ document.addEventListener('DOMContentLoaded', () => {
             <button class="tab-close" data-tab-id="${tabId}" title="Close">✕</button>
         `;
         
-        // Insert before the new tab button
-        const newTabButton = document.getElementById('btnNewTab');
-        tabBar.insertBefore(tab, newTabButton);
+        // Insert the new tab at the end of the tabs track
+        tabBar.appendChild(tab);
         
         // Update active tab state
         document.querySelectorAll('.modern-tab').forEach(t => t.classList.remove('active'));
@@ -441,7 +438,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 originalContent: initialContent,
                 dirty: false,
                 cursorPosition: { lineNumber: 1, column: 1 },
-                scrollPosition: 0
+                scrollPosition: 0,
+                tabId: tabId
             });
         } else {
             // Update existing file data with tab ID
@@ -465,16 +463,34 @@ document.addEventListener('DOMContentLoaded', () => {
         const filePath = tab.dataset.path;
         if (!filePath) return;
         
+        
         // Save current editor state before switching
         saveEditorState();
         
-        // Update active tab
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        // Update active tab - remove active from all tabs first
+        document.querySelectorAll('.modern-tab').forEach(t => {
+            t.classList.remove('active');
+        });
+        
+        // Add active class to clicked tab
         tab.classList.add('active');
         
-        // Update active file path and refresh editor
+        // Add bounce animation
+        tab.style.animation = 'tabBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+        setTimeout(() => {
+            tab.style.animation = '';
+        }, 600);
+        
+        // Update active file path
         activeFilePath = filePath;
+        
+        // Refresh editor content for the new tab
         refreshEditorForCurrentTab();
+        
+        // Focus the editor
+        if (window.editor) {
+            window.editor.focus();
+        }
     }
 
     // Function to close a tab by its DOM element
@@ -609,9 +625,15 @@ document.addEventListener('DOMContentLoaded', () => {
         // 2. User chose to save/don't save a new file
         // 3. User chose to save/don't save changes to an existing file
         
-        // Remove tab from DOM
+        // Remove tab from DOM with animation
         const wasActive = tabElement.classList.contains('active');
-        tabElement.remove();
+        
+        // Add slide-out animation
+        tabElement.style.animation = 'tabSlideOut 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        
+        setTimeout(() => {
+            tabElement.remove();
+        }, 300);
         
         // Clean up openFiles if this was the last tab with this path
         if (filePath) {
@@ -625,16 +647,27 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // If this was the active tab, switch to another tab
         if (wasActive) {
-            const remainingTabs = document.querySelectorAll('.modern-tab:not(#btnNewTab)'); // Exclude the new tab button
+            const remainingTabs = document.querySelectorAll('.modern-tab');
             if (remainingTabs.length > 0) {
-                // Try to activate the next tab, or previous if no next tab exists
-                const nextTab = tabElement.nextElementSibling || tabElement.previousElementSibling;
-                if (nextTab && nextTab.id !== 'btnNewTab') {
-                    nextTab.click();
-                } else if (tabElement.previousElementSibling && tabElement.previousElementSibling.id !== 'btnNewTab') {
-                    tabElement.previousElementSibling.click();
-                } else if (tabElement.nextElementSibling) {
-                    tabElement.nextElementSibling.click();
+                // Find the best tab to switch to
+                let targetTab = null;
+                
+                // First, try to find the next tab
+                targetTab = tabElement.nextElementSibling;
+                
+                // If no next tab, try the previous tab
+                if (!targetTab) {
+                    targetTab = tabElement.previousElementSibling;
+                }
+                
+                // If still no tab, get the last remaining tab
+                if (!targetTab && remainingTabs.length > 0) {
+                    targetTab = remainingTabs[remainingTabs.length - 1];
+                }
+                
+                // Switch to the target tab
+                if (targetTab) {
+                    switchToTab(targetTab);
                 }
             } else {
                 // Only create new tab if there are absolutely no tabs left
@@ -643,21 +676,98 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Update the tab close button click handler
+    // Update the tab click handler
     document.getElementById('tabsContainer')?.addEventListener('click', (e) => {
         const closeButton = e.target.closest('.tab-close');
         if (closeButton) {
+            e.preventDefault();
             e.stopPropagation();
             const tab = closeButton.closest('.modern-tab');
             if (tab) {
                 closeTabElement(tab);
             }
-        } else if (e.target.closest('.modern-tab')) {
-            // Handle tab switching
-            const tab = e.target.closest('.modern-tab');
-            if (tab && !tab.classList.contains('active')) {
-                switchToTab(tab);
-            }
+            return;
+        }
+        
+        const tab = e.target.closest('.modern-tab');
+        if (tab) {
+            e.preventDefault();
+            e.stopPropagation();
+            switchToTab(tab);
+        }
+    });
+    
+    // Add right-click context menu for tabs
+    document.getElementById('tabsContainer')?.addEventListener('contextmenu', (e) => {
+        const tab = e.target.closest('.modern-tab');
+        if (tab) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Create context menu
+            const contextMenu = document.createElement('div');
+            contextMenu.className = 'tab-context-menu';
+            contextMenu.innerHTML = `
+                <div class="context-menu-item" data-action="close">
+                    <i class="ri-close-line"></i>
+                    <span>Close Tab</span>
+                </div>
+                <div class="context-menu-item" data-action="close-others">
+                    <i class="ri-close-circle-line"></i>
+                    <span>Close Other Tabs</span>
+                </div>
+                <div class="context-menu-item" data-action="close-all">
+                    <i class="ri-close-circle-fill"></i>
+                    <span>Close All Tabs</span>
+                </div>
+                <div class="context-menu-separator"></div>
+                <div class="context-menu-item" data-action="duplicate">
+                    <i class="ri-file-copy-line"></i>
+                    <span>Duplicate Tab</span>
+                </div>
+            `;
+            
+            // Position the context menu
+            contextMenu.style.position = 'fixed';
+            contextMenu.style.left = e.clientX + 'px';
+            contextMenu.style.top = e.clientY + 'px';
+            contextMenu.style.zIndex = '1000';
+            
+            document.body.appendChild(contextMenu);
+            
+            // Handle context menu actions
+            contextMenu.addEventListener('click', (e) => {
+                const action = e.target.closest('.context-menu-item')?.dataset.action;
+                if (action) {
+                    switch (action) {
+                        case 'close':
+                            closeTabElement(tab);
+                            break;
+                        case 'close-others':
+                            closeOtherTabs(tab);
+                            break;
+                        case 'close-all':
+                            closeAllTabs();
+                            break;
+                        case 'duplicate':
+                            duplicateTab(tab);
+                            break;
+                    }
+                }
+                contextMenu.remove();
+            });
+            
+            // Remove context menu when clicking outside
+            const removeContextMenu = (e) => {
+                if (!contextMenu.contains(e.target)) {
+                    contextMenu.remove();
+                    document.removeEventListener('click', removeContextMenu);
+                }
+            };
+            
+            setTimeout(() => {
+                document.addEventListener('click', removeContextMenu);
+            }, 100);
         }
     });
 
@@ -693,7 +803,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function createNewTab() {
         const newTabId = `Untitled-${getNextUntitledNumber()}.pseudo`;
-        createOrSwitchToTab(newTabId);
+        
+        // Add to open files first
         openFiles.set(newTabId, {
             content: '',
             originalContent: '',
@@ -701,7 +812,45 @@ document.addEventListener('DOMContentLoaded', () => {
             cursorPosition: { lineNumber: 1, column: 1 },
             scrollPosition: 0
         });
+        
+        // Create the tab
+        createOrSwitchToTab(newTabId, '');
+        
+        // Update document title
         document.title = `${newTabId} - iPseudo IDE`;
+    }
+
+    // Helper functions for context menu
+    function closeOtherTabs(keepTab) {
+        const allTabs = document.querySelectorAll('.modern-tab');
+        allTabs.forEach(tab => {
+            if (tab !== keepTab) {
+                closeTabElement(tab);
+            }
+        });
+    }
+
+    function closeAllTabs() {
+        const allTabs = document.querySelectorAll('.modern-tab');
+        allTabs.forEach(tab => {
+            closeTabElement(tab);
+        });
+    }
+
+    function duplicateTab(tab) {
+        const filePath = tab.dataset.path;
+        const file = openFiles.get(filePath);
+        if (file) {
+            const newTabId = `Untitled-${getNextUntitledNumber()}.pseudo`;
+            openFiles.set(newTabId, {
+                content: file.content,
+                originalContent: file.content,
+                dirty: true,
+                cursorPosition: { lineNumber: 1, column: 1 },
+                scrollPosition: 0
+            });
+            createOrSwitchToTab(newTabId, file.content);
+        }
     }
 
     // Add event listener for the save button
@@ -804,9 +953,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add event listener for the new tab button
     const newTabButton = document.getElementById('btnNewTab');
     if (newTabButton) {
-        newTabButton.addEventListener('click', () => {
+        newTabButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
             createNewTab();
         });
+    } else {
+        console.error('New tab button not found');
     }
 
     // Add event listeners for new action buttons
@@ -937,9 +1090,56 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(initializeFirstTab, 100);
             return;
         }
-        createNewTab();
+        
+        // Only create a new tab if there are no existing tabs
+        const existingTabs = document.querySelectorAll('.modern-tab');
+        if (existingTabs.length === 0) {
+            createNewTab();
+        }
     }
     
     // Start the initialization
     initializeFirstTab();
+    
+    // Add keyboard shortcuts for tab navigation
+    document.addEventListener('keydown', (e) => {
+        // Ctrl+Tab or Ctrl+PageDown - Next tab
+        if ((e.ctrlKey && e.key === 'Tab') || (e.ctrlKey && e.key === 'PageDown')) {
+            e.preventDefault();
+            const tabs = Array.from(document.querySelectorAll('.modern-tab'));
+            const activeTab = document.querySelector('.modern-tab.active');
+            if (activeTab && tabs.length > 1) {
+                const currentIndex = tabs.indexOf(activeTab);
+                const nextIndex = (currentIndex + 1) % tabs.length;
+                switchToTab(tabs[nextIndex]);
+            }
+        }
+        
+        // Ctrl+Shift+Tab or Ctrl+PageUp - Previous tab
+        if ((e.ctrlKey && e.shiftKey && e.key === 'Tab') || (e.ctrlKey && e.key === 'PageUp')) {
+            e.preventDefault();
+            const tabs = Array.from(document.querySelectorAll('.modern-tab'));
+            const activeTab = document.querySelector('.modern-tab.active');
+            if (activeTab && tabs.length > 1) {
+                const currentIndex = tabs.indexOf(activeTab);
+                const prevIndex = currentIndex === 0 ? tabs.length - 1 : currentIndex - 1;
+                switchToTab(tabs[prevIndex]);
+            }
+        }
+        
+        // Ctrl+W - Close current tab
+        if (e.ctrlKey && e.key === 'w') {
+            e.preventDefault();
+            const activeTab = document.querySelector('.modern-tab.active');
+            if (activeTab) {
+                closeTabElement(activeTab);
+            }
+        }
+        
+        // Ctrl+T - New tab
+        if (e.ctrlKey && e.key === 't') {
+            e.preventDefault();
+            createNewTab();
+        }
+    });
 });
