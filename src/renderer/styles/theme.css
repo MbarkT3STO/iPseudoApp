@@ -984,49 +984,83 @@
 .theme-light .btn.btn-text:hover { background: rgba(2,6,23,0.06); }
 
 /* Beautiful Gradient Run Button */
+/* Enhanced Glassmorphism Run Button */
 .btn.btn-run, #btnRun {
-  background: linear-gradient(135deg, #10b981 0%, #34d399 25%, #6ee7b7 50%, #86efac 75%, #bbf7d0 100%) !important;
-  color: #ffffff !important;
-  border: 1px solid transparent !important;
-  box-shadow: 0 12px 40px rgba(16, 185, 129, 0.5) !important;
+  background: var(--gradient-primary) !important;
+  color: white !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 
+    0 8px 32px rgba(99, 102, 241, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset !important;
 }
 .btn.btn-run:hover, #btnRun:hover { 
-  background: linear-gradient(135deg, #059669 0%, #10b981 25%, #34d399 50%, #6ee7b7 75%, #86efac 100%) !important;
-  box-shadow: 0 20px 60px rgba(16, 185, 129, 0.7) !important;
+  background: var(--gradient-secondary) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 
+    0 12px 40px rgba(99, 102, 241, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.15) inset !important;
 }
 .btn.btn-run:active, #btnRun:active { 
-  background: linear-gradient(135deg, #047857 0%, #059669 25%, #10b981 50%, #34d399 75%, #6ee7b7 100%) !important;
-  box-shadow: 0 8px 32px rgba(16, 185, 129, 0.4) !important;
+  background: var(--gradient-primary) !important;
+  transform: translateY(0) !important;
+  box-shadow: 
+    0 4px 16px rgba(99, 102, 241, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.2) inset !important;
+}
+
+/* Enhanced Dark Mode Run Button */
+.theme-dark .btn.btn-run, .theme-dark #btnRun {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 
+    0 8px 32px rgba(99, 102, 241, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset !important;
+}
+
+/* Enhanced Light Mode Run Button */
+.theme-light .btn.btn-run, .theme-light #btnRun {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 
+    0 8px 32px rgba(99, 102, 241, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.2) inset !important;
 }
 
 
-/* Beautiful Gradient File Actions (Icon Only) */
-#btnNew { 
-  width: 48px !important; 
-  height: 48px !important; 
+/* Enhanced Glassmorphism File Actions (Icon Only) */
+#btnNew, #btnOpen, #btnSave, #btnThemeToggle { 
+  width: 36px !important; 
+  height: 36px !important; 
   padding: 0 !important; 
-  border-radius: 24px !important;
-  background: linear-gradient(135deg, #10b981 0%, #34d399 50%, #6ee7b7 100%) !important; 
-  color: #ffffff !important; 
-  border: 1px solid transparent !important; 
+  border-radius: var(--radius-md) !important;
+  background: var(--bg-glass) !important; 
+  color: var(--text-primary) !important; 
+  border: 1px solid var(--border-glass) !important; 
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
 }
-#btnOpen { 
-  width: 48px !important; 
-  height: 48px !important; 
-  padding: 0 !important; 
-  border-radius: 24px !important;
-  background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 50%, #93c5fd 100%) !important; 
-  color: #ffffff !important; 
-  border: 1px solid transparent !important; 
+
+/* Enhanced Dark Mode File Actions */
+.theme-dark #btnNew, .theme-dark #btnOpen, .theme-dark #btnSave, .theme-dark #btnThemeToggle {
+  background: rgba(15, 23, 42, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #cbd5e1 !important;
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset !important;
 }
-#btnSave { 
-  width: 48px !important; 
-  height: 48px !important; 
-  padding: 0 !important; 
-  border-radius: 24px !important;
-  background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 50%, #c4b5fd 100%) !important; 
-  color: #ffffff !important; 
-  border: 1px solid transparent !important; 
+
+/* Enhanced Light Mode File Actions */
+.theme-light #btnNew, .theme-light #btnOpen, .theme-light #btnSave, .theme-light #btnThemeToggle {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  color: #475569 !important;
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.06),
+    0 0 0 1px rgba(255, 255, 255, 0.8) inset !important;
 }
 
 /* New Tab pill to match chips */
