@@ -824,17 +824,48 @@ body {
 
 .tab.active {
   background: linear-gradient(135deg, 
-    #3b82f6 0%, 
-    #8b5cf6 50%, 
-    #ec4899 100%
+    #8b5cf6 0%, 
+    #a855f7 50%, 
+    #c084fc 100%
   );
   color: white;
-  border-color: rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.4);
   box-shadow: 
-    0 12px 40px rgba(59, 130, 246, 0.4),
-    0 0 0 1px rgba(255, 255, 255, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  transform: translateY(-3px) scale(1.05);
+    0 16px 48px rgba(139, 92, 246, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.3) inset,
+    0 0 30px rgba(139, 92, 246, 0.4);
+  transform: translateY(-3px) scale(1.08);
+  font-weight: 700;
+}
+
+/* Beautiful Purple Active Tab - Dark Mode */
+.theme-dark .tab.active {
+  background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 50%, #c084fc 100%) !important;
+  color: #ffffff !important;
+  border: 2px solid rgba(255, 255, 255, 0.5) !important;
+  box-shadow: 
+    0 16px 48px rgba(139, 92, 246, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.3) inset,
+    0 0 30px rgba(139, 92, 246, 0.5) !important;
+  font-weight: 700 !important;
+  opacity: 1 !important;
+  transform: translateY(-3px) scale(1.08) !important;
+  z-index: 10 !important;
+}
+
+/* Beautiful Purple Active Tab - Light Mode */
+.theme-light .tab.active {
+  background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 50%, #c084fc 100%) !important;
+  color: #ffffff !important;
+  border: 2px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 
+    0 16px 48px rgba(139, 92, 246, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.4) inset,
+    0 0 30px rgba(139, 92, 246, 0.3) !important;
+  font-weight: 700 !important;
+  opacity: 1 !important;
+  transform: translateY(-3px) scale(1.08) !important;
+  z-index: 10 !important;
 }
 
 .tab.active::before {
@@ -859,6 +890,28 @@ body {
   -webkit-backdrop-filter: blur(10px);
   position: relative;
   overflow: hidden;
+}
+
+/* Enhanced Dark Mode Inactive Tabs - Much More Subdued */
+.theme-dark .tab {
+  background: linear-gradient(135deg, 
+    rgba(0, 0, 0, 0.3) 0%, 
+    rgba(0, 0, 0, 0.2) 100%
+  ) !important;
+  color: rgba(255, 255, 255, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  opacity: 0.7 !important;
+}
+
+/* Enhanced Light Mode Inactive Tabs - Much More Subdued */
+.theme-light .tab {
+  background: linear-gradient(135deg, 
+    rgba(248, 250, 252, 0.6) 0%, 
+    rgba(248, 250, 252, 0.4) 100%
+  ) !important;
+  color: rgba(15, 23, 42, 0.5) !important;
+  border: 1px solid rgba(15, 23, 42, 0.12) !important;
+  opacity: 0.8 !important;
 }
 
 .tab .tab-close::before {

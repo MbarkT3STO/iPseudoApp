@@ -580,19 +580,21 @@
   user-select: none !important;
 }
 
-/* Theme-specific base states */
+/* Enhanced Theme-specific base states - Much More Subdued Inactive Tabs */
 .theme-dark #tabsContainer .tab {
-  background: rgba(255,255,255,0.05) !important;
-  color: var(--text-muted) !important;
-  border-color: var(--neo-border) !important;
-  box-shadow: 0 4px 10px rgba(0,0,0,.15) inset !important;
+  background: rgba(0,0,0,0.3) !important;
+  color: rgba(255,255,255,0.4) !important;
+  border-color: rgba(255,255,255,0.08) !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,.3) inset !important;
+  opacity: 0.7 !important;
 }
 
 .theme-light #tabsContainer .tab {
-  background: rgba(255,255,255,0.9) !important;
-  color: var(--text-secondary) !important;
-  border-color: rgba(15,23,42,0.08) !important;
-  box-shadow: 0 2px 6px rgba(0,0,0,.06) !important;
+  background: rgba(248,250,252,0.6) !important;
+  color: rgba(15,23,42,0.5) !important;
+  border-color: rgba(15,23,42,0.12) !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,.08) !important;
+  opacity: 0.8 !important;
 }
 
 /* Hover lift */
@@ -601,7 +603,7 @@
   transform: translateY(-1px) !important;
 }
 
-/* Active gradient chip */
+/* Enhanced Active gradient chip */
 .theme-dark #tabsContainer .tab.active,
 .theme-light #tabsContainer .tab.active {
   background: var(--neo-gradient) !important;
@@ -610,7 +612,37 @@
   box-shadow: 0 8px 24px rgba(99,102,241,.35) !important;
 }
 
-/* Soft glow ring for active */
+/* Beautiful Purple Active Tab - Dark Mode */
+.theme-dark #tabsContainer .tab.active {
+  background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 50%, #c084fc 100%) !important;
+  color: #ffffff !important;
+  border: 2px solid rgba(255, 255, 255, 0.5) !important;
+  box-shadow: 
+    0 16px 48px rgba(139, 92, 246, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.3) inset,
+    0 0 30px rgba(139, 92, 246, 0.5) !important;
+  font-weight: 700 !important;
+  opacity: 1 !important;
+  transform: translateY(-2px) scale(1.08) !important;
+  z-index: 10 !important;
+}
+
+/* Beautiful Purple Active Tab - Light Mode */
+.theme-light #tabsContainer .tab.active {
+  background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 50%, #c084fc 100%) !important;
+  color: #ffffff !important;
+  border: 2px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 
+    0 16px 48px rgba(139, 92, 246, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.4) inset,
+    0 0 30px rgba(139, 92, 246, 0.3) !important;
+  font-weight: 700 !important;
+  opacity: 1 !important;
+  transform: translateY(-2px) scale(1.08) !important;
+  z-index: 10 !important;
+}
+
+/* Enhanced glow ring for active tabs */
 .theme-dark #tabsContainer .tab.active::after,
 .theme-light #tabsContainer .tab.active::after {
   content: '';
@@ -620,6 +652,24 @@
   pointer-events: none;
   background: radial-gradient(60% 60% at 50% 50%, rgba(168,85,247,.45), transparent 70%);
   opacity: .6;
+}
+
+/* Beautiful Purple Glow - Dark Mode */
+.theme-dark #tabsContainer .tab.active::after {
+  background: radial-gradient(90% 90% at 50% 50%, rgba(139, 92, 246, 0.8), rgba(168, 85, 247, 0.6), transparent 60%) !important;
+  opacity: 1 !important;
+  box-shadow: 
+    0 0 35px rgba(139, 92, 246, 0.6),
+    0 0 70px rgba(139, 92, 246, 0.3) !important;
+}
+
+/* Beautiful Purple Glow - Light Mode */
+.theme-light #tabsContainer .tab.active::after {
+  background: radial-gradient(90% 90% at 50% 50%, rgba(139, 92, 246, 0.7), rgba(168, 85, 247, 0.5), transparent 65%) !important;
+  opacity: 0.95 !important;
+  box-shadow: 
+    0 0 30px rgba(139, 92, 246, 0.5),
+    0 0 60px rgba(139, 92, 246, 0.25) !important;
 }
 
 /* Remove old active underline */
