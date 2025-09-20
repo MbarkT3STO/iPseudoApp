@@ -1,29 +1,79 @@
-// Minimal clean app.js - renderer wiring for runner.worker.js and ErrorManager
+// Minimal clean app.ts - renderer wiring for runner.worker.js and ErrorManager
+
+interface FileData {
+    content: string;
+    dirty: boolean;
+    originalContent: string;
+    cursorPosition: { lineNumber: number; column: number };
+    scrollPosition: number;
+    tabId?: string;
+}
+
+interface ErrorManagerType {
+    updateDecorations?: (editor: any, decorations: any[]) => void;
+}
+
+interface SaveResult {
+    canceled: boolean;
+    filePath?: string;
+}
+
+interface OpenFileResult {
+    canceled: boolean;
+    filePath?: string;
+    content?: string;
+}
+
+interface MessageBoxResult {
+    response: number;
+}
+
+// Extend window interface
+interface Window {
+    editor: any;
+    ErrorManager?: new () => ErrorManagerType;
+    nodeRequire?: any;
+    openFiles: Map<string, FileData>;
+    activeFilePath: string;
+    electron?: {
+        openExternal: (url: string) => Promise<void>;
+    };
+}
 
 document.addEventListener('DOMContentLoaded', () => {
-    const outputConsole = document.getElementById('output');
-    const runButton = document.getElementById('btnRun');
-    const clearButton = document.getElementById('clearConsole');
-    const runStatus = document.getElementById('runStatus');
-    const sidebarToggle = document.getElementById('sidebar-toggle');
-    const appShell = document.querySelector('.app-shell');
-    const activityBar = document.querySelector('.activity-bar');
+    const outputConsole = document.getElementById('output') as HTMLElement | null;
+    const runButton = document.getElementById('btnRun') as HTMLButtonElement | null;
+    const clearButton = document.getElementById('clearConsole') as HTMLButtonElement | null;
+    const runStatus = document.getElementById('runStatus') as HTMLElement | null;
+    const sidebarToggle = document.getElementById('sidebar-toggle') as HTMLElement | null;
+    const appShell = document.querySelector('.app-shell') as HTMLElement | null;
+    const activityBar = document.querySelector('.activity-bar') as HTMLElement | null;
 
     // Track open files and their content
-    const openFiles = new Map();
+    const openFiles = new Map<string, FileData>();
     let activeFilePath = '';
 
     // Global tab counter
     let tabCounter = 0;
 
-    function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]); }
+    // Make these globally available
+    (window as any).openFiles = openFiles;
+    (window as any).activeFilePath = activeFilePath || '';
+
+    function escapeHtml(s: string): string { 
+        return String(s).replace(/[&<>"']/g, c => {
+            const escapeMap: {[key: string]: string} = {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'};
+            return escapeMap[c] || c;
+        }); 
+    }
+
     // out: by default include timestamp; for type 'stdout' and 'print' show raw text only
-    function out(text, type='info') {
+    function out(text: string, type: string = 'info'): void {
         if (!outputConsole) return;
         const safe = escapeHtml(String(text));
 
         if (type === 'stdout' || type === 'print') {
-            let printContainer = outputConsole.querySelector('.print-output-container');
+            let printContainer = outputConsole.querySelector('.print-output-container') as HTMLElement | null;
             if (!printContainer) {
                 printContainer = document.createElement('div');
                 printContainer.className = 'print-output-container';
@@ -46,23 +96,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    if (clearButton) clearButton.addEventListener('click', () => { if (outputConsole) outputConsole.innerHTML = ''; });
+    if (clearButton) clearButton.addEventListener('click', () => { 
+        if (outputConsole) outputConsole.innerHTML = ''; 
+    });
 
-    const ErrorManagerCtor = window.ErrorManager || null;
+    const ErrorManagerCtor = (window as any).ErrorManager || null;
     const errorManager = ErrorManagerCtor ? new ErrorManagerCtor() : null;
 
-    let runnerWorker = null;
+    let runnerWorker: Worker | null = null;
 
-    function cleanupWorker() {
+    function cleanupWorker(): void {
         if (runnerWorker) {
-            try { runnerWorker.onmessage = null; runnerWorker.onerror = null; runnerWorker.terminate(); } catch(e) { console.error(e); }
+            try { 
+                runnerWorker.onmessage = null; 
+                runnerWorker.onerror = null; 
+                runnerWorker.terminate(); 
+            } catch(e) { 
+                console.error(e); 
+            }
             runnerWorker = null;
         }
         if (runButton) runButton.disabled = false;
         if (runStatus) runStatus.title = 'Idle';
     }
 
-    function handleError(err, src) {
+    function handleError(err: any, src?: string): void {
         // Check if this is a pre-formatted error message from the worker
         if (err.formatted) {
             // Split the message into lines and handle each line appropriately
@@ -71,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Display the main error message (first line) with proper styling
             if (lines.length > 0) {
                 const mainError = lines[0];
-                outputConsole.innerHTML += `<div class="error-message">${mainError}</div>`;
+                outputConsole!.innerHTML += `<div class="error-message">${mainError}</div>`;
             }
             
             // Display the rest of the error message with context
@@ -81,49 +139,49 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Style different parts of the error message
                 if (line.startsWith('At line')) {
-                    outputConsole.innerHTML += `<div class="error-location">${line}</div>`;
+                    outputConsole!.innerHTML += `<div class="error-location">${line}</div>`;
                 } else if (line.startsWith('  ') && line.trim() !== '^') {
                     // This is a line of code with the error
-                    outputConsole.innerHTML += `<div class="error-code"><pre>${line}</pre></div>`;
+                    outputConsole!.innerHTML += `<div class="error-code"><pre>${line}</pre></div>`;
                 } else if (line.trim() === '^') {
                     // This is the pointer to the error location
-                    outputConsole.innerHTML += `<div class="error-pointer">${line}</div>`;
+                    outputConsole!.innerHTML += `<div class="error-pointer">${line}</div>`;
                 } else if (line.startsWith('Previous line')) {
-                    outputConsole.innerHTML += `<div class="error-context">${line}</div>`;
+                    outputConsole!.innerHTML += `<div class="error-context">${line}</div>`;
                 } else if (line.startsWith('💡')) {
                     // This is a tip/suggestion
-                    outputConsole.innerHTML += `<div class="error-tip">${line}</div>`;
+                    outputConsole!.innerHTML += `<div class="error-tip">${line}</div>`;
                 } else {
                     // Default styling for other lines
-                    outputConsole.innerHTML += `<div>${line}</div>`;
+                    outputConsole!.innerHTML += `<div>${line}</div>`;
                 }
             }
             
             // Add a separator after the error
-            outputConsole.innerHTML += '<div class="error-separator"></div>';
+            outputConsole!.innerHTML += '<div class="error-separator"></div>';
             
             // Scroll to the bottom to show the error
-            outputConsole.scrollTop = outputConsole.scrollHeight;
+            outputConsole!.scrollTop = outputConsole!.scrollHeight;
             return;
         }
         
         // Handle pseudo-code validation errors
         if (err.issues && Array.isArray(err.issues)) {
-            err.issues.forEach(issue => {
+            err.issues.forEach((issue: any) => {
                 out(`Error at line ${issue.line}: ${issue.message}`, 'error');
                 out(`  ${issue.text.trim()}`, 'error');
                 
                 // Try to highlight the error in the editor if possible
-                if (errorManager && window.editor && typeof window.editor.getModel === 'function') {
+                if (errorManager && (window as any).editor && typeof (window as any).editor.getModel === 'function') {
                     try {
-                        const model = window.editor.getModel();
+                        const model = (window as any).editor.getModel();
                         const decoration = {
                             message: issue.message,
                             line: issue.line,
                             originalText: issue.text.trim()
                         };
                         if (typeof errorManager.updateDecorations === 'function') {
-                            errorManager.updateDecorations(window.editor, [decoration]);
+                            errorManager.updateDecorations((window as any).editor, [decoration]);
                         }
                     } catch (e) { console.warn('Failed to update error decorations', e); }
                 }
@@ -165,10 +223,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Try to highlight the error in the editor if possible
-            if (errorManager && window.editor && typeof window.editor.getModel === 'function') {
+            if (errorManager && (window as any).editor && typeof (window as any).editor.getModel === 'function') {
                 try {
-                    const model = window.editor.getModel();
-                    const decoration = {
+                    const model = (window as any).editor.getModel();
+                    const decoration: any = {
                         message: errorMessage,
                         line: lineNum,
                         originalText: originalText,
@@ -187,7 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
 
                     if (typeof errorManager.updateDecorations === 'function') {
-                        errorManager.updateDecorations(window.editor, [decoration]);
+                        errorManager.updateDecorations((window as any).editor, [decoration]);
                     }
                     
                     // If we have a suggestion, display it
@@ -197,9 +255,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // Scroll to the error line in the editor
                     if (lineNum !== 'unknown') {
-                        window.editor.revealLineInCenter(parseInt(lineNum, 10));
-                        window.editor.setPosition({ lineNumber: parseInt(lineNum, 10), column: 1 });
-                        window.editor.focus();
+                        (window as any).editor.revealLineInCenter(parseInt(lineNum as string, 10));
+                        (window as any).editor.setPosition({ lineNumber: parseInt(lineNum as string, 10), column: 1 });
+                        (window as any).editor.focus();
                     }
                 } catch (e) { 
                     console.warn('Failed to update error decorations', e); 
@@ -211,7 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function execute(code) {
+    function execute(code: string): void {
         if (!code || !code.trim()) { out('Nothing to run','warning'); return; }
         try {
             if (runButton) runButton.disabled = true;
@@ -224,22 +282,53 @@ document.addEventListener('DOMContentLoaded', () => {
             const isPseudo = /\bprint\b|\bvar\b|\bfor\b|\bendfor\b/i.test(code);
             const timeout = isPseudo ? 8000 : 5000;
 
-            runnerWorker.onerror = (e) => { out('Worker error: ' + (e && e.message? e.message : JSON.stringify(e)),'error'); cleanupWorker(); };
+            runnerWorker.onerror = (e) => { 
+                out('Worker error: ' + (e && e.message ? e.message : JSON.stringify(e)), 'error'); 
+                cleanupWorker(); 
+            };
 
             runnerWorker.onmessage = (ev) => {
-                const m = ev.data; if (!m) return;
+                const m = ev.data; 
+                if (!m) return;
                 try {
-                    if (m.type === 'stdout') { (m.text||'').split('\n').forEach(l=>{ if (l.trim()) out(l,'stdout'); }); }
-                    else if (m.type === 'stderr') { out(m.text||'stderr','error'); }
-                    else if (m.type === 'error') { const eobj = m.error || { message: m.message||m.text||'error' }; const e = new Error(eobj.message); e.name = eobj.name || 'Error'; e.stack = eobj.stack || ''; handleError(e, code); cleanupWorker(); }
-                    else if (m.type === 'input-request') { const val = window.prompt(m.prompt||'Input:')||''; runnerWorker.postMessage({ type: 'input-response', id: m.id, value: val }); }
-                    else if (m.type === 'done') { out('Done','info'); cleanupWorker(); }
-                    else { console.warn('unknown message',m); }
-                } catch(err) { out('Message handler error: '+err.message,'error'); cleanupWorker(); }
+                    if (m.type === 'stdout') { 
+                        (m.text || '').split('\n').forEach((l: string) => { 
+                            if (l.trim()) out(l, 'stdout'); 
+                        }); 
+                    }
+                    else if (m.type === 'stderr') { 
+                        out(m.text || 'stderr', 'error'); 
+                    }
+                    else if (m.type === 'error') { 
+                        const eobj = m.error || { message: m.message || m.text || 'error' }; 
+                        const e = new Error(eobj.message); 
+                        (e as any).name = eobj.name || 'Error'; 
+                        e.stack = eobj.stack || ''; 
+                        handleError(e, code); 
+                        cleanupWorker(); 
+                    }
+                    else if (m.type === 'input-request') { 
+                        const val = window.prompt(m.prompt || 'Input:') || ''; 
+                        runnerWorker!.postMessage({ type: 'input-response', id: m.id, value: val }); 
+                    }
+                    else if (m.type === 'done') { 
+                        out('Done', 'info'); 
+                        cleanupWorker(); 
+                    }
+                    else { 
+                        console.warn('unknown message', m); 
+                    }
+                } catch(err) { 
+                    out('Message handler error: ' + (err as Error).message, 'error'); 
+                    cleanupWorker(); 
+                }
             };
 
             runnerWorker.postMessage({ code, timeout });
-        } catch(err) { handleError(err, code); cleanupWorker(); }
+        } catch(err) { 
+            handleError(err, code); 
+            cleanupWorker(); 
+        }
     }
 
     if (runButton) runButton.addEventListener('click', async () => {
@@ -250,12 +339,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update status indicator
         if (runStatus) {
             runStatus.title = 'Status: Running...';
-            const statusDot = runStatus.querySelector('.status-dot');
+            const statusDot = runStatus.querySelector('.status-dot') as HTMLElement | null;
             if (statusDot) statusDot.style.backgroundColor = 'var(--status-running)';
         }
         
         // Get the code and clear console
-        const code = window.editor && typeof window.editor.getValue === 'function' ? window.editor.getValue() : '';
+        const code = (window as any).editor && typeof (window as any).editor.getValue === 'function' ? (window as any).editor.getValue() : '';
         if (outputConsole) outputConsole.innerHTML = '';
         
         try {
@@ -265,14 +354,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // Update status to success if execution completes without errors
             if (runStatus) {
                 runStatus.title = 'Status: Execution completed';
-                const statusDot = runStatus.querySelector('.status-dot');
+                const statusDot = runStatus.querySelector('.status-dot') as HTMLElement | null;
                 if (statusDot) statusDot.style.backgroundColor = 'var(--status-success)';
             }
         } catch (error) {
             // Error handling is done in the execute function
             if (runStatus) {
                 runStatus.title = 'Status: Error occurred';
-                const statusDot = runStatus.querySelector('.status-dot');
+                const statusDot = runStatus.querySelector('.status-dot') as HTMLElement | null;
                 if (statusDot) statusDot.style.backgroundColor = 'var(--status-error)';
             }
         } finally {
@@ -285,16 +374,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Function to save the current editor state
-    function saveEditorState() {
-        if (!window.editor || !activeFilePath || !window.editor.getModel) return;
+    function saveEditorState(): void {
+        if (!(window as any).editor || !activeFilePath || !(window as any).editor.getModel) return;
         
         try {
-            const content = window.editor.getValue();
-            const position = window.editor.getPosition();
-            const scrollTop = window.editor.getScrollTop ? window.editor.getScrollTop() : 0;
+            const content = (window as any).editor.getValue();
+            const position = (window as any).editor.getPosition();
+            const scrollTop = (window as any).editor.getScrollTop ? (window as any).editor.getScrollTop() : 0;
             
             if (openFiles.has(activeFilePath)) {
-                const file = openFiles.get(activeFilePath);
+                const file = openFiles.get(activeFilePath)!;
                 file.content = content;
                 file.cursorPosition = position || { lineNumber: 1, column: 1 };
                 file.scrollPosition = scrollTop;
@@ -307,10 +396,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Function to refresh editor content for the current tab
-    function refreshEditorForCurrentTab() {
-        if (!window.editor || !activeFilePath || !window.editor.getModel) {
+    function refreshEditorForCurrentTab(): void {
+        if (!(window as any).editor || !activeFilePath || !(window as any).editor.getModel) {
             // If editor isn't ready, try again shortly
-            if (activeFilePath && !window.editor) {
+            if (activeFilePath && !(window as any).editor) {
                 setTimeout(refreshEditorForCurrentTab, 100);
             }
             return;
@@ -322,9 +411,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         
-        
         try {
-            const model = window.editor.getModel();
+            const model = (window as any).editor.getModel();
             if (!model) return;
             
             // Update editor content
@@ -335,13 +423,13 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Restore cursor position
             if (file.cursorPosition) {
-                window.editor.setPosition(file.cursorPosition);
-                window.editor.revealPositionInCenter(file.cursorPosition);
+                (window as any).editor.setPosition(file.cursorPosition);
+                (window as any).editor.revealPositionInCenter(file.cursorPosition);
             }
             
             // Restore scroll position
-            if (file.scrollPosition !== undefined && window.editor.setScrollTop) {
-                window.editor.setScrollTop(file.scrollPosition);
+            if (file.scrollPosition !== undefined && (window as any).editor.setScrollTop) {
+                (window as any).editor.setScrollTop(file.scrollPosition);
             }
             
             // Update window title
@@ -349,7 +437,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.title = `${fileName}${file.dirty ? ' *' : ''} - iPseudo IDE`;
             
             // Focus the editor
-            window.editor.focus();
+            (window as any).editor.focus();
             
         } catch (e) {
             console.error('Error refreshing editor:', e);
@@ -357,7 +445,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Function to open a file in a new tab
-    async function openFile(filePath, content) {
+    async function openFile(filePath: string, content: string): Promise<void> {
         try {
             // Store file content
             openFiles.set(filePath, {
@@ -376,12 +464,12 @@ document.addEventListener('DOMContentLoaded', () => {
             
         } catch (error) {
             console.error('Error opening file:', error);
-            handleError({ message: `Failed to open file: ${error.message}` });
+            handleError({ message: `Failed to open file: ${(error as Error).message}` });
         }
     }
 
     // Function to create or switch to a tab
-    function createOrSwitchToTab(filePath, initialContent = '') {
+    function createOrSwitchToTab(filePath: string, initialContent: string = ''): HTMLElement | undefined {
         const tabBar = document.getElementById('tabsTrack');
         if (!tabBar) {
             console.error('Tab track not found');
@@ -392,7 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
         saveEditorState();
         
         // Check if tab already exists
-        const existingTab = tabBar.querySelector(`.modern-tab[data-tab-id="${filePath}"]`);
+        const existingTab = tabBar.querySelector(`.modern-tab[data-tab-id="${filePath}"]`) as HTMLElement | null;
         if (existingTab) {
             switchToTab(existingTab);
             return;
@@ -423,9 +511,9 @@ document.addEventListener('DOMContentLoaded', () => {
         tab.classList.add('active');
         
         // Initialize editor with content
-        if (window.editor) {
-            window.editor.setValue(initialContent);
-            window.editor.focus();
+        if ((window as any).editor) {
+            (window as any).editor.setValue(initialContent);
+            (window as any).editor.focus();
         }
         
         // Update document title
@@ -452,17 +540,17 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Update active file path
         activeFilePath = filePath;
+        (window as any).activeFilePath = activeFilePath || '';
         
         return tab;
     }
 
     // Function to switch tabs
-    function switchToTab(tab) {
+    function switchToTab(tab: HTMLElement): void {
         if (!tab) return;
         
         const filePath = tab.dataset.path;
         if (!filePath) return;
-        
         
         // Save current editor state before switching
         saveEditorState();
@@ -483,29 +571,30 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Update active file path
         activeFilePath = filePath;
+        (window as any).activeFilePath = activeFilePath || '';
         
         // Refresh editor content for the new tab
         refreshEditorForCurrentTab();
         
         // Focus the editor
-        if (window.editor) {
-            window.editor.focus();
+        if ((window as any).editor) {
+            (window as any).editor.focus();
         }
     }
 
     // Function to close a tab by its DOM element
-    async function closeTabElement(tabElement) {
+    async function closeTabElement(tabElement: HTMLElement): Promise<void> {
         if (!tabElement) return;
         
         const tabId = tabElement.dataset.tabId;
-        let filePath = tabElement.dataset.path;
+        let filePath = tabElement.dataset.path || '';
         const isNewFile = !filePath || filePath === 'untitled.pseudo' || !filePath.includes('/');
         
         // Get current content from editor if this is the active tab
         let currentContent = '';
         const isActiveTab = tabElement.classList.contains('active');
-        if (isActiveTab && window.editor) {
-            currentContent = window.editor.getValue();
+        if (isActiveTab && (window as any).editor) {
+            currentContent = (window as any).editor.getValue();
         } else {
             // If not active, get content from openFiles
             const fileData = openFiles.get(filePath);
@@ -522,7 +611,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         // Case 2: New unsaved file with content
         else if (isNewFile) {
-            const { response } = await window.nodeRequire('electron').ipcRenderer.invoke('show-message-box', {
+            const result = await (window as any).nodeRequire('electron').ipcRenderer.invoke('show-message-box', {
                 type: 'question',
                 buttons: ['Save', "Don't Save", 'Cancel'],
                 title: 'Save Changes',
@@ -530,16 +619,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 detail: 'Your changes will be lost if you don\'t save them.',
                 defaultId: 0,
                 cancelId: 2
-            });
+            }) as MessageBoxResult;
 
-            if (response === 2) return; // Cancel
+            if (result.response === 2) return; // Cancel
             
-            if (response === 0) { // Save
+            if (result.response === 0) { // Save
                 try {
-                    const saveResult = await window.nodeRequire('electron').ipcRenderer.invoke('dialog:saveFile', {
+                    const saveResult = await (window as any).nodeRequire('electron').ipcRenderer.invoke('dialog:saveFile', {
                         filePath: undefined, // Show save dialog
                         content: currentContent
-                    });
+                    }) as SaveResult;
 
                     if (!saveResult.canceled && saveResult.filePath) {
                         const newPath = saveResult.filePath; // Update filePath with the new saved path
@@ -547,15 +636,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         const fileName = newPath.split(/[\\/]/).pop();
                         
                         // Update the tab's label
-                        tabElement.querySelector('.tab-label').textContent = fileName;
+                        const tabLabel = tabElement.querySelector('.tab-label');
+                        if (tabLabel) tabLabel.textContent = fileName || '';
                         
                         // Get or create file data
-                        let fileData = openFiles.get(currentPath) || {
+                        let fileData = openFiles.get(filePath) || {
                             content: currentContent,
                             originalContent: currentContent,
                             dirty: false,
-                            cursorPosition: window.editor.getPosition(),
-                            scrollPosition: window.editor.getScrollTop(),
+                            cursorPosition: (window as any).editor.getPosition(),
+                            scrollPosition: (window as any).editor.getScrollTop(),
                             tabId: tabId
                         };
                         
@@ -568,8 +658,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         openFiles.set(newPath, fileData);
                         
                         // Remove old entry if it exists
-                        if (filePath !== tabElement.dataset.path && openFiles.has(tabElement.dataset.path)) {
-                            openFiles.delete(tabElement.dataset.path);
+                        if (filePath !== tabElement.dataset.path && openFiles.has(tabElement.dataset.path || '')) {
+                            openFiles.delete(tabElement.dataset.path || '');
                         }
                         
                         // Update active file path if needed
@@ -586,7 +676,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Case 3: Existing file with unsaved changes
         else if (isModified) {
             const fileName = filePath.split(/[\\/]/).pop();
-            const { response } = await window.nodeRequire('electron').ipcRenderer.invoke('show-message-box', {
+            const result = await (window as any).nodeRequire('electron').ipcRenderer.invoke('show-message-box', {
                 type: 'question',
                 buttons: ['Save', "Don't Save", 'Cancel'],
                 title: 'Save Changes',
@@ -594,13 +684,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 detail: 'Your changes will be lost if you don\'t save them.',
                 defaultId: 0,
                 cancelId: 2
-            });
+            }) as MessageBoxResult;
 
-            if (response === 2) return; // Cancel
+            if (result.response === 2) return; // Cancel
             
-            if (response === 0) { // Save
+            if (result.response === 0) { // Save
                 try {
-                    await window.nodeRequire('electron').ipcRenderer.invoke('dialog:saveFile', {
+                    await (window as any).nodeRequire('electron').ipcRenderer.invoke('dialog:saveFile', {
                         filePath: filePath,
                         content: currentContent
                     });
@@ -638,7 +728,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Clean up openFiles if this was the last tab with this path
         if (filePath) {
             const isPathUsed = Array.from(document.querySelectorAll('.modern-tab')).some(
-                t => t.dataset.path === filePath
+                t => (t as HTMLElement).dataset.path === filePath
             );
             if (!isPathUsed) {
                 openFiles.delete(filePath);
@@ -650,19 +740,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const remainingTabs = document.querySelectorAll('.modern-tab');
             if (remainingTabs.length > 0) {
                 // Find the best tab to switch to
-                let targetTab = null;
+                let targetTab: HTMLElement | null = null;
                 
                 // First, try to find the next tab
-                targetTab = tabElement.nextElementSibling;
+                targetTab = tabElement.nextElementSibling as HTMLElement | null;
                 
                 // If no next tab, try the previous tab
                 if (!targetTab) {
-                    targetTab = tabElement.previousElementSibling;
+                    targetTab = tabElement.previousElementSibling as HTMLElement | null;
                 }
                 
                 // If still no tab, get the last remaining tab
                 if (!targetTab && remainingTabs.length > 0) {
-                    targetTab = remainingTabs[remainingTabs.length - 1];
+                    targetTab = remainingTabs[remainingTabs.length - 1] as HTMLElement;
                 }
                 
                 // Switch to the target tab
@@ -678,18 +768,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update the tab click handler
     document.getElementById('tabsContainer')?.addEventListener('click', (e) => {
-        const closeButton = e.target.closest('.tab-close');
+        const closeButton = (e.target as HTMLElement).closest('.tab-close');
         if (closeButton) {
             e.preventDefault();
             e.stopPropagation();
-            const tab = closeButton.closest('.modern-tab');
+            const tab = closeButton.closest('.modern-tab') as HTMLElement | null;
             if (tab) {
                 closeTabElement(tab);
             }
             return;
         }
         
-        const tab = e.target.closest('.modern-tab');
+        const tab = (e.target as HTMLElement).closest('.modern-tab') as HTMLElement | null;
         if (tab) {
             e.preventDefault();
             e.stopPropagation();
@@ -699,7 +789,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Add right-click context menu for tabs
     document.getElementById('tabsContainer')?.addEventListener('contextmenu', (e) => {
-        const tab = e.target.closest('.modern-tab');
+        const tab = (e.target as HTMLElement).closest('.modern-tab') as HTMLElement | null;
         if (tab) {
             e.preventDefault();
             e.stopPropagation();
@@ -737,7 +827,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Handle context menu actions
             contextMenu.addEventListener('click', (e) => {
-                const action = e.target.closest('.context-menu-item')?.dataset.action;
+                const action = (e.target as HTMLElement).closest('.context-menu-item')?.getAttribute('data-action');
                 if (action) {
                     switch (action) {
                         case 'close':
@@ -758,8 +848,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             
             // Remove context menu when clicking outside
-            const removeContextMenu = (e) => {
-                if (!contextMenu.contains(e.target)) {
+            const removeContextMenu = (e: Event) => {
+                if (!contextMenu.contains(e.target as Node)) {
                     contextMenu.remove();
                     document.removeEventListener('click', removeContextMenu);
                 }
@@ -772,10 +862,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Function to update the dirty state of a tab
-    function updateTabDirtyState(filePath, isDirty) {
+    function updateTabDirtyState(filePath: string, isDirty: boolean): void {
         const tab = document.querySelector(`.modern-tab[data-path="${filePath}"]`);
         if (tab) {
-            const dirtyIndicator = tab.querySelector('.dirty-indicator');
+            const dirtyIndicator = tab.querySelector('.dirty-indicator') as HTMLElement | null;
             if (dirtyIndicator) {
                 dirtyIndicator.style.display = isDirty ? 'inline-block' : 'none';
             }
@@ -783,9 +873,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function getNextUntitledNumber() {
+    // Make updateTabDirtyState globally available
+    (window as any).updateTabDirtyState = updateTabDirtyState;
+
+    function getNextUntitledNumber(): number {
         const untitledRegex = /^Untitled-(\d+)\.pseudo$/;
-        const existingNumbers = [];
+        const existingNumbers: number[] = [];
 
         for (const filePath of openFiles.keys()) {
             const match = filePath.match(untitledRegex);
@@ -801,7 +894,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return nextNumber;
     }
 
-    function createNewTab() {
+    function createNewTab(): void {
         const newTabId = `Untitled-${getNextUntitledNumber()}.pseudo`;
         
         // Add to open files first
@@ -821,24 +914,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Helper functions for context menu
-    function closeOtherTabs(keepTab) {
+    function closeOtherTabs(keepTab: HTMLElement): void {
         const allTabs = document.querySelectorAll('.modern-tab');
         allTabs.forEach(tab => {
             if (tab !== keepTab) {
-                closeTabElement(tab);
+                closeTabElement(tab as HTMLElement);
             }
         });
     }
 
-    function closeAllTabs() {
+    function closeAllTabs(): void {
         const allTabs = document.querySelectorAll('.modern-tab');
         allTabs.forEach(tab => {
-            closeTabElement(tab);
+            closeTabElement(tab as HTMLElement);
         });
     }
 
-    function duplicateTab(tab) {
+    function duplicateTab(tab: HTMLElement): void {
         const filePath = tab.dataset.path;
+        if (!filePath) return;
+        
         const file = openFiles.get(filePath);
         if (file) {
             const newTabId = `Untitled-${getNextUntitledNumber()}.pseudo`;
@@ -857,13 +952,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveButton = document.getElementById('btnSave');
     if (saveButton) {
         saveButton.addEventListener('click', async () => {
-            if (!window.editor) return;
+            if (!(window as any).editor) return;
             
-            const content = window.editor.getValue();
-        const activeTab = document.querySelector('.modern-tab.active');
-        if (!activeTab) return;
+            const content = (window as any).editor.getValue();
+            const activeTab = document.querySelector('.modern-tab.active') as HTMLElement | null;
+            if (!activeTab) return;
             
-            const currentPath = activeTab.dataset.path;
+            const currentPath = activeTab.dataset.path || '';
             const tabId = activeTab.dataset.tabId;
             
             // Check if this is a new/unsaved file
@@ -872,10 +967,10 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 if (isNewFile) {
                     // For new files, show save dialog
-                    const result = await window.nodeRequire('electron').ipcRenderer.invoke('dialog:saveFile', {
+                    const result = await (window as any).nodeRequire('electron').ipcRenderer.invoke('dialog:saveFile', {
                         filePath: undefined, // This will trigger the save dialog
                         content: content
-                    });
+                    }) as SaveResult;
 
                     if (!result.canceled && result.filePath) {
                         const newPath = result.filePath; // Update filePath with the new saved path
@@ -883,15 +978,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         const fileName = newPath.split(/[\\/]/).pop();
                         
                         // Update the tab's label
-                        activeTab.querySelector('.tab-label').textContent = fileName;
+                        const tabLabel = activeTab.querySelector('.tab-label');
+                        if (tabLabel) tabLabel.textContent = fileName || '';
                         
                         // Get or create file data
                         let fileData = openFiles.get(currentPath) || {
                             content: content,
                             originalContent: content,
                             dirty: false,
-                            cursorPosition: window.editor.getPosition(),
-                            scrollPosition: window.editor.getScrollTop(),
+                            cursorPosition: (window as any).editor.getPosition(),
+                            scrollPosition: (window as any).editor.getScrollTop(),
                             tabId: tabId
                         };
                         
@@ -917,10 +1013,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 } else {
                     // For existing files, save directly
-                    const result = await window.nodeRequire('electron').ipcRenderer.invoke('dialog:saveFile', {
+                    const result = await (window as any).nodeRequire('electron').ipcRenderer.invoke('dialog:saveFile', {
                         filePath: currentPath,
                         content: content
-                    });
+                    }) as SaveResult;
                     
                     if (!result.canceled) {
                         // Update file data
@@ -937,7 +1033,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (error) {
                 console.error('Error saving file:', error);
-                out(`Error saving file: ${error.message}`, 'error');
+                out(`Error saving file: ${(error as Error).message}`, 'error');
             }
         });
     }
@@ -966,15 +1062,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const formatButton = document.getElementById('btnFormat');
     if (formatButton) {
         formatButton.addEventListener('click', () => {
-            if (window.editor) {
+            if ((window as any).editor) {
                 // Basic formatting - you can enhance this
-                const content = window.editor.getValue();
+                const content = (window as any).editor.getValue();
                 // Simple indentation fix
-                const formatted = content.split('\n').map(line => {
+                const formatted = content.split('\n').map((line: string) => {
                     // Basic indentation logic
                     return line.trim() ? line : line;
                 }).join('\n');
-                window.editor.setValue(formatted);
+                (window as any).editor.setValue(formatted);
                 out('Code formatted', 'success');
             }
         });
@@ -983,9 +1079,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const minimapButton = document.getElementById('btnMinimap');
     if (minimapButton) {
         minimapButton.addEventListener('click', () => {
-            if (window.editor) {
-                const currentValue = window.editor.getOption('minimap');
-                window.editor.updateOptions({ minimap: { enabled: !currentValue.enabled } });
+            if ((window as any).editor) {
+                const currentValue = (window as any).editor.getOption('minimap');
+                (window as any).editor.updateOptions({ minimap: { enabled: !currentValue.enabled } });
                 minimapButton.classList.toggle('active', !currentValue.enabled);
                 out(`Minimap ${!currentValue.enabled ? 'enabled' : 'disabled'}`, 'info');
             }
@@ -995,9 +1091,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const wordWrapButton = document.getElementById('btnWordWrap');
     if (wordWrapButton) {
         wordWrapButton.addEventListener('click', () => {
-            if (window.editor) {
-                const currentValue = window.editor.getOption('wordWrap');
-                window.editor.updateOptions({ wordWrap: currentValue === 'on' ? 'off' : 'on' });
+            if ((window as any).editor) {
+                const currentValue = (window as any).editor.getOption('wordWrap');
+                (window as any).editor.updateOptions({ wordWrap: currentValue === 'on' ? 'off' : 'on' });
                 wordWrapButton.classList.toggle('active', currentValue !== 'on');
                 out(`Word wrap ${currentValue === 'on' ? 'disabled' : 'enabled'}`, 'info');
             }
@@ -1043,15 +1139,15 @@ document.addEventListener('DOMContentLoaded', () => {
         openButton.addEventListener('click', async () => {
             try {
                 // Use IPC to show file open dialog and get file content
-                const { ipcRenderer } = window.nodeRequire('electron');
-                const { canceled, filePath, content } = await ipcRenderer.invoke('dialog:openFile');
+                const { ipcRenderer } = (window as any).nodeRequire('electron');
+                const result = await ipcRenderer.invoke('dialog:openFile') as OpenFileResult;
                 
-                if (!canceled && filePath && content !== undefined) {
-                    await openFile(filePath, content);
+                if (!result.canceled && result.filePath && result.content !== undefined) {
+                    await openFile(result.filePath, result.content);
                 }
             } catch (error) {
                 console.error('Error in file open dialog:', error);
-                handleError({ message: `Failed to open file dialog: ${error.message}` });
+                handleError({ message: `Failed to open file dialog: ${(error as Error).message}` });
             }
         });
     }
@@ -1065,7 +1161,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (activityBar) {
         activityBar.addEventListener('click', (e) => {
-            const target = e.target.closest('.activity-bar-item');
+            const target = (e.target as HTMLElement).closest('.activity-bar-item') as HTMLElement | null;
             if (!target || !target.dataset.view) return;
 
             const viewId = target.dataset.view;
@@ -1085,8 +1181,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize the first tab when the DOM is loaded
     // Wait for the editor to be ready
-    function initializeFirstTab() {
-        if (!window.editor || !window.editor.getModel) {
+    function initializeFirstTab(): void {
+        if (!(window as any).editor || !(window as any).editor.getModel) {
             setTimeout(initializeFirstTab, 100);
             return;
         }
@@ -1106,8 +1202,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Ctrl+Tab or Ctrl+PageDown - Next tab
         if ((e.ctrlKey && e.key === 'Tab') || (e.ctrlKey && e.key === 'PageDown')) {
             e.preventDefault();
-            const tabs = Array.from(document.querySelectorAll('.modern-tab'));
-            const activeTab = document.querySelector('.modern-tab.active');
+            const tabs = Array.from(document.querySelectorAll('.modern-tab')) as HTMLElement[];
+            const activeTab = document.querySelector('.modern-tab.active') as HTMLElement | null;
             if (activeTab && tabs.length > 1) {
                 const currentIndex = tabs.indexOf(activeTab);
                 const nextIndex = (currentIndex + 1) % tabs.length;
@@ -1118,8 +1214,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Ctrl+Shift+Tab or Ctrl+PageUp - Previous tab
         if ((e.ctrlKey && e.shiftKey && e.key === 'Tab') || (e.ctrlKey && e.key === 'PageUp')) {
             e.preventDefault();
-            const tabs = Array.from(document.querySelectorAll('.modern-tab'));
-            const activeTab = document.querySelector('.modern-tab.active');
+            const tabs = Array.from(document.querySelectorAll('.modern-tab')) as HTMLElement[];
+            const activeTab = document.querySelector('.modern-tab.active') as HTMLElement | null;
             if (activeTab && tabs.length > 1) {
                 const currentIndex = tabs.indexOf(activeTab);
                 const prevIndex = currentIndex === 0 ? tabs.length - 1 : currentIndex - 1;
@@ -1130,7 +1226,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Ctrl+W - Close current tab
         if (e.ctrlKey && e.key === 'w') {
             e.preventDefault();
-            const activeTab = document.querySelector('.modern-tab.active');
+            const activeTab = document.querySelector('.modern-tab.active') as HTMLElement | null;
             if (activeTab) {
                 closeTabElement(activeTab);
             }

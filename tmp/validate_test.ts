@@ -1,12 +1,24 @@
-const fs = require('fs');
-const path = require('path');
-const valid = fs.readFileSync(path.join(__dirname,'..','assets','sample.pseudo'),'utf8');
+import * as fs from 'fs';
+import * as path from 'path';
+
+const valid = fs.readFileSync(path.join(__dirname, '..', 'assets', 'sample.pseudo'), 'utf8');
 const invalid = `var n\nfor i = 1 to n\n  fact = fact * i\n# missing endfor`;
 
-function validatePseudo(src) {
+interface ValidationIssue {
+    line: number;
+    text: string;
+    message: string;
+}
+
+interface ForStackEntry {
+    var: string;
+    line: number;
+}
+
+function validatePseudo(src: string): ValidationIssue[] {
     const lines = src.split(/\r?\n/);
-    const issues = [];
-    const forStack = [];
+    const issues: ValidationIssue[] = [];
+    const forStack: ForStackEntry[] = [];
     for (let i = 0; i < lines.length; i++) {
         const raw = lines[i];
         const lineNum = i + 1;
@@ -43,8 +55,8 @@ function validatePseudo(src) {
         }
     }
     if (forStack.length > 0) {
-        const open = forStack[forStack.length-1];
-        issues.push({ line: open.line, text: lines[open.line-1], message: 'Missing endfor for this for-loop' });
+        const open = forStack[forStack.length - 1];
+        issues.push({ line: open.line, text: lines[open.line - 1], message: 'Missing endfor for this for-loop' });
     }
     return issues;
 }

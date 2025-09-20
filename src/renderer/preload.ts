@@ -1,8 +1,8 @@
-const { contextBridge, ipcRenderer } = require('electron');
+import { contextBridge, ipcRenderer } from 'electron';
 
 // Expose protected methods to the renderer process
 contextBridge.exposeInMainWorld('electron', {
-    openExternal: (url) => {
+    openExternal: (url: string) => {
         return ipcRenderer.invoke('open-external', url);
     }
 });

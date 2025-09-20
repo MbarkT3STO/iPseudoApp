@@ -3,7 +3,7 @@
 (() => {
     const href = window.location.href; // e.g. file:///.../dist/renderer/index.html
     const base = href.substring(0, href.lastIndexOf('/') + 1); // .../dist/renderer/
-    require.config({
+    (window as any).require.config({
         paths: {
             'vs': base + 'monaco/vs'
         }
@@ -34,8 +34,28 @@ const pseudocodeLanguage = {
     }
 };
 
+interface FileData {
+    content: string;
+    dirty: boolean;
+    originalContent: string;
+    cursorPosition: { lineNumber: number; column: number };
+    scrollPosition: number;
+    tabId?: string;
+}
+
+// Extend window interface
+interface Window {
+    editor: any;
+    monaco: any;
+    require: any;
+    activeFilePath: string;
+    openFiles: Map<string, FileData>;
+    onEditorReady?: (editor: any) => void;
+    setupEditorListeners: () => void;
+}
+
 // Initialize Monaco Editor
-require(['vs/editor/editor.main'], function() {
+(window as any).require(['vs/editor/editor.main'], function() {
     // 'app-debug' overlay intentionally left static; do not write runtime readiness text here.
 
     // Ensure editor container exists
@@ -46,11 +66,11 @@ require(['vs/editor/editor.main'], function() {
     }
 
     // Register custom language
-    monaco.languages.register({ id: 'pseudocode' });
-    monaco.languages.setMonarchTokensProvider('pseudocode', pseudocodeLanguage);
+    window.monaco.languages.register({ id: 'pseudocode' });
+    window.monaco.languages.setMonarchTokensProvider('pseudocode', pseudocodeLanguage);
 
     // Define custom theme
-    monaco.editor.defineTheme('pseudoTheme', {
+    window.monaco.editor.defineTheme('pseudoTheme', {
         base: 'vs-dark',
         inherit: true,
         rules: [
@@ -77,7 +97,7 @@ require(['vs/editor/editor.main'], function() {
     const cssFontSize = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--editor-font-size')) || 15;
 
     // Create editor instance
-    const editor = monaco.editor.create(document.getElementById('editor'), {
+    const editor = window.monaco.editor.create(document.getElementById('editor'), {
         value: initialValue,
         language: 'pseudocode',
         theme: 'pseudoTheme',
@@ -111,7 +131,7 @@ require(['vs/editor/editor.main'], function() {
     window.editor = editor;
 
     // Add keydown listener for Enter key
-    editor.onKeyDown((e) => {
+    editor.onKeyDown((e: any) => {
         if (e.keyCode === 3 /* Enter */) {
             // Use setTimeout to ensure this runs after the new line is created
             setTimeout(() => {
@@ -126,8 +146,8 @@ require(['vs/editor/editor.main'], function() {
 
     // Register completion provider with only reserved pseudocode keywords
     const reservedKeywords = ['var','input','print','if','then','elseif','else','endif','while','endwhile','for','to','endfor','function','return','endfunction','and','or','not','break','continue','true','false','null'];
-    monaco.languages.registerCompletionItemProvider('pseudocode', {
-        provideCompletionItems: function(model, position) {
+    window.monaco.languages.registerCompletionItemProvider('pseudocode', {
+        provideCompletionItems: function(model: any, position: any) {
             const word = model.getWordUntilPosition(position);
             const range = {
                 startLineNumber: position.lineNumber,
@@ -140,8 +160,8 @@ require(['vs/editor/editor.main'], function() {
             const text = model.getValue();
             const varRe = /\bvar\s+([a-zA-Z_]\w*)/gi;
             const funcRe = /^\s*(?:function|procedure)\s+([a-zA-Z_]\w*)/gim;
-            const vars = new Set();
-            const funcs = new Set();
+            const vars = new Set<string>();
+            const funcs = new Set<string>();
             let m;
             while ((m = varRe.exec(text))) {
                 vars.add(m[1]);
@@ -153,15 +173,15 @@ require(['vs/editor/editor.main'], function() {
             const suggestions = [];
             // reserved keywords first
             for (const k of reservedKeywords) {
-                suggestions.push({ label: k, kind: monaco.languages.CompletionItemKind.Keyword, insertText: k, range, sortText: '0' + k });
+                suggestions.push({ label: k, kind: window.monaco.languages.CompletionItemKind.Keyword, insertText: k, range, sortText: '0' + k });
             }
             // functions
             Array.from(funcs).sort().forEach(f => {
-                suggestions.push({ label: f + '()', kind: monaco.languages.CompletionItemKind.Function, insertText: f + '()', range, sortText: '1' + f });
+                suggestions.push({ label: f + '()', kind: window.monaco.languages.CompletionItemKind.Function, insertText: f + '()', range, sortText: '1' + f });
             });
             // variables
             Array.from(vars).sort().forEach(v => {
-                suggestions.push({ label: v, kind: monaco.languages.CompletionItemKind.Variable, insertText: v, range, sortText: '2' + v });
+                suggestions.push({ label: v, kind: window.monaco.languages.CompletionItemKind.Variable, insertText: v, range, sortText: '2' + v });
             });
 
             return { suggestions };
@@ -172,12 +192,12 @@ require(['vs/editor/editor.main'], function() {
     const runButton = document.getElementById('btnRun');
     if (runButton) {
         // Initial state
-        runButton.disabled = !editor.getValue().trim();
+        (runButton as HTMLButtonElement).disabled = !editor.getValue().trim();
 
         // Listen for content changes
         editor.onDidChangeModelContent(() => {
             const content = editor.getValue().trim();
-            runButton.disabled = !content;
+            (runButton as HTMLButtonElement).disabled = !content;
         });
     }
 
@@ -187,7 +207,7 @@ require(['vs/editor/editor.main'], function() {
     }
 
     // Auto indentation on Enter: copy previous line's leading whitespace when available
-    editor.addCommand(monaco.KeyCode.Enter, () => {
+    editor.addCommand(window.monaco.KeyCode.Enter, () => {
         try {
             const pos = editor.getPosition();
             const model = editor.getModel();
@@ -197,7 +217,7 @@ require(['vs/editor/editor.main'], function() {
             }
 
             // Determine indent unit (use tabSize from options if available, fallback to 4 spaces)
-            const tabSize = (editor.getOption && editor.getOption(monaco.editor.EditorOption.tabSize)) || 4;
+            const tabSize = (editor.getOption && editor.getOption(window.monaco.editor.EditorOption.tabSize)) || 4;
             const indentUnit = ' '.repeat(tabSize);
 
             // Helpers to detect block openers and closers
@@ -225,7 +245,7 @@ require(['vs/editor/editor.main'], function() {
             const indent = indentUnit.repeat(level);
 
             // Insert newline + computed indent
-            const range = new monaco.Range(pos.lineNumber, pos.column, pos.lineNumber, pos.column);
+            const range = new window.monaco.Range(pos.lineNumber, pos.column, pos.lineNumber, pos.column);
             editor.executeEdits('autoIndent', [{ range, text: '\n' + indent, forceMoveMarkers: true }]);
             // Move cursor to after inserted indent
             const newPosition = { lineNumber: pos.lineNumber + 1, column: indent.length + 1 };
@@ -236,11 +256,11 @@ require(['vs/editor/editor.main'], function() {
     });
 });
 
-function setupEditorListeners() {
+function setupEditorListeners(): void {
     if (!window.editor) return;
 
     // Track cursor position changes
-    window.editor.onDidChangeCursorPosition((e) => {
+    window.editor.onDidChangeCursorPosition((e: any) => {
         if (window.activeFilePath && window.openFiles && window.openFiles.has(window.activeFilePath)) {
             const file = window.openFiles.get(window.activeFilePath);
             if (file) {
@@ -250,7 +270,7 @@ function setupEditorListeners() {
     });
 
     // Track scroll position changes
-    window.editor.onDidScrollChange((e) => {
+    window.editor.onDidScrollChange((e: any) => {
         if (window.activeFilePath && window.openFiles && window.openFiles.has(window.activeFilePath)) {
             const file = window.openFiles.get(window.activeFilePath);
             if (file) {
@@ -269,7 +289,7 @@ function setupEditorListeners() {
                 const isDirty = content !== (file.originalContent || '');
                 if (file.dirty !== isDirty) {
                     file.dirty = isDirty;
-                    updateTabDirtyState(window.activeFilePath, isDirty);
+                    (window as any).updateTabDirtyState(window.activeFilePath, isDirty);
                     
                     // Update window title
                     const fileName = window.activeFilePath.split('/').pop();

@@ -1,20 +1,57 @@
 // Worker: receives { code } message, optionally translates simple pseudocode to JS,
 // runs it inside an async function with print/input provided, and enforces a timeout.
 // It preserves the message protocol: stdout/stderr/error/done/input-request.
-function isLikelyPseudo(src) {
+
+interface WorkerMessage {
+    code: string;
+    timeout?: number;
+}
+
+interface TranslationResult {
+    code: string;
+    mapping: MappingEntry[];
+}
+
+interface MappingEntry {
+    srcLine: number;
+    srcText: string;
+}
+
+interface ValidationIssue {
+    line: number;
+    text: string;
+    message: string;
+}
+
+interface ErrorObject {
+    name?: string;
+    message?: string;
+    stack?: string;
+    phase?: string;
+    issues?: ValidationIssue[];
+    line?: number;
+    column?: number;
+    originalText?: string;
+    formatted?: boolean;
+}
+
+interface BlockInfo {
+    type: string;
+    var?: string;
+    line: number;
+    indent: number;
+}
+
+function isLikelyPseudo(src: string): boolean {
     if (!src) return false;
     const lowered = src.toLowerCase();
     return /\bprint\b|\bvar\b|\bfor\b|\bendfor\b/.test(lowered);
 }
 
-function validatePseudo(src) {
+function validatePseudo(src: string): ValidationIssue[] {
     const lines = src.split(/\r?\n/);
-    const issues = [];
-    const blockStack = []; // Tracks for/if/while blocks
-    let inForLoop = false;
-    let inIfBlock = false;
-    let inWhileLoop = false;
-    let currentBlock = null;
+    const issues: ValidationIssue[] = [];
+    const blockStack: BlockInfo[] = []; // Tracks for/if/while blocks
 
     for (let i = 0; i < lines.length; i++) {
         const raw = lines[i];
@@ -23,7 +60,7 @@ function validatePseudo(src) {
         if (!t || t.startsWith('#')) continue;
         
         const lower = t.toLowerCase();
-        const indent = raw.match(/^\s*/)[0].length;
+        const indent = raw.match(/^\s*/)![0].length;
         
         // Check for proper indentation if inside a block
         if (blockStack.length > 0 && indent <= blockStack[blockStack.length - 1].indent) {
@@ -151,32 +188,52 @@ function validatePseudo(src) {
     return issues;
 }
 
-function translatePseudoToJs(src) {
+function translatePseudoToJs(src: string): TranslationResult {
     const lines = src.replace(/\t/g, '    ').split(/\r?\n/);
-    const out = [];
-    const mapping = []; // mapping: generated JS line index (1-based) -> { srcLine, srcText }
+    const out: string[] = [];
+    const mapping: MappingEntry[] = []; // mapping: generated JS line index (1-based) -> { srcLine, srcText }
     for (let i = 0; i < lines.length; i++) {
         const raw = lines[i];
         const srcLineNum = i + 1;
         let line = raw.trim();
         if (!line) continue;
         // comments
-        if (line.startsWith('#')) { out.push('// ' + line.slice(1).trim()); mapping.push({ srcLine: srcLineNum, srcText: raw }); continue; }
+        if (line.startsWith('#')) { 
+            out.push('// ' + line.slice(1).trim()); 
+            mapping.push({ srcLine: srcLineNum, srcText: raw }); 
+            continue; 
+        }
 
         // var declaration: var x = expr
         let m = line.match(/^var\s+([a-zA-Z_$][\w$]*)\s*=\s*(.*)$/i);
-        if (m) { out.push(`let ${m[1]} = ${m[2]};`); mapping.push({ srcLine: srcLineNum, srcText: raw }); continue; }
+        if (m) { 
+            out.push(`let ${m[1]} = ${m[2]};`); 
+            mapping.push({ srcLine: srcLineNum, srcText: raw }); 
+            continue; 
+        }
 
         // print statements: print arg1, arg2
         m = line.match(/^print\s+(.+)$/i);
-        if (m) { out.push(`print(${m[1]});`); mapping.push({ srcLine: srcLineNum, srcText: raw }); continue; }
+        if (m) { 
+            out.push(`print(${m[1]});`); 
+            mapping.push({ srcLine: srcLineNum, srcText: raw }); 
+            continue; 
+        }
 
         // for loops: for i = 1 to n
         m = line.match(/^for\s+([a-zA-Z_$][\w$]*)\s*=\s*(.+?)\s+to\s+(.+)$/i);
-        if (m) { out.push(`for (let ${m[1]} = ${m[2]}; ${m[1]} <= ${m[3]}; ${m[1]}++) {`); mapping.push({ srcLine: srcLineNum, srcText: raw }); continue; }
+        if (m) { 
+            out.push(`for (let ${m[1]} = ${m[2]}; ${m[1]} <= ${m[3]}; ${m[1]}++) {`); 
+            mapping.push({ srcLine: srcLineNum, srcText: raw }); 
+            continue; 
+        }
 
         // endfor
-        if (/^endfor$/i.test(line)) { out.push('}'); mapping.push({ srcLine: srcLineNum, srcText: raw }); continue; }
+        if (/^endfor$/i.test(line)) { 
+            out.push('}'); 
+            mapping.push({ srcLine: srcLineNum, srcText: raw }); 
+            continue; 
+        }
 
         // fallback: ensure semicolon
         if (!line.endsWith(';')) line = line + ';';
@@ -186,32 +243,32 @@ function translatePseudoToJs(src) {
     return { code: out.join('\n'), mapping };
 }
 
-self.onmessage = function(e) {
+self.onmessage = function(e: MessageEvent<WorkerMessage>) {
     const msg = e.data;
     if (!(msg && typeof msg.code === 'string')) return;
     try {
-        const postStdout = (text) => self.postMessage({ type: 'stdout', text: String(text) });
-        const postStderr = (text) => self.postMessage({ type: 'stderr', text: String(text) });
-        const postError = (errObj) => self.postMessage({ type: 'error', error: errObj });
+        const postStdout = (text: string) => self.postMessage({ type: 'stdout', text: String(text) });
+        const postStderr = (text: string) => self.postMessage({ type: 'stderr', text: String(text) });
+        const postError = (errObj: ErrorObject) => self.postMessage({ type: 'error', error: errObj });
         const postDone = () => self.postMessage({ type: 'done' });
 
-        const print = function(...args) { postStdout(args.join(' ')); };
-        const input = function(promptText) {
-            const id = Math.random().toString(36).slice(2);
-            return new Promise((resolve) => {
-                function handler(ev) {
-                    if (ev.data && ev.data.type === 'input-response' && ev.data.id === id) {
-                        self.removeEventListener('message', handler);
-                        resolve(ev.data.value);
+        const print = function(...args: any[]) { postStdout(args.join(' ')); };
+        const input = function(promptText?: string): Promise<string> {
+                const id = Math.random().toString(36).slice(2);
+                return new Promise((resolve) => {
+                    function handler(ev: MessageEvent) {
+                        if (ev.data && ev.data.type === 'input-response' && ev.data.id === id) {
+                            self.removeEventListener('message', handler);
+                            resolve(ev.data.value || '');
+                        }
                     }
-                }
-                self.addEventListener('message', handler);
-                self.postMessage({ type: 'input-request', id, prompt: promptText });
-            });
+                    self.addEventListener('message', handler);
+                    self.postMessage({ type: 'input-request', id, prompt: promptText || 'Input:' });
+                });
         };
 
         let source = msg.code;
-        let mapping = null;
+        let mapping: MappingEntry[] | null = null;
         if (isLikelyPseudo(source)) {
             // run validator first and return precise validation errors if any
             const issues = validatePseudo(source);
@@ -223,8 +280,13 @@ self.onmessage = function(e) {
                 const translated = translatePseudoToJs(source);
                 source = translated.code;
                 mapping = translated.mapping;
-            } catch (tErr) {
-                postError({ name: 'TranslationError', message: String(tErr && tErr.message ? tErr.message : tErr), stack: (tErr && tErr.stack) || '', phase: 'translation' });
+            } catch (tErr: any) {
+                postError({ 
+                    name: 'TranslationError', 
+                    message: String(tErr && tErr.message ? tErr.message : tErr), 
+                    stack: (tErr && tErr.stack) || '', 
+                    phase: 'translation' 
+                });
                 return;
             }
         }
@@ -234,9 +296,9 @@ self.onmessage = function(e) {
         // syntax check
         try {
             new Function(source);
-        } catch (syntaxError) {
+        } catch (syntaxError: any) {
             // try to map the error to original pseudocode line if mapping exists
-            let original = null;
+            let original: MappingEntry | null = null;
             let lineNumber = 0;
             let columnNumber = 0;
             
@@ -271,7 +333,7 @@ self.onmessage = function(e) {
                 
                 // Add context if available
                 if (original.srcLine > 1) {
-                    const contextLine = mapping[lineNumber - 2]; // Previous line
+                    const contextLine = mapping![lineNumber - 2]; // Previous line
                     if (contextLine) {
                         errorMessage += `\n\n  Previous line (${contextLine.srcLine}):`;
                         errorMessage += `\n  ${contextLine.srcText}`;
@@ -293,7 +355,7 @@ self.onmessage = function(e) {
                 stack: syntaxError.stack, 
                 line: original ? original.srcLine : lineNumber,
                 column: columnNumber,
-                originalText: original ? original.srcText : null, 
+                originalText: original ? original.srcText : undefined, 
                 phase: 'syntax',
                 formatted: true // Flag to indicate this is a formatted error message
             });
@@ -306,7 +368,7 @@ self.onmessage = function(e) {
             if (finished) return;
             finished = true;
             postError({ name: 'TimeoutError', message: `Execution timed out after ${TIMEOUT_MS}ms`, phase: 'timeout' });
-            try { self.close && self.close(); } catch(e) {}
+            try { (self as any).close && (self as any).close(); } catch(e) {}
         }, TIMEOUT_MS);
 
         try {
@@ -316,7 +378,7 @@ self.onmessage = function(e) {
                 finished = true;
                 clearTimeout(timer);
                 postDone();
-            }).catch(err => {
+            }).catch((err: any) => {
                 if (finished) return;
                 finished = true;
                 clearTimeout(timer);
@@ -374,15 +436,20 @@ self.onmessage = function(e) {
                     formatted: true
                 });
             });
-        } catch (err) {
+        } catch (err: any) {
             if (!finished) {
                 finished = true;
                 clearTimeout(timer);
-                postError({ name: err && err.name || 'Error', message: err && err.message || String(err), stack: err && err.stack || '', phase: 'execution' });
+                postError({ 
+                    name: err && err.name || 'Error', 
+                    message: err && err.message || String(err), 
+                    stack: err && err.stack || '', 
+                    phase: 'execution' 
+                });
                 postDone();
             }
         }
-    } catch (err) {
+    } catch (err: any) {
         self.postMessage({ type: 'stderr', text: String(err && err.message ? err.message : err) });
     }
 };

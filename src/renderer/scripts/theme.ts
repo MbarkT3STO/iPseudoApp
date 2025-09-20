@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Function to apply theme
-    function applyTheme(useDarkTheme) {
+    function applyTheme(useDarkTheme: boolean): void {
         const theme = useDarkTheme ? 'dark' : 'light';
         
         // Update class on html element
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // Update the theme toggle button state
-    function updateThemeToggle(isDark) {
+    function updateThemeToggle(isDark: boolean): void {
         const btn = document.getElementById('btnThemeToggle');
         if (btn) {
             // aria-pressed reflects the ON state of dark mode
@@ -59,10 +59,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // Update Monaco editor theme
-    function updateMonacoTheme(isDark) {
+    function updateMonacoTheme(isDark: boolean): void {
         try {
-            if (window.monaco && monaco.editor) {
-                monaco.editor.setTheme(isDark ? 'vs-dark' : 'vs');
+            if (typeof (window as any).monaco !== 'undefined' && (window as any).monaco.editor) {
+                (window as any).monaco.editor.setTheme(isDark ? 'vs-dark' : 'vs');
             }
         } catch (e) {
             console.error('Error updating Monaco theme:', e);
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // Initialize theme toggle button
-    function initThemeToggle() {
+    function initThemeToggle(): void {
         const btn = document.getElementById('btnThemeToggle');
         if (btn) {
             // Add ARIA attributes for accessibility
@@ -97,13 +97,18 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Export for potential module usage
+interface ThemeModule {
+    applyTheme: (isDark: boolean) => void;
+}
+
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        applyTheme: (isDark) => {
+    const themeModule: ThemeModule = {
+        applyTheme: (isDark: boolean) => {
             const theme = isDark ? 'dark' : 'light';
             document.documentElement.className = 'theme-' + theme;
             document.documentElement.setAttribute('data-theme', theme);
             localStorage.setItem('theme', theme);
         }
     };
+    module.exports = themeModule;
 }
