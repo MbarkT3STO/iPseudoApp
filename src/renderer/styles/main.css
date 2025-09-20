@@ -258,45 +258,50 @@ body {
   opacity: 0.3;
 }
 
-/* ===== FRESH FLUENT BUTTON SYSTEM ===== */
+/* ===== FLUID DESIGN BUTTON SYSTEM ===== */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  height: 40px;
-  padding: 0 16px;
+  gap: 12px;
+  height: 48px;
+  padding: 0 24px;
   border: none;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 25%, #45b7d1 50%, #96ceb4 75%, #feca57 100%);
+  border-radius: 24px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
   color: #ffffff;
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   cursor: pointer;
-  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   outline: none;
   position: relative;
   overflow: hidden;
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   box-shadow: 
-    0 8px 32px rgba(255, 107, 107, 0.4),
-    0 0 0 1px rgba(255, 255, 255, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    0 8px 32px rgba(99, 102, 241, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 .btn::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-  transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transform: rotate(45deg) translate(-100%, -100%);
+  transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   z-index: 1;
 }
 
@@ -308,50 +313,67 @@ body {
   width: 0;
   height: 0;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 0;
 }
 
 .btn:hover {
-  transform: translateY(-6px) scale(1.08);
-  background: linear-gradient(135deg, #ff5252 0%, #26a69a 25%, #29b6f6 50%, #66bb6a 75%, #ffca28 100%);
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%);
+  transform: translateY(-4px) scale(1.05);
   box-shadow: 
-    0 20px 60px rgba(255, 107, 107, 0.6),
-    0 0 0 1px rgba(255, 255, 255, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    0 16px 48px rgba(99, 102, 241, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
   filter: brightness(1.1) saturate(1.2);
 }
 
 .btn:hover::before {
-  left: 100%;
+  transform: rotate(45deg) translate(0%, 0%);
 }
 
 .btn:hover::after {
-  width: 300px;
-  height: 300px;
+  width: 200px;
+  height: 200px;
 }
 
 .btn:active {
-  transform: translateY(-2px) scale(0.95);
+  background: linear-gradient(135deg, #4338ca 0%, #6d28d9 50%, #be185d 100%);
+  transform: translateY(-2px) scale(0.98);
   box-shadow: 
-    0 8px 25px rgba(255, 107, 107, 0.5),
-    0 0 0 1px rgba(255, 255, 255, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    0 8px 24px rgba(99, 102, 241, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.15);
   filter: brightness(0.95);
 }
 
+.btn:active::after {
+  width: 120px;
+  height: 120px;
+}
+
 .btn i {
-  font-size: 16px;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 18px;
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   z-index: 2;
   position: relative;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
+}
+
+/* Icon styling for icon-only buttons */
+.btn.btn-new i, .btn.btn-open i, .btn.btn-save i, .btn.btn-theme i,
+#btnNew i, #btnOpen i, #btnSave i, #btnThemeToggle i {
+  font-size: 20px;
+  margin: 0;
 }
 
 .btn:hover i {
-  transform: scale(1.2) rotate(5deg);
-  filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.3));
+  transform: scale(1.15) rotate(5deg);
+  filter: drop-shadow(0 4px 16px rgba(255, 255, 255, 0.3));
+}
+
+.btn:active i {
+  transform: scale(0.9) rotate(-2deg);
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
 }
 
 .btn span {
@@ -365,222 +387,281 @@ body {
   text-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
 }
 
-/* Special Ultra-Colorful Run Button */
-.btn-run {
-  background: linear-gradient(135deg, 
-    #ff0080 0%, 
-    #ff8c00 12.5%, 
-    #ffd700 25%, 
-    #32cd32 37.5%, 
-    #00bfff 50%, 
-    #8a2be2 62.5%, 
-    #ff1493 75%, 
-    #ff4500 87.5%, 
-    #ff0080 100%
-  ) !important;
-  color: #ffffff;
-  padding: 0 20px;
-  font-weight: 800;
-  border: none !important;
+/* Run Button - Beautiful Green Gradient (Primary) */
+.btn.btn-run, #btnRun, button.btn-run {
+  background: linear-gradient(135deg, #10b981 0%, #34d399 25%, #6ee7b7 50%, #86efac 75%, #bbf7d0 100%) !important;
   box-shadow: 
-    0 12px 40px rgba(255, 0, 128, 0.5),
-    0 0 0 2px rgba(255, 255, 255, 0.2),
-    inset 0 2px 0 rgba(255, 255, 255, 0.3) !important;
-  position: relative;
-  overflow: hidden;
-  height: 44px;
-  font-size: 14px;
-  letter-spacing: 0.8px;
-  animation: rainbowShift 3s ease-in-out infinite;
+    0 12px 40px rgba(16, 185, 129, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+  padding: 0 28px !important;
+  font-weight: 600 !important;
+  height: 52px !important;
+  font-size: 16px !important;
+  position: relative !important;
+  overflow: hidden !important;
 }
 
-.btn-run::before {
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+/* Run Button Fluent Design Effects */
+.btn.btn-run::before, #btnRun::before, button.btn-run::before {
+  background: rgba(255, 255, 255, 0.1) !important;
 }
 
-.btn-run::after {
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
+.btn.btn-run:hover::before, #btnRun:hover::before, button.btn-run:hover::before {
+  opacity: 1 !important;
 }
 
-@keyframes rainbowShift {
-  0%, 100% { 
-    background: linear-gradient(135deg, 
-      #ff0080 0%, #ff8c00 12.5%, #ffd700 25%, #32cd32 37.5%, 
-      #00bfff 50%, #8a2be2 62.5%, #ff1493 75%, #ff4500 87.5%, #ff0080 100%
-    );
-  }
-  25% { 
-    background: linear-gradient(135deg, 
-      #ff8c00 0%, #ffd700 12.5%, #32cd32 25%, #00bfff 37.5%, 
-      #8a2be2 50%, #ff1493 62.5%, #ff4500 75%, #ff0080 87.5%, #ff8c00 100%
-    );
-  }
-  50% { 
-    background: linear-gradient(135deg, 
-      #ffd700 0%, #32cd32 12.5%, #00bfff 25%, #8a2be2 37.5%, 
-      #ff1493 50%, #ff4500 62.5%, #ff0080 75%, #ff8c00 87.5%, #ffd700 100%
-    );
-  }
-  75% { 
-    background: linear-gradient(135deg, 
-      #32cd32 0%, #00bfff 12.5%, #8a2be2 25%, #ff1493 37.5%, 
-      #ff4500 50%, #ff0080 62.5%, #ff8c00 75%, #ffd700 87.5%, #32cd32 100%
-    );
-  }
+.btn.btn-run:hover::after, #btnRun:hover::after, button.btn-run:hover::after {
+  background: rgba(255, 255, 255, 0.2) !important;
+  width: 120px !important;
+  height: 120px !important;
 }
 
-.btn-run:hover {
-  transform: translateY(-8px) scale(1.12);
+.btn.btn-run:hover, #btnRun:hover, button.btn-run:hover {
+  background: linear-gradient(135deg, #059669 0%, #10b981 25%, #34d399 50%, #6ee7b7 75%, #86efac 100%) !important;
   box-shadow: 
-    0 25px 80px rgba(255, 0, 128, 0.7),
-    0 0 0 3px rgba(255, 255, 255, 0.3),
-    inset 0 2px 0 rgba(255, 255, 255, 0.4) !important;
-  filter: brightness(1.2) saturate(1.3);
-  animation-duration: 1.5s;
+    0 20px 60px rgba(16, 185, 129, 0.7),
+    0 0 0 1px rgba(255, 255, 255, 0.2) !important;
 }
 
-.btn-run:hover i {
-  transform: scale(1.3) rotate(10deg);
-  filter: drop-shadow(0 3px 12px rgba(255, 255, 255, 0.5));
+.btn.btn-run:active, #btnRun:active, button.btn-run:active {
+  background: linear-gradient(135deg, #047857 0%, #059669 25%, #10b981 50%, #34d399 75%, #6ee7b7 100%) !important;
+  box-shadow: 
+    0 8px 32px rgba(16, 185, 129, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.15) !important;
 }
 
-.btn-run:active {
-  transform: translateY(-2px) scale(0.98);
-  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.5) !important;
-}
-
-.btn-run i {
-  font-size: 18px;
-  margin-right: 4px;
+.btn.btn-run i, #btnRun i, button.btn-run i {
+  font-size: 20px;
+  margin-right: 8px;
   z-index: 2;
   position: relative;
 }
 
-/* Ultra-Colorful Button Variants */
-.btn.btn-new {
-  background: linear-gradient(135deg, #00ff88 0%, #00d4aa 25%, #00b4d8 50%, #0096c7 75%, #0077b6 100%) !important;
-  box-shadow: 
-    0 10px 40px rgba(0, 255, 136, 0.4),
-    0 0 0 1px rgba(255, 255, 255, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
-  border: none !important;
-}
+/* ===== FLUID DESIGN BUTTON VARIANTS ===== */
 
-.btn.btn-new:hover {
-  background: linear-gradient(135deg, #00e676 0%, #00bcd4 25%, #03a9f4 50%, #2196f3 75%, #1976d2 100%) !important;
-  box-shadow: 
-    0 20px 60px rgba(0, 255, 136, 0.6),
-    0 0 0 2px rgba(255, 255, 255, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
-}
-
-.btn.btn-open {
-  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 25%, #ffd23f 50%, #06ffa5 75%, #3b82f6 100%) !important;
-  box-shadow: 
-    0 10px 40px rgba(255, 107, 53, 0.4),
-    0 0 0 1px rgba(255, 255, 255, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
-  border: none !important;
-}
-
-.btn.btn-open:hover {
-  background: linear-gradient(135deg, #ff5722 0%, #ff9800 25%, #ffc107 50%, #4caf50 75%, #2196f3 100%) !important;
-  box-shadow: 
-    0 20px 60px rgba(255, 107, 53, 0.6),
-    0 0 0 2px rgba(255, 255, 255, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
-}
-
-.btn.btn-save {
-  background: linear-gradient(135deg, #e91e63 0%, #9c27b0 25%, #673ab7 50%, #3f51b5 75%, #2196f3 100%) !important;
-  box-shadow: 
-    0 10px 40px rgba(233, 30, 99, 0.4),
-    0 0 0 1px rgba(255, 255, 255, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
-  border: none !important;
-}
-
-.btn.btn-save:hover {
-  background: linear-gradient(135deg, #c2185b 0%, #7b1fa2 25%, #512da8 50%, #303f9f 75%, #1976d2 100%) !important;
-  box-shadow: 
-    0 20px 60px rgba(233, 30, 99, 0.6),
-    0 0 0 2px rgba(255, 255, 255, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
-}
-
-/* ===== CONTROL BUTTONS - Settings & Theme Toggle ===== */
-.btn.btn-theme {
+/* New Button - Beautiful Emerald Gradient (Icon Only) */
+.btn.btn-new, #btnNew {
   width: 48px !important;
   height: 48px !important;
   padding: 0 !important;
-  border-radius: 50% !important;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%) !important;
+  border-radius: 24px !important;
+  background: linear-gradient(135deg, #10b981 0%, #34d399 50%, #6ee7b7 100%) !important;
   box-shadow: 
-    0 8px 32px rgba(102, 126, 234, 0.4),
-    0 0 0 2px rgba(255, 255, 255, 0.1),
-    inset 0 2px 0 rgba(255, 255, 255, 0.3),
-    inset 0 -2px 0 rgba(0, 0, 0, 0.1) !important;
-  border: none !important;
+    0 8px 32px rgba(16, 185, 129, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+}
+
+.btn.btn-new:hover, #btnNew:hover {
+  background: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%) !important;
+  box-shadow: 
+    0 16px 48px rgba(16, 185, 129, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Open Button - Beautiful Ocean Blue Gradient (Icon Only) */
+.btn.btn-open, #btnOpen {
+  width: 48px !important;
+  height: 48px !important;
+  padding: 0 !important;
+  border-radius: 24px !important;
+  background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 50%, #93c5fd 100%) !important;
+  box-shadow: 
+    0 8px 32px rgba(59, 130, 246, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+}
+
+.btn.btn-open:hover, #btnOpen:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 50%, #60a5fa 100%) !important;
+  box-shadow: 
+    0 16px 48px rgba(59, 130, 246, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Save Button - Beautiful Purple Gradient (Icon Only) */
+.btn.btn-save, #btnSave {
+  width: 48px !important;
+  height: 48px !important;
+  padding: 0 !important;
+  border-radius: 24px !important;
+  background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 50%, #c4b5fd 100%) !important;
+  box-shadow: 
+    0 8px 32px rgba(139, 92, 246, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+}
+
+.btn.btn-save:hover, #btnSave:hover {
+  background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 50%, #a78bfa 100%) !important;
+  box-shadow: 
+    0 16px 48px rgba(139, 92, 246, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.2) !important;
+}
+
+/* ===== FLUENT DESIGN BUTTON STATES ===== */
+
+/* Focus states for accessibility */
+.btn:focus {
+  outline: 2px solid #0078d4;
+  outline-offset: 2px;
+}
+
+.btn:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.btn:focus-visible {
+  outline: 2px solid #0078d4;
+  outline-offset: 2px;
+}
+
+/* Disabled state */
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ===== FLUID DESIGN CONTROL BUTTONS ===== */
+.btn.btn-theme, #btnThemeToggle {
+  width: 48px !important;
+  height: 48px !important;
+  padding: 0 !important;
+  border-radius: 24px !important;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%) !important;
+  border: 1px solid transparent !important;
+  color: #ffffff !important;
   position: relative;
   overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 
+    0 8px 32px rgba(99, 102, 241, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
-.btn.btn-theme::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, transparent 70%);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  z-index: 1;
-}
-
-.btn.btn-theme::after {
+.btn.btn-theme::before, #btnThemeToggle::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  border-radius: 50%;
+  background: rgba(0, 120, 212, 0.1);
+  border-radius: 4px;
   opacity: 0;
-  transition: opacity 0.4s ease;
-  z-index: 2;
+  transition: opacity 0.167s cubic-bezier(0.4, 0.0, 0.2, 1);
+  z-index: 1;
 }
 
+.btn.btn-theme:hover, #btnThemeToggle:hover {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%) !important;
+  box-shadow: 
+    0 16px 48px rgba(99, 102, 241, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.2) !important;
+  transform: translateY(-4px) scale(1.1) rotate(180deg) !important;
+}
+
+.btn.btn-theme:hover::before, #btnThemeToggle:hover::before {
+  transform: rotate(45deg) translate(0%, 0%);
+}
+
+.btn.btn-theme:active, #btnThemeToggle:active {
+  background: linear-gradient(135deg, #4338ca 0%, #6d28d9 50%, #be185d 100%) !important;
+  box-shadow: 
+    0 8px 24px rgba(99, 102, 241, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.15) !important;
+  transform: translateY(-2px) scale(1.05) rotate(90deg) !important;
+}
+
+
+/* ===== FLUID DESIGN SPECIAL EFFECTS ===== */
+
+/* Fluid Wave Animation for New Button */
+.btn.btn-new:hover {
+  animation: fluidWave 2s ease-in-out infinite;
+}
+
+/* Fluid Pulse Animation for Open Button */
+.btn.btn-open:hover {
+  animation: fluidPulse 1.5s ease-in-out infinite;
+}
+
+/* Fluid Glow Animation for Save Button */
+.btn.btn-save:hover {
+  animation: fluidGlow 2.5s ease-in-out infinite;
+}
+
+/* Fluid Energy Animation for Run Button */
+.btn.btn-run:hover {
+  animation: fluidEnergy 1.8s ease-in-out infinite;
+}
+
+/* Fluid Spin Animation for Theme Toggle */
 .btn.btn-theme:hover {
-  transform: translateY(-4px) scale(1.1) rotate(180deg);
-  box-shadow: 
-    0 16px 48px rgba(102, 126, 234, 0.6),
-    0 0 0 3px rgba(255, 255, 255, 0.2),
-    inset 0 2px 0 rgba(255, 255, 255, 0.4),
-    inset 0 -2px 0 rgba(0, 0, 0, 0.15) !important;
-  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 50%, #e879f9 100%) !important;
+  animation: fluidSpin 3s linear infinite;
 }
 
-.btn.btn-theme:hover::before {
-  width: 100px;
-  height: 100px;
+/* ===== FLUID KEYFRAME ANIMATIONS ===== */
+@keyframes fluidWave {
+  0%, 100% { 
+    transform: translateY(-4px) scale(1.05);
+    filter: brightness(1.1) saturate(1.2);
+  }
+  50% { 
+    transform: translateY(-6px) scale(1.08);
+    filter: brightness(1.2) saturate(1.4);
+  }
 }
 
-.btn.btn-theme:hover::after {
-  opacity: 1;
-  animation: spin 2s linear infinite;
+@keyframes fluidPulse {
+  0%, 100% { 
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 16px 48px rgba(102, 126, 234, 0.6);
+  }
+  50% { 
+    transform: translateY(-8px) scale(1.1);
+    box-shadow: 0 24px 64px rgba(102, 126, 234, 0.8);
+  }
 }
 
-.btn.btn-theme:active {
-  transform: translateY(-2px) scale(1.05) rotate(180deg);
-  box-shadow: 
-    0 8px 24px rgba(102, 126, 234, 0.5),
-    0 0 0 2px rgba(255, 255, 255, 0.15),
-    inset 0 2px 0 rgba(255, 255, 255, 0.3) !important;
+@keyframes fluidGlow {
+  0%, 100% { 
+    transform: translateY(-4px) scale(1.05);
+    filter: brightness(1.1) saturate(1.2);
+  }
+  33% { 
+    transform: translateY(-6px) scale(1.08);
+    filter: brightness(1.3) saturate(1.6);
+  }
+  66% { 
+    transform: translateY(-2px) scale(1.02);
+    filter: brightness(1.0) saturate(1.0);
+  }
 }
+
+@keyframes fluidEnergy {
+  0%, 100% { 
+    transform: translateY(-4px) scale(1.05);
+    filter: brightness(1.1) saturate(1.2);
+  }
+  25% { 
+    transform: translateY(-8px) scale(1.1);
+    filter: brightness(1.4) saturate(1.8);
+  }
+  75% { 
+    transform: translateY(-2px) scale(1.02);
+    filter: brightness(1.0) saturate(1.0);
+  }
+}
+
+@keyframes fluidSpin {
+  0% { 
+    transform: translateY(-4px) scale(1.1) rotate(0deg);
+  }
+  100% { 
+    transform: translateY(-4px) scale(1.1) rotate(360deg);
+  }
+}
+
+/* ===== FLUID DESIGN COMPLETED ===== */
 
 .btn.btn-settings {
   width: 48px !important;
