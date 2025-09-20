@@ -1,0 +1,242 @@
+/* ===== PERFORMANCE OPTIMIZATIONS ===== */
+/* Optimizations to ensure smooth UI performance */
+
+/* ===== GPU ACCELERATION ===== */
+/* Enable hardware acceleration for smooth animations */
+.btn,
+.tab,
+.editor-container,
+.console-container,
+.top-nav,
+.tabs-container {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: transform;
+}
+
+/* ===== OPTIMIZED ANIMATIONS ===== */
+/* Use transform and opacity for better performance */
+.btn:hover:not(:disabled),
+.tab:hover,
+.editor-container:hover {
+  transform: translateY(-1px) translateZ(0);
+  -webkit-transform: translateY(-1px) translateZ(0);
+}
+
+.btn:active:not(:disabled),
+.tab:active {
+  transform: translateY(0) translateZ(0);
+  -webkit-transform: translateY(0) translateZ(0);
+}
+
+/* ===== EFFICIENT SHADOWS ===== */
+/* Use CSS custom properties for shadows to reduce repaints */
+:root {
+  --shadow-performance: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-performance-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== OPTIMIZED BACKDROP FILTER ===== */
+/* Use backdrop-filter sparingly for better performance */
+.top-nav,
+.modal,
+.toast {
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+/* Disable backdrop-filter on low-end devices */
+@media (prefers-reduced-motion: reduce) {
+  .top-nav,
+  .modal,
+  .toast {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: var(--bg-glass) !important;
+  }
+}
+
+/* ===== EFFICIENT SCROLLING ===== */
+/* Optimize scroll performance */
+.console-content,
+.editor-content,
+.modal-body {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* ===== OPTIMIZED TRANSITIONS ===== */
+/* Use transform and opacity for smooth transitions */
+.btn,
+.tab,
+.modal,
+.toast {
+  transition: transform var(--duration-fast) var(--ease-in-out),
+              opacity var(--duration-fast) var(--ease-in-out),
+              box-shadow var(--duration-fast) var(--ease-in-out);
+}
+
+/* Avoid animating layout properties */
+.btn:hover:not(:disabled) {
+  transition: transform var(--duration-fast) var(--ease-in-out),
+              box-shadow var(--duration-fast) var(--ease-in-out);
+}
+
+/* ===== OPTIMIZED RENDERING ===== */
+/* Use contain property for better rendering performance */
+.editor-container,
+.console-container,
+.tabs-container {
+  contain: layout style paint;
+}
+
+/* ===== EFFICIENT FONT LOADING ===== */
+/* Optimize font rendering */
+body {
+  font-display: swap;
+  text-rendering: optimizeSpeed;
+}
+
+/* Switch to optimizeLegibility for better text quality on high-DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  body {
+    text-rendering: optimizeLegibility;
+  }
+}
+
+/* ===== OPTIMIZED SELECTION ===== */
+/* Use efficient selection styling */
+::selection {
+  background: var(--primary-100);
+  color: var(--primary-900);
+}
+
+.theme-dark ::selection {
+  background: var(--primary-800);
+  color: var(--primary-100);
+}
+
+/* ===== OPTIMIZED FOCUS ===== */
+/* Use efficient focus styling */
+*:focus-visible {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+}
+
+/* Remove focus outline for mouse users */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ===== OPTIMIZED IMAGES ===== */
+/* Optimize image rendering */
+img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: optimize-contrast;
+}
+
+/* ===== OPTIMIZED GRADIENTS ===== */
+/* Use efficient gradient rendering */
+.btn-primary,
+.btn-run,
+.tab.active {
+  background-attachment: fixed;
+}
+
+/* ===== OPTIMIZED Z-INDEX ===== */
+/* Use efficient z-index stacking */
+.top-nav {
+  z-index: var(--z-sticky);
+}
+
+.modal-overlay {
+  z-index: var(--z-modal-backdrop);
+}
+
+.modal {
+  z-index: var(--z-modal);
+}
+
+.toast {
+  z-index: var(--z-toast);
+}
+
+/* ===== OPTIMIZED MEDIA QUERIES ===== */
+/* Use efficient media queries */
+@media (max-width: 768px) {
+  /* Reduce animations on mobile for better performance */
+  .btn,
+  .tab {
+    transition: none;
+  }
+  
+  .btn:hover:not(:disabled),
+  .tab:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Disable expensive effects on small screens */
+  .top-nav {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: var(--bg-glass) !important;
+  }
+}
+
+/* ===== OPTIMIZED REDUCED MOTION ===== */
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .btn-run::before,
+  .loading::after {
+    display: none !important;
+  }
+}
+
+/* ===== OPTIMIZED HIGH CONTRAST ===== */
+/* Optimize for high contrast mode */
+@media (prefers-contrast: high) {
+  .btn,
+  .tab {
+    border-width: 2px;
+    border-style: solid;
+  }
+  
+  .btn-primary,
+  .tab.active {
+    border-color: var(--primary-700);
+  }
+}
+
+/* ===== OPTIMIZED PRINT ===== */
+/* Optimize for printing */
+@media print {
+  * {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+  
+  .top-nav,
+  .tabs-container,
+  .console-container,
+  .status-bar {
+    display: none !important;
+  }
+  
+  .editor-container {
+    margin: 0 !important;
+    border: 1px solid #ddd !important;
+    box-shadow: none !important;
+  }
+}

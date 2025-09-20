@@ -1,120 +1,150 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="theme-light theme-transition">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iPseudo IDE</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    <!-- Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet">
-    <!-- Styles -->
-    <link rel="stylesheet" href="styles/theme.css">
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/modern-editor.css">
-
+    <title>iPseudo IDE - Ultra-Modern Pseudocode Editor</title>
+    
+    <!-- Ultra-Modern Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Ultra-Modern Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <!-- Ultra-Modern Styles -->
+    <link rel="stylesheet" href="styles/ultra-modern.css">
+    
     <!-- Monaco Editor Setup -->
     <script>
         window.nodeRequire = window.require;
-        try { window.require = undefined; window.module = undefined; window.exports = undefined; } catch(e) {}
+        try { 
+            window.require = undefined; 
+            window.module = undefined; 
+            window.exports = undefined; 
+        } catch(e) {}
     </script>
     <script src="./monaco/vs/loader.js"></script>
 </head>
 <body>
     <div class="app-container">
-        <!-- Floating Top Navigation -->
+        <!-- Ultra-Modern Top Navigation -->
         <header class="top-nav">
-            <div class="brand">
-                <div class="logo-icon">
-                    <img src="assets/logo-dark.svg" alt="iPseudo Logo" class="logo-image logo-dark">
-                    <img src="assets/logo-light.svg" alt="iPseudo Logo" class="logo-image logo-light">
+            <div class="top-nav-left">
+                <!-- Ultra-Modern App Brand -->
+                <a href="#" class="app-brand" id="appBrand">
+                    <div class="app-logo">
+                        <i class="ri-code-s-slash-line"></i>
+                    </div>
+                    <span class="app-name">iPseudo</span>
+                </a>
+                
+                <!-- Ultra-Modern File Actions -->
+                <div class="file-actions">
+                    <button class="btn btn-icon btn-cyber" id="btnNew" title="New File" data-tooltip="Create new file">
+                        <i class="ri-add-line"></i>
+                    </button>
+                    <button class="btn btn-icon btn-neon" id="btnOpen" title="Open File" data-tooltip="Open existing file">
+                        <i class="ri-folder-open-line"></i>
+                    </button>
+                    <button class="btn btn-icon btn-glass" id="btnSave" title="Save File" data-tooltip="Save current file">
+                        <i class="ri-save-line"></i>
+                    </button>
                 </div>
             </div>
-            <div class="file-actions">
-                <button class="btn btn-new" id="btnNew" title="New File"><i class="ri-add-circle-fill"></i></button>
-                <button class="btn btn-open" id="btnOpen" title="Open File"><i class="ri-folder-open-fill"></i></button>
-                <button class="btn btn-save" id="btnSave" title="Save File"><i class="ri-save-3-fill"></i></button>
-            </div>
-            <button class="btn btn-run" id="btnRun" title="Run (Ctrl+Enter)">
-                <i class="ri-play-circle-fill"></i>
-                <span>Run</span>
-            </button>
-            <div class="settings-actions">
-                <button class="btn btn-theme" id="btnThemeToggle" title="Toggle Theme"><i class="ri-contrast-2-fill"></i></button>
-                <button class="btn btn-settings" id="btnSettings" title="Settings"><i class="ri-settings-4-fill"></i></button>
+            
+            <div class="top-nav-right">
+                <!-- Ultra-Modern Run Button -->
+                <button class="btn btn-cyber btn-run" id="btnRun" title="Run Code (Ctrl+Enter)" data-tooltip="Execute pseudocode">
+                    <i class="ri-play-line"></i>
+                    <span>Run</span>
+                </button>
+                
+                <!-- Ultra-Modern Theme Toggle -->
+                <button class="btn btn-icon btn-glass tooltip" id="btnThemeToggle" title="Toggle Theme" data-tooltip="Switch between light and dark mode">
+                    <i class="ri-contrast-2-line"></i>
+                </button>
+                
+                <!-- Ultra-Modern Settings Button -->
+                <button class="btn btn-icon btn-neumorphism tooltip" id="btnSettings" title="Settings" data-tooltip="Open settings panel">
+                    <i class="ri-settings-3-line"></i>
+                </button>
             </div>
         </header>
 
-        <!-- Main Content -->
+        <!-- Ultra-Modern Main Content -->
         <main class="main-content">
-            <!-- Modern Tab System -->
-            <div class="modern-tabs-container" id="tabsContainer">
-                <div class="tabs-wrapper">
-                    <div class="tabs-track" id="tabsTrack"></div>
+            <!-- Ultra-Modern Tabs Container -->
+            <div class="tabs-container" id="tabsContainer">
+                <div class="tabs-track" id="tabsTrack">
+                    <!-- Tabs will be dynamically added here -->
                 </div>
-                <button class="new-tab-btn" id="btnNewTab" title="New Tab">
+                <button class="btn btn-icon btn-ghost tooltip" id="btnNewTab" title="New Tab" data-tooltip="Create new tab">
                     <i class="ri-add-line"></i>
                 </button>
             </div>
 
-            <!-- Modern Editor Area -->
-            <div class="modern-editor-section">
-                <div class="editor-header">
-                    <div class="editor-title">
-                        <i class="ri-code-s-slash-line"></i>
-                        <span>Code Editor</span>
-                    </div>
-                    <div class="editor-actions">
-                        <button class="action-btn" id="btnFormat" title="Format Code">
-                            <i class="ri-code-s-slash-line"></i>
-                        </button>
-                        <button class="action-btn" id="btnMinimap" title="Toggle Minimap">
-                            <i class="ri-map-line"></i>
-                        </button>
-                        <button class="action-btn" id="btnWordWrap" title="Toggle Word Wrap">
-                            <i class="ri-text-wrap"></i>
-                        </button>
-                    </div>
-                </div>
+            <!-- Ultra-Modern Editor Layout -->
+            <div class="editor-layout">
+                <!-- Ultra-Modern Editor Container -->
                 <div class="editor-container">
-                    <div class="editor-wrapper">
-                        <div id="editor"></div>
-                        <div class="editor-overlay">
-                            <div class="editor-glow"></div>
+                    <div class="editor-header">
+                        <div class="editor-title">
+                            <i class="ri-code-s-slash-line"></i>
+                            <span>Code Editor</span>
+                            <div class="badge badge-cyber">Live</div>
+                        </div>
+                        <div class="editor-actions">
+                            <button class="btn btn-sm btn-ghost tooltip" id="btnFormat" title="Format Code" data-tooltip="Format your code">
+                                <i class="ri-code-s-slash-line"></i>
+                                <span class="sm:block">Format</span>
+                            </button>
+                            <button class="btn btn-sm btn-ghost tooltip" id="btnMinimap" title="Toggle Minimap" data-tooltip="Show/hide minimap">
+                                <i class="ri-map-line"></i>
+                                <span class="sm:block">Minimap</span>
+                            </button>
+                            <button class="btn btn-sm btn-ghost tooltip" id="btnWordWrap" title="Toggle Word Wrap" data-tooltip="Enable/disable word wrap">
+                                <i class="ri-text-wrap"></i>
+                                <span class="sm:block">Wrap</span>
+                            </button>
                         </div>
                     </div>
+                    <div class="editor-content">
+                        <div id="editor" class="monaco-editor" style="width: 100%; height: 100%; min-height: 400px;"></div>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Modern Output Area -->
-            <div class="modern-output-section">
-                <div class="output-header">
-                    <div class="output-title">
-                        <i class="ri-terminal-box-fill"></i>
-                        <span>Output Console</span>
-                    </div>
-                    <div class="output-actions">
-                        <div class="status-indicator" id="runStatus" title="Status: Ready">
-                            <div class="status-dot"></div>
-                            <span class="status-text">Ready</span>
+                <!-- Ultra-Modern Console Container -->
+                <div class="console-container">
+                    <div class="console-header">
+                        <div class="console-title">
+                            <i class="ri-terminal-box-line"></i>
+                            <span>Output Console</span>
+                            <div class="badge badge-electric">Ready</div>
                         </div>
-                        <button class="action-btn" id="clearConsole" title="Clear Output">
-                            <i class="ri-delete-bin-6-line"></i>
-                        </button>
-                        <button class="action-btn" id="btnCopyOutput" title="Copy Output">
-                            <i class="ri-file-copy-line"></i>
-                        </button>
-                        <button class="action-btn" id="btnExportOutput" title="Export Output">
-                            <i class="ri-download-line"></i>
-                        </button>
+                        <div class="console-actions">
+                            <div class="status-indicator" id="runStatus" title="Status: Ready">
+                                <div class="status-dot"></div>
+                                <span class="status-text">Ready</span>
+                            </div>
+                            <button class="btn btn-sm btn-ghost tooltip" id="clearConsole" title="Clear Output" data-tooltip="Clear console output">
+                                <i class="ri-delete-bin-line"></i>
+                                <span class="sm:block">Clear</span>
+                            </button>
+                            <button class="btn btn-sm btn-ghost tooltip" id="btnCopyOutput" title="Copy Output" data-tooltip="Copy console output">
+                                <i class="ri-file-copy-line"></i>
+                                <span class="sm:block">Copy</span>
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div class="output-container">
-                    <div class="output-wrapper">
-                        <div class="console-output" id="output"></div>
-                        <div class="output-overlay">
-                            <div class="output-glow"></div>
+                    <div class="console-content">
+                        <div class="console-output" id="output">
+                            <div class="console-message console-success">
+                                <i class="ri-check-line"></i>
+                                <span>Welcome to iPseudo IDE! Ready to run your pseudocode.</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -122,71 +152,78 @@
         </main>
     </div>
 
-    <!-- Scripts -->
-    <script src="scripts/errorManager.js"></script>
-    <div class="modal-overlay" id="aboutModal">
-        <div class="modal-content">
+    <!-- Ultra-Modern About Modal -->
+    <div class="modal-overlay" id="aboutModal" style="display: none;">
+        <div class="modal">
             <div class="modal-header">
-                <h2>About iPseudo</h2>
-                <button class="modal-close" id="closeModal">&times;</button>
+                <h2 class="modal-title">About iPseudo IDE</h2>
+                <button class="modal-close" id="closeModal">
+                    <i class="ri-close-line"></i>
+                </button>
             </div>
             <div class="modal-body">
-                <div class="app-icon">
-                    <img src="assets/logo-dark.svg" alt="iPseudo Logo" class="modal-logo modal-logo-dark">
-                    <img src="assets/logo-light.svg" alt="iPseudo Logo" class="modal-logo modal-logo-light">
+                <div class="app-icon" style="text-align: center; margin-bottom: var(--space-6);">
+                    <div class="app-logo" style="width: 80px; height: 80px; font-size: 2.5rem; margin: 0 auto;">
+                        <i class="ri-code-s-slash-line"></i>
+                    </div>
                 </div>
-                <p class="app-description">
-                    iPseudo is a modern, lightweight IDE for writing and executing pseudocode. 
-                    Built with Electron and Monaco Editor, it provides a clean and intuitive 
-                    environment for algorithm development and learning.
+                <p class="app-description" style="text-align: center; margin-bottom: var(--space-6);">
+                    iPseudo is an ultra-modern, lightweight IDE for writing and executing pseudocode. 
+                    Built with cutting-edge design principles and the latest web technologies, it provides 
+                    an intuitive and beautiful environment for algorithm development and learning.
                 </p>
-                <div class="app-meta">
-                    <div class="version">Version 1.0.0</div>
-                    <div class="developer-info">
-                        <div class="developer-name">Developed by <strong>MBARK</strong></div>
-                        <div class="developer-email">
+                <div class="app-meta" style="text-align: center;">
+                    <div class="version badge badge-cyber" style="margin-bottom: var(--space-4);">Version 3.0.0</div>
+                    <div class="developer-info" style="margin-bottom: var(--space-4);">
+                        <div class="developer-name" style="font-weight: var(--font-weight-semibold); margin-bottom: var(--space-2);">
+                            Developed by <strong>MBARK</strong>
+                        </div>
+                        <div class="developer-email" style="color: var(--text-secondary);">
                             <i class="ri-mail-line"></i>
                             <a href="mailto:me@MBVRK.onmicrosoft.com">me@MBVRK.onmicrosoft.com</a>
                         </div>
                     </div>
-                    <div class="developer-links">
-                        <a href="https://github.com/mbarkt3sto" target="_blank" class="social-link">
+                    <div class="developer-links" style="display: flex; gap: var(--space-4); justify-content: center;">
+                        <a href="https://github.com/mbarkt3sto" target="_blank" class="social-link btn btn-sm btn-ghost">
                             <i class="ri-github-fill"></i> GitHub
                         </a>
-                        <a href="https://hashnode.com/@mbarkt3sto" target="_blank" class="social-link">
+                        <a href="https://hashnode.com/@mbarkt3sto" target="_blank" class="social-link btn btn-sm btn-ghost">
                             <i class="ri-hashtag"></i> Hashnode
                         </a>
-                        <a href="https://linkedin.com/in/mbarkt3sto" target="_blank" class="social-link">
+                        <a href="https://linkedin.com/in/mbarkt3sto" target="_blank" class="social-link btn btn-sm btn-ghost">
                             <i class="ri-linkedin-fill"></i> LinkedIn
                         </a>
                     </div>
                 </div>
             </div>
+            <div class="modal-footer">
+                <button class="btn btn-cyber" id="closeModalBtn">Close</button>
+            </div>
         </div>
     </div>
-    
+
+    <!-- Ultra-Modern Scripts -->
+    <script src="scripts/errorManager.js"></script>
     <script src="scripts/editor.js"></script>
     <script src="scripts/theme.js"></script>
     <script src="scripts/app.js"></script>
+    
     <script>
-        // Modal functionality
+        // Ultra-Modern Modal functionality
         const aboutModal = document.getElementById('aboutModal');
         const closeModal = document.getElementById('closeModal');
-        const brand = document.querySelector('.brand');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const appBrand = document.getElementById('appBrand');
 
-        // Handle external links
+        // Handle external links with ultra-modern approach
         document.addEventListener('click', (e) => {
             const link = e.target.closest('a');
             if (link && link.href) {
-                // Check if it's an external link or has target="_blank"
-                if (link.target === '_blank' || 
-                    link.hostname !== window.location.hostname) {
+                if (link.target === '_blank' || link.hostname !== window.location.hostname) {
                     e.preventDefault();
-                    // Check if electron API is available
                     if (window.electron && typeof window.electron.openExternal === 'function') {
                         window.electron.openExternal(link.href);
                     } else {
-                        // Fallback to default behavior if electron API is not available
                         window.open(link.href, '_blank', 'noopener,noreferrer');
                     }
                 }
@@ -206,23 +243,61 @@
             }
         });
 
-        brand.addEventListener('click', () => {
-            aboutModal.classList.add('active');
+        // Ultra-Modern modal handlers
+        const showModal = () => {
+            aboutModal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
+            aboutModal.classList.add('animate-scale-in');
+        };
+
+        const hideModal = () => {
+            aboutModal.classList.remove('animate-scale-in');
+            setTimeout(() => {
+                aboutModal.style.display = 'none';
+                document.body.style.overflow = '';
+            }, 300);
+        };
+
+        appBrand.addEventListener('click', (e) => {
+            e.preventDefault();
+            showModal();
         });
 
-        closeModal.addEventListener('click', (e) => {
-            e.preventDefault();
-            aboutModal.classList.remove('active');
-            document.body.style.overflow = '';
-        });
+        closeModal.addEventListener('click', hideModal);
+        closeModalBtn.addEventListener('click', hideModal);
 
         // Close modal when clicking outside content
         aboutModal.addEventListener('click', (e) => {
             if (e.target === aboutModal) {
-                aboutModal.classList.remove('active');
-                document.body.style.overflow = '';
+                hideModal();
             }
+        });
+
+        // Ultra-Modern keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && aboutModal.style.display === 'flex') {
+                hideModal();
+            }
+        });
+
+        // Ultra-Modern theme toggle
+        const themeToggle = document.getElementById('btnThemeToggle');
+        const body = document.body;
+        
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('theme-dark');
+            body.classList.toggle('theme-light');
+            
+            // Update theme info
+            const themeInfo = document.getElementById('themeInfo');
+            if (themeInfo) {
+                themeInfo.textContent = body.classList.contains('theme-dark') ? 'Dark Theme' : 'Light Theme';
+            }
+        });
+
+        // Ultra-Modern loading animation
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.add('animate-fade-in-up');
         });
     </script>
 </body>

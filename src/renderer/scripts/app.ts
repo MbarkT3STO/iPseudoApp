@@ -500,7 +500,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tab.innerHTML = `
             <span class="tab-label">${fileName}</span>
             <span class="dirty-indicator" aria-hidden="true"></span>
-            <button class="tab-close" data-tab-id="${tabId}" title="Close">✕</button>
+            <button class="modern-tab-close" data-tab-id="${tabId}" title="Close">✕</button>
         `;
         
         // Insert the new tab at the end of the tabs track
@@ -768,7 +768,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update the tab click handler
     document.getElementById('tabsContainer')?.addEventListener('click', (e) => {
-        const closeButton = (e.target as HTMLElement).closest('.tab-close');
+        const closeButton = (e.target as HTMLElement).closest('.modern-tab-close');
         if (closeButton) {
             e.preventDefault();
             e.stopPropagation();
@@ -1238,4 +1238,5 @@ document.addEventListener('DOMContentLoaded', () => {
             createNewTab();
         }
     });
+
 });
