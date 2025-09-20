@@ -43,6 +43,7 @@ interface Window {
 document.addEventListener('DOMContentLoaded', () => {
     const outputConsole = document.getElementById('output') as HTMLElement | null;
     const runButton = document.getElementById('btnRun') as HTMLButtonElement | null;
+    const stopButton = document.getElementById('btnStop') as HTMLButtonElement | null;
     const clearButton = document.getElementById('clearConsole') as HTMLButtonElement | null;
     const runStatus = document.getElementById('runStatus') as HTMLElement | null;
     const sidebarToggle = document.getElementById('sidebar-toggle') as HTMLElement | null;
@@ -55,16 +56,157 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Global tab counter
     let tabCounter = 0;
+    
+    // Execution state management
+    let isExecuting = false;
+    let executionStopped = false;
 
     // Make these globally available
     (window as any).openFiles = openFiles;
     (window as any).activeFilePath = activeFilePath || '';
+
+    // Setup MutationObserver for automatic scrolling
+    let autoScrollEnabled = true;
+    let mutationObserver: MutationObserver | null = null;
+    
+    function setupAutoScrollObserver(): void {
+        if (!outputConsole || mutationObserver) return;
+        
+        mutationObserver = new MutationObserver((mutations) => {
+            if (!autoScrollEnabled) return;
+            
+            let shouldScroll = false;
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                    shouldScroll = true;
+                }
+            });
+            
+            if (shouldScroll) {
+                // Use a small delay to ensure DOM is fully updated
+                setTimeout(() => {
+                    scrollOutputToBottom();
+                    scrollLastElementIntoView();
+                }, 10);
+            }
+        });
+        
+        mutationObserver.observe(outputConsole, {
+            childList: true,
+            subtree: true
+        });
+    }
 
     function escapeHtml(s: string): string { 
         return String(s).replace(/[&<>"']/g, c => {
             const escapeMap: {[key: string]: string} = {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'};
             return escapeMap[c] || c;
         }); 
+    }
+
+    // Function to scroll output console to bottom
+    function scrollOutputToBottom(): void {
+        if (!outputConsole) {
+            console.warn('Output console element not found');
+            return;
+        }
+        
+        // Enhanced scrolling function that ensures we reach the absolute bottom
+        const scrollToAbsoluteBottom = () => {
+            // Get the actual scrollable height
+            const scrollHeight = outputConsole.scrollHeight;
+            const clientHeight = outputConsole.clientHeight;
+            const maxScroll = scrollHeight - clientHeight;
+            
+            console.log('Scroll details:', {
+                scrollHeight,
+                clientHeight,
+                maxScroll,
+                currentScrollTop: outputConsole.scrollTop
+            });
+            
+            // Method 1: Use scrollTo with exact positioning
+            try {
+                outputConsole.scrollTo({
+                    top: scrollHeight,
+                    behavior: 'smooth'
+                });
+            } catch (e) {
+                // Fallback: direct assignment
+                outputConsole.scrollTop = scrollHeight;
+            }
+            
+            // Method 2: Force scroll to absolute bottom with multiple attempts
+            setTimeout(() => {
+                outputConsole.scrollTop = scrollHeight;
+                // Add extra padding to ensure we're at the very bottom
+                outputConsole.scrollTop = outputConsole.scrollHeight + 100;
+                // Then set to exact bottom
+                outputConsole.scrollTop = outputConsole.scrollHeight;
+            }, 10);
+            
+            // Method 3: Final verification and correction
+            setTimeout(() => {
+                const finalScrollTop = outputConsole.scrollTop;
+                const finalScrollHeight = outputConsole.scrollHeight;
+                const finalClientHeight = outputConsole.clientHeight;
+                const shouldBeAt = finalScrollHeight - finalClientHeight;
+                
+                console.log('Final scroll check:', {
+                    current: finalScrollTop,
+                    shouldBe: shouldBeAt,
+                    difference: Math.abs(finalScrollTop - shouldBeAt)
+                });
+                
+                // If we're not at the bottom, force it
+                if (Math.abs(finalScrollTop - shouldBeAt) > 1) {
+                    outputConsole.scrollTop = finalScrollHeight;
+                    console.log('Corrected scroll position');
+                }
+            }, 50);
+        };
+        
+        // Use multiple timing approaches to ensure scrolling works
+        requestAnimationFrame(() => {
+            scrollToAbsoluteBottom();
+            
+            // Additional attempts with different timings
+            setTimeout(scrollToAbsoluteBottom, 20);
+            setTimeout(scrollToAbsoluteBottom, 100);
+            setTimeout(scrollToAbsoluteBottom, 200);
+        });
+    }
+
+    // Function to scroll the last element into view
+    function scrollLastElementIntoView(): void {
+        if (!outputConsole) return;
+        
+        // Find the last child element
+        const children = outputConsole.children;
+        if (children.length > 0) {
+            const lastElement = children[children.length - 1] as HTMLElement;
+            
+            console.log('Scrolling last element into view:', lastElement);
+            
+            try {
+                // Use scrollIntoView to ensure the last element is visible
+                lastElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'end',
+                    inline: 'nearest'
+                });
+            } catch (e) {
+                // Fallback: manually calculate and scroll
+                const elementRect = lastElement.getBoundingClientRect();
+                const containerRect = outputConsole.getBoundingClientRect();
+                const relativeTop = elementRect.top - containerRect.top + outputConsole.scrollTop;
+                
+                outputConsole.scrollTo({
+                    top: relativeTop,
+                    behavior: 'smooth'
+                });
+            }
+        }
     }
 
     // out: by default include timestamp; for type 'stdout' and 'print' show raw text only
@@ -94,10 +236,24 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             outputConsole.appendChild(messageContainer);
         }
+        
+        // Auto-scroll to bottom after adding new content
+        // Use multiple approaches to ensure scrolling works
+        setTimeout(() => {
+            scrollOutputToBottom();
+            // Also try scrolling the last element into view
+            scrollLastElementIntoView();
+        }, 0);
+        
+        // Also scroll immediately
+        scrollOutputToBottom();
     }
 
     if (clearButton) clearButton.addEventListener('click', () => { 
-        if (outputConsole) outputConsole.innerHTML = ''; 
+        if (outputConsole) {
+            outputConsole.innerHTML = '';
+            scrollOutputToBottom();
+        }
     });
 
     const ErrorManagerCtor = (window as any).ErrorManager || null;
@@ -116,8 +272,40 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             runnerWorker = null;
         }
-        if (runButton) runButton.disabled = false;
+        
+        // Reset execution state
+        isExecuting = false;
+        executionStopped = false;
+        
+        // Update UI state
+        if (runButton) {
+            runButton.disabled = false;
+            runButton.style.display = 'flex';
+        }
+        if (stopButton) {
+            stopButton.style.display = 'none';
+            stopButton.disabled = true;
+        }
         if (runStatus) runStatus.title = 'Idle';
+    }
+
+    function stopExecution(): void {
+        if (isExecuting && runnerWorker) {
+            executionStopped = true;
+            
+            // Send stop message to worker
+            try {
+                runnerWorker.postMessage({ type: 'stop' });
+            } catch(e) {
+                console.error('Error sending stop message to worker:', e);
+            }
+            
+            // Force cleanup after a short delay
+            setTimeout(() => {
+                cleanupWorker();
+                out('Execution stopped by user', 'warning');
+            }, 100);
+        }
     }
 
     function handleError(err: any, src?: string): void {
@@ -161,7 +349,7 @@ document.addEventListener('DOMContentLoaded', () => {
             outputConsole!.innerHTML += '<div class="error-separator"></div>';
             
             // Scroll to the bottom to show the error
-            outputConsole!.scrollTop = outputConsole!.scrollHeight;
+            scrollOutputToBottom();
             return;
         }
         
@@ -272,7 +460,19 @@ document.addEventListener('DOMContentLoaded', () => {
     function execute(code: string): void {
         if (!code || !code.trim()) { out('Nothing to run','warning'); return; }
         try {
-            if (runButton) runButton.disabled = true;
+            // Set execution state
+            isExecuting = true;
+            executionStopped = false;
+            
+            // Update UI state
+            if (runButton) {
+                runButton.disabled = true;
+                runButton.style.display = 'none';
+            }
+            if (stopButton) {
+                stopButton.style.display = 'flex';
+                stopButton.disabled = false;
+            }
             if (runStatus) runStatus.title = 'Running';
 
             cleanupWorker();
@@ -290,6 +490,13 @@ document.addEventListener('DOMContentLoaded', () => {
             runnerWorker.onmessage = (ev) => {
                 const m = ev.data; 
                 if (!m) return;
+                
+                // Check if execution was stopped
+                if (executionStopped) {
+                    cleanupWorker();
+                    return;
+                }
+                
                 try {
                     if (m.type === 'stdout') { 
                         (m.text || '').split('\n').forEach((l: string) => { 
@@ -312,7 +519,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         runnerWorker!.postMessage({ type: 'input-response', id: m.id, value: val }); 
                     }
                     else if (m.type === 'done') { 
-                        out('Done', 'info'); 
+                        if (!executionStopped) {
+                            out('Done', 'info'); 
+                        }
                         cleanupWorker(); 
                     }
                     else { 
@@ -345,7 +554,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Get the code and clear console
         const code = (window as any).editor && typeof (window as any).editor.getValue === 'function' ? (window as any).editor.getValue() : '';
-        if (outputConsole) outputConsole.innerHTML = '';
+        if (outputConsole) {
+            outputConsole.innerHTML = '';
+            scrollOutputToBottom();
+        }
         
         try {
             // Execute the code
@@ -372,6 +584,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 300);
         }
     });
+
+    // Stop button event listener
+    if (stopButton) {
+        stopButton.addEventListener('click', () => {
+            stopExecution();
+        });
+    }
 
     // Function to save the current editor state
     function saveEditorState(): void {
@@ -1217,7 +1436,52 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
+    // Initialize UI state
+    function initializeUI(): void {
+        // Set initial button states
+        if (runButton) {
+            runButton.style.display = 'flex';
+        }
+        if (stopButton) {
+            stopButton.style.display = 'none';
+            stopButton.disabled = true;
+        }
+        
+        // Setup auto-scroll observer
+        setupAutoScrollObserver();
+    }
+
+    // Function to toggle auto-scroll (for debugging)
+    function toggleAutoScroll(): void {
+        autoScrollEnabled = !autoScrollEnabled;
+        console.log('Auto-scroll', autoScrollEnabled ? 'enabled' : 'disabled');
+    }
+
+    // Test function to add multiple lines and verify auto-scroll
+    function testAutoScroll(): void {
+        console.log('Testing auto-scroll with output console:', outputConsole);
+        console.log('Console element details:', {
+            id: outputConsole?.id,
+            className: outputConsole?.className,
+            scrollHeight: outputConsole?.scrollHeight,
+            clientHeight: outputConsole?.clientHeight
+        });
+        
+        for (let i = 1; i <= 10; i++) {
+            setTimeout(() => {
+                out(`Test line ${i} - This should auto-scroll to show the latest content`, 'info');
+            }, i * 500); // Add a line every 500ms
+        }
+    }
+
+    // Make functions globally available for debugging
+    (window as any).toggleAutoScroll = toggleAutoScroll;
+    (window as any).scrollOutputToBottom = scrollOutputToBottom;
+    (window as any).scrollLastElementIntoView = scrollLastElementIntoView;
+    (window as any).testAutoScroll = testAutoScroll;
+    
     // Start the initialization
+    initializeUI();
     initializeFirstTab();
     
     // Add keyboard shortcuts for tab navigation
@@ -1259,6 +1523,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.ctrlKey && e.key === 't') {
             e.preventDefault();
             createNewTab();
+        }
+        
+        // Ctrl+C or Escape - Stop execution
+        if (isExecuting && ((e.ctrlKey && e.key === 'c') || e.key === 'Escape')) {
+            e.preventDefault();
+            stopExecution();
         }
     });
 

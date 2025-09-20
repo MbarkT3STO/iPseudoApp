@@ -350,6 +350,86 @@
   transform: translateX(2px);
 }
 
+/* Stop Button */
+.btn-stop {
+  background: linear-gradient(135deg, 
+    var(--soft-red-500) 0%, 
+    var(--soft-red-600) 50%, 
+    var(--soft-red-700) 100%) !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: 
+    0 8px 25px rgba(239, 68, 68, 0.3),
+    0 4px 12px rgba(239, 68, 68, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1) !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: var(--space-soft-2) !important;
+  font-size: var(--font-size-soft-sm) !important;
+  font-weight: var(--font-weight-soft-semibold) !important;
+  padding: var(--space-soft-4) var(--space-soft-8) !important;
+  border-radius: var(--radius-soft-lg) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  transition: all var(--duration-soft-normal) var(--ease-soft-out) !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.btn-stop:hover:not(:disabled) {
+  background: linear-gradient(135deg, 
+    var(--soft-red-400) 0%, 
+    var(--soft-red-500) 50%, 
+    var(--soft-red-600) 100%);
+  box-shadow: 
+    0 12px 35px rgba(239, 68, 68, 0.4),
+    0 6px 16px rgba(239, 68, 68, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px) scale(1.02);
+}
+
+.btn-stop:active:not(:disabled) {
+  background: linear-gradient(135deg, 
+    var(--soft-red-600) 0%, 
+    var(--soft-red-700) 50%, 
+    var(--soft-red-800) 100%);
+  box-shadow: 
+    0 4px 15px rgba(239, 68, 68, 0.3),
+    inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  transform: translateY(1px) scale(0.98);
+}
+
+/* Special glow effect for stop button */
+.btn-stop::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all var(--duration-soft-slow) var(--ease-soft-out);
+  z-index: -1;
+}
+
+.btn-stop:hover:not(:disabled)::before {
+  width: 150%;
+  height: 150%;
+}
+
+/* Stop button icon animation */
+.btn-stop i {
+  transition: transform var(--duration-soft-normal) var(--ease-soft-out);
+}
+
+.btn-stop:hover:not(:disabled) i {
+  transform: scale(1.1);
+}
+
 .btn-xl {
   padding: var(--space-soft-5) var(--space-soft-10);
   font-size: var(--font-size-soft-lg);

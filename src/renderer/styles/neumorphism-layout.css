@@ -384,7 +384,32 @@
   box-shadow: var(--shadow-soft-inset);
   border: 1px solid var(--border-soft-light);
   position: relative;
-  overflow: hidden;
+  overflow-y: auto;
+  max-height: 400px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--soft-blue-500) transparent;
+}
+
+/* Custom scrollbar for webkit browsers */
+.console-output::-webkit-scrollbar {
+  width: 8px;
+}
+
+.console-output::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: var(--radius-soft-sm);
+}
+
+.console-output::-webkit-scrollbar-thumb {
+  background: var(--soft-blue-500);
+  border-radius: var(--radius-soft-sm);
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.console-output::-webkit-scrollbar-thumb:hover {
+  background: var(--soft-blue-600);
+  background-clip: content-box;
 }
 
 .console-output pre {
