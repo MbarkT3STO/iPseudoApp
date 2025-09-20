@@ -194,41 +194,51 @@
   flex-direction: column;
   min-height: 0;
   position: relative;
+  margin: var(--space-soft-4) var(--space-soft-6) var(--space-soft-4) var(--space-soft-6);
+  background: var(--bg-soft-elevated);
+  border-radius: var(--radius-soft-xl);
+  box-shadow: var(--shadow-soft-primary);
+  overflow: hidden;
 }
 
 /* Side-by-side layout - 50/50 split */
 .editor-layout.side-by-side {
   flex-direction: row;
-  gap: var(--space-soft-4);
+  gap: 0;
+  padding: var(--space-soft-4);
 }
 
 .editor-layout.side-by-side .editor-container {
   flex: 1;
-  margin: var(--space-soft-4) 0 var(--space-soft-4) var(--space-soft-6);
-  border-radius: var(--radius-soft-xl);
+  margin: 0;
+  border-radius: var(--radius-soft-lg);
+  background: var(--bg-soft-elevated);
+  box-shadow: var(--shadow-soft-secondary);
 }
 
 .editor-layout.side-by-side .console-container {
   flex: 1;
-  margin: var(--space-soft-4) var(--space-soft-6) var(--space-soft-4) 0;
-  border-radius: var(--radius-soft-xl);
+  margin: 0;
+  border-radius: var(--radius-soft-lg);
+  background: var(--bg-soft-elevated);
+  box-shadow: var(--shadow-soft-secondary);
 }
 
 /* Console header styling for side-by-side layout */
 .editor-layout.side-by-side .console-header {
-  border-radius: var(--radius-soft-xl) var(--radius-soft-xl) 0 0;
+  border-radius: var(--radius-soft-lg) var(--radius-soft-lg) 0 0;
   background: var(--bg-soft-secondary);
   box-shadow: var(--shadow-soft-secondary);
   min-height: 56px;
 }
 
-/* ===== EDITOR CONTAINER ===== */
+/* ===== UNIFIED EDITOR CONTAINER ===== */
 .editor-container {
   flex: 1;
-  background: var(--bg-soft-elevated);
-  border-radius: var(--radius-soft-xl) var(--radius-soft-xl) 0 0;
-  margin: var(--space-soft-4) var(--space-soft-6) 0 var(--space-soft-6);
-  box-shadow: var(--shadow-soft-primary);
+  background: transparent;
+  border-radius: 0;
+  margin: 0;
+  box-shadow: none;
   display: flex;
   flex-direction: column;
   min-height: 0;
@@ -243,9 +253,11 @@
   padding: var(--space-soft-4) var(--space-soft-6);
   background: var(--bg-soft-secondary);
   border-bottom: 1px solid var(--border-soft-light);
-  border-radius: var(--radius-soft-xl) var(--radius-soft-xl) 0 0;
+  border-radius: 0;
   box-shadow: var(--shadow-soft-secondary);
   min-height: 56px;
+  flex-wrap: wrap;
+  gap: var(--space-soft-3);
 }
 
 .editor-title {
@@ -255,6 +267,8 @@
   font-size: var(--font-size-soft-sm);
   font-weight: var(--font-weight-soft-medium);
   color: var(--text-soft-primary);
+  flex-shrink: 0;
+  min-width: 0;
 }
 
 .editor-title i {
@@ -265,6 +279,9 @@
   display: flex;
   align-items: center;
   gap: var(--space-soft-2);
+  flex-wrap: wrap;
+  min-width: 0;
+  flex-shrink: 1;
 }
 
 .editor-content {
@@ -274,12 +291,12 @@
   overflow: hidden;
 }
 
-/* ===== CONSOLE CONTAINER ===== */
+/* ===== UNIFIED CONSOLE CONTAINER ===== */
 .console-container {
-  background: var(--bg-soft-elevated);
-  border-radius: var(--radius-soft-xl);
-  margin: 0 var(--space-soft-6) var(--space-soft-4) var(--space-soft-6);
-  box-shadow: var(--shadow-soft-primary);
+  background: transparent;
+  border-radius: 0;
+  margin: 0;
+  box-shadow: none;
   display: flex;
   flex-direction: column;
   min-height: 200px;
@@ -295,9 +312,11 @@
   padding: var(--space-soft-4) var(--space-soft-6);
   background: var(--bg-soft-secondary);
   border-bottom: 1px solid var(--border-soft-light);
-  border-radius: var(--radius-soft-xl) var(--radius-soft-xl) 0 0;
+  border-radius: 0;
   box-shadow: var(--shadow-soft-secondary);
   min-height: 56px;
+  flex-wrap: wrap;
+  gap: var(--space-soft-3);
 }
 
 .console-title {
@@ -307,6 +326,8 @@
   font-size: var(--font-size-soft-sm);
   font-weight: var(--font-weight-soft-medium);
   color: var(--text-soft-primary);
+  flex-shrink: 0;
+  min-width: 0;
 }
 
 .console-title i {
@@ -316,7 +337,10 @@
 .console-actions {
   display: flex;
   align-items: center;
-  gap: var(--space-soft-3);
+  gap: var(--space-soft-2);
+  flex-wrap: wrap;
+  min-width: 0;
+  flex-shrink: 1;
 }
 
 .console-content {
@@ -536,8 +560,7 @@
     justify-content: center;
   }
   
-  .editor-container,
-  .console-container {
+  .editor-layout {
     margin: var(--space-soft-2);
     border-radius: var(--radius-soft-md);
   }
@@ -545,11 +568,11 @@
   /* Force vertical layout on small screens */
   .editor-layout.side-by-side {
     flex-direction: column;
+    padding: var(--space-soft-2);
   }
   
   .editor-layout.side-by-side .editor-container,
   .editor-layout.side-by-side .console-container {
-    margin: var(--space-soft-2);
     border-radius: var(--radius-soft-md);
   }
   
@@ -562,9 +585,84 @@
     padding: var(--space-soft-3);
   }
   
+  .console-actions {
+    gap: var(--space-soft-1);
+  }
+  
+  .console-actions .btn {
+    padding: var(--space-soft-2) var(--space-soft-3);
+  }
+  
+  .console-actions .btn span {
+    display: none !important;
+  }
+  
+  .editor-actions {
+    gap: var(--space-soft-1);
+  }
+  
+  .editor-actions .btn {
+    padding: var(--space-soft-2) var(--space-soft-3);
+  }
+  
+  .editor-actions .btn span {
+    display: none !important;
+  }
+  
   .modal {
     margin: var(--space-soft-2);
     max-width: none;
     width: calc(100% - var(--space-soft-4));
+  }
+}
+
+/* Extra small screens - very compact editor and console actions */
+@media (max-width: 480px) {
+  .console-actions {
+    gap: var(--space-soft-1);
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  
+  .console-actions .btn {
+    padding: var(--space-soft-1) var(--space-soft-2);
+    min-width: auto;
+  }
+  
+  .console-actions .btn span {
+    display: none !important;
+  }
+  
+  .console-header {
+    padding: var(--space-soft-2) var(--space-soft-3);
+    min-height: 48px;
+  }
+  
+  .console-title {
+    font-size: var(--font-size-soft-xs);
+  }
+  
+  .editor-actions {
+    gap: var(--space-soft-1);
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  
+  .editor-actions .btn {
+    padding: var(--space-soft-1) var(--space-soft-2);
+    min-width: auto;
+  }
+  
+  .editor-actions .btn span {
+    display: none !important;
+  }
+  
+  .editor-header {
+    padding: var(--space-soft-2) var(--space-soft-3);
+    min-height: 48px;
+  }
+  
+  .editor-title {
+    font-size: var(--font-size-soft-xs);
   }
 }
