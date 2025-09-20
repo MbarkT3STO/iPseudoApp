@@ -1,0 +1,811 @@
+/* ===== NEUMORPHISM COMPONENTS ===== */
+/* Modern Soft UI components with tactile design */
+
+/* ===== NEUMORPHISM BUTTONS ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-soft-2);
+  padding: var(--space-soft-3) var(--space-soft-6);
+  font-family: var(--font-family-soft);
+  font-size: var(--font-size-soft-sm);
+  font-weight: var(--font-weight-soft-medium);
+  line-height: 1;
+  text-decoration: none;
+  border: none;
+  border-radius: var(--radius-soft-lg);
+  cursor: pointer;
+  transition: all var(--duration-soft-fast) var(--ease-soft-in-out);
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.btn:not(:disabled):active {
+  transform: translateY(2px);
+}
+
+/* Primary Button */
+.btn-primary {
+  background: var(--gradient-primary);
+  color: white;
+  box-shadow: var(--shadow-soft-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all var(--duration-soft-slow) var(--ease-soft-out);
+  z-index: -1;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--gradient-primary);
+  color: white;
+  box-shadow: var(--shadow-soft-floating);
+  transform: translateY(-1px);
+}
+
+.btn-primary:hover:not(:disabled)::before {
+  width: 120%;
+  height: 120%;
+}
+
+.btn-primary:active:not(:disabled) {
+  background: var(--gradient-primary);
+  box-shadow: var(--shadow-soft-pressed);
+  transform: translateY(1px);
+}
+
+/* Secondary Button */
+.btn-secondary {
+  background: var(--gradient-secondary);
+  color: white;
+  box-shadow: var(--shadow-soft-secondary);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-secondary::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all var(--duration-soft-slow) var(--ease-soft-out);
+  z-index: -1;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--gradient-secondary);
+  color: white;
+  box-shadow: var(--shadow-soft-floating);
+  transform: translateY(-1px);
+}
+
+.btn-secondary:hover:not(:disabled)::before {
+  width: 120%;
+  height: 120%;
+}
+
+.btn-secondary:active:not(:disabled) {
+  background: var(--gradient-secondary);
+  box-shadow: var(--shadow-soft-pressed);
+  transform: translateY(1px);
+}
+
+/* Accent Button */
+.btn-accent {
+  background: var(--gradient-accent);
+  color: white;
+  box-shadow: var(--shadow-soft-secondary);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-accent::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all var(--duration-soft-slow) var(--ease-soft-out);
+  z-index: -1;
+}
+
+.btn-accent:hover:not(:disabled) {
+  background: var(--gradient-accent);
+  color: white;
+  box-shadow: var(--shadow-soft-floating);
+  transform: translateY(-1px);
+}
+
+.btn-accent:hover:not(:disabled)::before {
+  width: 120%;
+  height: 120%;
+}
+
+.btn-accent:active:not(:disabled) {
+  background: var(--gradient-accent);
+  box-shadow: var(--shadow-soft-pressed);
+  transform: translateY(1px);
+}
+
+/* Icon Button */
+.btn-icon {
+  padding: var(--space-soft-3);
+  border-radius: var(--radius-soft-md);
+  background: var(--bg-soft-elevated);
+  color: var(--text-soft-primary);
+  box-shadow: var(--shadow-soft-secondary);
+  position: relative;
+  overflow: hidden;
+  transition: all var(--duration-soft-normal) var(--ease-soft-out);
+}
+
+.btn-icon:hover:not(:disabled) {
+  background: var(--bg-soft-elevated);
+  color: var(--text-soft-accent);
+  box-shadow: var(--shadow-soft-primary);
+  transform: translateY(-2px) scale(1.05);
+}
+
+.btn-icon:active:not(:disabled) {
+  background: var(--bg-soft-elevated);
+  box-shadow: var(--shadow-soft-pressed);
+  transform: translateY(0px) scale(0.98);
+}
+
+/* Beautiful neumorphic glow effect for icon buttons */
+.btn-icon::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(102, 126, 234, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all var(--duration-soft-slow) var(--ease-soft-out);
+  z-index: -1;
+}
+
+.btn-icon:hover:not(:disabled)::before {
+  width: 120%;
+  height: 120%;
+}
+
+/* Ghost Button */
+.btn-ghost {
+  background: transparent;
+  color: var(--text-soft-secondary);
+  box-shadow: none;
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background: var(--bg-soft-secondary);
+  color: var(--text-soft-primary);
+  box-shadow: var(--shadow-soft-secondary);
+  transform: translateY(-1px);
+}
+
+.btn-ghost:active:not(:disabled) {
+  background: var(--bg-soft-secondary);
+  box-shadow: var(--shadow-soft-pressed);
+  transform: translateY(1px);
+}
+
+/* Button Sizes */
+.btn-sm {
+  padding: var(--space-soft-2) var(--space-soft-4);
+  font-size: var(--font-size-soft-xs);
+}
+
+.btn-lg {
+  padding: var(--space-soft-4) var(--space-soft-8);
+  font-size: var(--font-size-soft-base);
+}
+
+/* Buttons with icons and text */
+.btn i + span {
+  margin-left: var(--space-soft-2);
+}
+
+.btn span + i {
+  margin-right: var(--space-soft-2);
+}
+
+/* Soft Neumorphic Button */
+.btn-soft {
+  background: var(--bg-soft-elevated);
+  color: var(--text-soft-primary);
+  border: 1px solid var(--border-soft-light);
+  box-shadow: var(--shadow-soft-secondary);
+  position: relative;
+  overflow: hidden;
+  transition: all var(--duration-soft-normal) var(--ease-soft-out);
+}
+
+.btn-soft:hover:not(:disabled) {
+  background: var(--bg-soft-elevated);
+  color: var(--text-soft-accent);
+  border-color: var(--soft-blue-300);
+  box-shadow: var(--shadow-soft-primary);
+  transform: translateY(-1px);
+}
+
+.btn-soft:active:not(:disabled) {
+  background: var(--bg-soft-elevated);
+  box-shadow: var(--shadow-soft-pressed);
+  transform: translateY(1px);
+  border-color: var(--soft-blue-400);
+}
+
+/* Soft glow effect for soft buttons */
+.btn-soft::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(102, 126, 234, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all var(--duration-soft-slow) var(--ease-soft-out);
+  z-index: -1;
+}
+
+.btn-soft:hover:not(:disabled)::before {
+  width: 120%;
+  height: 120%;
+}
+
+/* Special Modern Run Button */
+.btn-run {
+  background: linear-gradient(135deg, var(--soft-blue-500) 0%, var(--soft-blue-600) 50%, var(--soft-blue-700) 100%);
+  color: white;
+  border: none;
+  box-shadow: 
+    0 8px 25px rgba(10, 132, 255, 0.3),
+    0 4px 12px rgba(10, 132, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+  transition: all var(--duration-soft-normal) var(--ease-soft-out);
+  font-weight: var(--font-weight-soft-semibold);
+  padding: var(--space-soft-4) var(--space-soft-8);
+  border-radius: var(--radius-soft-lg);
+}
+
+.btn-run:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--soft-blue-400) 0%, var(--soft-blue-500) 50%, var(--soft-blue-600) 100%);
+  box-shadow: 
+    0 12px 35px rgba(10, 132, 255, 0.4),
+    0 6px 16px rgba(10, 132, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px) scale(1.02);
+}
+
+.btn-run:active:not(:disabled) {
+  background: linear-gradient(135deg, var(--soft-blue-600) 0%, var(--soft-blue-700) 50%, var(--soft-blue-800) 100%);
+  box-shadow: 
+    0 4px 15px rgba(10, 132, 255, 0.3),
+    inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  transform: translateY(1px) scale(0.98);
+}
+
+/* Special glow effect for run button */
+.btn-run::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all var(--duration-soft-slow) var(--ease-soft-out);
+  z-index: -1;
+}
+
+.btn-run:hover:not(:disabled)::before {
+  width: 150%;
+  height: 150%;
+}
+
+/* Run button icon animation */
+.btn-run i {
+  transition: transform var(--duration-soft-normal) var(--ease-soft-out);
+}
+
+.btn-run:hover:not(:disabled) i {
+  transform: translateX(2px);
+}
+
+.btn-xl {
+  padding: var(--space-soft-5) var(--space-soft-10);
+  font-size: var(--font-size-soft-lg);
+}
+
+/* ===== NEUMORPHISM CARDS ===== */
+.card {
+  background: var(--bg-soft-elevated);
+  border-radius: var(--radius-soft-xl);
+  box-shadow: var(--shadow-soft-primary);
+  padding: var(--space-soft-6);
+  transition: all var(--duration-soft-fast) var(--ease-soft-in-out);
+  position: relative;
+  overflow: hidden;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-soft-floating);
+  transform: translateY(-2px);
+}
+
+.card-pressed {
+  box-shadow: var(--shadow-soft-pressed);
+}
+
+.card-inset {
+  box-shadow: var(--shadow-soft-inset);
+}
+
+.card-floating {
+  box-shadow: var(--shadow-soft-floating);
+}
+
+/* ===== NEUMORPHISM TABS ===== */
+.tab, .modern-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-soft-2);
+  padding: var(--space-soft-3) var(--space-soft-5);
+  font-family: var(--font-family-soft);
+  font-size: var(--font-size-soft-sm);
+  font-weight: var(--font-weight-soft-medium);
+  color: var(--text-soft-tertiary);
+  text-decoration: none;
+  border-radius: var(--radius-soft-md);
+  cursor: pointer;
+  transition: all var(--duration-soft-fast) var(--ease-soft-in-out);
+  position: relative;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin: var(--space-soft-1);
+}
+
+.tab:hover, .modern-tab:hover {
+  color: var(--text-soft-primary);
+  background: var(--bg-soft-secondary);
+  box-shadow: var(--shadow-soft-secondary);
+  transform: translateY(-1px);
+}
+
+.tab.active, .modern-tab.active {
+  color: var(--text-soft-primary);
+  background: var(--bg-soft-elevated);
+  box-shadow: var(--shadow-soft-primary);
+  border-bottom-color: var(--soft-blue-500);
+  font-weight: var(--font-weight-soft-semibold);
+  position: relative;
+}
+
+.tab.active::before, .modern-tab.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+  border-radius: var(--radius-soft-md);
+  z-index: -1;
+}
+
+.tab.active:hover, .modern-tab.active:hover {
+  box-shadow: var(--shadow-soft-floating);
+  transform: translateY(-2px);
+}
+
+/* Modern Tab Specific Styles */
+.modern-tab {
+  min-width: 120px;
+  max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.modern-tab .tab-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: var(--space-soft-2);
+}
+
+.modern-tab .dirty-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-soft-full);
+  background: var(--soft-orange-500);
+  margin-right: var(--space-soft-2);
+  display: none;
+}
+
+.modern-tab .modern-tab-close {
+  width: 16px;
+  height: 16px;
+  border: none;
+  background: none;
+  color: var(--text-soft-tertiary);
+  cursor: pointer;
+  border-radius: var(--radius-soft-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  transition: all var(--duration-soft-fast) var(--ease-soft-in-out);
+  opacity: 0.7;
+}
+
+.modern-tab:hover .modern-tab-close {
+  opacity: 1;
+  background: var(--bg-soft-secondary);
+  color: var(--text-soft-primary);
+}
+
+.modern-tab .modern-tab-close:hover {
+  background: var(--soft-red-500);
+  color: white;
+  transform: scale(1.1);
+}
+
+/* ===== NEUMORPHISM INPUTS ===== */
+.input {
+  width: 100%;
+  padding: var(--space-soft-4);
+  font-family: var(--font-family-soft);
+  font-size: var(--font-size-soft-sm);
+  color: var(--text-soft-primary);
+  background: var(--bg-soft-elevated);
+  border: none;
+  border-radius: var(--radius-soft-md);
+  box-shadow: var(--shadow-soft-inset);
+  transition: all var(--duration-soft-fast) var(--ease-soft-in-out);
+}
+
+.input:focus {
+  outline: none;
+  box-shadow: var(--shadow-soft-inset), 0 0 0 2px var(--text-soft-accent);
+}
+
+.input::placeholder {
+  color: var(--text-soft-tertiary);
+}
+
+/* ===== NEUMORPHISM BADGES ===== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-soft-1);
+  padding: var(--space-soft-1) var(--space-soft-3);
+  font-size: var(--font-size-soft-xs);
+  font-weight: var(--font-weight-soft-medium);
+  line-height: 1;
+  border-radius: var(--radius-soft-full);
+  background: var(--bg-soft-elevated);
+  color: var(--text-soft-secondary);
+  box-shadow: var(--shadow-soft-secondary);
+}
+
+.badge-primary {
+  background: var(--gradient-primary);
+  color: white;
+  box-shadow: var(--shadow-fluid-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.badge-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  animation: fluidShimmer 4s infinite;
+}
+
+.badge-secondary {
+  background: var(--gradient-secondary);
+  color: white;
+  box-shadow: var(--shadow-fluid-secondary);
+  position: relative;
+  overflow: hidden;
+}
+
+.badge-secondary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  animation: fluidShimmer 4s infinite;
+}
+
+.badge-success {
+  background: var(--gradient-success);
+  color: white;
+  box-shadow: var(--shadow-soft-secondary);
+  position: relative;
+  overflow: hidden;
+}
+
+.badge-success::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  animation: fluidShimmer 4s infinite;
+}
+
+.badge-warning {
+  background: var(--gradient-warning);
+  color: white;
+  box-shadow: var(--shadow-soft-secondary);
+  position: relative;
+  overflow: hidden;
+}
+
+.badge-warning::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  animation: fluidShimmer 4s infinite;
+}
+
+.badge-error {
+  background: var(--gradient-error);
+  color: white;
+  box-shadow: var(--shadow-soft-secondary);
+  position: relative;
+  overflow: hidden;
+}
+
+.badge-error::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  animation: fluidShimmer 4s infinite;
+}
+
+/* ===== NEUMORPHISM TOOLTIPS ===== */
+.tooltip {
+  position: relative;
+}
+
+.tooltip::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: var(--space-soft-2);
+  padding: var(--space-soft-2) var(--space-soft-3);
+  font-size: var(--font-size-soft-xs);
+  font-weight: var(--font-weight-soft-medium);
+  color: var(--text-soft-primary);
+  background: var(--bg-soft-elevated);
+  border-radius: var(--radius-soft-sm);
+  box-shadow: var(--shadow-soft-floating);
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--duration-soft-fast) var(--ease-soft-in-out);
+  z-index: 1000;
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: var(--space-soft-1);
+  border: 4px solid transparent;
+  border-top-color: var(--bg-soft-elevated);
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--duration-soft-fast) var(--ease-soft-in-out);
+  z-index: 1000;
+}
+
+.tooltip:hover::before,
+.tooltip:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ===== NEUMORPHISM STATUS INDICATORS ===== */
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-soft-2);
+  padding: var(--space-soft-2) var(--space-soft-3);
+  font-size: var(--font-size-soft-xs);
+  font-weight: var(--font-weight-soft-medium);
+  color: var(--text-soft-secondary);
+  background: var(--bg-soft-elevated);
+  border-radius: var(--radius-soft-full);
+  box-shadow: var(--shadow-soft-secondary);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-soft-full);
+  background: var(--soft-green-500);
+  box-shadow: var(--shadow-soft-secondary);
+}
+
+.status-dot.warning {
+  background: var(--soft-orange-500);
+}
+
+.status-dot.error {
+  background: var(--soft-red-500);
+}
+
+.status-dot.loading {
+  background: var(--text-soft-accent);
+  animation: softPulse 2s infinite;
+}
+
+/* ===== NEUMORPHISM DIVIDERS ===== */
+.divider {
+  height: 1px;
+  background: var(--border-soft-light);
+  margin: var(--space-soft-4) 0;
+  position: relative;
+}
+
+.divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--bg-soft-elevated);
+  box-shadow: var(--shadow-soft-secondary);
+  transform: translateY(-50%);
+}
+
+/* ===== NEUMORPHISM LOADING SPINNERS ===== */
+.spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border-soft-light);
+  border-radius: var(--radius-soft-full);
+  border-top-color: var(--text-soft-accent);
+  animation: spin 1s linear infinite;
+}
+
+.spinner-sm {
+  width: 16px;
+  height: 16px;
+  border-width: 1.5px;
+}
+
+.spinner-lg {
+  width: 24px;
+  height: 24px;
+  border-width: 3px;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===== NEUMORPHISM PROGRESS BARS ===== */
+.progress {
+  width: 100%;
+  height: 8px;
+  background: var(--bg-soft-secondary);
+  border-radius: var(--radius-soft-full);
+  box-shadow: var(--shadow-soft-inset);
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: var(--text-soft-accent);
+  border-radius: var(--radius-soft-full);
+  box-shadow: var(--shadow-soft-secondary);
+  transition: width var(--duration-soft-normal) var(--ease-soft-out);
+}
+
+/* ===== NEUMORPHISM RESPONSIVE UTILITIES ===== */
+.hidden {
+  display: none !important;
+}
+
+.sm\:block {
+  display: none;
+}
+
+.md\:block {
+  display: none;
+}
+
+.lg\:block {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .sm\:block {
+    display: block !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .md\:block {
+    display: block !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg\:block {
+    display: block !important;
+  }
+}

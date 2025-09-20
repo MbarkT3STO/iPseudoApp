@@ -1,78 +1,94 @@
-# 🎨 Modern Design System - iPseudo IDE
+# 🎨 Neumorphic Design System - iPseudo IDE
 
 ## Overview
 
-This document outlines the modern design system implemented for iPseudo IDE v2.0. The new design features a fresh color palette, modern components, and optimized performance.
+This document outlines the neumorphic design system implemented for iPseudo IDE v4.0. The new design features soft UI principles, tactile interactions, depth effects, and modern neumorphism aesthetics.
 
 ## 🎯 Design Principles
 
-### 1. **Modern & Clean**
-- Minimalist interface with plenty of whitespace
+### 1. **Neumorphic & Tactile**
+- Soft UI with depth and dimension
+- Tactile interactions with proper feedback
+- Natural shadows and highlights for depth perception
+- Elements that appear to emerge from or recede into the background
+
+### 2. **Modern Soft UI**
 - Clean typography with Inter font family
 - Consistent spacing and alignment
+- Soft, muted color palette for visual comfort
+- Gentle animations and micro-interactions
 
-### 2. **Performance First**
+### 3. **Performance First**
 - Hardware-accelerated animations
 - Optimized CSS for smooth rendering
-- Efficient backdrop filters and shadows
+- Efficient shadow rendering and depth effects
+- Minimal repaints with efficient CSS
 
-### 3. **Accessibility**
-- High contrast ratios
+### 4. **Accessibility**
+- High contrast ratios in both light and dark themes
 - Keyboard navigation support
 - Screen reader friendly
-- Reduced motion support
+- Reduced motion support for accessibility
 
-### 4. **Responsive Design**
+### 5. **Responsive Design**
 - Mobile-first approach
 - Adaptive layouts for all screen sizes
 - Touch-friendly interface elements
+- Consistent depth effects across devices
 
 ## 🎨 Color Palette
 
-### Primary Colors (Deep Ocean Theme)
-- **Primary 50**: `#f0f9ff` - Lightest blue
-- **Primary 500**: `#0ea5e9` - Main blue
-- **Primary 600**: `#0284c7` - Darker blue
-- **Primary 900**: `#0c4a6e` - Darkest blue
+### Primary Colors (Soft Blue)
+- **Soft Blue 50**: `#f0f7ff` - Lightest blue
+- **Soft Blue 100**: `#e0efff` - Light blue
+- **Soft Blue 500**: `#0a84ff` - Main blue
+- **Soft Blue 600**: `#0066cc` - Darker blue
+- **Soft Blue 900**: `#002d5c` - Darkest blue
 
-### Secondary Colors (Vibrant Purple)
-- **Secondary 500**: `#a855f7` - Main purple
-- **Secondary 600**: `#9333ea` - Darker purple
-- **Secondary 900**: `#581c87` - Darkest purple
+### Secondary Colors (Warm Purple)
+- **Warm Purple 100**: `#f3e8ff` - Light purple
+- **Warm Purple 500**: `#a855f7` - Main purple
+- **Warm Purple 600**: `#9333ea` - Darker purple
+- **Warm Purple 900**: `#581c87` - Darkest purple
 
-### Accent Colors (Modern Green)
-- **Accent 500**: `#22c55e` - Success green
-- **Accent 600**: `#16a34a` - Darker green
-- **Warning**: `#f59e0b` - Warning orange
-- **Error**: `#ef4444` - Error red
+### Accent Colors (Soft Green)
+- **Soft Green 100**: `#dcfce7` - Light green
+- **Soft Green 500**: `#22c55e` - Success green
+- **Soft Green 600**: `#16a34a` - Darker green
+- **Soft Orange 500**: `#f97316` - Warning orange
+- **Soft Red 500**: `#ef4444` - Error red
 
-### Neutral Colors (Modern Grays)
-- **Neutral 50**: `#f8fafc` - Lightest gray
-- **Neutral 500**: `#64748b` - Medium gray
-- **Neutral 900**: `#0f172a` - Darkest gray
+### Neutral Colors (Soft Grays)
+- **Soft Gray 50**: `#f8fafc` - Lightest gray
+- **Soft Gray 100**: `#f1f5f9` - Light gray
+- **Soft Gray 500**: `#64748b` - Medium gray
+- **Soft Gray 900**: `#0f172a` - Darkest gray
+- **Soft Gray 950**: `#020617` - Darkest gray
 
 ## 🧩 Component System
 
-### Buttons
-- **Primary**: Gradient background with white text
-- **Secondary**: Glass effect with subtle borders
-- **Ghost**: Transparent background with hover effects
-- **Icon**: Square buttons for icon-only actions
+### Neumorphic Buttons
+- **Primary**: Raised appearance with soft shadows
+- **Secondary**: Subtle depth with gentle shadows
+- **Accent**: Enhanced depth with accent colors
+- **Icon**: Circular buttons with proper depth
+- **Ghost**: Minimal depth with hover effects
 
-### Tabs
-- **Active**: Gradient background with white text
-- **Inactive**: Transparent with subtle borders
-- **Hover**: Glass effect with elevation
+### Neumorphic Tabs
+- **Active**: Raised appearance with soft shadows
+- **Inactive**: Subtle depth with gentle shadows
+- **Hover**: Enhanced depth with smooth transitions
 
-### Cards
-- **Glass**: Backdrop blur with subtle borders
-- **Solid**: Clean background with shadows
-- **Interactive**: Hover effects with elevation
+### Neumorphic Cards
+- **Default**: Raised appearance with soft shadows
+- **Pressed**: Inset appearance with pressed shadows
+- **Floating**: Enhanced depth with floating shadows
+- **Interactive**: Hover effects with depth changes
 
-### Modals
+### Neumorphic Modals
 - **Overlay**: Semi-transparent with backdrop blur
-- **Content**: Clean white/dark background
-- **Animations**: Smooth slide-in effects
+- **Content**: Neumorphic background with depth
+- **Animations**: Smooth scale-in effects with bounce
 
 ## 📱 Layout System
 

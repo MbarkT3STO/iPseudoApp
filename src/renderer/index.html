@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iPseudo IDE - Ultra-Modern Pseudocode Editor</title>
+    <title>iPseudo IDE - Neumorphic Pseudocode Editor</title>
     
-    <!-- Ultra-Modern Fonts -->
+    <!-- Neumorphic Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Ultra-Modern Icons -->
+    <!-- Neumorphic Icons -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     
-    <!-- Ultra-Modern Styles -->
-    <link rel="stylesheet" href="styles/ultra-modern.css">
+    <!-- Neumorphic Styles -->
+    <link rel="stylesheet" href="styles/neumorphism.css">
     
     <!-- Monaco Editor Setup -->
     <script>
@@ -29,111 +29,117 @@
     <script src="./monaco/vs/loader.js"></script>
 </head>
 <body>
-    <div class="app-container">
-        <!-- Ultra-Modern Top Navigation -->
+    <div class="app-container animate-soft-fade-in animate-fluid-gradient">
+        <!-- Neumorphic Top Navigation -->
         <header class="top-nav">
             <div class="top-nav-left">
-                <!-- Ultra-Modern App Brand -->
-                <a href="#" class="app-brand" id="appBrand">
+                <!-- Neumorphic App Brand -->
+                <a href="#" class="app-brand interactive" id="appBrand">
                     <div class="app-logo">
                         <i class="ri-code-s-slash-line"></i>
                     </div>
-                    <span class="app-name">iPseudo</span>
+                    <span class="app-name gradient-text">iPseudo</span>
                 </a>
                 
-                <!-- Ultra-Modern File Actions -->
+                <!-- Neumorphic File Actions -->
                 <div class="file-actions">
-                    <button class="btn btn-icon btn-cyber" id="btnNew" title="New File" data-tooltip="Create new file">
+                    <button class="btn btn-icon btn-soft" id="btnNew" title="New File">
                         <i class="ri-add-line"></i>
                     </button>
-                    <button class="btn btn-icon btn-neon" id="btnOpen" title="Open File" data-tooltip="Open existing file">
+                    <button class="btn btn-soft" id="btnOpen" title="Open File">
                         <i class="ri-folder-open-line"></i>
+                        <span>Open</span>
                     </button>
-                    <button class="btn btn-icon btn-glass" id="btnSave" title="Save File" data-tooltip="Save current file">
+                    <button class="btn btn-soft" id="btnSave" title="Save File">
                         <i class="ri-save-line"></i>
+                        <span>Save</span>
                     </button>
                 </div>
             </div>
             
             <div class="top-nav-right">
-                <!-- Ultra-Modern Run Button -->
-                <button class="btn btn-cyber btn-run" id="btnRun" title="Run Code (Ctrl+Enter)" data-tooltip="Execute pseudocode">
+                <!-- Modern Special Run Button -->
+                <button class="btn btn-run" id="btnRun" title="Run Code (Ctrl+Enter)">
                     <i class="ri-play-line"></i>
                     <span>Run</span>
                 </button>
                 
-                <!-- Ultra-Modern Theme Toggle -->
-                <button class="btn btn-icon btn-glass tooltip" id="btnThemeToggle" title="Toggle Theme" data-tooltip="Switch between light and dark mode">
+                <!-- Neumorphic Theme Toggle -->
+                <button class="btn btn-icon btn-secondary" id="btnThemeToggle" title="Toggle Theme">
                     <i class="ri-contrast-2-line"></i>
                 </button>
                 
-                <!-- Ultra-Modern Settings Button -->
-                <button class="btn btn-icon btn-neumorphism tooltip" id="btnSettings" title="Settings" data-tooltip="Open settings panel">
+                <!-- Neumorphic Settings Button -->
+                <button class="btn btn-icon btn-ghost" id="btnSettings" title="Settings">
                     <i class="ri-settings-3-line"></i>
                 </button>
             </div>
         </header>
 
-        <!-- Ultra-Modern Main Content -->
+        <!-- Neumorphic Main Content -->
         <main class="main-content">
-            <!-- Ultra-Modern Tabs Container -->
+            <!-- Neumorphic Tabs Container -->
             <div class="tabs-container" id="tabsContainer">
                 <div class="tabs-track" id="tabsTrack">
                     <!-- Tabs will be dynamically added here -->
                 </div>
-                <button class="btn btn-icon btn-ghost tooltip" id="btnNewTab" title="New Tab" data-tooltip="Create new tab">
+                <button class="btn btn-icon btn-ghost" id="btnNewTab" title="New Tab">
                     <i class="ri-add-line"></i>
                 </button>
             </div>
 
-            <!-- Ultra-Modern Editor Layout -->
+            <!-- Neumorphic Editor Layout -->
             <div class="editor-layout">
-                <!-- Ultra-Modern Editor Container -->
-                <div class="editor-container">
+                <!-- Neumorphic Editor Container -->
+                <div class="editor-container card floating-particles">
                     <div class="editor-header">
                         <div class="editor-title">
                             <i class="ri-code-s-slash-line"></i>
                             <span>Code Editor</span>
-                            <div class="badge badge-cyber">Live</div>
+                            <div class="badge badge-primary">Live</div>
                         </div>
                         <div class="editor-actions">
-                            <button class="btn btn-sm btn-ghost tooltip" id="btnFormat" title="Format Code" data-tooltip="Format your code">
+                            <button class="btn btn-sm btn-ghost" id="btnFormat" title="Format Code">
                                 <i class="ri-code-s-slash-line"></i>
                                 <span class="sm:block">Format</span>
                             </button>
-                            <button class="btn btn-sm btn-ghost tooltip" id="btnMinimap" title="Toggle Minimap" data-tooltip="Show/hide minimap">
+                            <button class="btn btn-sm btn-ghost" id="btnMinimap" title="Toggle Minimap">
                                 <i class="ri-map-line"></i>
                                 <span class="sm:block">Minimap</span>
                             </button>
-                            <button class="btn btn-sm btn-ghost tooltip" id="btnWordWrap" title="Toggle Word Wrap" data-tooltip="Enable/disable word wrap">
+                            <button class="btn btn-sm btn-ghost" id="btnWordWrap" title="Toggle Word Wrap">
                                 <i class="ri-text-wrap"></i>
                                 <span class="sm:block">Wrap</span>
                             </button>
                         </div>
                     </div>
                     <div class="editor-content">
-                        <div id="editor" class="monaco-editor" style="width: 100%; height: 100%; min-height: 400px;"></div>
+                        <div id="editor" class="monaco-editor" style="width: 100%; height: 100%;"></div>
                     </div>
                 </div>
 
-                <!-- Ultra-Modern Console Container -->
-                <div class="console-container">
+                <!-- Neumorphic Console Container -->
+                <div class="console-container card floating-particles">
                     <div class="console-header">
                         <div class="console-title">
                             <i class="ri-terminal-box-line"></i>
                             <span>Output Console</span>
-                            <div class="badge badge-electric">Ready</div>
+                            <div class="badge badge-success">Ready</div>
                         </div>
                         <div class="console-actions">
                             <div class="status-indicator" id="runStatus" title="Status: Ready">
                                 <div class="status-dot"></div>
                                 <span class="status-text">Ready</span>
                             </div>
-                            <button class="btn btn-sm btn-ghost tooltip" id="clearConsole" title="Clear Output" data-tooltip="Clear console output">
+                            <button class="btn btn-sm btn-ghost" id="layoutToggle" title="Toggle Layout">
+                                <i class="ri-layout-column-line" id="layoutIcon"></i>
+                                <span class="sm:block">Layout</span>
+                            </button>
+                            <button class="btn btn-sm btn-ghost" id="clearConsole" title="Clear Output">
                                 <i class="ri-delete-bin-line"></i>
                                 <span class="sm:block">Clear</span>
                             </button>
-                            <button class="btn btn-sm btn-ghost tooltip" id="btnCopyOutput" title="Copy Output" data-tooltip="Copy console output">
+                            <button class="btn btn-sm btn-ghost" id="btnCopyOutput" title="Copy Output">
                                 <i class="ri-file-copy-line"></i>
                                 <span class="sm:block">Copy</span>
                             </button>
@@ -152,38 +158,38 @@
         </main>
     </div>
 
-    <!-- Ultra-Modern About Modal -->
+    <!-- Neumorphic About Modal -->
     <div class="modal-overlay" id="aboutModal" style="display: none;">
         <div class="modal">
             <div class="modal-header">
                 <h2 class="modal-title">About iPseudo IDE</h2>
-                <button class="modal-close" id="closeModal">
+                <button class="modal-close interactive" id="closeModal">
                     <i class="ri-close-line"></i>
                 </button>
             </div>
             <div class="modal-body">
-                <div class="app-icon" style="text-align: center; margin-bottom: var(--space-6);">
+                <div class="app-icon" style="text-align: center; margin-bottom: var(--space-soft-6);">
                     <div class="app-logo" style="width: 80px; height: 80px; font-size: 2.5rem; margin: 0 auto;">
                         <i class="ri-code-s-slash-line"></i>
                     </div>
                 </div>
-                <p class="app-description" style="text-align: center; margin-bottom: var(--space-6);">
-                    iPseudo is an ultra-modern, lightweight IDE for writing and executing pseudocode. 
-                    Built with cutting-edge design principles and the latest web technologies, it provides 
+                <p class="app-description" style="text-align: center; margin-bottom: var(--space-soft-6);">
+                    iPseudo is a modern, neumorphic IDE for writing and executing pseudocode. 
+                    Built with soft UI design principles and tactile interactions, it provides 
                     an intuitive and beautiful environment for algorithm development and learning.
                 </p>
                 <div class="app-meta" style="text-align: center;">
-                    <div class="version badge badge-cyber" style="margin-bottom: var(--space-4);">Version 3.0.0</div>
-                    <div class="developer-info" style="margin-bottom: var(--space-4);">
-                        <div class="developer-name" style="font-weight: var(--font-weight-semibold); margin-bottom: var(--space-2);">
+                    <div class="version badge badge-primary" style="margin-bottom: var(--space-soft-4);">Version 4.0.0</div>
+                    <div class="developer-info" style="margin-bottom: var(--space-soft-4);">
+                        <div class="developer-name" style="font-weight: var(--font-weight-soft-semibold); margin-bottom: var(--space-soft-2);">
                             Developed by <strong>MBARK</strong>
                         </div>
-                        <div class="developer-email" style="color: var(--text-secondary);">
+                        <div class="developer-email" style="color: var(--text-soft-secondary);">
                             <i class="ri-mail-line"></i>
                             <a href="mailto:me@MBVRK.onmicrosoft.com">me@MBVRK.onmicrosoft.com</a>
                         </div>
                     </div>
-                    <div class="developer-links" style="display: flex; gap: var(--space-4); justify-content: center;">
+                    <div class="developer-links" style="display: flex; gap: var(--space-soft-4); justify-content: center;">
                         <a href="https://github.com/mbarkt3sto" target="_blank" class="social-link btn btn-sm btn-ghost">
                             <i class="ri-github-fill"></i> GitHub
                         </a>
@@ -197,25 +203,25 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-cyber" id="closeModalBtn">Close</button>
+                <button class="btn btn-primary" id="closeModalBtn">Close</button>
             </div>
         </div>
     </div>
 
-    <!-- Ultra-Modern Scripts -->
+    <!-- Neumorphic Scripts -->
     <script src="scripts/errorManager.js"></script>
     <script src="scripts/editor.js"></script>
     <script src="scripts/theme.js"></script>
     <script src="scripts/app.js"></script>
     
     <script>
-        // Ultra-Modern Modal functionality
+        // Neumorphic Modal functionality
         const aboutModal = document.getElementById('aboutModal');
         const closeModal = document.getElementById('closeModal');
         const closeModalBtn = document.getElementById('closeModalBtn');
         const appBrand = document.getElementById('appBrand');
 
-        // Handle external links with ultra-modern approach
+        // Handle external links with neumorphic approach
         document.addEventListener('click', (e) => {
             const link = e.target.closest('a');
             if (link && link.href) {
@@ -243,19 +249,19 @@
             }
         });
 
-        // Ultra-Modern modal handlers
+        // Neumorphic modal handlers
         const showModal = () => {
             aboutModal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
-            aboutModal.classList.add('animate-scale-in');
+            aboutModal.classList.add('animate-soft-scale-in');
         };
 
         const hideModal = () => {
-            aboutModal.classList.remove('animate-scale-in');
+            aboutModal.classList.remove('animate-soft-scale-in');
             setTimeout(() => {
                 aboutModal.style.display = 'none';
                 document.body.style.overflow = '';
-            }, 300);
+            }, 350);
         };
 
         appBrand.addEventListener('click', (e) => {
@@ -273,14 +279,14 @@
             }
         });
 
-        // Ultra-Modern keyboard shortcuts
+        // Neumorphic keyboard shortcuts
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && aboutModal.style.display === 'flex') {
                 hideModal();
             }
         });
 
-        // Ultra-Modern theme toggle
+        // Neumorphic theme toggle
         const themeToggle = document.getElementById('btnThemeToggle');
         const body = document.body;
         
@@ -295,9 +301,9 @@
             }
         });
 
-        // Ultra-Modern loading animation
+        // Neumorphic loading animation
         document.addEventListener('DOMContentLoaded', () => {
-            document.body.classList.add('animate-fade-in-up');
+            document.body.classList.add('animate-soft-fade-in');
         });
     </script>
 </body>

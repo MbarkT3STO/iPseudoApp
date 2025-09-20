@@ -1114,6 +1114,29 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Layout toggle functionality
+    const layoutToggleButton = document.getElementById('layoutToggle');
+    const layoutIcon = document.getElementById('layoutIcon');
+    const editorLayout = document.querySelector('.editor-layout') as HTMLElement;
+    
+    if (layoutToggleButton && layoutIcon && editorLayout) {
+        layoutToggleButton.addEventListener('click', () => {
+            const isSideBySide = editorLayout.classList.contains('side-by-side');
+            
+            if (isSideBySide) {
+                // Switch to vertical layout
+                editorLayout.classList.remove('side-by-side');
+                layoutIcon.className = 'ri-layout-column-line';
+                out('Switched to vertical layout', 'info');
+            } else {
+                // Switch to side-by-side layout
+                editorLayout.classList.add('side-by-side');
+                layoutIcon.className = 'ri-layout-row-line';
+                out('Switched to 50/50 side-by-side layout', 'info');
+            }
+        });
+    }
+
     const exportOutputButton = document.getElementById('btnExportOutput');
     if (exportOutputButton) {
         exportOutputButton.addEventListener('click', () => {

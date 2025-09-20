@@ -1,0 +1,361 @@
+/* ===== NEUMORPHISM iPSEUDO IDE ===== */
+/* Modern Soft UI with tactile design and depth */
+
+/* ===== IMPORT NEUMORPHISM DESIGN SYSTEM ===== */
+@import url('./neumorphism-tokens.css');
+@import url('./neumorphism-base.css');
+@import url('./neumorphism-components.css');
+@import url('./neumorphism-layout.css');
+
+/* ===== NEUMORPHISM MONACO EDITOR STYLING ===== */
+.monaco-editor {
+  border-radius: 0;
+  overflow: visible;
+  box-shadow: none;
+  background: var(--bg-soft-elevated) !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 2 !important;
+  display: block !important;
+  visibility: visible !important;
+}
+
+/* Fallback for Monaco Editor visibility */
+#editor {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  background: var(--bg-soft-elevated) !important;
+  border: none !important;
+  display: block !important;
+  visibility: visible !important;
+}
+
+.monaco-editor .margin {
+  background: var(--bg-soft-secondary) !important;
+  border-right: 1px solid var(--border-soft-light) !important;
+}
+
+.monaco-editor .monaco-editor-background {
+  background: var(--bg-soft-elevated) !important;
+}
+
+.monaco-editor .view-lines {
+  background: transparent !important;
+}
+
+.monaco-editor .view-overlay {
+  background: transparent !important;
+}
+
+.monaco-editor .view-overlays .current-line {
+  background: rgba(10, 132, 255, 0.08) !important;
+  border: 1px solid rgba(10, 132, 255, 0.15) !important;
+  border-radius: var(--radius-soft-xs) !important;
+}
+
+.monaco-editor .view-overlays .selected-text {
+  background: rgba(10, 132, 255, 0.15) !important;
+  border-radius: var(--radius-soft-xs) !important;
+}
+
+/* ===== NEUMORPHISM LOADING STATES ===== */
+.loading {
+  position: relative;
+  overflow: hidden;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  animation: softLoading 1.5s infinite;
+}
+
+@keyframes softLoading {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* ===== NEUMORPHISM TOAST NOTIFICATIONS ===== */
+.toast-container {
+  position: fixed;
+  top: var(--space-soft-6);
+  right: var(--space-soft-6);
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-soft-3);
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: var(--space-soft-3);
+  padding: var(--space-soft-4) var(--space-soft-5);
+  background: var(--bg-soft-elevated);
+  border: 1px solid var(--border-soft-light);
+  border-radius: var(--radius-soft-xl);
+  box-shadow: var(--shadow-soft-floating);
+  animation: softSlideIn var(--duration-soft-normal) var(--ease-soft-out);
+  max-width: 400px;
+  position: relative;
+  overflow: hidden;
+}
+
+.toast::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--text-soft-accent);
+  border-radius: var(--radius-soft-xs) 0 0 var(--radius-soft-xs);
+}
+
+.toast-success::before {
+  background: var(--soft-green-500);
+}
+
+.toast-error::before {
+  background: var(--soft-red-500);
+}
+
+.toast-warning::before {
+  background: var(--soft-orange-500);
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  color: var(--text-soft-tertiary);
+  cursor: pointer;
+  padding: var(--space-soft-1);
+  border-radius: var(--radius-soft-sm);
+  transition: all var(--duration-soft-fast) var(--ease-soft-in-out);
+}
+
+.toast-close:hover {
+  background: var(--bg-soft-secondary);
+  color: var(--text-soft-primary);
+  transform: scale(1.1);
+}
+
+/* ===== NEUMORPHISM THEME TRANSITIONS ===== */
+.theme-transition {
+  transition: background-color var(--duration-soft-normal) var(--ease-soft-in-out),
+              color var(--duration-soft-normal) var(--ease-soft-in-out),
+              border-color var(--duration-soft-normal) var(--ease-soft-in-out),
+              box-shadow var(--duration-soft-normal) var(--ease-soft-in-out);
+}
+
+/* ===== NEUMORPHISM DARK MODE ENHANCEMENTS ===== */
+.theme-dark .top-nav {
+  background: var(--bg-soft-elevated);
+  border-bottom-color: var(--border-soft-light);
+}
+
+.theme-dark .tabs-container {
+  background: var(--bg-soft-secondary);
+  border-bottom-color: var(--border-soft-light);
+}
+
+.theme-dark .editor-container {
+  background: var(--bg-soft-elevated);
+  border-color: var(--border-soft-light);
+  box-shadow: var(--shadow-soft-primary);
+}
+
+.theme-dark .console-container {
+  background: var(--bg-soft-elevated);
+  border-color: var(--border-soft-light);
+}
+
+/* ===== NEUMORPHISM LIGHT MODE ENHANCEMENTS ===== */
+.theme-light .top-nav {
+  background: var(--bg-soft-elevated);
+  border-bottom-color: var(--border-soft-light);
+}
+
+.theme-light .tabs-container {
+  background: var(--bg-soft-secondary);
+  border-bottom-color: var(--border-soft-light);
+}
+
+.theme-light .editor-container {
+  background: var(--bg-soft-elevated);
+  border-color: var(--border-soft-light);
+  box-shadow: var(--shadow-soft-primary);
+}
+
+.theme-light .console-container {
+  background: var(--bg-soft-elevated);
+  border-color: var(--border-soft-light);
+}
+
+/* ===== NEUMORPHISM PRINT STYLES ===== */
+@media print {
+  .top-nav,
+  .tabs-container,
+  .console-container,
+  .status-bar {
+    display: none !important;
+  }
+  
+  .editor-container {
+    margin: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  
+  .app-container {
+    background: white !important;
+  }
+}
+
+/* ===== NEUMORPHISM ACCESSIBILITY ===== */
+.focus-visible:focus-visible {
+  outline: 2px solid var(--text-soft-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-soft-sm);
+}
+
+.reduced-motion * {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* ===== FLUID SPECIAL EFFECTS ===== */
+.glass-morphism {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.theme-dark .glass-morphism {
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Floating particles effect */
+.floating-particles::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(240, 147, 251, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 60%, rgba(79, 172, 254, 0.05) 0%, transparent 50%);
+  animation: fluidGradient 20s ease infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Gradient text effect */
+.gradient-text {
+  background: var(--gradient-aurora);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 200%;
+  animation: fluidGradient 6s ease infinite;
+}
+
+/* Shimmer effect */
+.shimmer {
+  background: linear-gradient(90deg, 
+    rgba(255, 255, 255, 0) 0%, 
+    rgba(255, 255, 255, 0.2) 50%, 
+    rgba(255, 255, 255, 0) 100%);
+  background-size: 200% 100%;
+  animation: fluidShimmer 2s infinite;
+}
+
+/* Rainbow border effect */
+.rainbow-border {
+  position: relative;
+  background: var(--bg-soft-elevated);
+  border-radius: var(--radius-soft-lg);
+}
+
+.rainbow-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: var(--gradient-rainbow);
+  border-radius: var(--radius-soft-lg);
+  z-index: -1;
+  animation: fluidRotate 3s linear infinite;
+}
+
+.soft-elevation-1 {
+  box-shadow: var(--shadow-soft-secondary);
+}
+
+.soft-elevation-2 {
+  box-shadow: var(--shadow-soft-primary);
+}
+
+.soft-elevation-3 {
+  box-shadow: var(--shadow-soft-floating);
+}
+
+.soft-elevation-4 {
+  box-shadow: var(--shadow-soft-glow);
+}
+
+/* ===== NEUMORPHISM HOVER EFFECTS ===== */
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-soft-floating);
+}
+
+.hover-press:hover {
+  transform: translateY(1px);
+  box-shadow: var(--shadow-soft-pressed);
+}
+
+.hover-glow:hover {
+  box-shadow: var(--shadow-soft-glow);
+}
+
+/* ===== NEUMORPHISM INTERACTIVE STATES ===== */
+.interactive {
+  cursor: pointer;
+  transition: all var(--duration-soft-fast) var(--ease-soft-in-out);
+}
+
+.interactive:hover {
+  transform: translateY(-1px);
+}
+
+.interactive:active {
+  transform: translateY(1px);
+}
+
+/* ===== NEUMORPHISM FOCUS RING ===== */
+.focus-ring:focus-visible {
+  outline: 2px solid var(--text-soft-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-soft-sm);
+}

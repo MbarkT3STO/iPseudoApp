@@ -1,0 +1,280 @@
+/* ===== NEUMORPHISM DESIGN SYSTEM ===== */
+/* Modern Soft UI with depth and tactile design */
+
+:root {
+  /* ===== NEUMORPHISM COLOR PALETTE ===== */
+  /* Soft, muted colors for depth perception */
+  
+  /* Primary - Soft Blue */
+  --soft-blue-50: #f0f7ff;
+  --soft-blue-100: #e0efff;
+  --soft-blue-200: #b8dfff;
+  --soft-blue-300: #7cc7ff;
+  --soft-blue-400: #36a7ff;
+  --soft-blue-500: #0a84ff;
+  --soft-blue-600: #0066cc;
+  --soft-blue-700: #0052a3;
+  --soft-blue-800: #004080;
+  --soft-blue-900: #002d5c;
+
+  /* Secondary - Warm Purple */
+  --warm-purple-50: #faf5ff;
+  --warm-purple-100: #f3e8ff;
+  --warm-purple-200: #e9d5ff;
+  --warm-purple-300: #d8b4fe;
+  --warm-purple-400: #c084fc;
+  --warm-purple-500: #a855f7;
+  --warm-purple-600: #9333ea;
+  --warm-purple-700: #7c3aed;
+  --warm-purple-800: #6b21a8;
+  --warm-purple-900: #581c87;
+
+  /* Accent - Soft Green */
+  --soft-green-50: #f0fdf4;
+  --soft-green-100: #dcfce7;
+  --soft-green-200: #bbf7d0;
+  --soft-green-300: #86efac;
+  --soft-green-400: #4ade80;
+  --soft-green-500: #22c55e;
+  --soft-green-600: #16a34a;
+  --soft-green-700: #15803d;
+  --soft-green-800: #166534;
+  --soft-green-900: #14532d;
+
+  /* Warning - Soft Orange */
+  --soft-orange-50: #fff7ed;
+  --soft-orange-100: #ffedd5;
+  --soft-orange-200: #fed7aa;
+  --soft-orange-300: #fdba74;
+  --soft-orange-400: #fb923c;
+  --soft-orange-500: #f97316;
+  --soft-orange-600: #ea580c;
+  --soft-orange-700: #c2410c;
+  --soft-orange-800: #9a3412;
+  --soft-orange-900: #7c2d12;
+
+  /* Error - Soft Red */
+  --soft-red-50: #fef2f2;
+  --soft-red-100: #fee2e2;
+  --soft-red-200: #fecaca;
+  --soft-red-300: #fca5a5;
+  --soft-red-400: #f87171;
+  --soft-red-500: #ef4444;
+  --soft-red-600: #dc2626;
+  --soft-red-700: #b91c1c;
+  --soft-red-800: #991b1b;
+  --soft-red-900: #7f1d1d;
+
+  /* Neutral - Soft Grays */
+  --soft-gray-50: #f8fafc;
+  --soft-gray-100: #f1f5f9;
+  --soft-gray-200: #e2e8f0;
+  --soft-gray-300: #cbd5e1;
+  --soft-gray-400: #94a3b8;
+  --soft-gray-500: #64748b;
+  --soft-gray-600: #475569;
+  --soft-gray-700: #334155;
+  --soft-gray-800: #1e293b;
+  --soft-gray-900: #0f172a;
+  --soft-gray-950: #020617;
+
+  /* ===== FLUID GRADIENTS ===== */
+  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  --gradient-success: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  --gradient-warning: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  --gradient-error: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+  --gradient-rainbow: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+  --gradient-aurora: linear-gradient(135deg, #667eea 0%, #764ba2 20%, #f093fb 40%, #f5576c 60%, #4facfe 80%, #00f2fe 100%);
+  --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+  --gradient-dark-glass: linear-gradient(135deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.1) 100%);
+  --gradient-mesh: radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
+
+  /* ===== NEUMORPHISM SHADOWS ===== */
+  /* Soft, natural shadows for depth */
+  --shadow-soft-raised: 
+    8px 8px 16px rgba(0, 0, 0, 0.1),
+    -8px -8px 16px rgba(255, 255, 255, 0.8);
+  
+  --shadow-soft-pressed: 
+    inset 8px 8px 16px rgba(0, 0, 0, 0.1),
+    inset -8px -8px 16px rgba(255, 255, 255, 0.8);
+  
+  --shadow-soft-flat: 
+    4px 4px 8px rgba(0, 0, 0, 0.08),
+    -4px -4px 8px rgba(255, 255, 255, 0.9);
+  
+  --shadow-soft-floating: 
+    12px 12px 24px rgba(0, 0, 0, 0.12),
+    -12px -12px 24px rgba(255, 255, 255, 0.8);
+  
+  --shadow-soft-inset: 
+    inset 4px 4px 8px rgba(0, 0, 0, 0.08),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.9);
+  
+  --shadow-soft-glow: 
+    0 0 20px rgba(10, 132, 255, 0.15),
+    8px 8px 16px rgba(0, 0, 0, 0.1),
+    -8px -8px 16px rgba(255, 255, 255, 0.8);
+  
+  --shadow-fluid-primary: 
+    0 0 30px rgba(102, 126, 234, 0.3),
+    8px 8px 16px rgba(0, 0, 0, 0.1),
+    -8px -8px 16px rgba(255, 255, 255, 0.8);
+  
+  --shadow-fluid-secondary: 
+    0 0 30px rgba(240, 147, 251, 0.3),
+    8px 8px 16px rgba(0, 0, 0, 0.1),
+    -8px -8px 16px rgba(255, 255, 255, 0.8);
+  
+  --shadow-fluid-accent: 
+    0 0 30px rgba(79, 172, 254, 0.3),
+    8px 8px 16px rgba(0, 0, 0, 0.1),
+    -8px -8px 16px rgba(255, 255, 255, 0.8);
+  
+  --shadow-rainbow: 
+    0 0 40px rgba(102, 126, 234, 0.2),
+    0 0 80px rgba(240, 147, 251, 0.15),
+    8px 8px 16px rgba(0, 0, 0, 0.1),
+    -8px -8px 16px rgba(255, 255, 255, 0.8);
+
+  /* Dark theme shadows */
+  --shadow-soft-raised-dark: 
+    8px 8px 16px rgba(0, 0, 0, 0.3),
+    -8px -8px 16px rgba(255, 255, 255, 0.05);
+  
+  --shadow-soft-pressed-dark: 
+    inset 8px 8px 16px rgba(0, 0, 0, 0.3),
+    inset -8px -8px 16px rgba(255, 255, 255, 0.05);
+  
+  --shadow-soft-flat-dark: 
+    4px 4px 8px rgba(0, 0, 0, 0.2),
+    -4px -4px 8px rgba(255, 255, 255, 0.03);
+  
+  --shadow-soft-floating-dark: 
+    12px 12px 24px rgba(0, 0, 0, 0.25),
+    -12px -12px 24px rgba(255, 255, 255, 0.03);
+  
+  --shadow-soft-inset-dark: 
+    inset 4px 4px 8px rgba(0, 0, 0, 0.2),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.03);
+  
+  --shadow-soft-glow-dark: 
+    0 0 20px rgba(10, 132, 255, 0.25),
+    8px 8px 16px rgba(0, 0, 0, 0.3),
+    -8px -8px 16px rgba(255, 255, 255, 0.05);
+
+  /* ===== NEUMORPHISM BORDER RADIUS ===== */
+  --radius-soft-xs: 0.375rem;     /* 6px */
+  --radius-soft-sm: 0.75rem;      /* 12px */
+  --radius-soft-md: 1rem;         /* 16px */
+  --radius-soft-lg: 1.5rem;       /* 24px */
+  --radius-soft-xl: 2rem;         /* 32px */
+  --radius-soft-2xl: 2.5rem;      /* 40px */
+  --radius-soft-3xl: 3rem;        /* 48px */
+  --radius-soft-full: 9999px;
+
+  /* ===== NEUMORPHISM SPACING ===== */
+  --space-soft-0: 0;
+  --space-soft-1: 0.25rem;        /* 4px */
+  --space-soft-2: 0.5rem;         /* 8px */
+  --space-soft-3: 0.75rem;        /* 12px */
+  --space-soft-4: 1rem;           /* 16px */
+  --space-soft-5: 1.25rem;        /* 20px */
+  --space-soft-6: 1.5rem;         /* 24px */
+  --space-soft-8: 2rem;           /* 32px */
+  --space-soft-10: 2.5rem;        /* 40px */
+  --space-soft-12: 3rem;          /* 48px */
+  --space-soft-16: 4rem;          /* 64px */
+  --space-soft-20: 5rem;          /* 80px */
+  --space-soft-24: 6rem;          /* 96px */
+  --space-soft-32: 8rem;          /* 128px */
+
+  /* ===== NEUMORPHISM TYPOGRAPHY ===== */
+  --font-family-soft: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-family-mono-soft: 'JetBrains Mono', 'Fira Code', 'Monaco', 'Cascadia Code', monospace;
+
+  --font-size-soft-xs: 0.75rem;      /* 12px */
+  --font-size-soft-sm: 0.875rem;     /* 14px */
+  --font-size-soft-base: 1rem;       /* 16px */
+  --font-size-soft-lg: 1.125rem;     /* 18px */
+  --font-size-soft-xl: 1.25rem;      /* 20px */
+  --font-size-soft-2xl: 1.5rem;      /* 24px */
+  --font-size-soft-3xl: 1.875rem;    /* 30px */
+  --font-size-soft-4xl: 2.25rem;     /* 36px */
+  --font-size-soft-5xl: 3rem;        /* 48px */
+
+  --font-weight-soft-light: 300;
+  --font-weight-soft-normal: 400;
+  --font-weight-soft-medium: 500;
+  --font-weight-soft-semibold: 600;
+  --font-weight-soft-bold: 700;
+
+  /* ===== NEUMORPHISM ANIMATIONS ===== */
+  --duration-soft-fast: 150ms;
+  --duration-soft-normal: 250ms;
+  --duration-soft-slow: 350ms;
+
+  --ease-soft-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-soft-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-soft-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-soft-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-soft-elastic: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  /* ===== LIGHT THEME COLORS ===== */
+  --bg-soft-primary: var(--soft-gray-50);
+  --bg-soft-secondary: var(--soft-gray-100);
+  --bg-soft-tertiary: var(--soft-gray-200);
+  --bg-soft-elevated: #ffffff;
+  --bg-soft-surface: var(--soft-gray-50);
+
+  --text-soft-primary: var(--soft-gray-900);
+  --text-soft-secondary: var(--soft-gray-700);
+  --text-soft-tertiary: var(--soft-gray-500);
+  --text-soft-quaternary: var(--soft-gray-400);
+  --text-soft-accent: var(--soft-blue-600);
+  --text-soft-inverse: var(--soft-gray-50);
+
+  --border-soft-light: var(--soft-gray-200);
+  --border-soft-medium: var(--soft-gray-300);
+  --border-soft-strong: var(--soft-gray-400);
+  --border-soft-accent: var(--soft-blue-300);
+
+  --shadow-soft-primary: var(--shadow-soft-raised);
+  --shadow-soft-secondary: var(--shadow-soft-flat);
+  --shadow-soft-pressed: var(--shadow-soft-pressed);
+  --shadow-soft-floating: var(--shadow-soft-floating);
+  --shadow-soft-inset: var(--shadow-soft-inset);
+  --shadow-soft-glow: var(--shadow-soft-glow);
+}
+
+/* ===== DARK THEME OVERRIDES ===== */
+.theme-dark {
+  --bg-soft-primary: var(--soft-gray-950);
+  --bg-soft-secondary: var(--soft-gray-900);
+  --bg-soft-tertiary: var(--soft-gray-800);
+  --bg-soft-elevated: var(--soft-gray-900);
+  --bg-soft-surface: var(--soft-gray-950);
+
+  --text-soft-primary: var(--soft-gray-50);
+  --text-soft-secondary: var(--soft-gray-200);
+  --text-soft-tertiary: var(--soft-gray-400);
+  --text-soft-quaternary: var(--soft-gray-500);
+  --text-soft-accent: var(--soft-blue-400);
+  --text-soft-inverse: var(--soft-gray-900);
+
+  --border-soft-light: var(--soft-gray-700);
+  --border-soft-medium: var(--soft-gray-600);
+  --border-soft-strong: var(--soft-gray-500);
+  --border-soft-accent: var(--soft-blue-600);
+
+  --shadow-soft-primary: var(--shadow-soft-raised-dark);
+  --shadow-soft-secondary: var(--shadow-soft-flat-dark);
+  --shadow-soft-pressed: var(--shadow-soft-pressed-dark);
+  --shadow-soft-floating: var(--shadow-soft-floating-dark);
+  --shadow-soft-inset: var(--shadow-soft-inset-dark);
+  --shadow-soft-glow: var(--shadow-soft-glow-dark);
+}

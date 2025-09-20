@@ -1,17 +1,18 @@
 # iPseudo IDE
 
-A modern Pseudocode IDE built with Electron, featuring syntax highlighting, code execution, and a PyCharm-inspired interface.
+A modern Neumorphic Pseudocode IDE built with Electron, featuring soft UI design, tactile interactions, and beautiful depth effects.
 
 ## Features
 
-- Beautiful dark/light theme with PyCharm-inspired UI
-- Monaco Editor integration with custom pseudocode syntax highlighting
-- Real-time code execution with sandboxed environment
-- Interactive console output
-- Cross-platform support (Windows, macOS, Linux)
-- Theme switching
-- Resizable panels
-- Line numbers and current line highlighting
+- **Neumorphic Design**: Modern soft UI with depth and tactile interactions
+- **Beautiful Themes**: Light and dark neumorphic themes with proper contrast
+- **Monaco Editor**: Custom pseudocode syntax highlighting with neumorphic styling
+- **Real-time Execution**: Sandboxed environment for pseudocode execution
+- **Interactive Console**: Neumorphic console with smooth animations
+- **Cross-platform**: Support for Windows, macOS, and Linux
+- **Responsive Design**: Adaptive layouts for all screen sizes
+- **Accessibility**: High contrast ratios and keyboard navigation
+- **Modern Animations**: Smooth micro-interactions and transitions
 
 ## Installation
 

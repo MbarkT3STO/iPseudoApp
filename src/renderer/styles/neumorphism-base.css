@@ -1,0 +1,466 @@
+/* ===== NEUMORPHISM BASE STYLES ===== */
+/* Modern Soft UI with tactile design principles */
+
+/* ===== CSS RESET & NEUMORPHISM FOUNDATIONS ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family-soft);
+  font-size: var(--font-size-soft-base);
+  font-weight: var(--font-weight-soft-normal);
+  line-height: 1.6;
+  color: var(--text-soft-primary);
+  background: var(--bg-soft-primary);
+  transition: all var(--duration-soft-normal) var(--ease-soft-in-out);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ===== NEUMORPHISM TYPOGRAPHY ===== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-soft);
+  font-weight: var(--font-weight-soft-semibold);
+  line-height: 1.3;
+  color: var(--text-soft-primary);
+  letter-spacing: -0.02em;
+}
+
+h1 { 
+  font-size: var(--font-size-soft-4xl);
+  font-weight: var(--font-weight-soft-bold);
+  color: var(--text-soft-primary);
+}
+
+h2 { 
+  font-size: var(--font-size-soft-3xl);
+  font-weight: var(--font-weight-soft-semibold);
+}
+
+h3 { 
+  font-size: var(--font-size-soft-2xl);
+  font-weight: var(--font-weight-soft-semibold);
+}
+
+h4 { 
+  font-size: var(--font-size-soft-xl);
+  font-weight: var(--font-weight-soft-medium);
+}
+
+h5 { 
+  font-size: var(--font-size-soft-lg);
+  font-weight: var(--font-weight-soft-medium);
+}
+
+h6 { 
+  font-size: var(--font-size-soft-base);
+  font-weight: var(--font-weight-soft-medium);
+}
+
+p {
+  margin-bottom: var(--space-soft-4);
+  color: var(--text-soft-secondary);
+  line-height: 1.7;
+}
+
+a {
+  color: var(--text-soft-accent);
+  text-decoration: none;
+  transition: all var(--duration-soft-fast) var(--ease-soft-in-out);
+  position: relative;
+}
+
+a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--text-soft-accent);
+  transition: width var(--duration-soft-normal) var(--ease-soft-out);
+  border-radius: var(--radius-soft-xs);
+}
+
+a:hover::after {
+  width: 100%;
+}
+
+a:hover {
+  color: var(--soft-blue-700);
+}
+
+/* ===== NEUMORPHISM FOCUS STYLES ===== */
+*:focus {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--text-soft-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-soft-sm);
+}
+
+/* ===== NEUMORPHISM SELECTION ===== */
+::selection {
+  background: var(--soft-blue-100);
+  color: var(--soft-blue-900);
+}
+
+.theme-dark ::selection {
+  background: var(--soft-blue-800);
+  color: var(--soft-blue-100);
+}
+
+/* ===== NEUMORPHISM SCROLLBAR ===== */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-soft-secondary);
+  border-radius: var(--radius-soft-full);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-soft-elevated);
+  border-radius: var(--radius-soft-full);
+  box-shadow: var(--shadow-soft-secondary);
+  border: 2px solid var(--bg-soft-secondary);
+  transition: all var(--duration-soft-fast) var(--ease-soft-in-out);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-soft-accent);
+  box-shadow: var(--shadow-soft-glow);
+}
+
+.theme-dark ::-webkit-scrollbar-thumb {
+  background: var(--bg-soft-elevated);
+  box-shadow: var(--shadow-soft-secondary);
+}
+
+.theme-dark ::-webkit-scrollbar-thumb:hover {
+  background: var(--text-soft-accent);
+  box-shadow: var(--shadow-soft-glow);
+}
+
+/* ===== NEUMORPHISM UTILITY CLASSES ===== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-soft-gradient {
+  background: linear-gradient(135deg, var(--soft-blue-600), var(--warm-purple-600));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.soft-glow {
+  box-shadow: var(--shadow-soft-glow);
+}
+
+.soft-raised {
+  box-shadow: var(--shadow-soft-primary);
+}
+
+.soft-pressed {
+  box-shadow: var(--shadow-soft-pressed);
+}
+
+.soft-flat {
+  box-shadow: var(--shadow-soft-secondary);
+}
+
+.soft-floating {
+  box-shadow: var(--shadow-soft-floating);
+}
+
+.soft-inset {
+  box-shadow: var(--shadow-soft-inset);
+}
+
+/* ===== NEUMORPHISM ANIMATIONS ===== */
+@keyframes softFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes softSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes softScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes softBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes softPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes softGlow {
+  0%, 100% {
+    box-shadow: var(--shadow-soft-primary);
+  }
+  50% {
+    box-shadow: var(--shadow-soft-glow);
+  }
+}
+
+@keyframes softFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes fluidGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes fluidPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+@keyframes fluidRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fluidSlide {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fluidBounce {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  25% {
+    transform: translateY(-8px) scale(1.02);
+  }
+  50% {
+    transform: translateY(-4px) scale(1.05);
+  }
+  75% {
+    transform: translateY(-2px) scale(1.02);
+  }
+}
+
+@keyframes fluidShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes fluidGlow {
+  0%, 100% {
+    box-shadow: var(--shadow-soft-primary);
+  }
+  25% {
+    box-shadow: var(--shadow-fluid-primary);
+  }
+  50% {
+    box-shadow: var(--shadow-fluid-secondary);
+  }
+  75% {
+    box-shadow: var(--shadow-fluid-accent);
+  }
+}
+
+/* ===== ANIMATION UTILITY CLASSES ===== */
+.animate-soft-fade-in {
+  animation: softFadeIn var(--duration-soft-slow) var(--ease-soft-out);
+}
+
+.animate-soft-slide-in {
+  animation: softSlideIn var(--duration-soft-slow) var(--ease-soft-out);
+}
+
+.animate-soft-scale-in {
+  animation: softScaleIn var(--duration-soft-normal) var(--ease-soft-bounce);
+}
+
+.animate-soft-bounce {
+  animation: softBounce 2s infinite;
+}
+
+.animate-soft-pulse {
+  animation: softPulse 2s infinite;
+}
+
+.animate-soft-glow {
+  animation: softGlow 3s infinite;
+}
+
+.animate-soft-float {
+  animation: softFloat 4s ease-in-out infinite;
+}
+
+.animate-fluid-gradient {
+  background-size: 200% 200%;
+  animation: fluidGradient 6s ease infinite;
+}
+
+.animate-fluid-pulse {
+  animation: fluidPulse 2s ease-in-out infinite;
+}
+
+.animate-fluid-rotate {
+  animation: fluidRotate 3s linear infinite;
+}
+
+.animate-fluid-slide {
+  animation: fluidSlide 0.8s ease-out;
+}
+
+.animate-fluid-bounce {
+  animation: fluidBounce 1.5s ease-in-out infinite;
+}
+
+.animate-fluid-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  background-size: 200% 100%;
+  animation: fluidShimmer 2s infinite;
+}
+
+.animate-fluid-glow {
+  animation: fluidGlow 4s ease-in-out infinite;
+}
+
+/* ===== NEUMORPHISM RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  h1 { font-size: var(--font-size-soft-3xl); }
+  h2 { font-size: var(--font-size-soft-2xl); }
+  h3 { font-size: var(--font-size-soft-xl); }
+  h4 { font-size: var(--font-size-soft-lg); }
+  h5 { font-size: var(--font-size-soft-base); }
+  h6 { font-size: var(--font-size-soft-sm); }
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: var(--font-size-soft-2xl); }
+  h2 { font-size: var(--font-size-soft-xl); }
+  h3 { font-size: var(--font-size-soft-lg); }
+  h4 { font-size: var(--font-size-soft-base); }
+  h5 { font-size: var(--font-size-soft-sm); }
+  h6 { font-size: var(--font-size-soft-xs); }
+}
+
+/* ===== NEUMORPHISM ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (prefers-contrast: high) {
+  :root {
+    --border-soft-light: var(--soft-gray-600);
+    --border-soft-medium: var(--soft-gray-700);
+    --border-soft-strong: var(--soft-gray-800);
+  }
+  
+  .theme-dark {
+    --border-soft-light: var(--soft-gray-400);
+    --border-soft-medium: var(--soft-gray-300);
+    --border-soft-strong: var(--soft-gray-200);
+  }
+}
