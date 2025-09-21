@@ -355,26 +355,55 @@
     gap: var(--space-soft-2);
     font-size: 0.875rem;
     color: var(--text-soft-secondary);
+    padding: var(--space-soft-2) var(--space-soft-3);
+    border-radius: var(--radius-soft-md);
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    background: var(--bg-soft-subtle);
+    box-shadow: var(--shadow-soft-subtle);
+}
+
+.status-indicator.ready {
+    /* Normal styling for ready state - no special border */
 }
 
 .status-dot {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: var(--success-soft);
-    box-shadow: 0 0 8px var(--success-soft);
+    background: #10B981;
+    box-shadow: 0 0 8px #10B981;
     animation: statusPulse 2s ease-in-out infinite;
 }
 
+.status-indicator.running {
+    /* Normal styling for running state - no special border */
+}
+
 .status-indicator.running .status-dot {
-    background: var(--warning-soft);
-    box-shadow: 0 0 8px var(--warning-soft);
+    background: #F59E0B;
+    box-shadow: 0 0 10px #F59E0B;
     animation: statusPulse 1s ease-in-out infinite;
 }
 
+.status-indicator.error {
+    border: 2px solid #EF4444;
+    background: linear-gradient(135deg, 
+        rgba(239, 68, 68, 0.1) 0%, 
+        var(--bg-soft-subtle) 100%
+    );
+    box-shadow: 
+        var(--shadow-soft-subtle),
+        0 0 20px rgba(239, 68, 68, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    color: #DC2626;
+    font-weight: var(--font-weight-soft-semibold);
+    animation: errorGlow 2s ease-in-out infinite;
+}
+
 .status-indicator.error .status-dot {
-    background: var(--error-soft);
-    box-shadow: 0 0 8px var(--error-soft);
+    background: #EF4444;
+    box-shadow: 0 0 12px #EF4444;
     animation: statusPulse 0.5s ease-in-out infinite;
 }
 
@@ -702,6 +731,21 @@
 @keyframes statusPulse {
     0%, 100% { opacity: 1; transform: scale(1); }
     50% { opacity: 0.7; transform: scale(1.1); }
+}
+
+@keyframes errorGlow {
+    0%, 100% { 
+        box-shadow: 
+            var(--shadow-soft-subtle),
+            0 0 20px rgba(239, 68, 68, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+    50% { 
+        box-shadow: 
+            var(--shadow-soft-subtle),
+            0 0 30px rgba(239, 68, 68, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
 }
 
 @keyframes welcomeGlow {

@@ -1,0 +1,18 @@
+# Status Fix Test
+# This file tests the fixed status indicator
+
+# Test 1: Successful execution (should show Ready, no special border)
+var message = "Hello World"
+print message
+
+# Test 2: Another successful execution (should show Ready, no special border)
+var name = "iPseudo"
+print "Welcome to " + name
+
+# Test 3: Error case (should show Error with red border)
+var undefinedVar = nonExistentFunction()
+
+# Test 4: Clear console and run successful code (should show Ready)
+# (Clear console first, then run this)
+var success = "This should work"
+print success

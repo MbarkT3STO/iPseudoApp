@@ -1,0 +1,28 @@
+# Error Border Test
+# This file tests the beautiful error border styling
+
+# Test 1: Normal execution (should show green border)
+var message = "Hello World"
+print message
+
+# Test 2: Syntax error (should show red border with glow)
+var undefinedVar = nonExistentFunction()
+
+# Test 3: Runtime error (should show red border)
+var result = 10 / 0
+
+# Test 4: Loop with error (should show red border)
+for i = 1 to 3
+    print "Count: " + i
+    var error = undefinedVariable
+endfor
+
+# Test 5: Function error (should show red border)
+function testError()
+    var bad = 5 / 0
+    return bad
+endfunction
+
+testError()
+
+print "This line should not execute due to errors above"

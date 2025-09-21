@@ -497,6 +497,13 @@ document.addEventListener('DOMContentLoaded', () => {
         
         consoleMessageCount = 0;
         consoleStats = { messages: 0, errors: 0, warnings: 0, info: 0 };
+        
+        // Reset execution state if not currently executing
+        if (!isExecuting) {
+            isExecuting = false;
+            executionStopped = false;
+        }
+        
         updateConsoleUI();
     }
     
@@ -589,12 +596,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isExecuting) {
                 statusIndicator.className = 'status-indicator running';
                 if (statusText) statusText.textContent = 'Running';
-            } else if (consoleStats.errors > 0) {
-                statusIndicator.className = 'status-indicator error';
-                if (statusText) statusText.textContent = 'Error';
             } else {
-                statusIndicator.className = 'status-indicator ready';
-                if (statusText) statusText.textContent = 'Ready';
+                // Only show error if we're not executing AND there are errors
+                if (consoleStats.errors > 0) {
+                    statusIndicator.className = 'status-indicator error';
+                    if (statusText) statusText.textContent = 'Error';
+                } else {
+                    statusIndicator.className = 'status-indicator ready';
+                    if (statusText) statusText.textContent = 'Ready';
+                }
             }
         }
         
@@ -960,6 +970,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Set execution state
             isExecuting = true;
             executionStopped = false;
+            
+            // Reset error count for new execution
+            consoleStats.errors = 0;
             
             // Start execution monitoring
             startExecutionMonitoring();
