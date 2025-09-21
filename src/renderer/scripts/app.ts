@@ -1186,7 +1186,7 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 if (isNewFile) {
                     // For new files, show save dialog
-                    const result = await (window as any).nodeRequire('electron').ipcRenderer.invoke('dialog:saveFile', {
+                    const result = await (window as any).electron.saveFile({
                         filePath: undefined, // This will trigger the save dialog
                         content: content
                     }) as SaveResult;
@@ -1232,7 +1232,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 } else {
                     // For existing files, save directly
-                    const result = await (window as any).nodeRequire('electron').ipcRenderer.invoke('dialog:saveFile', {
+                    const result = await (window as any).electron.saveFile({
                         filePath: currentPath,
                         content: content
                     }) as SaveResult;
@@ -1381,8 +1381,7 @@ document.addEventListener('DOMContentLoaded', () => {
         openButton.addEventListener('click', async () => {
             try {
                 // Use IPC to show file open dialog and get file content
-                const { ipcRenderer } = (window as any).nodeRequire('electron');
-                const result = await ipcRenderer.invoke('dialog:openFile') as OpenFileResult;
+                const result = await (window as any).electron.openFile() as OpenFileResult;
                 
                 if (!result.canceled && result.filePath && result.content !== undefined) {
                     await openFile(result.filePath, result.content);
