@@ -584,15 +584,17 @@ document.addEventListener('DOMContentLoaded', () => {
     
     function updateConsoleUI() {
         if (statusIndicator) {
+            const statusText = statusIndicator.querySelector('.status-text');
+            
             if (isExecuting) {
                 statusIndicator.className = 'status-indicator running';
-                statusIndicator.querySelector('.status-text')!.textContent = 'Running';
+                if (statusText) statusText.textContent = 'Running';
             } else if (consoleStats.errors > 0) {
                 statusIndicator.className = 'status-indicator error';
-                statusIndicator.querySelector('.status-text')!.textContent = 'Error';
+                if (statusText) statusText.textContent = 'Error';
             } else {
                 statusIndicator.className = 'status-indicator ready';
-                statusIndicator.querySelector('.status-text')!.textContent = 'Ready';
+                if (statusText) statusText.textContent = 'Ready';
             }
         }
         
@@ -600,6 +602,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const elapsed = Date.now() - executionStartTime;
             executionTime.textContent = `${elapsed}ms`;
         }
+        
+        // Debug logging for status changes
+        console.log('Console status updated:', {
+            isExecuting,
+            errors: consoleStats.errors,
+            status: statusIndicator?.querySelector('.status-text')?.textContent
+        });
     }
     
     function copyConsoleOutput() {
@@ -673,6 +682,9 @@ document.addEventListener('DOMContentLoaded', () => {
             updateStopButtonState('hidden');
         }
         if (runStatus) runStatus.title = 'Idle';
+        
+        // Update console status after cleanup
+        updateConsoleUI();
     }
 
     // Function to just terminate the worker without resetting execution state
@@ -704,6 +716,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 cleanupWorker();
                 out('Execution stopped by user', 'warning');
+                // Status will be updated by cleanupWorker
             }, 100);
         }
     }
@@ -951,6 +964,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Start execution monitoring
             startExecutionMonitoring();
             
+            // Update console status to Running
+            updateConsoleUI();
+            
             // Terminate any existing worker first (without resetting execution state)
             terminateWorker();
             
@@ -996,13 +1012,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     else if (m.type === 'stderr') { 
                         out(m.text || 'stderr', 'error'); 
+                        // Update status to Error when stderr is received
+                        updateConsoleUI();
                     }
                     else if (m.type === 'error') { 
                         const eobj = m.error || { message: m.message || m.text || 'error' }; 
                         const e = new Error(eobj.message); 
                         (e as any).name = eobj.name || 'Error'; 
                         e.stack = eobj.stack || ''; 
-                        handleError(e, code); 
+                        handleError(e, code);
+                        // Update status to Error immediately
+                        updateConsoleUI(); 
                         cleanupWorker(); 
                     }
                     else if (m.type === 'input-request') { 
@@ -1013,7 +1033,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (!executionStopped) {
                             addSystemMessage('Done'); 
                         }
-                        cleanupWorker(); 
+                        cleanupWorker();
+                        // Update status after execution completes
+                        updateConsoleUI();
                     }
                     else { 
                         console.warn('unknown message', m); 
