@@ -7,6 +7,17 @@ interface FileData {
     cursorPosition: { lineNumber: number; column: number };
     scrollPosition: number;
     tabId?: string;
+    // Tab-specific status and console data
+    isExecuting?: boolean;
+    executionStopped?: boolean;
+    consoleStats?: {
+        messages: number;
+        errors: number;
+        warnings: number;
+        info: number;
+    };
+    consoleOutput?: string;
+    lastExecutionTime?: number;
 }
 
 interface ErrorManagerType {
@@ -87,6 +98,91 @@ document.addEventListener('DOMContentLoaded', () => {
     // Make these globally available
     (window as any).openFiles = openFiles;
     (window as any).activeFilePath = activeFilePath || '';
+
+    // Tab-specific status and console management
+    function getCurrentTabData(): FileData | null {
+        if (!activeFilePath || !openFiles.has(activeFilePath)) {
+            return null;
+        }
+        return openFiles.get(activeFilePath)!;
+    }
+
+    function updateTabStatus(isExecuting: boolean, executionStopped: boolean = false) {
+        const tabData = getCurrentTabData();
+        if (tabData) {
+            tabData.isExecuting = isExecuting;
+            tabData.executionStopped = executionStopped;
+            openFiles.set(activeFilePath, tabData);
+        }
+    }
+
+    function updateTabConsoleStats(stats: { messages: number; errors: number; warnings: number; info: number }) {
+        const tabData = getCurrentTabData();
+        if (tabData) {
+            tabData.consoleStats = { ...stats };
+            openFiles.set(activeFilePath, tabData);
+        }
+    }
+
+    function updateTabConsoleOutput(output: string) {
+        const tabData = getCurrentTabData();
+        if (tabData) {
+            tabData.consoleOutput = output;
+            openFiles.set(activeFilePath, tabData);
+        }
+    }
+
+    function getTabStatus(): 'ready' | 'running' | 'error' {
+        const tabData = getCurrentTabData();
+        if (!tabData) return 'ready';
+        
+        if (tabData.isExecuting) {
+            return 'running';
+        } else if (tabData.consoleStats && tabData.consoleStats.errors > 0) {
+            return 'error';
+        } else {
+            return 'ready';
+        }
+    }
+
+    function restoreTabStatusAndConsole() {
+        const tabData = getCurrentTabData();
+        if (!tabData) return;
+
+        // Restore console stats
+        if (tabData.consoleStats) {
+            consoleStats = { ...tabData.consoleStats };
+            consoleMessageCount = tabData.consoleStats.messages;
+        } else {
+            consoleStats = { messages: 0, errors: 0, warnings: 0, info: 0 };
+            consoleMessageCount = 0;
+        }
+
+        // Restore console output
+        if (tabData.consoleOutput && outputConsole) {
+            outputConsole.innerHTML = tabData.consoleOutput;
+        } else if (outputConsole) {
+            // Show welcome message if no output
+            outputConsole.innerHTML = `
+                <div class="console-welcome">
+                    <div class="welcome-icon">
+                        <i class="ri-code-s-slash-line"></i>
+                    </div>
+                    <div class="welcome-content">
+                        <h4>Welcome to iPseudo IDE</h4>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Update UI elements
+        if (messageCount) {
+            messageCount.textContent = consoleMessageCount.toString();
+        }
+
+        // Update status indicator
+        updateConsoleUI();
+    }
 
     // Setup MutationObserver for automatic scrolling
     let autoScrollEnabled = true;
@@ -504,6 +600,11 @@ document.addEventListener('DOMContentLoaded', () => {
             executionStopped = false;
         }
         
+        // Update tab-specific data
+        updateTabConsoleStats(consoleStats);
+        updateTabConsoleOutput(outputConsole.innerHTML);
+        updateTabStatus(false, false);
+        
         updateConsoleUI();
     }
     
@@ -532,6 +633,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         outputConsole.appendChild(messageElement);
         updateConsoleStats(type);
+        updateTabConsoleStats(consoleStats);
+        updateTabConsoleOutput(outputConsole.innerHTML);
         updateConsoleUI();
         scrollOutputToBottom();
     }
@@ -572,6 +675,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         outputConsole.appendChild(messageElement);
         updateConsoleStats('info');
+        updateTabConsoleStats(consoleStats);
+        updateTabConsoleOutput(outputConsole.innerHTML);
         updateConsoleUI();
         scrollOutputToBottom();
     }
@@ -592,19 +697,17 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateConsoleUI() {
         if (statusIndicator) {
             const statusText = statusIndicator.querySelector('.status-text');
+            const tabStatus = getTabStatus();
             
-            if (isExecuting) {
+            if (tabStatus === 'running') {
                 statusIndicator.className = 'status-indicator running';
                 if (statusText) statusText.textContent = 'Running';
+            } else if (tabStatus === 'error') {
+                statusIndicator.className = 'status-indicator error';
+                if (statusText) statusText.textContent = 'Error';
             } else {
-                // Only show error if we're not executing AND there are errors
-                if (consoleStats.errors > 0) {
-                    statusIndicator.className = 'status-indicator error';
-                    if (statusText) statusText.textContent = 'Error';
-                } else {
-                    statusIndicator.className = 'status-indicator ready';
-                    if (statusText) statusText.textContent = 'Ready';
-                }
+                statusIndicator.className = 'status-indicator ready';
+                if (statusText) statusText.textContent = 'Ready';
             }
         }
         
@@ -614,9 +717,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         // Debug logging for status changes
-        console.log('Console status updated:', {
-            isExecuting,
-            errors: consoleStats.errors,
+        const tabData = getCurrentTabData();
+        console.log('Console status updated for tab:', {
+            tabPath: activeFilePath,
+            tabStatus: getTabStatus(),
+            tabExecuting: tabData?.isExecuting,
+            tabErrors: tabData?.consoleStats?.errors,
             status: statusIndicator?.querySelector('.status-text')?.textContent
         });
     }
@@ -677,6 +783,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Reset execution state
         isExecuting = false;
         executionStopped = false;
+        
+        // Update tab-specific status
+        updateTabStatus(false, false);
         
         // Stop execution monitoring
         stopExecutionMonitoring();
@@ -971,8 +1080,12 @@ document.addEventListener('DOMContentLoaded', () => {
             isExecuting = true;
             executionStopped = false;
             
+            // Update tab-specific status
+            updateTabStatus(true, false);
+            
             // Reset error count for new execution
             consoleStats.errors = 0;
+            updateTabConsoleStats(consoleStats);
             
             // Start execution monitoring
             startExecutionMonitoring();
@@ -1025,6 +1138,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     else if (m.type === 'stderr') { 
                         out(m.text || 'stderr', 'error'); 
+                        // Update tab-specific console stats
+                        updateTabConsoleStats(consoleStats);
                         // Update status to Error when stderr is received
                         updateConsoleUI();
                     }
@@ -1034,6 +1149,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         (e as any).name = eobj.name || 'Error'; 
                         e.stack = eobj.stack || ''; 
                         handleError(e, code);
+                        // Update tab-specific console stats
+                        updateTabConsoleStats(consoleStats);
                         // Update status to Error immediately
                         updateConsoleUI(); 
                         cleanupWorker(); 
@@ -1386,6 +1503,9 @@ document.addEventListener('DOMContentLoaded', () => {
             (window as any).editor.focus();
         }
         
+        // Restore tab-specific status and console
+        restoreTabStatusAndConsole();
+        
         // Update document title
         document.title = `${fileName} - iPseudo IDE`;
         
@@ -1422,6 +1542,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Refresh editor content for the new tab
         refreshEditorForCurrentTab();
+        
+        // Restore tab-specific status and console
+        restoreTabStatusAndConsole();
         
         // Focus the editor
         if ((window as any).editor) {

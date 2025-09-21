@@ -1,0 +1,17 @@
+# Tab Isolation Test
+# This file tests tab-specific status and console output
+
+# Test 1: Successful execution (Tab 1 should show Ready)
+var message = "Hello from Tab 1"
+print message
+
+# Test 2: Error case (Tab 1 should show Error with red border)
+var undefinedVar = nonExistentFunction()
+
+# Instructions for testing:
+# 1. Run this code in Tab 1 - should show Error status with red border
+# 2. Create a new tab (Tab 2) - should show Ready status, no red border
+# 3. In Tab 2, run successful code - should show Ready status
+# 4. Switch back to Tab 1 - should still show Error status with red border
+# 5. Switch to Tab 2 - should show Ready status
+# 6. Each tab should have its own console output history
