@@ -77,6 +77,52 @@ document.addEventListener('DOMContentLoaded', () => {
     // Global tab counter
     let tabCounter = 0;
     
+    // Maximum number of tabs allowed
+    const MAX_TABS = 3;
+    
+    // Function to check if we can create a new tab
+    function canCreateNewTab(): boolean {
+        const currentTabs = document.querySelectorAll('.modern-tab');
+        return currentTabs.length < MAX_TABS;
+    }
+    
+    // Function to get current tab count
+    function getCurrentTabCount(): number {
+        return document.querySelectorAll('.modern-tab').length;
+    }
+    
+    // Function to update tab counter display
+    function updateTabCounter(): void {
+        const tabCount = getCurrentTabCount();
+        const maxTabs = MAX_TABS;
+        
+        // Update any tab counter display if it exists
+        const tabCounterElement = document.getElementById('tabCounter');
+        if (tabCounterElement) {
+            tabCounterElement.textContent = `${tabCount}/${maxTabs}`;
+            
+            // Update counter styling based on limit
+            tabCounterElement.classList.remove('warning', 'limit-reached');
+            if (tabCount >= maxTabs) {
+                tabCounterElement.classList.add('limit-reached');
+            } else if (tabCount >= maxTabs - 1) {
+                tabCounterElement.classList.add('warning');
+            }
+        }
+        
+        // Add visual indicator when approaching limit
+        const tabsContainer = document.getElementById('tabsContainer');
+        if (tabsContainer) {
+            if (tabCount >= maxTabs) {
+                tabsContainer.classList.add('tab-limit-reached');
+            } else if (tabCount >= maxTabs - 1) {
+                tabsContainer.classList.add('tab-limit-warning');
+            } else {
+                tabsContainer.classList.remove('tab-limit-reached', 'tab-limit-warning');
+            }
+        }
+    }
+    
     // Enhanced console state
     let consoleMessageCount = 0;
     let consoleStats = {
@@ -379,6 +425,133 @@ document.addEventListener('DOMContentLoaded', () => {
                 element.removeAttribute('data-original-title');
             }
         });
+    }
+
+    // Quick actions system
+    function setupQuickActions(): void {
+        // Add right-click context menu for editor
+        const editorContainer = document.querySelector('.editor-container');
+        if (editorContainer) {
+            editorContainer.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                showEditorContextMenu(e as MouseEvent);
+            });
+        }
+        
+        // Add double-click to select word functionality
+        if ((window as any).editor) {
+            (window as any).editor.onDidChangeCursorSelection(() => {
+                const selection = (window as any).editor.getSelection();
+                if (selection && selection.isEmpty()) {
+                    // Auto-highlight current word
+                    const word = (window as any).editor.getModel().getWordAtPosition(selection.getStartPosition());
+                    if (word) {
+                        (window as any).editor.setSelection({
+                            startLineNumber: selection.startLineNumber,
+                            startColumn: word.startColumn,
+                            endLineNumber: selection.endLineNumber,
+                            endColumn: word.endColumn
+                        });
+                    }
+                }
+            });
+        }
+    }
+
+    function showEditorContextMenu(e: MouseEvent): void {
+        // Remove existing context menu
+        const existingMenu = document.getElementById('editor-context-menu');
+        if (existingMenu) {
+            existingMenu.remove();
+        }
+
+        const menu = document.createElement('div');
+        menu.id = 'editor-context-menu';
+        menu.className = 'context-menu';
+        menu.innerHTML = `
+            <div class="context-menu-item" data-action="cut">
+                <i class="ri-scissors-line"></i>
+                <span>Cut</span>
+                <span class="shortcut">Ctrl+X</span>
+            </div>
+            <div class="context-menu-item" data-action="copy">
+                <i class="ri-file-copy-line"></i>
+                <span>Copy</span>
+                <span class="shortcut">Ctrl+C</span>
+            </div>
+            <div class="context-menu-item" data-action="paste">
+                <i class="ri-clipboard-line"></i>
+                <span>Paste</span>
+                <span class="shortcut">Ctrl+V</span>
+            </div>
+            <div class="context-menu-separator"></div>
+            <div class="context-menu-item" data-action="select-all">
+                <i class="ri-checkbox-multiple-line"></i>
+                <span>Select All</span>
+                <span class="shortcut">Ctrl+A</span>
+            </div>
+            <div class="context-menu-item" data-action="format">
+                <i class="ri-code-s-slash-line"></i>
+                <span>Format Code</span>
+                <span class="shortcut">Ctrl+Shift+F</span>
+            </div>
+            <div class="context-menu-separator"></div>
+            <div class="context-menu-item" data-action="run">
+                <i class="ri-play-line"></i>
+                <span>Run Code</span>
+                <span class="shortcut">F5</span>
+            </div>
+        `;
+
+        // Position menu
+        menu.style.position = 'fixed';
+        menu.style.left = `${e.clientX}px`;
+        menu.style.top = `${e.clientY}px`;
+        menu.style.zIndex = '10000';
+
+        document.body.appendChild(menu);
+
+        // Handle menu actions
+        menu.addEventListener('click', (e) => {
+            const action = (e.target as HTMLElement).closest('.context-menu-item')?.getAttribute('data-action');
+            if (action) {
+                handleEditorContextAction(action);
+                menu.remove();
+            }
+        });
+
+        // Close menu on outside click
+        setTimeout(() => {
+            document.addEventListener('click', () => {
+                menu.remove();
+            }, { once: true });
+        }, 100);
+    }
+
+    function handleEditorContextAction(action: string): void {
+        if (!(window as any).editor) return;
+
+        switch (action) {
+            case 'cut':
+                (window as any).editor.trigger('keyboard', 'editor.action.clipboardCut', null);
+                break;
+            case 'copy':
+                (window as any).editor.trigger('keyboard', 'editor.action.clipboardCopy', null);
+                break;
+            case 'paste':
+                (window as any).editor.trigger('keyboard', 'editor.action.clipboardPaste', null);
+                break;
+            case 'select-all':
+                (window as any).editor.trigger('keyboard', 'editor.action.selectAll', null);
+                break;
+            case 'format':
+                formatPseudocode();
+                break;
+            case 'run':
+                const runButton = document.getElementById('btnRun') as HTMLButtonElement;
+                if (runButton && !runButton.disabled) runButton.click();
+                break;
+        }
     }
 
     let isContentBeingAdded = false;
@@ -1909,6 +2082,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         setTimeout(() => {
             tabElement.remove();
+            // Update tab counter after removal
+            updateTabCounter();
         }, 300);
         
         // Clean up openFiles if this was the last tab with this path
@@ -2075,6 +2250,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function createNewTab(): void {
+        // Check if we can create a new tab
+        if (!canCreateNewTab()) {
+            out(`Maximum of ${MAX_TABS} tabs allowed. Close a tab first.`, 'warning');
+            return;
+        }
+        
         const newTabId = `Untitled-${getNextUntitledNumber()}.pseudo`;
         
         // Add to open files first
@@ -2091,6 +2272,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Update document title
         document.title = `${newTabId} - iPseudo IDE`;
+        
+        // Update tab counter
+        updateTabCounter();
     }
 
     // Helper functions for context menu
@@ -2224,6 +2408,31 @@ document.addEventListener('DOMContentLoaded', () => {
         newButton.addEventListener('click', () => {
             createNewTab();
         });
+        
+        // Update button state based on tab limit
+        function updateNewButtonState() {
+            if (newButton) {
+                const canCreate = canCreateNewTab();
+                (newButton as HTMLButtonElement).disabled = !canCreate;
+                newButton.title = canCreate ? 'New File' : `Maximum of ${MAX_TABS} tabs allowed`;
+                
+                if (!canCreate) {
+                    newButton.classList.add('disabled');
+                } else {
+                    newButton.classList.remove('disabled');
+                }
+            }
+        }
+        
+        // Initial state
+        updateNewButtonState();
+        
+        // Update state when tabs change
+        const observer = new MutationObserver(updateNewButtonState);
+        observer.observe(document.getElementById('tabsContainer')!, {
+            childList: true,
+            subtree: true
+        });
     }
 
     // Add event listener for the new tab button
@@ -2233,6 +2442,31 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             e.stopPropagation();
             createNewTab();
+        });
+        
+        // Update button state based on tab limit
+        function updateNewTabButtonState() {
+            if (newTabButton) {
+                const canCreate = canCreateNewTab();
+                (newTabButton as HTMLButtonElement).disabled = !canCreate;
+                newTabButton.title = canCreate ? 'New Tab' : `Maximum of ${MAX_TABS} tabs allowed`;
+                
+                if (!canCreate) {
+                    newTabButton.classList.add('disabled');
+                } else {
+                    newTabButton.classList.remove('disabled');
+                }
+            }
+        }
+        
+        // Initial state
+        updateNewTabButtonState();
+        
+        // Update state when tabs change
+        const observer = new MutationObserver(updateNewTabButtonState);
+        observer.observe(document.getElementById('tabsContainer')!, {
+            childList: true,
+            subtree: true
         });
     } else {
         console.error('New tab button not found');
@@ -2634,6 +2868,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeFirstTab();
     setupKeyboardShortcuts();
     setupTooltips();
+    setupQuickActions();
     
     // Add keyboard shortcuts for tab navigation
     document.addEventListener('keydown', (e) => {

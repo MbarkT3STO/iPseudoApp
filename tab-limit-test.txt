@@ -1,0 +1,28 @@
+# Tab Limit Test
+# This file tests the 3-tab maximum limit functionality
+
+# Test 1: Create multiple tabs
+# 1. Try to create 4 tabs - the 4th should be blocked
+# 2. Close one tab - should be able to create a new one
+# 3. Close all tabs - should auto-create a new tab
+
+# Test 2: Tab counter display
+# - Should show "1/3", "2/3", "3/3"
+# - Should turn yellow at 2/3 (warning)
+# - Should turn red at 3/3 (limit reached)
+
+# Test 3: Button states
+# - New file button should be disabled at 3 tabs
+# - New tab button should be disabled at 3 tabs
+# - Tooltips should show limit message
+
+# Test 4: Right-click context menu
+# - Right-click in editor area
+# - Should show context menu with shortcuts
+# - Test all menu actions
+
+# Test 5: Additional enhancements
+# - Keyboard shortcuts (Ctrl+N, Ctrl+O, etc.)
+# - Format button with loading animation
+# - Enhanced tooltips
+# - Tab-specific status and console

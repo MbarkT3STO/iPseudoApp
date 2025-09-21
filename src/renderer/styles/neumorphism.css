@@ -566,6 +566,145 @@
     cursor: not-allowed;
 }
 
+/* Disabled button state */
+.btn.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.btn.disabled:hover {
+    transform: none;
+    box-shadow: var(--shadow-soft-inset);
+}
+
+/* Tab limit indicators */
+.tab-limit-warning {
+    border-left: 3px solid var(--warning-soft);
+    animation: tabLimitPulse 2s ease-in-out infinite;
+}
+
+.tab-limit-reached {
+    border-left: 3px solid var(--error-soft);
+    animation: tabLimitPulse 1s ease-in-out infinite;
+}
+
+@keyframes tabLimitPulse {
+    0%, 100% { 
+        border-left-color: var(--warning-soft);
+    }
+    50% { 
+        border-left-color: var(--error-soft);
+    }
+}
+
+.tab-limit-reached {
+    animation: tabLimitPulse 1s ease-in-out infinite;
+}
+
+.tab-limit-reached .tab-limit-pulse {
+    animation: tabLimitPulse 1s ease-in-out infinite;
+}
+
+/* Tabs controls styling */
+.tabs-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-soft-2);
+    padding: 0 var(--space-soft-2);
+}
+
+.tab-counter {
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-soft-medium);
+    color: var(--text-soft-secondary);
+    background: var(--bg-soft-subtle);
+    padding: var(--space-soft-1) var(--space-soft-2);
+    border-radius: var(--radius-soft-sm);
+    border: 1px solid var(--border-soft-light);
+    min-width: 2.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.tab-counter.warning {
+    color: var(--warning-soft);
+    border-color: var(--warning-soft);
+    background: rgba(245, 158, 11, 0.1);
+}
+
+.tab-counter.limit-reached {
+    color: var(--error-soft);
+    border-color: var(--error-soft);
+    background: rgba(239, 68, 68, 0.1);
+    animation: tabLimitPulse 1s ease-in-out infinite;
+}
+
+/* Editor context menu */
+.context-menu {
+    background: var(--bg-soft-elevated);
+    border: 1px solid var(--border-soft-light);
+    border-radius: var(--radius-soft-md);
+    box-shadow: var(--shadow-soft-elevated);
+    padding: var(--space-soft-1);
+    min-width: 200px;
+    z-index: 10000;
+    animation: contextMenuFadeIn 0.2s ease-out;
+}
+
+@keyframes contextMenuFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.context-menu-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-soft-3);
+    padding: var(--space-soft-2) var(--space-soft-3);
+    border-radius: var(--radius-soft-sm);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.875rem;
+    color: var(--text-soft-primary);
+}
+
+.context-menu-item:hover {
+    background: var(--bg-soft-subtle);
+    transform: translateX(2px);
+}
+
+.context-menu-item i {
+    width: 16px;
+    text-align: center;
+    color: var(--text-soft-secondary);
+}
+
+.context-menu-item span:first-of-type {
+    flex: 1;
+}
+
+.context-menu-item .shortcut {
+    font-size: 0.75rem;
+    color: var(--text-soft-tertiary);
+    background: var(--bg-soft-subtle);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: monospace;
+}
+
+.context-menu-separator {
+    height: 1px;
+    background: var(--border-soft-light);
+    margin: var(--space-soft-1) 0;
+}
+
 /* Custom tooltip styling */
 .custom-tooltip {
     background: var(--bg-soft-elevated);
