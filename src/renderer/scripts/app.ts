@@ -71,6 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let mutationObserver: MutationObserver | null = null;
     let scrollTimeout: number | null = null;
     let isContentBeingAdded = false;
+    let isInLoopContext = false;
+    let loopScrollTimeout: number | null = null;
     
     function setupAutoScrollObserver(): void {
         if (!outputConsole || !consoleContent || mutationObserver) return;
@@ -79,9 +81,23 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!autoScrollEnabled) return;
             
             let shouldScroll = false;
+            let isPrintStatement = false;
+            
             mutations.forEach((mutation) => {
                 if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
                     shouldScroll = true;
+                    
+                    // Check if this is a print statement (loop context detection)
+                    mutation.addedNodes.forEach((node) => {
+                        if (node.nodeType === Node.ELEMENT_NODE) {
+                            const element = node as Element;
+                            if (element.classList.contains('console-print') || 
+                                element.classList.contains('console-info') ||
+                                element.classList.contains('console-success')) {
+                                isPrintStatement = true;
+                            }
+                        }
+                    });
                 }
             });
             
@@ -89,17 +105,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Mark that content is being added
                 isContentBeingAdded = true;
                 
-                // Clear any existing timeout
-                if (scrollTimeout) {
-                    clearTimeout(scrollTimeout);
+                // If this is a print statement, enable immediate loop scrolling
+                if (isPrintStatement) {
+                    isInLoopContext = true;
+                    
+                    // Clear any existing loop timeout
+                    if (loopScrollTimeout) {
+                        clearTimeout(loopScrollTimeout);
+                    }
+                    
+                    // Set a timeout to detect when loop context ends
+                    loopScrollTimeout = window.setTimeout(() => {
+                        isInLoopContext = false;
+                        console.log('Loop context ended - switching back to debounced scroll');
+                    }, 200); // If no print statements for 200ms, assume loop ended
+                    
+                    // Immediate scroll for loop context
+                    console.log('Loop context detected - immediate scroll');
+                    performImmediateScroll();
+                } else {
+                    // Regular debounced scrolling for non-loop content
+                    if (scrollTimeout) {
+                        clearTimeout(scrollTimeout);
+                    }
+                    
+                    scrollTimeout = window.setTimeout(() => {
+                        isContentBeingAdded = false;
+                        performDebouncedScroll();
+                    }, 100);
                 }
-                
-                // Set a new timeout for debounced scrolling
-                // This will wait for content addition to stop before scrolling
-                scrollTimeout = window.setTimeout(() => {
-                    isContentBeingAdded = false;
-                    performDebouncedScroll();
-                }, 100); // Wait 100ms after content stops being added
             }
         });
         
@@ -143,6 +177,46 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Perform immediate scroll
         scrollToVeryBottom();
+    }
+
+    // Immediate scroll for loop context (no debouncing)
+    function performImmediateScroll(): void {
+        if (!autoScrollEnabled) return;
+        
+        console.log('Performing immediate scroll for loop context');
+        
+        // Try multiple potential scrollable elements
+        const scrollableElements = [
+            consoleContent,
+            outputConsole,
+            document.querySelector('.console-container'),
+            document.querySelector('.main-content')
+        ].filter(el => el !== null);
+        
+        scrollableElements.forEach((element, index) => {
+            if (!element) return;
+            
+            const scrollHeight = element.scrollHeight;
+            const clientHeight = element.clientHeight;
+            const maxScroll = scrollHeight - clientHeight;
+            
+            // Only scroll if this element can actually scroll
+            if (scrollHeight > clientHeight) {
+                // Immediate scroll to bottom
+                element.scrollTop = maxScroll;
+                
+                // Quick follow-up to handle any content growth
+                setTimeout(() => {
+                    const newScrollHeight = element.scrollHeight;
+                    const newClientHeight = element.clientHeight;
+                    const newMaxScroll = newScrollHeight - newClientHeight;
+                    
+                    if (newScrollHeight > scrollHeight) {
+                        element.scrollTop = newMaxScroll;
+                    }
+                }, 10); // Very short delay for immediate feedback
+            }
+        });
     }
 
     function escapeHtml(s: string): string { 
@@ -1778,6 +1852,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1100); // After all the loop iterations
     }
 
+    // Test function for immediate live scrolling during loop execution
+    function testLiveLoopScroll(): void {
+        console.log('Testing LIVE auto-scroll during loop execution (simulating for i = 1 to 50)');
+        
+        // Simulate a faster loop that prints numbers 1 to 50 with immediate scrolling
+        for (let i = 1; i <= 50; i++) {
+            setTimeout(() => {
+                out(`Loop iteration ${i}`, 'print'); // Use 'print' type to trigger immediate scroll
+            }, i * 50); // 50ms delay between each print for visible live scrolling
+        }
+        
+        // Add a final message after the loop
+        setTimeout(() => {
+            out('Live loop completed! You should have seen each iteration scroll immediately.', 'success');
+        }, 2600); // After all the loop iterations
+    }
+
     // Debug function to analyze scrollable elements
     function debugScrollElements(): void {
         console.log('=== SCROLL DEBUG ANALYSIS ===');
@@ -1850,9 +1941,11 @@ document.addEventListener('DOMContentLoaded', () => {
     (window as any).testAutoScroll = testAutoScroll;
     (window as any).testLongContentScroll = testLongContentScroll;
     (window as any).testLoopScroll = testLoopScroll;
+    (window as any).testLiveLoopScroll = testLiveLoopScroll;
     (window as any).scrollToVeryBottom = scrollToVeryBottom;
     (window as any).forceImmediateScroll = forceImmediateScroll;
     (window as any).performDebouncedScroll = performDebouncedScroll;
+    (window as any).performImmediateScroll = performImmediateScroll;
     (window as any).debugScrollElements = debugScrollElements;
     
     // Start the initialization
