@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-light theme-transition">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - iPseudo IDE</title>
+    
+    <!-- Neumorphic Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Neumorphic Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <!-- Neumorphic Styles -->
+    <link rel="stylesheet" href="styles/neumorphism.css">
+    <link rel="stylesheet" href="styles/settings.css">
+    
+    <!-- Monaco Editor Setup -->
+    <script>
+        window.nodeRequire = window.require;
+        try { 
+            window.require = undefined; 
+            window.module = undefined; 
+            window.exports = undefined; 
+        } catch(e) {}
+    </script>
+    <script src="./monaco/vs/loader.js"></script>
+</head>
+<body>
+    <div class="app-container animate-soft-fade-in animate-fluid-gradient">
+        <!-- Neumorphic Top Navigation -->
+        <header class="top-nav">
+            <div class="top-nav-left">
+                <!-- Back Button -->
+                <button class="btn btn-icon btn-soft" id="btnBack" title="Back to Editor">
+                    <i class="ri-arrow-left-line"></i>
+                </button>
+                
+                <!-- Settings Title -->
+                <div class="settings-title">
+                    <div class="settings-icon">
+                        <i class="ri-settings-3-line"></i>
+                    </div>
+                    <h1>Settings</h1>
+                </div>
+            </div>
+            
+            <div class="top-nav-right">
+                <!-- Theme Toggle -->
+                <button class="btn btn-icon btn-secondary" id="btnThemeToggle" title="Toggle Theme">
+                    <i class="ri-contrast-2-line"></i>
+                </button>
+                
+                <!-- Apply Settings -->
+                <button class="btn btn-primary" id="btnApplySettings" title="Apply Settings to Main App">
+                    <i class="ri-check-line"></i>
+                    <span>Apply</span>
+                </button>
+                
+                <!-- Reset Settings -->
+                <button class="btn btn-ghost" id="btnResetSettings" title="Reset to Defaults">
+                    <i class="ri-refresh-line"></i>
+                    <span>Reset</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Settings Content -->
+        <main class="settings-content">
+            <div class="settings-container">
+                <!-- Settings Navigation -->
+                <nav class="settings-nav">
+                    <div class="nav-section">
+                        <h3>General</h3>
+                        <ul class="nav-list">
+                            <li><a href="#appearance" class="nav-item active" data-section="appearance">
+                                <i class="ri-palette-line"></i>
+                                <span>Appearance</span>
+                            </a></li>
+                            <li><a href="#editor" class="nav-item" data-section="editor">
+                                <i class="ri-code-s-slash-line"></i>
+                                <span>Editor</span>
+                            </a></li>
+                            <li><a href="#console" class="nav-item" data-section="console">
+                                <i class="ri-terminal-box-line"></i>
+                                <span>Console</span>
+                            </a></li>
+                            <li><a href="#ui" class="nav-item" data-section="ui">
+                                <i class="ri-layout-line"></i>
+                                <span>UI Elements</span>
+                            </a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="nav-section">
+                        <h3>Advanced</h3>
+                        <ul class="nav-list">
+                            <li><a href="#performance" class="nav-item" data-section="performance">
+                                <i class="ri-speed-line"></i>
+                                <span>Performance</span>
+                            </a></li>
+                            <li><a href="#shortcuts" class="nav-item" data-section="shortcuts">
+                                <i class="ri-keyboard-line"></i>
+                                <span>Shortcuts</span>
+                            </a></li>
+                            <li><a href="#about" class="nav-item" data-section="about">
+                                <i class="ri-information-line"></i>
+                                <span>About</span>
+                            </a></li>
+                        </ul>
+                    </div>
+                </nav>
+
+                <!-- Settings Panels -->
+                <div class="settings-panels">
+                    <!-- Appearance Settings -->
+                    <div class="settings-panel active" id="appearance">
+                        <div class="panel-header">
+                            <h2>Appearance</h2>
+                            <p>Customize the look and feel of your IDE</p>
+                        </div>
+                        
+                        <div class="settings-group">
+                            <h3>Theme</h3>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="themeSelect">Color Theme</label>
+                                    <p>Choose between light and dark themes</p>
+                                </div>
+                                <div class="setting-control">
+                                    <select id="themeSelect" class="setting-select">
+                                        <option value="light">Light</option>
+                                        <option value="dark">Dark</option>
+                                        <option value="auto">Auto (System)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="accentColor">Accent Color</label>
+                                    <p>Choose your preferred accent color</p>
+                                </div>
+                                <div class="setting-control">
+                                    <div class="color-picker-container">
+                                        <input type="color" id="accentColor" class="color-picker" value="#0ea5e9">
+                                        <div class="color-presets">
+                                            <button class="color-preset" data-color="#0ea5e9" style="background: #0ea5e9;"></button>
+                                            <button class="color-preset" data-color="#a855f7" style="background: #a855f7;"></button>
+                                            <button class="color-preset" data-color="#22c55e" style="background: #22c55e;"></button>
+                                            <button class="color-preset" data-color="#f59e0b" style="background: #f59e0b;"></button>
+                                            <button class="color-preset" data-color="#ef4444" style="background: #ef4444;"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-group">
+                            <h3>UI Elements</h3>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="animationsEnabled">Animations</label>
+                                    <p>Enable smooth transitions and animations</p>
+                                </div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="animationsEnabled" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="glassEffects">Glass Effects</label>
+                                    <p>Enable glass morphism and blur effects</p>
+                                </div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="glassEffects" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="particleEffects">Particle Effects</label>
+                                    <p>Show floating particles and background effects</p>
+                                </div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="particleEffects" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Editor Settings -->
+                    <div class="settings-panel" id="editor">
+                        <div class="panel-header">
+                            <h2>Editor</h2>
+                            <p>Configure the code editor behavior and appearance</p>
+                        </div>
+                        
+                        <div class="settings-group">
+                            <h3>Display</h3>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="fontSize">Font Size</label>
+                                    <p>Adjust the editor font size</p>
+                                </div>
+                                <div class="setting-control">
+                                    <input type="range" id="fontSize" class="setting-range" min="10" max="24" value="14">
+                                    <span class="range-value">14px</span>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="fontFamily">Font Family</label>
+                                    <p>Choose the editor font family</p>
+                                </div>
+                                <div class="setting-control">
+                                    <select id="fontFamily" class="setting-select">
+                                        <option value="JetBrains Mono">JetBrains Mono</option>
+                                        <option value="Fira Code">Fira Code</option>
+                                        <option value="Monaco">Monaco</option>
+                                        <option value="Cascadia Code">Cascadia Code</option>
+                                        <option value="Consolas">Consolas</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="lineHeight">Line Height</label>
+                                    <p>Adjust the spacing between lines</p>
+                                </div>
+                                <div class="setting-control">
+                                    <input type="range" id="lineHeight" class="setting-range" min="1" max="2" step="0.1" value="1.5">
+                                    <span class="range-value">1.5</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-group">
+                            <h3>Behavior</h3>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="wordWrap">Word Wrap</label>
+                                    <p>Wrap long lines in the editor</p>
+                                </div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="wordWrap">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="minimap">Minimap</label>
+                                    <p>Show code minimap on the right side</p>
+                                </div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="minimap" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="autoSave">Auto Save</label>
+                                    <p>Automatically save changes</p>
+                                </div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="autoSave" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="tabSize">Tab Size</label>
+                                    <p>Number of spaces for indentation</p>
+                                </div>
+                                <div class="setting-control">
+                                    <input type="range" id="tabSize" class="setting-range" min="2" max="8" value="4">
+                                    <span class="range-value">4</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Console Settings -->
+                    <div class="settings-panel" id="console">
+                        <div class="panel-header">
+                            <h2>Console</h2>
+                            <p>Configure the output console behavior</p>
+                        </div>
+                        
+                        <div class="settings-group">
+                            <h3>Display</h3>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="consoleHeight">Console Height</label>
+                                    <p>Adjust the height of the console panel</p>
+                                </div>
+                                <div class="setting-control">
+                                    <input type="range" id="consoleHeight" class="setting-range" min="200" max="600" value="300">
+                                    <span class="range-value">300px</span>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="consoleFontSize">Console Font Size</label>
+                                    <p>Adjust the console font size</p>
+                                </div>
+                                <div class="setting-control">
+                                    <input type="range" id="consoleFontSize" class="setting-range" min="10" max="20" value="14">
+                                    <span class="range-value">14px</span>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="consoleFontFamily">Console Font Family</label>
+                                    <p>Choose the console font family</p>
+                                </div>
+                                <div class="setting-control">
+                                    <select id="consoleFontFamily" class="setting-select">
+                                        <option value="JetBrains Mono">JetBrains Mono</option>
+                                        <option value="Fira Code">Fira Code</option>
+                                        <option value="Monaco">Monaco</option>
+                                        <option value="Cascadia Code">Cascadia Code</option>
+                                        <option value="Consolas">Consolas</option>
+                                        <option value="Courier New">Courier New</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="maxMessages">Max Messages</label>
+                                    <p>Maximum number of messages to keep in console</p>
+                                </div>
+                                <div class="setting-control">
+                                    <input type="range" id="maxMessages" class="setting-range" min="50" max="1000" step="50" value="200">
+                                    <span class="range-value">200</span>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="autoScroll">Auto Scroll</label>
+                                    <p>Automatically scroll to new messages</p>
+                                </div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="autoScroll" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-group">
+                            <h3>Formatting</h3>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="showTimestamps">Show Timestamps</label>
+                                    <p>Display timestamps for console messages</p>
+                                </div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="showTimestamps" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="showIcons">Show Icons</label>
+                                    <p>Display icons for different message types</p>
+                                </div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="showIcons" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- UI Elements Settings -->
+                    <div class="settings-panel" id="ui">
+                        <div class="panel-header">
+                            <h2>UI Elements</h2>
+                            <p>Customize which UI elements are visible in the main interface</p>
+                        </div>
+                        
+                        <div class="settings-group">
+                            <h3>Top Navigation</h3>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="showFileActions">File Actions</label>
+                                    <p>Show New, Open, Save buttons in the top navigation</p>
+                                </div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="showFileActions" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="showRunButton">Run Button</label>
+                                    <p>Show the Run and Stop buttons</p>
+                                </div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="showRunButton" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="showThemeToggle">Theme Toggle</label>
+                                    <p>Show the theme toggle button</p>
+                                </div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="showThemeToggle" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="showLayoutToggle">Layout Toggle</label>
+                                    <p>Show the layout toggle button</p>
+                                </div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="showLayoutToggle" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="showSettingsButton">Settings Button</label>
+                                    <p>Show the settings button</p>
+                                </div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="showSettingsButton" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-group">
+                            <h3>Editor Controls</h3>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="showEditorActions">Editor Action Buttons</label>
+                                    <p>Show Format, Minimap, and Word Wrap buttons in editor header</p>
+                                </div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="showEditorActions" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="showEditorTitle">Editor Title</label>
+                                    <p>Show the "Code Editor" title and live badge</p>
+                                </div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="showEditorTitle" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-group">
+                            <h3>Console Controls</h3>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="showConsoleActions">Console Action Buttons</label>
+                                    <p>Show Clear, Copy, and Save buttons in console header</p>
+                                </div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="showConsoleActions" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="showConsoleStats">Console Statistics</label>
+                                    <p>Show message count and execution time in console header</p>
+                                </div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="showConsoleStats" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="showConsoleTitle">Console Title</label>
+                                    <p>Show the "Output Console" title and status indicator</p>
+                                </div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="showConsoleTitle" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-group">
+                            <h3>Tab Controls</h3>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="showTabCounter">Tab Counter</label>
+                                    <p>Show the tab counter (e.g., "1/3")</p>
+                                </div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="showTabCounter" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="showNewTabButton">New Tab Button</label>
+                                    <p>Show the new tab button (+)</p>
+                                </div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="showNewTabButton" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Performance Settings -->
+                    <div class="settings-panel" id="performance">
+                        <div class="panel-header">
+                            <h2>Performance</h2>
+                            <p>Optimize the application performance</p>
+                        </div>
+                        
+                        <div class="settings-group">
+                            <h3>Rendering</h3>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="hardwareAcceleration">Hardware Acceleration</label>
+                                    <p>Use GPU acceleration for better performance</p>
+                                </div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="hardwareAcceleration" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="reducedMotion">Reduced Motion</label>
+                                    <p>Disable animations for better performance</p>
+                                </div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="reducedMotion">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-group">
+                            <h3>Memory</h3>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="maxTabs">Maximum Tabs</label>
+                                    <p>Limit the number of open tabs</p>
+                                </div>
+                                <div class="setting-control">
+                                    <input type="range" id="maxTabs" class="setting-range" min="1" max="10" value="3">
+                                    <span class="range-value">3</span>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <label for="autoCloseTabs">Auto Close Tabs</label>
+                                    <p>Automatically close unused tabs</p>
+                                </div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="autoCloseTabs">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Shortcuts Settings -->
+                    <div class="settings-panel" id="shortcuts">
+                        <div class="panel-header">
+                            <h2>Keyboard Shortcuts</h2>
+                            <p>Customize keyboard shortcuts for common actions</p>
+                        </div>
+                        
+                        <div class="shortcuts-list">
+                            <div class="shortcut-item">
+                                <div class="shortcut-info">
+                                    <span class="shortcut-name">Run Code</span>
+                                    <span class="shortcut-description">Execute the current pseudocode</span>
+                                </div>
+                                <div class="shortcut-keys">
+                                    <kbd>Ctrl</kbd> + <kbd>Enter</kbd>
+                                </div>
+                            </div>
+                            
+                            <div class="shortcut-item">
+                                <div class="shortcut-info">
+                                    <span class="shortcut-name">New Tab</span>
+                                    <span class="shortcut-description">Create a new editor tab</span>
+                                </div>
+                                <div class="shortcut-keys">
+                                    <kbd>Ctrl</kbd> + <kbd>T</kbd>
+                                </div>
+                            </div>
+                            
+                            <div class="shortcut-item">
+                                <div class="shortcut-info">
+                                    <span class="shortcut-name">Close Tab</span>
+                                    <span class="shortcut-description">Close the current tab</span>
+                                </div>
+                                <div class="shortcut-keys">
+                                    <kbd>Ctrl</kbd> + <kbd>W</kbd>
+                                </div>
+                            </div>
+                            
+                            <div class="shortcut-item">
+                                <div class="shortcut-info">
+                                    <span class="shortcut-name">Next Tab</span>
+                                    <span class="shortcut-description">Switch to the next tab</span>
+                                </div>
+                                <div class="shortcut-keys">
+                                    <kbd>Ctrl</kbd> + <kbd>Tab</kbd>
+                                </div>
+                            </div>
+                            
+                            <div class="shortcut-item">
+                                <div class="shortcut-info">
+                                    <span class="shortcut-name">Previous Tab</span>
+                                    <span class="shortcut-description">Switch to the previous tab</span>
+                                </div>
+                                <div class="shortcut-keys">
+                                    <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Tab</kbd>
+                                </div>
+                            </div>
+                            
+                            <div class="shortcut-item">
+                                <div class="shortcut-info">
+                                    <span class="shortcut-name">Stop Execution</span>
+                                    <span class="shortcut-description">Stop the running code</span>
+                                </div>
+                                <div class="shortcut-keys">
+                                    <kbd>Ctrl</kbd> + <kbd>C</kbd>
+                                </div>
+                            </div>
+                            
+                            <div class="shortcut-item">
+                                <div class="shortcut-info">
+                                    <span class="shortcut-name">Save File</span>
+                                    <span class="shortcut-description">Save the current file</span>
+                                </div>
+                                <div class="shortcut-keys">
+                                    <kbd>Ctrl</kbd> + <kbd>S</kbd>
+                                </div>
+                            </div>
+                            
+                            <div class="shortcut-item">
+                                <div class="shortcut-info">
+                                    <span class="shortcut-name">Open File</span>
+                                    <span class="shortcut-description">Open a file</span>
+                                </div>
+                                <div class="shortcut-keys">
+                                    <kbd>Ctrl</kbd> + <kbd>O</kbd>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- About Settings -->
+                    <div class="settings-panel" id="about">
+                        <div class="panel-header">
+                            <h2>About iPseudo IDE</h2>
+                            <p>Information about the application</p>
+                        </div>
+                        
+                        <div class="about-content">
+                            <div class="about-logo">
+                                <div class="app-logo-large">
+                                    <i class="ri-code-s-slash-line"></i>
+                                </div>
+                                <h3>iPseudo IDE</h3>
+                                <p class="version">Version 4.0.0</p>
+                            </div>
+                            
+                            <div class="about-description">
+                                <p>iPseudo is a modern, neumorphic IDE for writing and executing pseudocode. Built with soft UI design principles and tactile interactions, it provides an intuitive and beautiful environment for algorithm development and learning.</p>
+                            </div>
+                            
+                            <div class="about-features">
+                                <h4>Features</h4>
+                                <ul>
+                                    <li>Modern neumorphic design</li>
+                                    <li>Real-time pseudocode execution</li>
+                                    <li>Multiple editor tabs</li>
+                                    <li>Syntax highlighting</li>
+                                    <li>Error detection and reporting</li>
+                                    <li>Customizable themes</li>
+                                    <li>Keyboard shortcuts</li>
+                                    <li>Performance optimizations</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="about-developer">
+                                <h4>Developer</h4>
+                                <p><strong>MBARK</strong></p>
+                                <p>me@MBVRK.onmicrosoft.com</p>
+                                <div class="developer-links">
+                                    <a href="https://github.com/mbarkt3sto" target="_blank" class="social-link">
+                                        <i class="ri-github-fill"></i> GitHub
+                                    </a>
+                                    <a href="https://hashnode.com/@mbarkt3sto" target="_blank" class="social-link">
+                                        <i class="ri-hashtag"></i> Hashnode
+                                    </a>
+                                    <a href="https://linkedin.com/in/mbarkt3sto" target="_blank" class="social-link">
+                                        <i class="ri-linkedin-fill"></i> LinkedIn
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </main>
+    
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTop" class="scroll-to-top" title="Scroll to top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+</div>
+
+    <!-- Settings Scripts -->
+    <script src="scripts/settings.js"></script>
+    
+    <script>
+        // Initialize settings page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize settings functionality
+            if (window.SettingsManager) {
+                window.SettingsManager.init();
+            }
+            
+            // Theme toggle functionality
+            const themeToggle = document.getElementById('btnThemeToggle');
+            const body = document.body;
+            
+            themeToggle.addEventListener('click', () => {
+                body.classList.toggle('theme-dark');
+                body.classList.toggle('theme-light');
+            });
+            
+            // Back button functionality
+            const backButton = document.getElementById('btnBack');
+            backButton.addEventListener('click', () => {
+                window.history.back();
+            });
+        });
+    </script>
+</body>
+</html>
