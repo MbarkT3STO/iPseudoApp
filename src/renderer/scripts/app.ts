@@ -427,6 +427,342 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Settings management
+    function initializeSettings(): void {
+        // Clear any problematic UI visibility settings from localStorage
+        clearProblematicUISettings();
+        
+        // Load settings from localStorage
+        const settings = loadSettings();
+        
+        // Apply theme
+        applyTheme(settings.theme || 'light');
+        
+        // Apply accent color
+        applyAccentColor(settings.accentColor || '#0ea5e9');
+        
+        // Apply other settings
+        applyAppSettings(settings);
+    }
+
+    function clearProblematicUISettings(): void {
+        try {
+            const saved = localStorage.getItem('iPseudoSettings');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                
+                // Check if any UI visibility settings are false (which would hide elements)
+                const uiVisibilityKeys = [
+                    'showFileActions', 'showRunButton', 'showThemeToggle', 'showLayoutToggle',
+                    'showSettingsButton', 'showEditorActions', 'showEditorTitle',
+                    'showConsoleActions', 'showConsoleStats', 'showConsoleTitle',
+                    'showTabCounter', 'showNewTabButton'
+                ];
+                
+                let hasHiddenElements = false;
+                uiVisibilityKeys.forEach(key => {
+                    if (parsed[key] === false) {
+                        hasHiddenElements = true;
+                        parsed[key] = true; // Reset to visible
+                    }
+                });
+                
+                if (hasHiddenElements) {
+                    console.log('Found hidden UI elements, resetting to visible...');
+                    localStorage.setItem('iPseudoSettings', JSON.stringify(parsed));
+                }
+            }
+        } catch (error) {
+            console.error('Error clearing problematic UI settings:', error);
+        }
+    }
+
+    function loadSettings() {
+        try {
+            const saved = localStorage.getItem('iPseudoSettings');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                // Check if UI visibility settings are missing and add defaults
+                const defaults = getDefaultSettings();
+                const mergedSettings = { ...defaults, ...parsed };
+                
+                // Ensure all UI visibility settings are present and true by default
+                const uiVisibilityDefaults = {
+                    showFileActions: true,
+                    showRunButton: true,
+                    showThemeToggle: true,
+                    showLayoutToggle: true,
+                    showSettingsButton: true,
+                    showEditorActions: true,
+                    showEditorTitle: true,
+                    showConsoleActions: true,
+                    showConsoleStats: true,
+                    showConsoleTitle: true,
+                    showTabCounter: true,
+                    showNewTabButton: true
+                };
+                
+                const finalSettings = { ...mergedSettings, ...uiVisibilityDefaults };
+                return finalSettings;
+            }
+        } catch (error) {
+            console.error('Error loading settings:', error);
+        }
+        const defaults = getDefaultSettings();
+        return defaults;
+    }
+
+    function getDefaultSettings() {
+        return {
+            theme: 'light',
+            accentColor: '#0ea5e9',
+            animationsEnabled: true,
+            glassEffects: true,
+            particleEffects: true,
+            wordWrap: false,
+            minimap: true,
+            autoSave: true,
+            tabSize: 4,
+            fontSize: 14,
+            fontFamily: 'JetBrains Mono',
+            lineHeight: 1.5,
+            consoleHeight: 300,
+            consoleFontSize: 14,
+            consoleFontFamily: 'JetBrains Mono',
+            maxMessages: 200,
+            autoScroll: true,
+            showTimestamps: true,
+            showIcons: true,
+            hardwareAcceleration: true,
+            reducedMotion: false,
+            maxTabs: 3,
+            autoCloseTabs: false,
+            // UI Visibility Settings
+            showFileActions: true,
+            showRunButton: true,
+            showThemeToggle: true,
+            showLayoutToggle: true,
+            showSettingsButton: true,
+            showEditorActions: true,
+            showEditorTitle: true,
+            showConsoleActions: true,
+            showConsoleStats: true,
+            showConsoleTitle: true,
+            showTabCounter: true,
+            showNewTabButton: true
+        };
+    }
+
+    function applyTheme(theme: string) {
+        const body = document.body;
+        body.classList.remove('theme-light', 'theme-dark');
+        
+        if (theme === 'auto') {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            body.classList.add(prefersDark ? 'theme-dark' : 'theme-light');
+        } else {
+            body.classList.add(`theme-${theme}`);
+        }
+    }
+
+    function applyAccentColor(color: string) {
+        document.documentElement.style.setProperty('--accent-soft-primary', color);
+        document.documentElement.style.setProperty('--primary-500', color);
+        document.documentElement.style.setProperty('--primary-600', darkenColor(color, 0.1));
+    }
+
+    function darkenColor(color: string, amount: number) {
+        const num = parseInt(color.replace("#", ""), 16);
+        const amt = Math.round(2.55 * amount * 100);
+        const R = (num >> 16) - amt;
+        const G = (num >> 8 & 0x00FF) - amt;
+        const B = (num & 0x0000FF) - amt;
+        return "#" + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 +
+            (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 +
+            (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
+    }
+
+    function applyAppSettings(settings: any) {
+        // Apply animations
+        if (!settings.animationsEnabled) {
+            document.body.classList.add('reduced-motion');
+        } else {
+            document.body.classList.remove('reduced-motion');
+        }
+
+        // Apply glass effects - wait for elements to be available
+        const applyGlassEffects = () => {
+            const glassElements = document.querySelectorAll('.glass-morphism, .floating-particles');
+            if (glassElements.length > 0) {
+                if (!settings.glassEffects) {
+                    glassElements.forEach(el => el.classList.add('no-glass'));
+                } else {
+                    glassElements.forEach(el => el.classList.remove('no-glass'));
+                }
+            } else {
+                // Retry if elements not found yet
+                setTimeout(applyGlassEffects, 100);
+            }
+        };
+        applyGlassEffects();
+
+        // Apply particle effects - wait for elements to be available
+        const applyParticleEffects = () => {
+            const particleElements = document.querySelectorAll('.floating-particles');
+            if (particleElements.length > 0) {
+                if (!settings.particleEffects) {
+                    particleElements.forEach(el => el.classList.add('no-particles'));
+                } else {
+                    particleElements.forEach(el => el.classList.remove('no-particles'));
+                }
+            } else {
+                // Retry if elements not found yet
+                setTimeout(applyParticleEffects, 100);
+            }
+        };
+        applyParticleEffects();
+
+        // Apply console height
+        const consoleContent = document.querySelector('.console-content') as HTMLElement;
+        if (consoleContent && settings.consoleHeight) {
+            consoleContent.style.height = `${settings.consoleHeight}px`;
+        }
+
+        // Apply console font settings
+        const consoleOutput = document.querySelector('.console-output') as HTMLElement;
+        if (consoleOutput) {
+            if (settings.consoleFontSize) {
+                consoleOutput.style.fontSize = `${settings.consoleFontSize}px`;
+            }
+            if (settings.consoleFontFamily) {
+                consoleOutput.style.fontFamily = settings.consoleFontFamily;
+            }
+        }
+
+        // Set global variables for other parts of the app
+        (window as any).autoSaveEnabled = settings.autoSave;
+        (window as any).maxConsoleMessages = settings.maxMessages;
+        (window as any).autoScrollEnabled = settings.autoScroll;
+        (window as any).showTimestamps = settings.showTimestamps;
+        (window as any).showIcons = settings.showIcons;
+        (window as any).maxTabs = settings.maxTabs;
+        (window as any).autoCloseTabs = settings.autoCloseTabs;
+
+        // Apply editor settings only during initial load
+        if (!(window as any).editorSettingsApplied) {
+            applyEditorSettings(settings);
+            (window as any).editorSettingsApplied = true;
+        }
+
+        // Apply UI visibility settings with a delay to ensure DOM is ready
+        setTimeout(() => {
+            applyUIVisibilitySettings(settings);
+        }, 100);
+    }
+
+    function showSettingsNotification(message: string) {
+        // Create a simple notification
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--primary-500);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-lg);
+            z-index: 10000;
+            font-size: 14px;
+            font-weight: 500;
+            animation: slideInRight 0.3s ease-out;
+        `;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+
+        // Remove after 3 seconds
+        setTimeout(() => {
+            notification.style.animation = 'slideOutRight 0.3s ease-in';
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+    }
+
+    function applyEditorSettings(settings: any) {
+        // Apply editor settings when editor is ready
+        const applyWhenReady = () => {
+            if ((window as any).editor && typeof (window as any).editor.updateOptions === 'function') {
+                try {
+                    const editorOptions = {
+                        wordWrap: settings.wordWrap ? 'on' : 'off',
+                        minimap: { enabled: settings.minimap },
+                        tabSize: parseInt(settings.tabSize),
+                        fontSize: parseInt(settings.fontSize),
+                        fontFamily: settings.fontFamily,
+                        lineHeight: parseFloat(settings.lineHeight)
+                    };
+                    
+                    console.log('Applying editor settings:', editorOptions);
+                    (window as any).editor.updateOptions(editorOptions);
+                    
+                    // Force a layout update
+                    (window as any).editor.layout();
+                } catch (error) {
+                    console.error('Error applying editor settings:', error);
+                }
+            } else {
+                // Retry after a short delay if editor is not ready
+                setTimeout(applyWhenReady, 100);
+            }
+        };
+        applyWhenReady();
+    }
+
+    function applyUIVisibilitySettings(settings: any) {
+        // Top Navigation
+        const fileActions = document.querySelector('.file-actions') as HTMLElement;
+        if (fileActions) {
+            fileActions.style.display = settings.showFileActions ? 'flex' : 'none';
+        }
+
+        const runButton = document.getElementById('btnRun') as HTMLElement;
+        const stopButton = document.getElementById('btnStop') as HTMLElement;
+        if (runButton) runButton.style.display = settings.showRunButton ? 'flex' : 'none';
+        if (stopButton) stopButton.style.display = settings.showRunButton ? 'flex' : 'none';
+
+        const themeToggle = document.getElementById('btnThemeToggle') as HTMLElement;
+        if (themeToggle) themeToggle.style.display = settings.showThemeToggle ? 'flex' : 'none';
+
+        const layoutToggle = document.getElementById('layoutToggle') as HTMLElement;
+        if (layoutToggle) layoutToggle.style.display = settings.showLayoutToggle ? 'flex' : 'none';
+
+        const settingsButton = document.getElementById('btnSettings') as HTMLElement;
+        if (settingsButton) settingsButton.style.display = settings.showSettingsButton ? 'flex' : 'none';
+
+        // Editor Controls
+        const editorActions = document.querySelector('.editor-actions') as HTMLElement;
+        if (editorActions) editorActions.style.display = settings.showEditorActions ? 'flex' : 'none';
+
+        const editorTitle = document.querySelector('.editor-title') as HTMLElement;
+        if (editorTitle) editorTitle.style.display = settings.showEditorTitle ? 'flex' : 'none';
+
+        // Console Controls
+        const consoleControls = document.querySelector('.console-controls') as HTMLElement;
+        if (consoleControls) consoleControls.style.display = settings.showConsoleActions ? 'flex' : 'none';
+
+        const consoleStats = document.querySelector('.console-stats') as HTMLElement;
+        if (consoleStats) consoleStats.style.display = settings.showConsoleStats ? 'flex' : 'none';
+
+        const consoleTitle = document.querySelector('.console-title') as HTMLElement;
+        if (consoleTitle) consoleTitle.style.display = settings.showConsoleTitle ? 'flex' : 'none';
+
+        // Tab Controls
+        const tabCounter = document.getElementById('tabCounter') as HTMLElement;
+        if (tabCounter) tabCounter.style.display = settings.showTabCounter ? 'block' : 'none';
+
+        const newTabButton = document.getElementById('btnNewTab') as HTMLElement;
+        if (newTabButton) newTabButton.style.display = settings.showNewTabButton ? 'flex' : 'none';
+    }
+
     // Quick actions system
     function setupQuickActions(): void {
         // Add right-click context menu for editor
@@ -438,24 +774,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
         
-        // Add double-click to select word functionality
-        if ((window as any).editor) {
-            (window as any).editor.onDidChangeCursorSelection(() => {
-                const selection = (window as any).editor.getSelection();
-                if (selection && selection.isEmpty()) {
-                    // Auto-highlight current word
-                    const word = (window as any).editor.getModel().getWordAtPosition(selection.getStartPosition());
-                    if (word) {
-                        (window as any).editor.setSelection({
-                            startLineNumber: selection.startLineNumber,
-                            startColumn: word.startColumn,
-                            endLineNumber: selection.endLineNumber,
-                            endColumn: word.endColumn
-                        });
-                    }
-                }
-            });
-        }
+        // Note: Removed auto-selection functionality as it was interfering with normal typing
     }
 
     function showEditorContextMenu(e: MouseEvent): void {
@@ -2604,6 +2923,32 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Settings button event listener
+    const settingsButton = document.getElementById('btnSettings');
+    if (settingsButton) {
+        settingsButton.addEventListener('click', () => {
+            // Open settings page
+            window.location.href = 'settings.html';
+        });
+    }
+
+    // Listen for settings changes when returning from settings page
+    window.addEventListener('focus', () => {
+        // Check if we just returned from settings page
+        if (window.location.pathname.includes('index.html') || window.location.pathname === '' || window.location.pathname === '/') {
+            const settings = loadSettings();
+            applyAppSettings(settings);
+        }
+    });
+
+    // Also listen for storage changes (in case settings are changed in another tab)
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'iPseudoSettings') {
+            const settings = loadSettings();
+            applyAppSettings(settings);
+        }
+    });
+
     // Sidebar and Activity Bar Interactivity
     if (sidebarToggle && appShell) {
         sidebarToggle.addEventListener('click', () => {
@@ -2893,6 +3238,16 @@ document.addEventListener('DOMContentLoaded', () => {
     setupKeyboardShortcuts();
     setupTooltips();
     setupQuickActions();
+    
+    // Initialize settings manager immediately when DOM is ready
+    document.addEventListener('DOMContentLoaded', () => {
+        initializeSettings();
+    });
+    
+    // Also initialize after a delay as backup
+    setTimeout(() => {
+        initializeSettings();
+    }, 1000);
     
     // Add keyboard shortcuts for tab navigation
     document.addEventListener('keydown', (e) => {

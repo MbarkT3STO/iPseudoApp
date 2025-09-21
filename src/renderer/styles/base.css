@@ -119,6 +119,50 @@ a:hover {
   border: 0;
 }
 
+/* ===== SETTINGS EFFECTS ===== */
+.no-glass {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: var(--bg-primary) !important;
+}
+
+.no-particles::before {
+  display: none !important;
+}
+
+.no-particles {
+  background: var(--bg-primary) !important;
+}
+
+.reduced-motion * {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* ===== NOTIFICATION ANIMATIONS ===== */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
 .truncate {
   overflow: hidden;
   text-overflow: ellipsis;
