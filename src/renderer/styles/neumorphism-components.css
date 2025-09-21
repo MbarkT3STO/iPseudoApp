@@ -364,7 +364,7 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.2),
     inset 0 -1px 0 rgba(0, 0, 0, 0.1) !important;
   cursor: pointer !important;
-  display: flex !important;
+  display: none !important; /* Hidden by default */
   align-items: center !important;
   justify-content: center !important;
   font-size: var(--font-size-soft-sm) !important;
@@ -446,6 +446,7 @@
 
 /* Normal state - when execution starts */
 .btn-stop.normal {
+  display: flex !important; /* Show when execution starts */
   opacity: 1 !important;
   transform: scale(1) !important;
   background: linear-gradient(135deg, 
@@ -456,6 +457,7 @@
 
 /* Long running state - when execution takes too long */
 .btn-stop.long-running {
+  display: flex !important; /* Show when long running */
   background: linear-gradient(135deg, 
     var(--soft-orange-500) 0%, 
     var(--soft-orange-600) 50%, 
@@ -470,6 +472,7 @@
 
 /* Critical state - when execution is stuck */
 .btn-stop.critical {
+  display: flex !important; /* Show when critical */
   background: linear-gradient(135deg, 
     var(--soft-red-600) 0%, 
     var(--soft-red-700) 50%, 
