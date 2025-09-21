@@ -592,6 +592,95 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Function to show confirmation modal
+    function showConfirmationModal(title: string, message: string, buttons: { text: string; action: () => void; primary?: boolean }[]): void {
+        // Remove any existing modal
+        const existingModal = document.querySelector('.confirmation-modal-overlay');
+        if (existingModal) {
+            existingModal.remove();
+        }
+        
+        // Create modal overlay
+        const modalOverlay = document.createElement('div');
+        modalOverlay.className = 'confirmation-modal-overlay';
+        modalOverlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            backdrop-filter: blur(4px);
+        `;
+        
+        // Create modal content
+        const modal = document.createElement('div');
+        modal.className = 'confirmation-modal';
+        modal.style.cssText = `
+            background: var(--bg-soft-elevated);
+            border-radius: var(--radius-soft-lg);
+            padding: var(--space-soft-6);
+            max-width: 400px;
+            width: 90%;
+            box-shadow: var(--shadow-soft-floating);
+            border: 1px solid var(--border-soft-light);
+        `;
+        
+        modal.innerHTML = `
+            <div style="margin-bottom: var(--space-soft-4);">
+                <h3 style="margin: 0 0 var(--space-soft-2) 0; color: var(--text-soft-primary); font-size: var(--font-size-soft-lg); font-weight: var(--font-weight-soft-semibold);">${title}</h3>
+                <p style="margin: 0; color: var(--text-soft-secondary); font-size: var(--font-size-soft-sm); line-height: 1.4;">${message}</p>
+            </div>
+            <div style="display: flex; gap: var(--space-soft-3); justify-content: flex-end;">
+                ${buttons.map((btn, index) => `
+                    <button class="confirmation-btn ${btn.primary ? 'primary' : 'secondary'}" data-action="${index}" style="
+                        padding: var(--space-soft-2) var(--space-soft-4);
+                        border: none;
+                        border-radius: var(--radius-soft-sm);
+                        font-size: var(--font-size-soft-sm);
+                        font-weight: var(--font-weight-soft-medium);
+                        cursor: pointer;
+                        transition: all var(--duration-soft-normal) var(--ease-soft-out);
+                        ${btn.primary ? 
+                            'background: var(--text-soft-accent); color: var(--text-soft-inverse);' : 
+                            'background: var(--bg-soft-secondary); color: var(--text-soft-primary); border: 1px solid var(--border-soft-light);'
+                        }
+                    ">${btn.text}</button>
+                `).join('')}
+            </div>
+        `;
+        
+        modalOverlay.appendChild(modal);
+        document.body.appendChild(modalOverlay);
+        
+        // Add event listeners
+        modal.addEventListener('click', (e) => {
+            const target = e.target as HTMLElement;
+            if (target.classList.contains('confirmation-btn')) {
+                const actionIndex = parseInt(target.dataset.action || '0');
+                buttons[actionIndex].action();
+                modalOverlay.remove();
+            }
+        });
+        
+        // Close on overlay click
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                modalOverlay.remove();
+            }
+        });
+        
+        // Focus first button
+        const firstButton = modal.querySelector('.confirmation-btn') as HTMLButtonElement;
+        if (firstButton) {
+            firstButton.focus();
+        }
+    }
+
     // Function to save the current editor state
     function saveEditorState(): void {
         if (!(window as any).editor || !activeFilePath || !(window as any).editor.getModel) return;
@@ -814,6 +903,84 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Function to check if tab is file-based (has a real file path)
+    function isFileBased(filePath: string): boolean {
+        return !!(filePath && filePath !== 'untitled.pseudo' && filePath.includes('/') && !filePath.startsWith('Untitled-'));
+    }
+
+    // Function to save file directly (for file-based tabs)
+    async function saveFileDirectly(filePath: string, content: string): Promise<void> {
+        try {
+            const result = await (window as any).electron.saveFile({
+                filePath: filePath,
+                content: content
+            });
+            
+            if (!result.canceled) {
+                // Update file data
+                const fileData = openFiles.get(filePath);
+                if (fileData) {
+                    fileData.content = content;
+                    fileData.originalContent = content;
+                    fileData.dirty = false;
+                    openFiles.set(filePath, fileData);
+                    updateTabDirtyState(filePath, false);
+                    out(`File saved: ${filePath}`, 'success');
+                }
+            }
+        } catch (error) {
+            console.error('Error saving file:', error);
+            throw error;
+        }
+    }
+
+    // Function to show save dialog (for new files)
+    async function showSaveDialog(content: string): Promise<boolean> {
+        try {
+            const result = await (window as any).electron.saveFile({
+                filePath: undefined, // This will trigger the save dialog
+                content: content
+            });
+            
+            if (!result.canceled && result.filePath) {
+                // Update the active tab with the new file path
+                const activeTab = document.querySelector('.modern-tab.active') as HTMLElement | null;
+                if (activeTab) {
+                    const oldPath = activeTab.dataset.path;
+                    const newPath = result.filePath;
+                    
+                    // Update tab data
+                    activeTab.dataset.path = newPath;
+                    const fileName = newPath.split(/[\\/]/).pop();
+                    const tabLabel = activeTab.querySelector('.tab-label');
+                    if (tabLabel) tabLabel.textContent = fileName || '';
+                    
+                    // Update file data
+                    const fileData = openFiles.get(oldPath || '');
+                    if (fileData) {
+                        fileData.content = content;
+                        fileData.originalContent = content;
+                        fileData.dirty = false;
+                        openFiles.set(newPath, fileData);
+                        if (oldPath) openFiles.delete(oldPath);
+                        updateTabDirtyState(newPath, false);
+                    }
+                    
+                    // Update active file path
+                    activeFilePath = newPath;
+                    (window as any).activeFilePath = activeFilePath || '';
+                    
+                    out(`File saved: ${newPath}`, 'success');
+                    return true;
+                }
+            }
+            return false;
+        } catch (error) {
+            console.error('Error showing save dialog:', error);
+            return false;
+        }
+    }
+
     // Function to close a tab by its DOM element
     async function closeTabElement(tabElement: HTMLElement): Promise<void> {
         if (!tabElement) return;
@@ -821,6 +988,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const tabId = tabElement.dataset.tabId;
         let filePath = tabElement.dataset.path || '';
         const isNewFile = !filePath || filePath === 'untitled.pseudo' || !filePath.includes('/');
+        const isFileBasedTab = isFileBased(filePath);
         
         // Get current content from editor if this is the active tab
         let currentContent = '';
@@ -839,115 +1007,59 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Case 1: Empty tab - close immediately
         if (isEmpty) {
-            // No need to save, just close the tab
-        }
-        // Case 2: New unsaved file with content
-        else if (isNewFile) {
-            const result = await (window as any).nodeRequire('electron').ipcRenderer.invoke('show-message-box', {
-                type: 'question',
-                buttons: ['Save', "Don't Save", 'Cancel'],
-                title: 'Save Changes',
-                message: 'You have unsaved changes. Do you want to save them?',
-                detail: 'Your changes will be lost if you don\'t save them.',
-                defaultId: 0,
-                cancelId: 2
-            }) as MessageBoxResult;
-
-            if (result.response === 2) return; // Cancel
-            
-            if (result.response === 0) { // Save
-                try {
-                    const saveResult = await (window as any).nodeRequire('electron').ipcRenderer.invoke('dialog:saveFile', {
-                        filePath: undefined, // Show save dialog
-                        content: currentContent
-                    }) as SaveResult;
-
-                    if (!saveResult.canceled && saveResult.filePath) {
-                        const newPath = saveResult.filePath; // Update filePath with the new saved path
-                        tabElement.dataset.path = newPath;
-                        const fileName = newPath.split(/[\\/]/).pop();
-                        
-                        // Update the tab's label
-                        const tabLabel = tabElement.querySelector('.tab-label');
-                        if (tabLabel) tabLabel.textContent = fileName || '';
-                        
-                        // Get or create file data
-                        let fileData = openFiles.get(filePath) || {
-                            content: currentContent,
-                            originalContent: currentContent,
-                            dirty: false,
-                            cursorPosition: (window as any).editor.getPosition(),
-                            scrollPosition: (window as any).editor.getScrollTop(),
-                            tabId: tabId
-                        };
-                        
-                        // Update file data
-                        fileData.content = currentContent;
-                        fileData.originalContent = currentContent;
-                        fileData.dirty = false;
-                        
-                        // Save with new path
-                        openFiles.set(newPath, fileData);
-                        
-                        // Remove old entry if it exists
-                        if (filePath !== tabElement.dataset.path && openFiles.has(tabElement.dataset.path || '')) {
-                            openFiles.delete(tabElement.dataset.path || '');
-                        }
-                        
-                        // Update active file path if needed
-                        if (activeFilePath === tabElement.dataset.path) {
-                            activeFilePath = newPath;
-                        }
-                    }
-                } catch (error) {
-                    console.error('Error saving file:', error);
-                    return; // Don't close if there was an error saving
-                }
-            }
-        }
-        // Case 3: Existing file with unsaved changes
-        else if (isModified) {
-            const fileName = filePath.split(/[\\/]/).pop();
-            const result = await (window as any).nodeRequire('electron').ipcRenderer.invoke('show-message-box', {
-                type: 'question',
-                buttons: ['Save', "Don't Save", 'Cancel'],
-                title: 'Save Changes',
-                message: `Do you want to save the changes to ${fileName}?`,
-                detail: 'Your changes will be lost if you don\'t save them.',
-                defaultId: 0,
-                cancelId: 2
-            }) as MessageBoxResult;
-
-            if (result.response === 2) return; // Cancel
-            
-            if (result.response === 0) { // Save
-                try {
-                    await (window as any).nodeRequire('electron').ipcRenderer.invoke('dialog:saveFile', {
-                        filePath: filePath,
-                        content: currentContent
-                    });
-
-                    // Update file data to mark as saved
-                    if (fileData) {
-                        fileData.content = currentContent;
-                        fileData.originalContent = currentContent;
-                        fileData.dirty = false;
-                        openFiles.set(filePath, fileData);
-                        updateTabDirtyState(filePath, false);
-                    }
-                } catch (error) {
-                    console.error('Error saving file:', error);
-                    return; // Don't close if there was an error saving
-                }
-            }
+            performTabClose(tabElement);
+            return;
         }
         
-        // If we get here, it's either:
-        // 1. An empty tab (close immediately)
-        // 2. User chose to save/don't save a new file
-        // 3. User chose to save/don't save changes to an existing file
+        // Case 2: Has content but no changes - close immediately
+        if (!isModified) {
+            performTabClose(tabElement);
+            return;
+        }
         
-        // Remove tab from DOM with animation
+        // Case 3: Has unsaved changes - show confirmation
+        const title = isFileBasedTab ? 'Save Changes?' : 'Save Before Closing?';
+        const fileName = isFileBasedTab ? filePath.split('/').pop() : 'this tab';
+        const message = isFileBasedTab 
+            ? `The file "${fileName}" has unsaved changes. Do you want to save them?`
+            : 'This tab has unsaved content. Do you want to save it before closing?';
+        
+        showConfirmationModal(title, message, [
+            {
+                text: 'Yes',
+                primary: true,
+                action: async () => {
+                    try {
+                        if (isFileBasedTab) {
+                            // Save to existing file
+                            await saveFileDirectly(filePath, currentContent);
+                        } else {
+                            // Show save dialog for new file
+                            const saved = await showSaveDialog(currentContent);
+                            if (!saved) {
+                                return; // Don't close if save was cancelled
+                            }
+                        }
+                        performTabClose(tabElement);
+                    } catch (error) {
+                        console.error('Error saving file:', error);
+                        // Still close the tab even if save fails
+                        performTabClose(tabElement);
+                    }
+                }
+            },
+            {
+                text: 'No',
+                action: () => {
+                    performTabClose(tabElement);
+                }
+            }
+        ]);
+    }
+
+    // Function to perform the actual tab close
+    function performTabClose(tabElement: HTMLElement): void {
+        const filePath = tabElement.dataset.path || '';
         const wasActive = tabElement.classList.contains('active');
         
         // Add slide-out animation
@@ -982,17 +1094,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     targetTab = tabElement.previousElementSibling as HTMLElement | null;
                 }
                 
-                // If still no tab, get the last remaining tab
-                if (!targetTab && remainingTabs.length > 0) {
-                    targetTab = remainingTabs[remainingTabs.length - 1] as HTMLElement;
-                }
-                
-                // Switch to the target tab
                 if (targetTab) {
                     switchToTab(targetTab);
                 }
             } else {
-                // Only create new tab if there are absolutely no tabs left
+                // No tabs left, create a new one
                 createNewTab();
             }
         }
