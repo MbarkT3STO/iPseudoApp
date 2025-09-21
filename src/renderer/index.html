@@ -126,34 +126,59 @@
                 <div class="console-container card floating-particles">
                     <div class="console-header">
                         <div class="console-title">
-                            <i class="ri-terminal-box-line"></i>
-                            <span>Output Console</span>
-                            <div class="badge badge-success">Ready</div>
+                            <div class="console-icon">
+                                <i class="ri-terminal-box-line"></i>
+                            </div>
+                            <div class="console-info">
+                                <h3>Output Console</h3>
+                                <div class="console-status" id="consoleStatus">
+                                    <div class="status-indicator ready" id="statusIndicator">
+                                        <div class="status-dot"></div>
+                                        <span class="status-text">Ready</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="console-actions">
-                            <div class="status-indicator" id="runStatus" title="Status: Ready">
-                                <div class="status-dot"></div>
-                                <span class="status-text">Ready</span>
+                            <div class="console-stats" id="consoleStats">
+                                <div class="stat-item">
+                                    <i class="ri-message-3-line"></i>
+                                    <span id="messageCount">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="ri-time-line"></i>
+                                    <span id="executionTime">0ms</span>
+                                </div>
                             </div>
-                            <button class="btn btn-sm btn-ghost" id="layoutToggle" title="Toggle Layout">
-                                <i class="ri-layout-column-line" id="layoutIcon"></i>
-                                <span class="sm:block">Layout</span>
-                            </button>
-                            <button class="btn btn-sm btn-ghost" id="clearConsole" title="Clear Output">
-                                <i class="ri-delete-bin-line"></i>
-                                <span class="sm:block">Clear</span>
-                            </button>
-                            <button class="btn btn-sm btn-ghost" id="btnCopyOutput" title="Copy Output">
-                                <i class="ri-file-copy-line"></i>
-                                <span class="sm:block">Copy</span>
-                            </button>
+                            <div class="console-controls">
+                                <button class="btn btn-sm btn-ghost" id="layoutToggle" title="Toggle Layout">
+                                    <i class="ri-layout-column-line" id="layoutIcon"></i>
+                                    <span class="sm:block">Layout</span>
+                                </button>
+                                <button class="btn btn-sm btn-ghost" id="clearConsole" title="Clear Output">
+                                    <i class="ri-delete-bin-line"></i>
+                                    <span class="sm:block">Clear</span>
+                                </button>
+                                <button class="btn btn-sm btn-ghost" id="btnCopyOutput" title="Copy Output">
+                                    <i class="ri-file-copy-line"></i>
+                                    <span class="sm:block">Copy</span>
+                                </button>
+                                <button class="btn btn-sm btn-ghost" id="btnSaveOutput" title="Save Output">
+                                    <i class="ri-save-line"></i>
+                                    <span class="sm:block">Save</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div class="console-content">
                         <div class="console-output" id="output">
-                            <div class="console-message console-success">
-                                <i class="ri-check-line"></i>
-                                <span>Welcome to iPseudo IDE! Ready to run your pseudocode.</span>
+                            <div class="console-welcome">
+                                <div class="welcome-icon">
+                                    <i class="ri-code-s-slash-line"></i>
+                                </div>
+                                <div class="welcome-content">
+                                    <h4>Welcome to iPseudo IDE</h4>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-light theme-transition">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Console Demo - iPseudo IDE</title>
+    
+    <!-- Neumorphic Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Neumorphic Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <!-- Neumorphic Styles -->
+    <link rel="stylesheet" href="src/renderer/styles/neumorphism.css">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: var(--bg-soft-primary);
+            min-height: 100vh;
+        }
+        
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .demo-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--text-soft-primary);
+        }
+        
+        .demo-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--radius-soft-2);
+            background: var(--bg-soft-elevated);
+            color: var(--text-soft-primary);
+            font-weight: var(--font-weight-soft-medium);
+            cursor: pointer;
+            transition: var(--transition-soft-smooth);
+            box-shadow: var(--shadow-soft-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            background: var(--bg-soft-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-soft-elevated);
+        }
+        
+        .btn-success { background: var(--success-soft); color: white; }
+        .btn-error { background: var(--error-soft); color: white; }
+        .btn-warning { background: var(--warning-soft); color: white; }
+        .btn-info { background: var(--info-soft); color: white; }
+        .btn-debug { background: var(--accent-soft-secondary); color: white; }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1 class="demo-title">🎨 Beautiful Console Design Demo</h1>
+        
+        <div class="demo-buttons">
+            <button class="btn btn-success" onclick="addMessage('success', 'Operation completed successfully!')">
+                <i class="ri-check-line"></i>
+                Success Message
+            </button>
+            <button class="btn btn-error" onclick="addMessage('error', 'An error occurred while processing the request.')">
+                <i class="ri-error-warning-line"></i>
+                Error Message
+            </button>
+            <button class="btn btn-warning" onclick="addMessage('warning', 'Warning: This operation may take a while.')">
+                <i class="ri-alert-line"></i>
+                Warning Message
+            </button>
+            <button class="btn btn-info" onclick="addMessage('info', 'Information: The system is running normally.')">
+                <i class="ri-information-line"></i>
+                Info Message
+            </button>
+            <button class="btn btn-debug" onclick="addMessage('debug', 'Debug: Variable x = 42, y = 3.14')">
+                <i class="ri-bug-line"></i>
+                Debug Message
+            </button>
+            <button class="btn btn-info" onclick="addMessage('info', 'Hello World!', true)">
+                <i class="ri-terminal-line"></i>
+                Pseudocode Print
+            </button>
+            <button class="btn" onclick="clearConsole()">
+                <i class="ri-delete-bin-line"></i>
+                Clear Console
+            </button>
+        </div>
+        
+        <!-- Console Container -->
+        <div class="console-container card floating-particles">
+            <div class="console-header">
+                <div class="console-title">
+                    <div class="console-icon">
+                        <i class="ri-terminal-box-line"></i>
+                    </div>
+                    <div class="console-info">
+                        <h3>Output Console</h3>
+                        <div class="console-status" id="consoleStatus">
+                            <div class="status-indicator ready" id="statusIndicator">
+                                <div class="status-dot"></div>
+                                <span class="status-text">Ready</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="console-actions">
+                    <div class="console-stats" id="consoleStats">
+                        <div class="stat-item">
+                            <i class="ri-message-3-line"></i>
+                            <span id="messageCount">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="ri-time-line"></i>
+                            <span id="executionTime">0ms</span>
+                        </div>
+                    </div>
+                    <div class="console-controls">
+                        <button class="btn btn-sm btn-ghost" onclick="copyConsoleOutput()" title="Copy Output">
+                            <i class="ri-file-copy-line"></i>
+                            <span>Copy</span>
+                        </button>
+                        <button class="btn btn-sm btn-ghost" onclick="saveConsoleOutput()" title="Save Output">
+                            <i class="ri-save-line"></i>
+                            <span>Save</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="console-content">
+                <div class="console-output" id="output">
+                    <div class="console-welcome">
+                        <div class="welcome-icon">
+                            <i class="ri-code-s-slash-line"></i>
+                        </div>
+                        <div class="welcome-content">
+                            <h4>Welcome to iPseudo IDE</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let consoleMessageCount = 0;
+        let consoleStats = { messages: 0, errors: 0, warnings: 0, info: 0 };
+        
+        function addMessage(type, message, isPseudocodeOutput = false) {
+            const outputConsole = document.getElementById('output');
+            
+            // Remove welcome message if it exists
+            const welcomeMessage = outputConsole.querySelector('.console-welcome');
+            if (welcomeMessage) {
+                welcomeMessage.remove();
+            }
+
+            if (isPseudocodeOutput) {
+                // For pseudocode output (print statements), no timestamp
+                let printContainer = outputConsole.querySelector('.print-output-container');
+                if (!printContainer) {
+                    printContainer = document.createElement('div');
+                    printContainer.className = 'print-output-container';
+                    outputConsole.appendChild(printContainer);
+                }
+                const line = document.createElement('div');
+                line.className = 'console-message console-info';
+                line.innerHTML = `
+                    <i class="ri-terminal-line"></i>
+                    <span class="message-content">
+                        <span class="message-text">${message}</span>
+                    </span>
+                `;
+                printContainer.appendChild(line);
+            } else {
+                // For app messages, include timestamp
+                const messageElement = document.createElement('div');
+                messageElement.className = `console-message console-${type}`;
+                
+                const icon = getMessageIcon(type);
+                const timestamp = new Date().toLocaleTimeString();
+                
+                messageElement.innerHTML = `
+                    <i class="${icon}"></i>
+                    <span class="message-content">
+                        <span class="message-text">${message}</span>
+                        <span class="message-timestamp">${timestamp}</span>
+                    </span>
+                `;
+                
+                outputConsole.appendChild(messageElement);
+            }
+            
+            updateConsoleStats(type);
+            updateConsoleUI();
+            scrollToBottom();
+        }
+        
+        function getMessageIcon(type) {
+            const icons = {
+                success: 'ri-check-line',
+                error: 'ri-error-warning-line',
+                warning: 'ri-alert-line',
+                info: 'ri-information-line',
+                debug: 'ri-bug-line'
+            };
+            return icons[type] || 'ri-information-line';
+        }
+        
+        function updateConsoleStats(type) {
+            consoleMessageCount++;
+            consoleStats.messages++;
+            
+            if (type === 'error') consoleStats.errors++;
+            else if (type === 'warning') consoleStats.warnings++;
+            else if (type === 'info') consoleStats.info++;
+            
+            const messageCount = document.getElementById('messageCount');
+            if (messageCount) {
+                messageCount.textContent = consoleMessageCount.toString();
+            }
+        }
+        
+        function updateConsoleUI() {
+            const statusIndicator = document.getElementById('statusIndicator');
+            if (statusIndicator) {
+                if (consoleStats.errors > 0) {
+                    statusIndicator.className = 'status-indicator error';
+                    statusIndicator.querySelector('.status-text').textContent = 'Error';
+                } else {
+                    statusIndicator.className = 'status-indicator ready';
+                    statusIndicator.querySelector('.status-text').textContent = 'Ready';
+                }
+            }
+        }
+        
+        function clearConsole() {
+            const outputConsole = document.getElementById('output');
+            
+            outputConsole.innerHTML = `
+                <div class="console-welcome">
+                    <div class="welcome-icon">
+                        <i class="ri-code-s-slash-line"></i>
+                    </div>
+                    <div class="welcome-content">
+                        <h4>Welcome to iPseudo IDE</h4>
+                    </div>
+                </div>
+            `;
+            
+            consoleMessageCount = 0;
+            consoleStats = { messages: 0, errors: 0, warnings: 0, info: 0 };
+            updateConsoleUI();
+        }
+        
+        function copyConsoleOutput() {
+            const outputConsole = document.getElementById('output');
+            const messages = outputConsole.querySelectorAll('.console-message .message-text');
+            const output = Array.from(messages).map(msg => msg.textContent).join('\n');
+            
+            navigator.clipboard.writeText(output).then(() => {
+                addMessage('success', 'Console output copied to clipboard');
+            }).catch(() => {
+                addMessage('error', 'Failed to copy console output');
+            });
+        }
+        
+        function saveConsoleOutput() {
+            const outputConsole = document.getElementById('output');
+            const messages = outputConsole.querySelectorAll('.console-message .message-text');
+            const output = Array.from(messages).map(msg => msg.textContent).join('\n');
+            
+            const blob = new Blob([output], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `console-output-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            addMessage('success', 'Console output saved to file');
+        }
+        
+        function scrollToBottom() {
+            const consoleContent = document.querySelector('.console-content');
+            if (consoleContent) {
+                consoleContent.scrollTop = consoleContent.scrollHeight;
+            }
+        }
+        
+        // Add some demo messages on load
+        setTimeout(() => {
+            addMessage('info', 'Console demo loaded successfully!');
+            addMessage('success', 'All systems are operational');
+            addMessage('warning', 'This is a demonstration of the beautiful console design');
+        }, 1000);
+    </script>
+</body>
+</html>

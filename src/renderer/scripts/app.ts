@@ -48,6 +48,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const clearButton = document.getElementById('clearConsole') as HTMLButtonElement | null;
     const runStatus = document.getElementById('runStatus') as HTMLElement | null;
     const sidebarToggle = document.getElementById('sidebar-toggle') as HTMLElement | null;
+    
+    // Enhanced console elements
+    const consoleStatus = document.getElementById('consoleStatus') as HTMLElement | null;
+    const statusIndicator = document.getElementById('statusIndicator') as HTMLElement | null;
+    const messageCount = document.getElementById('messageCount') as HTMLElement | null;
+    const executionTime = document.getElementById('executionTime') as HTMLElement | null;
+    const copyButton = document.getElementById('btnCopyOutput') as HTMLButtonElement | null;
+    const consoleSaveButton = document.getElementById('btnSaveOutput') as HTMLButtonElement | null;
     const appShell = document.querySelector('.app-shell') as HTMLElement | null;
     const activityBar = document.querySelector('.activity-bar') as HTMLElement | null;
 
@@ -57,6 +65,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Global tab counter
     let tabCounter = 0;
+    
+    // Enhanced console state
+    let consoleMessageCount = 0;
+    let consoleStats = {
+        messages: 0,
+        errors: 0,
+        warnings: 0,
+        info: 0
+    };
     
     // Execution state management
     let isExecuting = false;
@@ -422,6 +439,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const safe = escapeHtml(String(text));
 
         if (type === 'stdout' || type === 'print') {
+            // Remove welcome message if it exists
+            const welcomeMessage = outputConsole.querySelector('.console-welcome');
+            if (welcomeMessage) {
+                welcomeMessage.remove();
+            }
+
             let printContainer = outputConsole.querySelector('.print-output-container') as HTMLElement | null;
             if (!printContainer) {
                 printContainer = document.createElement('div');
@@ -429,19 +452,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 outputConsole.appendChild(printContainer);
             }
             const line = document.createElement('div');
-            line.className = 'out raw';
-            line.innerHTML = safe;
+            line.className = 'console-message console-info';
+            line.innerHTML = `
+                <i class="ri-terminal-line"></i>
+                <span class="message-content">
+                    <span class="message-text">${safe}</span>
+                </span>
+            `;
             printContainer.appendChild(line);
+            updateConsoleStats('info');
         } else {
-            const messageContainer = document.createElement('div');
-            messageContainer.className = `out ${type}`;
-            if (type === 'success') {
-                messageContainer.innerHTML = safe;
-            } else {
-                const ts = new Date().toLocaleTimeString();
-                messageContainer.innerHTML = `[${ts}] ${safe}`;
-            }
-            outputConsole.appendChild(messageContainer);
+            // Use the enhanced console message system
+            addConsoleMessage(safe, type as 'success' | 'error' | 'warning' | 'info' | 'debug');
         }
         
         // Auto-scroll to bottom after adding new content
@@ -456,12 +478,136 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollOutputToBottom();
     }
 
-    if (clearButton) clearButton.addEventListener('click', () => { 
-        if (outputConsole) {
-            outputConsole.innerHTML = '';
-            scrollOutputToBottom();
+    if (clearButton) clearButton.addEventListener('click', clearConsole);
+    
+    // Enhanced console functionality
+    function clearConsole() {
+        if (!outputConsole) return;
+        
+        outputConsole.innerHTML = `
+            <div class="console-welcome">
+                <div class="welcome-icon">
+                    <i class="ri-code-s-slash-line"></i>
+                </div>
+                <div class="welcome-content">
+                    <h4>Welcome to iPseudo IDE</h4>
+                </div>
+            </div>
+        `;
+        
+        consoleMessageCount = 0;
+        consoleStats = { messages: 0, errors: 0, warnings: 0, info: 0 };
+        updateConsoleUI();
+    }
+    
+    function addConsoleMessage(message: string, type: 'success' | 'error' | 'warning' | 'info' | 'debug' = 'info') {
+        if (!outputConsole) return;
+
+        // Remove welcome message if it exists
+        const welcomeMessage = outputConsole.querySelector('.console-welcome');
+        if (welcomeMessage) {
+            welcomeMessage.remove();
         }
-    });
+
+        const messageElement = document.createElement('div');
+        messageElement.className = `console-message console-${type}`;
+        
+        const icon = getMessageIcon(type);
+        const timestamp = new Date().toLocaleTimeString();
+        
+        messageElement.innerHTML = `
+            <i class="${icon}"></i>
+            <span class="message-content">
+                <span class="message-text">${message}</span>
+                <span class="message-timestamp">${timestamp}</span>
+            </span>
+        `;
+        
+        outputConsole.appendChild(messageElement);
+        updateConsoleStats(type);
+        updateConsoleUI();
+        scrollOutputToBottom();
+    }
+    
+    function getMessageIcon(type: string): string {
+        const icons = {
+            success: 'ri-check-line',
+            error: 'ri-error-warning-line',
+            warning: 'ri-alert-line',
+            info: 'ri-information-line',
+            debug: 'ri-bug-line'
+        };
+        return icons[type as keyof typeof icons] || 'ri-information-line';
+    }
+    
+    function updateConsoleStats(type: string) {
+        consoleMessageCount++;
+        consoleStats.messages++;
+        
+        if (type === 'error') consoleStats.errors++;
+        else if (type === 'warning') consoleStats.warnings++;
+        else if (type === 'info') consoleStats.info++;
+        
+        if (messageCount) {
+            messageCount.textContent = consoleMessageCount.toString();
+        }
+    }
+    
+    function updateConsoleUI() {
+        if (statusIndicator) {
+            if (isExecuting) {
+                statusIndicator.className = 'status-indicator running';
+                statusIndicator.querySelector('.status-text')!.textContent = 'Running';
+            } else if (consoleStats.errors > 0) {
+                statusIndicator.className = 'status-indicator error';
+                statusIndicator.querySelector('.status-text')!.textContent = 'Error';
+            } else {
+                statusIndicator.className = 'status-indicator ready';
+                statusIndicator.querySelector('.status-text')!.textContent = 'Ready';
+            }
+        }
+        
+        if (executionTime && executionStartTime > 0) {
+            const elapsed = Date.now() - executionStartTime;
+            executionTime.textContent = `${elapsed}ms`;
+        }
+    }
+    
+    function copyConsoleOutput() {
+        if (!outputConsole) return;
+        
+        const messages = outputConsole.querySelectorAll('.console-message .message-text');
+        const output = Array.from(messages).map(msg => msg.textContent).join('\n');
+        
+        navigator.clipboard.writeText(output).then(() => {
+            addConsoleMessage('Console output copied to clipboard', 'success');
+        }).catch(() => {
+            addConsoleMessage('Failed to copy console output', 'error');
+        });
+    }
+    
+    function saveConsoleOutput() {
+        if (!outputConsole) return;
+        
+        const messages = outputConsole.querySelectorAll('.console-message .message-text');
+        const output = Array.from(messages).map(msg => msg.textContent).join('\n');
+        
+        const blob = new Blob([output], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `console-output-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        addConsoleMessage('Console output saved to file', 'success');
+    }
+    
+    // Add event listeners for new console buttons
+    if (copyButton) copyButton.addEventListener('click', copyConsoleOutput);
+    if (consoleSaveButton) consoleSaveButton.addEventListener('click', saveConsoleOutput);
 
     const ErrorManagerCtor = (window as any).ErrorManager || null;
     const errorManager = ErrorManagerCtor ? new ErrorManagerCtor() : null;
