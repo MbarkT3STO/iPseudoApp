@@ -70,6 +70,48 @@
         .btn-warning { background: var(--warning-soft); color: white; }
         .btn-info { background: var(--info-soft); color: white; }
         .btn-debug { background: var(--accent-soft-secondary); color: white; }
+        
+        .console-print {
+            border-left-color: var(--text-soft-primary);
+            background: linear-gradient(135deg, 
+                var(--bg-soft-elevated) 0%, 
+                var(--bg-soft-subtle) 100%
+            );
+            color: var(--text-soft-primary);
+        }
+        
+        .console-print i {
+            color: var(--text-soft-secondary);
+        }
+        
+        .console-print .message-text {
+            color: var(--text-soft-primary);
+            font-weight: var(--font-weight-soft-normal);
+        }
+        
+        .console-system {
+            border-left-color: #10B981;
+            background: linear-gradient(135deg, 
+                rgba(16, 185, 129, 0.08) 0%, 
+                var(--bg-soft-subtle) 100%
+            );
+            border: 1px solid #10B981;
+            box-shadow: 0 0 8px rgba(16, 185, 129, 0.15);
+        }
+        
+        .console-system i {
+            color: #10B981;
+        }
+        
+        .console-system .message-text {
+            color: #059669;
+            font-weight: var(--font-weight-soft-semibold);
+        }
+        
+        .console-system .message-timestamp {
+            color: #34D399;
+            opacity: 0.8;
+        }
     </style>
 </head>
 <body>
@@ -100,6 +142,10 @@
             <button class="btn btn-info" onclick="addMessage('info', 'Hello World!', true)">
                 <i class="ri-terminal-line"></i>
                 Pseudocode Print
+            </button>
+            <button class="btn btn-info" onclick="addSystemMessage('Done')">
+                <i class="ri-settings-3-line"></i>
+                System Message
             </button>
             <button class="btn" onclick="clearConsole()">
                 <i class="ri-delete-bin-line"></i>
@@ -166,6 +212,34 @@
         let consoleMessageCount = 0;
         let consoleStats = { messages: 0, errors: 0, warnings: 0, info: 0 };
         
+        function addSystemMessage(message) {
+            const outputConsole = document.getElementById('output');
+            
+            // Remove welcome message if it exists
+            const welcomeMessage = outputConsole.querySelector('.console-welcome');
+            if (welcomeMessage) {
+                welcomeMessage.remove();
+            }
+
+            const messageElement = document.createElement('div');
+            messageElement.className = 'console-message console-system';
+            
+            const timestamp = new Date().toLocaleTimeString();
+            
+            messageElement.innerHTML = `
+                <i class="ri-settings-3-line"></i>
+                <span class="message-content">
+                    <span class="message-text">${message}</span>
+                    <span class="message-timestamp">${timestamp}</span>
+                </span>
+            `;
+            
+            outputConsole.appendChild(messageElement);
+            updateConsoleStats('info');
+            updateConsoleUI();
+            scrollToBottom();
+        }
+        
         function addMessage(type, message, isPseudocodeOutput = false) {
             const outputConsole = document.getElementById('output');
             
@@ -184,7 +258,7 @@
                     outputConsole.appendChild(printContainer);
                 }
                 const line = document.createElement('div');
-                line.className = 'console-message console-info';
+                line.className = 'console-message console-print';
                 line.innerHTML = `
                     <i class="ri-terminal-line"></i>
                     <span class="message-content">

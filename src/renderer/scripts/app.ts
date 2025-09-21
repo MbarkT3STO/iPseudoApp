@@ -452,7 +452,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 outputConsole.appendChild(printContainer);
             }
             const line = document.createElement('div');
-            line.className = 'console-message console-info';
+            line.className = 'console-message console-print';
             line.innerHTML = `
                 <i class="ri-terminal-line"></i>
                 <span class="message-content">
@@ -535,9 +535,38 @@ document.addEventListener('DOMContentLoaded', () => {
             error: 'ri-error-warning-line',
             warning: 'ri-alert-line',
             info: 'ri-information-line',
-            debug: 'ri-bug-line'
+            debug: 'ri-bug-line',
+            system: 'ri-settings-3-line'
         };
         return icons[type as keyof typeof icons] || 'ri-information-line';
+    }
+    
+    function addSystemMessage(message: string) {
+        if (!outputConsole) return;
+
+        // Remove welcome message if it exists
+        const welcomeMessage = outputConsole.querySelector('.console-welcome');
+        if (welcomeMessage) {
+            welcomeMessage.remove();
+        }
+
+        const messageElement = document.createElement('div');
+        messageElement.className = 'console-message console-system';
+        
+        const timestamp = new Date().toLocaleTimeString();
+        
+        messageElement.innerHTML = `
+            <i class="ri-settings-3-line"></i>
+            <span class="message-content">
+                <span class="message-text">${message}</span>
+                <span class="message-timestamp">${timestamp}</span>
+            </span>
+        `;
+        
+        outputConsole.appendChild(messageElement);
+        updateConsoleStats('info');
+        updateConsoleUI();
+        scrollOutputToBottom();
     }
     
     function updateConsoleStats(type: string) {
@@ -893,7 +922,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // If we have a suggestion, display it
                     if (decoration.suggestion) {
-                        out(`Suggestion: ${decoration.suggestion}`, 'info');
+                        addSystemMessage(`Suggestion: ${decoration.suggestion}`);
                     }
 
                     // Scroll to the error line in the editor
@@ -982,7 +1011,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     else if (m.type === 'done') { 
                         if (!executionStopped) {
-                            out('Done', 'info'); 
+                            addSystemMessage('Done'); 
                         }
                         cleanupWorker(); 
                     }
@@ -1883,7 +1912,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const currentValue = (window as any).editor.getOption('minimap');
                 (window as any).editor.updateOptions({ minimap: { enabled: !currentValue.enabled } });
                 minimapButton.classList.toggle('active', !currentValue.enabled);
-                out(`Minimap ${!currentValue.enabled ? 'enabled' : 'disabled'}`, 'info');
+                addSystemMessage(`Minimap ${!currentValue.enabled ? 'enabled' : 'disabled'}`);
             }
         });
     }
@@ -1895,7 +1924,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const currentValue = (window as any).editor.getOption('wordWrap');
                 (window as any).editor.updateOptions({ wordWrap: currentValue === 'on' ? 'off' : 'on' });
                 wordWrapButton.classList.toggle('active', currentValue !== 'on');
-                out(`Word wrap ${currentValue === 'on' ? 'disabled' : 'enabled'}`, 'info');
+                addSystemMessage(`Word wrap ${currentValue === 'on' ? 'disabled' : 'enabled'}`);
             }
         });
     }
@@ -1927,12 +1956,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Switch to vertical layout
                 editorLayout.classList.remove('side-by-side');
                 layoutIcon.className = 'ri-layout-column-line';
-                out('Switched to vertical layout', 'info');
+                addSystemMessage('Switched to vertical layout');
             } else {
                 // Switch to side-by-side layout
                 editorLayout.classList.add('side-by-side');
                 layoutIcon.className = 'ri-layout-row-line';
-                out('Switched to 50/50 side-by-side layout', 'info');
+                addSystemMessage('Switched to 50/50 side-by-side layout');
             }
         });
     }

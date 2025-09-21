@@ -645,6 +645,48 @@
     color: var(--accent-soft-secondary);
 }
 
+.console-print {
+    border-left-color: var(--text-soft-primary);
+    background: linear-gradient(135deg, 
+        var(--bg-soft-elevated) 0%, 
+        var(--bg-soft-subtle) 100%
+    );
+    color: var(--text-soft-primary);
+}
+
+.console-print i {
+    color: var(--text-soft-secondary);
+}
+
+.console-print .message-text {
+    color: var(--text-soft-primary);
+    font-weight: var(--font-weight-soft-normal);
+}
+
+.console-system {
+    border-left-color: #10B981;
+    background: linear-gradient(135deg, 
+        rgba(16, 185, 129, 0.08) 0%, 
+        var(--bg-soft-subtle) 100%
+    );
+    border: 1px solid #10B981;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.15);
+}
+
+.console-system i {
+    color: #10B981;
+}
+
+.console-system .message-text {
+    color: #059669;
+    font-weight: var(--font-weight-soft-semibold);
+}
+
+.console-system .message-timestamp {
+    color: #34D399;
+    opacity: 0.8;
+}
+
 /* Console Animations */
 @keyframes consoleIconShine {
     0%, 100% { transform: translateX(-100%); }
