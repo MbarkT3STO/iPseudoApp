@@ -2172,11 +2172,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
             
-            // Position the context menu
+            // Position the context menu with smart positioning
             contextMenu.style.position = 'fixed';
-            contextMenu.style.left = e.clientX + 'px';
-            contextMenu.style.top = e.clientY + 'px';
-            contextMenu.style.zIndex = '1000';
+            contextMenu.style.zIndex = '10000';
+            
+            // Smart positioning to avoid going off-screen
+            const menuWidth = 180; // min-width from CSS
+            const menuHeight = 200; // estimated height
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            
+            let left = e.clientX;
+            let top = e.clientY;
+            
+            // Adjust horizontal position if menu would go off-screen
+            if (left + menuWidth > viewportWidth) {
+                left = viewportWidth - menuWidth - 10;
+            }
+            
+            // Adjust vertical position if menu would go off-screen
+            if (top + menuHeight > viewportHeight) {
+                top = viewportHeight - menuHeight - 10;
+            }
+            
+            // Ensure menu doesn't go off the left or top edges
+            left = Math.max(10, left);
+            top = Math.max(10, top);
+            
+            contextMenu.style.left = left + 'px';
+            contextMenu.style.top = top + 'px';
             
             document.body.appendChild(contextMenu);
             
