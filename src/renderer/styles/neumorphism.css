@@ -807,6 +807,38 @@
     color: var(--text-soft-primary);
 }
 
+/* Modern Logo Styling */
+.logo-svg {
+    width: 100%;
+    height: 100%;
+    color: var(--logo-text);
+    transition: all var(--duration-soft-normal) var(--ease-soft-out);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.app-brand:hover .logo-svg {
+    transform: scale(1.05) rotate(2deg);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+}
+
+.app-brand:active .logo-svg {
+    transform: scale(0.98) rotate(-1deg);
+}
+
+/* Logo animation on hover */
+@keyframes logoGlow {
+    0%, 100% {
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    }
+    50% {
+        filter: drop-shadow(0 4px 12px rgba(59, 130, 246, 0.3));
+    }
+}
+
+.app-brand:hover .logo-svg {
+    animation: logoGlow 2s ease-in-out infinite;
+}
+
 /* Custom tooltip styling */
 .custom-tooltip {
     background: var(--bg-soft-elevated);

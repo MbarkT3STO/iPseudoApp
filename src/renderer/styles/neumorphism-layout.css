@@ -87,17 +87,14 @@
   width: 48px;
   height: 48px;
   background: linear-gradient(135deg, 
-    var(--soft-blue-500) 0%, 
-    var(--soft-blue-600) 50%, 
-    var(--soft-blue-700) 100%);
+    var(--bg-soft-elevated) 0%, 
+    var(--bg-soft-subtle) 100%);
   border-radius: var(--radius-soft-xl);
   box-shadow: 
-    0 4px 15px rgba(102, 126, 234, 0.3),
-    0 2px 8px rgba(102, 126, 234, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
-  font-size: var(--font-size-soft-xl);
-  color: white;
+    var(--shadow-soft-elevated),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  padding: 6px; /* Add padding for the SVG */
+  overflow: hidden;
   position: relative;
   transition: all var(--duration-soft-normal) var(--ease-soft-out);
 }

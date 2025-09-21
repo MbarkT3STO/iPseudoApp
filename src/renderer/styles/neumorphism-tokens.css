@@ -244,6 +244,13 @@
   --border-soft-accent: var(--soft-blue-300);
 
   --shadow-soft-primary: var(--shadow-soft-raised);
+
+  /* ===== LOGO COLORS ===== */
+  --logo-bg-start: var(--soft-gray-100);
+  --logo-bg-end: var(--soft-gray-200);
+  --logo-stroke-start: var(--soft-blue-500);
+  --logo-stroke-end: var(--soft-blue-600);
+  --logo-text: var(--soft-blue-600);
   --shadow-soft-secondary: var(--shadow-soft-flat);
   --shadow-soft-pressed: var(--shadow-soft-pressed);
   --shadow-soft-floating: var(--shadow-soft-floating);
@@ -272,6 +279,13 @@
   --border-soft-accent: var(--soft-blue-600);
 
   --shadow-soft-primary: var(--shadow-soft-raised-dark);
+
+  /* ===== LOGO COLORS ===== */
+  --logo-bg-start: var(--soft-gray-800);
+  --logo-bg-end: var(--soft-gray-900);
+  --logo-stroke-start: var(--soft-blue-400);
+  --logo-stroke-end: var(--soft-blue-500);
+  --logo-text: var(--soft-blue-300);
   --shadow-soft-secondary: var(--shadow-soft-flat-dark);
   --shadow-soft-pressed: var(--shadow-soft-pressed-dark);
   --shadow-soft-floating: var(--shadow-soft-floating-dark);
