@@ -285,6 +285,304 @@
         </div>
     </div>
 
+    <!-- Settings Modal -->
+    <div class="modal-overlay" id="settingsModal" style="display: none;">
+        <div class="modal settings-modal">
+            <div class="modal-header">
+                <h2 class="modal-title"><i class="ri-settings-3-line"></i> Settings</h2>
+                <button class="modal-close interactive" id="closeSettingsModal">
+                    <i class="ri-close-line"></i>
+                </button>
+            </div>
+            <div class="modal-body settings-body">
+                <!-- Settings Tabs -->
+                <div class="settings-tabs">
+                    <button class="settings-tab active" data-tab="appearance">
+                        <i class="ri-palette-line"></i>
+                        <span>Appearance</span>
+                    </button>
+                    <button class="settings-tab" data-tab="editor">
+                        <i class="ri-code-line"></i>
+                        <span>Editor</span>
+                    </button>
+                    <button class="settings-tab" data-tab="console">
+                        <i class="ri-terminal-line"></i>
+                        <span>Console</span>
+                    </button>
+                    <button class="settings-tab" data-tab="application">
+                        <i class="ri-apps-line"></i>
+                        <span>Application</span>
+                    </button>
+                    <button class="settings-tab" data-tab="ui">
+                        <i class="ri-layout-line"></i>
+                        <span>UI Elements</span>
+                    </button>
+                    <button class="settings-tab" data-tab="advanced">
+                        <i class="ri-tools-line"></i>
+                        <span>Advanced</span>
+                    </button>
+                </div>
+
+                <!-- Settings Search -->
+                <div class="settings-search">
+                    <div class="search-container">
+                        <i class="ri-search-line"></i>
+                        <input type="text" id="settingsSearch" placeholder="Search settings..." class="search-input">
+                        <button id="clearSearch" class="clear-search-btn" style="display: none;">
+                            <i class="ri-close-line"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tab Content -->
+                <div class="settings-content">
+                    <!-- Appearance Tab -->
+                    <div class="settings-tab-content active" id="appearance-tab">
+                        <div class="settings-section">
+                            <h3><i class="ri-palette-line"></i> Theme & Colors</h3>
+                            <div class="setting-item">
+                                <label for="themeSelect">Theme</label>
+                                <select id="themeSelect" class="setting-control">
+                                    <option value="auto">Auto (System)</option>
+                                    <option value="light">Light</option>
+                                    <option value="dark">Dark</option>
+                                </select>
+                            </div>
+                            <div class="setting-item">
+                                <label for="accentColor">Accent Color</label>
+                                <div class="color-picker-container">
+                                    <input type="color" id="accentColor" class="color-picker" value="#3b82f6">
+                                    <span class="color-preview" id="accentColorPreview"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Editor Tab -->
+                    <div class="settings-tab-content" id="editor-tab">
+                        <div class="settings-section">
+                            <h3><i class="ri-code-line"></i> Editor Configuration</h3>
+                            <div class="setting-item">
+                                <label for="fontSize">Font Size</label>
+                                <input type="range" id="fontSize" class="setting-range" min="12" max="24" value="14">
+                                <span class="range-value" id="fontSizeValue">14px</span>
+                            </div>
+                            <div class="setting-item">
+                                <label for="tabSize">Tab Size</label>
+                                <input type="range" id="tabSize" class="setting-range" min="2" max="8" value="4">
+                                <span class="range-value" id="tabSizeValue">4 spaces</span>
+                            </div>
+                            <div class="setting-item">
+                                <label class="setting-toggle">
+                                    <input type="checkbox" id="wordWrap" class="toggle-input">
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label">Word Wrap</span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label class="setting-toggle">
+                                    <input type="checkbox" id="lineNumbers" class="toggle-input" checked>
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label">Line Numbers</span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label class="setting-toggle">
+                                    <input type="checkbox" id="autoComplete" class="toggle-input" checked>
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label">Auto Complete</span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label class="setting-toggle">
+                                    <input type="checkbox" id="syntaxHighlighting" class="toggle-input" checked>
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label">Syntax Highlighting</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Console Tab -->
+                    <div class="settings-tab-content" id="console-tab">
+                        <div class="settings-section">
+                            <h3><i class="ri-terminal-line"></i> Console Settings</h3>
+                            <div class="setting-item">
+                                <label for="consoleFontSize">Console Font Size</label>
+                                <input type="range" id="consoleFontSize" class="setting-range" min="10" max="18" value="13">
+                                <span class="range-value" id="consoleFontSizeValue">13px</span>
+                            </div>
+                            <div class="setting-item">
+                                <label class="setting-toggle">
+                                    <input type="checkbox" id="autoScroll" class="toggle-input" checked>
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label">Auto Scroll to Bottom</span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label class="setting-toggle">
+                                    <input type="checkbox" id="showTimestamps" class="toggle-input" checked>
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label">Show Timestamps</span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label for="maxOutputLines">Max Output Lines</label>
+                                <input type="number" id="maxOutputLines" class="setting-input" min="100" max="10000" value="1000">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Application Tab -->
+                    <div class="settings-tab-content" id="application-tab">
+                        <div class="settings-section">
+                            <h3><i class="ri-apps-line"></i> Application Settings</h3>
+                            <div class="setting-item">
+                                <label for="maxTabs">Maximum Tabs</label>
+                                <input type="range" id="maxTabs" class="setting-range" min="1" max="10" value="3">
+                                <span class="range-value" id="maxTabsValue">3 tabs</span>
+                            </div>
+                            <div class="setting-item">
+                                <label class="setting-toggle">
+                                    <input type="checkbox" id="autoSave" class="toggle-input">
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label">Auto Save</span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label for="autoSaveInterval">Auto Save Interval (seconds)</label>
+                                <input type="range" id="autoSaveInterval" class="setting-range" min="30" max="300" value="60" disabled>
+                                <span class="range-value" id="autoSaveIntervalValue">60s</span>
+                            </div>
+                            <div class="setting-item">
+                                <label class="setting-toggle">
+                                    <input type="checkbox" id="confirmClose" class="toggle-input" checked>
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label">Confirm Before Closing Tabs</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- UI Elements Tab -->
+                    <div class="settings-tab-content" id="ui-tab">
+                        <div class="settings-section">
+                            <h3><i class="ri-layout-line"></i> UI Element Visibility</h3>
+                            <div class="setting-item">
+                                <label class="setting-toggle">
+                                    <input type="checkbox" id="showFileActions" class="toggle-input" checked>
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label">Show File Actions</span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label class="setting-toggle">
+                                    <input type="checkbox" id="showRunButton" class="toggle-input" checked>
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label">Show Run Button</span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label class="setting-toggle">
+                                    <input type="checkbox" id="showThemeToggle" class="toggle-input" checked>
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label">Show Theme Toggle</span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label class="setting-toggle">
+                                    <input type="checkbox" id="showLayoutToggle" class="toggle-input" checked>
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label">Show Layout Toggle</span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label class="setting-toggle">
+                                    <input type="checkbox" id="showSettingsButton" class="toggle-input" checked>
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label">Show Settings Button</span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label class="setting-toggle">
+                                    <input type="checkbox" id="showEditorActions" class="toggle-input" checked>
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label">Show Editor Actions</span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label class="setting-toggle">
+                                    <input type="checkbox" id="showConsoleStats" class="toggle-input" checked>
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label">Show Console Stats</span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label class="setting-toggle">
+                                    <input type="checkbox" id="showTabCounter" class="toggle-input" checked>
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label">Show Tab Counter</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Tab -->
+                    <div class="settings-tab-content" id="advanced-tab">
+                        <div class="settings-section">
+                            <h3><i class="ri-tools-line"></i> Advanced Settings</h3>
+                            <div class="setting-item">
+                                <label for="executionTimeout">Execution Timeout (seconds)</label>
+                                <input type="range" id="executionTimeout" class="setting-range" min="5" max="60" value="30">
+                                <span class="range-value" id="executionTimeoutValue">30s</span>
+                            </div>
+                            <div class="setting-item">
+                                <label class="setting-toggle">
+                                    <input type="checkbox" id="debugMode" class="toggle-input">
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label">Debug Mode</span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label class="setting-toggle">
+                                    <input type="checkbox" id="showPerformance" class="toggle-input">
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label">Show Performance Stats</span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label class="setting-toggle">
+                                    <input type="checkbox" id="animationsEnabled" class="toggle-input" checked>
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label">Enable Animations</span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label class="setting-toggle">
+                                    <input type="checkbox" id="glassEffects" class="toggle-input" checked>
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label">Glass Effects</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-actions">
+                    <button class="btn btn-secondary" id="resetSettings">
+                        <i class="ri-refresh-line"></i> Reset to Defaults
+                    </button>
+                    <button class="btn btn-primary" id="exportSettings">
+                        <i class="ri-download-line"></i> Export Settings
+                    </button>
+                    <button class="btn btn-secondary" id="importSettings">
+                        <i class="ri-upload-line"></i> Import Settings
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Neumorphic Scripts -->
     <script src="scripts/errorManager.js"></script>
     <script src="scripts/editor.js"></script>

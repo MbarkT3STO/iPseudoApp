@@ -429,9 +429,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Settings management
     function initializeSettings(): void {
-        // Clear any problematic UI visibility settings from localStorage
-        clearProblematicUISettings();
-        
         // Load settings from localStorage
         const settings = loadSettings();
         
@@ -443,6 +440,544 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Apply other settings
         applyAppSettings(settings);
+        
+        // Apply UI visibility settings with additional delay to ensure DOM is ready
+        setTimeout(() => {
+            console.log('Applying UI visibility on app startup');
+            applyUIVisibilitySettings(settings);
+        }, 500);
+    }
+
+    // Initialize settings modal
+    function initializeSettingsModal(): void {
+        const settingsModal = document.getElementById('settingsModal');
+        const closeSettingsModal = document.getElementById('closeSettingsModal');
+        
+        if (!settingsModal || !closeSettingsModal) return;
+
+        // Close settings modal
+        closeSettingsModal.addEventListener('click', () => {
+            settingsModal.style.display = 'none';
+        });
+
+        // Close on overlay click
+        settingsModal.addEventListener('click', (e) => {
+            if (e.target === settingsModal) {
+                settingsModal.style.display = 'none';
+            }
+        });
+
+        // Setup tab functionality
+        setupSettingsTabs();
+        
+        // Load settings into UI
+        loadSettingsToUI();
+        
+        // Setup settings event listeners
+        setupSettingsEventListeners();
+        
+        // Setup search functionality
+        setupSettingsSearch();
+        
+        // Apply current UI visibility settings when modal opens
+        const currentSettings = loadSettings();
+        console.log('Settings when modal opens:', currentSettings);
+        console.log('showRunButton when modal opens:', currentSettings.showRunButton);
+        applyUIVisibilitySettings(currentSettings);
+    }
+
+    // Setup settings tabs
+    function setupSettingsTabs(): void {
+        const tabs = document.querySelectorAll('.settings-tab');
+        const tabContents = document.querySelectorAll('.settings-tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetTab = tab.getAttribute('data-tab');
+                
+                // Remove active class from all tabs and contents
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                const targetContent = document.getElementById(`${targetTab}-tab`);
+                if (targetContent) {
+                    targetContent.classList.add('active');
+                }
+            });
+        });
+    }
+
+    // Load settings into UI
+    function loadSettingsToUI(): void {
+        const settings = loadSettings();
+        console.log('Loading settings to UI:', settings);
+        console.log('showRunButton in loadSettingsToUI:', settings.showRunButton);
+        
+        // Theme
+        const themeSelect = document.getElementById('themeSelect') as HTMLSelectElement;
+        if (themeSelect) themeSelect.value = settings.theme || 'light';
+
+        // Accent color
+        const accentColor = document.getElementById('accentColor') as HTMLInputElement;
+        if (accentColor) {
+            accentColor.value = settings.accentColor || '#0ea5e9';
+            updateAccentColorPreview();
+        }
+
+        // Editor settings
+        const fontSize = document.getElementById('fontSize') as HTMLInputElement;
+        if (fontSize) {
+            fontSize.value = (settings.fontSize || 14).toString();
+            updateRangeValue('fontSize', 'fontSizeValue', 'px');
+        }
+
+        const tabSize = document.getElementById('tabSize') as HTMLInputElement;
+        if (tabSize) {
+            tabSize.value = (settings.tabSize || 4).toString();
+            updateRangeValue('tabSize', 'tabSizeValue', ' spaces');
+        }
+
+        // Toggle settings
+        setToggleValue('wordWrap', settings.wordWrap || false);
+        setToggleValue('lineNumbers', settings.lineNumbers !== false);
+        setToggleValue('autoComplete', settings.autoComplete !== false);
+        setToggleValue('syntaxHighlighting', settings.syntaxHighlighting !== false);
+        setToggleValue('autoScroll', settings.autoScroll !== false);
+        setToggleValue('showTimestamps', settings.showTimestamps !== false);
+        setToggleValue('autoSave', settings.autoSave || false);
+        setToggleValue('confirmClose', settings.confirmClose !== false);
+        setToggleValue('debugMode', settings.debugMode || false);
+        setToggleValue('showPerformance', settings.showPerformance || false);
+        setToggleValue('animationsEnabled', settings.animationsEnabled !== false);
+        setToggleValue('glassEffects', settings.glassEffects !== false);
+
+        // Console settings
+        const consoleFontSize = document.getElementById('consoleFontSize') as HTMLInputElement;
+        if (consoleFontSize) {
+            consoleFontSize.value = (settings.consoleFontSize || 13).toString();
+            updateRangeValue('consoleFontSize', 'consoleFontSizeValue', 'px');
+        }
+
+        const maxOutputLines = document.getElementById('maxOutputLines') as HTMLInputElement;
+        if (maxOutputLines) maxOutputLines.value = (settings.maxMessages || 1000).toString();
+
+        // App settings
+        const maxTabs = document.getElementById('maxTabs') as HTMLInputElement;
+        if (maxTabs) {
+            maxTabs.value = (settings.maxTabs || 3).toString();
+            updateRangeValue('maxTabs', 'maxTabsValue', ' tabs');
+        }
+
+        const autoSaveInterval = document.getElementById('autoSaveInterval') as HTMLInputElement;
+        if (autoSaveInterval) {
+            autoSaveInterval.value = (settings.autoSaveInterval || 60).toString();
+            updateRangeValue('autoSaveInterval', 'autoSaveIntervalValue', 's');
+            autoSaveInterval.disabled = !settings.autoSave;
+        }
+
+        // Advanced settings
+        const executionTimeout = document.getElementById('executionTimeout') as HTMLInputElement;
+        if (executionTimeout) {
+            executionTimeout.value = (settings.executionTimeout || 30).toString();
+            updateRangeValue('executionTimeout', 'executionTimeoutValue', 's');
+        }
+
+        // UI visibility settings - use explicit boolean values
+        setToggleValue('showFileActions', settings.showFileActions === true);
+        setToggleValue('showRunButton', settings.showRunButton === true);
+        setToggleValue('showThemeToggle', settings.showThemeToggle === true);
+        setToggleValue('showLayoutToggle', settings.showLayoutToggle === true);
+        setToggleValue('showSettingsButton', settings.showSettingsButton === true);
+        setToggleValue('showEditorActions', settings.showEditorActions === true);
+        setToggleValue('showConsoleStats', settings.showConsoleStats === true);
+        setToggleValue('showTabCounter', settings.showTabCounter === true);
+    }
+
+    // Setup settings event listeners
+    function setupSettingsEventListeners(): void {
+        // Theme change
+        const themeSelect = document.getElementById('themeSelect') as HTMLSelectElement;
+        if (themeSelect) {
+            themeSelect.addEventListener('change', (e) => {
+                const theme = (e.target as HTMLSelectElement).value;
+                applyTheme(theme);
+                saveSetting('theme', theme);
+            });
+        }
+
+        // Accent color change
+        const accentColor = document.getElementById('accentColor') as HTMLInputElement;
+        if (accentColor) {
+            accentColor.addEventListener('input', (e) => {
+                const color = (e.target as HTMLInputElement).value;
+                applyAccentColor(color);
+                updateAccentColorPreview();
+                saveSetting('accentColor', color);
+            });
+        }
+
+        // Range inputs
+        setupRangeInput('fontSize', 'fontSizeValue', 'px', (value) => {
+            saveSetting('fontSize', value);
+            const settings = loadSettings();
+            settings.fontSize = value;
+            applyEditorSettings(settings);
+        });
+
+        setupRangeInput('tabSize', 'tabSizeValue', ' spaces', (value) => {
+            saveSetting('tabSize', value);
+            const settings = loadSettings();
+            settings.tabSize = value;
+            applyEditorSettings(settings);
+        });
+
+        setupRangeInput('consoleFontSize', 'consoleFontSizeValue', 'px', (value) => {
+            const updatedSettings = saveSetting('consoleFontSize', value);
+            applyAppSettings(updatedSettings);
+            applyUIVisibilitySettings(updatedSettings);
+        });
+
+        setupRangeInput('maxTabs', 'maxTabsValue', ' tabs', (value) => {
+            const updatedSettings = saveSetting('maxTabs', value);
+            applyAppSettings(updatedSettings);
+            applyUIVisibilitySettings(updatedSettings);
+        });
+
+        setupRangeInput('autoSaveInterval', 'autoSaveIntervalValue', 's', (value) => {
+            saveSetting('autoSaveInterval', value);
+        });
+
+        setupRangeInput('executionTimeout', 'executionTimeoutValue', 's', (value) => {
+            saveSetting('executionTimeout', value);
+        });
+
+        // Toggle inputs
+        setupToggleInput('wordWrap', (value) => {
+            saveSetting('wordWrap', value);
+            const settings = loadSettings();
+            settings.wordWrap = value;
+            applyEditorSettings(settings);
+        });
+
+        setupToggleInput('lineNumbers', (value) => {
+            saveSetting('lineNumbers', value);
+            const settings = loadSettings();
+            settings.lineNumbers = value;
+            applyEditorSettings(settings);
+        });
+
+        setupToggleInput('autoComplete', (value) => {
+            saveSetting('autoComplete', value);
+            const settings = loadSettings();
+            settings.autoComplete = value;
+            applyEditorSettings(settings);
+        });
+
+        setupToggleInput('syntaxHighlighting', (value) => {
+            saveSetting('syntaxHighlighting', value);
+            const settings = loadSettings();
+            settings.syntaxHighlighting = value;
+            applyEditorSettings(settings);
+        });
+
+        setupToggleInput('autoScroll', (value) => {
+            saveSetting('autoScroll', value);
+        });
+
+        setupToggleInput('showTimestamps', (value) => {
+            saveSetting('showTimestamps', value);
+        });
+
+        setupToggleInput('autoSave', (value) => {
+            saveSetting('autoSave', value);
+            const autoSaveInterval = document.getElementById('autoSaveInterval') as HTMLInputElement;
+            if (autoSaveInterval) {
+                autoSaveInterval.disabled = !value;
+            }
+            const updatedSettings = loadSettings();
+            applyAppSettings(updatedSettings);
+            applyUIVisibilitySettings(updatedSettings);
+        });
+
+        setupToggleInput('confirmClose', (value) => {
+            saveSetting('confirmClose', value);
+        });
+
+        setupToggleInput('debugMode', (value) => {
+            saveSetting('debugMode', value);
+        });
+
+        setupToggleInput('showPerformance', (value) => {
+            saveSetting('showPerformance', value);
+        });
+
+        setupToggleInput('animationsEnabled', (value) => {
+            const updatedSettings = saveSetting('animationsEnabled', value);
+            applyAppSettings(updatedSettings);
+            applyUIVisibilitySettings(updatedSettings);
+        });
+
+        setupToggleInput('glassEffects', (value) => {
+            const updatedSettings = saveSetting('glassEffects', value);
+            applyAppSettings(updatedSettings);
+            applyUIVisibilitySettings(updatedSettings);
+        });
+
+        // UI visibility toggles
+        setupToggleInput('showFileActions', (value) => {
+            const updatedSettings = saveSetting('showFileActions', value);
+            console.log('Updated settings for showFileActions:', updatedSettings.showFileActions);
+            applyUIVisibilitySettings(updatedSettings);
+        });
+
+        setupToggleInput('showRunButton', (value) => {
+            const updatedSettings = saveSetting('showRunButton', value);
+            console.log('Updated settings for showRunButton:', updatedSettings.showRunButton);
+            applyUIVisibilitySettings(updatedSettings);
+        });
+
+        setupToggleInput('showThemeToggle', (value) => {
+            saveSetting('showThemeToggle', value);
+            applyUIVisibilitySettings(loadSettings());
+        });
+
+        setupToggleInput('showLayoutToggle', (value) => {
+            saveSetting('showLayoutToggle', value);
+            applyUIVisibilitySettings(loadSettings());
+        });
+
+        setupToggleInput('showSettingsButton', (value) => {
+            saveSetting('showSettingsButton', value);
+            applyUIVisibilitySettings(loadSettings());
+        });
+
+        setupToggleInput('showEditorActions', (value) => {
+            saveSetting('showEditorActions', value);
+            applyUIVisibilitySettings(loadSettings());
+        });
+
+        setupToggleInput('showConsoleStats', (value) => {
+            saveSetting('showConsoleStats', value);
+            applyUIVisibilitySettings(loadSettings());
+        });
+
+        setupToggleInput('showTabCounter', (value) => {
+            saveSetting('showTabCounter', value);
+            applyUIVisibilitySettings(loadSettings());
+        });
+
+        // Number inputs
+        const maxOutputLines = document.getElementById('maxOutputLines') as HTMLInputElement;
+        if (maxOutputLines) {
+            maxOutputLines.addEventListener('change', (e) => {
+                saveSetting('maxMessages', parseInt((e.target as HTMLInputElement).value));
+            });
+        }
+
+        // Settings actions
+        const resetSettings = document.getElementById('resetSettings');
+        if (resetSettings) {
+            resetSettings.addEventListener('click', () => {
+                resetSettingsToDefaults();
+            });
+        }
+
+        const exportSettings = document.getElementById('exportSettings');
+        if (exportSettings) {
+            exportSettings.addEventListener('click', () => {
+                exportSettingsToFile();
+            });
+        }
+
+        const importSettings = document.getElementById('importSettings');
+        if (importSettings) {
+            importSettings.addEventListener('click', () => {
+                importSettingsFromFile();
+            });
+        }
+    }
+
+    // Helper functions for settings UI
+    function setupRangeInput(id: string, valueId: string, suffix: string, callback: (value: number) => void): void {
+        const input = document.getElementById(id) as HTMLInputElement;
+        const valueDisplay = document.getElementById(valueId) as HTMLElement;
+        
+        if (input && valueDisplay) {
+            input.addEventListener('input', (e) => {
+                const value = parseInt((e.target as HTMLInputElement).value);
+                updateRangeValue(id, valueId, suffix);
+                callback(value);
+            });
+        }
+    }
+
+    function setupToggleInput(id: string, callback: (value: boolean) => void): void {
+        const input = document.getElementById(id) as HTMLInputElement;
+        if (input) {
+            input.addEventListener('change', (e) => {
+                const value = (e.target as HTMLInputElement).checked;
+                callback(value);
+            });
+        }
+    }
+
+    function updateRangeValue(inputId: string, valueId: string, suffix: string): void {
+        const input = document.getElementById(inputId) as HTMLInputElement;
+        const valueDisplay = document.getElementById(valueId) as HTMLElement;
+        
+        if (input && valueDisplay) {
+            valueDisplay.textContent = input.value + suffix;
+        }
+    }
+
+    function setToggleValue(id: string, value: boolean): void {
+        const input = document.getElementById(id) as HTMLInputElement;
+        if (input) {
+            input.checked = value;
+        }
+    }
+
+    function updateAccentColorPreview(): void {
+        const accentColor = document.getElementById('accentColor') as HTMLInputElement;
+        const preview = document.getElementById('accentColorPreview') as HTMLElement;
+        
+        if (accentColor && preview) {
+            preview.style.background = accentColor.value;
+        }
+    }
+
+    function saveSetting(key: string, value: any): any {
+        try {
+            console.log(`Saving setting: ${key} = ${value}`);
+            const settings = loadSettings();
+            settings[key] = value;
+            console.log('Updated settings before saving:', settings);
+            localStorage.setItem('iPseudoSettings', JSON.stringify(settings));
+            console.log('Settings saved to localStorage');
+            showSettingsNotification('Setting saved');
+            return settings; // Return the updated settings
+        } catch (error) {
+            console.error('Failed to save setting:', error);
+            return loadSettings(); // Return current settings on error
+        }
+    }
+
+    function resetSettingsToDefaults(): void {
+        const defaults = getDefaultSettings();
+        localStorage.setItem('iPseudoSettings', JSON.stringify(defaults));
+        loadSettingsToUI();
+        applyAppSettings(defaults);
+        showSettingsNotification('Settings reset to defaults');
+    }
+
+    function exportSettingsToFile(): void {
+        try {
+            const settings = loadSettings();
+            const settingsJson = JSON.stringify(settings, null, 2);
+            const blob = new Blob([settingsJson], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'iPseudo-settings.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showSettingsNotification('Settings exported successfully');
+        } catch (error) {
+            showSettingsNotification('Failed to export settings');
+        }
+    }
+
+    function importSettingsFromFile(): void {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.json';
+        
+        input.addEventListener('change', (e) => {
+            const file = (e.target as HTMLInputElement).files?.[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const imported = JSON.parse(e.target?.result as string);
+                        const defaults = getDefaultSettings();
+                        const mergedSettings = { ...defaults, ...imported };
+                        localStorage.setItem('iPseudoSettings', JSON.stringify(mergedSettings));
+                        loadSettingsToUI();
+                        applyAppSettings(mergedSettings);
+                        showSettingsNotification('Settings imported successfully');
+                    } catch (error) {
+                        showSettingsNotification('Failed to import settings: Invalid file format');
+                    }
+                };
+                reader.readAsText(file);
+            }
+        });
+        
+        input.click();
+    }
+
+    // Setup settings search functionality
+    function setupSettingsSearch(): void {
+        const searchInput = document.getElementById('settingsSearch') as HTMLInputElement;
+        const clearButton = document.getElementById('clearSearch') as HTMLButtonElement;
+        const settingsSections = document.querySelectorAll('.settings-section');
+        
+        if (!searchInput || !clearButton) return;
+
+        searchInput.addEventListener('input', (e) => {
+            const query = (e.target as HTMLInputElement).value.toLowerCase().trim();
+            
+            if (query) {
+                clearButton.style.display = 'flex';
+                filterSettings(query, settingsSections);
+            } else {
+                clearButton.style.display = 'none';
+                showAllSettings(settingsSections);
+            }
+        });
+
+        clearButton.addEventListener('click', () => {
+            searchInput.value = '';
+            clearButton.style.display = 'none';
+            showAllSettings(settingsSections);
+            searchInput.focus();
+        });
+    }
+
+    // Filter settings based on search query
+    function filterSettings(query: string, sections: NodeListOf<Element>): void {
+        sections.forEach(section => {
+            const sectionTitle = section.querySelector('h3')?.textContent?.toLowerCase() || '';
+            const settingItems = section.querySelectorAll('.setting-item');
+            let hasVisibleItems = false;
+
+            settingItems.forEach(item => {
+                const label = item.querySelector('label')?.textContent?.toLowerCase() || '';
+                const isVisible = sectionTitle.includes(query) || label.includes(query);
+                
+                (item as HTMLElement).style.display = isVisible ? 'flex' : 'none';
+                if (isVisible) hasVisibleItems = true;
+            });
+
+            (section as HTMLElement).style.display = hasVisibleItems ? 'block' : 'none';
+        });
+    }
+
+    // Show all settings
+    function showAllSettings(sections: NodeListOf<Element>): void {
+        sections.forEach(section => {
+            (section as HTMLElement).style.display = 'block';
+            const settingItems = section.querySelectorAll('.setting-item');
+            settingItems.forEach(item => {
+                (item as HTMLElement).style.display = 'flex';
+            });
+        });
     }
 
     function clearProblematicUISettings(): void {
@@ -480,35 +1015,41 @@ document.addEventListener('DOMContentLoaded', () => {
     function loadSettings() {
         try {
             const saved = localStorage.getItem('iPseudoSettings');
+            console.log('Loading settings from localStorage:', saved);
+            
             if (saved) {
                 const parsed = JSON.parse(saved);
+                console.log('Parsed settings:', parsed);
+                
                 // Check if UI visibility settings are missing and add defaults
                 const defaults = getDefaultSettings();
                 const mergedSettings = { ...defaults, ...parsed };
                 
-                // Ensure all UI visibility settings are present and true by default
+                // Only add UI visibility defaults for missing settings (don't override existing values)
                 const uiVisibilityDefaults = {
-                    showFileActions: true,
-                    showRunButton: true,
-                    showThemeToggle: true,
-                    showLayoutToggle: true,
-                    showSettingsButton: true,
-                    showEditorActions: true,
-                    showEditorTitle: true,
-                    showConsoleActions: true,
-                    showConsoleStats: true,
-                    showConsoleTitle: true,
-                    showTabCounter: true,
-                    showNewTabButton: true
+                    showFileActions: mergedSettings.showFileActions !== undefined ? mergedSettings.showFileActions : true,
+                    showRunButton: mergedSettings.showRunButton !== undefined ? mergedSettings.showRunButton : true,
+                    showThemeToggle: mergedSettings.showThemeToggle !== undefined ? mergedSettings.showThemeToggle : true,
+                    showLayoutToggle: mergedSettings.showLayoutToggle !== undefined ? mergedSettings.showLayoutToggle : true,
+                    showSettingsButton: mergedSettings.showSettingsButton !== undefined ? mergedSettings.showSettingsButton : true,
+                    showEditorActions: mergedSettings.showEditorActions !== undefined ? mergedSettings.showEditorActions : true,
+                    showEditorTitle: mergedSettings.showEditorTitle !== undefined ? mergedSettings.showEditorTitle : true,
+                    showConsoleActions: mergedSettings.showConsoleActions !== undefined ? mergedSettings.showConsoleActions : true,
+                    showConsoleStats: mergedSettings.showConsoleStats !== undefined ? mergedSettings.showConsoleStats : true,
+                    showConsoleTitle: mergedSettings.showConsoleTitle !== undefined ? mergedSettings.showConsoleTitle : true,
+                    showTabCounter: mergedSettings.showTabCounter !== undefined ? mergedSettings.showTabCounter : true,
+                    showNewTabButton: mergedSettings.showNewTabButton !== undefined ? mergedSettings.showNewTabButton : true
                 };
                 
                 const finalSettings = { ...mergedSettings, ...uiVisibilityDefaults };
+                console.log('Final settings with UI defaults:', finalSettings);
                 return finalSettings;
             }
         } catch (error) {
             console.error('Error loading settings:', error);
         }
         const defaults = getDefaultSettings();
+        console.log('Using default settings:', defaults);
         return defaults;
     }
 
@@ -654,10 +1195,8 @@ document.addEventListener('DOMContentLoaded', () => {
             (window as any).editorSettingsApplied = true;
         }
 
-        // Apply UI visibility settings with a delay to ensure DOM is ready
-        setTimeout(() => {
-            applyUIVisibilitySettings(settings);
-        }, 100);
+        // Note: UI visibility settings are now handled separately
+        // to avoid conflicts with immediate settings changes
     }
 
     function showSettingsNotification(message: string) {
@@ -687,25 +1226,98 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 3000);
     }
 
+    // Debounced editor settings update
+    let editorSettingsTimeout: NodeJS.Timeout | null = null;
+
     function applyEditorSettings(settings: any) {
+        // Clear any pending update
+        if (editorSettingsTimeout) {
+            clearTimeout(editorSettingsTimeout);
+        }
+
+        // Debounce the update to prevent rapid changes
+        editorSettingsTimeout = setTimeout(() => {
+            applyEditorSettingsImmediate(settings);
+        }, 100);
+    }
+
+    function applyEditorSettingsImmediate(settings: any) {
         // Apply editor settings when editor is ready
         const applyWhenReady = () => {
             if ((window as any).editor && typeof (window as any).editor.updateOptions === 'function') {
                 try {
-                    const editorOptions = {
-                        wordWrap: settings.wordWrap ? 'on' : 'off',
-                        minimap: { enabled: settings.minimap },
-                        tabSize: parseInt(settings.tabSize),
-                        fontSize: parseInt(settings.fontSize),
-                        fontFamily: settings.fontFamily,
-                        lineHeight: parseFloat(settings.lineHeight)
-                    };
+                    // Check if editor is in a stable state
+                    const editor = (window as any).editor;
+                    if (!editor.getModel() || !editor.getDomNode()) {
+                        console.warn('Editor not in stable state, retrying...');
+                        setTimeout(applyWhenReady, 100);
+                        return;
+                    }
+
+                    // Only apply valid editor options
+                    const editorOptions: any = {};
                     
-                    console.log('Applying editor settings:', editorOptions);
-                    (window as any).editor.updateOptions(editorOptions);
+                    if (settings.wordWrap !== undefined) {
+                        editorOptions.wordWrap = settings.wordWrap ? 'on' : 'off';
+                    }
                     
-                    // Force a layout update
-                    (window as any).editor.layout();
+                    if (settings.minimap !== undefined) {
+                        editorOptions.minimap = { enabled: settings.minimap };
+                    }
+                    
+                    if (settings.tabSize !== undefined) {
+                        const tabSize = parseInt(settings.tabSize);
+                        if (!isNaN(tabSize) && tabSize > 0) {
+                            editorOptions.tabSize = tabSize;
+                        }
+                    }
+                    
+                    if (settings.fontSize !== undefined) {
+                        const fontSize = parseInt(settings.fontSize);
+                        if (!isNaN(fontSize) && fontSize > 0) {
+                            editorOptions.fontSize = fontSize;
+                        }
+                    }
+                    
+                    if (settings.fontFamily !== undefined) {
+                        editorOptions.fontFamily = settings.fontFamily;
+                    }
+                    
+                    if (settings.lineHeight !== undefined) {
+                        const lineHeight = parseFloat(settings.lineHeight);
+                        if (!isNaN(lineHeight) && lineHeight > 0) {
+                            editorOptions.lineHeight = lineHeight;
+                        }
+                    }
+                    
+                    if (settings.lineNumbers !== undefined) {
+                        editorOptions.lineNumbers = settings.lineNumbers ? 'on' : 'off';
+                    }
+                    
+                    if (settings.autoComplete !== undefined) {
+                        editorOptions.quickSuggestions = { 
+                            other: settings.autoComplete, 
+                            comments: false, 
+                            strings: false 
+                        };
+                    }
+                    
+                    // Only update if we have valid options
+                    if (Object.keys(editorOptions).length > 0) {
+                        console.log('Applying editor settings:', editorOptions);
+                        editor.updateOptions(editorOptions);
+                        
+                        // Force a layout update after a short delay to ensure the editor is stable
+                        setTimeout(() => {
+                            try {
+                                if (editor && editor.layout) {
+                                    editor.layout();
+                                }
+                            } catch (layoutError) {
+                                console.warn('Layout update failed:', layoutError);
+                            }
+                        }, 100);
+                    }
                 } catch (error) {
                     console.error('Error applying editor settings:', error);
                 }
@@ -718,49 +1330,149 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function applyUIVisibilitySettings(settings: any) {
-        // Top Navigation
+        console.log('=== APPLYING UI VISIBILITY SETTINGS ===');
+        console.log('Settings object:', settings);
+        console.log('showFileActions:', settings.showFileActions);
+        console.log('showRunButton:', settings.showRunButton);
+        
+        // Top Navigation - File Actions
         const fileActions = document.querySelector('.file-actions') as HTMLElement;
+        console.log('File actions element found:', !!fileActions);
         if (fileActions) {
             fileActions.style.display = settings.showFileActions ? 'flex' : 'none';
+            console.log('File actions visibility set to:', fileActions.style.display);
         }
 
+        // Run and Stop buttons
         const runButton = document.getElementById('btnRun') as HTMLElement;
         const stopButton = document.getElementById('btnStop') as HTMLElement;
-        if (runButton) runButton.style.display = settings.showRunButton ? 'flex' : 'none';
-        if (stopButton) stopButton.style.display = settings.showRunButton ? 'flex' : 'none';
+        console.log('Run button element found:', !!runButton);
+        console.log('Stop button element found:', !!stopButton);
+        
+        if (runButton) {
+            console.log('Run button before change:');
+            console.log('- Computed style display:', window.getComputedStyle(runButton).display);
+            console.log('- Inline style display:', runButton.style.display);
+            console.log('- Visible:', runButton.offsetParent !== null);
+            
+            if (settings.showRunButton) {
+                runButton.style.display = 'flex';
+                runButton.style.visibility = 'visible';
+                runButton.style.opacity = '1';
+            } else {
+                runButton.style.display = 'none';
+                runButton.style.visibility = 'hidden';
+                runButton.style.opacity = '0';
+            }
+            console.log('Run button visibility set to:', runButton.style.display);
+            
+            console.log('Run button after change:');
+            console.log('- Computed style display:', window.getComputedStyle(runButton).display);
+            console.log('- Inline style display:', runButton.style.display);
+            console.log('- Visible:', runButton.offsetParent !== null);
+            console.log('- Element visible in viewport:', runButton.offsetWidth > 0 && runButton.offsetHeight > 0);
+        }
+        if (stopButton) {
+            stopButton.style.display = settings.showRunButton ? 'flex' : 'none';
+            console.log('Stop button visibility set to:', stopButton.style.display);
+        }
 
+        // Theme toggle button
         const themeToggle = document.getElementById('btnThemeToggle') as HTMLElement;
-        if (themeToggle) themeToggle.style.display = settings.showThemeToggle ? 'flex' : 'none';
+        if (themeToggle) {
+            themeToggle.style.display = settings.showThemeToggle ? 'flex' : 'none';
+            console.log('Theme toggle visibility:', settings.showThemeToggle);
+        }
 
+        // Layout toggle button
         const layoutToggle = document.getElementById('layoutToggle') as HTMLElement;
-        if (layoutToggle) layoutToggle.style.display = settings.showLayoutToggle ? 'flex' : 'none';
+        if (layoutToggle) {
+            layoutToggle.style.display = settings.showLayoutToggle ? 'flex' : 'none';
+            console.log('Layout toggle visibility:', settings.showLayoutToggle);
+        }
 
+        // Settings button
         const settingsButton = document.getElementById('btnSettings') as HTMLElement;
-        if (settingsButton) settingsButton.style.display = settings.showSettingsButton ? 'flex' : 'none';
+        if (settingsButton) {
+            settingsButton.style.display = settings.showSettingsButton ? 'flex' : 'none';
+            console.log('Settings button visibility:', settings.showSettingsButton);
+        }
 
         // Editor Controls
         const editorActions = document.querySelector('.editor-actions') as HTMLElement;
-        if (editorActions) editorActions.style.display = settings.showEditorActions ? 'flex' : 'none';
+        if (editorActions) {
+            editorActions.style.display = settings.showEditorActions ? 'flex' : 'none';
+            console.log('Editor actions visibility:', settings.showEditorActions);
+        }
 
         const editorTitle = document.querySelector('.editor-title') as HTMLElement;
-        if (editorTitle) editorTitle.style.display = settings.showEditorTitle ? 'flex' : 'none';
+        if (editorTitle) {
+            editorTitle.style.display = settings.showEditorTitle ? 'flex' : 'none';
+            console.log('Editor title visibility:', settings.showEditorTitle);
+        }
 
         // Console Controls
         const consoleControls = document.querySelector('.console-controls') as HTMLElement;
-        if (consoleControls) consoleControls.style.display = settings.showConsoleActions ? 'flex' : 'none';
+        if (consoleControls) {
+            consoleControls.style.display = settings.showConsoleActions ? 'flex' : 'none';
+            console.log('Console controls visibility:', settings.showConsoleActions);
+        }
 
         const consoleStats = document.querySelector('.console-stats') as HTMLElement;
-        if (consoleStats) consoleStats.style.display = settings.showConsoleStats ? 'flex' : 'none';
+        if (consoleStats) {
+            consoleStats.style.display = settings.showConsoleStats ? 'flex' : 'none';
+            console.log('Console stats visibility:', settings.showConsoleStats);
+        }
 
         const consoleTitle = document.querySelector('.console-title') as HTMLElement;
-        if (consoleTitle) consoleTitle.style.display = settings.showConsoleTitle ? 'flex' : 'none';
+        if (consoleTitle) {
+            consoleTitle.style.display = settings.showConsoleTitle ? 'flex' : 'none';
+            console.log('Console title visibility:', settings.showConsoleTitle);
+        }
 
         // Tab Controls
         const tabCounter = document.getElementById('tabCounter') as HTMLElement;
-        if (tabCounter) tabCounter.style.display = settings.showTabCounter ? 'block' : 'none';
+        if (tabCounter) {
+            tabCounter.style.display = settings.showTabCounter ? 'block' : 'none';
+            console.log('Tab counter visibility:', settings.showTabCounter);
+        }
 
         const newTabButton = document.getElementById('btnNewTab') as HTMLElement;
-        if (newTabButton) newTabButton.style.display = settings.showNewTabButton ? 'flex' : 'none';
+        if (newTabButton) {
+            newTabButton.style.display = settings.showNewTabButton ? 'flex' : 'none';
+            console.log('New tab button visibility:', settings.showNewTabButton);
+        }
+
+        // Additional UI elements that might exist
+        const formatButton = document.getElementById('btnFormat') as HTMLElement;
+        if (formatButton) {
+            formatButton.style.display = settings.showEditorActions ? 'flex' : 'none';
+        }
+
+        const clearButton = document.getElementById('btnClear') as HTMLElement;
+        if (clearButton) {
+            clearButton.style.display = settings.showConsoleActions ? 'flex' : 'none';
+        }
+
+        const copyButton = document.getElementById('btnCopy') as HTMLElement;
+        if (copyButton) {
+            copyButton.style.display = settings.showConsoleActions ? 'flex' : 'none';
+        }
+
+        const saveButton = document.getElementById('btnSave') as HTMLElement;
+        if (saveButton) {
+            saveButton.style.display = settings.showFileActions ? 'flex' : 'none';
+        }
+
+        const openButton = document.getElementById('btnOpen') as HTMLElement;
+        if (openButton) {
+            openButton.style.display = settings.showFileActions ? 'flex' : 'none';
+        }
+
+        const newButton = document.getElementById('btnNew') as HTMLElement;
+        if (newButton) {
+            newButton.style.display = settings.showFileActions ? 'flex' : 'none';
+        }
     }
 
     // Quick actions system
@@ -1321,8 +2033,8 @@ document.addEventListener('DOMContentLoaded', () => {
         updateTabConsoleStats(consoleStats);
         updateTabConsoleOutput(outputConsole.innerHTML);
         updateConsoleUI();
-        scrollOutputToBottom();
-    }
+            scrollOutputToBottom();
+        }
     
     function getMessageIcon(type: string): string {
         const icons = {
@@ -1833,7 +2545,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const e = new Error(eobj.message); 
                         (e as any).name = eobj.name || 'Error'; 
                         e.stack = eobj.stack || ''; 
-                        handleError(e, code);
+                        handleError(e, code); 
                         // Update tab-specific console stats
                         updateTabConsoleStats(consoleStats);
                         // Update status to Error immediately
@@ -1848,7 +2560,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (!executionStopped) {
                             addSystemMessage('Done'); 
                         }
-                        cleanupWorker();
+                        cleanupWorker(); 
                         // Update status after execution completes
                         updateConsoleUI();
                     }
@@ -2375,8 +3087,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
                         }
                         performTabClose(tabElement);
-                    } catch (error) {
-                        console.error('Error saving file:', error);
+                } catch (error) {
+                    console.error('Error saving file:', error);
                         // Still close the tab even if save fails
                         performTabClose(tabElement);
                     }
@@ -2927,8 +3639,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const settingsButton = document.getElementById('btnSettings');
     if (settingsButton) {
         settingsButton.addEventListener('click', () => {
-            // Open settings page
-            window.location.href = 'settings.html';
+            // Open settings modal
+            const settingsModal = document.getElementById('settingsModal');
+            if (settingsModal) {
+                settingsModal.style.display = 'flex';
+                initializeSettingsModal();
+            }
         });
     }
 
@@ -3231,6 +3947,96 @@ document.addEventListener('DOMContentLoaded', () => {
     (window as any).updateStopButtonState = updateStopButtonState;
     (window as any).startExecutionMonitoring = startExecutionMonitoring;
     (window as any).stopExecutionMonitoring = stopExecutionMonitoring;
+    (window as any).applyUIVisibilitySettings = applyUIVisibilitySettings;
+    (window as any).loadSettings = loadSettings;
+    
+    // Test function for UI visibility settings
+    (window as any).testUIVisibility = function() {
+        console.log('=== TESTING UI VISIBILITY ===');
+        const settings = loadSettings();
+        console.log('Current settings:', settings);
+        
+        // Test hiding run button
+        settings.showRunButton = false;
+        console.log('Setting showRunButton to false');
+        applyUIVisibilitySettings(settings);
+        
+        // Test hiding file actions
+        settings.showFileActions = false;
+        console.log('Setting showFileActions to false');
+        applyUIVisibilitySettings(settings);
+    };
+    
+    // Test function to show all UI elements
+    (window as any).showAllUI = function() {
+        console.log('=== SHOWING ALL UI ELEMENTS ===');
+        const settings = loadSettings();
+        settings.showFileActions = true;
+        settings.showRunButton = true;
+        settings.showThemeToggle = true;
+        settings.showLayoutToggle = true;
+        settings.showSettingsButton = true;
+        settings.showEditorActions = true;
+        settings.showEditorTitle = true;
+        settings.showConsoleActions = true;
+        settings.showConsoleStats = true;
+        settings.showConsoleTitle = true;
+        settings.showTabCounter = true;
+        settings.showNewTabButton = true;
+        applyUIVisibilitySettings(settings);
+    };
+    
+    // Debug function to check CSS rules
+    (window as any).debugCSS = function(elementId: string) {
+        const element = document.getElementById(elementId);
+        if (!element) {
+            console.log(`Element ${elementId} not found`);
+            return;
+        }
+        
+        console.log(`=== CSS DEBUG FOR ${elementId} ===`);
+        console.log('Element:', element);
+        console.log('Inline styles:', element.style.cssText);
+        console.log('Computed styles:', window.getComputedStyle(element));
+        console.log('Display:', window.getComputedStyle(element).display);
+        console.log('Visibility:', window.getComputedStyle(element).visibility);
+        console.log('Opacity:', window.getComputedStyle(element).opacity);
+        console.log('Position:', window.getComputedStyle(element).position);
+        console.log('Z-index:', window.getComputedStyle(element).zIndex);
+        console.log('Transform:', window.getComputedStyle(element).transform);
+        console.log('Is visible:', element.offsetParent !== null);
+        console.log('Dimensions:', {
+            width: element.offsetWidth,
+            height: element.offsetHeight,
+            clientWidth: element.clientWidth,
+            clientHeight: element.clientHeight
+        });
+    };
+    
+    // Debug function to check current UI state
+    (window as any).checkUIState = function() {
+        console.log('=== CURRENT UI STATE ===');
+        const runButton = document.getElementById('btnRun');
+        const fileActions = document.querySelector('.file-actions');
+        
+        console.log('Run button:');
+        console.log('- Element found:', !!runButton);
+        if (runButton) {
+            console.log('- Display:', runButton.style.display);
+            console.log('- Computed display:', window.getComputedStyle(runButton).display);
+            console.log('- Visible:', runButton.offsetParent !== null);
+        }
+        
+        console.log('File actions:');
+        console.log('- Element found:', !!fileActions);
+        if (fileActions) {
+            console.log('- Display:', (fileActions as HTMLElement).style.display);
+            console.log('- Computed display:', window.getComputedStyle(fileActions as HTMLElement).display);
+            console.log('- Visible:', (fileActions as HTMLElement).offsetParent !== null);
+        }
+        
+        console.log('Current settings:', loadSettings());
+    };
     
     // Start the initialization
     initializeUI();
