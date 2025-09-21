@@ -695,14 +695,16 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         
-        // Save current editor state before switching
-        saveEditorState();
-        
         // Check if tab already exists
         const existingTab = tabBar.querySelector(`.modern-tab[data-tab-id="${filePath}"]`) as HTMLElement | null;
         if (existingTab) {
             switchToTab(existingTab);
             return;
+        }
+        
+        // Save current editor state before switching (only if there's an active file)
+        if (activeFilePath && (window as any).editor) {
+            saveEditorState();
         }
         
         // Generate a unique tab ID
@@ -729,15 +731,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.modern-tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         
-        // Initialize editor with content
-        if ((window as any).editor) {
-            (window as any).editor.setValue(initialContent);
-            (window as any).editor.focus();
-        }
-        
-        // Update document title
-        document.title = `${fileName} - iPseudo IDE`;
-        
         // Add to open files if not already there
         if (!openFiles.has(filePath)) {
             openFiles.set(filePath, {
@@ -757,9 +750,29 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         
-        // Update active file path
+        // Update active file path BEFORE setting editor content
         activeFilePath = filePath;
         (window as any).activeFilePath = activeFilePath || '';
+        
+        // Initialize editor with content
+        if ((window as any).editor) {
+            // Set the content and update the file data
+            (window as any).editor.setValue(initialContent);
+            
+            // Update the file data with the initial content
+            if (openFiles.has(filePath)) {
+                const fileData = openFiles.get(filePath)!;
+                fileData.content = initialContent;
+                fileData.originalContent = initialContent;
+                fileData.dirty = false;
+                openFiles.set(filePath, fileData);
+            }
+            
+            (window as any).editor.focus();
+        }
+        
+        // Update document title
+        document.title = `${fileName} - iPseudo IDE`;
         
         return tab;
     }
@@ -1125,7 +1138,7 @@ document.addEventListener('DOMContentLoaded', () => {
             scrollPosition: 0
         });
         
-        // Create the tab
+        // Create the tab (this will handle saving current state)
         createOrSwitchToTab(newTabId, '');
         
         // Update document title
@@ -1431,7 +1444,26 @@ document.addEventListener('DOMContentLoaded', () => {
         // Only create a new tab if there are no existing tabs
         const existingTabs = document.querySelectorAll('.modern-tab');
         if (existingTabs.length === 0) {
-            createNewTab();
+            // Get the current editor content (the default content)
+            const currentContent = (window as any).editor.getValue();
+            
+            // Create a new tab with the current editor content
+            const newTabId = `Untitled-${getNextUntitledNumber()}.pseudo`;
+            
+            // Add to open files with the current editor content
+            openFiles.set(newTabId, {
+                content: currentContent,
+                originalContent: currentContent,
+                dirty: false,
+                cursorPosition: { lineNumber: 1, column: 1 },
+                scrollPosition: 0
+            });
+            
+            // Create the tab with the current content
+            createOrSwitchToTab(newTabId, currentContent);
+            
+            // Update document title
+            document.title = `${newTabId} - iPseudo IDE`;
         }
     }
     
