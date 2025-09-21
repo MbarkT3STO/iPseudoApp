@@ -305,8 +305,8 @@
     height: 40px;
     border-radius: var(--radius-soft-2);
     background: linear-gradient(135deg, 
-        var(--accent-soft-primary), 
-        var(--accent-soft-secondary)
+        var(--soft-blue-500), 
+        var(--soft-blue-600)
     );
     display: flex;
     align-items: center;
@@ -336,6 +336,15 @@
     color: white;
     z-index: 1;
     position: relative;
+}
+
+/* Theme-specific icon colors */
+.theme-light .console-icon i {
+    color: #1f2937; /* Dark gray/black for light mode */
+}
+
+.theme-dark .console-icon i {
+    color: white; /* White for dark mode */
 }
 
 .console-info h3 {
@@ -515,8 +524,8 @@
     height: 80px;
     border-radius: 50%;
     background: linear-gradient(135deg, 
-        var(--accent-soft-primary), 
-        var(--accent-soft-secondary)
+        var(--soft-blue-500), 
+        var(--soft-blue-600)
     );
     display: flex;
     align-items: center;
@@ -530,6 +539,61 @@
 .welcome-icon i {
     font-size: 2rem;
     color: white;
+}
+
+/* Theme-specific welcome icon colors */
+.theme-light .welcome-icon i {
+    color: #1f2937; /* Dark gray/black for light mode */
+}
+
+.theme-dark .welcome-icon i {
+    color: white; /* White for dark mode */
+}
+
+/* Light theme adjustments for console icons */
+.theme-light .console-icon {
+    background: linear-gradient(135deg, 
+        var(--soft-gray-100), 
+        var(--soft-gray-200)
+    );
+    box-shadow: 
+        inset 0 1px 2px rgba(255, 255, 255, 0.8),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.1),
+        0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.theme-light .welcome-icon {
+    background: linear-gradient(135deg, 
+        var(--soft-gray-100), 
+        var(--soft-gray-200)
+    );
+    box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.1),
+        0 2px 4px rgba(0, 0, 0, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Dark theme adjustments for console icons */
+.theme-dark .console-icon {
+    background: linear-gradient(135deg, 
+        var(--soft-gray-800), 
+        var(--soft-gray-900)
+    );
+    box-shadow: 
+        inset 0 1px 2px rgba(255, 255, 255, 0.1),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.3),
+        0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.theme-dark .welcome-icon {
+    background: linear-gradient(135deg, 
+        var(--soft-gray-800), 
+        var(--soft-gray-900)
+    );
+    box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.3),
+        0 2px 4px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .welcome-content {
