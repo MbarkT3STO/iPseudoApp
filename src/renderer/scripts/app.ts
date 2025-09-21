@@ -61,6 +61,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Execution state management
     let isExecuting = false;
     let executionStopped = false;
+    let executionStartTime = 0;
+    let longRunningDetected = false;
+    let longRunningTimeout: number | null = null;
+    let criticalTimeout: number | null = null;
+    let stopButtonPulseInterval: number | null = null;
 
     // Make these globally available
     (window as any).openFiles = openFiles;
@@ -479,6 +484,9 @@ document.addEventListener('DOMContentLoaded', () => {
         isExecuting = false;
         executionStopped = false;
         
+        // Stop execution monitoring
+        stopExecutionMonitoring();
+        
         // Update UI state
         if (runButton) {
             runButton.disabled = false;
@@ -487,8 +495,23 @@ document.addEventListener('DOMContentLoaded', () => {
         if (stopButton) {
             stopButton.style.display = 'none';
             stopButton.disabled = true;
+            updateStopButtonState('hidden');
         }
         if (runStatus) runStatus.title = 'Idle';
+    }
+
+    // Function to just terminate the worker without resetting execution state
+    function terminateWorker(): void {
+        if (runnerWorker) {
+            try { 
+                runnerWorker.onmessage = null; 
+                runnerWorker.onerror = null; 
+                runnerWorker.terminate(); 
+            } catch(e) { 
+                console.error(e); 
+            }
+            runnerWorker = null;
+        }
     }
 
     function stopExecution(): void {
@@ -508,6 +531,90 @@ document.addEventListener('DOMContentLoaded', () => {
                 out('Execution stopped by user', 'warning');
             }, 100);
         }
+    }
+
+    // Enhanced stop button state management
+    function updateStopButtonState(state: 'hidden' | 'normal' | 'long-running' | 'critical'): void {
+        if (!stopButton) return;
+        
+        // Remove all state classes
+        stopButton.classList.remove('hidden', 'normal', 'long-running', 'critical');
+        
+        // Add the new state class
+        stopButton.classList.add(state);
+        
+        // Update title based on state
+        switch (state) {
+            case 'hidden':
+                stopButton.title = 'Stop Execution';
+                break;
+            case 'normal':
+                stopButton.title = 'Stop Execution';
+                break;
+            case 'long-running':
+                stopButton.title = 'Stop Long Running Execution (Click to force stop)';
+                break;
+            case 'critical':
+                stopButton.title = 'Force Stop Stuck Execution (Click immediately)';
+                break;
+        }
+        
+        console.log(`Stop button state updated to: ${state}`);
+    }
+
+    // Monitor execution time and update stop button state
+    function startExecutionMonitoring(): void {
+        executionStartTime = Date.now();
+        longRunningDetected = false;
+        
+        // Clear any existing timeouts
+        if (longRunningTimeout) {
+            clearTimeout(longRunningTimeout);
+            longRunningTimeout = null;
+        }
+        if (criticalTimeout) {
+            clearTimeout(criticalTimeout);
+            criticalTimeout = null;
+        }
+        
+        console.log('Starting execution monitoring...');
+        
+        // Set timeout for long running detection (5 seconds)
+        longRunningTimeout = window.setTimeout(() => {
+            if (isExecuting && !longRunningDetected) {
+                longRunningDetected = true;
+                updateStopButtonState('long-running');
+                console.log('Long running execution detected - stop button updated to warning state');
+            }
+        }, 5000);
+        
+        // Set timeout for critical state (15 seconds)
+        criticalTimeout = window.setTimeout(() => {
+            if (isExecuting) {
+                updateStopButtonState('critical');
+                console.log('Critical execution state - stop button updated to critical state');
+            }
+        }, 15000);
+    }
+
+    // Stop execution monitoring
+    function stopExecutionMonitoring(): void {
+        if (longRunningTimeout) {
+            clearTimeout(longRunningTimeout);
+            longRunningTimeout = null;
+        }
+        
+        if (criticalTimeout) {
+            clearTimeout(criticalTimeout);
+            criticalTimeout = null;
+        }
+        
+        if (stopButtonPulseInterval) {
+            clearInterval(stopButtonPulseInterval);
+            stopButtonPulseInterval = null;
+        }
+        
+        longRunningDetected = false;
     }
 
     function handleError(err: any, src?: string): void {
@@ -666,6 +773,12 @@ document.addEventListener('DOMContentLoaded', () => {
             isExecuting = true;
             executionStopped = false;
             
+            // Start execution monitoring
+            startExecutionMonitoring();
+            
+            // Terminate any existing worker first (without resetting execution state)
+            terminateWorker();
+            
             // Update UI state
             if (runButton) {
                 runButton.disabled = true;
@@ -674,10 +787,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (stopButton) {
                 stopButton.style.display = 'flex';
                 stopButton.disabled = false;
+                updateStopButtonState('normal');
             }
             if (runStatus) runStatus.title = 'Running';
 
-            cleanupWorker();
+            // Create new worker
             runnerWorker = new Worker('./scripts/runner.worker.js');
 
             // If the code looks like pseudocode, send a slightly longer timeout.
@@ -1869,6 +1983,50 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 2600); // After all the loop iterations
     }
 
+    // Test function for stop button states
+    function testStopButtonStates(): void {
+        console.log('Testing stop button states...');
+        
+        // Test hidden state
+        updateStopButtonState('hidden');
+        setTimeout(() => {
+            console.log('Testing normal state...');
+            updateStopButtonState('normal');
+        }, 1000);
+        
+        setTimeout(() => {
+            console.log('Testing long-running state...');
+            updateStopButtonState('long-running');
+        }, 2000);
+        
+        setTimeout(() => {
+            console.log('Testing critical state...');
+            updateStopButtonState('critical');
+        }, 3000);
+        
+        setTimeout(() => {
+            console.log('Resetting to hidden state...');
+            updateStopButtonState('hidden');
+        }, 4000);
+    }
+
+    // Test function for long running execution simulation
+    function testLongRunningExecution(): void {
+        console.log('Testing long running execution detection...');
+        
+        // Simulate execution start
+        isExecuting = true;
+        startExecutionMonitoring();
+        
+        // Simulate a long running operation
+        setTimeout(() => {
+            console.log('Simulating execution completion...');
+            isExecuting = false;
+            stopExecutionMonitoring();
+            updateStopButtonState('hidden');
+        }, 6000); // 6 seconds to trigger long-running state
+    }
+
     // Debug function to analyze scrollable elements
     function debugScrollElements(): void {
         console.log('=== SCROLL DEBUG ANALYSIS ===');
@@ -1942,11 +2100,16 @@ document.addEventListener('DOMContentLoaded', () => {
     (window as any).testLongContentScroll = testLongContentScroll;
     (window as any).testLoopScroll = testLoopScroll;
     (window as any).testLiveLoopScroll = testLiveLoopScroll;
+    (window as any).testStopButtonStates = testStopButtonStates;
+    (window as any).testLongRunningExecution = testLongRunningExecution;
     (window as any).scrollToVeryBottom = scrollToVeryBottom;
     (window as any).forceImmediateScroll = forceImmediateScroll;
     (window as any).performDebouncedScroll = performDebouncedScroll;
     (window as any).performImmediateScroll = performImmediateScroll;
     (window as any).debugScrollElements = debugScrollElements;
+    (window as any).updateStopButtonState = updateStopButtonState;
+    (window as any).startExecutionMonitoring = startExecutionMonitoring;
+    (window as any).stopExecutionMonitoring = stopExecutionMonitoring;
     
     // Start the initialization
     initializeUI();

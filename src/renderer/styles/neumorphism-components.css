@@ -350,7 +350,7 @@
   transform: translateX(2px);
 }
 
-/* Stop Button */
+/* Stop Button - Icon Only with Dynamic States */
 .btn-stop {
   background: linear-gradient(135deg, 
     var(--soft-red-500) 0%, 
@@ -366,16 +366,20 @@
   cursor: pointer !important;
   display: flex !important;
   align-items: center !important;
-  gap: var(--space-soft-2) !important;
+  justify-content: center !important;
   font-size: var(--font-size-soft-sm) !important;
   font-weight: var(--font-weight-soft-semibold) !important;
-  padding: var(--space-soft-4) var(--space-soft-8) !important;
+  padding: var(--space-soft-4) !important;
   border-radius: var(--radius-soft-lg) !important;
   position: relative !important;
   overflow: hidden !important;
   transition: all var(--duration-soft-normal) var(--ease-soft-out) !important;
   visibility: visible !important;
   opacity: 1 !important;
+  min-width: 48px !important;
+  min-height: 48px !important;
+  width: 48px !important;
+  height: 48px !important;
 }
 
 .btn-stop:hover:not(:disabled) {
@@ -428,6 +432,94 @@
 
 .btn-stop:hover:not(:disabled) i {
   transform: scale(1.1);
+}
+
+/* Dynamic Stop Button States */
+
+/* Hidden state - when not executing */
+.btn-stop.hidden {
+  opacity: 0 !important;
+  transform: scale(0.8) !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+/* Normal state - when execution starts */
+.btn-stop.normal {
+  opacity: 1 !important;
+  transform: scale(1) !important;
+  background: linear-gradient(135deg, 
+    var(--soft-red-500) 0%, 
+    var(--soft-red-600) 50%, 
+    var(--soft-red-700) 100%) !important;
+}
+
+/* Long running state - when execution takes too long */
+.btn-stop.long-running {
+  background: linear-gradient(135deg, 
+    var(--soft-orange-500) 0%, 
+    var(--soft-orange-600) 50%, 
+    var(--soft-orange-700) 100%) !important;
+  box-shadow: 
+    0 8px 25px rgba(255, 165, 0, 0.3),
+    0 4px 12px rgba(255, 165, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1) !important;
+  animation: stopButtonPulse 1.5s ease-in-out infinite;
+}
+
+/* Critical state - when execution is stuck */
+.btn-stop.critical {
+  background: linear-gradient(135deg, 
+    var(--soft-red-600) 0%, 
+    var(--soft-red-700) 50%, 
+    var(--soft-red-800) 100%) !important;
+  box-shadow: 
+    0 8px 25px rgba(220, 38, 38, 0.4),
+    0 4px 12px rgba(220, 38, 38, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1) !important;
+  animation: stopButtonCritical 0.8s ease-in-out infinite;
+}
+
+/* Long running pulse animation */
+@keyframes stopButtonPulse {
+  0%, 100% {
+    box-shadow: 
+      0 8px 25px rgba(255, 165, 0, 0.3),
+      0 4px 12px rgba(255, 165, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.1),
+      0 0 0 0 rgba(255, 165, 0, 0.4);
+  }
+  50% {
+    box-shadow: 
+      0 8px 25px rgba(255, 165, 0, 0.3),
+      0 4px 12px rgba(255, 165, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.1),
+      0 0 0 8px rgba(255, 165, 0, 0.1);
+  }
+}
+
+/* Critical state animation */
+@keyframes stopButtonCritical {
+  0%, 100% {
+    box-shadow: 
+      0 8px 25px rgba(220, 38, 38, 0.4),
+      0 4px 12px rgba(220, 38, 38, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.1),
+      0 0 0 0 rgba(255, 0, 0, 0.6);
+  }
+  50% {
+    box-shadow: 
+      0 8px 25px rgba(220, 38, 38, 0.4),
+      0 4px 12px rgba(220, 38, 38, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.1),
+      0 0 0 12px rgba(255, 0, 0, 0.2);
+  }
 }
 
 .btn-xl {

@@ -2,6 +2,20 @@ import { app, BrowserWindow, ipcMain, dialog, shell } from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
 
+// Type definitions for better TypeScript support
+interface SaveDialogOptions {
+  title?: string;
+  defaultPath?: string;
+  filters?: Array<{ name: string; extensions: string[] }>;
+}
+
+interface OpenDialogOptions {
+  title?: string;
+  defaultPath?: string;
+  filters?: Array<{ name: string; extensions: string[] }>;
+  properties?: string[];
+}
+
 function createWindow() {
   const mainWindow = new BrowserWindow({
     width: 1200,
@@ -49,7 +63,7 @@ app.on('window-all-closed', () => {
 // IPC handlers for file operations and pseudocode execution will go here
 
 // Add message box handler
-ipcMain.handle('show-message-box', async (event, options) => {
+ipcMain.handle('show-message-box', async (event: any, options: any) => {
   const win = BrowserWindow.getFocusedWindow();
   const result = await dialog.showMessageBox(win!, options);
   return result;
@@ -66,7 +80,7 @@ ipcMain.handle('dialog:openFile', async () => {
   return { canceled: false, filePath: filePaths[0], content };
 });
 
-ipcMain.handle('dialog:saveFile', async (_evt, args: { filePath?: string; content: string }) => {
+ipcMain.handle('dialog:saveFile', async (_evt: any, args: { filePath?: string; content: string }) => {
   let { filePath, content } = args;
   const win = BrowserWindow.getFocusedWindow();
   if (!filePath) {
@@ -81,12 +95,12 @@ ipcMain.handle('dialog:saveFile', async (_evt, args: { filePath?: string; conten
   return { canceled: false, filePath };
 });
 
-ipcMain.handle('show-open-dialog', async (event, options) => {
+ipcMain.handle('show-open-dialog', async (event: any, options: any) => {
   const { canceled, filePaths } = await dialog.showOpenDialog(options);
   return { canceled, filePaths };
 });
 
 // Add openExternal handler
-ipcMain.handle('open-external', (event, url) => {
+ipcMain.handle('open-external', (event: any, url: string) => {
   return shell.openExternal(url);
 });
