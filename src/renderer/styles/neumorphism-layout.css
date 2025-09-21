@@ -371,7 +371,7 @@
 /* ===== CONSOLE OUTPUT ===== */
 .console-output {
   font-family: var(--font-family-mono-soft);
-  font-size: var(--font-size-soft-sm);
+  font-size: var(--console-font-size, var(--font-size-soft-sm));
   line-height: 1.6;
   color: var(--text-soft-primary);
   background: var(--bg-soft-elevated);

@@ -189,7 +189,7 @@
 /* ===== ULTRA-MODERN CONSOLE STYLING ===== */
 .console-output {
   font-family: var(--font-family-mono);
-  font-size: var(--font-size-sm);
+  font-size: var(--console-font-size, var(--font-size-sm));
   line-height: var(--line-height-relaxed);
   color: var(--text-primary);
   background: var(--bg-primary);

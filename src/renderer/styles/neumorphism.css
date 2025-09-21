@@ -480,8 +480,8 @@
 }
 
 .console-output {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.875rem;
+    font-family: var(--console-font-family, 'JetBrains Mono'), monospace;
+    font-size: var(--console-font-size, 0.875rem);
     line-height: 1.6;
     color: var(--text-soft-primary);
 }
@@ -987,7 +987,7 @@
 }
 
 .message-text {
-    font-size: 0.875rem;
+    font-size: inherit;
     line-height: 1.5;
     word-wrap: break-word;
     white-space: pre-wrap;

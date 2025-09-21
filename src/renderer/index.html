@@ -343,7 +343,7 @@
                             <div class="setting-item">
                                 <label for="themeSelect">Theme</label>
                                 <select id="themeSelect" class="setting-control">
-                                    <option value="auto">Auto (System)</option>
+                                    <option value="system">System</option>
                                     <option value="light">Light</option>
                                     <option value="dark">Dark</option>
                                 </select>
@@ -661,20 +661,7 @@
             }
         });
 
-        // Neumorphic theme toggle
-        const themeToggle = document.getElementById('btnThemeToggle');
-        const body = document.body;
-        
-        themeToggle.addEventListener('click', () => {
-            body.classList.toggle('theme-dark');
-            body.classList.toggle('theme-light');
-            
-            // Update theme info
-            const themeInfo = document.getElementById('themeInfo');
-            if (themeInfo) {
-                themeInfo.textContent = body.classList.contains('theme-dark') ? 'Dark Theme' : 'Light Theme';
-            }
-        });
+        // Theme toggle will be set up in app.ts after functions are loaded
 
         // Neumorphic loading animation
         document.addEventListener('DOMContentLoaded', () => {

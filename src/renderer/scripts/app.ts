@@ -433,7 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const settings = loadSettings();
         
         // Apply theme
-        applyTheme(settings.theme || 'light');
+        applyTheme(settings.theme || 'system');
         
         // Apply accent color
         applyAccentColor(settings.accentColor || '#0ea5e9');
@@ -446,6 +446,9 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('Applying UI visibility on app startup');
             applyUIVisibilitySettings(settings);
         }, 500);
+        
+        // Initialize local variables from settings
+        autoScrollEnabled = settings.autoScroll !== false;
     }
 
     // Initialize settings modal
@@ -484,6 +487,9 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Settings when modal opens:', currentSettings);
         console.log('showRunButton when modal opens:', currentSettings.showRunButton);
         applyUIVisibilitySettings(currentSettings);
+        
+        // Update theme toggle button to reflect current settings
+        updateThemeToggleButtonFromSettings();
     }
 
     // Setup settings tabs
@@ -517,7 +523,11 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Theme
         const themeSelect = document.getElementById('themeSelect') as HTMLSelectElement;
-        if (themeSelect) themeSelect.value = settings.theme || 'light';
+        if (themeSelect) {
+            const theme = settings.theme || 'system';
+            themeSelect.value = theme;
+            console.log('Theme select set to:', theme);
+        }
 
         // Accent color
         const accentColor = document.getElementById('accentColor') as HTMLInputElement;
@@ -602,9 +612,28 @@ document.addEventListener('DOMContentLoaded', () => {
         if (themeSelect) {
             themeSelect.addEventListener('change', (e) => {
                 const theme = (e.target as HTMLSelectElement).value;
+                console.log('Theme changed to:', theme);
+                
+                // Apply theme immediately
                 applyTheme(theme);
-                saveSetting('theme', theme);
+                
+                // Save setting
+                const updatedSettings = saveSetting('theme', theme);
+                console.log('Theme setting saved:', updatedSettings.theme);
+                
+                // If system theme is selected, listen for system theme changes
+                if (theme === 'system') {
+                    setupSystemThemeListener();
+                } else {
+                    removeSystemThemeListener();
+                }
             });
+        }
+        
+        // Setup system theme listener for initial load
+        const currentTheme = loadSettings().theme;
+        if (currentTheme === 'system') {
+            setupSystemThemeListener();
         }
 
         // Accent color change
@@ -634,9 +663,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         setupRangeInput('consoleFontSize', 'consoleFontSizeValue', 'px', (value) => {
+            console.log('=== CONSOLE FONT SIZE CHANGED ===');
+            console.log('New value:', value);
             const updatedSettings = saveSetting('consoleFontSize', value);
+            console.log('Updated settings:', updatedSettings);
+            
+            // Apply immediately with multiple methods
+            applyConsoleFontSizeImmediately(value);
             applyAppSettings(updatedSettings);
-            applyUIVisibilitySettings(updatedSettings);
         });
 
         setupRangeInput('maxTabs', 'maxTabsValue', ' tabs', (value) => {
@@ -683,11 +717,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         setupToggleInput('autoScroll', (value) => {
-            saveSetting('autoScroll', value);
+            console.log('Auto scroll setting changed to:', value);
+            const updatedSettings = saveSetting('autoScroll', value);
+            applyAppSettings(updatedSettings);
+            // Update the local variable
+            autoScrollEnabled = value;
+            console.log('Local autoScrollEnabled set to:', autoScrollEnabled);
+            console.log('Global autoScrollEnabled set to:', (window as any).autoScrollEnabled);
         });
 
         setupToggleInput('showTimestamps', (value) => {
-            saveSetting('showTimestamps', value);
+            const updatedSettings = saveSetting('showTimestamps', value);
+            applyAppSettings(updatedSettings);
         });
 
         setupToggleInput('autoSave', (value) => {
@@ -772,7 +813,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const maxOutputLines = document.getElementById('maxOutputLines') as HTMLInputElement;
         if (maxOutputLines) {
             maxOutputLines.addEventListener('change', (e) => {
-                saveSetting('maxMessages', parseInt((e.target as HTMLInputElement).value));
+                const updatedSettings = saveSetting('maxMessages', parseInt((e.target as HTMLInputElement).value));
+                applyAppSettings(updatedSettings);
             });
         }
 
@@ -1055,7 +1097,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getDefaultSettings() {
         return {
-            theme: 'light',
+            theme: 'system',
             accentColor: '#0ea5e9',
             animationsEnabled: true,
             glassEffects: true,
@@ -1095,14 +1137,105 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function applyTheme(theme: string) {
-        const body = document.body;
-        body.classList.remove('theme-light', 'theme-dark');
+        console.log('Applying theme:', theme);
         
-        if (theme === 'auto') {
+        const body = document.body;
+        const html = document.documentElement;
+        
+        // Remove existing theme classes
+        body.classList.remove('theme-light', 'theme-dark');
+        html.classList.remove('theme-light', 'theme-dark');
+        html.removeAttribute('data-theme');
+        
+        let actualTheme = theme;
+        
+        // Handle system/auto theme
+        if (theme === 'auto' || theme === 'system') {
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            body.classList.add(prefersDark ? 'theme-dark' : 'theme-light');
-        } else {
-            body.classList.add(`theme-${theme}`);
+            actualTheme = prefersDark ? 'dark' : 'light';
+            console.log('System theme detected:', actualTheme);
+        }
+        
+        // Apply the theme
+        const themeClass = `theme-${actualTheme}`;
+        body.classList.add(themeClass);
+        html.classList.add(themeClass);
+        html.setAttribute('data-theme', actualTheme);
+        
+        console.log('Theme applied:', themeClass);
+        
+        // Update Monaco editor theme if available
+        if (typeof (window as any).monaco !== 'undefined' && (window as any).monaco.editor) {
+            try {
+                (window as any).monaco.editor.setTheme(actualTheme === 'dark' ? 'vs-dark' : 'vs');
+                console.log('Monaco editor theme updated to:', actualTheme === 'dark' ? 'vs-dark' : 'vs');
+            } catch (error) {
+                console.error('Error updating Monaco theme:', error);
+            }
+        }
+        
+        // Update theme toggle button if it exists
+        updateThemeToggleButton(actualTheme === 'dark');
+        updateThemeToggleButtonFromSettings();
+    }
+    
+    function updateThemeToggleButton(isDark: boolean) {
+        const themeToggle = document.getElementById('btnThemeToggle');
+        if (themeToggle) {
+            themeToggle.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+            const icon = themeToggle.querySelector('i');
+            if (icon) {
+                icon.className = isDark ? 'ri-moon-line' : 'ri-sun-line';
+            }
+        }
+    }
+    
+    function updateThemeToggleButtonFromSettings() {
+        const settings = loadSettings();
+        const themeToggle = document.getElementById('btnThemeToggle');
+        const icon = themeToggle?.querySelector('i');
+        
+        if (!themeToggle || !icon) return;
+        
+        // Update icon and tooltip based on current theme setting
+        if (settings.theme === 'system') {
+            icon.className = 'ri-contrast-2-line';
+            themeToggle.title = 'Toggle Theme (System)';
+        } else if (settings.theme === 'dark') {
+            icon.className = 'ri-moon-line';
+            themeToggle.title = 'Toggle Theme (Dark)';
+        } else if (settings.theme === 'light') {
+            icon.className = 'ri-sun-line';
+            themeToggle.title = 'Toggle Theme (Light)';
+        }
+        
+        console.log('Theme toggle button updated for theme:', settings.theme);
+    }
+    
+    let systemThemeListener: ((e: MediaQueryListEvent) => void) | null = null;
+    
+    function setupSystemThemeListener() {
+        if (systemThemeListener) return; // Already set up
+        
+        systemThemeListener = (e: MediaQueryListEvent) => {
+            console.log('System theme changed:', e.matches ? 'dark' : 'light');
+            const settings = loadSettings();
+            if (settings.theme === 'system') {
+                applyTheme('system');
+            }
+        };
+        
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        mediaQuery.addEventListener('change', systemThemeListener);
+        console.log('System theme listener set up');
+    }
+    
+    function removeSystemThemeListener() {
+        if (systemThemeListener) {
+            const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+            mediaQuery.removeEventListener('change', systemThemeListener);
+            systemThemeListener = null;
+            console.log('System theme listener removed');
         }
     }
 
@@ -1165,20 +1298,75 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Apply console height
         const consoleContent = document.querySelector('.console-content') as HTMLElement;
+        console.log('Console content element found:', !!consoleContent);
         if (consoleContent && settings.consoleHeight) {
-            consoleContent.style.height = `${settings.consoleHeight}px`;
+            consoleContent.style.setProperty('height', `${settings.consoleHeight}px`, 'important');
+            console.log('Applied console height:', settings.consoleHeight);
         }
 
-        // Apply console font settings
-        const consoleOutput = document.querySelector('.console-output') as HTMLElement;
-        if (consoleOutput) {
+        // Apply console font settings using multiple approaches
+        const applyConsoleFontSettings = () => {
+            console.log('=== APPLYING CONSOLE FONT SETTINGS ===');
+            console.log('Settings object:', settings);
+            console.log('consoleFontSize:', settings.consoleFontSize);
+            
+            // Method 1: Set CSS custom properties on the document root
             if (settings.consoleFontSize) {
-                consoleOutput.style.fontSize = `${settings.consoleFontSize}px`;
+                document.documentElement.style.setProperty('--console-font-size', `${settings.consoleFontSize}px`);
+                console.log('Set CSS custom property --console-font-size to:', `${settings.consoleFontSize}px`);
             }
             if (settings.consoleFontFamily) {
-                consoleOutput.style.fontFamily = settings.consoleFontFamily;
+                document.documentElement.style.setProperty('--console-font-family', settings.consoleFontFamily);
+                console.log('Set CSS custom property --console-font-family to:', settings.consoleFontFamily);
             }
-        }
+            
+            // Method 2: Create or update a style element with high specificity
+            let consoleStyleElement = document.getElementById('console-custom-styles') as HTMLStyleElement;
+            if (!consoleStyleElement) {
+                consoleStyleElement = document.createElement('style');
+                consoleStyleElement.id = 'console-custom-styles';
+                document.head.appendChild(consoleStyleElement);
+            }
+            
+            if (settings.consoleFontSize || settings.consoleFontFamily) {
+                let css = '.console-output {';
+                if (settings.consoleFontSize) {
+                    css += `font-size: ${settings.consoleFontSize}px !important;`;
+                }
+                if (settings.consoleFontFamily) {
+                    css += `font-family: ${settings.consoleFontFamily} !important;`;
+                }
+                css += '}';
+                consoleStyleElement.textContent = css;
+                console.log('Created custom CSS:', css);
+            }
+            
+            // Method 3: Direct styling as backup
+            const consoleOutput = document.querySelector('.console-output') as HTMLElement;
+            console.log('Console output element found:', !!consoleOutput);
+            
+            if (consoleOutput) {
+                console.log('Before applying styles:');
+                console.log('- Inline font size:', consoleOutput.style.fontSize);
+                console.log('- Computed font size:', window.getComputedStyle(consoleOutput).fontSize);
+                
+                if (settings.consoleFontSize) {
+                    console.log('Setting font size to:', `${settings.consoleFontSize}px`);
+                    consoleOutput.style.setProperty('font-size', `${settings.consoleFontSize}px`, 'important');
+                    console.log('After setting font size:');
+                    console.log('- Inline font size:', consoleOutput.style.fontSize);
+                    console.log('- Computed font size:', window.getComputedStyle(consoleOutput).fontSize);
+                }
+                if (settings.consoleFontFamily) {
+                    consoleOutput.style.setProperty('font-family', settings.consoleFontFamily, 'important');
+                    console.log('Applied console font family:', settings.consoleFontFamily);
+                }
+            } else {
+                console.error('Console output element not found! Retrying in 100ms...');
+                setTimeout(applyConsoleFontSettings, 100);
+            }
+        };
+        applyConsoleFontSettings();
 
         // Set global variables for other parts of the app
         (window as any).autoSaveEnabled = settings.autoSave;
@@ -1593,7 +1781,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!outputConsole || !consoleContent || mutationObserver) return;
         
         mutationObserver = new MutationObserver((mutations) => {
-            if (!autoScrollEnabled) return;
+            console.log('MutationObserver triggered, autoScrollEnabled:', autoScrollEnabled);
+            if (!autoScrollEnabled) {
+                console.log('Auto scroll disabled, skipping scroll');
+                return;
+            }
             
             let shouldScroll = false;
             let isPrintStatement = false;
@@ -1743,6 +1935,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to scroll output console to bottom
     function scrollOutputToBottom(): void {
+        if (!autoScrollEnabled) {
+            console.log('Auto scroll disabled, skipping scrollOutputToBottom');
+            return;
+        }
         if (!consoleContent) {
             console.warn('Console content element not found');
             return;
@@ -1816,6 +2012,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Enhanced function to scroll to the very bottom with better handling of long content
     function scrollToVeryBottom(): void {
+        if (!autoScrollEnabled) {
+            console.log('Auto scroll disabled, skipping scrollToVeryBottom');
+            return;
+        }
+        
         // Try multiple potential scrollable elements
         const scrollableElements = [
             consoleContent,
@@ -1896,6 +2097,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to scroll the last element into view
     function scrollLastElementIntoView(): void {
+        if (!autoScrollEnabled) {
+            console.log('Auto scroll disabled, skipping scrollLastElementIntoView');
+            return;
+        }
         if (!outputConsole || !consoleContent) return;
         
         // Find the last child element
@@ -1946,6 +2151,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const line = document.createElement('div');
             line.className = 'console-message console-print';
+            
+            // Apply current font size setting
+            const settings = loadSettings();
+            if (settings.consoleFontSize) {
+                line.style.fontSize = `${settings.consoleFontSize}px`;
+            }
+            
             line.innerHTML = `
                 <i class="ri-terminal-line"></i>
                 <span class="message-content">
@@ -2017,14 +2229,21 @@ document.addEventListener('DOMContentLoaded', () => {
         const messageElement = document.createElement('div');
         messageElement.className = `console-message console-${type}`;
         
+        // Apply current font size setting
+        const settings = loadSettings();
+        if (settings.consoleFontSize) {
+            messageElement.style.fontSize = `${settings.consoleFontSize}px`;
+        }
+        
         const icon = getMessageIcon(type);
-        const timestamp = new Date().toLocaleTimeString();
+        const showTimestamps = (window as any).showTimestamps !== false;
+        const timestamp = showTimestamps ? new Date().toLocaleTimeString() : '';
         
         messageElement.innerHTML = `
             <i class="${icon}"></i>
             <span class="message-content">
                 <span class="message-text">${message}</span>
-                <span class="message-timestamp">${timestamp}</span>
+                ${showTimestamps ? `<span class="message-timestamp">${timestamp}</span>` : ''}
             </span>
         `;
         
@@ -2060,13 +2279,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const messageElement = document.createElement('div');
         messageElement.className = 'console-message console-system';
         
-        const timestamp = new Date().toLocaleTimeString();
+        // Apply current font size setting
+        const settings = loadSettings();
+        if (settings.consoleFontSize) {
+            messageElement.style.fontSize = `${settings.consoleFontSize}px`;
+        }
+        
+        const showTimestamps = (window as any).showTimestamps !== false;
+        const timestamp = showTimestamps ? new Date().toLocaleTimeString() : '';
         
         messageElement.innerHTML = `
             <i class="ri-settings-3-line"></i>
             <span class="message-content">
                 <span class="message-text">${message}</span>
-                <span class="message-timestamp">${timestamp}</span>
+                ${showTimestamps ? `<span class="message-timestamp">${timestamp}</span>` : ''}
             </span>
         `;
         
@@ -3949,6 +4175,9 @@ document.addEventListener('DOMContentLoaded', () => {
     (window as any).stopExecutionMonitoring = stopExecutionMonitoring;
     (window as any).applyUIVisibilitySettings = applyUIVisibilitySettings;
     (window as any).loadSettings = loadSettings;
+    (window as any).saveSetting = saveSetting;
+    (window as any).applyTheme = applyTheme;
+    (window as any).updateThemeToggleButtonFromSettings = updateThemeToggleButtonFromSettings;
     
     // Test function for UI visibility settings
     (window as any).testUIVisibility = function() {
@@ -4038,6 +4267,137 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Current settings:', loadSettings());
     };
     
+    // Function to apply console font size immediately
+    function applyConsoleFontSizeImmediately(fontSize: number) {
+        console.log('=== APPLYING CONSOLE FONT SIZE IMMEDIATELY ===');
+        console.log('Font size to apply:', fontSize);
+        
+        // Method 1: Update CSS custom property
+        document.documentElement.style.setProperty('--console-font-size', `${fontSize}px`);
+        console.log('Set CSS custom property to:', `${fontSize}px`);
+        
+        // Method 2: Update or create style element
+        let consoleStyleElement = document.getElementById('console-custom-styles') as HTMLStyleElement;
+        if (!consoleStyleElement) {
+            consoleStyleElement = document.createElement('style');
+            consoleStyleElement.id = 'console-custom-styles';
+            document.head.appendChild(consoleStyleElement);
+            console.log('Created new style element');
+        }
+        
+        const css = `.console-output { font-size: ${fontSize}px !important; }`;
+        consoleStyleElement.textContent = css;
+        console.log('Updated style element with:', css);
+        
+        // Method 3: Apply to all existing console output elements
+        const consoleOutputs = document.querySelectorAll('.console-output');
+        console.log('Found console output elements:', consoleOutputs.length);
+        
+        consoleOutputs.forEach((element, index) => {
+            const htmlElement = element as HTMLElement;
+            htmlElement.style.setProperty('font-size', `${fontSize}px`, 'important');
+            console.log(`Applied to element ${index}:`, {
+                element: htmlElement,
+                inlineStyle: htmlElement.style.fontSize,
+                computedStyle: window.getComputedStyle(htmlElement).fontSize
+            });
+        });
+        
+        // Method 3b: Apply to all existing console messages
+        const consoleMessages = document.querySelectorAll('.console-message');
+        console.log('Found console message elements:', consoleMessages.length);
+        
+        consoleMessages.forEach((element, index) => {
+            const htmlElement = element as HTMLElement;
+            htmlElement.style.setProperty('font-size', `${fontSize}px`, 'important');
+            console.log(`Applied to message ${index}:`, {
+                element: htmlElement,
+                inlineStyle: htmlElement.style.fontSize,
+                computedStyle: window.getComputedStyle(htmlElement).fontSize
+            });
+        });
+        
+        // Method 4: Apply to console content as well
+        const consoleContent = document.querySelector('.console-content') as HTMLElement;
+        if (consoleContent) {
+            consoleContent.style.setProperty('font-size', `${fontSize}px`, 'important');
+            console.log('Applied to console content:', {
+                inlineStyle: consoleContent.style.fontSize,
+                computedStyle: window.getComputedStyle(consoleContent).fontSize
+            });
+        }
+        
+        // Method 5: Force a reflow to ensure styles are applied
+        document.body.offsetHeight; // Force reflow
+        
+        console.log('Font size application completed');
+    }
+
+    // Debug function to test console settings
+    (window as any).testConsoleSettings = function() {
+        console.log('=== TESTING CONSOLE SETTINGS ===');
+        const consoleOutput = document.querySelector('.console-output');
+        const consoleContent = document.querySelector('.console-content');
+        
+        console.log('Console output element:', consoleOutput);
+        console.log('Console content element:', consoleContent);
+        
+        if (consoleOutput) {
+            console.log('Current font size:', window.getComputedStyle(consoleOutput).fontSize);
+            console.log('Current font family:', window.getComputedStyle(consoleOutput).fontFamily);
+            console.log('Inline font size:', (consoleOutput as HTMLElement).style.fontSize);
+            console.log('Inline font family:', (consoleOutput as HTMLElement).style.fontFamily);
+            
+            // Test setting font size
+            (consoleOutput as HTMLElement).style.setProperty('font-size', '20px', 'important');
+            console.log('Set font size to 20px, computed:', window.getComputedStyle(consoleOutput).fontSize);
+        }
+        
+        console.log('Auto scroll enabled:', autoScrollEnabled);
+        console.log('Global auto scroll enabled:', (window as any).autoScrollEnabled);
+    };
+    
+    // Test function to manually apply font size
+    (window as any).testFontSize = function(size: number) {
+        console.log(`Testing font size: ${size}px`);
+        applyConsoleFontSizeImmediately(size);
+    };
+    
+    // Set up observer to watch for new console elements
+    function setupConsoleFontObserver() {
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'childList') {
+                    mutation.addedNodes.forEach((node) => {
+                        if (node.nodeType === Node.ELEMENT_NODE) {
+                            const element = node as HTMLElement;
+                            if (element.classList.contains('console-output') || 
+                                element.querySelector('.console-output')) {
+                                console.log('New console element detected, applying font size');
+                                const settings = loadSettings();
+                                if (settings.consoleFontSize) {
+                                    applyConsoleFontSizeImmediately(settings.consoleFontSize);
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        });
+        
+        const consoleContainer = document.querySelector('.console-content');
+        if (consoleContainer) {
+            observer.observe(consoleContainer, {
+                childList: true,
+                subtree: true
+            });
+            console.log('Console font observer set up');
+        }
+    }
+    
+    // Initialize the observer
+    setupConsoleFontObserver();
+    
     // Start the initialization
     initializeUI();
     initializeFirstTab();
@@ -4045,14 +4405,82 @@ document.addEventListener('DOMContentLoaded', () => {
     setupTooltips();
     setupQuickActions();
     
+    // Setup theme toggle button
+    function setupThemeToggleButton(): void {
+        const themeToggle = document.getElementById('btnThemeToggle');
+        if (!themeToggle) {
+            console.log('Theme toggle button not found');
+            return;
+        }
+        
+        console.log('Setting up theme toggle button');
+        
+        themeToggle.addEventListener('click', () => {
+            // Get current settings
+            const currentSettings = loadSettings();
+            const currentTheme = currentSettings.theme;
+            
+            console.log('Theme toggle clicked. Current theme:', currentTheme);
+            
+            // Determine next theme based on current theme
+            let nextTheme: string;
+            
+            if (currentTheme === 'system') {
+                // If system, toggle to light
+                nextTheme = 'light';
+            } else if (currentTheme === 'light') {
+                // If light, toggle to dark
+                nextTheme = 'dark';
+            } else if (currentTheme === 'dark') {
+                // If dark, toggle to system
+                nextTheme = 'system';
+            } else {
+                // Fallback: toggle between light and dark
+                const isDark = document.body.classList.contains('theme-dark');
+                nextTheme = isDark ? 'light' : 'dark';
+            }
+            
+            console.log('Switching to theme:', nextTheme);
+            
+            // Apply the new theme
+            applyTheme(nextTheme);
+            
+            // Save the setting
+            const updatedSettings = saveSetting('theme', nextTheme);
+            console.log('Theme setting saved:', updatedSettings.theme);
+            
+            // Update the theme select in settings if it exists
+            const themeSelect = document.getElementById('themeSelect') as HTMLSelectElement;
+            if (themeSelect) {
+                themeSelect.value = nextTheme;
+                console.log('Theme select updated to:', nextTheme);
+            }
+            
+            // Update theme info
+            const themeInfo = document.getElementById('themeInfo');
+            if (themeInfo) {
+                const displayTheme = nextTheme === 'system' ? 'System Theme' : 
+                                   nextTheme === 'dark' ? 'Dark Theme' : 'Light Theme';
+                themeInfo.textContent = displayTheme;
+            }
+            
+            // Update theme toggle button appearance
+            updateThemeToggleButtonFromSettings();
+        });
+        
+        console.log('Theme toggle button setup complete');
+    }
+
     // Initialize settings manager immediately when DOM is ready
     document.addEventListener('DOMContentLoaded', () => {
         initializeSettings();
+        setupThemeToggleButton();
     });
     
     // Also initialize after a delay as backup
     setTimeout(() => {
         initializeSettings();
+        setupThemeToggleButton();
     }, 1000);
     
     // Add keyboard shortcuts for tab navigation
