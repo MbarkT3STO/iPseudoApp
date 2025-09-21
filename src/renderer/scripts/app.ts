@@ -42,6 +42,7 @@ interface Window {
 
 document.addEventListener('DOMContentLoaded', () => {
     const outputConsole = document.getElementById('output') as HTMLElement | null;
+    const consoleContent = document.querySelector('.console-content') as HTMLElement | null;
     const runButton = document.getElementById('btnRun') as HTMLButtonElement | null;
     const stopButton = document.getElementById('btnStop') as HTMLButtonElement | null;
     const clearButton = document.getElementById('clearConsole') as HTMLButtonElement | null;
@@ -68,9 +69,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Setup MutationObserver for automatic scrolling
     let autoScrollEnabled = true;
     let mutationObserver: MutationObserver | null = null;
+    let scrollTimeout: number | null = null;
+    let isContentBeingAdded = false;
     
     function setupAutoScrollObserver(): void {
-        if (!outputConsole || mutationObserver) return;
+        if (!outputConsole || !consoleContent || mutationObserver) return;
         
         mutationObserver = new MutationObserver((mutations) => {
             if (!autoScrollEnabled) return;
@@ -83,11 +86,20 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             
             if (shouldScroll) {
-                // Use a small delay to ensure DOM is fully updated
-                setTimeout(() => {
-                    scrollOutputToBottom();
-                    scrollLastElementIntoView();
-                }, 10);
+                // Mark that content is being added
+                isContentBeingAdded = true;
+                
+                // Clear any existing timeout
+                if (scrollTimeout) {
+                    clearTimeout(scrollTimeout);
+                }
+                
+                // Set a new timeout for debounced scrolling
+                // This will wait for content addition to stop before scrolling
+                scrollTimeout = window.setTimeout(() => {
+                    isContentBeingAdded = false;
+                    performDebouncedScroll();
+                }, 100); // Wait 100ms after content stops being added
             }
         });
         
@@ -95,6 +107,42 @@ document.addEventListener('DOMContentLoaded', () => {
             childList: true,
             subtree: true
         });
+    }
+
+    // Debounced scroll function that waits for content addition to complete
+    function performDebouncedScroll(): void {
+        if (!autoScrollEnabled) return;
+        
+        console.log('Performing debounced scroll - content addition has stopped');
+        
+        // Use the enhanced scroll function for better handling of long content
+        scrollToVeryBottom();
+        
+        // Also use the original function as backup
+        setTimeout(() => {
+            scrollOutputToBottom();
+        }, 50);
+        
+        // Final attempt with last element scroll
+        setTimeout(() => {
+            scrollLastElementIntoView();
+        }, 150);
+    }
+
+    // Force immediate scroll (for cases where we need immediate feedback)
+    function forceImmediateScroll(): void {
+        if (!autoScrollEnabled) return;
+        
+        console.log('Forcing immediate scroll');
+        
+        // Clear any pending debounced scroll
+        if (scrollTimeout) {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = null;
+        }
+        
+        // Perform immediate scroll
+        scrollToVeryBottom();
     }
 
     function escapeHtml(s: string): string { 
@@ -106,50 +154,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to scroll output console to bottom
     function scrollOutputToBottom(): void {
-        if (!outputConsole) {
-            console.warn('Output console element not found');
+        if (!consoleContent) {
+            console.warn('Console content element not found');
             return;
         }
         
         // Enhanced scrolling function that ensures we reach the absolute bottom
         const scrollToAbsoluteBottom = () => {
             // Get the actual scrollable height
-            const scrollHeight = outputConsole.scrollHeight;
-            const clientHeight = outputConsole.clientHeight;
+            const scrollHeight = consoleContent.scrollHeight;
+            const clientHeight = consoleContent.clientHeight;
             const maxScroll = scrollHeight - clientHeight;
             
             console.log('Scroll details:', {
                 scrollHeight,
                 clientHeight,
                 maxScroll,
-                currentScrollTop: outputConsole.scrollTop
+                currentScrollTop: consoleContent.scrollTop
             });
             
             // Method 1: Use scrollTo with exact positioning
             try {
-                outputConsole.scrollTo({
+                consoleContent.scrollTo({
                     top: scrollHeight,
                     behavior: 'smooth'
                 });
             } catch (e) {
                 // Fallback: direct assignment
-                outputConsole.scrollTop = scrollHeight;
+                consoleContent.scrollTop = scrollHeight;
             }
             
             // Method 2: Force scroll to absolute bottom with multiple attempts
             setTimeout(() => {
-                outputConsole.scrollTop = scrollHeight;
+                consoleContent.scrollTop = scrollHeight;
                 // Add extra padding to ensure we're at the very bottom
-                outputConsole.scrollTop = outputConsole.scrollHeight + 100;
+                consoleContent.scrollTop = consoleContent.scrollHeight + 100;
                 // Then set to exact bottom
-                outputConsole.scrollTop = outputConsole.scrollHeight;
+                consoleContent.scrollTop = consoleContent.scrollHeight;
             }, 10);
             
             // Method 3: Final verification and correction
             setTimeout(() => {
-                const finalScrollTop = outputConsole.scrollTop;
-                const finalScrollHeight = outputConsole.scrollHeight;
-                const finalClientHeight = outputConsole.clientHeight;
+                const finalScrollTop = consoleContent.scrollTop;
+                const finalScrollHeight = consoleContent.scrollHeight;
+                const finalClientHeight = consoleContent.clientHeight;
                 const shouldBeAt = finalScrollHeight - finalClientHeight;
                 
                 console.log('Final scroll check:', {
@@ -160,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // If we're not at the bottom, force it
                 if (Math.abs(finalScrollTop - shouldBeAt) > 1) {
-                    outputConsole.scrollTop = finalScrollHeight;
+                    consoleContent.scrollTop = finalScrollHeight;
                     console.log('Corrected scroll position');
                 }
             }, 50);
@@ -177,9 +225,89 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Enhanced function to scroll to the very bottom with better handling of long content
+    function scrollToVeryBottom(): void {
+        // Try multiple potential scrollable elements
+        const scrollableElements = [
+            consoleContent,
+            outputConsole,
+            document.querySelector('.console-container'),
+            document.querySelector('.main-content')
+        ].filter(el => el !== null);
+        
+        console.log('Attempting to scroll with elements:', scrollableElements.map(el => el?.className || el?.id));
+        
+        // Wait for the next frame to ensure DOM is fully updated
+        requestAnimationFrame(() => {
+            scrollableElements.forEach((element, index) => {
+                if (!element) return;
+                
+                const scrollHeight = element.scrollHeight;
+                const clientHeight = element.clientHeight;
+                const maxScroll = scrollHeight - clientHeight;
+                
+                console.log(`Element ${index} (${element.className || element.id}):`, {
+                    scrollHeight,
+                    clientHeight,
+                    maxScroll,
+                    currentScrollTop: element.scrollTop,
+                    canScroll: scrollHeight > clientHeight
+                });
+                
+                // Only scroll if this element can actually scroll
+                if (scrollHeight > clientHeight) {
+                    // First attempt: scroll to calculated bottom
+                    element.scrollTop = maxScroll;
+                    
+                    // Wait a bit and check if content has grown
+                    setTimeout(() => {
+                        const newScrollHeight = element.scrollHeight;
+                        const newClientHeight = element.clientHeight;
+                        const newMaxScroll = newScrollHeight - newClientHeight;
+                        
+                        console.log(`Element ${index} second attempt:`, {
+                            newScrollHeight,
+                            newClientHeight,
+                            newMaxScroll,
+                            currentScrollTop: element.scrollTop
+                        });
+                        
+                        // If content has grown, scroll to the new bottom
+                        if (newScrollHeight > scrollHeight) {
+                            element.scrollTop = newMaxScroll;
+                            console.log(`Element ${index} content grew, scrolled to new bottom`);
+                        }
+                        
+                        // Final verification after a longer delay
+                        setTimeout(() => {
+                            const finalScrollHeight = element.scrollHeight;
+                            const finalClientHeight = element.clientHeight;
+                            const finalMaxScroll = finalScrollHeight - finalClientHeight;
+                            const currentScrollTop = element.scrollTop;
+                            
+                            console.log(`Element ${index} final verification:`, {
+                                finalScrollHeight,
+                                finalClientHeight,
+                                finalMaxScroll,
+                                currentScrollTop,
+                                isAtBottom: Math.abs(currentScrollTop - finalMaxScroll) <= 1
+                            });
+                            
+                            // Force scroll to absolute bottom if not already there
+                            if (Math.abs(currentScrollTop - finalMaxScroll) > 1) {
+                                element.scrollTop = finalScrollHeight;
+                                console.log(`Element ${index} forced scroll to absolute bottom`);
+                            }
+                        }, 100);
+                    }, 50);
+                }
+            });
+        });
+    }
+
     // Function to scroll the last element into view
     function scrollLastElementIntoView(): void {
-        if (!outputConsole) return;
+        if (!outputConsole || !consoleContent) return;
         
         // Find the last child element
         const children = outputConsole.children;
@@ -198,10 +326,10 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (e) {
                 // Fallback: manually calculate and scroll
                 const elementRect = lastElement.getBoundingClientRect();
-                const containerRect = outputConsole.getBoundingClientRect();
-                const relativeTop = elementRect.top - containerRect.top + outputConsole.scrollTop;
+                const containerRect = consoleContent.getBoundingClientRect();
+                const relativeTop = elementRect.top - containerRect.top + consoleContent.scrollTop;
                 
-                outputConsole.scrollTo({
+                consoleContent.scrollTo({
                     top: relativeTop,
                     behavior: 'smooth'
                 });
@@ -1596,12 +1724,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Test function to add multiple lines and verify auto-scroll
     function testAutoScroll(): void {
-        console.log('Testing auto-scroll with output console:', outputConsole);
+        console.log('Testing auto-scroll with console content:', consoleContent);
         console.log('Console element details:', {
-            id: outputConsole?.id,
-            className: outputConsole?.className,
-            scrollHeight: outputConsole?.scrollHeight,
-            clientHeight: outputConsole?.clientHeight
+            id: consoleContent?.className,
+            className: consoleContent?.className,
+            scrollHeight: consoleContent?.scrollHeight,
+            clientHeight: consoleContent?.clientHeight
         });
         
         for (let i = 1; i <= 10; i++) {
@@ -1611,11 +1739,121 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Test function for very long content
+    function testLongContentScroll(): void {
+        console.log('Testing auto-scroll with very long content');
+        
+        // Create a very long string
+        let longContent = 'This is a very long line of content that should test the auto-scroll functionality. ';
+        for (let i = 0; i < 50; i++) {
+            longContent += `Line ${i + 1}: This is a very long line of content that should test the auto-scroll functionality. `;
+        }
+        
+        out(longContent, 'info');
+        
+        // Add another long content after a delay
+        setTimeout(() => {
+            let anotherLongContent = 'Another very long content block: ';
+            for (let i = 0; i < 30; i++) {
+                anotherLongContent += `Another line ${i + 1} with lots of text to test scrolling. `;
+            }
+            out(anotherLongContent, 'success');
+        }, 1000);
+    }
+
+    // Test function for loop-like content (simulating a big loop)
+    function testLoopScroll(): void {
+        console.log('Testing auto-scroll with loop-like content (simulating for i = 1 to 100)');
+        
+        // Simulate a loop that prints numbers 1 to 100
+        for (let i = 1; i <= 100; i++) {
+            setTimeout(() => {
+                out(`${i}`, 'print'); // Use 'print' type to simulate print statements
+            }, i * 10); // Small delay between each print
+        }
+        
+        // Add a final message after the loop
+        setTimeout(() => {
+            out('Loop completed! This should be the last visible item.', 'success');
+        }, 1100); // After all the loop iterations
+    }
+
+    // Debug function to analyze scrollable elements
+    function debugScrollElements(): void {
+        console.log('=== SCROLL DEBUG ANALYSIS ===');
+        
+        // Check all potential scrollable elements
+        const elements = [
+            { name: 'outputConsole (output)', element: outputConsole },
+            { name: 'consoleContent (.console-content)', element: consoleContent },
+            { name: 'console-container', element: document.querySelector('.console-container') },
+            { name: 'console-output', element: document.querySelector('.console-output') },
+            { name: 'main-content', element: document.querySelector('.main-content') }
+        ];
+        
+        elements.forEach(({ name, element }) => {
+            if (element) {
+                const computedStyle = window.getComputedStyle(element);
+                const scrollHeight = element.scrollHeight;
+                const clientHeight = element.clientHeight;
+                const scrollTop = element.scrollTop;
+                const maxScroll = scrollHeight - clientHeight;
+                
+                console.log(`\n--- ${name} ---`);
+                console.log('Element:', element);
+                console.log('scrollHeight:', scrollHeight);
+                console.log('clientHeight:', clientHeight);
+                console.log('scrollTop:', scrollTop);
+                console.log('maxScroll:', maxScroll);
+                console.log('overflow-y:', computedStyle.overflowY);
+                console.log('overflow-x:', computedStyle.overflowX);
+                console.log('position:', computedStyle.position);
+                console.log('Can scroll:', scrollHeight > clientHeight);
+                console.log('Is at bottom:', Math.abs(scrollTop - maxScroll) <= 1);
+            } else {
+                console.log(`\n--- ${name} ---`);
+                console.log('Element not found!');
+            }
+        });
+        
+        // Check which element actually has scrollable content
+        console.log('\n=== SCROLLABLE ELEMENT ANALYSIS ===');
+        const scrollableElements = elements.filter(({ element }) => {
+            if (!element) return false;
+            return element.scrollHeight > element.clientHeight;
+        });
+        
+        console.log('Scrollable elements found:', scrollableElements.length);
+        scrollableElements.forEach(({ name, element }) => {
+            if (element) {
+                console.log(`- ${name}: scrollHeight=${element.scrollHeight}, clientHeight=${element.clientHeight}`);
+            }
+        });
+        
+        // Find the element with the most content
+        const elementWithMostContent = elements.reduce((max, current) => {
+            if (!current.element) return max;
+            if (!max.element) return current;
+            return current.element.scrollHeight > max.element.scrollHeight ? current : max;
+        }, { name: 'none', element: null });
+        
+        console.log('\nElement with most content:', elementWithMostContent.name);
+        if (elementWithMostContent.element) {
+            console.log('This should be our scroll target!');
+        }
+    }
+
     // Make functions globally available for debugging
     (window as any).toggleAutoScroll = toggleAutoScroll;
     (window as any).scrollOutputToBottom = scrollOutputToBottom;
     (window as any).scrollLastElementIntoView = scrollLastElementIntoView;
     (window as any).testAutoScroll = testAutoScroll;
+    (window as any).testLongContentScroll = testLongContentScroll;
+    (window as any).testLoopScroll = testLoopScroll;
+    (window as any).scrollToVeryBottom = scrollToVeryBottom;
+    (window as any).forceImmediateScroll = forceImmediateScroll;
+    (window as any).performDebouncedScroll = performDebouncedScroll;
+    (window as any).debugScrollElements = debugScrollElements;
     
     // Start the initialization
     initializeUI();
