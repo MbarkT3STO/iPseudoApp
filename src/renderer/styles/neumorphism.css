@@ -550,6 +550,49 @@
     color: white; /* White for dark mode */
 }
 
+/* Loading animation for buttons */
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Button loading state */
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Custom tooltip styling */
+.custom-tooltip {
+    background: var(--bg-soft-elevated);
+    color: var(--text-soft-primary);
+    padding: var(--space-soft-2) var(--space-soft-3);
+    border-radius: var(--radius-soft-sm);
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-soft-medium);
+    box-shadow: var(--shadow-soft-elevated);
+    border: 1px solid var(--border-soft-light);
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    animation: tooltipFadeIn 0.2s ease-out forwards;
+}
+
+@keyframes tooltipFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-100%) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-100%) scale(1);
+    }
+}
+
 /* Light theme adjustments for console icons */
 .theme-light .console-icon {
     background: linear-gradient(135deg, 

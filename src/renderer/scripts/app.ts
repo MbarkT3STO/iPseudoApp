@@ -145,6 +145,84 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Comprehensive pseudocode formatting function
+    function formatPseudocode(): void {
+        if (!(window as any).editor) return;
+        
+        const content = (window as any).editor.getValue();
+        if (!content.trim()) {
+            out('Nothing to format', 'warning');
+            return;
+        }
+        
+        // Add loading state to format button
+        const formatButton = document.getElementById('btnFormat') as HTMLButtonElement;
+        if (formatButton) {
+            formatButton.disabled = true;
+            formatButton.innerHTML = '<i class="ri-loader-4-line animate-spin"></i><span class="sm:block">Formatting...</span>';
+        }
+        
+        try {
+            const lines = content.split('\n');
+            const formattedLines: string[] = [];
+            let indentLevel = 0;
+            const indentSize = 4; // 4 spaces per indent level
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                const trimmedLine = line.trim();
+                
+                // Skip empty lines but preserve them
+                if (!trimmedLine) {
+                    formattedLines.push('');
+                    continue;
+                }
+                
+                // Handle closing blocks (reduce indent before processing)
+                if (trimmedLine.match(/^(endfor|endwhile|endif|endfunction|else|elseif)\b/i)) {
+                    indentLevel = Math.max(0, indentLevel - 1);
+                }
+                
+                // Add proper indentation
+                const indent = ' '.repeat(indentLevel * indentSize);
+                const formattedLine = indent + trimmedLine;
+                formattedLines.push(formattedLine);
+                
+                // Handle opening blocks (increase indent after processing)
+                if (trimmedLine.match(/^(if|for|while|function)\b/i)) {
+                    indentLevel++;
+                }
+                
+                // Handle else/elseif (special case - same level as if)
+                if (trimmedLine.match(/^(else|elseif)\b/i)) {
+                    indentLevel++;
+                }
+            }
+            
+            const formatted = formattedLines.join('\n');
+            (window as any).editor.setValue(formatted);
+            
+            // Mark file as dirty
+            if (activeFilePath && openFiles.has(activeFilePath)) {
+                const fileData = openFiles.get(activeFilePath)!;
+                fileData.dirty = true;
+                fileData.content = formatted;
+                openFiles.set(activeFilePath, fileData);
+                updateTabDirtyState(activeFilePath, true);
+            }
+            
+            out('Code formatted successfully', 'success');
+        } catch (error) {
+            out(`Formatting error: ${(error as Error).message}`, 'error');
+        } finally {
+            // Restore format button
+            if (formatButton) {
+                formatButton.disabled = false;
+                formatButton.innerHTML = '<i class="ri-code-s-slash-line"></i><span class="sm:block">Format</span>';
+            }
+        }
+    }
+
     function restoreTabStatusAndConsole() {
         const tabData = getCurrentTabData();
         if (!tabData) return;
@@ -188,6 +266,121 @@ document.addEventListener('DOMContentLoaded', () => {
     let autoScrollEnabled = true;
     let mutationObserver: MutationObserver | null = null;
     let scrollTimeout: number | null = null;
+
+    // Keyboard shortcuts
+    function setupKeyboardShortcuts(): void {
+        document.addEventListener('keydown', (e) => {
+            // Only handle shortcuts when not in input fields
+            if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+                return;
+            }
+
+            // Ctrl/Cmd + S - Save
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                e.preventDefault();
+                const saveButton = document.getElementById('btnSave');
+                if (saveButton) saveButton.click();
+            }
+            
+            // Ctrl/Cmd + N - New file
+            if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+                e.preventDefault();
+                const newButton = document.getElementById('btnNew');
+                if (newButton) newButton.click();
+            }
+            
+            // Ctrl/Cmd + O - Open file
+            if ((e.ctrlKey || e.metaKey) && e.key === 'o') {
+                e.preventDefault();
+                const openButton = document.getElementById('btnOpen');
+                if (openButton) openButton.click();
+            }
+            
+            // Ctrl/Cmd + Shift + F - Format code
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'F') {
+                e.preventDefault();
+                formatPseudocode();
+            }
+            
+            // Ctrl/Cmd + K - Clear console
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                clearConsole();
+            }
+            
+            // F5 - Run code
+            if (e.key === 'F5') {
+                e.preventDefault();
+                const runButton = document.getElementById('btnRun') as HTMLButtonElement;
+                if (runButton && !runButton.disabled) runButton.click();
+            }
+            
+            // Escape - Stop execution
+            if (e.key === 'Escape') {
+                const stopButton = document.getElementById('btnStop');
+                if (stopButton && stopButton.style.display !== 'none') {
+                    stopButton.click();
+                }
+            }
+        });
+    }
+
+    // Enhanced tooltip system
+    function setupTooltips(): void {
+        const tooltipElements = document.querySelectorAll('[title]');
+        
+        tooltipElements.forEach(element => {
+            element.addEventListener('mouseenter', showTooltip);
+            element.addEventListener('mouseleave', hideTooltip);
+        });
+    }
+
+    function showTooltip(e: Event): void {
+        const element = e.target as HTMLElement;
+        const title = element.getAttribute('title');
+        if (!title) return;
+
+        // Remove existing tooltip
+        hideTooltip();
+
+        // Create tooltip element
+        const tooltip = document.createElement('div');
+        tooltip.className = 'custom-tooltip';
+        tooltip.textContent = title;
+        tooltip.id = 'custom-tooltip';
+
+        // Position tooltip
+        const rect = element.getBoundingClientRect();
+        tooltip.style.position = 'fixed';
+        tooltip.style.left = `${rect.left + rect.width / 2}px`;
+        tooltip.style.top = `${rect.top - 10}px`;
+        tooltip.style.transform = 'translateX(-50%) translateY(-100%)';
+        tooltip.style.zIndex = '10000';
+
+        document.body.appendChild(tooltip);
+
+        // Remove original title to prevent default tooltip
+        element.setAttribute('data-original-title', title);
+        element.removeAttribute('title');
+    }
+
+    function hideTooltip(): void {
+        const tooltip = document.getElementById('custom-tooltip');
+        if (tooltip) {
+            tooltip.remove();
+        }
+
+        // Restore original titles
+        const elements = document.querySelectorAll('[data-original-title]');
+        elements.forEach(element => {
+            const originalTitle = element.getAttribute('data-original-title');
+            if (originalTitle) {
+                element.setAttribute('title', originalTitle);
+                element.removeAttribute('data-original-title');
+            }
+        });
+    }
+
     let isContentBeingAdded = false;
     let isInLoopContext = false;
     let loopScrollTimeout: number | null = null;
@@ -2050,15 +2243,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (formatButton) {
         formatButton.addEventListener('click', () => {
             if ((window as any).editor) {
-                // Basic formatting - you can enhance this
-                const content = (window as any).editor.getValue();
-                // Simple indentation fix
-                const formatted = content.split('\n').map((line: string) => {
-                    // Basic indentation logic
-                    return line.trim() ? line : line;
-                }).join('\n');
-                (window as any).editor.setValue(formatted);
-                out('Code formatted', 'success');
+                formatPseudocode();
             }
         });
     }
@@ -2447,6 +2632,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Start the initialization
     initializeUI();
     initializeFirstTab();
+    setupKeyboardShortcuts();
+    setupTooltips();
     
     // Add keyboard shortcuts for tab navigation
     document.addEventListener('keydown', (e) => {
