@@ -65,6 +65,12 @@
   border-radius: var(--radius-soft-xs) !important;
 }
 
+/* Simple hover popup fix - always on top */
+.monaco-editor .monaco-hover {
+  z-index: 999999 !important;
+  position: fixed !important;
+}
+
 /* ===== NEUMORPHISM CONFIRMATION MODAL ===== */
 .confirmation-modal-overlay {
   animation: modalFadeIn 0.2s ease-out;

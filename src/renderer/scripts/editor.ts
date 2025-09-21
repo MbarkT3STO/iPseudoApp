@@ -10,13 +10,147 @@
     });
 })();
 
+// Function to get hover information for pseudocode keywords
+function getKeywordHoverInfo(keyword: string): any {
+    const hoverData: { [key: string]: any } = {
+        'var': {
+            label: 'var',
+            category: 'Variable Declaration',
+            description: 'Declares a new variable that can be modified throughout the program.',
+            usage: 'var variableName = value',
+            example: 'var age = 25'
+        },
+        'const': {
+            label: 'const',
+            category: 'Constant Declaration',
+            description: 'Declares a constant value that cannot be changed after initialization.',
+            usage: 'const constantName = value',
+            example: 'const PI = 3.14159'
+        },
+        'if': {
+            label: 'if',
+            category: 'Conditional Statement',
+            description: 'Executes code block if the specified condition is true.',
+            usage: 'if condition then',
+            example: 'if score >= 90 then'
+        },
+        'else': {
+            label: 'else',
+            category: 'Conditional Statement',
+            description: 'Executes code block if the previous if condition is false.',
+            usage: 'else',
+            example: 'else\n    print "Failed"'
+        },
+        'elseif': {
+            label: 'elseif',
+            category: 'Conditional Statement',
+            description: 'Checks another condition if previous if/elseif conditions are false.',
+            usage: 'elseif condition then',
+            example: 'elseif score >= 60 then'
+        },
+        'endif': {
+            label: 'endif',
+            category: 'Block Terminator',
+            description: 'Closes an if statement block. Must be used to end if/elseif/else blocks.',
+            usage: 'endif',
+            example: 'endif'
+        },
+        'for': {
+            label: 'for',
+            category: 'Loop Statement',
+            description: 'Repeats a code block for a specified range of values.',
+            usage: 'for variable = start to end',
+            example: 'for i = 1 to 10'
+        },
+        'to': {
+            label: 'to',
+            category: 'Loop Range',
+            description: 'Specifies the end value in a for loop. Used with for statements.',
+            usage: 'for variable = start to end',
+            example: 'for i = 1 to 10'
+        },
+        'endfor': {
+            label: 'endfor',
+            category: 'Block Terminator',
+            description: 'Closes a for loop block. Must be used to end for loops.',
+            usage: 'endfor',
+            example: 'endfor'
+        },
+        'while': {
+            label: 'while',
+            category: 'Loop Statement',
+            description: 'Repeats a code block while the specified condition is true.',
+            usage: 'while condition',
+            example: 'while x < 10'
+        },
+        'endwhile': {
+            label: 'endwhile',
+            category: 'Block Terminator',
+            description: 'Closes a while loop block. Must be used to end while loops.',
+            usage: 'endwhile',
+            example: 'endwhile'
+        },
+        'function': {
+            label: 'function',
+            category: 'Function Declaration',
+            description: 'Declares a new function that can be called with parameters.',
+            usage: 'function functionName(parameters)',
+            example: 'function addNumbers(a, b)'
+        },
+        'endfunction': {
+            label: 'endfunction',
+            category: 'Block Terminator',
+            description: 'Closes a function block. Must be used to end function declarations.',
+            usage: 'endfunction',
+            example: 'endfunction'
+        },
+        'return': {
+            label: 'return',
+            category: 'Function Control',
+            description: 'Returns a value from a function and exits the function.',
+            usage: 'return expression',
+            example: 'return result'
+        },
+        'break': {
+            label: 'break',
+            category: 'Loop Control',
+            description: 'Exits the current loop immediately, continuing execution after the loop.',
+            usage: 'break',
+            example: 'break'
+        },
+        'continue': {
+            label: 'continue',
+            category: 'Loop Control',
+            description: 'Skips the rest of the current loop iteration and continues with the next iteration.',
+            usage: 'continue',
+            example: 'continue'
+        },
+        'print': {
+            label: 'print',
+            category: 'Output Statement',
+            description: 'Displays text or values to the console output.',
+            usage: 'print expression',
+            example: 'print "Hello World"'
+        },
+        'input': {
+            label: 'input',
+            category: 'Input Statement',
+            description: 'Prompts the user for input and stores the value in a variable.',
+            usage: 'input prompt',
+            example: 'var name = input "Enter your name: "'
+        }
+    };
+
+    return hoverData[keyword] || null;
+}
+
 // Define custom language for pseudocode
 const pseudocodeLanguage = {
     defaultToken: '',
     tokenizer: {
         root: [
-            // Keywords
-            [/\b(var|input|print|if|then|elseif|else|endif|while|endwhile|for|to|endfor|function|return|endfunction|and|or|not|break|continue|true|false|null)\b/, 'keyword'],
+            // Keywords - All reserved words from the pseudocode specification
+            [/\b(var|const|if|else|elseif|endif|for|to|endfor|while|endwhile|function|endfunction|return|break|continue|print|input)\b/, 'keyword'],
 
             // Strings
             [/".*?"/, 'string'],
@@ -144,8 +278,31 @@ interface Window {
     // Set up editor change listeners
     setupEditorListeners();
 
-    // Register completion provider with only reserved pseudocode keywords
-    const reservedKeywords = ['var','input','print','if','then','elseif','else','endif','while','endwhile','for','to','endfor','function','return','endfunction','and','or','not','break','continue','true','false','null'];
+    // Register hover provider for pseudocode keywords
+    window.monaco.languages.registerHoverProvider('pseudocode', {
+        provideHover: function(model: any, position: any) {
+            const word = model.getWordAtPosition(position);
+            if (!word) return null;
+
+            const wordText = word.word.toLowerCase();
+            const hoverInfo = getKeywordHoverInfo(wordText);
+            
+            if (hoverInfo) {
+                return {
+                    range: new window.monaco.Range(position.lineNumber, word.startColumn, position.lineNumber, word.endColumn),
+                    contents: [
+                        { 
+                            value: `**${hoverInfo.label}** - ${hoverInfo.category}\n\n${hoverInfo.description}\n\n**Usage:** \`${hoverInfo.usage}\`\n\n**Example:** \`${hoverInfo.example}\``
+                        }
+                    ]
+                };
+            }
+            return null;
+        }
+    });
+
+    // Register completion provider with all reserved pseudocode keywords
+    const reservedKeywords = ['var','const','if','else','elseif','endif','for','to','endfor','while','endwhile','function','endfunction','return','break','continue','print','input'];
     window.monaco.languages.registerCompletionItemProvider('pseudocode', {
         provideCompletionItems: function(model: any, position: any) {
             const word = model.getWordUntilPosition(position);
@@ -156,10 +313,10 @@ interface Window {
                 endColumn: word.endColumn
             };
 
-            // Scan model for current var and function/procedure declarations
+            // Scan model for current var, const, and function declarations
             const text = model.getValue();
-            const varRe = /\bvar\s+([a-zA-Z_]\w*)/gi;
-            const funcRe = /^\s*(?:function|procedure)\s+([a-zA-Z_]\w*)/gim;
+            const varRe = /\b(?:var|const)\s+([a-zA-Z_]\w*)/gi;
+            const funcRe = /^\s*function\s+([a-zA-Z_]\w*)/gim;
             const vars = new Set<string>();
             const funcs = new Set<string>();
             let m;
@@ -170,18 +327,67 @@ interface Window {
                 funcs.add(m[1]);
             }
 
-            const suggestions = [];
-            // reserved keywords first
-            for (const k of reservedKeywords) {
-                suggestions.push({ label: k, kind: window.monaco.languages.CompletionItemKind.Keyword, insertText: k, range, sortText: '0' + k });
-            }
-            // functions
-            Array.from(funcs).sort().forEach(f => {
-                suggestions.push({ label: f + '()', kind: window.monaco.languages.CompletionItemKind.Function, insertText: f + '()', range, sortText: '1' + f });
+            const suggestions: any[] = [];
+            
+            // Define keyword suggestions with descriptions
+            const keywordSuggestions = [
+                { label: 'var', detail: 'Declare a variable', documentation: 'Declares a new variable that can be modified' },
+                { label: 'const', detail: 'Declare a constant', documentation: 'Declares a constant value that cannot be changed' },
+                { label: 'if', detail: 'Conditional statement', documentation: 'Executes code if condition is true' },
+                { label: 'else', detail: 'Alternative condition', documentation: 'Executes code if previous condition is false' },
+                { label: 'elseif', detail: 'Additional condition', documentation: 'Checks another condition if previous ones are false' },
+                { label: 'endif', detail: 'End if block', documentation: 'Closes an if statement block' },
+                { label: 'for', detail: 'For loop', documentation: 'Repeats code for a range of values' },
+                { label: 'to', detail: 'Loop range', documentation: 'Specifies the end value in a for loop' },
+                { label: 'endfor', detail: 'End for loop', documentation: 'Closes a for loop block' },
+                { label: 'while', detail: 'While loop', documentation: 'Repeats code while condition is true' },
+                { label: 'endwhile', detail: 'End while loop', documentation: 'Closes a while loop block' },
+                { label: 'function', detail: 'Function declaration', documentation: 'Declares a new function' },
+                { label: 'endfunction', detail: 'End function', documentation: 'Closes a function block' },
+                { label: 'return', detail: 'Return value', documentation: 'Returns a value from a function' },
+                { label: 'break', detail: 'Break loop', documentation: 'Exits the current loop immediately' },
+                { label: 'continue', detail: 'Continue loop', documentation: 'Skips to the next iteration of the loop' },
+                { label: 'print', detail: 'Print output', documentation: 'Displays text or values to the console' },
+                { label: 'input', detail: 'Get user input', documentation: 'Prompts user for input and stores the value' }
+            ];
+
+            // Add keyword suggestions
+            keywordSuggestions.forEach(kw => {
+                suggestions.push({ 
+                    label: kw.label, 
+                    kind: window.monaco.languages.CompletionItemKind.Keyword, 
+                    insertText: kw.label, 
+                    range, 
+                    sortText: '0' + kw.label,
+                    detail: kw.detail,
+                    documentation: kw.documentation
+                });
             });
-            // variables
+
+            // Add function suggestions
+            Array.from(funcs).sort().forEach(f => {
+                suggestions.push({ 
+                    label: f + '()', 
+                    kind: window.monaco.languages.CompletionItemKind.Function, 
+                    insertText: f + '()', 
+                    range, 
+                    sortText: '1' + f,
+                    detail: 'User-defined function',
+                    documentation: `Function: ${f}()`
+                });
+            });
+
+            // Add variable suggestions
             Array.from(vars).sort().forEach(v => {
-                suggestions.push({ label: v, kind: window.monaco.languages.CompletionItemKind.Variable, insertText: v, range, sortText: '2' + v });
+                suggestions.push({ 
+                    label: v, 
+                    kind: window.monaco.languages.CompletionItemKind.Variable, 
+                    insertText: v, 
+                    range, 
+                    sortText: '2' + v,
+                    detail: 'Variable',
+                    documentation: `Variable: ${v}`
+                });
             });
 
             return { suggestions };
@@ -221,7 +427,7 @@ interface Window {
             const indentUnit = ' '.repeat(tabSize);
 
             // Helpers to detect block openers and closers
-            const openerRe = /^\s*(if\b.*\bthen|for\b.*\bto\b.*|while\b.*|function\b.*)$/i;
+            const openerRe = /^\s*(if\b.*(?:\bthen)?|for\b.*\bto\b.*|while\b.*|function\b.*)$/i;
             const closerRe = /^\s*(endif|endfor|endwhile|endfunction)\b/i;
 
             // Compute nesting level by scanning from start to the previous line

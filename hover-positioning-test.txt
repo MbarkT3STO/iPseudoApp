@@ -1,0 +1,25 @@
+# Test hover positioning at the top of the editor
+# Hover over these keywords to test if popup is fully visible
+
+var test = "This is at the very top"
+const PI = 3.14
+
+if test = "hello" then
+    print "Conditional at top"
+endif
+
+for i = 1 to 3
+    print i
+endfor
+
+while i < 5
+    print i
+    i = i + 1
+endwhile
+
+function testFunction()
+    return "test"
+endfunction
+
+print "Testing hover positioning"
+var input = input "Enter value: "
