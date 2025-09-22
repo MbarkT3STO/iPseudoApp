@@ -3053,6 +3053,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
+    // Focus console function
+    function focusConsole() {
+        // Switch to console tab if in tab layout
+        if (isTabLayout) {
+            const consoleTab = document.getElementById('consoleTab');
+            const editorTab = document.getElementById('editorTab');
+            const consoleContent = document.getElementById('consoleContent');
+            const editorContent = document.getElementById('editorContent');
+            
+            if (consoleTab && editorTab && consoleContent && editorContent) {
+                // Remove active class from editor tab and content
+                editorTab.classList.remove('active');
+                editorContent.classList.remove('active');
+                
+                // Add active class to console tab and content
+                consoleTab.classList.add('active');
+                consoleContent.classList.add('active');
+                
+                // Hide console badge
+                const consoleBadge = document.getElementById('consoleBadge');
+                if (consoleBadge) {
+                    consoleBadge.style.display = 'none';
+                }
+            }
+        }
+        
+        // Scroll to bottom of console
+        scrollOutputToBottom();
+    }
+
     // Enhanced console functionality
     function clearConsole() {
         if (!outputConsole) return;
@@ -3721,6 +3751,9 @@ document.addEventListener('DOMContentLoaded', () => {
             scrollOutputToBottom();
         }
         
+        // Focus/switch to console tab
+        focusConsole();
+        
         try {
             // Execute the code
             await execute(code);
@@ -3751,6 +3784,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (stopButton) {
         stopButton.addEventListener('click', () => {
             stopExecution();
+            // Focus console after stopping
+            focusConsole();
         });
     }
 
