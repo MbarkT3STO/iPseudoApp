@@ -251,7 +251,7 @@ interface Window {
             enabled: true
         },
         readOnly: false,
-        contextmenu: true,
+        contextmenu: false,
         mouseWheelZoom: true,
         wordWrap: 'on',
         scrollbar: {
@@ -263,6 +263,12 @@ interface Window {
 
     // Make editor globally available
     window.editor = editor;
+
+    // Add custom context menu for Monaco Editor
+    editor.onContextMenu((e: any) => {
+        e.event.preventDefault();
+        showMonacoContextMenu(e.event);
+    });
 
     // Add keydown listener for Enter key
     editor.onKeyDown((e: any) => {
@@ -504,6 +510,171 @@ function setupEditorListeners(): void {
             }
         }
     });
+}
+
+// Fallback clipboard actions when Monaco commands fail
+function handleClipboardAction(action: string): void {
+    if (!window.editor) return;
+    
+    const selection = window.editor.getSelection();
+    if (!selection) return;
+    
+    const model = window.editor.getModel();
+    if (!model) return;
+    
+    try {
+        switch (action) {
+            case 'cut':
+                if (!selection.isEmpty()) {
+                    const selectedText = model.getValueInRange(selection);
+                    navigator.clipboard.writeText(selectedText).then(() => {
+                        window.editor.executeEdits('cut', [{
+                            range: selection,
+                            text: ''
+                        }]);
+                    });
+                }
+                break;
+            case 'copy':
+                if (!selection.isEmpty()) {
+                    const selectedText = model.getValueInRange(selection);
+                    navigator.clipboard.writeText(selectedText);
+                }
+                break;
+            case 'paste':
+                navigator.clipboard.readText().then(text => {
+                    window.editor.executeEdits('paste', [{
+                        range: selection,
+                        text: text
+                    }]);
+                });
+                break;
+        }
+    } catch (error) {
+        console.error('Clipboard action failed:', action, error);
+    }
+}
+
+// Monaco Editor custom context menu
+function showMonacoContextMenu(e: MouseEvent): void {
+    // Remove existing context menu
+    const existingMenu = document.getElementById('monaco-context-menu');
+    if (existingMenu) {
+        existingMenu.remove();
+    }
+
+    const menu = document.createElement('div');
+    menu.id = 'monaco-context-menu';
+    menu.className = 'context-menu';
+    menu.innerHTML = `
+        <div class="context-menu-item" data-action="cut">
+            <i class="ri-scissors-line"></i>
+            <span>Cut</span>
+            <span class="shortcut">Ctrl+X</span>
+        </div>
+        <div class="context-menu-item" data-action="copy">
+            <i class="ri-file-copy-line"></i>
+            <span>Copy</span>
+            <span class="shortcut">Ctrl+C</span>
+        </div>
+        <div class="context-menu-item" data-action="paste">
+            <i class="ri-clipboard-line"></i>
+            <span>Paste</span>
+            <span class="shortcut">Ctrl+V</span>
+        </div>
+        <div class="context-menu-separator"></div>
+        <div class="context-menu-item" data-action="select-all">
+            <i class="ri-checkbox-multiple-line"></i>
+            <span>Select All</span>
+            <span class="shortcut">Ctrl+A</span>
+        </div>
+        <div class="context-menu-item" data-action="format">
+            <i class="ri-code-s-slash-line"></i>
+            <span>Format Code</span>
+            <span class="shortcut">Ctrl+Shift+F</span>
+        </div>
+        <div class="context-menu-separator"></div>
+        <div class="context-menu-item" data-action="run">
+            <i class="ri-play-line"></i>
+            <span>Run Code</span>
+            <span class="shortcut">F5</span>
+        </div>
+        <div class="context-menu-item" data-action="stop">
+            <i class="ri-stop-line"></i>
+            <span>Stop Execution</span>
+            <span class="shortcut">Ctrl+.</span>
+        </div>
+    `;
+
+    // Position menu
+    menu.style.position = 'fixed';
+    menu.style.left = `${e.clientX}px`;
+    menu.style.top = `${e.clientY}px`;
+    menu.style.zIndex = '10000';
+
+    document.body.appendChild(menu);
+
+    // Handle menu actions
+    menu.addEventListener('click', (e) => {
+        const action = (e.target as HTMLElement).closest('.context-menu-item')?.getAttribute('data-action');
+        if (action && window.editor) {
+            try {
+                switch (action) {
+                    case 'cut':
+                        // Use manual implementation directly
+                        handleClipboardAction('cut');
+                        break;
+                    case 'copy':
+                        handleClipboardAction('copy');
+                        break;
+                    case 'paste':
+                        handleClipboardAction('paste');
+                        break;
+                    case 'select-all':
+                        // Manual select all
+                        const model = window.editor.getModel();
+                        if (model) {
+                            window.editor.setSelection(model.getFullModelRange());
+                        }
+                        break;
+                    case 'format':
+                        // Call the format function from the main app
+                        if (typeof (window as any).formatPseudocode === 'function') {
+                            (window as any).formatPseudocode();
+                        }
+                        break;
+                    case 'run':
+                        // Trigger the run button click
+                        const runButton = document.getElementById('btnRun') as HTMLButtonElement;
+                        if (runButton && !runButton.disabled) {
+                            runButton.click();
+                        }
+                        break;
+                    case 'stop':
+                        // Trigger the stop button click
+                        const stopButton = document.getElementById('btnStop') as HTMLButtonElement;
+                        if (stopButton && !stopButton.disabled) {
+                            stopButton.click();
+                        }
+                        break;
+                }
+            } catch (error) {
+                console.error('Context menu action failed:', action, error);
+                // Fallback to manual implementation for clipboard operations
+                if (action === 'cut' || action === 'copy' || action === 'paste') {
+                    handleClipboardAction(action);
+                }
+            }
+            menu.remove();
+        }
+    });
+
+    // Close menu on outside click
+    setTimeout(() => {
+        document.addEventListener('click', () => {
+            menu.remove();
+        }, { once: true });
+    }, 100);
 }
 
 // Make this function globally available

@@ -2364,17 +2364,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span class="shortcut">Ctrl+V</span>
             </div>
             <div class="context-menu-separator"></div>
-            <div class="context-menu-item" data-action="select-all">
-                <i class="ri-checkbox-multiple-line"></i>
-                <span>Select All</span>
-                <span class="shortcut">Ctrl+A</span>
-            </div>
-            <div class="context-menu-item" data-action="format">
-                <i class="ri-code-s-slash-line"></i>
-                <span>Format Code</span>
-                <span class="shortcut">Ctrl+Shift+F</span>
-            </div>
-            <div class="context-menu-separator"></div>
             <div class="context-menu-item" data-action="run">
                 <i class="ri-play-line"></i>
                 <span>Run Code</span>
@@ -2410,26 +2399,67 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleEditorContextAction(action: string): void {
         if (!(window as any).editor) return;
 
+        // Use manual implementation directly since Monaco commands are not available
         switch (action) {
             case 'cut':
-                (window as any).editor.trigger('keyboard', 'editor.action.clipboardCut', null);
+                handleClipboardActionFallback('cut');
                 break;
             case 'copy':
-                (window as any).editor.trigger('keyboard', 'editor.action.clipboardCopy', null);
+                handleClipboardActionFallback('copy');
                 break;
             case 'paste':
-                (window as any).editor.trigger('keyboard', 'editor.action.clipboardPaste', null);
-                break;
-            case 'select-all':
-                (window as any).editor.trigger('keyboard', 'editor.action.selectAll', null);
-                break;
-            case 'format':
-                formatPseudocode();
+                handleClipboardActionFallback('paste');
                 break;
             case 'run':
+                // Trigger the run button click
                 const runButton = document.getElementById('btnRun') as HTMLButtonElement;
-                if (runButton && !runButton.disabled) runButton.click();
+                if (runButton && !runButton.disabled) {
+                    runButton.click();
+                }
                 break;
+        }
+    }
+
+    // Fallback clipboard actions for app.ts context menu
+    function handleClipboardActionFallback(action: string): void {
+        if (!(window as any).editor) return;
+        
+        const selection = (window as any).editor.getSelection();
+        if (!selection) return;
+        
+        const model = (window as any).editor.getModel();
+        if (!model) return;
+        
+        try {
+            switch (action) {
+                case 'cut':
+                    if (!selection.isEmpty()) {
+                        const selectedText = model.getValueInRange(selection);
+                        navigator.clipboard.writeText(selectedText).then(() => {
+                            (window as any).editor.executeEdits('cut', [{
+                                range: selection,
+                                text: ''
+                            }]);
+                        });
+                    }
+                    break;
+                case 'copy':
+                    if (!selection.isEmpty()) {
+                        const selectedText = model.getValueInRange(selection);
+                        navigator.clipboard.writeText(selectedText);
+                    }
+                    break;
+                case 'paste':
+                    navigator.clipboard.readText().then(text => {
+                        (window as any).editor.executeEdits('paste', [{
+                            range: selection,
+                            text: text
+                        }]);
+                    });
+                    break;
+            }
+        } catch (error) {
+            console.error('Clipboard action fallback failed:', action, error);
         }
     }
 
@@ -4937,6 +4967,7 @@ document.addEventListener('DOMContentLoaded', () => {
     (window as any).saveSetting = saveSetting;
     (window as any).applyTheme = applyTheme;
     (window as any).updateThemeToggleButtonFromSettings = updateThemeToggleButtonFromSettings;
+    (window as any).formatPseudocode = formatPseudocode;
     
     // Test function for UI visibility settings
     (window as any).testUIVisibility = function() {
