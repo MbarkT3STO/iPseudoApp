@@ -77,13 +77,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Global tab counter
     let tabCounter = 0;
     
-    // Maximum number of tabs allowed
-    const MAX_TABS = 3;
+    // Function to get maximum tabs from settings
+    function getMaxTabs(): number {
+        const settings = loadSettings();
+        return settings.maxTabs || 3;
+    }
     
     // Function to check if we can create a new tab
     function canCreateNewTab(): boolean {
         const currentTabs = document.querySelectorAll('.modern-tab');
-        return currentTabs.length < MAX_TABS;
+        return currentTabs.length < getMaxTabs();
     }
     
     // Function to get current tab count
@@ -94,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to update tab counter display
     function updateTabCounter(): void {
         const tabCount = getCurrentTabCount();
-        const maxTabs = MAX_TABS;
+        const maxTabs = getMaxTabs();
         
         // Update any tab counter display if it exists
         const tabCounterElement = document.getElementById('tabCounter');
@@ -119,6 +122,39 @@ document.addEventListener('DOMContentLoaded', () => {
                 tabsContainer.classList.add('tab-limit-warning');
             } else {
                 tabsContainer.classList.remove('tab-limit-reached', 'tab-limit-warning');
+            }
+        }
+    }
+    
+    // Function to update all tab-related UI elements
+    function updateAllTabUI(): void {
+        updateTabCounter();
+        
+        // Update new file button state
+        const newButton = document.getElementById('btnNew');
+        if (newButton) {
+            const canCreate = canCreateNewTab();
+            (newButton as HTMLButtonElement).disabled = !canCreate;
+            newButton.title = canCreate ? 'New File' : `Maximum of ${getMaxTabs()} tabs allowed`;
+            
+            if (!canCreate) {
+                newButton.classList.add('disabled');
+            } else {
+                newButton.classList.remove('disabled');
+            }
+        }
+        
+        // Update new tab button state
+        const newTabButton = document.getElementById('btnNewTab');
+        if (newTabButton) {
+            const canCreate = canCreateNewTab();
+            (newTabButton as HTMLButtonElement).disabled = !canCreate;
+            newTabButton.title = canCreate ? 'New Tab' : `Maximum of ${getMaxTabs()} tabs allowed`;
+            
+            if (!canCreate) {
+                newTabButton.classList.add('disabled');
+            } else {
+                newTabButton.classList.remove('disabled');
             }
         }
     }
@@ -677,6 +713,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const updatedSettings = saveSetting('maxTabs', value);
             applyAppSettings(updatedSettings);
             applyUIVisibilitySettings(updatedSettings);
+            // Update tab UI immediately when maxTabs setting changes
+            updateAllTabUI();
         });
 
         setupRangeInput('autoSaveInterval', 'autoSaveIntervalValue', 's', (value) => {
@@ -3533,7 +3571,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function createNewTab(): void {
         // Check if we can create a new tab
         if (!canCreateNewTab()) {
-            out(`Maximum of ${MAX_TABS} tabs allowed. Close a tab first.`, 'warning');
+            out(`Maximum of ${getMaxTabs()} tabs allowed. Close a tab first.`, 'warning');
             return;
         }
         
@@ -3695,7 +3733,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (newButton) {
                 const canCreate = canCreateNewTab();
                 (newButton as HTMLButtonElement).disabled = !canCreate;
-                newButton.title = canCreate ? 'New File' : `Maximum of ${MAX_TABS} tabs allowed`;
+                newButton.title = canCreate ? 'New File' : `Maximum of ${getMaxTabs()} tabs allowed`;
                 
                 if (!canCreate) {
                     newButton.classList.add('disabled');
@@ -3730,7 +3768,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (newTabButton) {
                 const canCreate = canCreateNewTab();
                 (newTabButton as HTMLButtonElement).disabled = !canCreate;
-                newTabButton.title = canCreate ? 'New Tab' : `Maximum of ${MAX_TABS} tabs allowed`;
+                newTabButton.title = canCreate ? 'New Tab' : `Maximum of ${getMaxTabs()} tabs allowed`;
                 
                 if (!canCreate) {
                     newTabButton.classList.add('disabled');
