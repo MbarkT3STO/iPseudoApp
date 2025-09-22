@@ -14,108 +14,113 @@
     <!-- Modern Icons -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     
-    <!-- Splash Styles -->
+    <!-- Design System -->
+    <link rel="stylesheet" href="styles/design-tokens.css">
+    <link rel="stylesheet" href="styles/base.css">
     <link rel="stylesheet" href="styles/splash.css">
 </head>
 <body>
-    <!-- Splash Screen Container -->
+    <!-- Modern Splash Screen Container -->
     <div class="splash-container">
-        <!-- Animated Background -->
+        <!-- Animated Background with Glass Morphism -->
         <div class="splash-background">
-            <!-- Gradient Orbs -->
-            <div class="gradient-orbs">
-                <div class="orb orb-1"></div>
-                <div class="orb orb-2"></div>
-                <div class="orb orb-3"></div>
-                <div class="orb orb-4"></div>
+            <!-- Floating Glass Orbs -->
+            <div class="glass-orbs">
+                <div class="glass-orb orb-1"></div>
+                <div class="glass-orb orb-2"></div>
+                <div class="glass-orb orb-3"></div>
+                <div class="glass-orb orb-4"></div>
             </div>
             
-            <!-- Floating Particles -->
-            <div class="particles-container">
-                <div class="particle particle-1">✨</div>
-                <div class="particle particle-2">💫</div>
-                <div class="particle particle-3">⭐</div>
-                <div class="particle particle-4">🌟</div>
-                <div class="particle particle-5">✨</div>
-                <div class="particle particle-6">💫</div>
-                <div class="particle particle-7">⭐</div>
-                <div class="particle particle-8">🌟</div>
+            <!-- Animated Grid Pattern -->
+            <div class="grid-pattern">
+                <div class="grid-line grid-line-1"></div>
+                <div class="grid-line grid-line-2"></div>
+                <div class="grid-line grid-line-3"></div>
+                <div class="grid-line grid-line-4"></div>
             </div>
             
-            <!-- Geometric Shapes -->
-            <div class="geometric-shapes">
-                <div class="shape shape-1"></div>
-                <div class="shape shape-2"></div>
-                <div class="shape shape-3"></div>
-                <div class="shape shape-4"></div>
+            <!-- Floating Code Elements -->
+            <div class="code-elements">
+                <div class="code-element element-1">{ }</div>
+                <div class="code-element element-2">function</div>
+                <div class="code-element element-3">const</div>
+                <div class="code-element element-4">return</div>
+                <div class="code-element element-5">if</div>
+                <div class="code-element element-6">for</div>
             </div>
         </div>
         
-        <!-- Main Content -->
+        <!-- Main Content with Glass Morphism -->
         <div class="splash-content">
-            <!-- Logo Section -->
+            <!-- Modern Logo Section -->
             <div class="logo-section">
                 <div class="logo-container">
-                    <div class="logo-rings">
-                        <div class="logo-ring ring-1"></div>
-                        <div class="logo-ring ring-2"></div>
-                        <div class="logo-ring ring-3"></div>
+                    <!-- Glass Ring Animation -->
+                    <div class="glass-rings">
+                        <div class="glass-ring ring-1"></div>
+                        <div class="glass-ring ring-2"></div>
+                        <div class="glass-ring ring-3"></div>
                     </div>
+                    
+                    <!-- Modern Logo -->
                     <div class="logo-main">
                         <div class="logo-icon">
                             <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <defs>
                                     <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
-                                        <stop offset="50%" style="stop-color:#764ba2;stop-opacity:1" />
-                                        <stop offset="100%" style="stop-color:#f093fb;stop-opacity:1" />
+                                        <stop offset="0%" style="stop-color:#0ea5e9;stop-opacity:1" />
+                                        <stop offset="50%" style="stop-color:#a855f7;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#22c55e;stop-opacity:1" />
                                     </linearGradient>
-                                    <linearGradient id="logoStroke" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" style="stop-color:#667eea;stop-opacity:0.8" />
-                                        <stop offset="100%" style="stop-color:#f093fb;stop-opacity:0.8" />
-                                    </linearGradient>
+                                    <filter id="glow">
+                                        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                        <feMerge> 
+                                            <feMergeNode in="coloredBlur"/>
+                                            <feMergeNode in="SourceGraphic"/>
+                                        </feMerge>
+                                    </filter>
                                 </defs>
                                 
-                                <!-- Main circle with gradient -->
-                                <circle cx="60" cy="60" r="55" fill="url(#logoGradient)" stroke="url(#logoStroke)" stroke-width="2"/>
+                                <!-- Main circle with modern gradient -->
+                                <circle cx="60" cy="60" r="50" fill="url(#logoGradient)" filter="url(#glow)"/>
                                 
-                                <!-- Code brackets -->
-                                <path d="M30 40L20 60L30 80" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M90 40L100 60L90 80" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                <!-- Modern code brackets -->
+                                <path d="M25 35L15 60L25 85" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+                                <path d="M95 35L105 60L95 85" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
                                 
-                                <!-- Central dot -->
-                                <circle cx="60" cy="60" r="10" fill="white"/>
+                                <!-- Central dot with glow -->
+                                <circle cx="60" cy="60" r="8" fill="white" opacity="0.95"/>
                                 
-                                <!-- Decorative dots -->
-                                <circle cx="40" cy="40" r="3" fill="white" opacity="0.7"/>
-                                <circle cx="80" cy="40" r="3" fill="white" opacity="0.7"/>
-                                <circle cx="40" cy="80" r="3" fill="white" opacity="0.7"/>
-                                <circle cx="80" cy="80" r="3" fill="white" opacity="0.7"/>
+                                <!-- Decorative elements -->
+                                <circle cx="45" cy="45" r="2" fill="white" opacity="0.6"/>
+                                <circle cx="75" cy="45" r="2" fill="white" opacity="0.6"/>
+                                <circle cx="45" cy="75" r="2" fill="white" opacity="0.6"/>
+                                <circle cx="75" cy="75" r="2" fill="white" opacity="0.6"/>
                             </svg>
                         </div>
-                        <div class="logo-pulse"></div>
+                        <div class="logo-glow"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Title Section -->
+            <!-- Modern Title Section -->
             <div class="title-section">
                 <h1 class="app-title">
                     <span class="title-main">iPseudo</span>
                     <span class="title-accent">IDE</span>
                 </h1>
-                <p class="app-subtitle">Beautiful • Modern • Powerful</p>
-                <div class="title-decoration"></div>
+                <p class="app-subtitle">Modern • Intuitive • Powerful</p>
+                <div class="title-underline"></div>
             </div>
 
-            <!-- Loading Section -->
+            <!-- Modern Loading Section -->
             <div class="loading-section">
-                <!-- Progress Bar -->
+                <!-- Glass Progress Container -->
                 <div class="progress-container">
                     <div class="progress-bar">
                         <div class="progress-track"></div>
                         <div class="progress-fill"></div>
-                        <div class="progress-glow"></div>
                         <div class="progress-shimmer"></div>
                     </div>
                     <div class="progress-info">
@@ -124,31 +129,39 @@
                     </div>
                 </div>
                 
-                <!-- Loading Steps -->
+                <!-- Modern Loading Steps -->
                 <div class="loading-steps">
                     <div class="step" data-step="0">
-                        <div class="step-icon">⚡</div>
+                        <div class="step-icon">
+                            <i class="ri-code-s-slash-line"></i>
+                        </div>
                         <div class="step-content">
                             <div class="step-title">Editor</div>
                             <div class="step-desc">Monaco Editor</div>
                         </div>
                     </div>
                     <div class="step" data-step="1">
-                        <div class="step-icon">🖥️</div>
+                        <div class="step-icon">
+                            <i class="ri-terminal-line"></i>
+                        </div>
                         <div class="step-content">
                             <div class="step-title">Console</div>
                             <div class="step-desc">Code Execution</div>
                         </div>
                     </div>
                     <div class="step" data-step="2">
-                        <div class="step-icon">⚙️</div>
+                        <div class="step-icon">
+                            <i class="ri-settings-3-line"></i>
+                        </div>
                         <div class="step-content">
                             <div class="step-title">Settings</div>
                             <div class="step-desc">Preferences</div>
                         </div>
                     </div>
                     <div class="step" data-step="3">
-                        <div class="step-icon">✨</div>
+                        <div class="step-icon">
+                            <i class="ri-rocket-line"></i>
+                        </div>
                         <div class="step-content">
                             <div class="step-title">Ready</div>
                             <div class="step-desc">Launching</div>
@@ -158,14 +171,16 @@
             </div>
         </div>
 
-        <!-- Version Info -->
+        <!-- Modern Version Info -->
         <div class="splash-version">
-            <span class="version-text">v1.0</span>
-            <span class="version-dot">•</span>
-            <span class="version-build">Stable</span>
+            <div class="version-badge">
+                <span class="version-text">v1.0</span>
+                <span class="version-dot">•</span>
+                <span class="version-build">Stable</span>
+            </div>
         </div>
         
-        <!-- Confetti Canvas -->
+        <!-- Modern Confetti Canvas -->
         <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
     </div>
 

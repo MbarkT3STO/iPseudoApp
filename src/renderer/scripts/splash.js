@@ -1,191 +1,210 @@
 // ===== MODERN SPLASH SCREEN SCRIPT =====
-// Beautiful, modern splash screen with advanced animations and progress tracking
+// Beautiful, modern splash screen with glass morphism and advanced animations
 
 class ModernSplashScreen {
     constructor() {
         this.progressFill = document.querySelector('.progress-fill');
-        this.progressGlow = document.querySelector('.progress-glow');
+        this.progressShimmer = document.querySelector('.progress-shimmer');
         this.progressPercentage = document.querySelector('.progress-percentage');
         this.progressStatus = document.querySelector('.progress-status');
         this.loadingSteps = document.querySelectorAll('.step');
         this.currentStep = 0;
         this.progress = 0;
         this.isComplete = false;
-        this.debug = true; // Enable debug logging
+        this.debug = true;
+        
+        // Animation state
+        this.animations = {
+            isRunning: false,
+            startTime: null,
+            duration: 4000 // 4 seconds total
+        };
         
         this.init();
     }
 
     init() {
         this.detectAndApplyTheme();
-        this.setupCuteAnimations();
+        this.setupModernAnimations();
         this.setupLoadingSequence();
+        this.setupInteractions();
         this.startProgressAnimation();
-        this.setupStepAnimations();
     }
 
     detectAndApplyTheme() {
-        if (this.debug) console.log('Detecting theme for splash screen...');
+        if (this.debug) console.log('🎨 Detecting theme for splash screen...');
         
-        // Default to dark mode for splash screen (optimized for dark)
+        // Default to dark mode for splash screen
         let theme = 'dark';
         
         try {
-            // Check if we can access localStorage
             if (typeof Storage !== 'undefined' && localStorage) {
                 const savedTheme = localStorage.getItem('theme');
                 if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
                     theme = savedTheme;
-                    if (this.debug) console.log(`Found theme in localStorage: ${theme}`);
-                } else {
-                    if (this.debug) console.log('No theme in localStorage, using dark default');
+                    if (this.debug) console.log(`✅ Found theme in localStorage: ${theme}`);
                 }
-            } else {
-                if (this.debug) console.log('localStorage not available, using dark default');
             }
         } catch (error) {
-            if (this.debug) console.log('Error reading localStorage:', error);
+            if (this.debug) console.log('⚠️ Error reading localStorage:', error);
         }
         
-        // Apply the theme immediately
         this.applyTheme(theme);
-        if (this.debug) console.log(`Applied theme: ${theme}`);
         
-        // Also try to get theme from main process as backup
+        // Try to get theme from main process as backup
+        this.requestThemeFromMainProcess();
+    }
+
+    async requestThemeFromMainProcess() {
         try {
-            if (window.electron && window.electron.ipcRenderer) {
-                if (this.debug) console.log('Requesting theme from main process as backup...');
-                
+            if (window.electron?.ipcRenderer) {
                 const themePromise = window.electron.ipcRenderer.invoke('get-theme');
                 const timeoutPromise = new Promise((_, reject) => 
                     setTimeout(() => reject(new Error('Theme request timeout')), 1000)
                 );
                 
-                Promise.race([themePromise, timeoutPromise])
-                    .then((appTheme) => {
-                        if (this.debug) console.log('Received theme from main process:', appTheme);
-                        // Only apply if different from what we already have
-                        if (appTheme && appTheme !== theme) {
-                            this.applyTheme(appTheme);
-                            if (this.debug) console.log(`Updated theme to: ${appTheme}`);
-                        }
-                    })
-                    .catch((error) => {
-                        if (this.debug) console.log('Theme request failed, keeping current theme:', error);
-                    });
+                const appTheme = await Promise.race([themePromise, timeoutPromise]);
+                if (appTheme && appTheme !== document.documentElement.className.replace('theme-', '')) {
+                    this.applyTheme(appTheme);
+                    if (this.debug) console.log(`🔄 Updated theme to: ${appTheme}`);
+                }
             }
         } catch (error) {
-            if (this.debug) console.log('Theme detection error:', error);
+            if (this.debug) console.log('ℹ️ Theme request failed, keeping current theme');
         }
-    }
-
-    detectSystemTheme() {
-        // Check system preference
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            return 'dark';
-        }
-        return 'light';
     }
 
     applyTheme(theme) {
         const html = document.documentElement;
-        
-        // Remove existing theme classes
         html.classList.remove('theme-light', 'theme-dark');
-        
-        // Apply new theme
         html.classList.add(`theme-${theme}`);
         
-        console.log(`Splash screen theme applied: ${theme}`);
+        if (this.debug) console.log(`🎨 Applied theme: ${theme}`);
     }
 
-    setupCuteAnimations() {
-        // Add floating hearts animation
-        this.createFloatingHearts();
+    setupModernAnimations() {
+        // Add floating code elements animation
+        this.animateCodeElements();
         
-        // Add mouse follow effect for particles
-        this.setupMouseFollowEffect();
+        // Add mouse interaction effects
+        this.setupMouseEffects();
         
-        // Add cute completion celebration
+        // Add keyboard shortcuts for development
+        this.setupKeyboardShortcuts();
+        
+        // Add completion celebration
         this.setupCelebrationEffects();
     }
 
-    createFloatingHearts() {
-        const hearts = ['💖', '💕', '💗', '💝', '💘', '💞'];
-        const container = document.querySelector('.splash-background');
+    animateCodeElements() {
+        const codeElements = document.querySelectorAll('.code-element');
         
-        if (!container) return;
-        
-        // Create floating hearts every 2 seconds
-        setInterval(() => {
-            if (this.isComplete) return;
-            
-            const heart = document.createElement('div');
-            heart.className = 'floating-heart';
-            heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
-            heart.style.cssText = `
-                position: absolute;
-                font-size: 20px;
-                pointer-events: none;
-                z-index: 5;
-                left: ${Math.random() * 100}%;
-                top: 100%;
-                animation: floatUp 4s ease-out forwards;
-                opacity: 0.8;
-            `;
-            
-            container.appendChild(heart);
-            
-            // Remove heart after animation
-            setTimeout(() => {
-                if (heart.parentNode) {
-                    heart.parentNode.removeChild(heart);
-                }
-            }, 4000);
-        }, 2000);
+        codeElements.forEach((element, index) => {
+            // Add random movement
+            setInterval(() => {
+                if (this.isComplete) return;
+                
+                const randomX = (Math.random() - 0.5) * 20;
+                const randomY = (Math.random() - 0.5) * 20;
+                const randomRotation = (Math.random() - 0.5) * 10;
+                
+                element.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRotation}deg)`;
+                element.style.transition = 'transform 2s ease-in-out';
+            }, 3000 + index * 500);
+        });
     }
 
-    setupMouseFollowEffect() {
+    setupMouseEffects() {
         const container = document.querySelector('.splash-container');
         if (!container) return;
         
+        let mouseX = 0;
+        let mouseY = 0;
+        
         container.addEventListener('mousemove', (e) => {
-            const particles = document.querySelectorAll('.particle');
-            particles.forEach((particle, index) => {
-                const rect = container.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                // Create subtle follow effect
-                const delay = index * 100;
-                setTimeout(() => {
-                    particle.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px) scale(1.2)`;
-                    particle.style.transition = 'transform 0.3s ease';
-                }, delay);
-            });
+            mouseX = e.clientX / window.innerWidth;
+            mouseY = e.clientY / window.innerHeight;
+            
+            // Move glass orbs based on mouse position
+            this.updateOrbPositions(mouseX, mouseY);
+            
+            // Add subtle parallax to code elements
+            this.updateCodeElementParallax(mouseX, mouseY);
         });
         
         container.addEventListener('mouseleave', () => {
-            const particles = document.querySelectorAll('.particle');
-            particles.forEach(particle => {
-                particle.style.transform = '';
-                particle.style.transition = 'transform 0.5s ease';
-            });
+            // Reset positions
+            this.resetOrbPositions();
+            this.resetCodeElementPositions();
+        });
+    }
+
+    updateOrbPositions(mouseX, mouseY) {
+        const orbs = document.querySelectorAll('.glass-orb');
+        
+        orbs.forEach((orb, index) => {
+            const speed = (index + 1) * 0.1;
+            const x = (mouseX - 0.5) * speed * 50;
+            const y = (mouseY - 0.5) * speed * 50;
+            
+            orb.style.transform = `translate(${x}px, ${y}px)`;
+            orb.style.transition = 'transform 0.3s ease-out';
+        });
+    }
+
+    updateCodeElementParallax(mouseX, mouseY) {
+        const codeElements = document.querySelectorAll('.code-element');
+        
+        codeElements.forEach((element, index) => {
+            const speed = (index + 1) * 0.05;
+            const x = (mouseX - 0.5) * speed * 30;
+            const y = (mouseY - 0.5) * speed * 30;
+            
+            element.style.transform = `translate(${x}px, ${y}px)`;
+            element.style.transition = 'transform 0.2s ease-out';
+        });
+    }
+
+    resetOrbPositions() {
+        const orbs = document.querySelectorAll('.glass-orb');
+        orbs.forEach(orb => {
+            orb.style.transform = '';
+            orb.style.transition = 'transform 0.5s ease-out';
+        });
+    }
+
+    resetCodeElementPositions() {
+        const codeElements = document.querySelectorAll('.code-element');
+        codeElements.forEach(element => {
+            element.style.transform = '';
+            element.style.transition = 'transform 0.5s ease-out';
+        });
+    }
+
+    setupKeyboardShortcuts() {
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                console.log('⌨️ Escape pressed - skipping splash screen');
+                this.completeLoading();
+            }
+            if (e.key === 'Enter' || e.key === ' ') {
+                console.log('⌨️ Enter/Space pressed - completing splash screen');
+                this.completeLoading();
+            }
         });
     }
 
     setupCelebrationEffects() {
-        // Add celebration when loading completes
         this.celebrationElements = [];
     }
 
     setupLoadingSequence() {
         const loadingSteps = [
-            { progress: 15, status: 'Initializing core systems...', step: 0, delay: 300 },
-            { progress: 30, status: 'Loading Monaco Editor...', step: 0, delay: 800 },
-            { progress: 45, status: 'Setting up code execution engine...', step: 1, delay: 600 },
-            { progress: 60, status: 'Initializing console system...', step: 1, delay: 500 },
-            { progress: 75, status: 'Loading user preferences...', step: 2, delay: 400 },
+            { progress: 10, status: 'Initializing core systems...', step: 0, delay: 400 },
+            { progress: 25, status: 'Loading Monaco Editor...', step: 0, delay: 600 },
+            { progress: 40, status: 'Setting up code execution engine...', step: 1, delay: 500 },
+            { progress: 55, status: 'Initializing console system...', step: 1, delay: 400 },
+            { progress: 70, status: 'Loading user preferences...', step: 2, delay: 300 },
             { progress: 85, status: 'Preparing interface components...', step: 2, delay: 300 },
             { progress: 95, status: 'Finalizing setup...', step: 3, delay: 200 },
             { progress: 100, status: 'Ready to launch!', step: 3, delay: 500 }
@@ -204,7 +223,6 @@ class ModernSplashScreen {
                 currentIndex++;
                 setTimeout(updateProgress, step.delay);
             } else if (!this.isComplete) {
-                // Add a small delay before completing to ensure smooth transition
                 setTimeout(() => {
                     this.completeLoading();
                 }, 500);
@@ -222,12 +240,18 @@ class ModernSplashScreen {
             this.progressFill.style.width = `${progress}%`;
         }
         
-        if (this.progressGlow) {
-            this.progressGlow.style.width = `${progress}%`;
-        }
-        
         if (this.progressPercentage) {
             this.progressPercentage.textContent = `${progress}%`;
+        }
+        
+        // Add progress glow effect
+        this.addProgressGlow(progress);
+    }
+
+    addProgressGlow(progress) {
+        if (this.progressFill) {
+            const intensity = progress / 100;
+            this.progressFill.style.boxShadow = `0 0 ${20 + intensity * 20}px rgba(14, 165, 233, ${0.3 + intensity * 0.3})`;
         }
     }
 
@@ -249,21 +273,23 @@ class ModernSplashScreen {
         // Mark current step as active
         if (this.loadingSteps[stepIndex]) {
             this.loadingSteps[stepIndex].classList.add('active');
+            
+            // Add step completion animation
+            this.animateStepCompletion(this.loadingSteps[stepIndex]);
         }
         
         this.currentStep = stepIndex;
     }
 
-    setupStepAnimations() {
-        this.loadingSteps.forEach((step, index) => {
-            step.addEventListener('animationend', () => {
-                if (step.classList.contains('active')) {
-                    step.style.animation = 'none';
-                    step.offsetHeight; // Trigger reflow
-                    step.style.animation = 'stepPulse 0.6s ease-in-out';
-                }
-            });
-        });
+    animateStepCompletion(step) {
+        const icon = step.querySelector('.step-icon');
+        if (icon) {
+            icon.style.animation = 'stepPulse 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+            
+            setTimeout(() => {
+                icon.style.animation = '';
+            }, 600);
+        }
     }
 
     startProgressAnimation() {
@@ -271,15 +297,60 @@ class ModernSplashScreen {
         const style = document.createElement('style');
         style.textContent = `
             @keyframes stepPulse {
-                0%, 100% { transform: scale(1); }
-                50% { transform: scale(1.15); }
+                0% { transform: scale(1); }
+                50% { transform: scale(1.3); }
+                100% { transform: scale(1); }
             }
         `;
         document.head.appendChild(style);
     }
 
+    setupInteractions() {
+        // Add click interaction to logo
+        const logo = document.querySelector('.logo-icon');
+        if (logo) {
+            logo.addEventListener('click', () => {
+                this.addLogoClickEffect();
+            });
+        }
+        
+        // Add hover effects to steps
+        this.loadingSteps.forEach(step => {
+            step.addEventListener('mouseenter', () => {
+                this.addStepHoverEffect(step);
+            });
+            
+            step.addEventListener('mouseleave', () => {
+                this.removeStepHoverEffect(step);
+            });
+        });
+    }
+
+    addLogoClickEffect() {
+        const logo = document.querySelector('.logo-icon');
+        if (logo) {
+            logo.style.animation = 'logoPulse 0.3s ease-in-out';
+            setTimeout(() => {
+                logo.style.animation = '';
+            }, 300);
+        }
+    }
+
+    addStepHoverEffect(step) {
+        if (!step.classList.contains('active') && !step.classList.contains('completed')) {
+            step.style.transform = 'scale(1.05)';
+            step.style.transition = 'transform 0.2s ease-out';
+        }
+    }
+
+    removeStepHoverEffect(step) {
+        if (!step.classList.contains('active') && !step.classList.contains('completed')) {
+            step.style.transform = 'scale(0.95)';
+        }
+    }
+
     completeLoading() {
-        if (this.debug) console.log('Completing splash screen loading...');
+        if (this.debug) console.log('🎉 Completing splash screen loading...');
         
         this.isComplete = true;
         
@@ -289,42 +360,74 @@ class ModernSplashScreen {
             step.classList.add('completed');
         });
         
-        // Add completion animation
+        // Add completion effects
         this.addCompletionEffects();
         
         // Show confetti
         this.showConfetti();
         
-        // Notify main process that splash is complete
+        // Notify main process
         this.notifyMainProcess();
     }
 
     addCompletionEffects() {
-        // Add a subtle completion animation
-        const container = document.querySelector('.splash-container');
-        if (container) {
-            container.style.animation = 'splashBreathe 2s ease-in-out infinite, fadeInUp 0.5s ease-out';
-        }
-        
-        // Add a success checkmark animation
+        // Add completion animation to logo
         const logo = document.querySelector('.logo-icon');
         if (logo) {
             logo.style.animation = 'logoPulse 1s ease-in-out infinite, logoGlow 2s ease-in-out infinite';
         }
         
-        // Add cute celebration effects
-        this.createCelebrationBurst();
+        // Add success message
         this.addSuccessMessage();
+        
+        // Add celebration burst
+        this.createCelebrationBurst();
+    }
+
+    addSuccessMessage() {
+        const container = document.querySelector('.splash-content');
+        if (!container) return;
+        
+        const successMessage = document.createElement('div');
+        successMessage.className = 'success-message';
+        successMessage.innerHTML = `
+            <div class="success-icon">🚀</div>
+            <div class="success-text">Ready to code!</div>
+        `;
+        successMessage.style.cssText = `
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 1000;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            box-shadow: var(--glass-shadow);
+            animation: successMessage 1s ease-out 0.5s both;
+        `;
+        
+        container.appendChild(successMessage);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+            if (successMessage.parentNode) {
+                successMessage.parentNode.removeChild(successMessage);
+            }
+        }, 3000);
     }
 
     createCelebrationBurst() {
         const container = document.querySelector('.splash-container');
         if (!container) return;
         
-        const celebrationEmojis = ['🎉', '✨', '🌟', '💫', '🎊', '⭐', '💖', '🎈'];
+        const celebrationEmojis = ['🎉', '✨', '🌟', '💫', '🎊', '⭐', '💖', '🚀'];
         
         // Create burst of celebration emojis
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 15; i++) {
             setTimeout(() => {
                 const emoji = document.createElement('div');
                 emoji.textContent = celebrationEmojis[Math.floor(Math.random() * celebrationEmojis.length)];
@@ -340,8 +443,8 @@ class ModernSplashScreen {
                 `;
                 
                 // Random direction for burst effect
-                const angle = (i / 20) * 360;
-                const distance = 200 + Math.random() * 100;
+                const angle = (i / 15) * 360;
+                const distance = 150 + Math.random() * 100;
                 const x = Math.cos(angle * Math.PI / 180) * distance;
                 const y = Math.sin(angle * Math.PI / 180) * distance;
                 
@@ -360,192 +463,147 @@ class ModernSplashScreen {
         }
     }
 
-    addSuccessMessage() {
-        const container = document.querySelector('.splash-content');
-        if (!container) return;
+    showConfetti() {
+        const canvas = document.getElementById('confettiCanvas');
+        if (!canvas) return;
         
-        const successMessage = document.createElement('div');
-        successMessage.className = 'success-message';
-        successMessage.innerHTML = `
-            <div class="success-icon">🎉</div>
-            <div class="success-text">Ready to code!</div>
-        `;
-        successMessage.style.cssText = `
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            z-index: 1000;
-            animation: successMessage 1s ease-out 0.5s both;
-        `;
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
         
-        container.appendChild(successMessage);
-        
-        // Remove after 3 seconds
-        setTimeout(() => {
-            if (successMessage.parentNode) {
-                successMessage.parentNode.removeChild(successMessage);
-            }
-        }, 3000);
-    }
-
-    createConfetti() {
-        const confettiContainer = document.createElement('div');
-        confettiContainer.className = 'confetti-container';
-        confettiContainer.style.cssText = `
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1000;
-        `;
-        
-        document.body.appendChild(confettiContainer);
+        const confettiPieces = [];
+        const colors = ['#0ea5e9', '#a855f7', '#22c55e', '#f59e0b', '#ef4444'];
         
         // Create confetti pieces
         for (let i = 0; i < 50; i++) {
-            setTimeout(() => {
-                this.createConfettiPiece(confettiContainer);
-            }, i * 50);
+            confettiPieces.push({
+                x: Math.random() * canvas.width,
+                y: -10,
+                vx: (Math.random() - 0.5) * 2,
+                vy: Math.random() * 3 + 2,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                size: Math.random() * 4 + 2,
+                rotation: Math.random() * 360,
+                rotationSpeed: (Math.random() - 0.5) * 10
+            });
         }
         
-        // Remove confetti after animation
-        setTimeout(() => {
-            if (confettiContainer.parentNode) {
-                confettiContainer.parentNode.removeChild(confettiContainer);
-            }
-        }, 3000);
-    }
-
-    createConfettiPiece(container) {
-        const piece = document.createElement('div');
-        const colors = ['#667eea', '#764ba2', '#f093fb', '#0ea5e9', '#3b82f6'];
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        
-        piece.style.cssText = `
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: ${color};
-            top: -10px;
-            left: ${Math.random() * 100}%;
-            border-radius: 2px;
-            animation: confettiFall 3s ease-out forwards;
-        `;
-        
-        container.appendChild(piece);
-        
-        // Add CSS animation
-        if (!document.querySelector('#confetti-styles')) {
-            const style = document.createElement('style');
-            style.id = 'confetti-styles';
-            style.textContent = `
-                @keyframes confettiFall {
-                    0% {
-                        transform: translateY(0) rotate(0deg);
-                        opacity: 1;
-                    }
-                    100% {
-                        transform: translateY(100vh) rotate(720deg);
-                        opacity: 0;
-                    }
+        // Animate confetti
+        const animateConfetti = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            confettiPieces.forEach((piece, index) => {
+                piece.x += piece.vx;
+                piece.y += piece.vy;
+                piece.rotation += piece.rotationSpeed;
+                
+                ctx.save();
+                ctx.translate(piece.x, piece.y);
+                ctx.rotate(piece.rotation * Math.PI / 180);
+                ctx.fillStyle = piece.color;
+                ctx.fillRect(-piece.size / 2, -piece.size / 2, piece.size, piece.size);
+                ctx.restore();
+                
+                // Remove pieces that are off screen
+                if (piece.y > canvas.height + 10) {
+                    confettiPieces.splice(index, 1);
                 }
-            `;
-            document.head.appendChild(style);
-        }
+            });
+            
+            if (confettiPieces.length > 0) {
+                requestAnimationFrame(animateConfetti);
+            }
+        };
+        
+        animateConfetti();
     }
 
-    notifyMainProcess() {
-        console.log('Notifying main process of splash completion...');
+    async notifyMainProcess() {
+        console.log('📡 Notifying main process of splash completion...');
         
         try {
-            if (window.electron && window.electron.ipcRenderer) {
-                // Add timeout to prevent hanging
+            if (window.electron?.ipcRenderer) {
                 const notifyPromise = window.electron.ipcRenderer.invoke('splash-complete');
                 const timeoutPromise = new Promise((_, reject) => 
                     setTimeout(() => reject(new Error('Notification timeout')), 3000)
                 );
                 
-                Promise.race([notifyPromise, timeoutPromise])
-                    .then((response) => {
-                        console.log('Splash completion notified to main process:', response);
-                    })
-                    .catch((error) => {
-                        console.error('Failed to notify main process:', error);
-                        // Fallback: try to close splash window directly
-                        console.log('Attempting to close splash window directly...');
-                        window.close();
-                    });
+                await Promise.race([notifyPromise, timeoutPromise]);
+                console.log('✅ Splash completion notified to main process');
             } else if (window.require) {
-                // Fallback for development
                 const { ipcRenderer } = window.require('electron');
-                ipcRenderer.invoke('splash-complete').then(() => {
-                    console.log('Splash screen completed, main window should be showing');
-                }).catch((error) => {
-                    console.error('Failed to notify main process:', error);
-                    window.close();
-                });
+                await ipcRenderer.invoke('splash-complete');
+                console.log('✅ Splash screen completed, main window should be showing');
             } else {
-                console.log('No IPC available, closing splash window directly');
+                console.log('ℹ️ No IPC available, closing splash window directly');
                 window.close();
             }
         } catch (error) {
-            console.error('Error notifying main process:', error);
-            console.log('Attempting to close splash window directly...');
+            console.error('❌ Error notifying main process:', error);
+            console.log('🔄 Attempting to close splash window directly...');
             window.close();
         }
     }
 }
 
+// Add CSS animations
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes celebrationBurst {
+        0% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(0.5) rotate(0deg);
+        }
+        50% {
+            opacity: 1;
+            transform: translate(calc(-50% + var(--burst-x)), calc(-50% + var(--burst-y))) scale(1.2) rotate(180deg);
+        }
+        100% {
+            opacity: 0;
+            transform: translate(calc(-50% + var(--burst-x)), calc(-50% + var(--burst-y))) scale(0.5) rotate(360deg);
+        }
+    }
+    
+    @keyframes successMessage {
+        0% {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.5);
+        }
+        50% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        100% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+    }
+    
+    @keyframes logoGlow {
+        0%, 100% { 
+            filter: drop-shadow(0 0 20px rgba(14, 165, 233, 0.3));
+        }
+        50% { 
+            filter: drop-shadow(0 0 40px rgba(14, 165, 233, 0.6));
+        }
+    }
+`;
+document.head.appendChild(style);
+
 // Initialize splash screen when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Splash screen DOM loaded, initializing...');
-    splashInstance = new ModernSplashScreen();
-    console.log('Splash screen initialized');
+    console.log('🚀 Splash screen DOM loaded, initializing...');
+    window.splashInstance = new ModernSplashScreen();
+    console.log('✅ Splash screen initialized');
 });
 
 // Handle window close
 window.addEventListener('beforeunload', () => {
     // Clean up any ongoing animations
-    document.querySelectorAll('.particle, .shape, .orb').forEach(el => {
+    document.querySelectorAll('.glass-orb, .code-element, .grid-line').forEach(el => {
         el.style.animation = 'none';
     });
 });
 
-// Add some interactive effects
-document.addEventListener('mousemove', (e) => {
-    const particles = document.querySelectorAll('.particle');
-    const mouseX = e.clientX / window.innerWidth;
-    const mouseY = e.clientY / window.innerHeight;
-    
-    particles.forEach((particle, index) => {
-        const speed = (index + 1) * 0.5;
-        const x = (mouseX - 0.5) * speed * 20;
-        const y = (mouseY - 0.5) * speed * 20;
-        
-        particle.style.transform = `translate(${x}px, ${y}px)`;
-    });
-});
-
-// Add keyboard shortcuts for testing
-let splashInstance = null;
-
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        // Skip splash screen (for development)
-        console.log('Escape pressed - skipping splash screen');
-        if (splashInstance) {
-            splashInstance.completeLoading();
-        }
-    }
-    if (e.key === 'Enter' || e.key === ' ') {
-        // Complete splash screen immediately
-        console.log('Enter/Space pressed - completing splash screen');
-        if (splashInstance) {
-            splashInstance.completeLoading();
-        }
-    }
-});
+// Export for global access
+window.ModernSplashScreen = ModernSplashScreen;
