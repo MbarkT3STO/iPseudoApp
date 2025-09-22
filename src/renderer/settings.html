@@ -52,6 +52,28 @@
                 
                 <div class="nav-right">
                     <div class="nav-actions">
+                        <!-- Search Bar -->
+                        <div class="search-container">
+                            <div class="search-input-wrapper">
+                                <i class="ri-search-line search-icon"></i>
+                                <input type="text" id="settingsSearch" class="search-input" placeholder="Search settings...">
+                                <button class="search-clear" id="searchClear" style="display: none;">
+                                    <i class="ri-close-line"></i>
+                                </button>
+                            </div>
+                            <div class="search-results" id="searchResults" style="display: none;">
+                                <div class="search-results-header">
+                                    <span class="results-count">0 results</span>
+                                    <button class="search-close" id="searchClose">
+                                        <i class="ri-close-line"></i>
+                                    </button>
+                                </div>
+                                <div class="search-results-list" id="searchResultsList">
+                                    <!-- Search results will be populated here -->
+                                </div>
+                            </div>
+                        </div>
+                        
                         <button class="action-btn theme-btn" id="btnThemeToggle" title="Toggle Theme">
                             <i class="ri-contrast-2-line"></i>
                         </button>

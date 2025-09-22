@@ -13,6 +13,7 @@ class SettingsManager {
         this.setupNavigation();
         this.setupFormControls();
         this.setupEventListeners();
+        this.setupSearch();
         this.applySettings();
         this.updateUI();
         
@@ -20,9 +21,544 @@ class SettingsManager {
         this.forceApplyUIVisibility();
     }
 
+    // Setup search functionality
+    setupSearch() {
+        this.searchInput = document.getElementById('settingsSearch');
+        this.searchResults = document.getElementById('searchResults');
+        this.searchResultsList = document.getElementById('searchResultsList');
+        this.searchClear = document.getElementById('searchClear');
+        this.searchClose = document.getElementById('searchClose');
+        this.resultsCount = document.querySelector('.results-count');
+        
+        // Search data structure
+        this.searchData = this.buildSearchData();
+        
+        // Event listeners
+        this.searchInput.addEventListener('input', (e) => this.handleSearch(e.target.value));
+        this.searchClear.addEventListener('click', () => this.clearSearch());
+        this.searchClose.addEventListener('click', () => this.hideSearchResults());
+        
+        // Close search results when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.search-container')) {
+                this.hideSearchResults();
+            }
+        });
+    }
+
+    // Build search data from all settings
+    buildSearchData() {
+        return [
+            // Appearance Settings
+            {
+                id: 'themeSelect',
+                title: 'Color Theme',
+                description: 'Choose between light and dark themes',
+                section: 'Appearance',
+                sectionId: 'appearance',
+                icon: 'ri-palette-line',
+                keywords: ['theme', 'color', 'light', 'dark', 'appearance', 'visual']
+            },
+            {
+                id: 'accentColor',
+                title: 'Accent Color',
+                description: 'Choose your preferred accent color',
+                section: 'Appearance',
+                sectionId: 'appearance',
+                icon: 'ri-brush-line',
+                keywords: ['accent', 'color', 'theme', 'customize', 'appearance']
+            },
+            {
+                id: 'animationsEnabled',
+                title: 'Animations',
+                description: 'Enable smooth transitions and animations',
+                section: 'Appearance',
+                sectionId: 'appearance',
+                icon: 'ri-magic-line',
+                keywords: ['animation', 'transition', 'smooth', 'effect', 'ui']
+            },
+            {
+                id: 'glassEffects',
+                title: 'Glass Effects',
+                description: 'Enable glass morphism and blur effects',
+                section: 'Appearance',
+                sectionId: 'appearance',
+                icon: 'ri-gradienter-line',
+                keywords: ['glass', 'blur', 'morphism', 'effect', 'visual']
+            },
+            {
+                id: 'particleEffects',
+                title: 'Particle Effects',
+                description: 'Show floating particles and background effects',
+                section: 'Appearance',
+                sectionId: 'appearance',
+                icon: 'ri-sparkling-line',
+                keywords: ['particle', 'effect', 'background', 'visual', 'animation']
+            },
+            
+            // Editor Settings
+            {
+                id: 'fontSize',
+                title: 'Font Size',
+                description: 'Adjust the editor font size',
+                section: 'Editor',
+                sectionId: 'editor',
+                icon: 'ri-text',
+                keywords: ['font', 'size', 'text', 'editor', 'display']
+            },
+            {
+                id: 'fontFamily',
+                title: 'Font Family',
+                description: 'Choose the editor font family',
+                section: 'Editor',
+                sectionId: 'editor',
+                icon: 'ri-font-family',
+                keywords: ['font', 'family', 'typeface', 'editor', 'text']
+            },
+            {
+                id: 'lineHeight',
+                title: 'Line Height',
+                description: 'Adjust the spacing between lines',
+                section: 'Editor',
+                sectionId: 'editor',
+                icon: 'ri-text-direction-l',
+                keywords: ['line', 'height', 'spacing', 'editor', 'text']
+            },
+            {
+                id: 'wordWrap',
+                title: 'Word Wrap',
+                description: 'Wrap long lines in the editor',
+                section: 'Editor',
+                sectionId: 'editor',
+                icon: 'ri-text-wrap',
+                keywords: ['word', 'wrap', 'line', 'editor', 'text']
+            },
+            {
+                id: 'minimap',
+                title: 'Minimap',
+                description: 'Show code minimap on the right side',
+                section: 'Editor',
+                sectionId: 'editor',
+                icon: 'ri-map-2-line',
+                keywords: ['minimap', 'overview', 'editor', 'navigation']
+            },
+            {
+                id: 'autoSave',
+                title: 'Auto Save',
+                description: 'Automatically save changes',
+                section: 'Editor',
+                sectionId: 'editor',
+                icon: 'ri-save-line',
+                keywords: ['auto', 'save', 'automatic', 'editor', 'file']
+            },
+            {
+                id: 'autoSaveInterval',
+                title: 'Auto Save Interval',
+                description: 'Time interval for automatic saving',
+                section: 'Editor',
+                sectionId: 'editor',
+                icon: 'ri-time-line',
+                keywords: ['auto', 'save', 'interval', 'time', 'editor', 'file']
+            },
+            {
+                id: 'tabSize',
+                title: 'Tab Size',
+                description: 'Number of spaces for indentation',
+                section: 'Editor',
+                sectionId: 'editor',
+                icon: 'ri-indent-decrease',
+                keywords: ['tab', 'size', 'indent', 'spaces', 'editor']
+            },
+            {
+                id: 'lineNumbers',
+                title: 'Line Numbers',
+                description: 'Show line numbers in the editor',
+                section: 'Editor',
+                sectionId: 'editor',
+                icon: 'ri-numbers-line',
+                keywords: ['line', 'numbers', 'editor', 'display', 'gutter']
+            },
+            {
+                id: 'autoComplete',
+                title: 'Auto Complete',
+                description: 'Enable auto-completion in the editor',
+                section: 'Editor',
+                sectionId: 'editor',
+                icon: 'ri-code-s-slash-line',
+                keywords: ['auto', 'complete', 'suggestion', 'editor', 'intellisense']
+            },
+            {
+                id: 'syntaxHighlighting',
+                title: 'Syntax Highlighting',
+                description: 'Enable syntax highlighting in the editor',
+                section: 'Editor',
+                sectionId: 'editor',
+                icon: 'ri-palette-line',
+                keywords: ['syntax', 'highlighting', 'color', 'editor', 'code']
+            },
+            {
+                id: 'executionTimeout',
+                title: 'Execution Timeout',
+                description: 'Maximum execution time for code',
+                section: 'Editor',
+                sectionId: 'editor',
+                icon: 'ri-timer-line',
+                keywords: ['execution', 'timeout', 'time', 'limit', 'code', 'run']
+            },
+            
+            // Console Settings
+            {
+                id: 'consoleHeight',
+                title: 'Console Height',
+                description: 'Adjust the height of the console panel',
+                section: 'Console',
+                sectionId: 'console',
+                icon: 'ri-arrows-vertical',
+                keywords: ['console', 'height', 'size', 'panel', 'output']
+            },
+            {
+                id: 'consoleFontSize',
+                title: 'Console Font Size',
+                description: 'Adjust the console font size',
+                section: 'Console',
+                sectionId: 'console',
+                icon: 'ri-text',
+                keywords: ['console', 'font', 'size', 'text', 'output']
+            },
+            {
+                id: 'consoleFontFamily',
+                title: 'Console Font Family',
+                description: 'Choose the console font family',
+                section: 'Console',
+                sectionId: 'console',
+                icon: 'ri-font-family',
+                keywords: ['console', 'font', 'family', 'typeface', 'output']
+            },
+            {
+                id: 'maxMessages',
+                title: 'Max Messages',
+                description: 'Maximum number of messages to keep in console',
+                section: 'Console',
+                sectionId: 'console',
+                icon: 'ri-numbers-line',
+                keywords: ['console', 'messages', 'limit', 'max', 'output']
+            },
+            {
+                id: 'autoScroll',
+                title: 'Auto Scroll',
+                description: 'Automatically scroll to new messages',
+                section: 'Console',
+                sectionId: 'console',
+                icon: 'ri-arrow-down-line',
+                keywords: ['console', 'scroll', 'auto', 'messages', 'output']
+            },
+            {
+                id: 'showTimestamps',
+                title: 'Show Timestamps',
+                description: 'Display timestamps for console messages',
+                section: 'Console',
+                sectionId: 'console',
+                icon: 'ri-time-line',
+                keywords: ['console', 'timestamp', 'time', 'messages', 'output']
+            },
+            {
+                id: 'showIcons',
+                title: 'Show Icons',
+                description: 'Display icons for different message types',
+                section: 'Console',
+                sectionId: 'console',
+                icon: 'ri-image-line',
+                keywords: ['console', 'icons', 'images', 'messages', 'output']
+            },
+            
+            // UI Elements Settings
+            {
+                id: 'showFileActions',
+                title: 'File Actions',
+                description: 'Show New, Open, Save buttons in the top navigation',
+                section: 'UI Elements',
+                sectionId: 'ui',
+                icon: 'ri-file-line',
+                keywords: ['file', 'actions', 'buttons', 'navigation', 'ui']
+            },
+            {
+                id: 'showRunButton',
+                title: 'Run Button',
+                description: 'Show the Run and Stop buttons',
+                section: 'UI Elements',
+                sectionId: 'ui',
+                icon: 'ri-play-line',
+                keywords: ['run', 'button', 'execute', 'code', 'ui']
+            },
+            {
+                id: 'showThemeToggle',
+                title: 'Theme Toggle',
+                description: 'Show the theme toggle button',
+                section: 'UI Elements',
+                sectionId: 'ui',
+                icon: 'ri-contrast-2-line',
+                keywords: ['theme', 'toggle', 'button', 'ui', 'appearance']
+            },
+            {
+                id: 'showLayoutToggle',
+                title: 'Layout Toggle',
+                description: 'Show the layout toggle button',
+                section: 'UI Elements',
+                sectionId: 'ui',
+                icon: 'ri-layout-line',
+                keywords: ['layout', 'toggle', 'button', 'ui', 'arrangement']
+            },
+            {
+                id: 'showSettingsButton',
+                title: 'Settings Button',
+                description: 'Show the settings button',
+                section: 'UI Elements',
+                sectionId: 'ui',
+                icon: 'ri-settings-3-line',
+                keywords: ['settings', 'button', 'ui', 'preferences']
+            },
+            {
+                id: 'showEditorActions',
+                title: 'Editor Action Buttons',
+                description: 'Show Format, Minimap, and Word Wrap buttons in editor header',
+                section: 'UI Elements',
+                sectionId: 'ui',
+                icon: 'ri-code-s-slash-line',
+                keywords: ['editor', 'actions', 'buttons', 'format', 'minimap', 'ui']
+            },
+            {
+                id: 'showEditorTitle',
+                title: 'Editor Title',
+                description: 'Show the "Code Editor" title and live badge',
+                section: 'UI Elements',
+                sectionId: 'ui',
+                icon: 'ri-text',
+                keywords: ['editor', 'title', 'badge', 'ui', 'header']
+            },
+            {
+                id: 'showConsoleActions',
+                title: 'Console Action Buttons',
+                description: 'Show Clear, Copy, and Save buttons in console header',
+                section: 'UI Elements',
+                sectionId: 'ui',
+                icon: 'ri-terminal-box-line',
+                keywords: ['console', 'actions', 'buttons', 'clear', 'copy', 'ui']
+            },
+            {
+                id: 'showConsoleStats',
+                title: 'Console Statistics',
+                description: 'Show message count and execution time in console header',
+                section: 'UI Elements',
+                sectionId: 'ui',
+                icon: 'ri-bar-chart-line',
+                keywords: ['console', 'statistics', 'stats', 'count', 'time', 'ui']
+            },
+            {
+                id: 'showConsoleTitle',
+                title: 'Console Title',
+                description: 'Show the "Output Console" title and status indicator',
+                section: 'UI Elements',
+                sectionId: 'ui',
+                icon: 'ri-text',
+                keywords: ['console', 'title', 'indicator', 'ui', 'header']
+            },
+            {
+                id: 'showTabCounter',
+                title: 'Tab Counter',
+                description: 'Show the tab counter (e.g., "1/3")',
+                section: 'UI Elements',
+                sectionId: 'ui',
+                icon: 'ri-numbers-line',
+                keywords: ['tab', 'counter', 'count', 'ui', 'navigation']
+            },
+            {
+                id: 'showNewTabButton',
+                title: 'New Tab Button',
+                description: 'Show the new tab button (+)',
+                section: 'UI Elements',
+                sectionId: 'ui',
+                icon: 'ri-add-line',
+                keywords: ['tab', 'new', 'button', 'add', 'ui']
+            },
+            {
+                id: 'confirmClose',
+                title: 'Confirm Before Closing Tabs',
+                description: 'Show confirmation dialog when closing tabs',
+                section: 'UI Elements',
+                sectionId: 'ui',
+                icon: 'ri-question-line',
+                keywords: ['confirm', 'close', 'tabs', 'dialog', 'ui']
+            },
+            
+            // Performance Settings
+            {
+                id: 'hardwareAcceleration',
+                title: 'Hardware Acceleration',
+                description: 'Use GPU acceleration for better performance',
+                section: 'Performance',
+                sectionId: 'performance',
+                icon: 'ri-cpu-line',
+                keywords: ['hardware', 'acceleration', 'gpu', 'performance', 'speed']
+            },
+            {
+                id: 'reducedMotion',
+                title: 'Reduced Motion',
+                description: 'Disable animations for better performance',
+                section: 'Performance',
+                sectionId: 'performance',
+                icon: 'ri-pause-line',
+                keywords: ['motion', 'animation', 'performance', 'accessibility']
+            },
+            {
+                id: 'maxTabs',
+                title: 'Maximum Tabs',
+                description: 'Limit the number of open tabs',
+                section: 'Performance',
+                sectionId: 'performance',
+                icon: 'ri-window-line',
+                keywords: ['tabs', 'maximum', 'limit', 'memory', 'performance']
+            },
+            {
+                id: 'autoCloseTabs',
+                title: 'Auto Close Tabs',
+                description: 'Automatically close unused tabs',
+                section: 'Performance',
+                sectionId: 'performance',
+                icon: 'ri-close-circle-line',
+                keywords: ['tabs', 'auto', 'close', 'unused', 'memory']
+            },
+            {
+                id: 'debugMode',
+                title: 'Debug Mode',
+                description: 'Enable debug panel and console logging',
+                section: 'Performance',
+                sectionId: 'performance',
+                icon: 'ri-bug-line',
+                keywords: ['debug', 'mode', 'panel', 'console', 'logging']
+            },
+            {
+                id: 'showPerformance',
+                title: 'Show Performance Stats',
+                description: 'Display performance statistics in the UI',
+                section: 'Performance',
+                sectionId: 'performance',
+                icon: 'ri-dashboard-line',
+                keywords: ['performance', 'stats', 'statistics', 'display', 'ui']
+            }
+        ];
+    }
+
+    // Handle search input
+    handleSearch(query) {
+        if (!query.trim()) {
+            this.hideSearchResults();
+            return;
+        }
+
+        const results = this.searchSettings(query);
+        this.displaySearchResults(results, query);
+    }
+
+    // Search through settings
+    searchSettings(query) {
+        const searchTerm = query.toLowerCase();
+        return this.searchData.filter(item => {
+            return item.title.toLowerCase().includes(searchTerm) ||
+                   item.description.toLowerCase().includes(searchTerm) ||
+                   item.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm));
+        });
+    }
+
+    // Display search results
+    displaySearchResults(results, query) {
+        this.resultsCount.textContent = `${results.length} result${results.length !== 1 ? 's' : ''}`;
+        
+        if (results.length === 0) {
+            this.searchResultsList.innerHTML = `
+                <div class="no-results">
+                    <div class="no-results-icon">
+                        <i class="ri-search-line"></i>
+                    </div>
+                    <div class="no-results-title">No results found</div>
+                    <div class="no-results-description">Try different keywords or check spelling</div>
+                </div>
+            `;
+        } else {
+            this.searchResultsList.innerHTML = results.map(item => {
+                const highlightedTitle = this.highlightText(item.title, query);
+                const highlightedDescription = this.highlightText(item.description, query);
+                
+                return `
+                    <div class="search-result-item" data-section="${item.sectionId}" data-setting="${item.id}">
+                        <div class="search-result-icon">
+                            <i class="${item.icon}"></i>
+                        </div>
+                        <div class="search-result-content">
+                            <div class="search-result-title">${highlightedTitle}</div>
+                            <div class="search-result-description">${highlightedDescription}</div>
+                        </div>
+                        <div class="search-result-section">${item.section}</div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Add click handlers to results
+            this.searchResultsList.querySelectorAll('.search-result-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const section = item.dataset.section;
+                    const settingId = item.dataset.setting;
+                    this.navigateToSetting(section, settingId);
+                });
+            });
+        }
+        
+        this.searchResults.style.display = 'block';
+        this.searchClear.style.display = 'block';
+    }
+
+    // Highlight search terms in text
+    highlightText(text, query) {
+        const regex = new RegExp(`(${query})`, 'gi');
+        return text.replace(regex, '<span class="search-highlight">$1</span>');
+    }
+
+    // Navigate to a specific setting
+    navigateToSetting(section, settingId) {
+        // Switch to the section
+        this.switchSection(section);
+        
+        // Hide search results
+        this.hideSearchResults();
+        this.clearSearch();
+        
+        // Scroll to and highlight the setting
+        setTimeout(() => {
+            const settingElement = document.getElementById(settingId);
+            if (settingElement) {
+                settingElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                settingElement.style.animation = 'pulse 1s ease-in-out';
+                setTimeout(() => {
+                    settingElement.style.animation = '';
+                }, 1000);
+            }
+        }, 100);
+    }
+
+    // Clear search
+    clearSearch() {
+        this.searchInput.value = '';
+        this.hideSearchResults();
+    }
+
+    // Hide search results
+    hideSearchResults() {
+        this.searchResults.style.display = 'none';
+        this.searchClear.style.display = 'none';
+    }
+
     // Setup navigation between settings sections
     setupNavigation() {
-        const navItems = document.querySelectorAll('.nav-item');
+        const navItems = document.querySelectorAll('.nav-link');
         const panels = document.querySelectorAll('.settings-panel');
 
         navItems.forEach(item => {
@@ -37,7 +573,7 @@ class SettingsManager {
     // Switch to a specific settings section
     switchSection(section) {
         // Update navigation
-        document.querySelectorAll('.nav-item').forEach(item => {
+        document.querySelectorAll('.nav-link').forEach(item => {
             item.classList.remove('active');
         });
         const navItem = document.querySelector(`[data-section="${section}"]`);
