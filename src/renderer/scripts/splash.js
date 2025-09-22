@@ -18,6 +18,7 @@ class ModernSplashScreen {
 
     init() {
         this.detectAndApplyTheme();
+        this.setupCuteAnimations();
         this.setupLoadingSequence();
         this.startProgressAnimation();
         this.setupStepAnimations();
@@ -96,6 +97,86 @@ class ModernSplashScreen {
         html.classList.add(`theme-${theme}`);
         
         console.log(`Splash screen theme applied: ${theme}`);
+    }
+
+    setupCuteAnimations() {
+        // Add floating hearts animation
+        this.createFloatingHearts();
+        
+        // Add mouse follow effect for particles
+        this.setupMouseFollowEffect();
+        
+        // Add cute completion celebration
+        this.setupCelebrationEffects();
+    }
+
+    createFloatingHearts() {
+        const hearts = ['💖', '💕', '💗', '💝', '💘', '💞'];
+        const container = document.querySelector('.splash-background');
+        
+        if (!container) return;
+        
+        // Create floating hearts every 2 seconds
+        setInterval(() => {
+            if (this.isComplete) return;
+            
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.style.cssText = `
+                position: absolute;
+                font-size: 20px;
+                pointer-events: none;
+                z-index: 5;
+                left: ${Math.random() * 100}%;
+                top: 100%;
+                animation: floatUp 4s ease-out forwards;
+                opacity: 0.8;
+            `;
+            
+            container.appendChild(heart);
+            
+            // Remove heart after animation
+            setTimeout(() => {
+                if (heart.parentNode) {
+                    heart.parentNode.removeChild(heart);
+                }
+            }, 4000);
+        }, 2000);
+    }
+
+    setupMouseFollowEffect() {
+        const container = document.querySelector('.splash-container');
+        if (!container) return;
+        
+        container.addEventListener('mousemove', (e) => {
+            const particles = document.querySelectorAll('.particle');
+            particles.forEach((particle, index) => {
+                const rect = container.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                // Create subtle follow effect
+                const delay = index * 100;
+                setTimeout(() => {
+                    particle.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px) scale(1.2)`;
+                    particle.style.transition = 'transform 0.3s ease';
+                }, delay);
+            });
+        });
+        
+        container.addEventListener('mouseleave', () => {
+            const particles = document.querySelectorAll('.particle');
+            particles.forEach(particle => {
+                particle.style.transform = '';
+                particle.style.transition = 'transform 0.5s ease';
+            });
+        });
+    }
+
+    setupCelebrationEffects() {
+        // Add celebration when loading completes
+        this.celebrationElements = [];
     }
 
     setupLoadingSequence() {
@@ -226,10 +307,87 @@ class ModernSplashScreen {
         }
         
         // Add a success checkmark animation
-        const logo = document.querySelector('.logo-svg');
+        const logo = document.querySelector('.logo-icon');
         if (logo) {
-            logo.style.animation = 'logoSvgPulse 1s ease-in-out infinite, logoGlow 2s ease-in-out infinite';
+            logo.style.animation = 'logoPulse 1s ease-in-out infinite, logoGlow 2s ease-in-out infinite';
         }
+        
+        // Add cute celebration effects
+        this.createCelebrationBurst();
+        this.addSuccessMessage();
+    }
+
+    createCelebrationBurst() {
+        const container = document.querySelector('.splash-container');
+        if (!container) return;
+        
+        const celebrationEmojis = ['🎉', '✨', '🌟', '💫', '🎊', '⭐', '💖', '🎈'];
+        
+        // Create burst of celebration emojis
+        for (let i = 0; i < 20; i++) {
+            setTimeout(() => {
+                const emoji = document.createElement('div');
+                emoji.textContent = celebrationEmojis[Math.floor(Math.random() * celebrationEmojis.length)];
+                emoji.style.cssText = `
+                    position: absolute;
+                    font-size: 24px;
+                    pointer-events: none;
+                    z-index: 1000;
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                    animation: celebrationBurst 2s ease-out forwards;
+                `;
+                
+                // Random direction for burst effect
+                const angle = (i / 20) * 360;
+                const distance = 200 + Math.random() * 100;
+                const x = Math.cos(angle * Math.PI / 180) * distance;
+                const y = Math.sin(angle * Math.PI / 180) * distance;
+                
+                emoji.style.setProperty('--burst-x', `${x}px`);
+                emoji.style.setProperty('--burst-y', `${y}px`);
+                
+                container.appendChild(emoji);
+                
+                // Remove after animation
+                setTimeout(() => {
+                    if (emoji.parentNode) {
+                        emoji.parentNode.removeChild(emoji);
+                    }
+                }, 2000);
+            }, i * 50);
+        }
+    }
+
+    addSuccessMessage() {
+        const container = document.querySelector('.splash-content');
+        if (!container) return;
+        
+        const successMessage = document.createElement('div');
+        successMessage.className = 'success-message';
+        successMessage.innerHTML = `
+            <div class="success-icon">🎉</div>
+            <div class="success-text">Ready to code!</div>
+        `;
+        successMessage.style.cssText = `
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 1000;
+            animation: successMessage 1s ease-out 0.5s both;
+        `;
+        
+        container.appendChild(successMessage);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+            if (successMessage.parentNode) {
+                successMessage.parentNode.removeChild(successMessage);
+            }
+        }, 3000);
     }
 
     createConfetti() {
