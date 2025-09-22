@@ -2875,6 +2875,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (clearButton) clearButton.addEventListener('click', clearConsole);
     
+    // Console toggle functionality
+    const toggleConsoleButton = document.getElementById('toggleConsole') as HTMLButtonElement | null;
+    const consoleToggleIcon = document.getElementById('consoleToggleIcon') as HTMLElement | null;
+    const consoleToggleText = document.getElementById('consoleToggleText') as HTMLElement | null;
+    const consoleContainer = document.querySelector('.console-container') as HTMLElement | null;
+    const consoleContentArea = document.querySelector('.console-content') as HTMLElement | null;
+    
+    let isConsoleCollapsed = false;
+    
+    if (toggleConsoleButton && consoleToggleIcon && consoleToggleText && consoleContainer && consoleContentArea) {
+        toggleConsoleButton.addEventListener('click', () => {
+            isConsoleCollapsed = !isConsoleCollapsed;
+            
+            if (isConsoleCollapsed) {
+                // Fully collapse console
+                consoleContainer.style.display = 'none';
+                consoleToggleIcon.className = 'ri-arrow-up-s-line';
+                consoleToggleText.textContent = 'Show Console';
+                toggleConsoleButton.title = 'Show Console';
+                toggleConsoleButton.classList.add('collapsed');
+            } else {
+                // Fully expand console
+                consoleContainer.style.display = 'block';
+                consoleToggleIcon.className = 'ri-arrow-down-s-line';
+                consoleToggleText.textContent = 'Hide Console';
+                toggleConsoleButton.title = 'Hide Console';
+                toggleConsoleButton.classList.remove('collapsed');
+            }
+        });
+    }
+    
     // Enhanced console functionality
     function clearConsole() {
         if (!outputConsole) return;

@@ -1835,3 +1835,47 @@
   outline-offset: 2px;
   border-radius: var(--radius-soft-sm);
 }
+
+/* ===== CONSOLE TOGGLE ANIMATION ===== */
+.console-toggle-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+}
+
+.console-container {
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.console-content {
+  transition: all 0.3s ease;
+}
+
+/* Console toggle button styling */
+#toggleConsole {
+  transition: all 0.2s ease;
+  background: var(--bg-soft);
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-soft);
+}
+
+#toggleConsole:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-soft-elevated);
+  background: var(--bg-soft-elevated);
+}
+
+#toggleConsole:active {
+  transform: translateY(1px);
+  box-shadow: var(--shadow-soft-pressed);
+}
+
+#toggleConsole i {
+  transition: transform 0.2s ease;
+}
+
+#toggleConsole.collapsed i {
+  transform: rotate(180deg);
+}
