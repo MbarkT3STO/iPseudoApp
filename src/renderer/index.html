@@ -122,96 +122,108 @@
                 </div>
             </div>
 
-            <!-- Neumorphic Editor Layout -->
-            <div class="editor-layout">
-                <!-- Neumorphic Editor Container -->
-                <div class="editor-container card floating-particles">
-                    <div class="editor-header">
-                        <div class="editor-title">
-                            <i class="ri-code-s-slash-line"></i>
-                            <span>Code Editor</span>
-                            <div class="badge badge-primary">Live</div>
-                        </div>
-                        <div class="editor-actions">
-                            <button class="btn btn-sm btn-ghost" id="btnFormat" title="Format Code">
-                                <i class="ri-code-s-slash-line"></i>
-                                <span class="sm:block">Format</span>
-                            </button>
-                            <button class="btn btn-sm btn-ghost" id="btnMinimap" title="Toggle Minimap">
-                                <i class="ri-map-line"></i>
-                                <span class="sm:block">Minimap</span>
-                            </button>
-                            <button class="btn btn-sm btn-ghost" id="btnWordWrap" title="Toggle Word Wrap">
-                                <i class="ri-text-wrap"></i>
-                                <span class="sm:block">Wrap</span>
-                            </button>
-                        </div>
+            <!-- Neumorphic Main Content Area with Tabs -->
+            <div class="main-content-area">
+                <!-- Content Tabs -->
+                <div class="content-tabs">
+                    <div class="content-tab active" data-tab="editor" id="editorTab">
+                        <i class="ri-code-s-slash-line"></i>
+                        <span>Editor</span>
                     </div>
-                    <div class="editor-content">
-                        <div id="editor" class="monaco-editor" style="width: 100%; height: 100%;"></div>
+                    <div class="content-tab" data-tab="console" id="consoleTab">
+                        <i class="ri-terminal-box-line"></i>
+                        <span>Console</span>
+                        <div class="tab-badge" id="consoleBadge" style="display: none;">0</div>
                     </div>
                 </div>
 
-                <!-- Console Toggle Button (Always Visible) -->
-                <div class="console-toggle-container">
-                    <button class="btn btn-sm btn-ghost" id="toggleConsole" title="Toggle Console">
-                        <i class="ri-arrow-down-s-line" id="consoleToggleIcon"></i>
-                        <span class="sm:block" id="consoleToggleText">Hide Console</span>
-                    </button>
-                </div>
-
-                <!-- Neumorphic Console Container -->
-                <div class="console-container card floating-particles">
-                    <div class="console-header">
-                        <div class="console-title">
-                            <div class="console-icon">
-                                <i class="ri-terminal-box-line"></i>
+                <!-- Tab Content Area -->
+                <div class="tab-content-area">
+                    <!-- Editor Tab Content -->
+                    <div class="tab-content active" id="editorContent">
+                        <div class="editor-container">
+                            <div class="editor-header">
+                                <div class="editor-title">
+                                    <i class="ri-code-s-slash-line"></i>
+                                    <span>Code Editor</span>
+                                    <div class="badge badge-primary">Live</div>
+                                </div>
+                                <div class="editor-actions">
+                                    <button class="btn btn-sm btn-ghost" id="btnFormat" title="Format Code">
+                                        <i class="ri-code-s-slash-line"></i>
+                                        <span class="sm:block">Format</span>
+                                    </button>
+                                    <button class="btn btn-sm btn-ghost" id="btnMinimap" title="Toggle Minimap">
+                                        <i class="ri-map-line"></i>
+                                        <span class="sm:block">Minimap</span>
+                                    </button>
+                                    <button class="btn btn-sm btn-ghost" id="btnWordWrap" title="Toggle Word Wrap">
+                                        <i class="ri-text-wrap"></i>
+                                        <span class="sm:block">Wrap</span>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="console-info">
-                                <h3>Output Console</h3>
-                                <div class="console-status" id="consoleStatus">
-                                    <div class="status-indicator ready" id="statusIndicator">
-                                        <div class="status-dot"></div>
-                                        <span class="status-text">Ready</span>
+                            <div class="editor-content">
+                                <div id="editor" class="monaco-editor" style="width: 100%; height: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Console Tab Content -->
+                    <div class="tab-content" id="consoleContent">
+                        <div class="console-container">
+                            <div class="console-header">
+                                <div class="console-title">
+                                    <div class="console-icon">
+                                        <i class="ri-terminal-box-line"></i>
+                                    </div>
+                                    <div class="console-info">
+                                        <h3>Output Console</h3>
+                                        <div class="console-status" id="consoleStatus">
+                                            <div class="status-indicator ready" id="statusIndicator">
+                                                <div class="status-dot"></div>
+                                                <span class="status-text">Ready</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="console-actions">
+                                    <div class="console-stats" id="consoleStats">
+                                        <div class="stat-item">
+                                            <i class="ri-message-3-line"></i>
+                                            <span id="messageCount">0</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="ri-time-line"></i>
+                                            <span id="executionTime">0ms</span>
+                                        </div>
+                                    </div>
+                                    <div class="console-controls">
+                                        <button class="btn btn-sm btn-ghost" id="clearConsole" title="Clear Output">
+                                            <i class="ri-delete-bin-line"></i>
+                                            <span class="sm:block">Clear</span>
+                                        </button>
+                                        <button class="btn btn-sm btn-ghost" id="btnCopyOutput" title="Copy Output">
+                                            <i class="ri-file-copy-line"></i>
+                                            <span class="sm:block">Copy</span>
+                                        </button>
+                                        <button class="btn btn-sm btn-ghost" id="btnSaveOutput" title="Save Output">
+                                            <i class="ri-save-line"></i>
+                                            <span class="sm:block">Save</span>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="console-actions">
-                            <div class="console-stats" id="consoleStats">
-                                <div class="stat-item">
-                                    <i class="ri-message-3-line"></i>
-                                    <span id="messageCount">0</span>
-                                </div>
-                                <div class="stat-item">
-                                    <i class="ri-time-line"></i>
-                                    <span id="executionTime">0ms</span>
-                                </div>
-                            </div>
-                            <div class="console-controls">
-                                <button class="btn btn-sm btn-ghost" id="clearConsole" title="Clear Output">
-                                    <i class="ri-delete-bin-line"></i>
-                                    <span class="sm:block">Clear</span>
-                                </button>
-                                <button class="btn btn-sm btn-ghost" id="btnCopyOutput" title="Copy Output">
-                                    <i class="ri-file-copy-line"></i>
-                                    <span class="sm:block">Copy</span>
-                                </button>
-                                <button class="btn btn-sm btn-ghost" id="btnSaveOutput" title="Save Output">
-                                    <i class="ri-save-line"></i>
-                                    <span class="sm:block">Save</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="console-content">
-                        <div class="console-output" id="output">
-                            <div class="console-welcome">
-                                <div class="welcome-icon">
-                                    <i class="ri-code-s-slash-line"></i>
-                                </div>
-                                <div class="welcome-content">
-                                    <h4>Welcome to iPseudo IDE</h4>
+                            <div class="console-content">
+                                <div class="console-output" id="output">
+                                    <div class="console-welcome">
+                                        <div class="welcome-icon">
+                                            <i class="ri-code-s-slash-line"></i>
+                                        </div>
+                                        <div class="welcome-content">
+                                            <h4>Welcome to iPseudo IDE</h4>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

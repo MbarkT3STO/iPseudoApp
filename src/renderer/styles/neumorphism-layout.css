@@ -205,7 +205,112 @@
   display: none;
 }
 
-/* ===== EDITOR LAYOUT ===== */
+/* ===== MAIN CONTENT AREA WITH TABS ===== */
+.main-content-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  position: relative;
+  margin: var(--space-soft-4) var(--space-soft-6) var(--space-soft-4) var(--space-soft-6);
+  background: var(--bg-soft-elevated);
+  border-radius: var(--radius-soft-xl);
+  box-shadow: var(--shadow-soft-primary);
+  overflow: hidden;
+}
+
+/* ===== CONTENT TABS ===== */
+.content-tabs {
+  display: flex;
+  align-items: center;
+  background: var(--bg-soft-secondary);
+  border-bottom: 1px solid var(--border-soft-light);
+  box-shadow: var(--shadow-soft-secondary);
+  position: relative;
+  z-index: 10;
+  min-height: 56px;
+  padding: 0 var(--space-soft-4);
+  gap: var(--space-soft-1);
+}
+
+.content-tab {
+  display: flex;
+  align-items: center;
+  gap: var(--space-soft-2);
+  padding: var(--space-soft-3) var(--space-soft-4);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-soft-md) var(--radius-soft-md) 0 0;
+  color: var(--text-soft-secondary);
+  font-size: var(--font-size-soft-sm);
+  font-weight: var(--font-weight-soft-medium);
+  cursor: pointer;
+  transition: all var(--duration-soft-normal) var(--ease-soft-out);
+  position: relative;
+  min-height: 48px;
+  flex-shrink: 0;
+}
+
+.content-tab:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-soft-primary);
+  transform: translateY(-1px);
+}
+
+.content-tab.active {
+  background: var(--bg-soft-elevated);
+  color: var(--text-soft-primary);
+  box-shadow: var(--shadow-soft-secondary);
+  border-bottom: 2px solid var(--text-soft-accent);
+}
+
+.content-tab i {
+  font-size: var(--font-size-soft-base);
+  color: inherit;
+}
+
+.tab-badge {
+  background: var(--text-soft-accent);
+  color: white;
+  font-size: var(--font-size-soft-xs);
+  font-weight: var(--font-weight-soft-bold);
+  padding: 2px 6px;
+  border-radius: var(--radius-soft-full);
+  min-width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: var(--space-soft-1);
+}
+
+/* ===== TAB CONTENT AREA ===== */
+.tab-content-area {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-soft-elevated);
+}
+
+.tab-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--duration-soft-normal) var(--ease-soft-out);
+  transform: translateX(20px);
+}
+
+.tab-content.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+/* ===== EDITOR LAYOUT (LEGACY - KEEP FOR COMPATIBILITY) ===== */
 .editor-layout {
   flex: 1;
   display: flex;
@@ -262,6 +367,7 @@
   min-height: 0;
   position: relative;
   overflow: hidden;
+  height: 100%;
 }
 
 .editor-header {
@@ -318,9 +424,10 @@
   display: flex;
   flex-direction: column;
   min-height: 200px;
-  flex: 0 0 300px;
+  flex: 1;
   position: relative;
   overflow: hidden;
+  height: 100%;
 }
 
 .console-header {
@@ -577,14 +684,28 @@
     padding: var(--space-soft-2);
   }
   
-  .editor-container {
-    margin: var(--space-soft-2) var(--space-soft-4) 0 var(--space-soft-4);
-    border-radius: var(--radius-soft-lg) var(--radius-soft-lg) 0 0;
+  .main-content-area {
+    margin: var(--space-soft-2) var(--space-soft-4) var(--space-soft-2) var(--space-soft-4);
+    border-radius: var(--radius-soft-lg);
   }
   
-  .console-container {
-    margin: 0 var(--space-soft-4) var(--space-soft-2) var(--space-soft-4);
-    border-radius: 0 0 var(--radius-soft-lg) var(--radius-soft-lg);
+  .content-tabs {
+    padding: 0 var(--space-soft-2);
+    min-height: 48px;
+  }
+  
+  .content-tab {
+    padding: var(--space-soft-2) var(--space-soft-3);
+    font-size: var(--font-size-soft-xs);
+    min-height: 40px;
+  }
+  
+  .content-tab span {
+    display: none;
+  }
+  
+  .content-tab i {
+    font-size: var(--font-size-soft-lg);
   }
   
   .tabs-container {
@@ -611,6 +732,25 @@
   .top-nav-right {
     width: 100%;
     justify-content: center;
+  }
+  
+  .main-content-area {
+    margin: var(--space-soft-2);
+    border-radius: var(--radius-soft-md);
+  }
+  
+  .content-tabs {
+    padding: 0 var(--space-soft-1);
+    min-height: 44px;
+  }
+  
+  .content-tab {
+    padding: var(--space-soft-1) var(--space-soft-2);
+    min-height: 36px;
+  }
+  
+  .content-tab i {
+    font-size: var(--font-size-soft-base);
   }
   
   .editor-layout {

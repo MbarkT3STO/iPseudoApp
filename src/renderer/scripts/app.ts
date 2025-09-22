@@ -2875,36 +2875,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (clearButton) clearButton.addEventListener('click', clearConsole);
     
-    // Console toggle functionality
-    const toggleConsoleButton = document.getElementById('toggleConsole') as HTMLButtonElement | null;
-    const consoleToggleIcon = document.getElementById('consoleToggleIcon') as HTMLElement | null;
-    const consoleToggleText = document.getElementById('consoleToggleText') as HTMLElement | null;
-    const consoleContainer = document.querySelector('.console-container') as HTMLElement | null;
-    const consoleContentArea = document.querySelector('.console-content') as HTMLElement | null;
-    
-    let isConsoleCollapsed = false;
-    
-    if (toggleConsoleButton && consoleToggleIcon && consoleToggleText && consoleContainer && consoleContentArea) {
-        toggleConsoleButton.addEventListener('click', () => {
-            isConsoleCollapsed = !isConsoleCollapsed;
-            
-            if (isConsoleCollapsed) {
-                // Fully collapse console
-                consoleContainer.style.display = 'none';
-                consoleToggleIcon.className = 'ri-arrow-up-s-line';
-                consoleToggleText.textContent = 'Show Console';
-                toggleConsoleButton.title = 'Show Console';
-                toggleConsoleButton.classList.add('collapsed');
-            } else {
-                // Fully expand console
-                consoleContainer.style.display = 'block';
-                consoleToggleIcon.className = 'ri-arrow-down-s-line';
-                consoleToggleText.textContent = 'Hide Console';
-                toggleConsoleButton.title = 'Hide Console';
-                toggleConsoleButton.classList.remove('collapsed');
-            }
-        });
-    }
+    // Console toggle functionality removed - now using tab-based layout
     
     // Enhanced console functionality
     function clearConsole() {
@@ -2973,8 +2944,19 @@ document.addEventListener('DOMContentLoaded', () => {
         updateTabConsoleStats(consoleStats);
         updateTabConsoleOutput(outputConsole.innerHTML);
         updateConsoleUI();
-            scrollOutputToBottom();
+        scrollOutputToBottom();
+        
+        // Show badge on console tab if console is not active
+        const consoleTab = document.getElementById('consoleTab');
+        const consoleBadge = document.getElementById('consoleBadge');
+        const consoleTabContent = document.getElementById('consoleContent');
+        
+        if (consoleTab && consoleBadge && consoleTabContent && !consoleTabContent.classList.contains('active')) {
+            consoleBadge.style.display = 'flex';
+            const currentCount = parseInt(consoleBadge.textContent || '0');
+            consoleBadge.textContent = (currentCount + 1).toString();
         }
+    }
     
     function getMessageIcon(type: string): string {
         const icons = {
@@ -4640,6 +4622,48 @@ document.addEventListener('DOMContentLoaded', () => {
                 editorLayout.classList.add('side-by-side');
                 layoutIcon.className = 'ri-layout-row-line';
                 addSystemMessage('Switched to 50/50 side-by-side layout');
+            }
+        });
+    }
+
+    // Initialize content tabs
+    const editorTab = document.getElementById('editorTab');
+    const consoleTab = document.getElementById('consoleTab');
+    const editorContent = document.getElementById('editorContent');
+    const consoleTabContent = document.getElementById('consoleContent');
+
+    if (editorTab && consoleTab && editorContent && consoleTabContent) {
+        // Editor tab click handler
+        editorTab.addEventListener('click', () => {
+            // Remove active class from all tabs and content
+            document.querySelectorAll('.content-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            // Add active class to editor tab and content
+            editorTab.classList.add('active');
+            editorContent.classList.add('active');
+            
+            // Update console badge visibility
+            const consoleBadge = document.getElementById('consoleBadge');
+            if (consoleBadge) {
+                consoleBadge.style.display = 'none';
+            }
+        });
+
+        // Console tab click handler
+        consoleTab.addEventListener('click', () => {
+            // Remove active class from all tabs and content
+            document.querySelectorAll('.content-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            // Add active class to console tab and content
+            consoleTab.classList.add('active');
+            consoleTabContent.classList.add('active');
+            
+            // Hide console badge when console is active
+            const consoleBadge = document.getElementById('consoleBadge');
+            if (consoleBadge) {
+                consoleBadge.style.display = 'none';
             }
         });
     }
