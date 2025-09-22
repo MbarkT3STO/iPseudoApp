@@ -3962,44 +3962,44 @@ document.addEventListener('DOMContentLoaded', () => {
         // If confirmClose is enabled, check for unsaved changes
         if (isModified) {
             // Has unsaved changes - show save confirmation
-            const title = isFileBasedTab ? 'Save Changes?' : 'Save Before Closing?';
-            const fileName = isFileBasedTab ? filePath.split('/').pop() : 'this tab';
-            const message = isFileBasedTab 
-                ? `The file "${fileName}" has unsaved changes. Do you want to save them?`
-                : 'This tab has unsaved content. Do you want to save it before closing?';
-            
+        const title = isFileBasedTab ? 'Save Changes?' : 'Save Before Closing?';
+        const fileName = isFileBasedTab ? filePath.split('/').pop() : 'this tab';
+        const message = isFileBasedTab 
+            ? `The file "${fileName}" has unsaved changes. Do you want to save them?`
+            : 'This tab has unsaved content. Do you want to save it before closing?';
+        
             // Show save confirmation dialog
-            showConfirmationModal(title, message, [
-                {
-                    text: 'Yes',
-                    primary: true,
-                    action: async () => {
-                        try {
-                            if (isFileBasedTab) {
-                                // Save to existing file
-                                await saveFileDirectly(filePath, currentContent);
-                            } else {
-                                // Show save dialog for new file
-                                const saved = await showSaveDialog(currentContent);
-                                if (!saved) {
-                                    return; // Don't close if save was cancelled
-                                }
+        showConfirmationModal(title, message, [
+            {
+                text: 'Yes',
+                primary: true,
+                action: async () => {
+                    try {
+                        if (isFileBasedTab) {
+                            // Save to existing file
+                            await saveFileDirectly(filePath, currentContent);
+                        } else {
+                            // Show save dialog for new file
+                            const saved = await showSaveDialog(currentContent);
+                            if (!saved) {
+                                return; // Don't close if save was cancelled
                             }
-                            performTabClose(tabElement);
-                    } catch (error) {
-                        console.error('Error saving file:', error);
-                            // Still close the tab even if save fails
-                            performTabClose(tabElement);
                         }
-                    }
-                },
-                {
-                    text: 'No',
-                    action: () => {
+                        performTabClose(tabElement);
+                } catch (error) {
+                    console.error('Error saving file:', error);
+                        // Still close the tab even if save fails
                         performTabClose(tabElement);
                     }
                 }
-            ]);
+            },
+            {
+                text: 'No',
+                action: () => {
+                    performTabClose(tabElement);
+                }
+            }
+        ]);
         } else {
             // No unsaved changes but confirmClose is enabled - show simple confirmation
             const title = 'Close Tab?';
@@ -4275,7 +4275,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         primary: true,
                         action: () => {
                             otherTabs.forEach(tab => {
-                                closeTabElement(tab as HTMLElement);
+                closeTabElement(tab as HTMLElement);
                             });
                         }
                     },
@@ -4313,9 +4313,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         text: 'Yes',
                         primary: true,
                         action: () => {
-                            allTabs.forEach(tab => {
-                                closeTabElement(tab as HTMLElement);
-                            });
+        allTabs.forEach(tab => {
+            closeTabElement(tab as HTMLElement);
+        });
                         }
                     },
                     {

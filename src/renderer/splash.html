@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-transition">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPseudo IDE - Loading</title>
+    
+    <!-- Modern Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Modern Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <!-- Splash Styles -->
+    <link rel="stylesheet" href="styles/splash.css">
+</head>
+<body>
+    <!-- Splash Screen Container -->
+    <div class="splash-container">
+        <!-- Animated Background -->
+        <div class="splash-background">
+            <!-- Geometric Shapes -->
+            <div class="geometric-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+                <div class="shape shape-4"></div>
+                <div class="shape shape-5"></div>
+                <div class="shape shape-6"></div>
+            </div>
+            
+            <!-- Floating Particles -->
+            <div class="particles-container">
+                <div class="particle particle-1"></div>
+                <div class="particle particle-2"></div>
+                <div class="particle particle-3"></div>
+                <div class="particle particle-4"></div>
+                <div class="particle particle-5"></div>
+                <div class="particle particle-6"></div>
+                <div class="particle particle-7"></div>
+                <div class="particle particle-8"></div>
+            </div>
+            
+            <!-- Gradient Orbs -->
+            <div class="gradient-orbs">
+                <div class="orb orb-1"></div>
+                <div class="orb orb-2"></div>
+                <div class="orb orb-3"></div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="splash-content">
+            <!-- Logo Section -->
+            <div class="logo-section">
+                <div class="logo-container">
+                    <div class="logo-outer-ring">
+                        <div class="logo-inner-ring">
+                            <div class="logo-core">
+                                <svg class="logo-svg" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Outer circle -->
+                                    <circle cx="40" cy="40" r="38" fill="url(#logoGradient)" stroke="url(#logoStroke)" stroke-width="2"/>
+                                    
+                                    <!-- Code brackets -->
+                                    <path d="M24 28L16 40L24 52" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M56 28L64 40L56 52" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                    
+                                    <!-- Central elements -->
+                                    <circle cx="40" cy="40" r="6" fill="currentColor"/>
+                                    <circle cx="40" cy="40" r="3" fill="white"/>
+                                    
+                                    <!-- Gradient definitions -->
+                                    <defs>
+                                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                                            <stop offset="50%" style="stop-color:#764ba2;stop-opacity:1" />
+                                            <stop offset="100%" style="stop-color:#f093fb;stop-opacity:1" />
+                                        </linearGradient>
+                                        <linearGradient id="logoStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" style="stop-color:#667eea;stop-opacity:0.8" />
+                                            <stop offset="100%" style="stop-color:#f093fb;stop-opacity:0.8" />
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Title Section -->
+            <div class="title-section">
+                <h1 class="app-title">
+                    <span class="title-main">iPseudo</span>
+                    <span class="title-accent">IDE</span>
+                </h1>
+                <p class="app-subtitle">Modern Pseudocode Editor</p>
+                <div class="app-description">
+                    <p>Beautiful, intuitive interface for writing and executing pseudocode with advanced features</p>
+                </div>
+            </div>
+            
+            <!-- Loading Section -->
+            <div class="loading-section">
+                <div class="loading-spinner">
+                    <div class="spinner-ring ring-1"></div>
+                    <div class="spinner-ring ring-2"></div>
+                    <div class="spinner-ring ring-3"></div>
+                </div>
+                <div class="loading-text">
+                    <span class="loading-message">Loading</span>
+                    <span class="loading-dots">
+                        <span>.</span>
+                        <span>.</span>
+                        <span>.</span>
+                    </span>
+                </div>
+            </div>
+            
+            <!-- Progress Section -->
+            <div class="progress-section">
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                        <div class="progress-glow"></div>
+                    </div>
+                    <div class="progress-percentage">0%</div>
+                </div>
+                <div class="progress-status">Initializing application...</div>
+            </div>
+        </div>
+        
+        <!-- Version Info -->
+        <div class="version-info">
+            <span class="version-text">v4.0.0</span>
+            <span class="version-separator">•</span>
+            <span class="version-build">Build 2024.1</span>
+        </div>
+        
+        <!-- Loading Steps -->
+        <div class="loading-steps">
+            <div class="step step-1 active">
+                <div class="step-icon">
+                    <i class="ri-code-s-slash-line"></i>
+                </div>
+                <div class="step-text">Editor</div>
+            </div>
+            <div class="step step-2">
+                <div class="step-icon">
+                    <i class="ri-terminal-box-line"></i>
+                </div>
+                <div class="step-text">Console</div>
+            </div>
+            <div class="step step-3">
+                <div class="step-icon">
+                    <i class="ri-settings-3-line"></i>
+                </div>
+                <div class="step-text">Settings</div>
+            </div>
+            <div class="step step-4">
+                <div class="step-icon">
+                    <i class="ri-check-line"></i>
+                </div>
+                <div class="step-text">Ready</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Splash Script -->
+    <script src="scripts/splash.js"></script>
+</body>
+</html>

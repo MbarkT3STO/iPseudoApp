@@ -10,6 +10,14 @@ contextBridge.exposeInMainWorld('electron', {
     },
     saveFile: (args: { filePath?: string; content: string }) => {
         return ipcRenderer.invoke('dialog:saveFile', args);
+    },
+    ipcRenderer: {
+        invoke: (channel: string, ...args: any[]) => {
+            return ipcRenderer.invoke(channel, ...args);
+        },
+        send: (channel: string, ...args: any[]) => {
+            return ipcRenderer.send(channel, ...args);
+        }
     }
 });
 
