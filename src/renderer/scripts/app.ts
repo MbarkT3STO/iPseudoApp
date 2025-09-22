@@ -111,6 +111,506 @@ document.addEventListener('DOMContentLoaded', () => {
             autoSaveInterval = null;
         }
     }
+
+    // Simple Debug Mode Implementation - Global Functions
+    function toggleDebugMode(enabled: boolean): void {
+        if (enabled) {
+            console.log('Debug mode enabled');
+            showDebugPanel();
+        } else {
+            console.log('Debug mode disabled');
+            hideDebugPanel();
+        }
+    }
+
+    function showDebugPanel(): void {
+        // Remove existing panel if any
+        hideDebugPanel();
+        
+        // Create debug panel with modern floating design
+        const panel = document.createElement('div');
+        panel.id = 'debug-panel';
+        panel.innerHTML = `
+            <div class="debug-floating-container">
+                <div class="debug-indicator" id="debug-indicator">
+                    <div class="debug-dot"></div>
+                    <span class="debug-label-text">Debug</span>
+                </div>
+                <div class="debug-panel-content" id="debug-panel-content">
+                    <div class="debug-header">
+                        <div class="debug-title">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                            <span>Debug Console</span>
+                        </div>
+                        <button class="debug-close" id="debug-close-btn">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="debug-content" id="debug-content">
+                        <div class="debug-grid">
+                            <div class="debug-card">
+                                <div class="debug-card-header">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                                    </svg>
+                                    <span>Active File</span>
+                                </div>
+                                <div class="debug-card-value" id="debug-file">None</div>
+                            </div>
+                            <div class="debug-card">
+                                <div class="debug-card-header">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,5V7H5V5H19M5,19V9H19V19H5M7,11H9V17H7V11M11,11H13V17H11V11M15,11H17V17H15V11Z"/>
+                                    </svg>
+                                    <span>Open Tabs</span>
+                                </div>
+                                <div class="debug-card-value" id="debug-tabs">0</div>
+                            </div>
+                            <div class="debug-card">
+                                <div class="debug-card-header">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M17,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3M19,19H5V5H16.17L19,7.83V19M12,12A3,3 0 0,0 9,15A3,3 0 0,0 12,18A3,3 0 0,0 15,15A3,3 0 0,0 12,12M6,6H15V10H6V6Z"/>
+                                    </svg>
+                                    <span>Auto Save</span>
+                                </div>
+                                <div class="debug-card-value" id="debug-autosave">Off</div>
+                            </div>
+                            <div class="debug-card">
+                                <div class="debug-card-header">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8Z"/>
+                                    </svg>
+                                    <span>Memory</span>
+                                </div>
+                                <div class="debug-card-value" id="debug-memory">-</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Style the panel with modern floating design
+        panel.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 13px;
+            pointer-events: none;
+        `;
+        
+        // Add CSS styles for the modern floating debug panel
+        const style = document.createElement('style');
+        style.textContent = `
+            /* Modern Floating Debug Panel */
+            .debug-floating-container {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 12px;
+            }
+            
+            .debug-indicator {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 8px 12px;
+                background: var(--debug-indicator-bg, rgba(0, 123, 255, 0.9));
+                backdrop-filter: blur(20px);
+                border-radius: 20px;
+                border: 1px solid var(--debug-indicator-border, rgba(255, 255, 255, 0.2));
+                box-shadow: var(--debug-indicator-shadow, 0 4px 20px rgba(0, 123, 255, 0.3));
+                cursor: pointer;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                pointer-events: auto;
+                user-select: none;
+            }
+            
+            .debug-indicator:hover {
+                transform: translateY(-2px);
+                box-shadow: var(--debug-indicator-hover-shadow, 0 8px 30px rgba(0, 123, 255, 0.4));
+            }
+            
+            .debug-dot {
+                width: 8px;
+                height: 8px;
+                background: var(--debug-dot-color, #ffffff);
+                border-radius: 50%;
+                animation: debug-pulse 2s infinite;
+            }
+            
+            @keyframes debug-pulse {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.5; }
+            }
+            
+            .debug-label-text {
+                font-size: 12px;
+                font-weight: 600;
+                color: var(--debug-indicator-text, #ffffff);
+                letter-spacing: 0.5px;
+            }
+            
+            .debug-panel-content {
+                background: var(--debug-panel-bg, rgba(255, 255, 255, 0.95));
+                backdrop-filter: blur(20px);
+                border: 1px solid var(--debug-panel-border, rgba(0, 0, 0, 0.1));
+                border-radius: 16px;
+                box-shadow: var(--debug-panel-shadow, 0 20px 60px rgba(0, 0, 0, 0.15));
+                overflow: hidden;
+                transform: translateY(-10px);
+                opacity: 0;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                pointer-events: auto;
+                min-width: 280px;
+                max-width: 320px;
+            }
+            
+            .debug-panel-content.show {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            
+            .debug-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 16px 20px;
+                background: var(--debug-header-bg, rgba(0, 0, 0, 0.02));
+                border-bottom: 1px solid var(--debug-header-border, rgba(0, 0, 0, 0.05));
+            }
+            
+            .debug-title {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-weight: 600;
+                color: var(--debug-title-color, #1a1a1a);
+                font-size: 15px;
+            }
+            
+            .debug-close {
+                background: none;
+                border: none;
+                color: var(--debug-close-color, rgba(0, 0, 0, 0.5));
+                cursor: pointer;
+                padding: 6px;
+                border-radius: 8px;
+                transition: all 0.2s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .debug-close:hover {
+                background: var(--debug-close-hover-bg, rgba(0, 0, 0, 0.05));
+                color: var(--debug-close-hover-color, #1a1a1a);
+            }
+            
+            .debug-content {
+                padding: 20px;
+            }
+            
+            .debug-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+            
+            .debug-card {
+                background: var(--debug-card-bg, rgba(0, 0, 0, 0.02));
+                border: 1px solid var(--debug-card-border, rgba(0, 0, 0, 0.05));
+                border-radius: 12px;
+                padding: 12px;
+                transition: all 0.2s ease;
+            }
+            
+            .debug-card:hover {
+                background: var(--debug-card-hover-bg, rgba(0, 0, 0, 0.04));
+                transform: translateY(-1px);
+            }
+            
+            .debug-card-header {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                margin-bottom: 8px;
+                font-size: 11px;
+                font-weight: 500;
+                color: var(--debug-card-label-color, rgba(0, 0, 0, 0.6));
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+            
+            .debug-card-value {
+                font-size: 13px;
+                font-weight: 600;
+                color: var(--debug-card-value-color, #1a1a1a);
+                font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+                word-break: break-all;
+            }
+            
+            /* Light Mode Styles */
+            [data-theme="light"] #debug-panel {
+                --debug-indicator-bg: rgba(0, 123, 255, 0.9);
+                --debug-indicator-border: rgba(255, 255, 255, 0.3);
+                --debug-indicator-shadow: 0 4px 20px rgba(0, 123, 255, 0.3);
+                --debug-indicator-hover-shadow: 0 8px 30px rgba(0, 123, 255, 0.4);
+                --debug-dot-color: #ffffff;
+                --debug-indicator-text: #ffffff;
+                --debug-panel-bg: rgba(255, 255, 255, 0.95);
+                --debug-panel-border: rgba(0, 0, 0, 0.1);
+                --debug-panel-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+                --debug-header-bg: rgba(0, 0, 0, 0.02);
+                --debug-header-border: rgba(0, 0, 0, 0.05);
+                --debug-title-color: #1a1a1a;
+                --debug-close-color: rgba(0, 0, 0, 0.5);
+                --debug-close-hover-bg: rgba(0, 0, 0, 0.05);
+                --debug-close-hover-color: #1a1a1a;
+                --debug-card-bg: rgba(0, 0, 0, 0.02);
+                --debug-card-border: rgba(0, 0, 0, 0.05);
+                --debug-card-hover-bg: rgba(0, 0, 0, 0.04);
+                --debug-card-label-color: rgba(0, 0, 0, 0.6);
+                --debug-card-value-color: #1a1a1a;
+            }
+            
+            /* Dark Mode Styles */
+            [data-theme="dark"] #debug-panel {
+                --debug-indicator-bg: rgba(0, 123, 255, 0.9);
+                --debug-indicator-border: rgba(255, 255, 255, 0.2);
+                --debug-indicator-shadow: 0 4px 20px rgba(0, 123, 255, 0.4);
+                --debug-indicator-hover-shadow: 0 8px 30px rgba(0, 123, 255, 0.5);
+                --debug-dot-color: #ffffff;
+                --debug-indicator-text: #ffffff;
+                --debug-panel-bg: rgba(30, 30, 30, 0.95);
+                --debug-panel-border: rgba(255, 255, 255, 0.1);
+                --debug-panel-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+                --debug-header-bg: rgba(255, 255, 255, 0.02);
+                --debug-header-border: rgba(255, 255, 255, 0.05);
+                --debug-title-color: #ffffff;
+                --debug-close-color: rgba(255, 255, 255, 0.5);
+                --debug-close-hover-bg: rgba(255, 255, 255, 0.05);
+                --debug-close-hover-color: #ffffff;
+                --debug-card-bg: rgba(255, 255, 255, 0.02);
+                --debug-card-border: rgba(255, 255, 255, 0.05);
+                --debug-card-hover-bg: rgba(255, 255, 255, 0.04);
+                --debug-card-label-color: rgba(255, 255, 255, 0.6);
+                --debug-card-value-color: #ffffff;
+            }
+            
+            /* Auto-detect theme based on system preference */
+            @media (prefers-color-scheme: light) {
+                #debug-panel:not([data-theme]) {
+                    --debug-indicator-bg: rgba(0, 123, 255, 0.9);
+                    --debug-indicator-border: rgba(255, 255, 255, 0.3);
+                    --debug-indicator-shadow: 0 4px 20px rgba(0, 123, 255, 0.3);
+                    --debug-indicator-hover-shadow: 0 8px 30px rgba(0, 123, 255, 0.4);
+                    --debug-dot-color: #ffffff;
+                    --debug-indicator-text: #ffffff;
+                    --debug-panel-bg: rgba(255, 255, 255, 0.95);
+                    --debug-panel-border: rgba(0, 0, 0, 0.1);
+                    --debug-panel-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+                    --debug-header-bg: rgba(0, 0, 0, 0.02);
+                    --debug-header-border: rgba(0, 0, 0, 0.05);
+                    --debug-title-color: #1a1a1a;
+                    --debug-close-color: rgba(0, 0, 0, 0.5);
+                    --debug-close-hover-bg: rgba(0, 0, 0, 0.05);
+                    --debug-close-hover-color: #1a1a1a;
+                    --debug-card-bg: rgba(0, 0, 0, 0.02);
+                    --debug-card-border: rgba(0, 0, 0, 0.05);
+                    --debug-card-hover-bg: rgba(0, 0, 0, 0.04);
+                    --debug-card-label-color: rgba(0, 0, 0, 0.6);
+                    --debug-card-value-color: #1a1a1a;
+                }
+            }
+        `;
+        
+        document.head.appendChild(style);
+        document.body.appendChild(panel);
+        
+        // Apply current theme to debug panel
+        const settings = loadSettings();
+        panel.setAttribute('data-theme', settings.theme);
+        
+        // Add interactive functionality
+        const indicator = panel.querySelector('#debug-indicator') as HTMLElement;
+        const panelContent = panel.querySelector('#debug-panel-content') as HTMLElement;
+        const closeBtn = panel.querySelector('#debug-close-btn') as HTMLElement;
+        
+        let isPanelOpen = false;
+        
+        // Toggle panel on indicator click
+        indicator?.addEventListener('click', () => {
+            isPanelOpen = !isPanelOpen;
+            if (isPanelOpen) {
+                panelContent.classList.add('show');
+            } else {
+                panelContent.classList.remove('show');
+            }
+        });
+        
+        // Close panel on close button click
+        closeBtn?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            isPanelOpen = false;
+            panelContent.classList.remove('show');
+        });
+        
+        // Close panel when clicking outside
+        document.addEventListener('click', (e) => {
+            if (isPanelOpen && !panel.contains(e.target as Node)) {
+                isPanelOpen = false;
+                panelContent.classList.remove('show');
+            }
+        });
+        
+        // Update debug info every second
+        updateDebugInfo();
+        setInterval(updateDebugInfo, 1000);
+    }
+
+    function hideDebugPanel(): void {
+        const panel = document.getElementById('debug-panel');
+        if (panel) {
+            panel.remove();
+        }
+    }
+
+    function updateDebugInfo(): void {
+        const fileSpan = document.getElementById('debug-file');
+        const tabsSpan = document.getElementById('debug-tabs');
+        const autosaveSpan = document.getElementById('debug-autosave');
+        const memorySpan = document.getElementById('debug-memory');
+        const debugPanel = document.getElementById('debug-panel');
+        
+        if (fileSpan) {
+            const fileName = activeFilePath ? activeFilePath.split('/').pop() || activeFilePath : 'None';
+            fileSpan.textContent = fileName;
+        }
+        
+        if (tabsSpan) {
+            tabsSpan.textContent = document.querySelectorAll('.modern-tab').length.toString();
+        }
+        
+        if (autosaveSpan) {
+            const settings = loadSettings();
+            autosaveSpan.textContent = settings.autoSave ? 'On' : 'Off';
+            
+            // Update theme if it changed
+            if (debugPanel) {
+                debugPanel.setAttribute('data-theme', settings.theme);
+            }
+        }
+        
+        if (memorySpan && (window.performance as any).memory) {
+            const mem = (window.performance as any).memory;
+            memorySpan.textContent = `${Math.round(mem.usedJSHeapSize / 1024 / 1024)}MB`;
+        }
+    }
+
+    // FPS calculation for performance stats
+    let frameCount = 0;
+    let lastTime = window.performance.now();
+    
+    function getFPS(): number {
+        frameCount++;
+        const now = window.performance.now();
+        if (now - lastTime >= 1000) {
+            const fps = Math.round((frameCount * 1000) / (now - lastTime));
+            frameCount = 0;
+            lastTime = now;
+            return fps;
+        }
+        return 0;
+    }
+
+    // Performance stats functionality - Global Functions
+    function applyPerformanceStats(enabled: boolean): void {
+        const performanceStats = document.getElementById('performance-stats');
+        
+        if (enabled) {
+            if (!performanceStats) {
+                addPerformanceStats();
+            }
+        } else {
+            if (performanceStats) {
+                performanceStats.remove();
+            }
+        }
+    }
+    
+    function addPerformanceStats(): void {
+        const statsPanel = document.createElement('div');
+        statsPanel.id = 'performance-stats';
+        statsPanel.innerHTML = `
+            <div class="performance-header">
+                <h4>Performance Stats</h4>
+            </div>
+            <div class="performance-content">
+                <div class="stat-item">
+                    <span class="stat-label">Memory:</span>
+                    <span id="memory-usage" class="stat-value">-</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">FPS:</span>
+                    <span id="fps-counter" class="stat-value">-</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Tabs:</span>
+                    <span id="tab-count" class="stat-value">-</span>
+                </div>
+            </div>
+        `;
+        
+        // Add styles
+        statsPanel.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 12px;
+            z-index: 1000;
+            font-size: 11px;
+            color: var(--text-primary);
+            box-shadow: var(--glass-shadow);
+            min-width: 150px;
+        `;
+        
+        document.body.appendChild(statsPanel);
+        
+        // Update stats periodically
+        updatePerformanceStats();
+        setInterval(updatePerformanceStats, 1000);
+    }
+    
+    function updatePerformanceStats(): void {
+        const memoryUsage = document.getElementById('memory-usage');
+        const fpsCounter = document.getElementById('fps-counter');
+        const tabCount = document.getElementById('tab-count');
+        
+        if (memoryUsage && (window.performance as any).memory) {
+            const mem = (window.performance as any).memory;
+            memoryUsage.textContent = `${Math.round(mem.usedJSHeapSize / 1024 / 1024)}MB`;
+        }
+        
+        if (fpsCounter) {
+            fpsCounter.textContent = getFPS().toString();
+        }
+        
+        if (tabCount) {
+            tabCount.textContent = document.querySelectorAll('.modern-tab').length.toString();
+        }
+    }
     
     function performAutoSave(): void {
         const settings = loadSettings();
@@ -884,10 +1384,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         setupToggleInput('debugMode', (value) => {
             saveSetting('debugMode', value);
+            toggleDebugMode(value);
         });
 
         setupToggleInput('showPerformance', (value) => {
             saveSetting('showPerformance', value);
+            applyPerformanceStats(value);
         });
 
         setupToggleInput('animationsEnabled', (value) => {
@@ -1245,6 +1747,9 @@ document.addEventListener('DOMContentLoaded', () => {
             fontSize: 14,
             fontFamily: 'JetBrains Mono',
             lineHeight: 1.5,
+            lineNumbers: true,
+            autoComplete: true,
+            syntaxHighlighting: true,
             consoleHeight: 300,
             consoleFontSize: 14,
             consoleFontFamily: 'JetBrains Mono',
@@ -1258,6 +1763,9 @@ document.addEventListener('DOMContentLoaded', () => {
             autoCloseTabs: false,
             confirmClose: true,
             autoSaveInterval: 60,
+            debugMode: false,
+            showPerformance: false,
+            executionTimeout: 30,
             // UI Visibility Settings
             showFileActions: true,
             showRunButton: true,
@@ -1514,16 +2022,20 @@ document.addEventListener('DOMContentLoaded', () => {
         (window as any).showIcons = settings.showIcons;
         (window as any).maxTabs = settings.maxTabs;
         (window as any).autoCloseTabs = settings.autoCloseTabs;
+        (window as any).debugMode = settings.debugMode;
+        (window as any).showPerformance = settings.showPerformance;
         
         // Start auto save if enabled
         if (settings.autoSave) {
             startAutoSave();
         }
         
-        // Make auto save functions available globally for debugging
-        (window as any).testAutoSave = performAutoSave;
-        (window as any).startAutoSave = startAutoSave;
-        (window as any).stopAutoSave = stopAutoSave;
+        
+
+        // Apply debug mode and performance stats
+        toggleDebugMode(settings.debugMode);
+        applyPerformanceStats(settings.showPerformance);
+        
 
         // Apply editor settings only during initial load
         if (!(window as any).editorSettingsApplied) {
