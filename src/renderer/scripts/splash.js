@@ -27,8 +27,8 @@ class ModernSplashScreen {
     detectAndApplyTheme() {
         if (this.debug) console.log('Detecting theme for splash screen...');
         
-        // Try to read theme from localStorage first (same as main app)
-        let theme = 'dark'; // Default to dark theme like main app
+        // Default to dark mode for splash screen (optimized for dark)
+        let theme = 'dark';
         
         try {
             // Check if we can access localStorage
@@ -38,10 +38,10 @@ class ModernSplashScreen {
                     theme = savedTheme;
                     if (this.debug) console.log(`Found theme in localStorage: ${theme}`);
                 } else {
-                    if (this.debug) console.log('No theme in localStorage, using default');
+                    if (this.debug) console.log('No theme in localStorage, using dark default');
                 }
             } else {
-                if (this.debug) console.log('localStorage not available, using default');
+                if (this.debug) console.log('localStorage not available, using dark default');
             }
         } catch (error) {
             if (this.debug) console.log('Error reading localStorage:', error);

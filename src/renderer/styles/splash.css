@@ -3,31 +3,39 @@
 
 /* ===== CSS VARIABLES ===== */
 :root {
-    /* Color Palette */
-    --splash-primary: #667eea;
-    --splash-secondary: #764ba2;
-    --splash-accent: #f093fb;
-    --splash-success: #4ade80;
-    --splash-warning: #fbbf24;
-    --splash-error: #f87171;
+    /* Enhanced Dark Mode Color Palette */
+    --splash-primary: #8b5cf6;
+    --splash-secondary: #a855f7;
+    --splash-accent: #ec4899;
+    --splash-success: #10b981;
+    --splash-warning: #f59e0b;
+    --splash-error: #ef4444;
+    --splash-info: #3b82f6;
     
-    /* Light Theme */
+    /* Dark Mode First Design */
     --splash-bg: linear-gradient(135deg, 
-        rgba(102, 126, 234, 0.05) 0%,
-        rgba(118, 75, 162, 0.03) 25%,
-        rgba(240, 147, 251, 0.05) 50%,
-        rgba(102, 126, 234, 0.03) 75%,
-        rgba(118, 75, 162, 0.05) 100%
+        rgba(15, 23, 42, 0.95) 0%,
+        rgba(30, 41, 59, 0.9) 25%,
+        rgba(51, 65, 85, 0.85) 50%,
+        rgba(30, 41, 59, 0.9) 75%,
+        rgba(15, 23, 42, 0.95) 100%
     );
-    --splash-glass: rgba(255, 255, 255, 0.1);
-    --splash-glass-strong: rgba(255, 255, 255, 0.2);
-    --splash-border: rgba(255, 255, 255, 0.2);
-    --splash-text: #1a1a1a;
-    --splash-text-secondary: rgba(26, 26, 26, 0.7);
-    --splash-text-muted: rgba(26, 26, 26, 0.5);
-    --splash-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
-    --splash-shadow-lg: 0 35px 70px rgba(0, 0, 0, 0.15);
-    --splash-glow: 0 0 40px rgba(102, 126, 234, 0.3);
+    --splash-glass: rgba(0, 0, 0, 0.4);
+    --splash-glass-strong: rgba(0, 0, 0, 0.6);
+    --splash-border: rgba(139, 92, 246, 0.2);
+    --splash-text: #f8fafc;
+    --splash-text-secondary: rgba(248, 250, 252, 0.8);
+    --splash-text-muted: rgba(248, 250, 252, 0.6);
+    --splash-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+    --splash-shadow-lg: 0 35px 70px rgba(0, 0, 0, 0.8);
+    --splash-glow: 0 0 60px rgba(139, 92, 246, 0.6);
+    --splash-glow-strong: 0 0 80px rgba(139, 92, 246, 0.8);
+    
+    /* Enhanced Dark Gradients */
+    --splash-gradient-1: linear-gradient(135deg, #8b5cf6, #a855f7);
+    --splash-gradient-2: linear-gradient(135deg, #ec4899, #f472b6);
+    --splash-gradient-3: linear-gradient(135deg, #3b82f6, #60a5fa);
+    --splash-gradient-4: linear-gradient(135deg, #10b981, #34d399);
     
     /* Spacing & Sizing */
     --splash-radius: 20px;
@@ -38,65 +46,68 @@
     --splash-transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-/* Light Theme */
+/* Light Theme (Fallback) */
 .theme-light {
     --splash-bg: linear-gradient(135deg, 
-        rgba(102, 126, 234, 0.08) 0%,
-        rgba(118, 75, 162, 0.04) 25%,
-        rgba(240, 147, 251, 0.08) 50%,
-        rgba(102, 126, 234, 0.04) 75%,
-        rgba(118, 75, 162, 0.08) 100%
+        rgba(248, 250, 252, 0.95) 0%,
+        rgba(241, 245, 249, 0.9) 25%,
+        rgba(226, 232, 240, 0.85) 50%,
+        rgba(241, 245, 249, 0.9) 75%,
+        rgba(248, 250, 252, 0.95) 100%
     );
-    --splash-glass: rgba(255, 255, 255, 0.15);
-    --splash-glass-strong: rgba(255, 255, 255, 0.25);
-    --splash-border: rgba(255, 255, 255, 0.3);
-    --splash-text: #1a1a1a;
-    --splash-text-secondary: rgba(26, 26, 26, 0.7);
-    --splash-text-muted: rgba(26, 26, 26, 0.5);
+    --splash-glass: rgba(255, 255, 255, 0.2);
+    --splash-glass-strong: rgba(255, 255, 255, 0.3);
+    --splash-border: rgba(139, 92, 246, 0.3);
+    --splash-text: #1e293b;
+    --splash-text-secondary: rgba(30, 41, 59, 0.8);
+    --splash-text-muted: rgba(30, 41, 59, 0.6);
     --splash-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
     --splash-shadow-lg: 0 35px 70px rgba(0, 0, 0, 0.15);
-    --splash-glow: 0 0 40px rgba(102, 126, 234, 0.3);
+    --splash-glow: 0 0 40px rgba(139, 92, 246, 0.4);
+    --splash-glow-strong: 0 0 60px rgba(139, 92, 246, 0.6);
 }
 
-/* Dark Theme */
+/* Dark Theme (Primary) */
 .theme-dark {
     --splash-bg: linear-gradient(135deg, 
-        rgba(102, 126, 234, 0.15) 0%,
-        rgba(118, 75, 162, 0.08) 25%,
-        rgba(240, 147, 251, 0.15) 50%,
-        rgba(102, 126, 234, 0.08) 75%,
-        rgba(118, 75, 162, 0.15) 100%
+        rgba(15, 23, 42, 0.95) 0%,
+        rgba(30, 41, 59, 0.9) 25%,
+        rgba(51, 65, 85, 0.85) 50%,
+        rgba(30, 41, 59, 0.9) 75%,
+        rgba(15, 23, 42, 0.95) 100%
     );
-    --splash-glass: rgba(0, 0, 0, 0.3);
-    --splash-glass-strong: rgba(0, 0, 0, 0.4);
-    --splash-border: rgba(255, 255, 255, 0.1);
-    --splash-text: #ffffff;
-    --splash-text-secondary: rgba(255, 255, 255, 0.7);
-    --splash-text-muted: rgba(255, 255, 255, 0.5);
-    --splash-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-    --splash-shadow-lg: 0 35px 70px rgba(0, 0, 0, 0.6);
-    --splash-glow: 0 0 40px rgba(102, 126, 234, 0.5);
+    --splash-glass: rgba(0, 0, 0, 0.4);
+    --splash-glass-strong: rgba(0, 0, 0, 0.6);
+    --splash-border: rgba(139, 92, 246, 0.2);
+    --splash-text: #f8fafc;
+    --splash-text-secondary: rgba(248, 250, 252, 0.8);
+    --splash-text-muted: rgba(248, 250, 252, 0.6);
+    --splash-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+    --splash-shadow-lg: 0 35px 70px rgba(0, 0, 0, 0.8);
+    --splash-glow: 0 0 60px rgba(139, 92, 246, 0.6);
+    --splash-glow-strong: 0 0 80px rgba(139, 92, 246, 0.8);
 }
 
-/* Auto theme detection */
+/* Auto theme detection - Default to Dark */
 @media (prefers-color-scheme: dark) {
     :root:not([class*="theme-"]) {
         --splash-bg: linear-gradient(135deg, 
-            rgba(102, 126, 234, 0.15) 0%,
-            rgba(118, 75, 162, 0.08) 25%,
-            rgba(240, 147, 251, 0.15) 50%,
-            rgba(102, 126, 234, 0.08) 75%,
-            rgba(118, 75, 162, 0.15) 100%
+            rgba(15, 23, 42, 0.95) 0%,
+            rgba(30, 41, 59, 0.9) 25%,
+            rgba(51, 65, 85, 0.85) 50%,
+            rgba(30, 41, 59, 0.9) 75%,
+            rgba(15, 23, 42, 0.95) 100%
         );
-        --splash-glass: rgba(0, 0, 0, 0.3);
-        --splash-glass-strong: rgba(0, 0, 0, 0.4);
-        --splash-border: rgba(255, 255, 255, 0.1);
-        --splash-text: #ffffff;
-        --splash-text-secondary: rgba(255, 255, 255, 0.7);
-        --splash-text-muted: rgba(255, 255, 255, 0.5);
-        --splash-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-        --splash-shadow-lg: 0 35px 70px rgba(0, 0, 0, 0.6);
-        --splash-glow: 0 0 40px rgba(102, 126, 234, 0.5);
+        --splash-glass: rgba(0, 0, 0, 0.4);
+        --splash-glass-strong: rgba(0, 0, 0, 0.6);
+        --splash-border: rgba(139, 92, 246, 0.2);
+        --splash-text: #f8fafc;
+        --splash-text-secondary: rgba(248, 250, 252, 0.8);
+        --splash-text-muted: rgba(248, 250, 252, 0.6);
+        --splash-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+        --splash-shadow-lg: 0 35px 70px rgba(0, 0, 0, 0.8);
+        --splash-glow: 0 0 60px rgba(139, 92, 246, 0.6);
+        --splash-glow-strong: 0 0 80px rgba(139, 92, 246, 0.8);
     }
 }
 
@@ -163,39 +174,43 @@ body {
 }
 
 .orb-1 {
-    width: 300px;
-    height: 300px;
-    background: linear-gradient(45deg, var(--splash-primary), var(--splash-secondary));
-    top: -150px;
-    left: -150px;
+    width: 400px;
+    height: 400px;
+    background: var(--splash-gradient-1);
+    top: -200px;
+    left: -200px;
     animation-delay: 0s;
+    box-shadow: 0 0 100px rgba(139, 92, 246, 0.4);
 }
 
 .orb-2 {
-    width: 200px;
-    height: 200px;
-    background: linear-gradient(45deg, var(--splash-accent), var(--splash-primary));
-    top: 20%;
-    right: -100px;
+    width: 300px;
+    height: 300px;
+    background: var(--splash-gradient-2);
+    top: 15%;
+    right: -150px;
     animation-delay: 2s;
+    box-shadow: 0 0 80px rgba(236, 72, 153, 0.4);
 }
 
 .orb-3 {
-    width: 250px;
-    height: 250px;
-    background: linear-gradient(45deg, var(--splash-secondary), var(--splash-accent));
-    bottom: -125px;
-    left: 20%;
+    width: 350px;
+    height: 350px;
+    background: var(--splash-gradient-3);
+    bottom: -175px;
+    left: 15%;
     animation-delay: 4s;
+    box-shadow: 0 0 90px rgba(59, 130, 246, 0.4);
 }
 
 .orb-4 {
-    width: 180px;
-    height: 180px;
-    background: linear-gradient(45deg, var(--splash-primary), var(--splash-accent));
-    top: 60%;
-    right: 10%;
+    width: 250px;
+    height: 250px;
+    background: var(--splash-gradient-4);
+    top: 55%;
+    right: 5%;
     animation-delay: 6s;
+    box-shadow: 0 0 70px rgba(16, 185, 129, 0.4);
 }
 
 /* Floating Particles */
@@ -346,7 +361,7 @@ body {
     width: 120px;
     height: 120px;
     animation: logoPulse 3s ease-in-out infinite;
-    filter: drop-shadow(0 0 20px var(--splash-primary));
+    filter: drop-shadow(0 0 30px var(--splash-primary)) drop-shadow(0 0 60px var(--splash-accent));
 }
 
 .logo-pulse {
@@ -372,11 +387,12 @@ body {
     font-size: 4rem;
     font-weight: 800;
     margin-bottom: 20px;
-    background: linear-gradient(135deg, var(--splash-primary), var(--splash-accent));
+    background: linear-gradient(135deg, var(--splash-primary), var(--splash-accent), var(--splash-info));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-shadow: 0 0 30px rgba(102, 126, 234, 0.3);
+    text-shadow: 0 0 40px rgba(139, 92, 246, 0.5);
+    filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.3));
 }
 
 .title-main {
@@ -450,10 +466,11 @@ body {
     left: 0;
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg, var(--splash-primary), var(--splash-accent));
+    background: var(--splash-gradient-1);
     border-radius: 4px;
     transition: width 0.3s ease;
     animation: progressGlow 2s ease-in-out infinite;
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
 }
 
 .progress-glow {
@@ -530,7 +547,8 @@ body {
     transform: scale(1);
     background: var(--splash-glass-strong);
     border-color: var(--splash-primary);
-    box-shadow: var(--splash-glow);
+    box-shadow: var(--splash-glow-strong);
+    backdrop-filter: blur(20px);
 }
 
 .step.completed {
@@ -538,7 +556,8 @@ body {
     transform: scale(1);
     background: var(--splash-glass-strong);
     border-color: var(--splash-success);
-    box-shadow: 0 0 20px rgba(74, 222, 128, 0.3);
+    box-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
+    backdrop-filter: blur(20px);
 }
 
 .step-icon {
@@ -676,19 +695,19 @@ body {
 
 @keyframes titleGlow {
     0%, 100% { 
-        filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.3));
+        filter: drop-shadow(0 0 30px rgba(139, 92, 246, 0.5)) drop-shadow(0 0 60px rgba(236, 72, 153, 0.3));
     }
     50% { 
-        filter: drop-shadow(0 0 30px rgba(102, 126, 234, 0.6));
+        filter: drop-shadow(0 0 50px rgba(139, 92, 246, 0.8)) drop-shadow(0 0 80px rgba(236, 72, 153, 0.5));
     }
 }
 
 @keyframes decorationGlow {
     0%, 100% { 
-        box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+        box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
     }
     50% { 
-        box-shadow: 0 0 20px rgba(102, 126, 234, 0.6);
+        box-shadow: 0 0 40px rgba(139, 92, 246, 0.8);
     }
 }
 
@@ -710,10 +729,10 @@ body {
 
 @keyframes progressGlow {
     0%, 100% { 
-        box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+        box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
     }
     50% { 
-        box-shadow: 0 0 20px rgba(102, 126, 234, 0.6);
+        box-shadow: 0 0 40px rgba(139, 92, 246, 0.8);
     }
 }
 
