@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document outlines the neumorphic design system implemented for iPseudo IDE v4.0. The new design features soft UI principles, tactile interactions, depth effects, and modern neumorphism aesthetics.
+This document outlines the neumorphic design system implemented for iPseudo IDE v1.0. The new design features soft UI principles, tactile interactions, depth effects, and modern neumorphism aesthetics.
 
 ## 🎯 Design Principles
 
