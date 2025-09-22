@@ -30,129 +30,196 @@
     <script src="./monaco/vs/loader.js"></script>
 </head>
 <body>
-    <div class="app-container animate-soft-fade-in animate-fluid-gradient">
-        <!-- Neumorphic Top Navigation -->
-        <header class="top-nav">
-            <div class="top-nav-left">
-                <!-- Back Button -->
-                <button class="btn btn-icon btn-soft" id="btnBack" title="Back to Editor">
-                    <i class="ri-arrow-left-line"></i>
-                </button>
-                
-                <!-- Settings Title -->
-                <div class="settings-title">
-                    <div class="settings-icon">
-                        <i class="ri-settings-3-line"></i>
+    <div class="app-container">
+        <!-- Modern Glass Navigation -->
+        <header class="modern-nav">
+            <div class="nav-content">
+                <div class="nav-left">
+                    <button class="nav-btn back-btn" id="btnBack" title="Back to Editor">
+                        <i class="ri-arrow-left-line"></i>
+                    </button>
+                    
+                    <div class="nav-title">
+                        <div class="title-icon">
+                            <i class="ri-settings-3-line"></i>
+                        </div>
+                        <div class="title-text">
+                            <h1>Settings</h1>
+                            <p>Customize your experience</p>
+                        </div>
                     </div>
-                    <h1>Settings</h1>
                 </div>
-            </div>
-            
-            <div class="top-nav-right">
-                <!-- Theme Toggle -->
-                <button class="btn btn-icon btn-secondary" id="btnThemeToggle" title="Toggle Theme">
-                    <i class="ri-contrast-2-line"></i>
-                </button>
                 
-                <!-- Apply Settings -->
-                <button class="btn btn-primary" id="btnApplySettings" title="Apply Settings to Main App">
-                    <i class="ri-check-line"></i>
-                    <span>Apply</span>
-                </button>
-                
-                <!-- Reset Settings -->
-                <button class="btn btn-ghost" id="btnResetSettings" title="Reset to Defaults">
-                    <i class="ri-refresh-line"></i>
-                    <span>Reset</span>
-                </button>
+                <div class="nav-right">
+                    <div class="nav-actions">
+                        <button class="action-btn theme-btn" id="btnThemeToggle" title="Toggle Theme">
+                            <i class="ri-contrast-2-line"></i>
+                        </button>
+                        
+                        <button class="action-btn primary-btn" id="btnApplySettings">
+                            <i class="ri-check-line"></i>
+                            <span>Apply</span>
+                        </button>
+                        
+                        <button class="action-btn secondary-btn" id="btnResetSettings">
+                            <i class="ri-refresh-line"></i>
+                            <span>Reset</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </header>
 
         <!-- Settings Content -->
-        <main class="settings-content">
-            <div class="settings-container">
-                <!-- Settings Navigation -->
-                <nav class="settings-nav">
-                    <div class="nav-section">
-                        <h3>General</h3>
-                        <ul class="nav-list">
-                            <li><a href="#appearance" class="nav-item active" data-section="appearance">
-                                <i class="ri-palette-line"></i>
-                                <span>Appearance</span>
-                            </a></li>
-                            <li><a href="#editor" class="nav-item" data-section="editor">
-                                <i class="ri-code-s-slash-line"></i>
-                                <span>Editor</span>
-                            </a></li>
-                            <li><a href="#console" class="nav-item" data-section="console">
-                                <i class="ri-terminal-box-line"></i>
-                                <span>Console</span>
-                            </a></li>
-                            <li><a href="#ui" class="nav-item" data-section="ui">
-                                <i class="ri-layout-line"></i>
-                                <span>UI Elements</span>
-                            </a></li>
-                        </ul>
+        <main class="settings-main">
+            <div class="settings-layout">
+                <!-- Modern Sidebar Navigation -->
+                <aside class="settings-sidebar">
+                    <div class="sidebar-content">
+                        <div class="sidebar-section">
+                            <h3 class="section-title">General</h3>
+                            <div class="nav-group">
+                                <a href="#appearance" class="nav-link active" data-section="appearance">
+                                    <div class="nav-icon">
+                                        <i class="ri-palette-line"></i>
+                                    </div>
+                                    <div class="nav-content">
+                                        <span class="nav-label">Appearance</span>
+                                        <span class="nav-desc">Themes & Visual</span>
+                                    </div>
+                                </a>
+                                
+                                <a href="#editor" class="nav-link" data-section="editor">
+                                    <div class="nav-icon">
+                                        <i class="ri-code-s-slash-line"></i>
+                                    </div>
+                                    <div class="nav-content">
+                                        <span class="nav-label">Editor</span>
+                                        <span class="nav-desc">Code & Behavior</span>
+                                    </div>
+                                </a>
+                                
+                                <a href="#console" class="nav-link" data-section="console">
+                                    <div class="nav-icon">
+                                        <i class="ri-terminal-box-line"></i>
+                                    </div>
+                                    <div class="nav-content">
+                                        <span class="nav-label">Console</span>
+                                        <span class="nav-desc">Output & Display</span>
+                                    </div>
+                                </a>
+                                
+                                <a href="#ui" class="nav-link" data-section="ui">
+                                    <div class="nav-icon">
+                                        <i class="ri-layout-line"></i>
+                                    </div>
+                                    <div class="nav-content">
+                                        <span class="nav-label">UI Elements</span>
+                                        <span class="nav-desc">Interface Controls</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="sidebar-section">
+                            <h3 class="section-title">Advanced</h3>
+                            <div class="nav-group">
+                                <a href="#performance" class="nav-link" data-section="performance">
+                                    <div class="nav-icon">
+                                        <i class="ri-speed-line"></i>
+                                    </div>
+                                    <div class="nav-content">
+                                        <span class="nav-label">Performance</span>
+                                        <span class="nav-desc">Speed & Memory</span>
+                                    </div>
+                                </a>
+                                
+                                <a href="#shortcuts" class="nav-link" data-section="shortcuts">
+                                    <div class="nav-icon">
+                                        <i class="ri-keyboard-line"></i>
+                                    </div>
+                                    <div class="nav-content">
+                                        <span class="nav-label">Shortcuts</span>
+                                        <span class="nav-desc">Keyboard Hotkeys</span>
+                                    </div>
+                                </a>
+                                
+                                <a href="#about" class="nav-link" data-section="about">
+                                    <div class="nav-icon">
+                                        <i class="ri-information-line"></i>
+                                    </div>
+                                    <div class="nav-content">
+                                        <span class="nav-label">About</span>
+                                        <span class="nav-desc">App Information</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    
-                    <div class="nav-section">
-                        <h3>Advanced</h3>
-                        <ul class="nav-list">
-                            <li><a href="#performance" class="nav-item" data-section="performance">
-                                <i class="ri-speed-line"></i>
-                                <span>Performance</span>
-                            </a></li>
-                            <li><a href="#shortcuts" class="nav-item" data-section="shortcuts">
-                                <i class="ri-keyboard-line"></i>
-                                <span>Shortcuts</span>
-                            </a></li>
-                            <li><a href="#about" class="nav-item" data-section="about">
-                                <i class="ri-information-line"></i>
-                                <span>About</span>
-                            </a></li>
-                        </ul>
-                    </div>
-                </nav>
+                </aside>
 
-                <!-- Settings Panels -->
-                <div class="settings-panels">
+                <!-- Settings Content Area -->
+                <div class="settings-content">
                     <!-- Appearance Settings -->
                     <div class="settings-panel active" id="appearance">
                         <div class="panel-header">
-                            <h2>Appearance</h2>
-                            <p>Customize the look and feel of your IDE</p>
+                            <div class="header-content">
+                                <div class="header-icon">
+                                    <i class="ri-palette-line"></i>
+                                </div>
+                                <div class="header-text">
+                                    <h2>Appearance</h2>
+                                    <p>Customize the look and feel of your IDE</p>
+                                </div>
+                            </div>
                         </div>
                         
                         <div class="settings-group">
-                            <h3>Theme</h3>
-                            <div class="setting-item">
-                                <div class="setting-info">
-                                    <label for="themeSelect">Color Theme</label>
-                                    <p>Choose between light and dark themes</p>
-                                </div>
-                                <div class="setting-control">
-                                    <select id="themeSelect" class="setting-select">
-                                        <option value="light">Light</option>
-                                        <option value="dark">Dark</option>
-                                        <option value="auto">Auto (System)</option>
-                                    </select>
-                                </div>
+                            <div class="group-header">
+                                <h3>Theme</h3>
+                                <p>Choose your preferred color scheme</p>
                             </div>
                             
-                            <div class="setting-item">
-                                <div class="setting-info">
-                                    <label for="accentColor">Accent Color</label>
-                                    <p>Choose your preferred accent color</p>
+                            <div class="settings-cards">
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-palette-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Color Theme</h4>
+                                            <p>Choose between light and dark themes</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <select id="themeSelect" class="modern-select">
+                                            <option value="light">Light</option>
+                                            <option value="dark">Dark</option>
+                                            <option value="auto">Auto (System)</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="setting-control">
-                                    <div class="color-picker-container">
-                                        <input type="color" id="accentColor" class="color-picker" value="#0ea5e9">
-                                        <div class="color-presets">
-                                            <button class="color-preset" data-color="#0ea5e9" style="background: #0ea5e9;"></button>
-                                            <button class="color-preset" data-color="#a855f7" style="background: #a855f7;"></button>
-                                            <button class="color-preset" data-color="#22c55e" style="background: #22c55e;"></button>
-                                            <button class="color-preset" data-color="#f59e0b" style="background: #f59e0b;"></button>
-                                            <button class="color-preset" data-color="#ef4444" style="background: #ef4444;"></button>
+                                
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-brush-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Accent Color</h4>
+                                            <p>Choose your preferred accent color</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <div class="color-picker-modern">
+                                            <input type="color" id="accentColor" class="color-input" value="#0ea5e9">
+                                            <div class="color-presets">
+                                                <button class="color-preset" data-color="#0ea5e9" style="background: #0ea5e9;" title="Sky Blue"></button>
+                                                <button class="color-preset" data-color="#a855f7" style="background: #a855f7;" title="Purple"></button>
+                                                <button class="color-preset" data-color="#22c55e" style="background: #22c55e;" title="Green"></button>
+                                                <button class="color-preset" data-color="#f59e0b" style="background: #f59e0b;" title="Orange"></button>
+                                                <button class="color-preset" data-color="#ef4444" style="background: #ef4444;" title="Red"></button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -160,43 +227,64 @@
                         </div>
 
                         <div class="settings-group">
-                            <h3>UI Elements</h3>
-                            <div class="setting-item">
-                                <div class="setting-info">
-                                    <label for="animationsEnabled">Animations</label>
-                                    <p>Enable smooth transitions and animations</p>
-                                </div>
-                                <div class="setting-control">
-                                    <label class="toggle-switch">
-                                        <input type="checkbox" id="animationsEnabled" checked>
-                                        <span class="toggle-slider"></span>
-                                    </label>
-                                </div>
+                            <div class="group-header">
+                                <h3>UI Elements</h3>
+                                <p>Customize interface behavior and effects</p>
                             </div>
                             
-                            <div class="setting-item">
-                                <div class="setting-info">
-                                    <label for="glassEffects">Glass Effects</label>
-                                    <p>Enable glass morphism and blur effects</p>
+                            <div class="settings-cards">
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-magic-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Animations</h4>
+                                            <p>Enable smooth transitions and animations</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" id="animationsEnabled" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
                                 </div>
-                                <div class="setting-control">
-                                    <label class="toggle-switch">
-                                        <input type="checkbox" id="glassEffects" checked>
-                                        <span class="toggle-slider"></span>
-                                    </label>
+                                
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-gradienter-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Glass Effects</h4>
+                                            <p>Enable glass morphism and blur effects</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" id="glassEffects" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
                                 </div>
-                            </div>
-                            
-                            <div class="setting-item">
-                                <div class="setting-info">
-                                    <label for="particleEffects">Particle Effects</label>
-                                    <p>Show floating particles and background effects</p>
-                                </div>
-                                <div class="setting-control">
-                                    <label class="toggle-switch">
-                                        <input type="checkbox" id="particleEffects" checked>
-                                        <span class="toggle-slider"></span>
-                                    </label>
+                                
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-sparkling-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Particle Effects</h4>
+                                            <p>Show floating particles and background effects</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" id="particleEffects" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -205,8 +293,15 @@
                     <!-- Editor Settings -->
                     <div class="settings-panel" id="editor">
                         <div class="panel-header">
-                            <h2>Editor</h2>
-                            <p>Configure the code editor behavior and appearance</p>
+                            <div class="header-content">
+                                <div class="header-icon">
+                                    <i class="ri-code-s-slash-line"></i>
+                                </div>
+                                <div class="header-text">
+                                    <h2>Editor</h2>
+                                    <p>Configure the code editor behavior and appearance</p>
+                                </div>
+                            </div>
                         </div>
                         
                         <div class="settings-group">
@@ -307,8 +402,15 @@
                     <!-- Console Settings -->
                     <div class="settings-panel" id="console">
                         <div class="panel-header">
-                            <h2>Console</h2>
-                            <p>Configure the output console behavior</p>
+                            <div class="header-content">
+                                <div class="header-icon">
+                                    <i class="ri-terminal-box-line"></i>
+                                </div>
+                                <div class="header-text">
+                                    <h2>Console</h2>
+                                    <p>Configure the output console behavior</p>
+                                </div>
+                            </div>
                         </div>
                         
                         <div class="settings-group">
@@ -410,8 +512,15 @@
                     <!-- UI Elements Settings -->
                     <div class="settings-panel" id="ui">
                         <div class="panel-header">
-                            <h2>UI Elements</h2>
-                            <p>Customize which UI elements are visible in the main interface</p>
+                            <div class="header-content">
+                                <div class="header-icon">
+                                    <i class="ri-layout-line"></i>
+                                </div>
+                                <div class="header-text">
+                                    <h2>UI Elements</h2>
+                                    <p>Customize which UI elements are visible in the main interface</p>
+                                </div>
+                            </div>
                         </div>
                         
                         <div class="settings-group">
@@ -586,8 +695,15 @@
                     <!-- Performance Settings -->
                     <div class="settings-panel" id="performance">
                         <div class="panel-header">
-                            <h2>Performance</h2>
-                            <p>Optimize the application performance</p>
+                            <div class="header-content">
+                                <div class="header-icon">
+                                    <i class="ri-speed-line"></i>
+                                </div>
+                                <div class="header-text">
+                                    <h2>Performance</h2>
+                                    <p>Optimize the application performance</p>
+                                </div>
+                            </div>
                         </div>
                         
                         <div class="settings-group">
@@ -650,8 +766,15 @@
                     <!-- Shortcuts Settings -->
                     <div class="settings-panel" id="shortcuts">
                         <div class="panel-header">
-                            <h2>Keyboard Shortcuts</h2>
-                            <p>Customize keyboard shortcuts for common actions</p>
+                            <div class="header-content">
+                                <div class="header-icon">
+                                    <i class="ri-keyboard-line"></i>
+                                </div>
+                                <div class="header-text">
+                                    <h2>Keyboard Shortcuts</h2>
+                                    <p>Customize keyboard shortcuts for common actions</p>
+                                </div>
+                            </div>
                         </div>
                         
                         <div class="shortcuts-list">
@@ -740,8 +863,15 @@
                     <!-- About Settings -->
                     <div class="settings-panel" id="about">
                         <div class="panel-header">
-                            <h2>About iPseudo IDE</h2>
-                            <p>Information about the application</p>
+                            <div class="header-content">
+                                <div class="header-icon">
+                                    <i class="ri-information-line"></i>
+                                </div>
+                                <div class="header-text">
+                                    <h2>About iPseudo IDE</h2>
+                                    <p>Information about the application</p>
+                                </div>
+                            </div>
                         </div>
                         
                         <div class="about-content">
@@ -790,8 +920,8 @@
                         </div>
                     </div>
                 </div>
-        </div>
-    </main>
+            </div>
+        </main>
     
     <!-- Scroll to Top Button -->
     <button id="scrollToTop" class="scroll-to-top" title="Scroll to top">
