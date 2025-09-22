@@ -974,6 +974,7 @@ class SettingsManager {
             maxTabs: 3,
             autoCloseTabs: false,
             confirmClose: true,
+            autoSaveInterval: 60,
             // UI Visibility Settings
             showFileActions: true,
             showRunButton: true,

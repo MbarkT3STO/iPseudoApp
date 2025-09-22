@@ -77,11 +77,95 @@ document.addEventListener('DOMContentLoaded', () => {
     // Global tab counter
     let tabCounter = 0;
     
+    // Auto save functionality
+    let autoSaveInterval: NodeJS.Timeout | null = null;
+    let lastSaveTime = new Map<string, number>(); // Track last save time for each file
+    
     // Function to get maximum tabs from settings
     function getMaxTabs(): number {
         const settings = loadSettings();
         return settings.maxTabs || 3;
     }
+    
+    // Auto save functions
+    function startAutoSave(): void {
+        const settings = loadSettings();
+        if (!settings.autoSave) return;
+        
+        const intervalSeconds = settings.autoSaveInterval || 60;
+        const intervalMs = intervalSeconds * 1000;
+        
+        // Clear existing interval
+        if (autoSaveInterval) {
+            clearInterval(autoSaveInterval);
+        }
+        
+        autoSaveInterval = setInterval(() => {
+            performAutoSave();
+        }, intervalMs);
+    }
+    
+    function stopAutoSave(): void {
+        if (autoSaveInterval) {
+            clearInterval(autoSaveInterval);
+            autoSaveInterval = null;
+        }
+    }
+    
+    function performAutoSave(): void {
+        const settings = loadSettings();
+        if (!settings.autoSave) return;
+        
+        const activeTab = document.querySelector('.modern-tab.active') as HTMLElement;
+        if (!activeTab) return;
+        
+        const filePath = activeTab.dataset.path || '';
+        
+        // Only auto save file-based tabs
+        if (!isFileBased(filePath)) return;
+        
+        // Check if there are unsaved changes
+        const fileData = openFiles.get(filePath);
+        if (!fileData || !fileData.dirty) return;
+        
+        // Get current content from editor
+        const currentContent = (window as any).editor?.getValue() || '';
+        if (!currentContent.trim()) return;
+        
+        // Check if enough time has passed since last save
+        const now = Date.now();
+        const lastSave = lastSaveTime.get(filePath) || 0;
+        const timeSinceLastSave = now - lastSave;
+        const minInterval = (settings.autoSaveInterval || 60) * 1000;
+        
+        if (timeSinceLastSave < minInterval) return;
+        
+        // Perform auto save
+        saveFileDirectly(filePath, currentContent)
+            .then(() => {
+                lastSaveTime.set(filePath, now);
+                
+                // Update dirty state
+                if (fileData) {
+                    fileData.dirty = false;
+                    fileData.content = currentContent;
+                    openFiles.set(filePath, fileData);
+                }
+                
+                // Update tab visual state
+                activeTab.classList.remove('dirty');
+                const dirtyIndicator = activeTab.querySelector('.dirty-indicator') as HTMLElement;
+                if (dirtyIndicator) {
+                    dirtyIndicator.style.display = 'none';
+                }
+                
+                // Auto save completed silently
+            })
+            .catch((error) => {
+                console.error('Auto save failed:', error);
+            });
+    }
+    
     
     // Function to check if we can create a new tab
     function canCreateNewTab(): boolean {
@@ -719,6 +803,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         setupRangeInput('autoSaveInterval', 'autoSaveIntervalValue', 's', (value) => {
             saveSetting('autoSaveInterval', value);
+            
+            // Restart auto save with new interval if it's currently running
+            const settings = loadSettings();
+            if (settings.autoSave) {
+                stopAutoSave();
+                startAutoSave();
+            }
         });
 
         setupRangeInput('executionTimeout', 'executionTimeoutValue', 's', (value) => {
@@ -778,6 +869,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const updatedSettings = loadSettings();
             applyAppSettings(updatedSettings);
             applyUIVisibilitySettings(updatedSettings);
+            
+            // Start or stop auto save based on setting
+            if (value) {
+                startAutoSave();
+            } else {
+                stopAutoSave();
+            }
         });
 
         setupToggleInput('confirmClose', (value) => {
@@ -1159,6 +1257,7 @@ document.addEventListener('DOMContentLoaded', () => {
             maxTabs: 3,
             autoCloseTabs: false,
             confirmClose: true,
+            autoSaveInterval: 60,
             // UI Visibility Settings
             showFileActions: true,
             showRunButton: true,
@@ -1415,6 +1514,16 @@ document.addEventListener('DOMContentLoaded', () => {
         (window as any).showIcons = settings.showIcons;
         (window as any).maxTabs = settings.maxTabs;
         (window as any).autoCloseTabs = settings.autoCloseTabs;
+        
+        // Start auto save if enabled
+        if (settings.autoSave) {
+            startAutoSave();
+        }
+        
+        // Make auto save functions available globally for debugging
+        (window as any).testAutoSave = performAutoSave;
+        (window as any).startAutoSave = startAutoSave;
+        (window as any).stopAutoSave = stopAutoSave;
 
         // Apply editor settings only during initial load
         if (!(window as any).editorSettingsApplied) {
@@ -3069,6 +3178,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 scrollPosition: 0
             });
             
+            // Track last save time for auto save (file was just loaded, so it's "saved")
+            lastSaveTime.set(filePath, Date.now());
+            
             // Create new tab or switch to existing one
             createOrSwitchToTab(filePath, content);
             
@@ -3171,6 +3283,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update document title
         document.title = `${fileName} - iPseudo IDE`;
         
+        // Update tab counter
+        updateTabCounter();
+        
         return tab;
     }
 
@@ -3238,6 +3353,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     updateTabDirtyState(filePath, false);
                     out(`File saved: ${filePath}`, 'success');
                 }
+                
+                // Track last save time for auto save
+                lastSaveTime.set(filePath, Date.now());
             }
         } catch (error) {
             console.error('Error saving file:', error);
@@ -3280,6 +3398,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Update active file path
                     activeFilePath = newPath;
                     (window as any).activeFilePath = activeFilePath || '';
+                    
+                    // Track last save time for auto save
+                    lastSaveTime.set(newPath, Date.now());
                     
                     out(`File saved: ${newPath}`, 'success');
                     return true;
