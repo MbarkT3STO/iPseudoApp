@@ -1158,6 +1158,7 @@ document.addEventListener('DOMContentLoaded', () => {
             reducedMotion: false,
             maxTabs: 3,
             autoCloseTabs: false,
+            confirmClose: true,
             // UI Visibility Settings
             showFileActions: true,
             showRunButton: true,
@@ -3315,56 +3316,80 @@ document.addEventListener('DOMContentLoaded', () => {
         const isEmpty = currentContent.trim() === '';
         const isModified = fileData?.dirty || false;
         
-        // Case 1: Empty tab - close immediately
-        if (isEmpty) {
+        // Check if confirm before closing is enabled
+        const settings = loadSettings();
+        const confirmClose = settings.confirmClose !== false; // Default to true if not set
+        
+        // If confirmClose is disabled, close immediately regardless of content or changes
+        if (!confirmClose) {
             performTabClose(tabElement);
             return;
         }
         
-        // Case 2: Has content but no changes - close immediately
-        if (!isModified) {
-            performTabClose(tabElement);
-            return;
-        }
-        
-        // Case 3: Has unsaved changes - show confirmation
-        const title = isFileBasedTab ? 'Save Changes?' : 'Save Before Closing?';
-        const fileName = isFileBasedTab ? filePath.split('/').pop() : 'this tab';
-        const message = isFileBasedTab 
-            ? `The file "${fileName}" has unsaved changes. Do you want to save them?`
-            : 'This tab has unsaved content. Do you want to save it before closing?';
-        
-        showConfirmationModal(title, message, [
-            {
-                text: 'Yes',
-                primary: true,
-                action: async () => {
-                    try {
-                        if (isFileBasedTab) {
-                            // Save to existing file
-                            await saveFileDirectly(filePath, currentContent);
-                        } else {
-                            // Show save dialog for new file
-                            const saved = await showSaveDialog(currentContent);
-                            if (!saved) {
-                                return; // Don't close if save was cancelled
+        // If confirmClose is enabled, check for unsaved changes
+        if (isModified) {
+            // Has unsaved changes - show save confirmation
+            const title = isFileBasedTab ? 'Save Changes?' : 'Save Before Closing?';
+            const fileName = isFileBasedTab ? filePath.split('/').pop() : 'this tab';
+            const message = isFileBasedTab 
+                ? `The file "${fileName}" has unsaved changes. Do you want to save them?`
+                : 'This tab has unsaved content. Do you want to save it before closing?';
+            
+            // Show save confirmation dialog
+            showConfirmationModal(title, message, [
+                {
+                    text: 'Yes',
+                    primary: true,
+                    action: async () => {
+                        try {
+                            if (isFileBasedTab) {
+                                // Save to existing file
+                                await saveFileDirectly(filePath, currentContent);
+                            } else {
+                                // Show save dialog for new file
+                                const saved = await showSaveDialog(currentContent);
+                                if (!saved) {
+                                    return; // Don't close if save was cancelled
+                                }
                             }
+                            performTabClose(tabElement);
+                    } catch (error) {
+                        console.error('Error saving file:', error);
+                            // Still close the tab even if save fails
+                            performTabClose(tabElement);
                         }
-                        performTabClose(tabElement);
-                } catch (error) {
-                    console.error('Error saving file:', error);
-                        // Still close the tab even if save fails
+                    }
+                },
+                {
+                    text: 'No',
+                    action: () => {
                         performTabClose(tabElement);
                     }
                 }
-            },
-            {
-                text: 'No',
-                action: () => {
-                    performTabClose(tabElement);
+            ]);
+        } else {
+            // No unsaved changes but confirmClose is enabled - show simple confirmation
+            const title = 'Close Tab?';
+            const fileName = isFileBasedTab ? filePath.split('/').pop() : 'this tab';
+            const message = `Are you sure you want to close "${fileName}"?`;
+            
+            // Show simple close confirmation dialog
+            showConfirmationModal(title, message, [
+                {
+                    text: 'Yes',
+                    primary: true,
+                    action: () => {
+                        performTabClose(tabElement);
+                    }
+                },
+                {
+                    text: 'No',
+                    action: () => {
+                        // Do nothing - just close the dialog
+                    }
                 }
-            }
-        ]);
+            ]);
+        }
     }
 
     // Function to perform the actual tab close
@@ -3599,18 +3624,81 @@ document.addEventListener('DOMContentLoaded', () => {
     // Helper functions for context menu
     function closeOtherTabs(keepTab: HTMLElement): void {
         const allTabs = document.querySelectorAll('.modern-tab');
-        allTabs.forEach(tab => {
-            if (tab !== keepTab) {
-                closeTabElement(tab as HTMLElement);
-            }
-        });
+        const otherTabs = Array.from(allTabs).filter(tab => tab !== keepTab);
+        
+        if (otherTabs.length === 0) return;
+        
+        // Check if confirm before closing is enabled
+        const settings = loadSettings();
+        const confirmClose = settings.confirmClose !== false;
+        
+        if (confirmClose) {
+            showConfirmationModal(
+                'Close Other Tabs?',
+                `Are you sure you want to close ${otherTabs.length} other tab${otherTabs.length > 1 ? 's' : ''}?`,
+                [
+                    {
+                        text: 'Yes',
+                        primary: true,
+                        action: () => {
+                            otherTabs.forEach(tab => {
+                                closeTabElement(tab as HTMLElement);
+                            });
+                        }
+                    },
+                    {
+                        text: 'No',
+                        action: () => {
+                            // Do nothing - just close the dialog
+                        }
+                    }
+                ]
+            );
+        } else {
+            // Close immediately without confirmation - bypass individual tab confirmations
+            otherTabs.forEach(tab => {
+                performTabClose(tab as HTMLElement);
+            });
+        }
     }
 
     function closeAllTabs(): void {
         const allTabs = document.querySelectorAll('.modern-tab');
-        allTabs.forEach(tab => {
-            closeTabElement(tab as HTMLElement);
-        });
+        
+        if (allTabs.length === 0) return;
+        
+        // Check if confirm before closing is enabled
+        const settings = loadSettings();
+        const confirmClose = settings.confirmClose !== false;
+        
+        if (confirmClose) {
+            showConfirmationModal(
+                'Close All Tabs?',
+                `Are you sure you want to close all ${allTabs.length} tab${allTabs.length > 1 ? 's' : ''}?`,
+                [
+                    {
+                        text: 'Yes',
+                        primary: true,
+                        action: () => {
+                            allTabs.forEach(tab => {
+                                closeTabElement(tab as HTMLElement);
+                            });
+                        }
+                    },
+                    {
+                        text: 'No',
+                        action: () => {
+                            // Do nothing - just close the dialog
+                        }
+                    }
+                ]
+            );
+        } else {
+            // Close immediately without confirmation - bypass individual tab confirmations
+            allTabs.forEach(tab => {
+                performTabClose(tab as HTMLElement);
+            });
+        }
     }
 
     function duplicateTab(tab: HTMLElement): void {

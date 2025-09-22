@@ -973,6 +973,7 @@ class SettingsManager {
             reducedMotion: false,
             maxTabs: 3,
             autoCloseTabs: false,
+            confirmClose: true,
             // UI Visibility Settings
             showFileActions: true,
             showRunButton: true,
