@@ -15,6 +15,7 @@ interface FileData {
         errors: number;
         warnings: number;
         info: number;
+        executionTime: number;
     };
     consoleOutput?: string;
     lastExecutionTime?: number;
@@ -42,6 +43,8 @@ interface MessageBoxResult {
 // Extend window interface
 interface Window {
     editor: any;
+    sideBySideEditor: any;
+    syncingEditors: boolean;
     ErrorManager?: new () => ErrorManagerType;
     nodeRequire?: any;
     openFiles: Map<string, FileData>;
@@ -749,7 +752,8 @@ document.addEventListener('DOMContentLoaded', () => {
         messages: 0,
         errors: 0,
         warnings: 0,
-        info: 0
+        info: 0,
+        executionTime: 0
     };
     
     // Execution state management
@@ -782,7 +786,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function updateTabConsoleStats(stats: { messages: number; errors: number; warnings: number; info: number }) {
+    function updateTabConsoleStats(stats: { messages: number; errors: number; warnings: number; info: number; executionTime: number }) {
         const tabData = getCurrentTabData();
         if (tabData) {
             tabData.consoleStats = { ...stats };
@@ -895,10 +899,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Restore console stats
         if (tabData.consoleStats) {
-            consoleStats = { ...tabData.consoleStats };
-            consoleMessageCount = tabData.consoleStats.messages;
+            consoleStats = { 
+                messages: tabData.consoleStats.messages || 0,
+                errors: tabData.consoleStats.errors || 0,
+                warnings: tabData.consoleStats.warnings || 0,
+                info: tabData.consoleStats.info || 0,
+                executionTime: tabData.consoleStats.executionTime || 0
+            };
+            consoleMessageCount = tabData.consoleStats.messages || 0;
         } else {
-            consoleStats = { messages: 0, errors: 0, warnings: 0, info: 0 };
+            consoleStats = { messages: 0, errors: 0, warnings: 0, info: 0, executionTime: 0 };
             consoleMessageCount = 0;
         }
 
@@ -2856,6 +2866,11 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             printContainer.appendChild(line);
             updateConsoleStats('info');
+            
+            // Update side-by-side console if in side-by-side layout
+            if (!isTabLayout) {
+                updateSideBySideConsole();
+            }
         } else {
             // Use the enhanced console message system
             addConsoleMessage(safe, type as 'success' | 'error' | 'warning' | 'info' | 'debug');
@@ -2877,11 +2892,172 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Console toggle functionality removed - now using tab-based layout
     
+    // Initialize side-by-side editor
+    function initializeSideBySideEditor() {
+        const editorSide = document.getElementById('editorSide');
+        if (!editorSide || window.sideBySideEditor) return; // Already initialized
+        
+        try {
+            // Create Monaco editor for side-by-side layout
+            window.sideBySideEditor = window.monaco.editor.create(editorSide, {
+                value: window.editor ? window.editor.getValue() : '',
+                language: 'pseudocode',
+                theme: document.documentElement.classList.contains('theme-dark') ? 'vs-dark' : 'vs',
+                fontSize: 14,
+                lineNumbers: 'on',
+                minimap: { enabled: false },
+                scrollBeyondLastLine: false,
+                automaticLayout: true,
+                wordWrap: 'off',
+                tabSize: 4,
+                insertSpaces: true,
+                renderWhitespace: 'selection',
+                cursorBlinking: 'blink',
+                cursorSmoothCaretAnimation: 'on',
+                smoothScrolling: true,
+                mouseWheelZoom: true,
+                contextmenu: true,
+                selectOnLineNumbers: true,
+                roundedSelection: false,
+                readOnly: false,
+                scrollbar: {
+                    alwaysConsumeMouseWheel: true,
+                    vertical: 'auto',
+                    horizontal: 'auto'
+                }
+            });
+            
+            // Sync content between main editor and side-by-side editor
+            if (window.editor) {
+                // Copy content from main editor to side-by-side editor
+                window.sideBySideEditor.setValue(window.editor.getValue());
+                
+                // Set up bidirectional sync
+                window.editor.onDidChangeModelContent(() => {
+                    if (window.sideBySideEditor && !window.syncingEditors) {
+                        window.syncingEditors = true;
+                        window.sideBySideEditor.setValue(window.editor.getValue());
+                        setTimeout(() => { window.syncingEditors = false; }, 100);
+                    }
+                });
+                
+                window.sideBySideEditor.onDidChangeModelContent(() => {
+                    if (window.editor && !window.syncingEditors) {
+                        window.syncingEditors = true;
+                        window.editor.setValue(window.sideBySideEditor.getValue());
+                        setTimeout(() => { window.syncingEditors = false; }, 100);
+                    }
+                });
+            }
+            
+            // Set up side-by-side editor actions
+            setupSideBySideEditorActions();
+            
+        } catch (error) {
+            console.error('Error initializing side-by-side editor:', error);
+        }
+    }
+    
+    // Setup side-by-side editor actions
+    function setupSideBySideEditorActions() {
+        // Format button
+        const formatButtonSide = document.getElementById('btnFormatSide');
+        if (formatButtonSide) {
+            formatButtonSide.addEventListener('click', () => {
+                if (window.sideBySideEditor) {
+                    // Temporarily switch to side-by-side editor for formatting
+                    const originalEditor = window.editor;
+                    window.editor = window.sideBySideEditor;
+                    formatPseudocode();
+                    window.editor = originalEditor;
+                }
+            });
+        }
+        
+        // Minimap button
+        const minimapButtonSide = document.getElementById('btnMinimapSide');
+        if (minimapButtonSide) {
+            minimapButtonSide.addEventListener('click', () => {
+                if (window.sideBySideEditor) {
+                    const currentMinimap = window.sideBySideEditor.getOption(window.monaco.editor.EditorOption.minimap);
+                    window.sideBySideEditor.updateOptions({ minimap: { enabled: !currentMinimap.enabled } });
+                }
+            });
+        }
+        
+        // Word wrap button
+        const wordWrapButtonSide = document.getElementById('btnWordWrapSide');
+        if (wordWrapButtonSide) {
+            wordWrapButtonSide.addEventListener('click', () => {
+                if (window.sideBySideEditor) {
+                    const currentWrap = window.sideBySideEditor.getOption(window.monaco.editor.EditorOption.wordWrap);
+                    window.sideBySideEditor.updateOptions({ wordWrap: currentWrap === 'off' ? 'on' : 'off' });
+                }
+            });
+        }
+        
+        // Console actions for side-by-side layout
+        const clearConsoleSide = document.getElementById('clearConsoleSide');
+        if (clearConsoleSide) {
+            clearConsoleSide.addEventListener('click', () => {
+                clearConsole();
+                // Side-by-side console will update automatically via updateSideBySideConsole()
+            });
+        }
+        
+        const copyOutputSide = document.getElementById('btnCopyOutputSide');
+        if (copyOutputSide) {
+            copyOutputSide.addEventListener('click', copyConsoleOutput);
+        }
+        
+        const saveOutputSide = document.getElementById('btnSaveOutputSide');
+        if (saveOutputSide) {
+            saveOutputSide.addEventListener('click', saveConsoleOutput);
+        }
+    }
+    
+    // Console functions now work with tab-specific consoles
+    // Each tab maintains its own console state
+    
+    // Console functions are now tab-specific - no sharing between layouts
+    
+    // Update side-by-side console with current tab's console content
+    function updateSideBySideConsole() {
+        const outputSide = document.getElementById('outputSide');
+        if (outputSide && outputConsole) {
+            outputSide.innerHTML = outputConsole.innerHTML;
+        }
+        
+        // Update side-by-side console stats
+        const messageCountSide = document.getElementById('messageCountSide');
+        const executionTimeSide = document.getElementById('executionTimeSide');
+        const consoleStatusSide = document.getElementById('consoleStatusSide');
+        
+        if (messageCountSide) {
+            messageCountSide.textContent = consoleStats.messages.toString();
+        }
+        
+        if (executionTimeSide) {
+            executionTimeSide.textContent = consoleStats.executionTime ? `${consoleStats.executionTime}ms` : '0ms';
+        }
+        
+        if (consoleStatusSide) {
+            const statusIndicator = consoleStatusSide.querySelector('.status-indicator');
+            if (statusIndicator) {
+                statusIndicator.className = `status-indicator ${isExecuting ? 'running' : 'ready'}`;
+                const statusText = statusIndicator.querySelector('.status-text');
+                if (statusText) {
+                    statusText.textContent = isExecuting ? 'Running' : 'Ready';
+                }
+            }
+        }
+    }
+    
     // Enhanced console functionality
     function clearConsole() {
         if (!outputConsole) return;
         
-        outputConsole.innerHTML = `
+        const welcomeMessage = `
             <div class="console-welcome">
                 <div class="welcome-icon">
                     <i class="ri-code-s-slash-line"></i>
@@ -2892,8 +3068,10 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `;
         
+        outputConsole.innerHTML = welcomeMessage;
+        
         consoleMessageCount = 0;
-        consoleStats = { messages: 0, errors: 0, warnings: 0, info: 0 };
+        consoleStats = { messages: 0, errors: 0, warnings: 0, info: 0, executionTime: 0 };
         
         // Reset execution state if not currently executing
         if (!isExecuting) {
@@ -2907,6 +3085,11 @@ document.addEventListener('DOMContentLoaded', () => {
         updateTabStatus(false, false);
         
         updateConsoleUI();
+        
+        // Update side-by-side console if in side-by-side layout
+        if (!isTabLayout) {
+            updateSideBySideConsole();
+        }
     }
     
     function addConsoleMessage(message: string, type: 'success' | 'error' | 'warning' | 'info' | 'debug' = 'info') {
@@ -2944,7 +3127,12 @@ document.addEventListener('DOMContentLoaded', () => {
         updateTabConsoleStats(consoleStats);
         updateTabConsoleOutput(outputConsole.innerHTML);
         updateConsoleUI();
-        scrollOutputToBottom();
+            scrollOutputToBottom();
+        
+        // Update side-by-side console if in side-by-side layout
+        if (!isTabLayout) {
+            updateSideBySideConsole();
+        }
         
         // Show badge on console tab if console is not active
         const consoleTab = document.getElementById('consoleTab');
@@ -2956,7 +3144,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const currentCount = parseInt(consoleBadge.textContent || '0');
             consoleBadge.textContent = (currentCount + 1).toString();
         }
-    }
+        }
     
     function getMessageIcon(type: string): string {
         const icons = {
@@ -3005,6 +3193,11 @@ document.addEventListener('DOMContentLoaded', () => {
         updateTabConsoleOutput(outputConsole.innerHTML);
         updateConsoleUI();
         scrollOutputToBottom();
+        
+        // Update side-by-side console if in side-by-side layout
+        if (!isTabLayout) {
+            updateSideBySideConsole();
+        }
     }
     
     function updateConsoleStats(type: string) {
@@ -3878,6 +4071,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Restore tab-specific status and console
         restoreTabStatusAndConsole();
         
+        // Update side-by-side console if in side-by-side layout
+        if (!isTabLayout) {
+            updateSideBySideConsole();
+        }
+        
         // Focus the editor
         if ((window as any).editor) {
             (window as any).editor.focus();
@@ -4606,22 +4804,70 @@ document.addEventListener('DOMContentLoaded', () => {
     // Layout toggle functionality
     const layoutToggleButton = document.getElementById('layoutToggle');
     const layoutIcon = document.getElementById('layoutIcon');
-    const editorLayout = document.querySelector('.editor-layout') as HTMLElement;
+    const tabLayout = document.getElementById('tabLayout');
+    const sideBySideLayout = document.getElementById('sideBySideLayout');
     
-    if (layoutToggleButton && layoutIcon && editorLayout) {
-        layoutToggleButton.addEventListener('click', () => {
-            const isSideBySide = editorLayout.classList.contains('side-by-side');
-            
-            if (isSideBySide) {
-                // Switch to vertical layout
-                editorLayout.classList.remove('side-by-side');
-                layoutIcon.className = 'ri-layout-column-line';
-                addSystemMessage('Switched to vertical layout');
+    let isTabLayout = true; // Start with tab layout
+    
+    // Ensure tab layout is visible on startup
+    if (tabLayout) {
+        tabLayout.style.display = 'flex';
+    }
+    if (sideBySideLayout) {
+        sideBySideLayout.style.display = 'none';
+    }
+    
+    // Ensure main editor is properly initialized
+    setTimeout(() => {
+        if (window.editor) {
+            window.editor.layout();
+            console.log('Main editor layout refreshed');
             } else {
+            console.warn('Main editor not found - this might cause issues with tab layout');
+        }
+        
+        // Debug tab layout visibility
+        const editorContent = document.getElementById('editorContent');
+        const consoleContent = document.getElementById('consoleContent');
+        console.log('Editor content element:', editorContent);
+        console.log('Console content element:', consoleContent);
+        console.log('Editor content classes:', editorContent?.className);
+        console.log('Console content classes:', consoleContent?.className);
+        
+        // Console content is tab-specific
+    }, 500);
+    
+    if (layoutToggleButton && layoutIcon && tabLayout && sideBySideLayout) {
+        layoutToggleButton.addEventListener('click', () => {
+            if (isTabLayout) {
                 // Switch to side-by-side layout
-                editorLayout.classList.add('side-by-side');
+                tabLayout.style.display = 'none';
+                sideBySideLayout.style.display = 'flex';
+                layoutIcon.className = 'ri-layout-column-line';
+                isTabLayout = false;
+                addSystemMessage('Switched to side-by-side layout');
+                
+                // Initialize side-by-side editor if not already done
+                initializeSideBySideEditor();
+                
+                // Update side-by-side console with current tab's console content
+                updateSideBySideConsole();
+            } else {
+                // Switch to tab layout
+                tabLayout.style.display = 'flex';
+                sideBySideLayout.style.display = 'none';
                 layoutIcon.className = 'ri-layout-row-line';
-                addSystemMessage('Switched to 50/50 side-by-side layout');
+                isTabLayout = true;
+                addSystemMessage('Switched to tab layout');
+                
+                // Ensure main editor is properly resized
+                if (window.editor) {
+                    setTimeout(() => {
+                        window.editor.layout();
+                    }, 100);
+                }
+                
+                // Tab layout restored
             }
         });
     }
