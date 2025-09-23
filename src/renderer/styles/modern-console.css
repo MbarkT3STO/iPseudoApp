@@ -6,7 +6,7 @@
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--console-border, rgba(0, 0, 0, 0.1));
-  border-radius: var(--console-radius, 16px);
+  border-radius: 0;
   box-shadow: var(--console-shadow, 0 20px 60px rgba(0, 0, 0, 0.1));
   overflow: hidden;
   position: relative;
@@ -17,16 +17,18 @@
 
 /* Console Header */
 .console-header {
-  background: var(--console-header-bg, rgba(0, 0, 0, 0.02));
-  border-bottom: 1px solid var(--console-header-border, rgba(0, 0, 0, 0.05));
-  padding: 16px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 60px;
+  padding: var(--space-soft-4) var(--space-soft-6);
+  background: var(--bg-soft-secondary);
+  border-bottom: 1px solid var(--border-soft-light);
+  border-radius: 0;
+  box-shadow: var(--shadow-soft-secondary);
+  min-height: 56px;
+  flex-wrap: wrap;
   position: relative;
   z-index: 10;
-  height: 60px;
 }
 
 .console-header::before {
@@ -43,108 +45,77 @@
   opacity: 0.6;
 }
 
-.console-title-section {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex: 1;
-  position: relative;
-  height: 100%;
+/* Badge styling for status indicator */
+.console-title .badge {
+  margin-left: var(--space-soft-2);
+}
+
+/* Console Status Badge Colors */
+.console-title .badge.badge-ready {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+}
+
+.console-title .badge.badge-running {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: white;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+  animation: pulse-glow 2s infinite;
+}
+
+.console-title .badge.badge-error {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
+  animation: shake 0.5s ease-in-out;
+}
+
+/* Dark mode console status badge colors */
+[data-theme="dark"] .console-title .badge.badge-ready {
+  background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+  color: #064e3b;
+  box-shadow: 0 2px 4px rgba(52, 211, 153, 0.4);
+}
+
+[data-theme="dark"] .console-title .badge.badge-running {
+  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+  color: #1e3a8a;
+  box-shadow: 0 2px 4px rgba(96, 165, 250, 0.4);
+}
+
+[data-theme="dark"] .console-title .badge.badge-error {
+  background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+  color: #7f1d1d;
+  box-shadow: 0 2px 4px rgba(248, 113, 113, 0.4);
 }
 
 .console-title {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-weight: 600;
-  color: var(--console-title-color, #1a1a1a);
-  font-size: 0.75rem; /* 12px - same as Code Editor */
+  gap: var(--space-soft-3);
+  font-size: var(--font-size-soft-xs);
+  font-weight: var(--font-weight-soft-medium);
+  color: var(--text-soft-primary);
+  flex-shrink: 0;
+  min-width: 0;
 }
 
 .console-title i {
-  font-size: 14px;
-  color: var(--console-accent, #3b82f6);
+  color: var(--text-soft-accent);
 }
 
-.console-status {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
 
-.status-indicator {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  padding: 2px 4px;
-  border-radius: 4px;
-  font-size: 8px;
-  font-weight: 500;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-}
 
-.status-indicator::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s;
-}
-
-.status-indicator:hover::before {
-  left: 100%;
-}
-
-.status-indicator.ready {
-  background: rgba(34, 197, 94, 0.12);
-  color: #059669;
-  border: 1px solid rgba(34, 197, 94, 0.25);
-}
-
-.status-indicator.running {
-  background: rgba(59, 130, 246, 0.12);
-  color: #2563eb;
-  border: 1px solid rgba(59, 130, 246, 0.25);
-  animation: pulse-glow 2s infinite;
-}
-
-.status-indicator.error {
-  background: rgba(239, 68, 68, 0.12);
-  color: #dc2626;
-  border: 1px solid rgba(239, 68, 68, 0.25);
-  animation: shake 0.5s ease-in-out;
-}
-
-.status-dot {
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: currentColor;
-  animation: status-pulse 2s infinite;
-}
-
-.status-indicator.running .status-dot {
-  animation: running-pulse 1s infinite;
-}
-
-.status-indicator.error .status-dot {
-  animation: error-blink 0.5s infinite;
-}
 
 /* Console Actions */
 .console-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
-  height: 100%;
+  gap: var(--space-soft-2);
+  flex-wrap: wrap;
+  min-width: 0;
+  flex-shrink: 1;
 }
 
 .console-stats {
@@ -744,23 +715,6 @@
 }
 
 /* Dark theme status indicator */
-[data-theme="dark"] .status-indicator.ready {
-  background: rgba(34, 197, 94, 0.15);
-  color: #10b981;
-  border: 1px solid rgba(34, 197, 94, 0.3);
-}
-
-[data-theme="dark"] .status-indicator.running {
-  background: rgba(96, 165, 250, 0.15);
-  color: #60a5fa;
-  border: 1px solid rgba(96, 165, 250, 0.3);
-}
-
-[data-theme="dark"] .status-indicator.error {
-  background: rgba(248, 113, 113, 0.15);
-  color: #f87171;
-  border: 1px solid rgba(248, 113, 113, 0.3);
-}
 
 /* Dark theme loading state */
 [data-theme="dark"] .console-loading {
@@ -897,11 +851,6 @@
     gap: 8px;
   }
   
-  .console-title-section {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
   
   .console-actions {
     flex-wrap: wrap;
@@ -909,13 +858,9 @@
   }
   
   .console-title {
-    font-size: 0.625rem; /* 10px - smaller on mobile */
+    font-size: 0.5rem; /* 8px - smaller on mobile */
   }
   
-  .status-indicator {
-    padding: 1px 3px;
-    font-size: 7px;
-  }
   
   .console-actions {
     gap: 8px;
@@ -959,9 +904,6 @@
     border-left-width: 6px;
   }
   
-  .status-indicator {
-    border-width: 2px;
-  }
   
   .console-controls .btn {
     border: 1px solid currentColor;
@@ -1135,7 +1077,6 @@
 /* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
   .console-message,
-  .status-indicator,
   .console-controls .btn,
   .welcome-icon,
   .console-welcome::before {

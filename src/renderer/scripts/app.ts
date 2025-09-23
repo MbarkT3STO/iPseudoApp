@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Enhanced console elements
     const consoleStatus = document.getElementById('consoleStatus') as HTMLElement | null;
-    const statusIndicator = document.getElementById('statusIndicator') as HTMLElement | null;
+    const consoleStatusBadge = document.getElementById('consoleStatusBadge') as HTMLElement | null;
     const messageCount = document.getElementById('messageCount') as HTMLElement | null;
     const executionTime = document.getElementById('executionTime') as HTMLElement | null;
     const copyButton = document.getElementById('btnCopyOutput') as HTMLButtonElement | null;
@@ -3096,13 +3096,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         if (consoleStatusSide) {
-            const statusIndicator = consoleStatusSide.querySelector('.status-indicator');
-            if (statusIndicator) {
-                statusIndicator.className = `status-indicator ${isExecuting ? 'running' : 'ready'}`;
-                const statusText = statusIndicator.querySelector('.status-text');
-                if (statusText) {
-                    statusText.textContent = isExecuting ? 'Running' : 'Ready';
-                }
+            const statusBadge = consoleStatusSide.querySelector('#consoleStatusBadgeSide');
+            if (statusBadge) {
+                statusBadge.textContent = isExecuting ? 'Running' : 'Ready';
+                statusBadge.className = `badge ${isExecuting ? 'badge-running' : 'badge-ready'}`;
             }
         }
     }
@@ -3418,21 +3415,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function updateConsoleUI() {
-        if (statusIndicator) {
-            const statusText = statusIndicator.querySelector('.status-text');
+        if (consoleStatusBadge) {
             const tabStatus = getTabStatus();
             
             if (tabStatus === 'running') {
-                statusIndicator.className = 'status-indicator running';
-                if (statusText) statusText.textContent = 'Running';
+                consoleStatusBadge.textContent = 'Running';
+                consoleStatusBadge.className = 'badge badge-running';
                 showConsoleLoadingState();
             } else if (tabStatus === 'error') {
-                statusIndicator.className = 'status-indicator error';
-                if (statusText) statusText.textContent = 'Error';
+                consoleStatusBadge.textContent = 'Error';
+                consoleStatusBadge.className = 'badge badge-error';
                 hideConsoleLoadingState();
             } else {
-                statusIndicator.className = 'status-indicator ready';
-                if (statusText) statusText.textContent = 'Ready';
+                consoleStatusBadge.textContent = 'Ready';
+                consoleStatusBadge.className = 'badge badge-ready';
                 hideConsoleLoadingState();
             }
         }
@@ -3449,7 +3445,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tabStatus: getTabStatus(),
             tabExecuting: tabData?.isExecuting,
             tabErrors: tabData?.consoleStats?.errors,
-            status: statusIndicator?.querySelector('.status-text')?.textContent
+            status: consoleStatusBadge?.textContent
         });
     }
     
