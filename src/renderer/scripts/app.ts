@@ -1181,6 +1181,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Toggle settings
         setToggleValue('wordWrap', settings.wordWrap || false);
+        setToggleValue('minimap', settings.minimap !== false);
         setToggleValue('lineNumbers', settings.lineNumbers !== false);
         setToggleValue('autoComplete', settings.autoComplete !== false);
         setToggleValue('syntaxHighlighting', settings.syntaxHighlighting !== false);
@@ -1331,6 +1332,13 @@ document.addEventListener('DOMContentLoaded', () => {
             saveSetting('wordWrap', value);
             const settings = loadSettings();
             settings.wordWrap = value;
+            applyEditorSettings(settings);
+        });
+
+        setupToggleInput('minimap', (value) => {
+            saveSetting('minimap', value);
+            const settings = loadSettings();
+            settings.minimap = value;
             applyEditorSettings(settings);
         });
 
@@ -2979,8 +2987,27 @@ document.addEventListener('DOMContentLoaded', () => {
         if (minimapButtonSide) {
             minimapButtonSide.addEventListener('click', () => {
                 if (window.sideBySideEditor) {
-                    const currentMinimap = window.sideBySideEditor.getOption(window.monaco.editor.EditorOption.minimap);
-                    window.sideBySideEditor.updateOptions({ minimap: { enabled: !currentMinimap.enabled } });
+                    try {
+                        const currentMinimap = window.sideBySideEditor.getOption(window.monaco.editor.EditorOption.minimap);
+                        const newValue = !currentMinimap.enabled;
+                        window.sideBySideEditor.updateOptions({ minimap: { enabled: newValue } });
+                        minimapButtonSide.classList.toggle('active', newValue);
+                        addSystemMessage(`Minimap ${newValue ? 'enabled' : 'disabled'}`);
+                        
+                        // Save the setting
+                        saveSetting('minimap', newValue);
+                    } catch (error) {
+                        console.error('Error toggling side-by-side minimap:', error);
+                        // Fallback approach
+                        const currentMinimap = window.sideBySideEditor.getOption('minimap');
+                        const newValue = !currentMinimap.enabled;
+                        window.sideBySideEditor.updateOptions({ minimap: { enabled: newValue } });
+                        minimapButtonSide.classList.toggle('active', newValue);
+                        addSystemMessage(`Minimap ${newValue ? 'enabled' : 'disabled'}`);
+                        
+                        // Save the setting
+                        saveSetting('minimap', newValue);
+                    }
                 }
             });
         }
@@ -4800,12 +4827,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const minimapButton = document.getElementById('btnMinimap');
     if (minimapButton) {
+        // Set initial button state based on current setting
+        const settings = loadSettings();
+        const isMinimapEnabled = settings.minimap !== undefined ? settings.minimap : true;
+        minimapButton.classList.toggle('active', isMinimapEnabled);
+        
         minimapButton.addEventListener('click', () => {
             if ((window as any).editor) {
-                const currentValue = (window as any).editor.getOption('minimap');
-                (window as any).editor.updateOptions({ minimap: { enabled: !currentValue.enabled } });
-                minimapButton.classList.toggle('active', !currentValue.enabled);
-                addSystemMessage(`Minimap ${!currentValue.enabled ? 'enabled' : 'disabled'}`);
+                try {
+                    const currentValue = (window as any).editor.getOption((window as any).monaco.editor.EditorOption.minimap);
+                    const newValue = !currentValue.enabled;
+                    (window as any).editor.updateOptions({ minimap: { enabled: newValue } });
+                    minimapButton.classList.toggle('active', newValue);
+                    addSystemMessage(`Minimap ${newValue ? 'enabled' : 'disabled'}`);
+                    
+                    // Save the setting
+                    saveSetting('minimap', newValue);
+                } catch (error) {
+                    console.error('Error toggling minimap:', error);
+                    // Fallback approach
+                    const currentValue = (window as any).editor.getOption('minimap');
+                    const newValue = !currentValue.enabled;
+                    (window as any).editor.updateOptions({ minimap: { enabled: newValue } });
+                    minimapButton.classList.toggle('active', newValue);
+                    addSystemMessage(`Minimap ${newValue ? 'enabled' : 'disabled'}`);
+                    
+                    // Save the setting
+                    saveSetting('minimap', newValue);
+                }
             }
         });
     }

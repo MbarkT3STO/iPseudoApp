@@ -230,6 +230,18 @@ interface Window {
     // Determine editor font size from CSS variable (fallback to 15)
     const cssFontSize = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--editor-font-size')) || 15;
 
+    // Load minimap setting from localStorage
+    let minimapEnabled = true; // Default to true
+    try {
+        const savedSettings = localStorage.getItem('iPseudoSettings');
+        if (savedSettings) {
+            const settings = JSON.parse(savedSettings);
+            minimapEnabled = settings.minimap !== undefined ? settings.minimap : true;
+        }
+    } catch (error) {
+        console.error('Error loading minimap setting:', error);
+    }
+
     // Create editor instance
     const editor = window.monaco.editor.create(document.getElementById('editor'), {
         value: initialValue,
@@ -238,7 +250,7 @@ interface Window {
         fontSize: 18,
         fontFamily: 'JetBrains Mono, Fira Code, monospace',
         minimap: {
-            enabled: false
+            enabled: minimapEnabled
         },
         quickSuggestions: { other: true, comments: false, strings: false },
         lineNumbers: 'on',

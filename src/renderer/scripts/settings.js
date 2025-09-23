@@ -1126,6 +1126,24 @@ class SettingsManager {
                 minimap: { enabled: enabled }
             });
         }
+        
+        // Update minimap buttons state
+        const minimapButton = document.getElementById('btnMinimap');
+        if (minimapButton) {
+            minimapButton.classList.toggle('active', enabled);
+        }
+        
+        const minimapButtonSide = document.getElementById('btnMinimapSide');
+        if (minimapButtonSide) {
+            minimapButtonSide.classList.toggle('active', enabled);
+        }
+        
+        // Update side-by-side editor if it exists
+        if (window.sideBySideEditor && typeof window.sideBySideEditor.updateOptions === 'function') {
+            window.sideBySideEditor.updateOptions({
+                minimap: { enabled: enabled }
+            });
+        }
     }
 
     // Apply auto save
