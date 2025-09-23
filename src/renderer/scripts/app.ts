@@ -2842,9 +2842,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // out: by default include timestamp; for type 'stdout' and 'print' show raw text only
     function out(text: string, type: string = 'info'): void {
         if (!outputConsole) return;
-        const safe = escapeHtml(String(text));
-
+        
         if (type === 'stdout' || type === 'print') {
+            // Don't escape HTML for print output since we want to add HTML tags
+            const safe = String(text);
             // Remove welcome message if it exists
             const welcomeMessage = outputConsole.querySelector('.console-welcome');
             if (welcomeMessage) {
@@ -2885,14 +2886,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 line.style.fontSize = `${settings.consoleFontSize}px`;
             }
             
-            // Enhanced print output formatting
-            const formattedText = formatPrintOutput(safe);
-            
             // Add line number
             const lineCount = content.children.length + 1;
             line.setAttribute('data-line-number', lineCount.toString());
             
-            line.innerHTML = formattedText;
+            // Use textContent to avoid any HTML processing
+            line.textContent = safe;
             content.appendChild(line);
             updateConsoleStats('info');
             
@@ -2907,6 +2906,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateSideBySideConsole();
             }
         } else {
+            // Escape HTML for other message types
+            const safe = escapeHtml(String(text));
             // Use the enhanced console message system
             addConsoleMessage(safe, type as 'success' | 'error' | 'warning' | 'info' | 'debug');
         }
@@ -3313,20 +3314,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function formatPrintOutput(text: string): string {
-        // Escape HTML first
-        let formatted = escapeHtml(text);
-        
-        // Apply print-specific formatting
-        formatted = formatted
-            .replace(/(\b\d+\.\d+\b)/g, '<span class="print-number">$1</span>')
-            .replace(/(\b\d+\b)/g, '<span class="print-number">$1</span>')
-            .replace(/(["'][^"']*["'])/g, '<span class="print-string">$1</span>')
-            .replace(/(\btrue\b|\bfalse\b|\bnull\b|\bundefined\b)/gi, '<span class="print-boolean">$1</span>')
-            .replace(/(\b[A-Z_][A-Z0-9_]*\b)/g, '<span class="print-constant">$1</span>')
-            .replace(/(\b\w+\(\))/g, '<span class="print-function">$1</span>')
-            .replace(/(https?:\/\/[^\s]+)/g, '<span class="print-url">$1</span>');
-        
-        return formatted;
+        // Just return the text as-is, no syntax highlighting
+        return text;
     }
     
     function showConsoleLoadingState() {

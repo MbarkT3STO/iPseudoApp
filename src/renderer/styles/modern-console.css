@@ -532,63 +532,63 @@
 }
 
 /* Print Output Formatting */
-.console-print .print-number {
+.print-output-line .print-number {
   color: #f59e0b;
   font-weight: 600;
   font-family: var(--console-font-family, 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace);
 }
 
-.console-print .print-string {
+.print-output-line .print-string {
   color: #dc2626;
   font-style: italic;
 }
 
-.console-print .print-boolean {
+.print-output-line .print-boolean {
   color: #059669;
   font-weight: 600;
   font-family: var(--console-font-family, 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace);
 }
 
-.console-print .print-constant {
+.print-output-line .print-constant {
   color: #8b5cf6;
   font-weight: 600;
   font-family: var(--console-font-family, 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace);
 }
 
-.console-print .print-function {
+.print-output-line .print-function {
   color: #059669;
   font-weight: 600;
   font-family: var(--console-font-family, 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace);
 }
 
-.console-print .print-url {
+.print-output-line .print-url {
   color: #3b82f6;
   text-decoration: underline;
   font-weight: 500;
 }
 
 /* Dark theme print output */
-[data-theme="dark"] .console-print .print-number {
+[data-theme="dark"] .print-output-line .print-number {
   color: #fbbf24;
 }
 
-[data-theme="dark"] .console-print .print-string {
+[data-theme="dark"] .print-output-line .print-string {
   color: #f87171;
 }
 
-[data-theme="dark"] .console-print .print-boolean {
+[data-theme="dark"] .print-output-line .print-boolean {
   color: #34d399;
 }
 
-[data-theme="dark"] .console-print .print-constant {
+[data-theme="dark"] .print-output-line .print-constant {
   color: #a78bfa;
 }
 
-[data-theme="dark"] .console-print .print-function {
+[data-theme="dark"] .print-output-line .print-function {
   color: #34d399;
 }
 
-[data-theme="dark"] .console-print .print-url {
+[data-theme="dark"] .print-output-line .print-url {
   color: #60a5fa;
 }
 
