@@ -594,17 +594,21 @@
 
 /* Print Output Container */
 .print-output-container {
-  background: var(--console-print-container-bg, rgba(31, 41, 55, 0.05));
-  border-radius: 16px;
-  padding: 16px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.9));
+  border-radius: 20px;
+  padding: 20px;
   margin: 16px 0;
-  border: 1px solid var(--console-print-container-border, rgba(31, 41, 55, 0.15));
-  box-shadow: var(--console-print-container-shadow, 0 4px 20px rgba(31, 41, 55, 0.1));
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   position: relative;
   overflow: hidden;
   animation: container-slide-in 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .print-output-container::before {
@@ -624,35 +628,55 @@
 .print-output-header {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--console-print-header-border, rgba(31, 41, 55, 0.1));
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(96, 165, 250, 0.05));
+  border-radius: 12px;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.print-output-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa, #3b82f6);
+  border-radius: 12px 12px 0 0;
 }
 
 .print-output-title {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--console-print-title-color, #6b7280);
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e40af;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 
 .print-output-title i {
-  font-size: 14px;
-  color: var(--console-print-accent, #3b82f6);
+  font-size: 16px;
+  color: #3b82f6;
+  text-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
 }
 
 .print-output-content {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  max-height: 300px;
+  gap: 8px;
+  max-height: 400px;
   overflow-y: auto;
-  padding-right: 4px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
 }
 
 .print-output-content::-webkit-scrollbar {
@@ -673,16 +697,20 @@
 }
 
 .print-output-line {
-  padding: 6px 8px;
-  background: var(--console-print-line-bg, rgba(255, 255, 255, 0.02));
-  border-radius: 6px;
-  border-left: 2px solid var(--console-print-line-border, rgba(59, 130, 246, 0.3));
+  padding: 12px 16px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(248, 250, 252, 0.6));
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
   font-family: var(--console-font-family, 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace);
-  font-size: 13px;
-  line-height: 1.5;
-  color: var(--console-print-line-color, #1f2937);
-  transition: all 0.2s ease;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.6;
+  color: #1f2937;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   overflow: hidden;
 }
 
@@ -699,9 +727,13 @@
 }
 
 .print-output-line:hover {
-  background: var(--console-print-line-hover-bg, rgba(255, 255, 255, 0.05));
-  transform: translateX(2px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.8));
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  border-color: rgba(59, 130, 246, 0.3);
 }
 
 .print-output-line:hover::before {
@@ -731,20 +763,51 @@
 
 /* Dark theme print output container */
 [data-theme="dark"] .print-output-container {
-  --console-print-container-bg: rgba(255, 255, 255, 0.05);
-  --console-print-container-border: rgba(255, 255, 255, 0.15);
-  --console-print-container-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  --console-print-accent: #60a5fa;
-  --console-print-header-border: rgba(255, 255, 255, 0.1);
-  --console-print-title-color: #9ca3af;
-  --console-print-scroll-thumb: rgba(255, 255, 255, 0.3);
-  --console-print-scroll-thumb-hover: rgba(255, 255, 255, 0.5);
-  --console-print-line-bg: rgba(255, 255, 255, 0.02);
-  --console-print-line-border: rgba(96, 165, 250, 0.3);
-  --console-print-line-color: #ffffff;
-  --console-print-line-accent: #60a5fa;
-  --console-print-line-hover-bg: rgba(255, 255, 255, 0.05);
-  --console-print-line-number: #6b7280;
+  background: linear-gradient(135deg, rgba(30, 30, 30, 0.95), rgba(40, 40, 40, 0.9));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 8px 16px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .print-output-header {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(96, 165, 250, 0.1));
+  border: 1px solid rgba(96, 165, 250, 0.3);
+}
+
+[data-theme="dark"] .print-output-header::before {
+  background: linear-gradient(90deg, #60a5fa, #93c5fd, #60a5fa);
+}
+
+[data-theme="dark"] .print-output-title {
+  color: #93c5fd;
+}
+
+[data-theme="dark"] .print-output-title i {
+  color: #60a5fa;
+  text-shadow: 0 0 12px rgba(96, 165, 250, 0.5);
+}
+
+[data-theme="dark"] .print-output-content {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .print-output-line {
+  background: linear-gradient(135deg, rgba(30, 30, 30, 0.8), rgba(40, 40, 40, 0.6));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e5e7eb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .print-output-line:hover {
+  background: linear-gradient(135deg, rgba(30, 30, 30, 0.95), rgba(40, 40, 40, 0.8));
+  border-color: rgba(96, 165, 250, 0.4);
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.3),
+    0 4px 12px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 /* Light theme print output container */
