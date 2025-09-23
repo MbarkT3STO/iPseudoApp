@@ -17,6 +17,9 @@
     <!-- Neumorphic Styles -->
     <link rel="stylesheet" href="styles/neumorphism.css">
     
+    <!-- Modern Console Styles -->
+    <link rel="stylesheet" href="styles/modern-console.css">
+    
     <!-- Monaco Editor Setup -->
     <script>
         window.nodeRequire = window.require;
@@ -175,17 +178,15 @@
                         <div class="tab-content" id="consoleContent">
                             <div class="console-container">
                                 <div class="console-header">
-                                    <div class="console-title">
-                                        <div class="console-icon">
+                                    <div class="console-title-section">
+                                        <div class="console-title">
                                             <i class="ri-terminal-box-line"></i>
+                                            <span>Output Console</span>
                                         </div>
-                                        <div class="console-info">
-                                            <h3>Output Console</h3>
-                                            <div class="console-status" id="consoleStatus">
-                                                <div class="status-indicator ready" id="statusIndicator">
-                                                    <div class="status-dot"></div>
-                                                    <span class="status-text">Ready</span>
-                                                </div>
+                                        <div class="console-status">
+                                            <div class="status-indicator ready" id="statusIndicator">
+                                                <div class="status-dot"></div>
+                                                <span class="status-text">Ready</span>
                                             </div>
                                         </div>
                                     </div>
@@ -224,6 +225,7 @@
                                             </div>
                                             <div class="welcome-content">
                                                 <h4>Welcome to iPseudo IDE</h4>
+                                                <p>Ready to execute your pseudocode. Click "Run" to start!</p>
                                             </div>
                                         </div>
                                     </div>
@@ -266,56 +268,57 @@
 
                         <!-- Console Panel -->
                         <div class="panel console-panel">
-                            <div class="panel-header">
-                                <div class="panel-title">
-                                    <div class="console-icon">
-                                        <i class="ri-terminal-box-line"></i>
-                                    </div>
-                                    <div class="console-info">
-                                        <h3>Output Console</h3>
-                                        <div class="console-status" id="consoleStatusSide">
+                            <div class="console-container">
+                                <div class="console-header">
+                                    <div class="console-title-section">
+                                        <div class="console-title">
+                                            <i class="ri-terminal-box-line"></i>
+                                            <span>Output Console</span>
+                                        </div>
+                                        <div class="console-status">
                                             <div class="status-indicator ready" id="statusIndicatorSide">
                                                 <div class="status-dot"></div>
                                                 <span class="status-text">Ready</span>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="panel-actions">
-                                    <div class="console-stats" id="consoleStatsSide">
-                                        <div class="stat-item">
-                                            <i class="ri-message-3-line"></i>
-                                            <span id="messageCountSide">0</span>
+                                    <div class="console-actions">
+                                        <div class="console-stats" id="consoleStatsSide">
+                                            <div class="stat-item">
+                                                <i class="ri-message-3-line"></i>
+                                                <span id="messageCountSide">0</span>
+                                            </div>
+                                            <div class="stat-item">
+                                                <i class="ri-time-line"></i>
+                                                <span id="executionTimeSide">0ms</span>
+                                            </div>
                                         </div>
-                                        <div class="stat-item">
-                                            <i class="ri-time-line"></i>
-                                            <span id="executionTimeSide">0ms</span>
+                                        <div class="console-controls">
+                                            <button class="btn btn-sm btn-ghost" id="clearConsoleSide" title="Clear Output">
+                                                <i class="ri-delete-bin-line"></i>
+                                                <span class="sm:block">Clear</span>
+                                            </button>
+                                            <button class="btn btn-sm btn-ghost" id="btnCopyOutputSide" title="Copy Output">
+                                                <i class="ri-file-copy-line"></i>
+                                                <span class="sm:block">Copy</span>
+                                            </button>
+                                            <button class="btn btn-sm btn-ghost" id="btnSaveOutputSide" title="Save Output">
+                                                <i class="ri-save-line"></i>
+                                                <span class="sm:block">Save</span>
+                                            </button>
                                         </div>
                                     </div>
-                                    <div class="console-controls">
-                                        <button class="btn btn-sm btn-ghost" id="clearConsoleSide" title="Clear Output">
-                                            <i class="ri-delete-bin-line"></i>
-                                            <span class="sm:block">Clear</span>
-                                        </button>
-                                        <button class="btn btn-sm btn-ghost" id="btnCopyOutputSide" title="Copy Output">
-                                            <i class="ri-file-copy-line"></i>
-                                            <span class="sm:block">Copy</span>
-                                        </button>
-                                        <button class="btn btn-sm btn-ghost" id="btnSaveOutputSide" title="Save Output">
-                                            <i class="ri-save-line"></i>
-                                            <span class="sm:block">Save</span>
-                                        </button>
-                                    </div>
                                 </div>
-                            </div>
-                            <div class="panel-content">
-                                <div class="console-output" id="outputSide">
-                                    <div class="console-welcome">
-                                        <div class="welcome-icon">
-                                            <i class="ri-code-s-slash-line"></i>
-                                        </div>
-                                        <div class="welcome-content">
-                                            <h4>Welcome to iPseudo IDE</h4>
+                                <div class="console-content">
+                                    <div class="console-output" id="outputSide">
+                                        <div class="console-welcome">
+                                            <div class="welcome-icon">
+                                                <i class="ri-code-s-slash-line"></i>
+                                            </div>
+                                            <div class="welcome-content">
+                                                <h4>Welcome to iPseudo IDE</h4>
+                                                <p>Ready to execute your pseudocode. Click "Run" to start!</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

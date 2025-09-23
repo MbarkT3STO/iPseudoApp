@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Console Demo - iPseudo IDE</title>
+    <title>Output Messages Redesign Demo - iPseudo IDE</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -112,14 +112,13 @@
     <div class="demo-container">
         <!-- Light Theme Console -->
         <div class="demo-section">
-            <div class="demo-title">Light Theme Console</div>
+            <div class="demo-title">Light Theme - New Output Design</div>
             <div class="demo-controls">
                 <button class="demo-btn" onclick="addMessage('success', 'light')">Success</button>
                 <button class="demo-btn" onclick="addMessage('error', 'light')">Error</button>
                 <button class="demo-btn" onclick="addMessage('warning', 'light')">Warning</button>
                 <button class="demo-btn" onclick="addMessage('info', 'light')">Info</button>
-                <button class="demo-btn" onclick="addMessage('debug', 'light')">Debug</button>
-                <button class="demo-btn" onclick="addPrintOutput('light')">Print</button>
+                <button class="demo-btn" onclick="addPrintOutput('light')">Print Output</button>
                 <button class="demo-btn" onclick="clearConsole('light')">Clear</button>
             </div>
             <div class="console-container" data-theme="light">
@@ -171,14 +170,13 @@
         
         <!-- Dark Theme Console -->
         <div class="demo-section">
-            <div class="demo-title">Dark Theme Console</div>
+            <div class="demo-title">Dark Theme - New Output Design</div>
             <div class="demo-controls">
                 <button class="demo-btn" onclick="addMessage('success', 'dark')">Success</button>
                 <button class="demo-btn" onclick="addMessage('error', 'dark')">Error</button>
                 <button class="demo-btn" onclick="addMessage('warning', 'dark')">Warning</button>
                 <button class="demo-btn" onclick="addMessage('info', 'dark')">Info</button>
-                <button class="demo-btn" onclick="addMessage('debug', 'dark')">Debug</button>
-                <button class="demo-btn" onclick="addPrintOutput('dark')">Print</button>
+                <button class="demo-btn" onclick="addPrintOutput('dark')">Print Output</button>
                 <button class="demo-btn" onclick="clearConsole('dark')">Clear</button>
             </div>
             <div class="console-container" data-theme="dark">
@@ -263,11 +261,6 @@
                         .replace(/(Info|Information|Note|Tip)/gi, '<span class="info-keyword">$1</span>')
                         .replace(/(\d+)/g, '<span class="info-number">$1</span>');
                     break;
-                case 'debug':
-                    formatted = formatted
-                        .replace(/(Debug|Trace|Log)/gi, '<span class="debug-keyword">$1</span>')
-                        .replace(/(\d+)/g, '<span class="debug-number">$1</span>');
-                    break;
             }
             
             formatted = formatted
@@ -319,8 +312,7 @@
                 success: 'Success: Code executed successfully in 125ms',
                 error: 'Error: Syntax error at line 15 - Missing semicolon',
                 warning: 'Warning: Variable "count" is declared but never used',
-                info: 'Info: Starting execution of pseudocode algorithm',
-                debug: 'Debug: Variable "x" = 42, "y" = 3.14, "name" = "John"'
+                info: 'Info: Starting execution of pseudocode algorithm'
             };
             
             const messageElement = document.createElement('div');
@@ -358,9 +350,27 @@
             if (!printContainer) {
                 printContainer = document.createElement('div');
                 printContainer.className = 'print-output-container';
+                
+                // Create header for print container
+                const header = document.createElement('div');
+                header.className = 'print-output-header';
+                header.innerHTML = `
+                    <div class="print-output-title">
+                        <i class="ri-terminal-line"></i>
+                        <span>Program Output</span>
+                    </div>
+                `;
+                
+                // Create content area
+                const content = document.createElement('div');
+                content.className = 'print-output-content';
+                
+                printContainer.appendChild(header);
+                printContainer.appendChild(content);
                 console.appendChild(printContainer);
             }
             
+            const content = printContainer.querySelector('.print-output-content');
             const outputs = [
                 'Hello, World!',
                 'The result is: 42',
@@ -368,23 +378,24 @@
                 'Boolean: true, String: "test", Number: 3.14',
                 'Function call: calculateSum()',
                 'URL: https://example.com',
-                'Constant: MAX_SIZE = 1000'
+                'Constant: MAX_SIZE = 1000',
+                'Variable x = 10, y = 20',
+                'Loop iteration: 5',
+                'Final result: 100'
             ];
             
             const randomOutput = outputs[Math.floor(Math.random() * outputs.length)];
             const line = document.createElement('div');
-            line.className = 'console-message console-print';
+            line.className = 'print-output-line';
+            
+            // Add line number
+            const lineCount = content.children.length + 1;
+            line.setAttribute('data-line-number', lineCount.toString());
             
             const formattedText = formatPrintOutput(randomOutput);
+            line.innerHTML = formattedText;
             
-            line.innerHTML = `
-                <i class="ri-terminal-line"></i>
-                <span class="message-content">
-                    <span class="message-text">${formattedText}</span>
-                </span>
-            `;
-            
-            printContainer.appendChild(line);
+            content.appendChild(line);
             
             messageCounts[theme]++;
             document.getElementById(`messageCount${theme.charAt(0).toUpperCase() + theme.slice(1)}`).textContent = messageCounts[theme];
@@ -427,9 +438,13 @@
             addMessage('info', 'light');
             addMessage('success', 'light');
             addPrintOutput('light');
+            addPrintOutput('light');
+            addPrintOutput('light');
             
             addMessage('error', 'dark');
             addMessage('warning', 'dark');
+            addPrintOutput('dark');
+            addPrintOutput('dark');
             addPrintOutput('dark');
         }, 1000);
     </script>

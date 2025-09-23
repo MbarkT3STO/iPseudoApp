@@ -2855,10 +2855,29 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!printContainer) {
                 printContainer = document.createElement('div');
                 printContainer.className = 'print-output-container';
+                
+                // Create header for print container
+                const header = document.createElement('div');
+                header.className = 'print-output-header';
+                header.innerHTML = `
+                    <div class="print-output-title">
+                        <i class="ri-terminal-line"></i>
+                        <span>Program Output</span>
+                    </div>
+                `;
+                
+                // Create content area
+                const content = document.createElement('div');
+                content.className = 'print-output-content';
+                
+                printContainer.appendChild(header);
+                printContainer.appendChild(content);
                 outputConsole.appendChild(printContainer);
             }
+            
+            const content = printContainer.querySelector('.print-output-content') as HTMLElement;
             const line = document.createElement('div');
-            line.className = 'console-message console-print';
+            line.className = 'print-output-line';
             
             // Apply current font size setting
             const settings = loadSettings();
@@ -2866,14 +2885,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 line.style.fontSize = `${settings.consoleFontSize}px`;
             }
             
-            line.innerHTML = `
-                <i class="ri-terminal-line"></i>
-                <span class="message-content">
-                    <span class="message-text">${safe}</span>
-                </span>
-            `;
-            printContainer.appendChild(line);
+            // Enhanced print output formatting
+            const formattedText = formatPrintOutput(safe);
+            
+            // Add line number
+            const lineCount = content.children.length + 1;
+            line.setAttribute('data-line-number', lineCount.toString());
+            
+            line.innerHTML = formattedText;
+            content.appendChild(line);
             updateConsoleStats('info');
+            
+            // Add animation
+            requestAnimationFrame(() => {
+                line.style.opacity = '1';
+                line.style.transform = 'translateY(0)';
+            });
             
             // Update side-by-side console if in side-by-side layout
             if (!isTabLayout) {
@@ -3121,11 +3148,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 <div class="welcome-content">
                     <h4>Welcome to iPseudo IDE</h4>
+                    <p>Ready to execute your pseudocode. Click "Run" to start!</p>
                 </div>
             </div>
         `;
         
         outputConsole.innerHTML = welcomeMessage;
+        
+        // Remove any existing print container
+        const printContainer = outputConsole.querySelector('.print-output-container');
+        if (printContainer) {
+            printContainer.remove();
+        }
         
         consoleMessageCount = 0;
         consoleStats = { messages: 0, errors: 0, warnings: 0, info: 0, executionTime: 0 };
@@ -3171,20 +3205,31 @@ document.addEventListener('DOMContentLoaded', () => {
         const showTimestamps = (window as any).showTimestamps !== false;
         const timestamp = showTimestamps ? new Date().toLocaleTimeString() : '';
         
+        // Enhanced message formatting with syntax highlighting
+        const formattedMessage = formatConsoleMessage(message, type);
+        
         messageElement.innerHTML = `
             <i class="${icon}"></i>
             <span class="message-content">
-                <span class="message-text">${message}</span>
+                <span class="message-text">${formattedMessage}</span>
                 ${showTimestamps ? `<span class="message-timestamp">${timestamp}</span>` : ''}
             </span>
         `;
         
+        // Add message with animation
         outputConsole.appendChild(messageElement);
+        
+        // Trigger animation
+        requestAnimationFrame(() => {
+            messageElement.style.opacity = '1';
+            messageElement.style.transform = 'translateY(0)';
+        });
+        
         updateConsoleStats(type);
         updateTabConsoleStats(consoleStats);
         updateTabConsoleOutput(outputConsole.innerHTML);
         updateConsoleUI();
-            scrollOutputToBottom();
+        scrollOutputToBottom();
         
         // Update side-by-side console if in side-by-side layout
         if (!isTabLayout) {
@@ -3201,7 +3246,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const currentCount = parseInt(consoleBadge.textContent || '0');
             consoleBadge.textContent = (currentCount + 1).toString();
         }
-        }
+    }
     
     function getMessageIcon(type: string): string {
         const icons = {
@@ -3213,6 +3258,108 @@ document.addEventListener('DOMContentLoaded', () => {
             system: 'ri-settings-3-line'
         };
         return icons[type as keyof typeof icons] || 'ri-information-line';
+    }
+    
+    function formatConsoleMessage(message: string, type: string): string {
+        // Escape HTML first
+        let formatted = escapeHtml(message);
+        
+        // Apply syntax highlighting based on message type
+        switch (type) {
+            case 'error':
+                // Highlight error patterns
+                formatted = formatted
+                    .replace(/(Error|Exception|Failed|Cannot|Unable)/gi, '<span class="error-keyword">$1</span>')
+                    .replace(/(at line \d+|line \d+)/gi, '<span class="error-location">$1</span>')
+                    .replace(/(\d+)/g, '<span class="error-number">$1</span>');
+                break;
+                
+            case 'warning':
+                // Highlight warning patterns
+                formatted = formatted
+                    .replace(/(Warning|Caution|Deprecated|Notice)/gi, '<span class="warning-keyword">$1</span>')
+                    .replace(/(\d+)/g, '<span class="warning-number">$1</span>');
+                break;
+                
+            case 'success':
+                // Highlight success patterns
+                formatted = formatted
+                    .replace(/(Success|Completed|Done|Finished)/gi, '<span class="success-keyword">$1</span>')
+                    .replace(/(\d+)/g, '<span class="success-number">$1</span>');
+                break;
+                
+            case 'info':
+                // Highlight info patterns
+                formatted = formatted
+                    .replace(/(Info|Information|Note|Tip)/gi, '<span class="info-keyword">$1</span>')
+                    .replace(/(\d+)/g, '<span class="info-number">$1</span>');
+                break;
+                
+            case 'debug':
+                // Highlight debug patterns
+                formatted = formatted
+                    .replace(/(Debug|Trace|Log)/gi, '<span class="debug-keyword">$1</span>')
+                    .replace(/(\d+)/g, '<span class="debug-number">$1</span>');
+                break;
+        }
+        
+        // Highlight common patterns for all types
+        formatted = formatted
+            .replace(/(https?:\/\/[^\s]+)/g, '<span class="console-url">$1</span>')
+            .replace(/(\b[A-Z_][A-Z0-9_]*\b)/g, '<span class="console-constant">$1</span>')
+            .replace(/(\b\w+\(\))/g, '<span class="console-function">$1</span>')
+            .replace(/(["'][^"']*["'])/g, '<span class="console-string">$1</span>')
+            .replace(/(\b\d+\.\d+\b)/g, '<span class="console-number">$1</span>')
+            .replace(/(\b\d+\b)/g, '<span class="console-number">$1</span>');
+        
+        return formatted;
+    }
+    
+    function formatPrintOutput(text: string): string {
+        // Escape HTML first
+        let formatted = escapeHtml(text);
+        
+        // Apply print-specific formatting
+        formatted = formatted
+            .replace(/(\b\d+\.\d+\b)/g, '<span class="print-number">$1</span>')
+            .replace(/(\b\d+\b)/g, '<span class="print-number">$1</span>')
+            .replace(/(["'][^"']*["'])/g, '<span class="print-string">$1</span>')
+            .replace(/(\btrue\b|\bfalse\b|\bnull\b|\bundefined\b)/gi, '<span class="print-boolean">$1</span>')
+            .replace(/(\b[A-Z_][A-Z0-9_]*\b)/g, '<span class="print-constant">$1</span>')
+            .replace(/(\b\w+\(\))/g, '<span class="print-function">$1</span>')
+            .replace(/(https?:\/\/[^\s]+)/g, '<span class="print-url">$1</span>');
+        
+        return formatted;
+    }
+    
+    function showConsoleLoadingState() {
+        if (!outputConsole) return;
+        
+        // Remove existing loading state
+        const existingLoading = outputConsole.querySelector('.console-loading');
+        if (existingLoading) return;
+        
+        const loadingElement = document.createElement('div');
+        loadingElement.className = 'console-loading';
+        loadingElement.innerHTML = `
+            <div class="loading-spinner">
+                <div class="spinner-dot"></div>
+                <div class="spinner-dot"></div>
+                <div class="spinner-dot"></div>
+            </div>
+            <span class="loading-text">Executing code...</span>
+        `;
+        
+        outputConsole.appendChild(loadingElement);
+    }
+    
+    function hideConsoleLoadingState() {
+        if (!outputConsole) return;
+        
+        const loadingElement = outputConsole.querySelector('.console-loading');
+        if (loadingElement) {
+            loadingElement.remove();
+        }
     }
     
     function addSystemMessage(message: string) {
@@ -3278,12 +3425,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (tabStatus === 'running') {
                 statusIndicator.className = 'status-indicator running';
                 if (statusText) statusText.textContent = 'Running';
+                showConsoleLoadingState();
             } else if (tabStatus === 'error') {
                 statusIndicator.className = 'status-indicator error';
                 if (statusText) statusText.textContent = 'Error';
+                hideConsoleLoadingState();
             } else {
                 statusIndicator.className = 'status-indicator ready';
                 if (statusText) statusText.textContent = 'Ready';
+                hideConsoleLoadingState();
             }
         }
         
