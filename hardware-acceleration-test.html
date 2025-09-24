@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hardware Acceleration Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f0f0f0;
+        }
+        
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .toggle-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        
+        .toggle-btn:hover {
+            background: #0056b3;
+        }
+        
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        
+        .enabled {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .disabled {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .test-element {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            margin: 10px;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .test-element:hover {
+            transform: scale(1.1);
+        }
+        
+        .info {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 4px;
+            border-left: 4px solid #007bff;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Hardware Acceleration Test</h1>
+        <p>This test demonstrates the hardware acceleration setting functionality.</p>
+        
+        <div class="info">
+            <strong>Instructions:</strong>
+            <ol>
+                <li>Open the app and go to Settings → Performance</li>
+                <li>Toggle the "Hardware Acceleration" setting</li>
+                <li>Observe the changes in this test page</li>
+                <li>Check the browser's developer tools for performance differences</li>
+            </ol>
+        </div>
+        
+        <button class="toggle-btn" onclick="toggleHardwareAcceleration()">
+            Toggle Hardware Acceleration
+        </button>
+        
+        <div id="status" class="status">
+            Status: Checking...
+        </div>
+        
+        <h3>Test Elements (hover to see animation):</h3>
+        <div class="test-element"></div>
+        <div class="test-element"></div>
+        <div class="test-element"></div>
+        
+        <h3>Performance Information:</h3>
+        <div id="performance-info">
+            <p>Hardware acceleration affects:</p>
+            <ul>
+                <li>Transform animations (scale, rotate, translate)</li>
+                <li>CSS transitions and animations</li>
+                <li>Scrolling performance</li>
+                <li>Rendering performance</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Simulate the hardware acceleration functions from the app
+        function enableHardwareAcceleration() {
+            const elements = [
+                'body',
+                '.test-container',
+                '.test-element'
+            ];
+            
+            elements.forEach(selector => {
+                const element = document.querySelector(selector);
+                if (element) {
+                    element.style.transform = 'translateZ(0)';
+                    element.style.webkitTransform = 'translateZ(0)';
+                    element.style.webkitBackfaceVisibility = 'hidden';
+                    element.style.webkitPerspective = '1000px';
+                    element.style.willChange = 'transform';
+                    element.style.contain = 'layout style paint';
+                }
+            });
+            
+            document.documentElement.classList.remove('no-hardware-acceleration');
+            updateStatus(true);
+        }
+        
+        function disableHardwareAcceleration() {
+            const elements = [
+                'body',
+                '.test-container',
+                '.test-element'
+            ];
+            
+            elements.forEach(selector => {
+                const element = document.querySelector(selector);
+                if (element) {
+                    element.style.transform = '';
+                    element.style.webkitTransform = '';
+                    element.style.webkitBackfaceVisibility = '';
+                    element.style.webkitPerspective = '';
+                    element.style.willChange = '';
+                    element.style.contain = '';
+                }
+            });
+            
+            document.documentElement.classList.add('no-hardware-acceleration');
+            updateStatus(false);
+        }
+        
+        function toggleHardwareAcceleration() {
+            const isEnabled = !document.documentElement.classList.contains('no-hardware-acceleration');
+            if (isEnabled) {
+                disableHardwareAcceleration();
+            } else {
+                enableHardwareAcceleration();
+            }
+        }
+        
+        function updateStatus(enabled) {
+            const status = document.getElementById('status');
+            if (enabled) {
+                status.textContent = 'Status: Hardware Acceleration ENABLED';
+                status.className = 'status enabled';
+            } else {
+                status.textContent = 'Status: Hardware Acceleration DISABLED';
+                status.className = 'status disabled';
+            }
+        }
+        
+        // Initialize
+        enableHardwareAcceleration();
+        
+        // Add CSS for no-hardware-acceleration class
+        const style = document.createElement('style');
+        style.textContent = `
+            .no-hardware-acceleration .test-element {
+                transform: none !important;
+                -webkit-transform: none !important;
+                -webkit-backface-visibility: visible !important;
+                -webkit-perspective: none !important;
+                will-change: auto !important;
+                contain: none !important;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

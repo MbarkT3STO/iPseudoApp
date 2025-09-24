@@ -450,10 +450,12 @@
 
 .console-content {
     height: 300px;
-    overflow-y: auto;
+    overflow: hidden;
     padding: var(--space-soft-4);
-    background: var(--bg-soft-elevated);
+    background: transparent;
     position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 .console-content::-webkit-scrollbar {
@@ -1558,6 +1560,14 @@
 .toggle-label {
     font-weight: var(--font-weight-soft-medium);
     color: var(--text-soft-primary);
+}
+
+.setting-description {
+    font-size: var(--font-size-soft-sm);
+    color: var(--text-soft-secondary);
+    margin-top: var(--space-soft-2);
+    margin-left: 0;
+    line-height: 1.4;
 }
 
 /* Color Picker Styling */

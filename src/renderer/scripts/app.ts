@@ -56,7 +56,7 @@ interface Window {
 
 document.addEventListener('DOMContentLoaded', () => {
     const outputConsole = document.getElementById('output') as HTMLElement | null;
-    const consoleContent = document.querySelector('.console-content') as HTMLElement | null;
+    const consoleContent = document.querySelector('.console-container') as HTMLElement | null;
     const runButton = document.getElementById('btnRun') as HTMLButtonElement | null;
     const stopButton = document.getElementById('btnStop') as HTMLButtonElement | null;
     const clearButton = document.getElementById('clearConsole') as HTMLButtonElement | null;
@@ -756,6 +756,132 @@ document.addEventListener('DOMContentLoaded', () => {
         executionTime: 0
     };
     
+    // Performance optimization settings
+    const MAX_CONSOLE_MESSAGES = 1000; // Limit to prevent performance issues
+    let messageCleanupInterval: NodeJS.Timeout | null = null;
+    
+    // Hardware acceleration monitoring
+    function enableHardwareAcceleration() {
+        const settings = loadSettings();
+        if (!settings.hardwareAcceleration) {
+            console.log('Hardware acceleration disabled in settings');
+            return;
+        }
+        
+        // Force hardware acceleration on key elements
+        const elements = [
+            '.main-content',
+            '.print-output-container',
+            '.print-output-content',
+            '.console-container',
+            '.editor-container',
+            'body',
+            'html'
+        ];
+        
+        elements.forEach(selector => {
+            const element = document.querySelector(selector) as HTMLElement;
+            if (element) {
+                element.style.transform = 'translateZ(0)';
+                element.style.webkitTransform = 'translateZ(0)';
+                element.style.webkitBackfaceVisibility = 'hidden';
+                element.style.webkitPerspective = '1000px';
+                element.style.willChange = 'transform';
+                element.style.contain = 'layout style paint';
+            }
+        });
+        
+        console.log('Hardware acceleration enabled for all key elements');
+    }
+    
+    // Disable hardware acceleration
+    function disableHardwareAcceleration() {
+        const elements = [
+            '.main-content',
+            '.print-output-container',
+            '.print-output-content',
+            '.console-container',
+            '.editor-container',
+            'body',
+            'html'
+        ];
+        
+        elements.forEach(selector => {
+            const element = document.querySelector(selector) as HTMLElement;
+            if (element) {
+                element.style.transform = '';
+                element.style.webkitTransform = '';
+                element.style.webkitBackfaceVisibility = '';
+                element.style.webkitPerspective = '';
+                element.style.willChange = '';
+                element.style.contain = '';
+            }
+        });
+        
+        console.log('Hardware acceleration disabled for all key elements');
+    }
+    
+    // Toggle hardware acceleration based on settings
+    function toggleHardwareAcceleration() {
+        const settings = loadSettings();
+        if (settings.hardwareAcceleration) {
+            enableHardwareAcceleration();
+            // Remove the no-hardware-acceleration class
+            document.documentElement.classList.remove('no-hardware-acceleration');
+        } else {
+            disableHardwareAcceleration();
+            // Add the no-hardware-acceleration class
+            document.documentElement.classList.add('no-hardware-acceleration');
+        }
+    }
+    
+    // Performance monitoring
+    function monitorPerformance() {
+        if ('performance' in window) {
+            const perfData = performance.getEntriesByType('measure');
+            console.log('Performance metrics:', perfData);
+        }
+    }
+    
+    // Function to clean up old console messages for performance
+    function cleanupOldMessages() {
+        const printContent = document.querySelector('.print-output-content') as HTMLElement;
+        if (!printContent) return;
+        
+        const messages = printContent.querySelectorAll('.print-output-line, .done-message, .suggestion-message, .console-message');
+        
+        if (messages.length > MAX_CONSOLE_MESSAGES) {
+            const messagesToRemove = messages.length - MAX_CONSOLE_MESSAGES;
+            console.log(`Cleaning up ${messagesToRemove} old messages for performance`);
+            
+            // Remove oldest messages (keep the most recent ones)
+            for (let i = 0; i < messagesToRemove; i++) {
+                if (messages[i] && !messages[i].classList.contains('console-welcome')) {
+                    messages[i].remove();
+                }
+            }
+        }
+    }
+    
+    // Function to start message cleanup interval
+    function startMessageCleanup() {
+        if (messageCleanupInterval) {
+            clearInterval(messageCleanupInterval);
+        }
+        
+        messageCleanupInterval = setInterval(() => {
+            cleanupOldMessages();
+        }, 5000); // Clean up every 5 seconds
+    }
+    
+    // Function to stop message cleanup
+    function stopMessageCleanup() {
+        if (messageCleanupInterval) {
+            clearInterval(messageCleanupInterval);
+            messageCleanupInterval = null;
+        }
+    }
+    
     // Execution state management
     let isExecuting = false;
     let executionStopped = false;
@@ -1193,6 +1319,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setToggleValue('showPerformance', settings.showPerformance || false);
         setToggleValue('animationsEnabled', settings.animationsEnabled !== false);
         setToggleValue('glassEffects', settings.glassEffects !== false);
+        setToggleValue('hardwareAcceleration', settings.hardwareAcceleration !== false);
 
         // Console settings
         const consoleFontSize = document.getElementById('consoleFontSize') as HTMLInputElement;
@@ -1420,6 +1547,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const updatedSettings = saveSetting('glassEffects', value);
             applyAppSettings(updatedSettings);
             applyUIVisibilitySettings(updatedSettings);
+        });
+
+        setupToggleInput('hardwareAcceleration', (value) => {
+            const updatedSettings = saveSetting('hardwareAcceleration', value);
+            console.log('Hardware acceleration setting changed to:', value);
+            toggleHardwareAcceleration();
         });
 
         // UI visibility toggles
@@ -1961,11 +2094,44 @@ document.addEventListener('DOMContentLoaded', () => {
         applyParticleEffects();
 
         // Apply console height
-        const consoleContent = document.querySelector('.console-content') as HTMLElement;
+        const consoleContent = document.querySelector('.console-container') as HTMLElement;
         console.log('Console content element found:', !!consoleContent);
         if (consoleContent && settings.consoleHeight) {
             consoleContent.style.setProperty('height', `${settings.consoleHeight}px`, 'important');
             console.log('Applied console height:', settings.consoleHeight);
+        }
+
+        // Enable hardware acceleration for Monaco editor
+        if ((window as any).editor && settings.hardwareAcceleration) {
+            try {
+                // Force hardware acceleration for Monaco editor
+                const editorElement = (window as any).editor.getDomNode();
+                if (editorElement) {
+                    editorElement.style.transform = 'translateZ(0)';
+                    editorElement.style.webkitTransform = 'translateZ(0)';
+                    editorElement.style.webkitBackfaceVisibility = 'hidden';
+                    editorElement.style.webkitPerspective = '1000px';
+                    editorElement.style.willChange = 'transform';
+                    editorElement.style.contain = 'layout style paint';
+                }
+            } catch (e) {
+                console.log('Could not apply hardware acceleration to Monaco editor:', e);
+            }
+        } else if ((window as any).editor && !settings.hardwareAcceleration) {
+            try {
+                // Disable hardware acceleration for Monaco editor
+                const editorElement = (window as any).editor.getDomNode();
+                if (editorElement) {
+                    editorElement.style.transform = '';
+                    editorElement.style.webkitTransform = '';
+                    editorElement.style.webkitBackfaceVisibility = '';
+                    editorElement.style.webkitPerspective = '';
+                    editorElement.style.willChange = '';
+                    editorElement.style.contain = '';
+                }
+            } catch (e) {
+                console.log('Could not disable hardware acceleration for Monaco editor:', e);
+            }
         }
 
         // Apply console font settings using multiple approaches
@@ -1993,7 +2159,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             if (settings.consoleFontSize || settings.consoleFontFamily) {
-                let css = '.console-output {';
+                let css = '.print-output-content, .console-output {';
                 if (settings.consoleFontSize) {
                     css += `font-size: ${settings.consoleFontSize}px !important;`;
                 }
@@ -2005,29 +2171,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('Created custom CSS:', css);
             }
             
-            // Method 3: Direct styling as backup
-            const consoleOutput = document.querySelector('.console-output') as HTMLElement;
-            console.log('Console output element found:', !!consoleOutput);
+            // Method 3: Direct styling as backup - try both old and new selectors
+            let consoleOutput = document.querySelector('.print-output-content') as HTMLElement;
+            if (!consoleOutput) {
+                consoleOutput = document.querySelector('.console-output') as HTMLElement;
+            }
             
             if (consoleOutput) {
-                console.log('Before applying styles:');
-                console.log('- Inline font size:', consoleOutput.style.fontSize);
-                console.log('- Computed font size:', window.getComputedStyle(consoleOutput).fontSize);
+                console.log('Console output element found:', !!consoleOutput);
                 
                 if (settings.consoleFontSize) {
-                    console.log('Setting font size to:', `${settings.consoleFontSize}px`);
                     consoleOutput.style.setProperty('font-size', `${settings.consoleFontSize}px`, 'important');
-                    console.log('After setting font size:');
-                    console.log('- Inline font size:', consoleOutput.style.fontSize);
-                    console.log('- Computed font size:', window.getComputedStyle(consoleOutput).fontSize);
+                    console.log('Applied console font size:', settings.consoleFontSize);
                 }
                 if (settings.consoleFontFamily) {
                     consoleOutput.style.setProperty('font-family', settings.consoleFontFamily, 'important');
                     console.log('Applied console font family:', settings.consoleFontFamily);
                 }
             } else {
-                console.error('Console output element not found! Retrying in 100ms...');
-                setTimeout(applyConsoleFontSettings, 100);
+                console.log('Console output element not found - skipping direct styling');
             }
         };
         applyConsoleFontSettings();
@@ -2037,6 +2199,12 @@ document.addEventListener('DOMContentLoaded', () => {
         (window as any).maxConsoleMessages = settings.maxMessages;
         (window as any).autoScrollEnabled = settings.autoScroll;
         (window as any).showTimestamps = settings.showTimestamps;
+        
+        // Toggle hardware acceleration based on settings
+        toggleHardwareAcceleration();
+        
+        // Monitor performance periodically
+        setInterval(monitorPerformance, 30000); // Every 30 seconds
         (window as any).showIcons = settings.showIcons;
         (window as any).maxTabs = settings.maxTabs;
         (window as any).autoCloseTabs = settings.autoCloseTabs;
@@ -2852,31 +3020,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 welcomeMessage.remove();
             }
 
-            let printContainer = outputConsole.querySelector('.print-output-container') as HTMLElement | null;
-            if (!printContainer) {
-                printContainer = document.createElement('div');
-                printContainer.className = 'print-output-container';
-                
-                // Create header for print container
-                const header = document.createElement('div');
-                header.className = 'print-output-header';
-                header.innerHTML = `
-                    <div class="print-output-title">
-                        <i class="ri-terminal-line"></i>
-                        <span>Program Output</span>
-                    </div>
-                `;
-                
-                // Create content area
-                const content = document.createElement('div');
-                content.className = 'print-output-content';
-                
-                printContainer.appendChild(header);
-                printContainer.appendChild(content);
-                outputConsole.appendChild(printContainer);
+            // The print-output-container is now the main container, so we just need to get the content area
+            let printContent = outputConsole.querySelector('.print-output-content') as HTMLElement | null;
+            if (!printContent) {
+                // If no content area exists, create it
+                printContent = document.createElement('div');
+                printContent.className = 'print-output-content';
+                outputConsole.appendChild(printContent);
             }
-            
-            const content = printContainer.querySelector('.print-output-content') as HTMLElement;
             const line = document.createElement('div');
             line.className = 'print-output-line';
             
@@ -2887,19 +3038,27 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             // Add line number
-            const lineCount = content.children.length + 1;
+            const lineCount = printContent.children.length + 1;
             line.setAttribute('data-line-number', lineCount.toString());
             
             // Use textContent to avoid any HTML processing
             line.textContent = safe;
-            content.appendChild(line);
+            printContent.appendChild(line);
             updateConsoleStats('info');
             
-            // Add animation
-            requestAnimationFrame(() => {
-                line.style.opacity = '1';
-                line.style.transform = 'translateY(0)';
-            });
+            // Performance optimization: batch DOM updates
+            if (consoleMessageCount % 10 === 0) {
+                // Clean up old messages every 10 new messages
+                cleanupOldMessages();
+            }
+            
+            // Add animation only for recent messages
+            if (consoleMessageCount < 50) {
+                requestAnimationFrame(() => {
+                    line.style.opacity = '1';
+                    line.style.transform = 'translateY(0)';
+                });
+            }
             
             // Update side-by-side console if in side-by-side layout
             if (!isTabLayout) {
@@ -3139,24 +3298,35 @@ document.addEventListener('DOMContentLoaded', () => {
     function clearConsole() {
         if (!outputConsole) return;
         
-        const welcomeMessage = `
-            <div class="console-welcome">
-                <div class="welcome-icon">
-                    <i class="ri-code-s-slash-line"></i>
+        // Clear the print-output-content area
+        const printContent = outputConsole.querySelector('.print-output-content');
+        if (printContent) {
+            const welcomeMessage = `
+                <div class="console-welcome">
+                    <div class="welcome-icon">
+                        <i class="ri-code-s-slash-line"></i>
+                    </div>
+                    <div class="welcome-content">
+                        <h4>Welcome to iPseudo IDE</h4>
+                        <p>Ready to execute your pseudocode. Click "Run" to start!</p>
+                    </div>
                 </div>
-                <div class="welcome-content">
-                    <h4>Welcome to iPseudo IDE</h4>
-                    <p>Ready to execute your pseudocode. Click "Run" to start!</p>
+            `;
+            printContent.innerHTML = welcomeMessage;
+        } else {
+            // Fallback if structure is different
+            const welcomeMessage = `
+                <div class="console-welcome">
+                    <div class="welcome-icon">
+                        <i class="ri-code-s-slash-line"></i>
+                    </div>
+                    <div class="welcome-content">
+                        <h4>Welcome to iPseudo IDE</h4>
+                        <p>Ready to execute your pseudocode. Click "Run" to start!</p>
+                    </div>
                 </div>
-            </div>
-        `;
-        
-        outputConsole.innerHTML = welcomeMessage;
-        
-        // Remove any existing print container
-        const printContainer = outputConsole.querySelector('.print-output-container');
-        if (printContainer) {
-            printContainer.remove();
+            `;
+            outputConsole.innerHTML = welcomeMessage;
         }
         
         consoleMessageCount = 0;
@@ -3357,8 +3527,46 @@ document.addEventListener('DOMContentLoaded', () => {
             welcomeMessage.remove();
         }
 
+        // Get the print-output-content area
+        let printContent = outputConsole.querySelector('.print-output-content') as HTMLElement | null;
+        if (!printContent) {
+            printContent = outputConsole;
+        }
+
         const messageElement = document.createElement('div');
-        messageElement.className = 'console-message console-system';
+        
+        // Check if it's a Done or Suggestion message for enhanced styling
+        if (message === 'Done') {
+            messageElement.className = 'done-message';
+            messageElement.innerHTML = `
+                <i class="ri-check-line done-icon"></i>
+                <span class="done-text">${message}</span>
+            `;
+        } else if (message.startsWith('Suggestion:')) {
+            messageElement.className = 'suggestion-message';
+            const suggestionText = message.replace('Suggestion:', '').trim();
+            messageElement.innerHTML = `
+                <i class="ri-lightbulb-line suggestion-icon"></i>
+                <div class="suggestion-content">
+                    <span class="suggestion-label">Suggestion</span>
+                    <span class="suggestion-text">${suggestionText}</span>
+                </div>
+            `;
+        } else {
+            // Default system message styling
+            messageElement.className = 'console-message console-system';
+            
+            const showTimestamps = (window as any).showTimestamps !== false;
+            const timestamp = showTimestamps ? new Date().toLocaleTimeString() : '';
+            
+            messageElement.innerHTML = `
+                <i class="ri-settings-3-line"></i>
+                <span class="message-content">
+                    <span class="message-text">${message}</span>
+                    ${showTimestamps ? `<span class="message-timestamp">${timestamp}</span>` : ''}
+                </span>
+            `;
+        }
         
         // Apply current font size setting
         const settings = loadSettings();
@@ -3366,18 +3574,7 @@ document.addEventListener('DOMContentLoaded', () => {
             messageElement.style.fontSize = `${settings.consoleFontSize}px`;
         }
         
-        const showTimestamps = (window as any).showTimestamps !== false;
-        const timestamp = showTimestamps ? new Date().toLocaleTimeString() : '';
-        
-        messageElement.innerHTML = `
-            <i class="ri-settings-3-line"></i>
-            <span class="message-content">
-                <span class="message-text">${message}</span>
-                ${showTimestamps ? `<span class="message-timestamp">${timestamp}</span>` : ''}
-            </span>
-        `;
-        
-        outputConsole.appendChild(messageElement);
+        printContent.appendChild(messageElement);
         updateConsoleStats('info');
         updateTabConsoleStats(consoleStats);
         updateTabConsoleOutput(outputConsole.innerHTML);
@@ -3500,6 +3697,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Stop execution monitoring
         stopExecutionMonitoring();
+        
+        // Stop message cleanup when execution ends
+        stopMessageCleanup();
         
         // Update UI state
         if (runButton) {
@@ -3800,6 +4000,9 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Start execution monitoring
             startExecutionMonitoring();
+            
+            // Start message cleanup for performance
+            startMessageCleanup();
             
             // Update console status to Running
             updateConsoleUI();
@@ -5406,7 +5609,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Check all potential scrollable elements
         const elements = [
             { name: 'outputConsole (output)', element: outputConsole },
-            { name: 'consoleContent (.console-content)', element: consoleContent },
+            { name: 'consoleContent (.console-container)', element: consoleContent },
             { name: 'console-container', element: document.querySelector('.console-container') },
             { name: 'console-output', element: document.querySelector('.console-output') },
             { name: 'main-content', element: document.querySelector('.main-content') }
@@ -5628,7 +5831,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         
         // Method 4: Apply to console content as well
-        const consoleContent = document.querySelector('.console-content') as HTMLElement;
+        const consoleContent = document.querySelector('.console-container') as HTMLElement;
         if (consoleContent) {
             consoleContent.style.setProperty('font-size', `${fontSize}px`, 'important');
             console.log('Applied to console content:', {
@@ -5647,7 +5850,7 @@ document.addEventListener('DOMContentLoaded', () => {
     (window as any).testConsoleSettings = function() {
         console.log('=== TESTING CONSOLE SETTINGS ===');
         const consoleOutput = document.querySelector('.console-output');
-        const consoleContent = document.querySelector('.console-content');
+        const consoleContent = document.querySelector('.console-container');
         
         console.log('Console output element:', consoleOutput);
         console.log('Console content element:', consoleContent);
@@ -5695,7 +5898,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
         
-        const consoleContainer = document.querySelector('.console-content');
+        const consoleContainer = document.querySelector('.console-container');
         if (consoleContainer) {
             observer.observe(consoleContainer, {
                 childList: true,

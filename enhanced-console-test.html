@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Console Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .test-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        .test-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .test-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .test-btn {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .test-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Enhanced Print Output Container Styles */
+        .print-output-container {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.9));
+            border-radius: 16px;
+            margin: 16px auto;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.1),
+                0 8px 16px rgba(0, 0, 0, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+            animation: container-slide-in 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            height: 400px;
+            min-height: 400px;
+            max-width: 99%;
+            width: 99%;
+        }
+
+        .print-output-container:hover {
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .print-output-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(248, 250, 252, 0.05));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .print-output-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 14px;
+        }
+
+        .print-output-title i {
+            font-size: 16px;
+            color: #3b82f6;
+        }
+
+        .print-output-controls {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .print-output-controls .btn {
+            padding: 6px 8px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            color: #6b7280;
+            background: transparent;
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
+
+        .print-output-controls .btn:hover {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            transform: translateY(-1px);
+        }
+
+        .print-output-content {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: transparent;
+            border-radius: 12px;
+            position: relative;
+            font-family: 'Fira Code', 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #1f2937;
+        }
+
+        .print-output-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .print-output-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .print-output-content::-webkit-scrollbar-thumb {
+            background: rgba(59, 130, 246, 0.3);
+            border-radius: 3px;
+        }
+
+        .print-output-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(59, 130, 246, 0.5);
+        }
+
+        /* Enhanced Done and Suggestion Messages */
+        .done-message {
+            background: linear-gradient(135deg, rgba(34, 211, 153, 0.15), rgba(16, 185, 129, 0.08));
+            border: 1px solid rgba(34, 211, 153, 0.3);
+            border-left: 4px solid #10b981;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 8px 0;
+            color: #065f46;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+            animation: slideInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .done-message::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .done-message:hover {
+            transform: translateX(4px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.2);
+            border-color: rgba(34, 211, 153, 0.4);
+        }
+
+        .done-message:hover::before {
+            opacity: 1;
+        }
+
+        .done-message .done-icon {
+            font-size: 18px;
+            color: #10b981;
+            text-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        .done-message .done-text {
+            flex: 1;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .suggestion-message {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(34, 211, 238, 0.08));
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-left: 4px solid #3b82f6;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 8px 0;
+            color: #1e40af;
+            font-weight: 500;
+            font-size: 14px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+            animation: slideInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .suggestion-message::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .suggestion-message:hover {
+            transform: translateX(4px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+
+        .suggestion-message:hover::before {
+            opacity: 1;
+        }
+
+        .suggestion-message .suggestion-icon {
+            font-size: 18px;
+            color: #3b82f6;
+            text-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .suggestion-message .suggestion-content {
+            flex: 1;
+        }
+
+        .suggestion-message .suggestion-label {
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .suggestion-message .suggestion-text {
+            font-weight: 500;
+            line-height: 1.5;
+            opacity: 0.9;
+        }
+
+        .console-welcome {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .welcome-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #3b82f6;
+        }
+
+        .welcome-content h4 {
+            color: #1f2937;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .welcome-content p {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .print-output-line {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin: 4px 0;
+            font-family: 'Fira Code', 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #1f2937;
+            transition: all 0.3s ease;
+        }
+
+        .print-output-line:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-color: rgba(59, 130, 246, 0.2);
+        }
+
+        @keyframes container-slide-in {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Enhanced Console Design Test</h1>
+        
+        <div class="test-section">
+            <div class="section-title">Simplified Console Structure</div>
+            <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 20px;">
+                Now using only the <code>print-output-container</code> with enhanced Done and Suggestion messages!
+            </p>
+            
+            <div class="test-buttons">
+                <button class="test-btn" onclick="addDoneMessage()">Add Done Message</button>
+                <button class="test-btn" onclick="addSuggestionMessage()">Add Suggestion</button>
+                <button class="test-btn" onclick="addOutputLine()">Add Output Line</button>
+                <button class="test-btn" onclick="clearConsole()">Clear Console</button>
+            </div>
+            
+            <!-- Enhanced Print Output Container -->
+            <div class="print-output-container" id="console">
+                <div class="print-output-header">
+                    <div class="print-output-title">
+                        <i class="ri-terminal-line">⚡</i>
+                        <span>Output Console</span>
+                    </div>
+                    <div class="print-output-controls">
+                        <button class="btn" onclick="clearConsole()" title="Clear Output">🗑️</button>
+                        <button class="btn" onclick="copyOutput()" title="Copy Output">📋</button>
+                        <button class="btn" onclick="saveOutput()" title="Save Output">💾</button>
+                    </div>
+                </div>
+                <div class="print-output-content">
+                    <div class="console-welcome">
+                        <div class="welcome-icon">🚀</div>
+                        <div class="welcome-content">
+                            <h4>Welcome to Enhanced Console</h4>
+                            <p>Clean, tidy design with only print-output-container!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function addDoneMessage() {
+            const content = document.querySelector('.print-output-content');
+            const doneMessage = document.createElement('div');
+            doneMessage.className = 'done-message';
+            doneMessage.innerHTML = `
+                <i class="done-icon">✅</i>
+                <span class="done-text">Done</span>
+            `;
+            content.appendChild(doneMessage);
+            content.scrollTop = content.scrollHeight;
+        }
+
+        function addSuggestionMessage() {
+            const content = document.querySelector('.print-output-content');
+            const suggestions = [
+                "Try using 'const' instead of 'var' for better variable scoping",
+                "Consider adding error handling with try-catch blocks",
+                "Use meaningful variable names to improve code readability",
+                "Add comments to explain complex logic sections"
+            ];
+            const randomSuggestion = suggestions[Math.floor(Math.random() * suggestions.length)];
+            
+            const suggestionMessage = document.createElement('div');
+            suggestionMessage.className = 'suggestion-message';
+            suggestionMessage.innerHTML = `
+                <i class="suggestion-icon">💡</i>
+                <div class="suggestion-content">
+                    <span class="suggestion-label">Suggestion</span>
+                    <span class="suggestion-text">${randomSuggestion}</span>
+                </div>
+            `;
+            content.appendChild(suggestionMessage);
+            content.scrollTop = content.scrollHeight;
+        }
+
+        function addOutputLine() {
+            const content = document.querySelector('.print-output-content');
+            const outputLines = [
+                "Hello, World!",
+                "Variable x = 42",
+                "Loop iteration: 1",
+                "Processing data...",
+                "Result: Success",
+                "Error: Division by zero",
+                "Debug: Current value = 100"
+            ];
+            const randomLine = outputLines[Math.floor(Math.random() * outputLines.length)];
+            
+            const line = document.createElement('div');
+            line.className = 'print-output-line';
+            line.textContent = randomLine;
+            content.appendChild(line);
+            content.scrollTop = content.scrollHeight;
+        }
+
+        function clearConsole() {
+            const content = document.querySelector('.print-output-content');
+            content.innerHTML = `
+                <div class="console-welcome">
+                    <div class="welcome-icon">🚀</div>
+                    <div class="welcome-content">
+                        <h4>Welcome to Enhanced Console</h4>
+                        <p>Clean, tidy design with only print-output-container!</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function copyOutput() {
+            const content = document.querySelector('.print-output-content');
+            const text = content.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Console output copied to clipboard!');
+            });
+        }
+
+        function saveOutput() {
+            const content = document.querySelector('.print-output-content');
+            const text = content.innerText;
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `console-output-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Add some sample messages on load
+        setTimeout(() => {
+            addOutputLine();
+            addDoneMessage();
+            addSuggestionMessage();
+        }, 1000);
+    </script>
+</body>
+</html>

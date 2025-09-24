@@ -25,6 +25,13 @@ body {
   background-color: var(--bg-primary);
   transition: background-color var(--duration-normal) var(--ease-in-out),
               color var(--duration-normal) var(--ease-in-out);
+  /* Hardware acceleration */
+  transform: translateZ(0);
+  will-change: transform;
+  contain: layout style paint;
+  -webkit-transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000;
 }
 
 /* ===== TYPOGRAPHY ===== */

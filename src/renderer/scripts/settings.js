@@ -1209,7 +1209,7 @@ class SettingsManager {
     // Apply console height
     applyConsoleHeight(height) {
         if (this.isOnMainPage()) {
-            const consoleContent = document.querySelector('.console-content');
+            const consoleContent = document.querySelector('.console-container');
             if (consoleContent) {
                 consoleContent.style.height = `${height}px`;
             }

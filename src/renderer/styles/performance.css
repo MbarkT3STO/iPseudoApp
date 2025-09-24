@@ -8,10 +8,36 @@
 .editor-container,
 .console-container,
 .top-nav,
-.tabs-container {
+.tabs-container,
+.print-output-container,
+.main-content,
+body,
+html {
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000;
   will-change: transform;
+  contain: layout style paint;
+}
+
+/* Disable hardware acceleration when setting is off */
+.no-hardware-acceleration .btn,
+.no-hardware-acceleration .tab,
+.no-hardware-acceleration .editor-container,
+.no-hardware-acceleration .console-container,
+.no-hardware-acceleration .top-nav,
+.no-hardware-acceleration .tabs-container,
+.no-hardware-acceleration .print-output-container,
+.no-hardware-acceleration .main-content,
+.no-hardware-acceleration body,
+.no-hardware-acceleration html {
+  transform: none !important;
+  -webkit-transform: none !important;
+  -webkit-backface-visibility: visible !important;
+  -webkit-perspective: none !important;
+  will-change: auto !important;
+  contain: none !important;
 }
 
 /* ===== OPTIMIZED ANIMATIONS ===== */
@@ -58,11 +84,18 @@
 
 /* ===== EFFICIENT SCROLLING ===== */
 /* Optimize scroll performance */
-.console-content,
+.console-container,
+.console-output,
 .editor-content,
-.modal-body {
+.modal-body,
+.print-output-content {
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
+  /* Hardware acceleration for scrolling */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: scroll-position;
+  contain: layout style paint;
 }
 
 /* ===== OPTIMIZED TRANSITIONS ===== */
@@ -238,5 +271,64 @@ img {
     margin: 0 !important;
     border: 1px solid #ddd !important;
     box-shadow: none !important;
+  }
+}
+
+/* ===== MONACO EDITOR OPTIMIZATIONS ===== */
+/* Optimize Monaco editor performance */
+.monaco-editor,
+.monaco-editor .view-lines,
+.monaco-editor .view-line,
+.monaco-editor .cursors-layer,
+.monaco-editor .lines-content {
+  contain: layout style paint;
+  will-change: transform;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000;
+}
+
+/* Optimize Monaco editor scrolling */
+.monaco-editor .scrollable {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: scroll-position;
+}
+
+/* ===== ANIMATION PERFORMANCE ===== */
+/* Optimize all animations for 60fps */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) translateZ(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) translateZ(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateZ(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateZ(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1) translateZ(0);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05) translateZ(0);
   }
 }

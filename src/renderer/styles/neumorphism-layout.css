@@ -576,28 +576,45 @@
 .console-content {
   flex: 1;
   padding: var(--space-soft-4);
-  overflow-y: auto;
-  background: var(--bg-soft-elevated);
+  overflow: hidden;
+  background: transparent;
   transition: all var(--duration-soft-normal) var(--ease-soft-out);
   border-radius: 0 0 var(--radius-soft-lg) var(--radius-soft-lg);
   min-height: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== CONSOLE CONTAINER ===== */
+.console-container {
+  font-family: var(--font-family-mono-soft);
+  background: var(--bg-soft-elevated);
+  border-radius: var(--radius-soft-lg);
+  box-shadow: var(--shadow-soft-inset);
+  border: 1px solid var(--border-soft-light);
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.console-container:hover {
+  box-shadow: 
+    var(--shadow-soft-inset),
+    0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: var(--soft-blue-300);
 }
 
 /* ===== CONSOLE OUTPUT ===== */
 .console-output {
-  font-family: var(--font-family-mono-soft);
   font-size: var(--console-font-size, var(--font-size-soft-sm));
   line-height: 1.6;
   color: var(--text-soft-primary);
-  background: var(--bg-soft-elevated);
-  border-radius: var(--radius-soft-md);
+  background: transparent;
   padding: var(--space-soft-4);
-  margin: var(--space-soft-2) 0;
-  box-shadow: var(--shadow-soft-inset);
-  border: 1px solid var(--border-soft-light);
   position: relative;
   overflow-y: auto;
-  max-height: 400px;
+  height: 100%;
   scrollbar-width: thin;
   scrollbar-color: var(--soft-blue-500) transparent;
 }

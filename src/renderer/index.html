@@ -210,8 +210,25 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="console-content">
-                                    <div class="console-output" id="output">
+                                <div class="print-output-container" id="output">
+                                    <div class="print-output-header">
+                                        <div class="print-output-title">
+                                            <i class="ri-terminal-line"></i>
+                                            <span>Output Console</span>
+                                        </div>
+                                        <div class="print-output-controls">
+                                            <button class="btn btn-sm btn-ghost" id="clearConsole" title="Clear Output">
+                                                <i class="ri-delete-bin-line"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-ghost" id="btnCopyOutput" title="Copy Output">
+                                                <i class="ri-file-copy-line"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-ghost" id="btnSaveOutput" title="Save Output">
+                                                <i class="ri-save-line"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="print-output-content">
                                         <div class="console-welcome">
                                             <div class="welcome-icon">
                                                 <i class="ri-code-s-slash-line"></i>
@@ -295,8 +312,25 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="console-content">
-                                    <div class="console-output" id="outputSide">
+                                <div class="print-output-container" id="outputSide">
+                                    <div class="print-output-header">
+                                        <div class="print-output-title">
+                                            <i class="ri-terminal-line"></i>
+                                            <span>Output Console</span>
+                                        </div>
+                                        <div class="print-output-controls">
+                                            <button class="btn btn-sm btn-ghost" id="clearConsoleSide" title="Clear Output">
+                                                <i class="ri-delete-bin-line"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-ghost" id="btnCopyOutputSide" title="Copy Output">
+                                                <i class="ri-file-copy-line"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-ghost" id="btnSaveOutputSide" title="Save Output">
+                                                <i class="ri-save-line"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="print-output-content">
                                         <div class="console-welcome">
                                             <div class="welcome-icon">
                                                 <i class="ri-code-s-slash-line"></i>
@@ -673,6 +707,14 @@
                                     <span class="toggle-slider"></span>
                                     <span class="toggle-label">Glass Effects</span>
                                 </label>
+                            </div>
+                            <div class="setting-item">
+                                <label class="setting-toggle">
+                                    <input type="checkbox" id="hardwareAcceleration" class="toggle-input" checked>
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label">Hardware Acceleration</span>
+                                </label>
+                                <p class="setting-description">Use GPU acceleration for better performance</p>
                             </div>
                         </div>
                     </div>
