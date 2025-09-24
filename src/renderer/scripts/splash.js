@@ -1,7 +1,7 @@
-// ===== MODERN SPLASH SCREEN SCRIPT =====
-// Beautiful, modern splash screen with glass morphism and advanced animations
+// ===== MODERN EDITOR-THEMED SPLASH SCREEN =====
+// Beautiful, modern splash screen with code editor aesthetics and pseudocode animations
 
-class ModernSplashScreen {
+class ModernEditorSplashScreen {
     constructor() {
         this.progressFill = document.querySelector('.progress-fill');
         this.progressShimmer = document.querySelector('.progress-shimmer');
@@ -17,15 +17,21 @@ class ModernSplashScreen {
         this.animations = {
             isRunning: false,
             startTime: null,
-            duration: 4000 // 4 seconds total
+            duration: 5000 // 5 seconds total for editor loading
         };
+        
+        // Code animation elements
+        this.codeLines = document.querySelectorAll('.code-line');
+        this.syntaxElements = document.querySelectorAll('.syntax-element');
+        this.cursor = document.querySelector('.typing-cursor');
         
         this.init();
     }
 
     init() {
         this.detectAndApplyTheme();
-        this.setupModernAnimations();
+        this.setupEditorAnimations();
+        this.setupCodeTypingEffect();
         this.setupLoadingSequence();
         this.setupInteractions();
         this.startProgressAnimation();
@@ -82,9 +88,15 @@ class ModernSplashScreen {
         if (this.debug) console.log(`🎨 Applied theme: ${theme}`);
     }
 
-    setupModernAnimations() {
+    setupEditorAnimations() {
         // Add floating code elements animation
         this.animateCodeElements();
+        
+        // Add syntax highlighting animation
+        this.animateSyntaxHighlighting();
+        
+        // Add cursor blinking effect
+        this.setupCursorAnimation();
         
         // Add mouse interaction effects
         this.setupMouseEffects();
@@ -97,21 +109,81 @@ class ModernSplashScreen {
     }
 
     animateCodeElements() {
-        const codeElements = document.querySelectorAll('.code-element');
-        
-        codeElements.forEach((element, index) => {
+        this.codeLines.forEach((line, index) => {
             // Add random movement
             setInterval(() => {
                 if (this.isComplete) return;
                 
-                const randomX = (Math.random() - 0.5) * 20;
-                const randomY = (Math.random() - 0.5) * 20;
-                const randomRotation = (Math.random() - 0.5) * 10;
+                const randomX = (Math.random() - 0.5) * 15;
+                const randomY = (Math.random() - 0.5) * 15;
+                const randomRotation = (Math.random() - 0.5) * 5;
+                
+                line.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRotation}deg)`;
+                line.style.transition = 'transform 3s ease-in-out';
+            }, 4000 + index * 600);
+        });
+    }
+
+    animateSyntaxHighlighting() {
+        this.syntaxElements.forEach((element, index) => {
+            // Add random movement and color changes
+            setInterval(() => {
+                if (this.isComplete) return;
+                
+                const randomX = (Math.random() - 0.5) * 30;
+                const randomY = (Math.random() - 0.5) * 30;
+                const randomRotation = (Math.random() - 0.5) * 15;
                 
                 element.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRotation}deg)`;
                 element.style.transition = 'transform 2s ease-in-out';
-            }, 3000 + index * 500);
+                
+                // Random color changes
+                const colors = ['#ff7b72', '#a5d6ff', '#d2a8ff', '#79c0ff', '#f2cc60'];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                element.style.color = randomColor;
+            }, 3000 + index * 400);
         });
+    }
+
+    setupCursorAnimation() {
+        if (!this.cursor) return;
+        
+        // Add typing effect to cursor
+        setInterval(() => {
+            if (this.isComplete) return;
+            
+            this.cursor.style.animation = 'none';
+            setTimeout(() => {
+                this.cursor.style.animation = 'cursorBlink 1s ease-in-out infinite';
+            }, 10);
+        }, 2000);
+    }
+
+    setupCodeTypingEffect() {
+        // Simulate typing effect on code lines
+        this.codeLines.forEach((line, index) => {
+            const codeContent = line.querySelector('.code-content');
+            if (!codeContent) return;
+            
+            const originalText = codeContent.textContent;
+            codeContent.textContent = '';
+            
+            setTimeout(() => {
+                this.typeText(codeContent, originalText, 50);
+            }, 1000 + index * 200);
+        });
+    }
+
+    typeText(element, text, speed) {
+        let i = 0;
+        const timer = setInterval(() => {
+            if (i < text.length) {
+                element.textContent += text.charAt(i);
+                i++;
+            } else {
+                clearInterval(timer);
+            }
+        }, speed);
     }
 
     setupMouseEffects() {
@@ -125,57 +197,51 @@ class ModernSplashScreen {
             mouseX = e.clientX / window.innerWidth;
             mouseY = e.clientY / window.innerHeight;
             
-            // Move glass orbs based on mouse position
-            this.updateOrbPositions(mouseX, mouseY);
-            
-            // Add subtle parallax to code elements
+            // Move code elements based on mouse position
             this.updateCodeElementParallax(mouseX, mouseY);
+            
+            // Add subtle parallax to syntax elements
+            this.updateSyntaxElementParallax(mouseX, mouseY);
         });
         
         container.addEventListener('mouseleave', () => {
             // Reset positions
-            this.resetOrbPositions();
             this.resetCodeElementPositions();
-        });
-    }
-
-    updateOrbPositions(mouseX, mouseY) {
-        const orbs = document.querySelectorAll('.glass-orb');
-        
-        orbs.forEach((orb, index) => {
-            const speed = (index + 1) * 0.1;
-            const x = (mouseX - 0.5) * speed * 50;
-            const y = (mouseY - 0.5) * speed * 50;
-            
-            orb.style.transform = `translate(${x}px, ${y}px)`;
-            orb.style.transition = 'transform 0.3s ease-out';
+            this.resetSyntaxElementPositions();
         });
     }
 
     updateCodeElementParallax(mouseX, mouseY) {
-        const codeElements = document.querySelectorAll('.code-element');
-        
-        codeElements.forEach((element, index) => {
+        this.codeLines.forEach((element, index) => {
             const speed = (index + 1) * 0.05;
-            const x = (mouseX - 0.5) * speed * 30;
-            const y = (mouseY - 0.5) * speed * 30;
+            const x = (mouseX - 0.5) * speed * 20;
+            const y = (mouseY - 0.5) * speed * 20;
+            
+            element.style.transform = `translate(${x}px, ${y}px)`;
+            element.style.transition = 'transform 0.3s ease-out';
+        });
+    }
+
+    updateSyntaxElementParallax(mouseX, mouseY) {
+        this.syntaxElements.forEach((element, index) => {
+            const speed = (index + 1) * 0.08;
+            const x = (mouseX - 0.5) * speed * 25;
+            const y = (mouseY - 0.5) * speed * 25;
             
             element.style.transform = `translate(${x}px, ${y}px)`;
             element.style.transition = 'transform 0.2s ease-out';
         });
     }
 
-    resetOrbPositions() {
-        const orbs = document.querySelectorAll('.glass-orb');
-        orbs.forEach(orb => {
-            orb.style.transform = '';
-            orb.style.transition = 'transform 0.5s ease-out';
+    resetCodeElementPositions() {
+        this.codeLines.forEach(element => {
+            element.style.transform = '';
+            element.style.transition = 'transform 0.5s ease-out';
         });
     }
 
-    resetCodeElementPositions() {
-        const codeElements = document.querySelectorAll('.code-element');
-        codeElements.forEach(element => {
+    resetSyntaxElementPositions() {
+        this.syntaxElements.forEach(element => {
             element.style.transform = '';
             element.style.transition = 'transform 0.5s ease-out';
         });
@@ -200,14 +266,14 @@ class ModernSplashScreen {
 
     setupLoadingSequence() {
         const loadingSteps = [
-            { progress: 10, status: 'Initializing core systems...', step: 0, delay: 400 },
-            { progress: 25, status: 'Loading Monaco Editor...', step: 0, delay: 600 },
-            { progress: 40, status: 'Setting up code execution engine...', step: 1, delay: 500 },
-            { progress: 55, status: 'Initializing console system...', step: 1, delay: 400 },
-            { progress: 70, status: 'Loading user preferences...', step: 2, delay: 300 },
-            { progress: 85, status: 'Preparing interface components...', step: 2, delay: 300 },
-            { progress: 95, status: 'Finalizing setup...', step: 3, delay: 200 },
-            { progress: 100, status: 'Ready to launch!', step: 3, delay: 500 }
+            { progress: 15, status: 'Initializing syntax engine...', step: 0, delay: 600 },
+            { progress: 30, status: 'Loading pseudocode parser...', step: 0, delay: 500 },
+            { progress: 45, status: 'Setting up execution environment...', step: 1, delay: 600 },
+            { progress: 60, status: 'Initializing runtime engine...', step: 1, delay: 500 },
+            { progress: 75, status: 'Loading theme system...', step: 2, delay: 400 },
+            { progress: 85, status: 'Preparing editor components...', step: 2, delay: 400 },
+            { progress: 95, status: 'Finalizing IDE setup...', step: 3, delay: 300 },
+            { progress: 100, status: 'Ready to code!', step: 3, delay: 500 }
         ];
 
         let currentIndex = 0;
@@ -230,7 +296,7 @@ class ModernSplashScreen {
         };
 
         // Start progress updates after initial delay
-        setTimeout(updateProgress, 1000);
+        setTimeout(updateProgress, 1500);
     }
 
     updateProgressBar(progress) {
@@ -251,7 +317,7 @@ class ModernSplashScreen {
     addProgressGlow(progress) {
         if (this.progressFill) {
             const intensity = progress / 100;
-            this.progressFill.style.boxShadow = `0 0 ${20 + intensity * 20}px rgba(14, 165, 233, ${0.3 + intensity * 0.3})`;
+            this.progressFill.style.boxShadow = `0 0 ${20 + intensity * 20}px rgba(59, 130, 246, ${0.3 + intensity * 0.3})`;
         }
     }
 
@@ -404,8 +470,8 @@ class ModernSplashScreen {
             background: var(--glass-bg);
             backdrop-filter: var(--glass-blur);
             border: 1px solid var(--glass-border);
-            border-radius: var(--radius-xl);
-            padding: var(--space-6);
+            border-radius: 12px;
+            padding: 2rem;
             box-shadow: var(--glass-shadow);
             animation: successMessage 1s ease-out 0.5s both;
         `;
@@ -424,10 +490,10 @@ class ModernSplashScreen {
         const container = document.querySelector('.splash-container');
         if (!container) return;
         
-        const celebrationEmojis = ['🎉', '✨', '🌟', '💫', '🎊', '⭐', '💖', '🚀'];
+        const celebrationEmojis = ['🎉', '✨', '🌟', '💫', '🎊', '⭐', '💖', '🚀', '💻', '⚡'];
         
         // Create burst of celebration emojis
-        for (let i = 0; i < 15; i++) {
+        for (let i = 0; i < 20; i++) {
             setTimeout(() => {
                 const emoji = document.createElement('div');
                 emoji.textContent = celebrationEmojis[Math.floor(Math.random() * celebrationEmojis.length)];
@@ -443,7 +509,7 @@ class ModernSplashScreen {
                 `;
                 
                 // Random direction for burst effect
-                const angle = (i / 15) * 360;
+                const angle = (i / 20) * 360;
                 const distance = 150 + Math.random() * 100;
                 const x = Math.cos(angle * Math.PI / 180) * distance;
                 const y = Math.sin(angle * Math.PI / 180) * distance;
@@ -472,10 +538,10 @@ class ModernSplashScreen {
         canvas.height = window.innerHeight;
         
         const confettiPieces = [];
-        const colors = ['#0ea5e9', '#a855f7', '#22c55e', '#f59e0b', '#ef4444'];
+        const colors = ['#3b82f6', '#8b5cf6', '#06b6d4', '#10b981', '#f59e0b', '#ef4444'];
         
         // Create confetti pieces
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 60; i++) {
             confettiPieces.push({
                 x: Math.random() * canvas.width,
                 y: -10,
@@ -581,10 +647,10 @@ style.textContent = `
     
     @keyframes logoGlow {
         0%, 100% { 
-            filter: drop-shadow(0 0 20px rgba(14, 165, 233, 0.3));
+            filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.3));
         }
         50% { 
-            filter: drop-shadow(0 0 40px rgba(14, 165, 233, 0.6));
+            filter: drop-shadow(0 0 40px rgba(59, 130, 246, 0.6));
         }
     }
 `;
@@ -592,18 +658,18 @@ document.head.appendChild(style);
 
 // Initialize splash screen when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🚀 Splash screen DOM loaded, initializing...');
-    window.splashInstance = new ModernSplashScreen();
-    console.log('✅ Splash screen initialized');
+    console.log('🚀 Editor splash screen DOM loaded, initializing...');
+    window.splashInstance = new ModernEditorSplashScreen();
+    console.log('✅ Editor splash screen initialized');
 });
 
 // Handle window close
 window.addEventListener('beforeunload', () => {
     // Clean up any ongoing animations
-    document.querySelectorAll('.glass-orb, .code-element, .grid-line').forEach(el => {
+    document.querySelectorAll('.code-line, .syntax-element, .cursor-line').forEach(el => {
         el.style.animation = 'none';
     });
 });
 
 // Export for global access
-window.ModernSplashScreen = ModernSplashScreen;
+window.ModernEditorSplashScreen = ModernEditorSplashScreen;
