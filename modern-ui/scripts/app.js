@@ -732,12 +732,25 @@ document.addEventListener('DOMContentLoaded', () => {
         const printContent = document.querySelector('.print-output-content');
         if (!printContent)
             return;
-        const messages = printContent.querySelectorAll('.print-output-line, .done-message, .suggestion-message, .console-message');
-        if (messages.length > MAX_CONSOLE_MESSAGES) {
-            const messagesToRemove = messages.length - MAX_CONSOLE_MESSAGES;
+        const messages = printContent.querySelectorAll('.done-message, .suggestion-message, .console-message');
+        const pseudoContainer = printContent.querySelector('.pseudo-output-container');
+        const pseudoLines = pseudoContainer ? pseudoContainer.querySelectorAll('.print-output-line') : [];
+        const totalMessages = messages.length + pseudoLines.length;
+        if (totalMessages > MAX_CONSOLE_MESSAGES) {
+            const messagesToRemove = totalMessages - MAX_CONSOLE_MESSAGES;
             console.log(`Cleaning up ${messagesToRemove} old messages for performance`);
-            // Remove oldest messages (keep the most recent ones)
-            for (let i = 0; i < messagesToRemove; i++) {
+            
+            // First remove old pseudo lines if needed
+            if (pseudoLines.length > 0 && messagesToRemove > 0) {
+                const pseudoLinesToRemove = Math.min(messagesToRemove, pseudoLines.length);
+                for (let i = 0; i < pseudoLinesToRemove; i++) {
+                    pseudoLines[i].remove();
+                }
+            }
+            
+            // Then remove old messages if still needed
+            const remainingToRemove = messagesToRemove - (pseudoLines.length > 0 ? Math.min(messagesToRemove, pseudoLines.length) : 0);
+            for (let i = 0; i < remainingToRemove; i++) {
                 if (messages[i] && !messages[i].classList.contains('console-welcome')) {
                     messages[i].remove();
                 }
@@ -2655,6 +2668,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 printContent.className = 'print-output-content';
                 outputConsole.appendChild(printContent);
             }
+            // Get or create the single pseudo output container
+            let pseudoContainer = printContent.querySelector('.pseudo-output-container');
+            if (!pseudoContainer) {
+                // Create the single container for all pseudo code outputs
+                pseudoContainer = document.createElement('div');
+                pseudoContainer.className = 'pseudo-output-container';
+                printContent.appendChild(pseudoContainer);
+            }
+            
             const line = document.createElement('div');
             line.className = 'print-output-line';
             // Apply current font size setting
@@ -2667,7 +2689,10 @@ document.addEventListener('DOMContentLoaded', () => {
             line.setAttribute('data-line-number', lineCount.toString());
             // Use textContent to avoid any HTML processing
             line.textContent = safe;
-            printContent.appendChild(line);
+            pseudoContainer.appendChild(line);
+            
+            // Auto-scroll to bottom of pseudo container
+            pseudoContainer.scrollTop = pseudoContainer.scrollHeight;
             updateConsoleStats('info');
             // Performance optimization: batch DOM updates
             if (consoleMessageCount % 10 === 0) {
