@@ -21,6 +21,9 @@
     <link rel="stylesheet" href="styles/modern-components.css">
     <link rel="stylesheet" href="styles/modern-layout.css">
     <link rel="stylesheet" href="styles/modern-theme.css">
+    
+    <!-- Simple Tooltip System -->
+    <script src="scripts/simple-tooltip.js"></script>
 </head>
 <body>
     <div class="modern-app-container">
@@ -59,49 +62,48 @@
                 
                 <!-- Modern File Actions -->
                 <div class="file-actions">
-                    <button class="modern-btn modern-btn-icon" id="btnNew" title="New File">
+                    <button class="modern-btn modern-btn-icon" id="btnNew" aria-label="New File">
                         <i class="ri-add-line"></i>
                     </button>
-                    <button class="modern-btn modern-btn-primary" id="btnOpen" title="Open File">
+                    <button class="modern-btn modern-btn-primary" id="btnOpen" aria-label="Open File">
                         <i class="ri-folder-open-line"></i>
-                        <span>Open</span>
                     </button>
-                    <button class="modern-btn modern-btn-secondary" id="btnSave" title="Save File">
+                    <button class="modern-btn modern-btn-secondary" id="btnSave" aria-label="Save File">
                         <i class="ri-save-line"></i>
-                        <span>Save</span>
                     </button>
                 </div>
             </div>
             
             <div class="nav-right">
                 <!-- Modern Run Button -->
-                <button class="modern-btn modern-btn-run" id="btnRun" title="Run Code (Ctrl+Enter)">
+                <button class="modern-btn modern-btn-run" id="btnRun"Run Code (Ctrl+Enter)">
                     <i class="ri-play-line"></i>
                     <span>Run</span>
                 </button>
                 
                 <!-- Stop Button -->
-                <button class="modern-btn modern-btn-stop" id="btnStop" title="Stop Execution">
+                <button class="modern-btn modern-btn-stop" id="btnStop">
                     <i class="ri-stop-line"></i>
+                    <span>Stop</span>
                 </button>
                 
                 <!-- Modern Theme Toggle -->
-                <button class="modern-btn modern-btn-icon" id="btnThemeToggle" title="Toggle Theme">
+                <button class="modern-btn modern-btn-icon" id="btnThemeToggle" aria-label="Toggle Theme">
                     <i class="ri-contrast-2-line"></i>
                 </button>
                 
                 <!-- Layout Toggle -->
-                <button class="modern-btn modern-btn-icon" id="layoutToggle" title="Toggle Layout">
+                <button class="modern-btn modern-btn-icon" id="layoutToggle" aria-label="Toggle Layout">
                     <i class="ri-layout-column-line" id="layoutIcon"></i>
                 </button>
                 
                 <!-- Classic UI Switch Button -->
-                <button class="modern-btn modern-btn-icon" id="btnClassicUI" title="Switch to Classic UI">
+                <button class="modern-btn modern-btn-icon" id="btnClassicUI" aria-label="Switch to Classic UI">
                     <i class="ri-palette-2-line"></i>
                 </button>
                 
                 <!-- Modern Settings Button -->
-                <button class="modern-btn modern-btn-icon" id="btnSettings" title="Settings">
+                <button class="modern-btn modern-btn-icon" id="btnSettings" aria-label="Settings">
                     <i class="ri-settings-3-line"></i>
                 </button>
             </div>
@@ -116,7 +118,7 @@
                 </div>
                 <div class="tabs-controls">
                     <div class="tab-counter" id="tabCounter">1/3</div>
-                    <button class="modern-btn modern-btn-icon" id="btnNewTab" title="New Tab">
+                    <button class="modern-btn modern-btn-icon" id="btnNewTab" aria-label="New Tab">
                         <i class="ri-add-line"></i>
                     </button>
                 </div>
@@ -151,15 +153,15 @@
                                         <div class="modern-badge modern-badge-primary">Live</div>
                                     </div>
                                     <div class="editor-actions">
-                                        <button class="modern-btn modern-btn-sm" id="btnFormat" title="Format Code">
+                                        <button class="modern-btn modern-btn-sm" id="btnFormat"Format Code">
                                             <i class="ri-code-s-slash-line"></i>
                                             <span class="sm:block">Format</span>
                                         </button>
-                                        <button class="modern-btn modern-btn-sm" id="btnMinimap" title="Toggle Minimap">
+                                        <button class="modern-btn modern-btn-sm" id="btnMinimap"Toggle Minimap">
                                             <i class="ri-map-line"></i>
                                             <span class="sm:block">Minimap</span>
                                         </button>
-                                        <button class="modern-btn modern-btn-sm" id="btnWordWrap" title="Toggle Word Wrap">
+                                        <button class="modern-btn modern-btn-sm" id="btnWordWrap"Toggle Word Wrap">
                                             <i class="ri-text-wrap"></i>
                                             <span class="sm:block">Wrap</span>
                                         </button>
@@ -192,15 +194,15 @@
                                             </div>
                                         </div>
                                         <div class="console-controls">
-                                            <button class="modern-btn modern-btn-sm" id="clearConsole" title="Clear Output">
+                                            <button class="modern-btn modern-btn-sm" id="clearConsole"Clear Output">
                                                 <i class="ri-delete-bin-line"></i>
                                                 <span class="sm:block">Clear</span>
                                             </button>
-                                            <button class="modern-btn modern-btn-sm" id="btnCopyOutput" title="Copy Output">
+                                            <button class="modern-btn modern-btn-sm" id="btnCopyOutput"Copy Output">
                                                 <i class="ri-file-copy-line"></i>
                                                 <span class="sm:block">Copy</span>
                                             </button>
-                                            <button class="modern-btn modern-btn-sm" id="btnSaveOutput" title="Save Output">
+                                            <button class="modern-btn modern-btn-sm" id="btnSaveOutput"Save Output">
                                                 <i class="ri-save-line"></i>
                                                 <span class="sm:block">Save</span>
                                             </button>
@@ -214,13 +216,13 @@
                                             <span>Output Console</span>
                                         </div>
                                         <div class="print-output-controls">
-                                            <button class="modern-btn modern-btn-sm" id="clearConsole" title="Clear Output">
+                                            <button class="modern-btn modern-btn-sm" id="clearConsole"Clear Output">
                                                 <i class="ri-delete-bin-line"></i>
                                             </button>
-                                            <button class="modern-btn modern-btn-sm" id="btnCopyOutput" title="Copy Output">
+                                            <button class="modern-btn modern-btn-sm" id="btnCopyOutput"Copy Output">
                                                 <i class="ri-file-copy-line"></i>
                                             </button>
-                                            <button class="modern-btn modern-btn-sm" id="btnSaveOutput" title="Save Output">
+                                            <button class="modern-btn modern-btn-sm" id="btnSaveOutput"Save Output">
                                                 <i class="ri-save-line"></i>
                                             </button>
                                         </div>

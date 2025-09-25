@@ -618,7 +618,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (newButton) {
             const canCreate = canCreateNewTab();
             newButton.disabled = !canCreate;
-            newButton.title = canCreate ? 'New File' : `Maximum of ${getMaxTabs()} tabs allowed`;
+            // Title removed - using aria-label for tooltip
             if (!canCreate) {
                 newButton.classList.add('disabled');
             }
@@ -631,7 +631,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (newTabButton) {
             const canCreate = canCreateNewTab();
             newTabButton.disabled = !canCreate;
-            newTabButton.title = canCreate ? 'New Tab' : `Maximum of ${getMaxTabs()} tabs allowed`;
+            // Title removed - using aria-label for tooltip
             if (!canCreate) {
                 newTabButton.classList.add('disabled');
             }
@@ -3873,7 +3873,9 @@ document.addEventListener('DOMContentLoaded', () => {
         tab.innerHTML = `
             <span class="tab-label">${fileName}</span>
             <span class="dirty-indicator" aria-hidden="true"></span>
-            <button class="modern-tab-close" data-tab-id="${tabId}" title="Close">✕</button>
+            <button class="modern-btn modern-btn-icon modern-tab-close" data-tab-id="${tabId}" aria-label="Close">
+                <i class="ri-close-line"></i>
+            </button>
         `;
         // Insert the new tab at the end of the tabs track
         tabBar.appendChild(tab);
@@ -4504,7 +4506,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (newButton) {
                 const canCreate = canCreateNewTab();
                 newButton.disabled = !canCreate;
-                newButton.title = canCreate ? 'New File' : `Maximum of ${getMaxTabs()} tabs allowed`;
+                // Title removed - using aria-label for tooltip
                 if (!canCreate) {
                     newButton.classList.add('disabled');
                 }
@@ -4535,7 +4537,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (newTabButton) {
                 const canCreate = canCreateNewTab();
                 newTabButton.disabled = !canCreate;
-                newTabButton.title = canCreate ? 'New Tab' : `Maximum of ${getMaxTabs()} tabs allowed`;
+                // Title removed - using aria-label for tooltip
                 if (!canCreate) {
                     newTabButton.classList.add('disabled');
                 }
