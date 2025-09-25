@@ -4165,53 +4165,18 @@ document.addEventListener('DOMContentLoaded', () => {
         // Create modal overlay
         const modalOverlay = document.createElement('div');
         modalOverlay.className = 'confirmation-modal-overlay';
-        modalOverlay.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            backdrop-filter: blur(4px);
-        `;
+        // Modal overlay uses CSS classes now
         
         // Create modal content
         const modal = document.createElement('div');
         modal.className = 'confirmation-modal';
-        modal.style.cssText = `
-            background: var(--bg-soft-elevated);
-            border-radius: var(--radius-soft-lg);
-            padding: var(--space-soft-6);
-            max-width: 400px;
-            width: 90%;
-            box-shadow: var(--shadow-soft-floating);
-            border: 1px solid var(--border-soft-light);
-        `;
         
         modal.innerHTML = `
-            <div style="margin-bottom: var(--space-soft-4);">
-                <h3 style="margin: 0 0 var(--space-soft-2) 0; color: var(--text-soft-primary); font-size: var(--font-size-soft-lg); font-weight: var(--font-weight-soft-semibold);">${title}</h3>
-                <p style="margin: 0; color: var(--text-soft-secondary); font-size: var(--font-size-soft-sm); line-height: 1.4;">${message}</p>
-            </div>
-            <div style="display: flex; gap: var(--space-soft-3); justify-content: flex-end;">
+            <h3>${title}</h3>
+            <p>${message}</p>
+            <div class="confirmation-buttons">
                 ${buttons.map((btn, index) => `
-                    <button class="confirmation-btn ${btn.primary ? 'primary' : 'secondary'}" data-action="${index}" style="
-                        padding: var(--space-soft-2) var(--space-soft-4);
-                        border: none;
-                        border-radius: var(--radius-soft-sm);
-                        font-size: var(--font-size-soft-sm);
-                        font-weight: var(--font-weight-soft-medium);
-                        cursor: pointer;
-                        transition: all var(--duration-soft-normal) var(--ease-soft-out);
-                        ${btn.primary ? 
-                            'background: var(--text-soft-accent); color: var(--text-soft-inverse);' : 
-                            'background: var(--bg-soft-secondary); color: var(--text-soft-primary); border: 1px solid var(--border-soft-light);'
-                        }
-                    ">${btn.text}</button>
+                    <button class="confirmation-btn ${btn.primary ? 'primary' : 'secondary'}" data-action="${index}">${btn.text}</button>
                 `).join('')}
             </div>
         `;
