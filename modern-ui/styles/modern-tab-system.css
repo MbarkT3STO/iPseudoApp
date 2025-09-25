@@ -959,8 +959,7 @@
     flex-direction: column;
     opacity: 0;
     visibility: hidden;
-    transform: translateX(100%);
-    transition: all var(--duration-normal) var(--ease-in-out);
+    display: none;
     background: transparent;
     height: 100%;
     width: 100%;
@@ -969,7 +968,7 @@
 .tab-panel.active {
     opacity: 1;
     visibility: visible;
-    transform: translateX(0);
+    display: flex;
     position: relative;
 }
 

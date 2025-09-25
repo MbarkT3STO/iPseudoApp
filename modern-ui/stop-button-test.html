@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Context Menu Debug - iPseudo IDE</title>
+    <title>Stop Button Test - iPseudo IDE</title>
     
     <!-- Modern Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -73,6 +73,10 @@
                     <i class="ri-play-line"></i>
                     <span>Run</span>
                 </button>
+                <button class="modern-btn modern-btn-stop" id="btnStop" style="display: none;">
+                    <i class="ri-stop-line"></i>
+                    <span>Stop</span>
+                </button>
             </div>
         </header>
 
@@ -109,53 +113,64 @@
         </main>
     </div>
 
-    <!-- Debug Console -->
-    <div id="debug-console" style="position: fixed; bottom: 10px; left: 10px; background: rgba(0,0,0,0.8); color: white; padding: 10px; border-radius: 5px; font-family: monospace; font-size: 12px; max-width: 300px; max-height: 200px; overflow-y: auto; z-index: 10001;">
-        <div>Debug Console:</div>
-        <div id="debug-messages"></div>
+    <!-- Status Display -->
+    <div id="status-display" style="position: fixed; bottom: 10px; left: 10px; background: rgba(0,0,0,0.8); color: white; padding: 10px; border-radius: 5px; font-family: monospace; font-size: 12px; max-width: 300px; max-height: 200px; overflow-y: auto; z-index: 10001;">
+        <div><strong>Status Display:</strong></div>
+        <div id="status-messages"></div>
     </div>
 
-    <!-- Load the editor script -->
+    <!-- Load the scripts -->
     <script src="scripts/modern-editor.js"></script>
     <script src="scripts/modern-app.js"></script>
     
     <script>
-        // Debug logging
-        function debugLog(message) {
-            const debugConsole = document.getElementById('debug-messages');
+        // Status logging
+        function statusLog(message) {
+            const statusDisplay = document.getElementById('status-messages');
             const time = new Date().toLocaleTimeString();
-            debugConsole.innerHTML += `<div>[${time}] ${message}</div>`;
-            debugConsole.scrollTop = debugConsole.scrollHeight;
-            console.log(`[DEBUG] ${message}`);
+            statusDisplay.innerHTML += `<div>[${time}] ${message}</div>`;
+            statusDisplay.scrollTop = statusDisplay.scrollHeight;
+            console.log(`[STATUS] ${message}`);
         }
 
-        // Override console.log to also show in debug console
-        const originalLog = console.log;
-        console.log = function(...args) {
-            originalLog.apply(console, args);
-            if (args[0] && args[0].includes && args[0].includes('Context menu')) {
-                debugLog(args.join(' '));
-            }
-        };
+        // Monitor execution state changes
+        function monitorExecutionState() {
+            const stopButton = document.getElementById('btnStop');
+            const runButton = document.getElementById('btnRun');
+            
+            setInterval(() => {
+                const isExecuting = window.isExecuting || false;
+                const stopButtonVisible = stopButton && stopButton.style.display !== 'none';
+                
+                statusLog(`isExecuting: ${isExecuting}, Stop Button Visible: ${stopButtonVisible}`);
+                
+                // Test context menu
+                if (window.editor) {
+                    const editorContainer = document.getElementById('editor');
+                    if (editorContainer) {
+                        editorContainer.addEventListener('contextmenu', (e) => {
+                            e.preventDefault();
+                            statusLog('Right-click detected - checking context menu...');
+                            
+                            // Check if Stop command should be visible
+                            const contextMenu = document.getElementById('monaco-context-menu');
+                            if (contextMenu) {
+                                const stopItem = contextMenu.querySelector('[data-action="stop"]');
+                                statusLog(`Stop command in context menu: ${stopItem ? 'VISIBLE' : 'HIDDEN'}`);
+                            }
+                        });
+                    }
+                }
+            }, 2000);
+        }
 
-        // Test run button
-        document.getElementById('btnRun').addEventListener('click', () => {
-            debugLog('Run button clicked');
+        // Start monitoring when page loads
+        window.addEventListener('load', () => {
+            statusLog('Page loaded, starting execution state monitoring...');
+            monitorExecutionState();
         });
 
-        // Test right-click on editor container
-        document.getElementById('editor').addEventListener('contextmenu', (e) => {
-            debugLog('Right-click detected on editor container');
-        });
-
-        // Test right-click on document
-        document.addEventListener('contextmenu', (e) => {
-            if (e.target.closest('#editor')) {
-                debugLog('Right-click detected on editor area');
-            }
-        });
-
-        debugLog('Page loaded, try right-clicking in the editor');
+        statusLog('Test page loaded');
     </script>
 </body>
 </html>

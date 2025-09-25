@@ -60,6 +60,10 @@ function showMonacoContextMenu(e) {
     if (existingMenu) {
         existingMenu.remove();
     }
+    // Check if code is currently executing
+    const isExecuting = window.isExecuting || false;
+    const stopButton = document.getElementById('btnStop');
+    const isStopButtonVisible = stopButton && stopButton.style.display !== 'none';
     const menu = document.createElement('div');
     menu.id = 'monaco-context-menu';
     menu.className = 'context-menu';
@@ -96,11 +100,13 @@ function showMonacoContextMenu(e) {
             <span>Run Code</span>
             <span class="shortcut">F5</span>
         </div>
+        ${isExecuting || isStopButtonVisible ? `
         <div class="context-menu-item" data-action="stop">
             <i class="ri-stop-line"></i>
             <span>Stop Execution</span>
             <span class="shortcut">Ctrl+.</span>
         </div>
+        ` : ''}
     `;
     // Position menu
     menu.style.position = 'fixed';
