@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-transition theme-dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Context Menu Test - iPseudo IDE</title>
+    
+    <!-- Modern Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Modern Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <!-- Modern Styles -->
+    <link rel="stylesheet" href="styles/modern-design-tokens.css">
+    <link rel="stylesheet" href="styles/modern-base.css">
+    <link rel="stylesheet" href="styles/modern-components.css">
+    <link rel="stylesheet" href="styles/modern-layout.css">
+    <link rel="stylesheet" href="styles/modern-theme.css">
+    
+    <!-- Monaco Editor Setup -->
+    <script>
+        window.nodeRequire = window.require;
+        try { 
+            window.require = undefined; 
+            window.module = undefined; 
+            window.exports = undefined; 
+        } catch(e) {}
+    </script>
+    <script src="./monaco/vs/loader.js"></script>
+</head>
+<body>
+    <div class="modern-app-container">
+        <!-- Modern Top Navigation -->
+        <header class="modern-top-nav">
+            <div class="nav-left">
+                <!-- Modern App Brand -->
+                <a href="#" class="modern-app-brand" id="appBrand">
+                    <div class="brand-logo">
+                        <svg class="logo-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+                                    <stop offset="50%" style="stop-color:#8b5cf6;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+                                </linearGradient>
+                                <filter id="glow">
+                                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                    <feMerge> 
+                                        <feMergeNode in="coloredBlur"/>
+                                        <feMergeNode in="SourceGraphic"/>
+                                    </feMerge>
+                                </filter>
+                            </defs>
+                            <circle cx="20" cy="20" r="18" fill="url(#logoGradient)" filter="url(#glow)"/>
+                            <path d="M12 14L8 20L12 26" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+                            <path d="M28 14L32 20L28 26" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+                            <circle cx="20" cy="20" r="3" fill="white" opacity="0.95"/>
+                        </svg>
+                    </div>
+                    <div class="brand-text">
+                        <span class="brand-name">iPseudo</span>
+                        <span class="brand-ide">IDE</span>
+                    </div>
+                </a>
+            </div>
+            
+            <div class="nav-right">
+                <!-- Modern Run Button -->
+                <button class="modern-btn modern-btn-run" id="btnRun">
+                    <i class="ri-play-line"></i>
+                    <span>Run</span>
+                </button>
+                
+                <!-- Stop Button -->
+                <button class="modern-btn modern-btn-stop" id="btnStop" style="display: none;">
+                    <i class="ri-stop-line"></i>
+                    <span>Stop</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Modern Main Content -->
+        <main class="modern-main-content">
+            <!-- Modern Main Content Area -->
+            <div class="modern-content-area" id="mainContentArea">
+                <!-- Modern Tab System -->
+                <div class="modern-tab-system" id="tabLayout">
+                    <!-- Tab Navigation -->
+                    <div class="modern-tab-nav">
+                        <div class="tab-nav-item active" data-tab="editor" id="editorTab">
+                            <div class="tab-icon">
+                                <i class="ri-code-s-slash-line"></i>
+                            </div>
+                            <div class="tab-label">Editor</div>
+                            <div class="tab-indicator"></div>
+                        </div>
+                        <div class="tab-nav-item" data-tab="console" id="consoleTab">
+                            <div class="tab-icon">
+                                <i class="ri-terminal-box-line"></i>
+                            </div>
+                            <div class="tab-label">Console</div>
+                            <div class="tab-badge" id="consoleBadge" style="display: none;">0</div>
+                            <div class="tab-indicator"></div>
+                        </div>
+                    </div>
+
+                    <!-- Tab Panels Container -->
+                    <div class="modern-tab-panels">
+                        <!-- Editor Panel -->
+                        <div class="tab-panel active" id="editorContent">
+                            <div class="panel-header">
+                                <div class="panel-title">
+                                    <i class="ri-code-s-slash-line"></i>
+                                    <span>Code Editor</span>
+                                    <div class="modern-badge modern-badge-primary">Live</div>
+                                </div>
+                                <div class="panel-actions">
+                                    <button class="modern-btn modern-btn-sm" id="btnFormat" title="Format Code">
+                                        <i class="ri-code-s-slash-line"></i>
+                                        <span>Format</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="panel-content">
+                                <div id="editor" class="monaco-editor"></div>
+                            </div>
+                        </div>
+
+                        <!-- Console Panel -->
+                        <div class="tab-panel" id="consoleContent">
+                            <div class="panel-header">
+                                <div class="panel-title">
+                                    <i class="ri-terminal-box-line"></i>
+                                    <span>Output Console</span>
+                                    <div class="modern-badge modern-badge-ready" id="consoleStatusBadge">Ready</div>
+                                </div>
+                                <div class="panel-actions">
+                                    <div class="console-stats" id="consoleStats">
+                                        <div class="stat-item">
+                                            <i class="ri-message-3-line"></i>
+                                            <span id="messageCount">0</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="ri-time-line"></i>
+                                            <span id="executionTime">0ms</span>
+                                        </div>
+                                    </div>
+                                    <div class="console-controls">
+                                        <button class="modern-btn modern-btn-sm" id="clearConsole" title="Clear Output">
+                                            <i class="ri-delete-bin-line"></i>
+                                            <span>Clear</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-content">
+                                <div class="console-output" id="output">
+                                    <div class="console-welcome">
+                                        <div class="welcome-icon">
+                                            <i class="ri-code-s-slash-line"></i>
+                                        </div>
+                                        <div class="welcome-content">
+                                            <h4>Context Menu Test</h4>
+                                            <p>Right-click in the editor to see the context menu with Cut, Copy, Paste, and Run options!</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modern Scripts -->
+    <script src="scripts/modern-editor.ts"></script>
+    
+    <script>
+        // Simple test functionality
+        document.getElementById('btnRun').addEventListener('click', () => {
+            const output = document.getElementById('output');
+            const welcome = output.querySelector('.console-welcome');
+            if (welcome) {
+                welcome.innerHTML = `
+                    <div class="console-message console-success">
+                        <div class="message-icon">
+                            <i class="ri-check-line"></i>
+                        </div>
+                        <div class="message-text">
+                            <div class="message-timestamp">${new Date().toLocaleTimeString()}</div>
+                            <div>Code executed successfully! Context menu is working.</div>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+
+        document.getElementById('clearConsole').addEventListener('click', () => {
+            const output = document.getElementById('output');
+            output.innerHTML = `
+                <div class="console-welcome">
+                    <div class="welcome-icon">
+                        <i class="ri-code-s-slash-line"></i>
+                    </div>
+                    <div class="welcome-content">
+                        <h4>Context Menu Test</h4>
+                        <p>Right-click in the editor to see the context menu with Cut, Copy, Paste, and Run options!</p>
+                    </div>
+                </div>
+            `;
+        });
+    </script>
+</body>
+</html>

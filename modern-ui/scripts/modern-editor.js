@@ -3,23 +3,22 @@
 (() => {
     const href = window.location.href; // e.g. file:///.../dist/renderer/index.html
     const base = href.substring(0, href.lastIndexOf('/') + 1); // .../dist/renderer/
-    (window as any).require.config({
+    window.require.config({
         paths: {
             'vs': base + 'monaco/vs'
         }
     });
 })();
-
 // Fallback clipboard actions when Monaco commands fail
-function handleClipboardAction(action: string): void {
-    if (!window.editor) return;
-    
+function handleClipboardAction(action) {
+    if (!window.editor)
+        return;
     const selection = window.editor.getSelection();
-    if (!selection) return;
-    
+    if (!selection)
+        return;
     const model = window.editor.getModel();
-    if (!model) return;
-    
+    if (!model)
+        return;
     try {
         switch (action) {
             case 'cut':
@@ -27,9 +26,9 @@ function handleClipboardAction(action: string): void {
                     const selectedText = model.getValueInRange(selection);
                     navigator.clipboard.writeText(selectedText).then(() => {
                         window.editor.executeEdits('cut', [{
-                            range: selection,
-                            text: ''
-                        }]);
+                                range: selection,
+                                text: ''
+                            }]);
                     });
                 }
                 break;
@@ -42,27 +41,25 @@ function handleClipboardAction(action: string): void {
             case 'paste':
                 navigator.clipboard.readText().then(text => {
                     window.editor.executeEdits('paste', [{
-                        range: selection,
-                        text: text
-                    }]);
+                            range: selection,
+                            text: text
+                        }]);
                 });
                 break;
         }
-    } catch (error) {
+    }
+    catch (error) {
         console.error('Clipboard action failed:', action, error);
     }
 }
-
 // Monaco Editor custom context menu
-function showMonacoContextMenu(e: MouseEvent): void {
+function showMonacoContextMenu(e) {
     console.log('Context menu triggered!', e);
-    
     // Remove existing context menu
     const existingMenu = document.getElementById('monaco-context-menu');
     if (existingMenu) {
         existingMenu.remove();
     }
-
     const menu = document.createElement('div');
     menu.id = 'monaco-context-menu';
     menu.className = 'context-menu';
@@ -105,19 +102,16 @@ function showMonacoContextMenu(e: MouseEvent): void {
             <span class="shortcut">Ctrl+.</span>
         </div>
     `;
-
     // Position menu
     menu.style.position = 'fixed';
     menu.style.left = `${e.clientX}px`;
     menu.style.top = `${e.clientY}px`;
     menu.style.zIndex = '10000';
-
     document.body.appendChild(menu);
     console.log('Context menu added to DOM');
-
     // Handle menu actions
     menu.addEventListener('click', (e) => {
-        const action = (e.target as HTMLElement).closest('.context-menu-item')?.getAttribute('data-action');
+        const action = e.target.closest('.context-menu-item')?.getAttribute('data-action');
         if (action && window.editor) {
             try {
                 switch (action) {
@@ -140,26 +134,27 @@ function showMonacoContextMenu(e: MouseEvent): void {
                         break;
                     case 'format':
                         // Call the format function from the main app
-                        if (typeof (window as any).formatPseudocode === 'function') {
-                            (window as any).formatPseudocode();
+                        if (typeof window.formatPseudocode === 'function') {
+                            window.formatPseudocode();
                         }
                         break;
                     case 'run':
                         // Trigger the run button click
-                        const runButton = document.getElementById('btnRun') as HTMLButtonElement;
+                        const runButton = document.getElementById('btnRun');
                         if (runButton && !runButton.disabled) {
                             runButton.click();
                         }
                         break;
                     case 'stop':
                         // Trigger the stop button click
-                        const stopButton = document.getElementById('btnStop') as HTMLButtonElement;
+                        const stopButton = document.getElementById('btnStop');
                         if (stopButton && !stopButton.disabled) {
                             stopButton.click();
                         }
                         break;
                 }
-            } catch (error) {
+            }
+            catch (error) {
                 console.error('Context menu action failed:', action, error);
                 // Fallback to manual implementation for clipboard operations
                 if (action === 'cut' || action === 'copy' || action === 'paste') {
@@ -169,7 +164,6 @@ function showMonacoContextMenu(e: MouseEvent): void {
             menu.remove();
         }
     });
-
     // Close menu on outside click
     setTimeout(() => {
         document.addEventListener('click', () => {
@@ -177,10 +171,9 @@ function showMonacoContextMenu(e: MouseEvent): void {
         }, { once: true });
     }, 100);
 }
-
 // Function to get hover information for pseudocode keywords
-function getKeywordHoverInfo(keyword: string): any {
-    const hoverData: { [key: string]: any } = {
+function getKeywordHoverInfo(keyword) {
+    const hoverData = {
         'var': {
             label: 'var',
             category: 'Variable Declaration',
@@ -308,10 +301,8 @@ function getKeywordHoverInfo(keyword: string): any {
             example: 'var name = input "Enter your name: "'
         }
     };
-
     return hoverData[keyword] || null;
 }
-
 // Define custom language for pseudocode
 const pseudocodeLanguage = {
     defaultToken: '',
@@ -319,58 +310,30 @@ const pseudocodeLanguage = {
         root: [
             // Keywords - All reserved words from the pseudocode specification
             [/\b(var|const|if|else|elseif|endif|for|to|endfor|while|endwhile|function|endfunction|return|break|continue|print|input)\b/, 'keyword'],
-
             // Strings
             [/".*?"/, 'string'],
             [/'.*?'/, 'string'],
-
             // Numbers
             [/\b\d+(\.\d+)?\b/, 'number'],
-
             // Comments
             [/#.*$/, 'comment'],
-
             // Operators
             [/[+\-*\/=<>!]+/, 'operator'],
         ]
     }
 };
-
-interface FileData {
-    content: string;
-    dirty: boolean;
-    originalContent: string;
-    cursorPosition: { lineNumber: number; column: number };
-    scrollPosition: number;
-    tabId?: string;
-}
-
-// Extend window interface
-interface Window {
-    editor: any;
-    monaco: any;
-    require: any;
-    activeFilePath: string;
-    openFiles: Map<string, FileData>;
-    onEditorReady?: (editor: any) => void;
-    setupEditorListeners: () => void;
-}
-
 // Initialize Monaco Editor
-(window as any).require(['vs/editor/editor.main'], function() {
+window.require(['vs/editor/editor.main'], function () {
     // 'app-debug' overlay intentionally left static; do not write runtime readiness text here.
-
     // Ensure editor container exists
     const editorContainer = document.getElementById('editor');
     if (!editorContainer) {
         console.error('Editor container not found');
         return;
     }
-
     // Register custom language
     window.monaco.languages.register({ id: 'pseudocode' });
     window.monaco.languages.setMonarchTokensProvider('pseudocode', pseudocodeLanguage);
-
     // Define custom theme
     window.monaco.editor.defineTheme('pseudoTheme', {
         base: 'vs-dark',
@@ -391,13 +354,10 @@ interface Window {
             'editorLineNumber.foreground': '#858585'
         }
     });
-
     // Default initial value with welcome message and sample code
     let initialValue = '# Welcome to iPseudo IDE\n# Write your pseudocode here\n\n# Sample factorial calculation:\nvar n = 5\nvar fact = 1\n\nfor i = 1 to n\n    fact = fact * i\nendfor\n\nprint "Factorial of", n\nprint fact';
-
     // Determine editor font size from CSS variable (fallback to 15)
     const cssFontSize = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--editor-font-size')) || 15;
-
     // Load minimap setting from localStorage
     let minimapEnabled = true; // Default to true
     try {
@@ -406,10 +366,10 @@ interface Window {
             const settings = JSON.parse(savedSettings);
             minimapEnabled = settings.minimap !== undefined ? settings.minimap : true;
         }
-    } catch (error) {
+    }
+    catch (error) {
         console.error('Error loading minimap setting:', error);
     }
-
     // Create editor instance
     const editor = window.monaco.editor.create(document.getElementById('editor'), {
         value: initialValue,
@@ -440,28 +400,24 @@ interface Window {
             horizontal: 'auto'
         }
     });
-
     // Make editor globally available
     window.editor = editor;
-
     // Add custom context menu for Monaco Editor
-    editor.onContextMenu((e: any) => {
+    editor.onContextMenu((e) => {
         console.log('Monaco onContextMenu triggered', e);
         e.event.preventDefault();
         showMonacoContextMenu(e.event);
     });
-
     // Also add direct event listener to editor container as fallback
     if (editorContainer) {
-        editorContainer.addEventListener('contextmenu', (e: MouseEvent) => {
+        editorContainer.addEventListener('contextmenu', (e) => {
             console.log('Direct contextmenu event on editor container', e);
             e.preventDefault();
             showMonacoContextMenu(e);
         });
     }
-
     // Add keydown listener for Enter key
-    editor.onKeyDown((e: any) => {
+    editor.onKeyDown((e) => {
         if (e.keyCode === 3 /* Enter */) {
             // Use setTimeout to ensure this runs after the new line is created
             setTimeout(() => {
@@ -470,24 +426,21 @@ interface Window {
             }, 0);
         }
     });
-
     // Set up editor change listeners
     setupEditorListeners();
-
     // Register hover provider for pseudocode keywords
     window.monaco.languages.registerHoverProvider('pseudocode', {
-        provideHover: function(model: any, position: any) {
+        provideHover: function (model, position) {
             const word = model.getWordAtPosition(position);
-            if (!word) return null;
-
+            if (!word)
+                return null;
             const wordText = word.word.toLowerCase();
             const hoverInfo = getKeywordHoverInfo(wordText);
-            
             if (hoverInfo) {
                 return {
                     range: new window.monaco.Range(position.lineNumber, word.startColumn, position.lineNumber, word.endColumn),
                     contents: [
-                        { 
+                        {
                             value: `**${hoverInfo.label}** - ${hoverInfo.category}\n\n${hoverInfo.description}\n\n**Usage:** \`${hoverInfo.usage}\`\n\n**Example:** \`${hoverInfo.example}\``
                         }
                     ]
@@ -496,11 +449,10 @@ interface Window {
             return null;
         }
     });
-
     // Register completion provider with all reserved pseudocode keywords
-    const reservedKeywords = ['var','const','if','else','elseif','endif','for','to','endfor','while','endwhile','function','endfunction','return','break','continue','print','input'];
+    const reservedKeywords = ['var', 'const', 'if', 'else', 'elseif', 'endif', 'for', 'to', 'endfor', 'while', 'endwhile', 'function', 'endfunction', 'return', 'break', 'continue', 'print', 'input'];
     window.monaco.languages.registerCompletionItemProvider('pseudocode', {
-        provideCompletionItems: function(model: any, position: any) {
+        provideCompletionItems: function (model, position) {
             const word = model.getWordUntilPosition(position);
             const range = {
                 startLineNumber: position.lineNumber,
@@ -508,13 +460,12 @@ interface Window {
                 startColumn: word.startColumn,
                 endColumn: word.endColumn
             };
-
             // Scan model for current var, const, and function declarations
             const text = model.getValue();
             const varRe = /\b(?:var|const)\s+([a-zA-Z_]\w*)/gi;
             const funcRe = /^\s*function\s+([a-zA-Z_]\w*)/gim;
-            const vars = new Set<string>();
-            const funcs = new Set<string>();
+            const vars = new Set();
+            const funcs = new Set();
             let m;
             while ((m = varRe.exec(text))) {
                 vars.add(m[1]);
@@ -522,9 +473,7 @@ interface Window {
             while ((m = funcRe.exec(text))) {
                 funcs.add(m[1]);
             }
-
-            const suggestions: any[] = [];
-            
+            const suggestions = [];
             // Define keyword suggestions with descriptions
             const keywordSuggestions = [
                 { label: 'var', detail: 'Declare a variable', documentation: 'Declares a new variable that can be modified' },
@@ -546,68 +495,65 @@ interface Window {
                 { label: 'print', detail: 'Print output', documentation: 'Displays text or values to the console' },
                 { label: 'input', detail: 'Get user input', documentation: 'Prompts user for input and stores the value' }
             ];
-
             // Add keyword suggestions
             keywordSuggestions.forEach(kw => {
-                suggestions.push({ 
-                    label: kw.label, 
-                    kind: window.monaco.languages.CompletionItemKind.Keyword, 
-                    insertText: kw.label, 
-                    range, 
+                suggestions.push({
+                    label: kw.label,
+                    kind: window.monaco.languages.CompletionItemKind.Keyword,
+                    insertText: kw.label,
+                    range,
                     sortText: '0' + kw.label,
                     detail: kw.detail,
                     documentation: kw.documentation
                 });
             });
-
             // Add function suggestions
             Array.from(funcs).sort().forEach(f => {
-                suggestions.push({ 
-                    label: f + '()', 
-                    kind: window.monaco.languages.CompletionItemKind.Function, 
-                    insertText: f + '()', 
-                    range, 
+                suggestions.push({
+                    label: f + '()',
+                    kind: window.monaco.languages.CompletionItemKind.Function,
+                    insertText: f + '()',
+                    range,
                     sortText: '1' + f,
                     detail: 'User-defined function',
                     documentation: `Function: ${f}()`
                 });
             });
-
             // Add variable suggestions
             Array.from(vars).sort().forEach(v => {
-                suggestions.push({ 
-                    label: v, 
-                    kind: window.monaco.languages.CompletionItemKind.Variable, 
-                    insertText: v, 
-                    range, 
+                suggestions.push({
+                    label: v,
+                    kind: window.monaco.languages.CompletionItemKind.Variable,
+                    insertText: v,
+                    range,
                     sortText: '2' + v,
                     detail: 'Variable',
                     documentation: `Variable: ${v}`
                 });
             });
-
             return { suggestions };
         }
     });
-
     // Add content change listener to handle run button state
     const runButton = document.getElementById('btnRun');
     if (runButton) {
         // Initial state
-        (runButton as HTMLButtonElement).disabled = !editor.getValue().trim();
-
+        runButton.disabled = !editor.getValue().trim();
         // Listen for content changes
         editor.onDidChangeModelContent(() => {
             const content = editor.getValue().trim();
-            (runButton as HTMLButtonElement).disabled = !content;
+            runButton.disabled = !content;
         });
     }
-
     // Notify other scripts that editor is ready (if a global hook exists)
     if (window.onEditorReady && typeof window.onEditorReady === 'function') {
-        try { window.onEditorReady(editor); } catch (e) { console.error('onEditorReady hook failed', e); }
+        try {
+            window.onEditorReady(editor);
+        }
+        catch (e) {
+            console.error('onEditorReady hook failed', e);
+        }
     }
-
     // Auto indentation on Enter: copy previous line's leading whitespace when available
     editor.addCommand(window.monaco.KeyCode.Enter, () => {
         try {
@@ -617,21 +563,19 @@ interface Window {
                 editor.trigger('keyboard', 'type', { text: '\n' });
                 return;
             }
-
             // Determine indent unit (use tabSize from options if available, fallback to 4 spaces)
             const tabSize = (editor.getOption && editor.getOption(window.monaco.editor.EditorOption.tabSize)) || 4;
             const indentUnit = ' '.repeat(tabSize);
-
             // Helpers to detect block openers and closers
             const openerRe = /^\s*(if\b.*(?:\bthen)?|for\b.*\bto\b.*|while\b.*|function\b.*)$/i;
             const closerRe = /^\s*(endif|endfor|endwhile|endfunction)\b/i;
-
             // Compute nesting level by scanning from start to the previous line
             let level = 0;
             const prevLineNumber = Math.max(1, pos.lineNumber - 1);
             for (let i = 1; i <= prevLineNumber; i++) {
                 const text = model.getLineContent(i).trim();
-                if (!text) continue;
+                if (!text)
+                    continue;
                 if (closerRe.test(text)) {
                     level = Math.max(0, level - 1);
                     continue;
@@ -643,26 +587,24 @@ interface Window {
                 // 'else' and 'elseif' should not change the nesting count but are typically at the same level
                 // so we don't modify level here; the computed level will place subsequent lines correctly.
             }
-
             const indent = indentUnit.repeat(level);
-
             // Insert newline + computed indent
             const range = new window.monaco.Range(pos.lineNumber, pos.column, pos.lineNumber, pos.column);
             editor.executeEdits('autoIndent', [{ range, text: '\n' + indent, forceMoveMarkers: true }]);
             // Move cursor to after inserted indent
             const newPosition = { lineNumber: pos.lineNumber + 1, column: indent.length + 1 };
             editor.setPosition(newPosition);
-        } catch (err) {
+        }
+        catch (err) {
             editor.trigger('keyboard', 'type', { text: '\n' });
         }
     });
 });
-
-function setupEditorListeners(): void {
-    if (!window.editor) return;
-
+function setupEditorListeners() {
+    if (!window.editor)
+        return;
     // Track cursor position changes
-    window.editor.onDidChangeCursorPosition((e: any) => {
+    window.editor.onDidChangeCursorPosition((e) => {
         if (window.activeFilePath && window.openFiles && window.openFiles.has(window.activeFilePath)) {
             const file = window.openFiles.get(window.activeFilePath);
             if (file) {
@@ -670,9 +612,8 @@ function setupEditorListeners(): void {
             }
         }
     });
-
     // Track scroll position changes
-    window.editor.onDidScrollChange((e: any) => {
+    window.editor.onDidScrollChange((e) => {
         if (window.activeFilePath && window.openFiles && window.openFiles.has(window.activeFilePath)) {
             const file = window.openFiles.get(window.activeFilePath);
             if (file) {
@@ -680,7 +621,6 @@ function setupEditorListeners(): void {
             }
         }
     });
-
     // Track content changes
     window.editor.onDidChangeModelContent(() => {
         if (window.activeFilePath && window.openFiles && window.openFiles.has(window.activeFilePath)) {
@@ -691,8 +631,7 @@ function setupEditorListeners(): void {
                 const isDirty = content !== (file.originalContent || '');
                 if (file.dirty !== isDirty) {
                     file.dirty = isDirty;
-                    (window as any).updateTabDirtyState(window.activeFilePath, isDirty);
-                    
+                    window.updateTabDirtyState(window.activeFilePath, isDirty);
                     // Update window title
                     const fileName = window.activeFilePath.split('/').pop();
                     document.title = `${fileName}${isDirty ? ' *' : ''} - iPseudo IDE`;
@@ -701,6 +640,5 @@ function setupEditorListeners(): void {
         }
     });
 }
-
 // Make this function globally available
 window.setupEditorListeners = setupEditorListeners;
