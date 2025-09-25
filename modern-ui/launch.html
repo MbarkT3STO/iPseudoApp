@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-transition theme-dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPseudo IDE - Modern UI Launch</title>
+    
+    <!-- Modern Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Modern Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <!-- Modern Styles -->
+    <link rel="stylesheet" href="styles/modern-design-tokens.css">
+    <link rel="stylesheet" href="styles/modern-base.css">
+    <link rel="stylesheet" href="styles/modern-components.css">
+    <link rel="stylesheet" href="styles/modern-layout.css">
+    <link rel="stylesheet" href="styles/modern-theme.css">
+    
+    <style>
+        .launch-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient-secondary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        
+        .launch-content {
+            text-align: center;
+            max-width: 600px;
+            padding: var(--space-8);
+        }
+        
+        .launch-logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto var(--space-8);
+            animation: logoPulse 2s ease-in-out infinite;
+        }
+        
+        .launch-title {
+            font-size: var(--font-size-5xl);
+            font-weight: var(--font-weight-bold);
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--space-4);
+        }
+        
+        .launch-subtitle {
+            font-size: var(--font-size-xl);
+            color: var(--editor-text-secondary);
+            margin-bottom: var(--space-8);
+        }
+        
+        .launch-buttons {
+            display: flex;
+            gap: var(--space-4);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .launch-status {
+            margin-top: var(--space-8);
+            padding: var(--space-4);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            backdrop-filter: var(--glass-blur);
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            margin-bottom: var(--space-2);
+            font-size: var(--font-size-sm);
+            color: var(--editor-text-secondary);
+        }
+        
+        .status-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .status-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: var(--radius-full);
+            background: var(--accent-success);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 10px;
+        }
+        
+        @keyframes logoPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .fade-out {
+            animation: fadeOut 0.5s ease-out forwards;
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="launch-container" id="launchContainer">
+        <div class="launch-content">
+            <div class="launch-logo">
+                <svg class="logo-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#8b5cf6;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+                        </linearGradient>
+                        <filter id="glow">
+                            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                            <feMerge> 
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    <circle cx="20" cy="20" r="18" fill="url(#logoGradient)" filter="url(#glow)"/>
+                    <path d="M12 14L8 20L12 26" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+                    <path d="M28 14L32 20L28 26" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+                    <circle cx="20" cy="20" r="3" fill="white" opacity="0.95"/>
+                </svg>
+            </div>
+            
+            <h1 class="launch-title">iPseudo IDE</h1>
+            <p class="launch-subtitle">Modern UI - Splash Screen Inspired Design</p>
+            
+            <div class="launch-buttons">
+                <button class="modern-btn modern-btn-primary" onclick="launchMain()">
+                    <i class="ri-rocket-line"></i>
+                    <span>Launch Main UI</span>
+                </button>
+                <button class="modern-btn modern-btn-secondary" onclick="launchTest()">
+                    <i class="ri-test-tube-line"></i>
+                    <span>Launch Test UI</span>
+                </button>
+            </div>
+            
+            <div class="launch-status">
+                <div class="status-item">
+                    <div class="status-icon">
+                        <i class="ri-check-line"></i>
+                    </div>
+                    <span>Modern UI Structure Created</span>
+                </div>
+                <div class="status-item">
+                    <div class="status-icon">
+                        <i class="ri-check-line"></i>
+                    </div>
+                    <span>Splash Screen Design Applied</span>
+                </div>
+                <div class="status-item">
+                    <div class="status-icon">
+                        <i class="ri-check-line"></i>
+                    </div>
+                    <span>Core Functionality Copied</span>
+                </div>
+                <div class="status-item">
+                    <div class="status-icon">
+                        <i class="ri-check-line"></i>
+                    </div>
+                    <span>Theme System Implemented</span>
+                </div>
+                <div class="status-item">
+                    <div class="status-icon">
+                        <i class="ri-check-line"></i>
+                    </div>
+                    <span>Ready to Launch</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function launchMain() {
+            const container = document.getElementById('launchContainer');
+            container.classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 500);
+        }
+        
+        function launchTest() {
+            const container = document.getElementById('launchContainer');
+            container.classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = 'test.html';
+            }, 500);
+        }
+        
+        // Auto-launch after 3 seconds
+        setTimeout(() => {
+            launchMain();
+        }, 3000);
+    </script>
+</body>
+</html>

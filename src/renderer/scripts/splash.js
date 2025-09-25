@@ -12,6 +12,7 @@ class ModernEditorSplashScreen {
         this.progress = 0;
         this.isComplete = false;
         this.debug = true;
+        this.preferredUI = this.getPreferredUI();
         
         // Animation state
         this.animations = {
@@ -30,6 +31,7 @@ class ModernEditorSplashScreen {
 
     init() {
         this.detectAndApplyTheme();
+        this.setupUISelection();
         this.setupEditorAnimations();
         this.setupCodeTypingEffect();
         this.setupLoadingSequence();
@@ -86,6 +88,185 @@ class ModernEditorSplashScreen {
         html.classList.add(`theme-${theme}`);
         
         if (this.debug) console.log(`🎨 Applied theme: ${theme}`);
+    }
+
+    getPreferredUI() {
+        try {
+            if (typeof Storage !== 'undefined' && localStorage) {
+                const savedUI = localStorage.getItem('preferredUI');
+                if (savedUI && (savedUI === 'classic' || savedUI === 'modern')) {
+                    return savedUI;
+                }
+            }
+        } catch (error) {
+            console.warn('⚠️ Could not access localStorage for UI preference:', error);
+        }
+        
+        // Default to classic UI
+        return 'classic';
+    }
+
+    setupUISelection() {
+        if (this.debug) console.log('🎨 Setting up UI selection...');
+        
+        // Add UI selection buttons to the splash screen
+        this.addUISelectionButtons();
+        
+        // Update progress status to show UI selection
+        this.updateProgressStatus(`Selecting UI: ${this.preferredUI === 'modern' ? 'Modern' : 'Classic'}`);
+    }
+
+    addUISelectionButtons() {
+        // Find the loading section
+        const loadingSection = document.querySelector('.loading-section');
+        if (!loadingSection) return;
+
+        // Create UI selection container
+        const uiSelectionContainer = document.createElement('div');
+        uiSelectionContainer.className = 'ui-selection-container';
+        uiSelectionContainer.innerHTML = `
+            <div class="ui-selection-title">Choose Your Interface</div>
+            <div class="ui-selection-buttons">
+                <button class="ui-selection-btn ${this.preferredUI === 'classic' ? 'active' : ''}" data-ui="classic">
+                    <div class="ui-icon">
+                        <i class="ri-palette-2-line"></i>
+                    </div>
+                    <div class="ui-info">
+                        <div class="ui-name">Classic UI</div>
+                        <div class="ui-desc">Neumorphic Design</div>
+                    </div>
+                </button>
+                <button class="ui-selection-btn ${this.preferredUI === 'modern' ? 'active' : ''}" data-ui="modern">
+                    <div class="ui-icon">
+                        <i class="ri-palette-line"></i>
+                    </div>
+                    <div class="ui-info">
+                        <div class="ui-name">Modern UI</div>
+                        <div class="ui-desc">Glass Morphism</div>
+                    </div>
+                </button>
+            </div>
+        `;
+
+        // Insert before the progress container
+        const progressContainer = loadingSection.querySelector('.progress-container');
+        if (progressContainer) {
+            loadingSection.insertBefore(uiSelectionContainer, progressContainer);
+        }
+
+        // Add event listeners
+        const uiButtons = uiSelectionContainer.querySelectorAll('.ui-selection-btn');
+        uiButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const selectedUI = e.currentTarget.getAttribute('data-ui');
+                this.selectUI(selectedUI);
+            });
+        });
+
+        // Add CSS for UI selection
+        this.addUISelectionStyles();
+    }
+
+    selectUI(ui) {
+        if (this.debug) console.log(`🎨 UI selected: ${ui}`);
+        
+        this.preferredUI = ui;
+        
+        // Update active button
+        const uiButtons = document.querySelectorAll('.ui-selection-btn');
+        uiButtons.forEach(button => {
+            button.classList.remove('active');
+            if (button.getAttribute('data-ui') === ui) {
+                button.classList.add('active');
+            }
+        });
+
+        // Save preference
+        try {
+            if (typeof Storage !== 'undefined' && localStorage) {
+                localStorage.setItem('preferredUI', ui);
+            }
+        } catch (error) {
+            console.warn('⚠️ Could not save UI preference:', error);
+        }
+
+        // Update progress status
+        this.updateProgressStatus(`Selected: ${ui === 'modern' ? 'Modern' : 'Classic'} UI`);
+    }
+
+    addUISelectionStyles() {
+        const style = document.createElement('style');
+        style.textContent = `
+            .ui-selection-container {
+                margin-bottom: 2rem;
+                text-align: center;
+            }
+            
+            .ui-selection-title {
+                font-size: 1.125rem;
+                font-weight: 600;
+                color: var(--editor-text);
+                margin-bottom: 1.5rem;
+            }
+            
+            .ui-selection-buttons {
+                display: flex;
+                gap: 1rem;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .ui-selection-btn {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                padding: 1rem 1.5rem;
+                background: var(--glass-bg);
+                border: 1px solid var(--glass-border);
+                border-radius: 0.75rem;
+                color: var(--editor-text);
+                cursor: pointer;
+                transition: all 0.3s ease;
+                backdrop-filter: var(--glass-blur);
+                box-shadow: var(--shadow-glass);
+                min-width: 200px;
+            }
+            
+            .ui-selection-btn:hover {
+                background: var(--glass-bg-hover);
+                border-color: var(--glass-border-hover);
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-glass-hover);
+            }
+            
+            .ui-selection-btn.active {
+                background: rgba(59, 130, 246, 0.1);
+                border-color: var(--accent-primary);
+                box-shadow: var(--shadow-glow-primary);
+            }
+            
+            .ui-icon {
+                font-size: 1.5rem;
+                color: var(--accent-primary);
+            }
+            
+            .ui-info {
+                text-align: left;
+            }
+            
+            .ui-name {
+                font-size: 1rem;
+                font-weight: 600;
+                color: var(--editor-text);
+                margin-bottom: 0.25rem;
+            }
+            
+            .ui-desc {
+                font-size: 0.875rem;
+                color: var(--editor-text-secondary);
+            }
+        `;
+        document.head.appendChild(style);
     }
 
     setupEditorAnimations() {
@@ -586,10 +767,11 @@ class ModernEditorSplashScreen {
 
     async notifyMainProcess() {
         console.log('📡 Notifying main process of splash completion...');
+        console.log(`🎨 Preferred UI: ${this.preferredUI}`);
         
         try {
             if (window.electron?.ipcRenderer) {
-                const notifyPromise = window.electron.ipcRenderer.invoke('splash-complete');
+                const notifyPromise = window.electron.ipcRenderer.invoke('splash-complete', { preferredUI: this.preferredUI });
                 const timeoutPromise = new Promise((_, reject) => 
                     setTimeout(() => reject(new Error('Notification timeout')), 3000)
                 );
@@ -598,17 +780,23 @@ class ModernEditorSplashScreen {
                 console.log('✅ Splash completion notified to main process');
             } else if (window.require) {
                 const { ipcRenderer } = window.require('electron');
-                await ipcRenderer.invoke('splash-complete');
+                await ipcRenderer.invoke('splash-complete', { preferredUI: this.preferredUI });
                 console.log('✅ Splash screen completed, main window should be showing');
             } else {
-                console.log('ℹ️ No IPC available, closing splash window directly');
-                window.close();
+                console.log('ℹ️ No IPC available, redirecting to preferred UI...');
+                this.redirectToPreferredUI();
             }
         } catch (error) {
             console.error('❌ Error notifying main process:', error);
-            console.log('🔄 Attempting to close splash window directly...');
-            window.close();
+            console.log('🔄 Attempting to redirect to preferred UI...');
+            this.redirectToPreferredUI();
         }
+    }
+
+    redirectToPreferredUI() {
+        const uiPath = this.preferredUI === 'modern' ? '../../modern-ui/index.html' : '../index.html';
+        console.log(`🔄 Redirecting to ${this.preferredUI} UI: ${uiPath}`);
+        window.location.href = uiPath;
     }
 }
 

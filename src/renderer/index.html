@@ -103,6 +103,11 @@
                     <i class="ri-layout-column-line" id="layoutIcon"></i>
                 </button>
                 
+                <!-- Modern UI Switch Button -->
+                <button class="btn btn-icon btn-secondary" id="btnModernUI" title="Switch to Modern UI">
+                    <i class="ri-palette-line"></i>
+                </button>
+                
                 <!-- Neumorphic Settings Button -->
                 <button class="btn btn-icon btn-ghost" id="btnSettings" title="Settings">
                     <i class="ri-settings-3-line"></i>
@@ -812,6 +817,21 @@
                 hideModal();
             }
         });
+
+        // Modern UI Switch functionality
+        const modernUIBtn = document.getElementById('btnModernUI');
+        if (modernUIBtn) {
+            modernUIBtn.addEventListener('click', () => {
+                // Check if we're in Electron environment
+                if (window.electron && typeof window.electron.openExternal === 'function') {
+                    // In Electron, navigate to the modern UI
+                    window.location.href = '../../modern-ui/index.html';
+                } else {
+                    // In browser, open in new tab
+                    window.open('../../modern-ui/index.html', '_blank', 'noopener,noreferrer');
+                }
+            });
+        }
 
         // Theme toggle will be set up in app.ts after functions are loaded
 

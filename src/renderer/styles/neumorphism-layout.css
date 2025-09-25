@@ -515,7 +515,8 @@
   position: relative;
   background: var(--bg-soft-elevated);
   overflow: hidden;
-  min-height: 400px;
+  min-height: 0;
+  height: 100%;
   transition: all var(--duration-soft-normal) var(--ease-soft-out);
   border-radius: 0 0 var(--radius-soft-lg) var(--radius-soft-lg);
 }
@@ -532,7 +533,6 @@
   flex: 1;
   position: relative;
   overflow: hidden;
-  height: 100%;
 }
 
 .console-header {
@@ -576,11 +576,12 @@
 .console-content {
   flex: 1;
   padding: var(--space-soft-4);
-  overflow: hidden;
+  overflow-y: auto;
   background: transparent;
   transition: all var(--duration-soft-normal) var(--ease-soft-out);
   border-radius: 0 0 var(--radius-soft-lg) var(--radius-soft-lg);
-  min-height: 300px;
+  min-height: 0;
+  height: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -860,8 +861,8 @@
   }
   
   .main-content-area {
-    margin: var(--space-soft-2);
-    border-radius: var(--radius-soft-md);
+    margin: var(--space-soft-2) var(--space-soft-4) var(--space-soft-2) var(--space-soft-4);
+    border-radius: var(--radius-soft-lg);
   }
   
   .content-tabs {
