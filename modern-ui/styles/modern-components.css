@@ -1163,17 +1163,54 @@
 
 /* ===== CONSOLE ===== */
 .modern-console-container {
-    background: var(--editor-bg-secondary);
-    border: 1px solid var(--editor-border);
+    background: 
+        linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.1) 0%, 
+            rgba(255, 255, 255, 0.05) 50%,
+            rgba(255, 255, 255, 0.08) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-glass);
-    backdrop-filter: var(--glass-blur);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        0 4px 16px rgba(0, 0, 0, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     overflow: hidden;
     height: 100%;
     display: flex;
     flex-direction: column;
     flex: 1;
     min-height: 0;
+    position: relative;
+}
+
+/* Light mode console container */
+[data-theme="light"] .modern-console-container {
+    background: 
+        linear-gradient(135deg, 
+            rgba(0, 0, 0, 0.03) 0%, 
+            rgba(0, 0, 0, 0.01) 50%,
+            rgba(0, 0, 0, 0.02) 100%);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.08),
+        0 4px 16px rgba(0, 0, 0, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.modern-console-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
 }
 
 /* Console tab specific styling */
@@ -1188,8 +1225,24 @@
     align-items: center;
     justify-content: space-between;
     padding: var(--space-4);
-    background: var(--glass-bg);
-    border-bottom: 1px solid var(--editor-border);
+    background: 
+        linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.15) 0%, 
+            rgba(255, 255, 255, 0.08) 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    position: relative;
+    z-index: 1;
+}
+
+/* Light mode console header */
+[data-theme="light"] .console-header {
+    background: 
+        linear-gradient(135deg, 
+            rgba(0, 0, 0, 0.05) 0%, 
+            rgba(0, 0, 0, 0.02) 100%);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .console-title {
@@ -1199,6 +1252,16 @@
     font-size: var(--font-size-lg);
     font-weight: var(--font-weight-semibold);
     color: var(--editor-text);
+    background: linear-gradient(135deg, var(--editor-text) 0%, var(--accent-primary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.console-title i {
+    font-size: var(--font-size-xl);
+    color: var(--accent-primary);
+    filter: drop-shadow(0 2px 4px rgba(59, 130, 246, 0.3));
 }
 
 .console-actions {
@@ -1211,6 +1274,18 @@
     display: flex;
     align-items: center;
     gap: var(--space-4);
+    background: rgba(255, 255, 255, 0.05);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* Light mode console stats */
+[data-theme="light"] .console-stats {
+    background: rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .stat-item {
@@ -1219,6 +1294,18 @@
     gap: var(--space-1);
     font-size: var(--font-size-sm);
     color: var(--editor-text-secondary);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-md);
+    transition: all var(--duration-normal) var(--ease-in-out);
+}
+
+.stat-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--editor-text);
+}
+
+[data-theme="light"] .stat-item:hover {
+    background: rgba(0, 0, 0, 0.05);
 }
 
 .console-controls {
@@ -1227,11 +1314,87 @@
     gap: var(--space-2);
 }
 
+.console-controls .modern-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--editor-text);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all var(--duration-normal) var(--ease-in-out);
+}
+
+.console-controls .modern-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Light mode console controls */
+[data-theme="light"] .console-controls .modern-btn {
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: var(--editor-text);
+}
+
+[data-theme="light"] .console-controls .modern-btn:hover {
+    background: rgba(0, 0, 0, 0.1);
+    border-color: rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
 .print-output-container {
     flex: 1;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+.print-output-content {
+    flex: 1;
+    padding: var(--space-4);
+    overflow-y: auto;
+    font-family: var(--font-family-mono, 'Fira Code', 'Consolas', monospace);
+    font-size: var(--font-size-sm, 13px);
+    line-height: var(--line-height-relaxed, 1.6);
+    color: var(--editor-text, #ffffff);
+    background: transparent;
+}
+
+/* Custom scrollbar for console output */
+.print-output-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.print-output-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-full);
+}
+
+.print-output-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-full);
+    transition: all var(--duration-normal) var(--ease-in-out);
+}
+
+.print-output-content::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-primary);
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+}
+
+/* Light mode scrollbar */
+[data-theme="light"] .print-output-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="light"] .print-output-content::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .print-output-content::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-primary);
 }
 
 .print-output-header {
@@ -1422,6 +1585,207 @@
     color: var(--accent-primary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+}
+
+/* ===== CONSOLE MESSAGES ===== */
+.console-message {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    margin-bottom: var(--space-2);
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all var(--duration-normal) var(--ease-in-out);
+    position: relative;
+    overflow: hidden;
+}
+
+.console-message::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--accent-primary);
+    border-radius: var(--radius-full);
+}
+
+.console-message:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.12);
+    transform: translateX(2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Console message types */
+.console-message.console-error {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.2);
+}
+
+.console-message.console-error::before {
+    background: #ef4444;
+}
+
+.console-message.console-warning {
+    background: rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.2);
+}
+
+.console-message.console-warning::before {
+    background: #f59e0b;
+}
+
+.console-message.console-success {
+    background: rgba(34, 197, 94, 0.1);
+    border-color: rgba(34, 197, 94, 0.2);
+}
+
+.console-message.console-success::before {
+    background: #22c55e;
+}
+
+.console-message.console-info {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: rgba(59, 130, 246, 0.2);
+}
+
+.console-message.console-info::before {
+    background: #3b82f6;
+}
+
+.console-message.console-system {
+    background: rgba(107, 114, 128, 0.1);
+    border-color: rgba(107, 114, 128, 0.2);
+}
+
+.console-message.console-system::before {
+    background: #6b7280;
+}
+
+/* Light mode console messages */
+[data-theme="light"] .console-message {
+    background: rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .console-message:hover {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .console-message.console-error {
+    background: rgba(239, 68, 68, 0.05);
+    border-color: rgba(239, 68, 68, 0.1);
+}
+
+[data-theme="light"] .console-message.console-warning {
+    background: rgba(245, 158, 11, 0.05);
+    border-color: rgba(245, 158, 11, 0.1);
+}
+
+[data-theme="light"] .console-message.console-success {
+    background: rgba(34, 197, 94, 0.05);
+    border-color: rgba(34, 197, 94, 0.1);
+}
+
+[data-theme="light"] .console-message.console-info {
+    background: rgba(59, 130, 246, 0.05);
+    border-color: rgba(59, 130, 246, 0.1);
+}
+
+[data-theme="light"] .console-message.console-system {
+    background: rgba(107, 114, 128, 0.05);
+    border-color: rgba(107, 114, 128, 0.1);
+}
+
+/* Console message content */
+.console-message .message-timestamp {
+    font-size: var(--font-size-xs);
+    color: var(--editor-text-tertiary);
+    font-weight: var(--font-weight-medium);
+    min-width: 60px;
+    text-align: right;
+    margin-top: 2px;
+}
+
+.console-message .message-text {
+    flex: 1;
+    color: var(--editor-text);
+    font-family: var(--font-family-mono, 'Fira Code', 'Consolas', monospace);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-relaxed);
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+.console-message .message-icon {
+    font-size: var(--font-size-base);
+    margin-top: 2px;
+    min-width: 16px;
+}
+
+.console-message.console-error .message-icon {
+    color: #ef4444;
+}
+
+.console-message.console-warning .message-icon {
+    color: #f59e0b;
+}
+
+.console-message.console-success .message-icon {
+    color: #22c55e;
+}
+
+.console-message.console-info .message-icon {
+    color: #3b82f6;
+}
+
+.console-message.console-system .message-icon {
+    color: #6b7280;
+}
+
+/* Console welcome message */
+.console-welcome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    color: var(--editor-text-secondary);
+    padding: var(--space-8);
+}
+
+.console-welcome .welcome-icon {
+    font-size: 4rem;
+    color: var(--accent-primary);
+    margin-bottom: var(--space-4);
+    opacity: 0.8;
+    filter: drop-shadow(0 4px 8px rgba(59, 130, 246, 0.3));
+}
+
+.console-welcome .welcome-content h4 {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-2);
+    color: var(--editor-text);
+    background: linear-gradient(135deg, var(--editor-text) 0%, var(--accent-primary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.console-welcome .welcome-content p {
+    font-size: var(--font-size-sm);
+    color: var(--editor-text-secondary);
+    max-width: 400px;
+    line-height: var(--line-height-relaxed);
 }
 
 /* ===== TOOLTIPS ===== */
