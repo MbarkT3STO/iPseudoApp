@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - iPseudo IDE</title>
+    
+    <!-- Modern Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Modern Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <!-- Modern Styles -->
+    <link rel="stylesheet" href="styles/modern-base.css">
+    <link rel="stylesheet" href="styles/modern-components.css">
+    <link rel="stylesheet" href="styles/modern-layout.css">
+    <link rel="stylesheet" href="styles/modern-theme.css">
+    <link rel="stylesheet" href="styles/modern-design-tokens.css">
+    <link rel="stylesheet" href="styles/modern-tab-system.css">
+    
+    <!-- Settings Specific Styles -->
+    <link rel="stylesheet" href="styles/settings.css">
+</head>
+<body>
+    <div class="modern-app-container">
+        <!-- Modern Header -->
+        <header class="modern-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <button class="modern-btn modern-btn-icon" id="btnBack" aria-label="Back to Editor">
+                        <i class="ri-arrow-left-line"></i>
+                    </button>
+                    
+                    <div class="header-title">
+                        <div class="title-icon">
+                            <i class="ri-settings-3-line"></i>
+                        </div>
+                        <div class="title-text">
+                            <h1>Settings</h1>
+                            <p>Customize your experience</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="header-right">
+                    <div class="header-actions">
+                        <!-- Search Bar -->
+                        <div class="search-container">
+                            <div class="search-input-wrapper">
+                                <i class="ri-search-line search-icon"></i>
+                                <input type="text" id="settingsSearch" class="search-input" placeholder="Search settings...">
+                                <button class="search-clear" id="searchClear" style="display: none;">
+                                    <i class="ri-close-line"></i>
+                                </button>
+                            </div>
+                            <div class="search-results" id="searchResults" style="display: none;">
+                                <div class="search-results-header">
+                                    <span class="results-count">0 results</span>
+                                    <button class="search-close" id="searchClose">
+                                        <i class="ri-close-line"></i>
+                                    </button>
+                                </div>
+                                <div class="search-results-list" id="searchResultsList">
+                                    <!-- Search results will be populated here -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="modern-btn modern-btn-icon" id="btnThemeToggle" aria-label="Toggle Theme">
+                            <i class="ri-contrast-2-line"></i>
+                        </button>
+                        
+                        <button class="modern-btn modern-btn-primary" id="btnApplySettings">
+                            <i class="ri-check-line"></i>
+                            <span>Apply</span>
+                        </button>
+                        
+                        <button class="modern-btn modern-btn-secondary" id="btnResetSettings">
+                            <i class="ri-refresh-line"></i>
+                            <span>Reset</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Settings Content -->
+        <main class="settings-main">
+            <div class="settings-layout">
+                <!-- Modern Sidebar Navigation -->
+                <aside class="settings-sidebar">
+                    <div class="sidebar-content">
+                        <div class="sidebar-section">
+                            <h3 class="section-title">General</h3>
+                            <div class="nav-group">
+                                <a href="#appearance" class="nav-link active" data-section="appearance">
+                                    <div class="nav-icon">
+                                        <i class="ri-palette-line"></i>
+                                    </div>
+                                    <div class="nav-content">
+                                        <span class="nav-label">Appearance</span>
+                                        <span class="nav-desc">Themes & Visual</span>
+                                    </div>
+                                </a>
+                                
+                                <a href="#editor" class="nav-link" data-section="editor">
+                                    <div class="nav-icon">
+                                        <i class="ri-code-s-slash-line"></i>
+                                    </div>
+                                    <div class="nav-content">
+                                        <span class="nav-label">Editor</span>
+                                        <span class="nav-desc">Code & Behavior</span>
+                                    </div>
+                                </a>
+                                
+                                <a href="#console" class="nav-link" data-section="console">
+                                    <div class="nav-icon">
+                                        <i class="ri-terminal-box-line"></i>
+                                    </div>
+                                    <div class="nav-content">
+                                        <span class="nav-label">Console</span>
+                                        <span class="nav-desc">Output & Display</span>
+                                    </div>
+                                </a>
+                                
+                                <a href="#ui" class="nav-link" data-section="ui">
+                                    <div class="nav-icon">
+                                        <i class="ri-layout-line"></i>
+                                    </div>
+                                    <div class="nav-content">
+                                        <span class="nav-label">UI Elements</span>
+                                        <span class="nav-desc">Interface Controls</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="sidebar-section">
+                            <h3 class="section-title">Advanced</h3>
+                            <div class="nav-group">
+                                <a href="#performance" class="nav-link" data-section="performance">
+                                    <div class="nav-icon">
+                                        <i class="ri-speed-line"></i>
+                                    </div>
+                                    <div class="nav-content">
+                                        <span class="nav-label">Performance</span>
+                                        <span class="nav-desc">Speed & Memory</span>
+                                    </div>
+                                </a>
+                                
+                                <a href="#shortcuts" class="nav-link" data-section="shortcuts">
+                                    <div class="nav-icon">
+                                        <i class="ri-keyboard-line"></i>
+                                    </div>
+                                    <div class="nav-content">
+                                        <span class="nav-label">Shortcuts</span>
+                                        <span class="nav-desc">Keyboard Hotkeys</span>
+                                    </div>
+                                </a>
+                                
+                                <a href="#about" class="nav-link" data-section="about">
+                                    <div class="nav-icon">
+                                        <i class="ri-information-line"></i>
+                                    </div>
+                                    <div class="nav-content">
+                                        <span class="nav-label">About</span>
+                                        <span class="nav-desc">App Information</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Settings Content Area -->
+                <div class="settings-content">
+                    <!-- Appearance Settings -->
+                    <div class="settings-panel active" id="appearance">
+                        <div class="panel-header">
+                            <div class="header-content">
+                                <div class="header-icon">
+                                    <i class="ri-palette-line"></i>
+                                </div>
+                                <div class="header-text">
+                                    <h2>Appearance</h2>
+                                    <p>Customize the look and feel of your IDE</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-group">
+                            <div class="group-header">
+                                <h3>Interface</h3>
+                                <p>Choose your preferred UI design and color scheme</p>
+                            </div>
+                            
+                            <div class="settings-cards">
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-layout-2-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>UI Design</h4>
+                                            <p>Choose between Modern and Classic UI designs</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <select id="uiDesign" class="modern-select">
+                                            <option value="modern">Modern UI</option>
+                                            <option value="classic">Classic UI</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-palette-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Color Theme</h4>
+                                            <p>Choose between light and dark themes</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <select id="themeSelect" class="modern-select">
+                                            <option value="light">Light</option>
+                                            <option value="dark">Dark</option>
+                                            <option value="auto">Auto (System)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-brush-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Accent Color</h4>
+                                            <p>Choose your preferred accent color</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <div class="color-picker-modern">
+                                            <input type="color" id="accentColor" class="color-input" value="#0ea5e9">
+                                            <div class="color-presets">
+                                                <button class="color-preset" data-color="#0ea5e9" style="background: #0ea5e9;" title="Sky Blue"></button>
+                                                <button class="color-preset" data-color="#a855f7" style="background: #a855f7;" title="Purple"></button>
+                                                <button class="color-preset" data-color="#22c55e" style="background: #22c55e;" title="Green"></button>
+                                                <button class="color-preset" data-color="#f59e0b" style="background: #f59e0b;" title="Orange"></button>
+                                                <button class="color-preset" data-color="#ef4444" style="background: #ef4444;" title="Red"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-group">
+                            <div class="group-header">
+                                <h3>UI Elements</h3>
+                                <p>Customize interface behavior and effects</p>
+                            </div>
+                            
+                            <div class="settings-cards">
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-magic-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Animations</h4>
+                                            <p>Enable smooth transitions and animations</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <label class="modern-toggle">
+                                            <input type="checkbox" id="animationsEnabled" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-gradienter-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Glass Effects</h4>
+                                            <p>Enable glass morphism and blur effects</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <label class="modern-toggle">
+                                            <input type="checkbox" id="glassEffects" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-sparkling-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Particle Effects</h4>
+                                            <p>Show floating particles and background effects</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <label class="modern-toggle">
+                                            <input type="checkbox" id="particleEffects" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Editor Settings -->
+                    <div class="settings-panel" id="editor">
+                        <div class="panel-header">
+                            <div class="header-content">
+                                <div class="header-icon">
+                                    <i class="ri-code-s-slash-line"></i>
+                                </div>
+                                <div class="header-text">
+                                    <h2>Editor</h2>
+                                    <p>Configure the code editor behavior and appearance</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-group">
+                            <div class="group-header">
+                                <h3>Display</h3>
+                                <p>Customize editor appearance</p>
+                            </div>
+                            
+                            <div class="settings-cards">
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-text"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Font Size</h4>
+                                            <p>Adjust the editor font size</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <div class="range-control">
+                                            <input type="range" id="fontSize" class="modern-range" min="10" max="24" value="14">
+                                            <span class="range-value">14px</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-font-family"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Font Family</h4>
+                                            <p>Choose the editor font family</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <select id="fontFamily" class="modern-select">
+                                            <option value="JetBrains Mono">JetBrains Mono</option>
+                                            <option value="Fira Code">Fira Code</option>
+                                            <option value="Monaco">Monaco</option>
+                                            <option value="Cascadia Code">Cascadia Code</option>
+                                            <option value="Consolas">Consolas</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-text-direction-l"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Line Height</h4>
+                                            <p>Adjust the spacing between lines</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <div class="range-control">
+                                            <input type="range" id="lineHeight" class="modern-range" min="1" max="2" step="0.1" value="1.5">
+                                            <span class="range-value">1.5</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-group">
+                            <div class="group-header">
+                                <h3>Behavior</h3>
+                                <p>Configure editor functionality</p>
+                            </div>
+                            
+                            <div class="settings-cards">
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-text-wrap"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Word Wrap</h4>
+                                            <p>Wrap long lines in the editor</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <label class="modern-toggle">
+                                            <input type="checkbox" id="wordWrap">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-map-2-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Minimap</h4>
+                                            <p>Show code minimap on the right side</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <label class="modern-toggle">
+                                            <input type="checkbox" id="minimap" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-save-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Auto Save</h4>
+                                            <p>Automatically save changes</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <label class="modern-toggle">
+                                            <input type="checkbox" id="autoSave" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-indent-decrease"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Tab Size</h4>
+                                            <p>Number of spaces for indentation</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <div class="range-control">
+                                            <input type="range" id="tabSize" class="modern-range" min="2" max="8" value="4">
+                                            <span class="range-value">4 spaces</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Console Settings -->
+                    <div class="settings-panel" id="console">
+                        <div class="panel-header">
+                            <div class="header-content">
+                                <div class="header-icon">
+                                    <i class="ri-terminal-box-line"></i>
+                                </div>
+                                <div class="header-text">
+                                    <h2>Console</h2>
+                                    <p>Configure the output console behavior</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-group">
+                            <div class="group-header">
+                                <h3>Display</h3>
+                                <p>Customize console appearance</p>
+                            </div>
+                            
+                            <div class="settings-cards">
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-arrows-vertical"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Console Height</h4>
+                                            <p>Adjust the height of the console panel</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <div class="range-control">
+                                            <input type="range" id="consoleHeight" class="modern-range" min="200" max="600" value="300">
+                                            <span class="range-value">300px</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-text"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Console Font Size</h4>
+                                            <p>Adjust the console font size</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <div class="range-control">
+                                            <input type="range" id="consoleFontSize" class="modern-range" min="10" max="20" value="14">
+                                            <span class="range-value">14px</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-font-family"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Console Font Family</h4>
+                                            <p>Choose the console font family</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <select id="consoleFontFamily" class="modern-select">
+                                            <option value="JetBrains Mono">JetBrains Mono</option>
+                                            <option value="Fira Code">Fira Code</option>
+                                            <option value="Monaco">Monaco</option>
+                                            <option value="Cascadia Code">Cascadia Code</option>
+                                            <option value="Consolas">Consolas</option>
+                                            <option value="Courier New">Courier New</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-numbers-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Max Messages</h4>
+                                            <p>Maximum number of messages to keep in console</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <div class="range-control">
+                                            <input type="range" id="maxMessages" class="modern-range" min="50" max="1000" step="50" value="200">
+                                            <span class="range-value">200</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-group">
+                            <div class="group-header">
+                                <h3>Formatting</h3>
+                                <p>Configure message display options</p>
+                            </div>
+                            
+                            <div class="settings-cards">
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-arrow-down-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Auto Scroll</h4>
+                                            <p>Automatically scroll to new messages</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <label class="modern-toggle">
+                                            <input type="checkbox" id="autoScroll" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-time-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Show Timestamps</h4>
+                                            <p>Display timestamps for console messages</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <label class="modern-toggle">
+                                            <input type="checkbox" id="showTimestamps" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-image-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Show Icons</h4>
+                                            <p>Display icons for different message types</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <label class="modern-toggle">
+                                            <input type="checkbox" id="showIcons" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- UI Elements Settings -->
+                    <div class="settings-panel" id="ui">
+                        <div class="panel-header">
+                            <div class="header-content">
+                                <div class="header-icon">
+                                    <i class="ri-layout-line"></i>
+                                </div>
+                                <div class="header-text">
+                                    <h2>UI Elements</h2>
+                                    <p>Customize which UI elements are visible in the main interface</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-group">
+                            <div class="group-header">
+                                <h3>Top Navigation</h3>
+                                <p>Control visibility of top navigation elements</p>
+                            </div>
+                            
+                            <div class="settings-cards">
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-file-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>File Actions</h4>
+                                            <p>Show New, Open, Save buttons in the top navigation</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <label class="modern-toggle">
+                                            <input type="checkbox" id="showFileActions" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-play-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Run Button</h4>
+                                            <p>Show the Run and Stop buttons</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <label class="modern-toggle">
+                                            <input type="checkbox" id="showRunButton" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-contrast-2-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Theme Toggle</h4>
+                                            <p>Show the theme toggle button</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <label class="modern-toggle">
+                                            <input type="checkbox" id="showThemeToggle" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-layout-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Layout Toggle</h4>
+                                            <p>Show the layout toggle button</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <label class="modern-toggle">
+                                            <input type="checkbox" id="showLayoutToggle" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-settings-3-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Settings Button</h4>
+                                            <p>Show the settings button</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <label class="modern-toggle">
+                                            <input type="checkbox" id="showSettingsButton" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-group">
+                            <div class="group-header">
+                                <h3>Editor Controls</h3>
+                                <p>Control visibility of editor interface elements</p>
+                            </div>
+                            
+                            <div class="settings-cards">
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-code-s-slash-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Editor Action Buttons</h4>
+                                            <p>Show Format, Minimap, and Word Wrap buttons in editor header</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <label class="modern-toggle">
+                                            <input type="checkbox" id="showEditorActions" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-text"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Editor Title</h4>
+                                            <p>Show the "Code Editor" title and live badge</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <label class="modern-toggle">
+                                            <input type="checkbox" id="showEditorTitle" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-group">
+                            <div class="group-header">
+                                <h3>Console Controls</h3>
+                                <p>Control visibility of console interface elements</p>
+                            </div>
+                            
+                            <div class="settings-cards">
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-terminal-box-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Console Action Buttons</h4>
+                                            <p>Show Clear, Copy, and Save buttons in console header</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <label class="modern-toggle">
+                                            <input type="checkbox" id="showConsoleActions" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-bar-chart-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Console Statistics</h4>
+                                            <p>Show message count and execution time in console header</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <label class="modern-toggle">
+                                            <input type="checkbox" id="showConsoleStats" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-text"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Console Title</h4>
+                                            <p>Show the "Output Console" title and status indicator</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <label class="modern-toggle">
+                                            <input type="checkbox" id="showConsoleTitle" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-group">
+                            <div class="group-header">
+                                <h3>Tab Controls</h3>
+                                <p>Control visibility of tab-related elements</p>
+                            </div>
+                            
+                            <div class="settings-cards">
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-numbers-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Tab Counter</h4>
+                                            <p>Show the tab counter (e.g., "1/3")</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <label class="modern-toggle">
+                                            <input type="checkbox" id="showTabCounter" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-add-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>New Tab Button</h4>
+                                            <p>Show the new tab button (+)</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <label class="modern-toggle">
+                                            <input type="checkbox" id="showNewTabButton" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Performance Settings -->
+                    <div class="settings-panel" id="performance">
+                        <div class="panel-header">
+                            <div class="header-content">
+                                <div class="header-icon">
+                                    <i class="ri-speed-line"></i>
+                                </div>
+                                <div class="header-text">
+                                    <h2>Performance</h2>
+                                    <p>Optimize the application performance</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-group">
+                            <div class="group-header">
+                                <h3>Rendering</h3>
+                                <p>Configure rendering performance options</p>
+                            </div>
+                            
+                            <div class="settings-cards">
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-cpu-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Hardware Acceleration</h4>
+                                            <p>Use GPU acceleration for better performance</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <label class="modern-toggle">
+                                            <input type="checkbox" id="hardwareAcceleration" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-pause-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Reduced Motion</h4>
+                                            <p>Disable animations for better performance</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <label class="modern-toggle">
+                                            <input type="checkbox" id="reducedMotion">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-group">
+                            <div class="group-header">
+                                <h3>Memory</h3>
+                                <p>Configure memory usage and limits</p>
+                            </div>
+                            
+                            <div class="settings-cards">
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-window-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Maximum Tabs</h4>
+                                            <p>Limit the number of open tabs</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <div class="range-control">
+                                            <input type="range" id="maxTabs" class="modern-range" min="1" max="10" value="3">
+                                            <span class="range-value">3 tabs</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-card">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-close-circle-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>Auto Close Tabs</h4>
+                                            <p>Automatically close unused tabs</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <label class="modern-toggle">
+                                            <input type="checkbox" id="autoCloseTabs">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Shortcuts Settings -->
+                    <div class="settings-panel" id="shortcuts">
+                        <div class="panel-header">
+                            <div class="header-content">
+                                <div class="header-icon">
+                                    <i class="ri-keyboard-line"></i>
+                                </div>
+                                <div class="header-text">
+                                    <h2>Keyboard Shortcuts</h2>
+                                    <p>Customize keyboard shortcuts for common actions</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcuts-list">
+                            <div class="shortcut-item">
+                                <div class="shortcut-info">
+                                    <span class="shortcut-name">Run Code</span>
+                                    <span class="shortcut-description">Execute the current pseudocode</span>
+                                </div>
+                                <div class="shortcut-keys">
+                                    <kbd>Ctrl</kbd> + <kbd>Enter</kbd>
+                                </div>
+                            </div>
+                            
+                            <div class="shortcut-item">
+                                <div class="shortcut-info">
+                                    <span class="shortcut-name">New Tab</span>
+                                    <span class="shortcut-description">Create a new editor tab</span>
+                                </div>
+                                <div class="shortcut-keys">
+                                    <kbd>Ctrl</kbd> + <kbd>T</kbd>
+                                </div>
+                            </div>
+                            
+                            <div class="shortcut-item">
+                                <div class="shortcut-info">
+                                    <span class="shortcut-name">Close Tab</span>
+                                    <span class="shortcut-description">Close the current tab</span>
+                                </div>
+                                <div class="shortcut-keys">
+                                    <kbd>Ctrl</kbd> + <kbd>W</kbd>
+                                </div>
+                            </div>
+                            
+                            <div class="shortcut-item">
+                                <div class="shortcut-info">
+                                    <span class="shortcut-name">Next Tab</span>
+                                    <span class="shortcut-description">Switch to the next tab</span>
+                                </div>
+                                <div class="shortcut-keys">
+                                    <kbd>Ctrl</kbd> + <kbd>Tab</kbd>
+                                </div>
+                            </div>
+                            
+                            <div class="shortcut-item">
+                                <div class="shortcut-info">
+                                    <span class="shortcut-name">Previous Tab</span>
+                                    <span class="shortcut-description">Switch to the previous tab</span>
+                                </div>
+                                <div class="shortcut-keys">
+                                    <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Tab</kbd>
+                                </div>
+                            </div>
+                            
+                            <div class="shortcut-item">
+                                <div class="shortcut-info">
+                                    <span class="shortcut-name">Stop Execution</span>
+                                    <span class="shortcut-description">Stop the running code</span>
+                                </div>
+                                <div class="shortcut-keys">
+                                    <kbd>Ctrl</kbd> + <kbd>C</kbd>
+                                </div>
+                            </div>
+                            
+                            <div class="shortcut-item">
+                                <div class="shortcut-info">
+                                    <span class="shortcut-name">Save File</span>
+                                    <span class="shortcut-description">Save the current file</span>
+                                </div>
+                                <div class="shortcut-keys">
+                                    <kbd>Ctrl</kbd> + <kbd>S</kbd>
+                                </div>
+                            </div>
+                            
+                            <div class="shortcut-item">
+                                <div class="shortcut-info">
+                                    <span class="shortcut-name">Open File</span>
+                                    <span class="shortcut-description">Open a file</span>
+                                </div>
+                                <div class="shortcut-keys">
+                                    <kbd>Ctrl</kbd> + <kbd>O</kbd>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- About Settings -->
+                    <div class="settings-panel" id="about">
+                        <div class="panel-header">
+                            <div class="header-content">
+                                <div class="header-icon">
+                                    <i class="ri-information-line"></i>
+                                </div>
+                                <div class="header-text">
+                                    <h2>About iPseudo IDE</h2>
+                                    <p>Information about the application</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="about-content">
+                            <div class="about-logo">
+                                <div class="app-logo-large">
+                                    <i class="ri-code-s-slash-line"></i>
+                                </div>
+                                <h3>iPseudo IDE</h3>
+                                <p class="version">Version 1.0</p>
+                            </div>
+                            
+                            <div class="about-description">
+                                <p>iPseudo is a modern, glass morphism IDE for writing and executing pseudocode. Built with modern UI design principles and smooth interactions, it provides an intuitive and beautiful environment for algorithm development and learning.</p>
+                            </div>
+                            
+                            <div class="about-features">
+                                <h4>Features</h4>
+                                <ul>
+                                    <li>Modern glass morphism design</li>
+                                    <li>Real-time pseudocode execution</li>
+                                    <li>Multiple editor tabs</li>
+                                    <li>Syntax highlighting</li>
+                                    <li>Error detection and reporting</li>
+                                    <li>Customizable themes</li>
+                                    <li>Keyboard shortcuts</li>
+                                    <li>Performance optimizations</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="about-developer">
+                                <h4>Developer</h4>
+                                <p><strong>MBARK</strong></p>
+                                <p>me@MBVRK.onmicrosoft.com</p>
+                                <div class="developer-links">
+                                    <a href="https://github.com/mbarkt3sto" target="_blank" class="social-link">
+                                        <i class="ri-github-fill"></i> GitHub
+                                    </a>
+                                    <a href="https://hashnode.com/@mbarkt3sto" target="_blank" class="social-link">
+                                        <i class="ri-hashtag"></i> Hashnode
+                                    </a>
+                                    <a href="https://linkedin.com/in/mbarkt3sto" target="_blank" class="social-link">
+                                        <i class="ri-linkedin-fill"></i> LinkedIn
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    
+        <!-- Scroll to Top Button -->
+        <button id="scrollToTop" class="scroll-to-top" title="Scroll to top">
+            <i class="ri-arrow-up-line"></i>
+        </button>
+    </div>
+
+    <!-- Settings Scripts -->
+    <script src="scripts/settings.js"></script>
+    
+    <script>
+        // Initialize settings page
+        document.addEventListener('DOMContentLoaded', () => {
+        // Initialize settings functionality
+        if (window.SettingsManager) {
+            // Settings manager is already initialized in the constructor
+            console.log('Settings manager initialized');
+        }
+            
+            // Theme toggle functionality
+            const themeToggle = document.getElementById('btnThemeToggle');
+            const body = document.body;
+            
+            themeToggle.addEventListener('click', () => {
+                body.classList.toggle('theme-dark');
+                body.classList.toggle('theme-light');
+            });
+            
+            // Back button functionality
+            const backButton = document.getElementById('btnBack');
+            backButton.addEventListener('click', () => {
+                window.history.back();
+            });
+        });
+    </script>
+</body>
+</html>

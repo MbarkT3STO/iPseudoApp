@@ -1,7 +1,7 @@
-// ===== SETTINGS MANAGER =====
-// Modern settings management with neumorphic UI
+// ===== MODERN SETTINGS MANAGER =====
+// Modern settings management with glass morphism UI
 
-class SettingsManager {
+class ModernSettingsManager {
     constructor() {
         this.settings = this.loadSettings();
         this.currentSection = 'appearance';
@@ -50,6 +50,15 @@ class SettingsManager {
     buildSearchData() {
         return [
             // Appearance Settings
+            {
+                id: 'uiDesign',
+                title: 'UI Design',
+                description: 'Choose between Modern and Classic UI designs',
+                section: 'Appearance',
+                sectionId: 'appearance',
+                icon: 'ri-layout-2-line',
+                keywords: ['ui', 'design', 'modern', 'classic', 'interface', 'layout']
+            },
             {
                 id: 'themeSelect',
                 title: 'Color Theme',
@@ -595,6 +604,16 @@ class SettingsManager {
 
     // Setup form controls and their event listeners
     setupFormControls() {
+        // UI Design selector
+        const uiDesignSelect = document.getElementById('uiDesign');
+        if (uiDesignSelect) {
+            uiDesignSelect.value = this.settings.uiDesign || 'modern';
+            uiDesignSelect.addEventListener('change', (e) => {
+                this.updateSetting('uiDesign', e.target.value);
+                this.applyUIDesign(e.target.value);
+            });
+        }
+
         // Theme selector
         const themeSelect = document.getElementById('themeSelect');
         if (themeSelect) {
@@ -856,6 +875,9 @@ class SettingsManager {
     // Apply a specific setting
     applySetting(key, value) {
         switch (key) {
+            case 'uiDesign':
+                this.applyUIDesign(value);
+                break;
             case 'animationsEnabled':
                 this.toggleAnimations(value);
                 break;
@@ -1029,6 +1051,40 @@ class SettingsManager {
                window.location.pathname.endsWith('/') || 
                window.location.pathname === '' ||
                window.location.pathname.endsWith('dist/renderer/index.html');
+    }
+
+    // Apply UI Design
+    applyUIDesign(uiDesign) {
+        // Store the UI preference
+        localStorage.setItem('preferredUI', uiDesign);
+        
+        // Show notification
+        this.showNotification(`UI switched to ${uiDesign === 'modern' ? 'Modern' : 'Classic'} UI. Please restart the application to see changes.`, 'info');
+        
+        // If we're in the settings page, we can show a preview or redirect
+        if (window.location.pathname.includes('settings.html')) {
+            // Show a confirmation dialog
+            if (confirm(`Switch to ${uiDesign === 'modern' ? 'Modern' : 'Classic'} UI? The application will restart to apply changes.`)) {
+                // Redirect to the appropriate UI
+                if (uiDesign === 'modern') {
+                    // If we're in classic settings, go to modern UI
+                    if (window.location.pathname.includes('src/renderer/settings.html')) {
+                        window.location.href = '../../modern-ui/index.html';
+                    } else {
+                        // We're in modern settings, go to modern UI
+                        window.location.href = 'index.html';
+                    }
+                } else {
+                    // If we're in modern settings, go to classic UI
+                    if (window.location.pathname.includes('modern-ui/settings.html')) {
+                        window.location.href = '../src/renderer/index.html';
+                    } else {
+                        // We're in classic settings, go to classic UI
+                        window.location.href = 'index.html';
+                    }
+                }
+            }
+        }
     }
 
     // Apply theme
@@ -1504,6 +1560,7 @@ class SettingsManager {
     // Get default settings
     getDefaultSettings() {
         return {
+            uiDesign: 'modern',
             theme: 'light',
             accentColor: '#0ea5e9',
             animationsEnabled: true,
@@ -1596,10 +1653,10 @@ class SettingsManager {
 
 // Initialize settings manager when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    window.SettingsManager = new SettingsManager();
+    window.SettingsManager = new ModernSettingsManager();
 });
 
 // Export for use in other modules
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = SettingsManager;
+    module.exports = ModernSettingsManager;
 }

@@ -15,10 +15,10 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     
     <!-- Neumorphic Styles -->
-    <link rel="stylesheet" href="styles/neumorphism.css">
+    <link rel="stylesheet" href="./styles/neumorphism.css">
     
     <!-- Modern Console Styles -->
-    <link rel="stylesheet" href="styles/modern-console.css">
+    <link rel="stylesheet" href="./styles/modern-console.css">
     
     <!-- Monaco Editor Setup -->
     <script>
@@ -103,9 +103,9 @@
                     <i class="ri-layout-column-line" id="layoutIcon"></i>
                 </button>
                 
-                <!-- Modern UI Switch Button -->
+                <!-- UI Switch Button -->
                 <button class="btn btn-icon btn-secondary" id="btnModernUI" title="Switch to Modern UI">
-                    <i class="ri-palette-line"></i>
+                    <i class="ri-layout-2-line"></i>
                 </button>
                 
                 <!-- Neumorphic Settings Button -->
@@ -741,10 +741,11 @@
     </div>
 
     <!-- Neumorphic Scripts -->
-    <script src="scripts/errorManager.js"></script>
-    <script src="scripts/editor.js"></script>
-    <script src="scripts/theme.js"></script>
-    <script src="scripts/app.js"></script>
+    <script src="../../modern-ui/scripts/ui-detector.js"></script>
+    <script src="./scripts/errorManager.js"></script>
+    <script src="./scripts/editor.js"></script>
+    <script src="./scripts/theme.js"></script>
+    <script src="./scripts/app.js"></script>
     
     <script>
         // Neumorphic Modal functionality
@@ -818,17 +819,17 @@
             }
         });
 
-        // Modern UI Switch functionality
+        // UI Switch functionality
         const modernUIBtn = document.getElementById('btnModernUI');
         if (modernUIBtn) {
             modernUIBtn.addEventListener('click', () => {
-                // Check if we're in Electron environment
-                if (window.electron && typeof window.electron.openExternal === 'function') {
-                    // In Electron, navigate to the modern UI
+                // Store preference for Modern UI
+                localStorage.setItem('preferredUI', 'modern');
+                
+                // Show confirmation
+                if (confirm('Switch to Modern UI? The application will restart to apply changes.')) {
+                    // Navigate to Modern UI
                     window.location.href = '../../modern-ui/index.html';
-                } else {
-                    // In browser, open in new tab
-                    window.open('../../modern-ui/index.html', '_blank', 'noopener,noreferrer');
                 }
             });
         }

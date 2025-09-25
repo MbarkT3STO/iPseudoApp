@@ -4770,12 +4770,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const settingsButton = document.getElementById('btnSettings');
     if (settingsButton) {
         settingsButton.addEventListener('click', () => {
-            // Open settings modal
-            const settingsModal = document.getElementById('settingsModal');
-            if (settingsModal) {
-                settingsModal.style.display = 'flex';
-                initializeSettingsModal();
-            }
+            // Navigate to settings page
+            window.location.href = 'settings.html';
         });
     }
     // Listen for settings changes when returning from settings page

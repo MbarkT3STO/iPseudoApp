@@ -15,8 +15,8 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     
     <!-- Neumorphic Styles -->
-    <link rel="stylesheet" href="styles/neumorphism.css">
-    <link rel="stylesheet" href="styles/settings.css">
+    <link rel="stylesheet" href="./styles/neumorphism.css">
+    <link rel="stylesheet" href="./styles/settings.css">
     
     <!-- Monaco Editor Setup -->
     <script>
@@ -183,7 +183,7 @@
                 <!-- Settings Content Area -->
                 <div class="settings-content">
                     <!-- Appearance Settings -->
-                    <div class="settings-panel active" id="appearance">
+                    <div class="settings-panel active" id="appearance" style="background: orange; border: 10px solid purple; padding: 50px;">
                         <div class="panel-header">
                             <div class="header-content">
                                 <div class="header-icon">
@@ -196,13 +196,31 @@
                             </div>
                         </div>
                         
-                        <div class="settings-group">
+                        <div class="settings-group" style="background: red; border: 5px solid blue; padding: 20px;">
                             <div class="group-header">
-                                <h3>Theme</h3>
-                                <p>Choose your preferred color scheme</p>
+                                <h3>Interface</h3>
+                                <p>Choose your preferred UI design and color scheme</p>
                             </div>
                             
-                            <div class="settings-cards">
+                            <div class="settings-cards" style="background: green; border: 3px solid yellow; padding: 10px;">
+                                <div class="setting-card" style="border: 3px solid red; background: yellow;">
+                                    <div class="card-header">
+                                        <div class="card-icon">
+                                            <i class="ri-layout-2-line"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>UI Design</h4>
+                                            <p>Choose between Modern and Classic UI designs</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-control">
+                                        <select id="uiDesign" class="modern-select" style="background: white; color: black; border: 2px solid blue;">
+                                            <option value="modern">Modern UI</option>
+                                            <option value="classic">Classic UI</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
                                 <div class="setting-card">
                                     <div class="card-header">
                                         <div class="card-icon">
@@ -952,30 +970,51 @@
 </div>
 
     <!-- Settings Scripts -->
-    <script src="scripts/settings.js"></script>
+    <!-- <script src="./scripts/settings.js"></script> -->
     
     <script>
         // Initialize settings page
         document.addEventListener('DOMContentLoaded', () => {
-            // Initialize settings functionality
-            if (window.SettingsManager) {
-                window.SettingsManager.init();
+            console.log('Settings page loaded');
+            
+            // Check all settings panels
+            const panels = document.querySelectorAll('.settings-panel');
+            console.log('All settings panels:', panels);
+            panels.forEach((panel, index) => {
+                console.log(`Panel ${index}:`, panel.id, 'active:', panel.classList.contains('active'));
+            });
+            
+            // Check if UI Design element exists
+            const uiDesignSelect = document.getElementById('uiDesign');
+            console.log('UI Design select element:', uiDesignSelect);
+            if (uiDesignSelect) {
+                console.log('UI Design select value:', uiDesignSelect.value);
+                console.log('UI Design select options:', Array.from(uiDesignSelect.options).map(o => o.value));
             }
+            
+            // Check if Appearance panel is visible
+            const appearancePanel = document.getElementById('appearance');
+            console.log('Appearance panel:', appearancePanel);
+            console.log('Appearance panel computed style:', window.getComputedStyle(appearancePanel).display);
             
             // Theme toggle functionality
             const themeToggle = document.getElementById('btnThemeToggle');
             const body = document.body;
             
-            themeToggle.addEventListener('click', () => {
-                body.classList.toggle('theme-dark');
-                body.classList.toggle('theme-light');
-            });
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    body.classList.toggle('theme-dark');
+                    body.classList.toggle('theme-light');
+                });
+            }
             
             // Back button functionality
             const backButton = document.getElementById('btnBack');
-            backButton.addEventListener('click', () => {
-                window.history.back();
-            });
+            if (backButton) {
+                backButton.addEventListener('click', () => {
+                    window.history.back();
+                });
+            }
         });
     </script>
 </body>

@@ -90,7 +90,7 @@
                 </button>
                 
                 <!-- Stop Button -->
-                <button class="modern-btn modern-btn-stop" id="btnStop">
+                <button class="modern-btn modern-btn-stop" id="btnStop" style="display: none;">
                     <i class="ri-stop-line"></i>
                     <span>Stop</span>
                 </button>
@@ -107,7 +107,7 @@
                 
                 <!-- Classic UI Switch Button -->
                 <button class="modern-btn modern-btn-icon" id="btnClassicUI" aria-label="Switch to Classic UI">
-                    <i class="ri-palette-2-line"></i>
+                    <i class="ri-layout-2-line"></i>
                 </button>
                 
                 <!-- Modern Settings Button -->
@@ -412,6 +412,7 @@
     </div>
 
     <!-- Modern Scripts -->
+    <script src="scripts/ui-detector.js"></script>
     <script src="scripts/simple-tooltip.js"></script>
     <script src="scripts/errorManager.js"></script>
     <script src="scripts/editor.js"></script>
@@ -494,13 +495,13 @@
         const classicUIBtn = document.getElementById('btnClassicUI');
         if (classicUIBtn) {
             classicUIBtn.addEventListener('click', () => {
-                // Check if we're in Electron environment
-                if (window.electron && typeof window.electron.openExternal === 'function') {
-                    // In Electron, navigate to the classic UI
+                // Store preference for Classic UI
+                localStorage.setItem('preferredUI', 'classic');
+                
+                // Show confirmation
+                if (confirm('Switch to Classic UI? The application will restart to apply changes.')) {
+                    // Navigate to Classic UI
                     window.location.href = '../src/renderer/index.html';
-                } else {
-                    // In browser, open in new tab
-                    window.open('../src/renderer/index.html', '_blank', 'noopener,noreferrer');
                 }
             });
         }
