@@ -2277,3 +2277,42 @@
         gap: var(--space-2);
     }
 }
+
+/* ===== SETTINGS CONTROL CLASSES ===== */
+/* Disable glass effects */
+.no-glass {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    box-shadow: none !important;
+}
+
+.no-glass::before,
+.no-glass::after {
+    display: none !important;
+}
+
+/* Disable animations */
+.reduced-motion * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+}
+
+.reduced-motion *,
+.reduced-motion *::before,
+.reduced-motion *::after {
+    animation-delay: 0s !important;
+    transition-delay: 0s !important;
+}
+
+/* Disable particle effects */
+.no-particles {
+    display: none !important;
+}
+
+/* Light mode overrides for disabled effects */
+[data-theme="light"] .no-glass {
+    background: rgba(0, 0, 0, 0.02) !important;
+}
