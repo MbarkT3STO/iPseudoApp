@@ -410,31 +410,40 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // Modern input modal function
+    // Modern glassmorphism input modal function
     function showInputModal(title, inputId, worker) {
         // Remove any existing input modal
         hideInputModal();
         
-        // Create modern input modal
+        // Create modern glassmorphism input modal
         const modal = document.createElement('div');
         modal.id = 'input-modal';
-        modal.className = 'input-modal-overlay';
+        modal.className = 'modern-input-modal-overlay';
         modal.innerHTML = `
-            <div class="input-modal-container">
-                <div class="input-modal-header">
-                    <h3 class="input-modal-title">${title || 'Input Required'}</h3>
-                    <button type="button" class="input-modal-close" id="input-modal-close">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                        </svg>
-                    </button>
-                </div>
-                <div class="input-modal-body">
-                    <input type="text" id="input-modal-field" class="input-modal-field" placeholder="Enter value..." autofocus>
-                </div>
-                <div class="input-modal-footer">
-                    <button type="button" id="input-modal-cancel" class="input-modal-cancel">Cancel</button>
-                    <button type="button" id="input-modal-submit" class="input-modal-submit">Submit</button>
+            <div class="modern-input-modal-container">
+                <div class="modern-input-modal-glass">
+                    <div class="modern-input-modal-header">
+                        <h3 class="modern-input-modal-title">${title || 'Input Required'}</h3>
+                        <button type="button" class="modern-input-modal-close" id="input-modal-close">
+                            <i class="ri-close-line"></i>
+                        </button>
+                    </div>
+                    <div class="modern-input-modal-body">
+                        <div class="modern-input-field-wrapper">
+                            <input type="text" id="input-modal-field" class="modern-input-modal-field" placeholder="Enter value..." autofocus>
+                            <div class="modern-input-field-shine"></div>
+                        </div>
+                    </div>
+                    <div class="modern-input-modal-footer">
+                        <button type="button" id="input-modal-cancel" class="modern-input-modal-cancel">
+                            <i class="ri-close-line"></i>
+                            Cancel
+                        </button>
+                        <button type="button" id="input-modal-submit" class="modern-input-modal-submit">
+                            <i class="ri-check-line"></i>
+                            Submit
+                        </button>
+                    </div>
                 </div>
             </div>
         `;
@@ -442,46 +451,50 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add the modal to body
         document.body.appendChild(modal);
         
-        // Create styles if not already present
-        if (!document.getElementById('input-modal-styles')) {
+        // Create modern glassmorphism styles
+        if (!document.getElementById('modern-input-modal-styles')) {
             const style = document.createElement('style');
-            style.id = 'input-modal-styles';
+            style.id = 'modern-input-modal-styles';
             style.textContent = `
-                .input-modal-overlay {
+                /* ===== MODERN GLASSMORPHISM INPUT MODAL ===== */
+                .modern-input-modal-overlay {
                     position: fixed;
                     top: 0;
                     left: 0;
                     width: 100%;
                     height: 100%;
-                    background: rgba(0, 0, 0, 0.4);
-                    backdrop-filter: blur(8px);
+                    background: rgba(0, 0, 0, 0.6);
+                    backdrop-filter: blur(20px);
+                    -webkit-backdrop-filter: blur(20px);
                     z-index: 9999;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    animation: modalFadeIn 0.2s ease-out;
+                    padding: var(--space-6);
+                    animation: modernModalFadeIn var(--duration-normal) var(--ease-out);
                 }
                 
-                @keyframes modalFadeIn {
-                    from { opacity: 0; }
-                    to { opacity: 1; }
-                }
-                
-                .input-modal-container {
-                    background: var(--modal-bg, #ffffff);
-                    border-radius: 12px;
-                    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-                    border: 1px solid var(--modal-border, rgba(0, 0, 0, 0.1));
-                    min-width: 400px;
-                    max-width: 500px;
-                    margin: 20px;
-                    animation: modalSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                    overflow: hidden;
-                }
-                
-                @keyframes modalSlideIn {
+                @keyframes modernModalFadeIn {
                     from { 
-                        transform: translateY(-20px) scale(0.95);
+                        opacity: 0;
+                        backdrop-filter: blur(0px);
+                    }
+                    to { 
+                        opacity: 1;
+                        backdrop-filter: blur(20px);
+                    }
+                }
+                
+                .modern-input-modal-container {
+                    width: 100%;
+                    max-width: 500px;
+                    position: relative;
+                    animation: modernModalSlideIn var(--duration-normal) var(--ease-out);
+                }
+                
+                @keyframes modernModalSlideIn {
+                    from { 
+                        transform: translateY(-30px) scale(0.95);
                         opacity: 0;
                     }
                     to { 
@@ -490,127 +503,229 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
                 
-                .input-modal-header {
+                .modern-input-modal-glass {
+                    background: var(--glass-bg, rgba(255, 255, 255, 0.05));
+                    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+                    border-radius: var(--radius-2xl);
+                    box-shadow: var(--shadow-glass, 0 8px 32px rgba(0, 0, 0, 0.3));
+                    backdrop-filter: var(--glass-blur, blur(20px));
+                    -webkit-backdrop-filter: var(--glass-blur, blur(20px));
+                    overflow: hidden;
+                    position: relative;
+                }
+                
+                .modern-input-modal-glass::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: var(--gradient-glass, linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%));
+                    pointer-events: none;
+                    z-index: 1;
+                }
+                
+                .modern-input-modal-header {
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
-                    padding: 20px 24px;
-                    background: var(--modal-header-bg, rgba(0, 0, 0, 0.02));
-                    border-bottom: 1px solid var(--modal-border, rgba(0, 0, 0, 0.05));
+                    padding: var(--space-6);
+                    border-bottom: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+                    position: relative;
+                    z-index: 2;
+                    background: rgba(255, 255, 255, 0.02);
                 }
                 
-                .input-modal-title {
-                    font-size: 16px;
-                    font-weight: 600;
-                    color: var(--modal-title-color, #1a1a1a);
+                .modern-input-modal-title {
+                    font-size: var(--font-size-lg);
+                    font-weight: var(--font-weight-semibold);
+                    color: var(--editor-text, #f0f6fc);
                     margin: 0;
+                    background: var(--gradient-text, linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 50%, var(--accent-tertiary) 100%));
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    -webkit-text-fill-color: transparent;
                 }
                 
-                .input-modal-close {
+                .modern-input-modal-close {
                     background: none;
                     border: none;
-                    color: var(--modal-close-color, rgba(0, 0, 0, 0.5));
+                    color: var(--editor-text-secondary, #8b949e);
                     cursor: pointer;
-                    padding: 6px;
-                    border-radius: 6px;
+                    padding: var(--space-2);
+                    border-radius: var(--radius-lg);
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    transition: all 0.2s ease;
+                    font-size: var(--font-size-lg);
+                    transition: all var(--duration-fast) var(--ease-out);
+                    position: relative;
+                    z-index: 2;
                 }
                 
-                .input-modal-close:hover {
-                    background: var(--modal-close-hover-bg, rgba(0, 0, 0, 0.05));
-                    color: var(--modal-close-hover-color, #1a1a1a);
+                .modern-input-modal-close:hover {
+                    background: var(--glass-bg-hover, rgba(255, 255, 255, 0.08));
+                    color: var(--editor-text, #f0f6fc);
+                    transform: scale(1.1);
+                    box-shadow: var(--shadow-glow-primary, 0 0 20px rgba(59, 130, 246, 0.3));
                 }
                 
-                .input-modal-body {
-                    padding: 24px;
+                .modern-input-modal-body {
+                    padding: var(--space-6);
+                    position: relative;
+                    z-index: 2;
                 }
                 
-                .input-modal-field {
+                .modern-input-field-wrapper {
+                    position: relative;
+                    border-radius: var(--radius-lg);
+                    overflow: hidden;
+                }
+                
+                .modern-input-modal-field {
                     width: 100%;
-                    padding: 12px 16px;
-                    border: 2px solid var(--input-border, #e5e7eb);
-                    border-radius: 8px;
-                    font-size: 16px;
-                    background: var(--input-bg, #ffffff);
-                    color: var(--input-text, #1a1a1a);
-                    transition: all 0.2s ease;
+                    padding: var(--space-4) var(--space-5);
+                    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+                    border-radius: var(--radius-lg);
+                    font-size: var(--font-size-base);
+                    font-family: var(--font-family-primary, 'Inter');
+                    background: var(--glass-bg, rgba(255, 255, 255, 0.05));
+                    color: var(--editor-text, #f0f6fc);
+                    transition: all var(--duration-fast) var(--ease-out);
                     outline: none;
+                    backdrop-filter: var(--glass-blur-light, blur(10px));
+                    -webkit-backdrop-filter: var(--glass-blur-light, blur(10px));
                 }
                 
-                .input-modal-field:focus {
-                    border-color: var(--input-focus-border, #0ea5e9);
-                    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+                .modern-input-modal-field::placeholder {
+                    color: var(--editor-text-tertiary, #6e7681);
+                    opacity: 0.8;
                 }
                 
-                .input-modal-footer {
-                    display: flex;
-                    align-items: center;
-                    justify-content: flex-end;
-                    gap: 12px;
-                    padding: 16px 24px;
-                    background: var(--modal-footer-bg, rgba(0, 0, 0, 0.02));
-                    border-top: 1px solid var(--modal-border, rgba(0, 0, 0, 0.05));
-                }
-                
-                .input-modal-cancel,
-                .input-modal-submit {
-                    padding: 8px 16px;
-                    border: none;
-                    border-radius: 6px;
-                    font-size: 14px;
-                    font-weight: 500;
-                    cursor: pointer;
-                    transition: all 0.2s ease;
-                }
-                
-                .input-modal-cancel {
-                    background: var(--cancel-bg, #f3f4f6);
-                    color: var(--cancel-text, #374151);
-                }
-                
-                .input-modal-cancel:hover {
-                    background: var(--cancel-hover-bg, #e5e7eb);
-                }
-                
-                .input-modal-submit {
-                    background: var(--submit-bg, #0ea5e9);
-                    color: var(--submit-text, #ffffff);
-                }
-                
-                .input-modal-submit:hover {
-                    background: var(--submit-hover-bg, #0284c7);
+                .modern-input-modal-field:focus {
+                    border-color: var(--accent-primary, #3b82f6);
+                    background: var(--glass-bg-active, rgba(255, 255, 255, 0.12));
+                    box-shadow: var(--shadow-glow-primary, 0 0 20px rgba(59, 130, 246, 0.3)), 
+                                inset 0 1px 0 rgba(255, 255, 255, 0.1);
                     transform: translateY(-1px);
                 }
                 
-                /* Dark mode styles */
-                [data-theme="dark"] .input-modal-container {
-                    --modal-bg: #1f2937;
-                    --modal-border: rgba(255, 255, 255, 0.1);
-                    --modal-header-bg: rgba(255, 255, 255, 0.02);
-                    --modal-title-color: #ffffff;
-                    --modal-close-color: rgba(255, 255, 255, 0.5);
-                    --modal-close-hover-bg: rgba(255, 255, 255, 0.05);
-                    --modal-close-hover-color: #ffffff;
-                    --input-bg: #374151;
-                    --input-border: #4b5563;
-                    --input-text: #ffffff;
-                    --input-focus-border: #0ea5e9;
-                    --modal-footer-bg: rgba(255, 255, 255, 0.02);
-                    --cancel-bg: #374151;
-                    --cancel-text: #d1d5db;
-                    --cancel-hover-bg: #4b5563;
-                    --submit-bg: #0ea5e9;
-                    --submit-text: #ffffff;
-                    --submit-hover-bg: #0284c7;
+                .modern-input-field-shine {
+                    position: absolute;
+                    top: 0;
+                    left: -100%;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(90deg, 
+                        transparent, 
+                        rgba(255, 255, 255, 0.2), 
+                        transparent);
+                    transition: left 0.6s ease;
+                    pointer-events: none;
+                }
+                
+                .modern-input-modal-field:focus + .modern-input-field-shine {
+                    left: 100%;
+                }
+                
+                .modern-input-modal-footer {
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-end;
+                    gap: var(--space-3);
+                    padding: var(--space-6);
+                    border-top: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+                    position: relative;
+                    z-index: 2;
+                    background: rgba(255, 255, 255, 0.02);
+                }
+                
+                .modern-input-modal-cancel,
+                .modern-input-modal-submit {
+                    display: flex;
+                    align-items: center;
+                    gap: var(--space-2);
+                    padding: var(--space-3) var(--space-5);
+                    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+                    border-radius: var(--radius-lg);
+                    font-size: var(--font-size-sm);
+                    font-weight: var(--font-weight-medium);
+                    cursor: pointer;
+                    transition: all var(--duration-fast) var(--ease-out);
+                    backdrop-filter: var(--glass-blur-light, blur(10px));
+                    -webkit-backdrop-filter: var(--glass-blur-light, blur(10px));
+                    position: relative;
+                    overflow: hidden;
+                }
+                
+                .modern-input-modal-cancel {
+                    background: var(--glass-bg, rgba(255, 255, 255, 0.05));
+                    color: var(--editor-text-secondary, #8b949e);
+                    border-color: rgba(255, 255, 255, 0.05);
+                }
+                
+                .modern-input-modal-cancel:hover {
+                    background: var(--glass-bg-hover, rgba(255, 255, 255, 0.08));
+                    color: var(--editor-text, #f0f6fc);
+                    transform: translateY(-1px);
+                    box-shadow: var(--shadow-lg);
+                }
+                
+                .modern-input-modal-submit {
+                    background: var(--gradient-primary, linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%));
+                    color: whitesmoke;
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    font-weight: var(--font-weight-semibold);
+                }
+                
+                .modern-input-modal-submit:hover {
+                    transform: translateY(-2px) scale(1.02);
+                    box-shadow: var(--shadow-glow-primary, 0 0 20px rgba(59, 130, 246, 0.4)), 
+                                var(--shadow-xl);
+                }
+                
+                .modern-input-modal-submit:active {
+                    transform: translateY(0) scale(0.98);
+                }
+                
+                /* Theme overrides for light mode */
+                [data-theme="light"] .modern-input-modal-overlay {
+                    background: rgba(255, 255, 255, 0.3);
+                }
+                
+                [data-theme="light"] .modern-input-modal-glass {
+                    background: rgba(255, 255, 255, 0.8);
+                    border-color: rgba(0, 0, 0, 0.1);
+                    box-shadow: var(--shadow-glass, 0 8px 32px rgba(0, 0, 0, 0.15));
+                }
+                
+                [data-theme="light"] .modern-input-modal-title {
+                    background: var(--gradient-text);
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                }
+                
+                [data-theme="light"] .modern-input-modal-field {
+                    background: rgba(255, 255, 255, 0.9);
+                    color: #0d1117;
+                    border-color: rgba(0, 0, 0, 0.1);
+                }
+                
+                [data-theme="light"] .modern-input-modal-field::placeholder {
+                    color: #6e7681;
+                }
+                
+                [data-theme="light"] .modern-input-modal-field:focus {
+                    border-color: var(--accent-primary);
+                    background: rgba(255, 255, 255, 0.95);
                 }
             `;
             document.head.appendChild(style);
         }
         
-        // Get elements
+        // Get elements - using new modal classes
         const modalElement = document.getElementById('input-modal');
         const inputField = document.getElementById('input-modal-field');
         const submitButton = document.getElementById('input-modal-submit');

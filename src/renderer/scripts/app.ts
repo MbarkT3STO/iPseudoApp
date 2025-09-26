@@ -4153,31 +4153,43 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Function to show input modal - modern design for user input
+    // Function to show input modal - neumorphic design for classic UI
 function showInputModal(title: string, inputId: string, worker: Worker): void {
     // Remove any existing input modal
     hideInputModal();
     
-    // Create modern input modal
+    // Create neumorphic input modal for classic UI
     const modal = document.createElement('div');
     modal.id = 'input-modal';
-    modal.className = 'input-modal-overlay';
+    modal.className = 'classic-input-modal-overlay';
     modal.innerHTML = `
-        <div class="input-modal-container">
-            <div class="input-modal-header">
-                <h3 class="input-modal-title">${title || 'Input Required'}</h3>
-                <button type="button" class="input-modal-close" id="input-modal-close">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                    </svg>
-                </button>
-            </div>
-            <div class="input-modal-body">
-                <input type="text" id="input-modal-field" class="input-modal-field" placeholder="Enter value..." autofocus>
-            </div>
-            <div class="input-modal-footer">
-                <button type="button" id="input-modal-cancel" class="input-modal-cancel">Cancel</button>
-                <button type="button" id="input-modal-submit" class="input-modal-submit">Submit</button>
+        <div class="classic-input-modal-container">
+            <div class="classic-input-modal-elevated">
+                <div class="classic-input-modal-header">
+                    <div class="classic-input-modal-icon">
+                        <i class="ri-keyboard-line"></i>
+                    </div>
+                    <h3 class="classic-input-modal-title">${title || 'Input Required'}</h3>
+                    <button type="button" class="classic-input-modal-close" id="input-modal-close">
+                        <i class="ri-close-line"></i>
+                    </button>
+                </div>
+                <div class="classic-input-modal-body">
+                    <div class="classic-input-field-container">
+                        <input type="text" id="input-modal-field" class="classic-input-modal-field" placeholder="Enter value..." autofocus>
+                        <div class="classic-input-field-glow"></div>
+                    </div>
+                </div>
+                <div class="classic-input-modal-footer">
+                    <button type="button" id="input-modal-cancel" class="classic-input-modal-cancel">
+                        <i class="ri-close-line"></i>
+                        Cancel
+                    </button>
+                    <button type="button" id="input-modal-submit" class="classic-input-modal-submit">
+                        <i class="ri-check-line"></i>
+                        Submit
+                    </button>
+                </div>
             </div>
         </div>
     `;
@@ -4185,42 +4197,53 @@ function showInputModal(title: string, inputId: string, worker: Worker): void {
     // Add the modal to body
     document.body.appendChild(modal);
     
-    // Create styles if not already present
-    if (!document.getElementById('input-modal-styles')) {
+    // Create neumorphic styles for classic UI
+    if (!document.getElementById('classic-input-modal-styles')) {
         const style = document.createElement('style');
-        style.id = 'input-modal-styles';
+        style.id = 'classic-input-modal-styles';
         style.textContent = `
-            /* ===== INPUT MODAL BASE STYLES ===== */
-            .input-modal-overlay {
+            /* ===== NEUMORPHIC INPUT MODAL STYLES ===== */
+            .classic-input-modal-overlay {
                 position: fixed;
                 top: 0;
                 left: 0;
                 width: 100%;
                 height: 100%;
+                background: var(--bg-soft-modal, rgba(0, 0, 0, 0.3));
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
                 z-index: 9999;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                animation: modalFadeIn 0.2s ease-out;
+                padding: var(--space-soft-6);
+                animation: classicModalFadeIn var(--duration-soft-normal) var(--ease-soft-in-out);
             }
             
-            @keyframes modalFadeIn {
-                from { opacity: 0; }
-                to { opacity: 1; }
-            }
-            
-            .input-modal-container {
-                min-width: 400px;
-                max-width: 500px;
-                margin: 20px;
-                border-radius: 12px;
-                animation: modalSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                overflow: hidden;
-            }
-            
-            @keyframes modalSlideIn {
+            @keyframes classicModalFadeIn {
                 from { 
-                    transform: translateY(-20px) scale(0.95);
+                    opacity: 0;
+                    backdrop-filter: blur(0px);
+                }
+                to { 
+                    opacity: 1;
+                    backdrop-filter: blur(8px);
+                }
+            }
+            
+            .classic-input-modal-container {
+                width: 100%;
+                max-width: 500px;
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                animation: classicModalSlideIn var(--duration-soft-normal) var(--ease-soft-bounce);
+            }
+            
+            @keyframes classicModalSlideIn {
+                from { 
+                    transform: translateY(-30px) scale(0.9);
                     opacity: 0;
                 }
                 to { 
@@ -4229,225 +4252,297 @@ function showInputModal(title: string, inputId: string, worker: Worker): void {
                 }
             }
             
-            .input-modal-header {
+            .classic-input-modal-elevated {
+                background: var(--bg-soft-elevated, #f8fafc);
+                border-radius: var(--radius-soft-2xl);
+                box-shadow: var(--shadow-soft-floating);
+                border: 1px solid var(--border-soft-light, rgba(255, 255, 255, 0.8));
+                width: 100%;
+                max-width: 480px;
+                overflow: hidden;
+                position: relative;
+            }
+            
+            .classic-input-modal-elevated::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 1px;
+                background: linear-gradient(90deg, 
+                    transparent 0%, 
+                    rgba(255, 255, 255, 0.8) 50%, 
+                    transparent 100%);
+            }
+            
+            .classic-input-modal-header {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                padding: 20px 24px;
-                border-bottom: 1px solid;
+                padding: var(--space-soft-6);
+                background: linear-gradient(135deg, 
+                    var(--bg-soft-elevated, #f8fafc) 0%,
+                    var(--bg-soft-secondary, #f1f5f9) 100%);
+                border-bottom: 1px solid var(--border-soft-light, rgba(203, 213, 225, 0.5));
+                position: relative;
             }
             
-            .input-modal-title {
-                font-size: 16px;
-                font-weight: 600;
-                margin: 0;
-            }
-            
-            .input-modal-close {
-                background: none;
-                border: none;
-                cursor: pointer;
-                padding: 6px;
-                border-radius: 6px;
+            .classic-input-modal-icon {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                transition: all 0.2s ease;
+                width: 40px;
+                height: 40px;
+                background: var(--soft-blue-500, #0a84ff);
+                color: white;
+                border-radius: var(--radius-soft-full);
+                box-shadow: var(--shadow-soft-glow);
+                font-size: var(--font-size-soft-lg);
+                margin-right: var(--space-soft-4);
             }
             
-            .input-modal-close:hover {
-                opacity: 0.7;
+            .classic-input-modal-title {
+                font-size: var(--font-size-soft-lg);
+                font-weight: var(--font-weight-soft-semibold);
+                color: var(--text-soft-primary, #0f172a);
+                margin: 0;
+                flex: 1;
+                background: linear-gradient(135deg, 
+                    var(--text-soft-primary, #0f172a) 0%, 
+                    var(--text-soft-secondary, #334155) 100%);
+                -webkit-background-clip: text;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
             }
             
-            .input-modal-body {
-                padding: 24px;
-                background: transparent;
-            }
-            
-            .input-modal-field {
-                width: 100%;
-                padding: 12px 16px;
-                border: 2px solid;
-                border-radius: 8px;
-                font-size: 16px;
-                transition: all 0.2s ease;
-                outline: none;
-                box-sizing: border-box;
-                font-family: inherit;
-            }
-            
-            .input-modal-field:focus {
-                border-color: #0ea5e9;
-                box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
-            }
-            
-            .input-modal-footer {
+            .classic-input-modal-close {
+                background: var(--bg-soft-flat, #f1f5f9);
+                border: none;
+                color: var(--text-soft-tertiary, #64748b);
+                cursor: pointer;
+                padding: var(--space-soft-3);
+                border-radius: var(--radius-soft-lg);
                 display: flex;
                 align-items: center;
-                justify-content: flex-end;
-                gap: 12px;
-                padding: 16px 24px;
-                border-top: 1px solid;
+                justify-content: center;
+                font-size: var(--font-size-soft-lg);
+                transition: all var(--duration-soft-fast) var(--ease-soft-in-out);
+                box-shadow: var(--shadow-soft-raised);
+                width: 36px;
+                height: 36px;
             }
             
-            .input-modal-cancel,
-            .input-modal-submit {
-                padding: 8px 16px;
+            .classic-input-modal-close:hover {
+                background: var(--bg-soft-elevated, #e2e8f0);
+                color: var(--text-soft-primary, #1e293b);
+                transform: translateY(-1px);
+                box-shadow: var(--shadow-soft-glow);
+            }
+            
+            .classic-input-modal-close:active {
+                transform: translateY(0);
+                box-shadow: var(--shadow-soft-pressed);
+            }
+            
+            .classic-input-modal-body {
+                padding: var(--space-soft-8);
+                position: relative;
+            }
+            
+            .classic-input-field-container {
+                position: relative;
+                border-radius: var(--radius-soft-xl);
+                overflow: hidden;
+            }
+            
+            .classic-input-modal-field {
+                width: 100%;
+                padding: var(--space-soft-5) var(--space-soft-6);
                 border: none;
-                border-radius: 6px;
-                font-size: 14px;
-                font-weight: 500;
-                cursor: pointer;
-                transition: all 0.2s ease;
-                font-family: inherit;
+                border-radius: var(--radius-soft-xl);
+                font-size: var(--font-size-soft-base);
+                font-family: var(--font-family-soft, 'Inter');
+                background: var(--bg-soft-elevated, #ffffff);
+                color: var(--text-soft-primary, #0f172a);
+                transition: all var(--duration-soft-fast) var(--ease-soft-in-out);
+                outline: none;
+                box-shadow: var(--shadow-soft-inset);
+                box-sizing: border-box;
+                position: relative;
+                z-index: 1;
             }
             
-            .input-modal-submit:hover {
+            .classic-input-modal-field::placeholder {
+                color: var(--text-soft-tertiary, #64748b);
+                opacity: 0.8;
+            }
+            
+            .classic-input-modal-field:focus {
+                background: var(--bg-soft-active, #ffffff);
+                box-shadow: var(--shadow-soft-glow), 
+                           inset 0 0 0 2px var(--soft-blue-400, #36a7ff);
                 transform: translateY(-1px);
             }
             
-            /* ===== LIGHT MODE STYLES ===== */
-            .theme-light .input-modal-overlay {
-                background: rgba(0, 0, 0, 0.4);
-                backdrop-filter: blur(8px);
-                -webkit-backdrop-filter: blur(8px);
+            .classic-input-field-glow {
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, 
+                    transparent 0%, 
+                    rgba(10, 132, 255, 0.2) 50%, 
+                    transparent 100%);
+                transition: left 0.8s ease;
+                pointer-events: none;
+                border-radius: var(--radius-soft-xl);
             }
             
-            .theme-light .input-modal-container {
-                background: #ffffff;
-                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 8px 25px rgba(0, 0, 0, 0.1);
-                border: 1px solid rgba(0, 0, 0, 0.1);
-                color: #1a1a1a;
+            .classic-input-modal-field:focus + .classic-input-field-glow {
+                left: 100%;
             }
             
-            .theme-light .input-modal-header {
-                background: #f8fafc;
-                border-bottom-color: rgba(0, 0, 0, 0.05);
+            .classic-input-modal-footer {
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                gap: var(--space-soft-4);
+                padding: var(--space-soft-6);
+                background: linear-gradient(135deg, 
+                    var(--bg-soft-secondary, #f1f5f9) 0%,
+                    var(--bg-soft-elevated, #f8fafc) 100%);
+                border-top: 1px solid var(--border-soft-light, rgba(203, 213, 225, 0.5));
+                position: relative;
             }
             
-            .theme-light .input-modal-title {
-                color: #1a1a1a;
+            .classic-input-modal-cancel,
+            .classic-input-modal-submit {
+                display: flex;
+                align-items: center;
+                gap: var(--space-soft-2);
+                padding: var(--space-soft-3) var(--space-soft-5);
+                border: none;
+                border-radius: var(--radius-soft-lg);
+                font-size: var(--font-size-soft-sm);
+                font-weight: var(--font-weight-soft-medium);
+                cursor: pointer;
+                transition: all var(--duration-soft-fast) var(--ease-soft-in-out);
+                position: relative;
+                overflow: hidden;
+                font-family: var(--font-family-soft, 'Inter');
             }
             
-            .theme-light .input-modal-close {
-                color: #64748b;
+            .classic-input-modal-cancel {
+                background: var(--bg-soft-flat, #e2e8f0);
+                color: var(--text-soft-secondary, #475569);
+                box-shadow: var(--shadow-soft-raised);
             }
             
-            .theme-light .input-modal-close:hover {
-                background: rgba(0, 0, 0, 0.05);
-                color: #1a1a1a;
+            .classic-input-modal-cancel:hover {
+                background: var(--bg-soft-elevated, #cbd5e1);
+                color: var(--text-soft-primary, #1e293b);
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-soft-floating);
             }
             
-            .theme-light .input-modal-field {
-                background: #ffffff;
-                border-color: #e2e8f0;
-                color: #1a1a1a;
+            .classic-input-modal-cancel:active {
+                transform: translateY(0);
+                box-shadow: var(--shadow-soft-pressed);
             }
             
-            .theme-light .input-modal-field::placeholder {
-                color: #94a3b8;
+            .classic-input-modal-submit {
+                background: linear-gradient(135deg, 
+                    var(--soft-blue-500, #0a84ff) 0%, 
+                    var(--soft-blue-600, #0066cc) 100%);
+                color: white;
+                box-shadow: var(--shadow-soft-glow);
+                font-weight: var(--font-weight-soft-semibold);
             }
             
-            .theme-light .input-modal-field:focus {
-                border-color: #0ea5e9;
-                box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+            .classic-input-modal-submit:hover {
+                background: linear-gradient(135deg, 
+                    var(--soft-blue-600, #0066cc) 0%, 
+                    var(--soft-blue-700, #0052a3) 100%);
+                transform: translateY(-2px) scale(1.02);
+                box-shadow: var(--shadow-fluid-primary);
             }
             
-            .theme-light .input-modal-footer {
-                background: #f8fafc;
-                border-top-color: rgba(0, 0, 0, 0.05);
+            .classic-input-modal-submit:active {
+                transform: translateY(0) scale(1);
+                box-shadow: var(--shadow-soft-pressed);
             }
             
-            .theme-light .input-modal-cancel {
-                background: #f1f5f9;
-                color: #334155;
+            /* ===== DARK THEME OVERRIDES ===== */
+            .theme-dark .classic-input-modal-overlay {
+                background: var(--bg-soft-modal-dark, rgba(0, 0, 0, 0.7));
             }
             
-            .theme-light .input-modal-cancel:hover {
-                background: #e2e8f0;
-                color: #1e293b;
+            .theme-dark .classic-input-modal-elevated {
+                background: var(--bg-soft-elevated-dark, #1e293b);
+                border-color: rgba(255, 255, 255, 0.1);
+                box-shadow: var(--shadow-soft-floating-dark);
             }
             
-            .theme-light .input-modal-submit {
-                background: #0ea5e9;
-                color: #ffffff;
+            .theme-dark .classic-input-modal-header {
+                background: linear-gradient(135deg, 
+                    var(--bg-soft-elevated-dark, #1e293b) 0%,
+                    var(--bg-soft-secondary-dark, #334155) 100%);
+                border-bottom-color: rgba(255, 255, 255, 0.1);
             }
             
-            .theme-light .input-modal-submit:hover {
-                background: #0284c7;
-                box-shadow: 0 4px 14px rgba(14, 165, 233, 0.3);
+            .theme-dark .classic-input-modal-title {
+                color: var(--text-soft-primary-dark, #f8fafc);
+                background: linear-gradient(135deg, 
+                    var(--text-soft-primary-dark, #f8fafc) 0%, 
+                    var(--text-soft-secondary-dark, #cbd5e1) 100%);
+                -webkit-background-clip: text;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
             }
             
-            /* ===== DARK MODE STYLES ===== */
-            .theme-dark .input-modal-overlay {
-                background: rgba(0, 0, 0, 0.7);
-                backdrop-filter: blur(12px);
-                -webkit-backdrop-filter: blur(12px);
+            .theme-dark .classic-input-modal-close {
+                background: var(--bg-soft-flat-dark, #334155);
+                color: var(--text-soft-tertiary-dark, #94a3b8);
             }
             
-            .theme-dark .input-modal-container {
-                background: #1e293b;
-                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), 0 8px 25px rgba(0, 0, 0, 0.3);
-                border: 1px solid #334155;
-                color: #f8fafc;
+            .theme-dark .classic-input-modal-close:hover {
+                background: var(--bg-soft-elevated-dark, #475569);
+                color: var(--text-soft-primary-dark, #f8fafc);
             }
             
-            .theme-dark .input-modal-header {
-                background: #334155;
-                border-bottom-color: #475569;
+            .theme-dark .classic-input-modal-field {
+                background: var(--bg-soft-elevated-dark, #0f172a);
+                color: var(--text-soft-primary-dark, #f8fafc);
+                box-shadow: var(--shadow-soft-inset-dark);
             }
             
-            .theme-dark .input-modal-title {
-                color: #f8fafc;
+            .theme-dark .classic-input-modal-field::placeholder {
+                color: var(--text-soft-tertiary-dark, #64748b);
             }
             
-            .theme-dark .input-modal-close {
-                color: #94a3b8;
+            .theme-dark .classic-input-modal-field:focus {
+                box-shadow: var(--shadow-soft-glow), 
+                           inset 0 0 0 2px var(--soft-blue-400, #36a7ff);
             }
             
-            .theme-dark .input-modal-close:hover {
-                background: rgba(255, 255, 255, 0.05);
-                color: #f8fafc;
+            .theme-dark .classic-input-modal-footer {
+                background: linear-gradient(135deg, 
+                    var(--bg-soft-secondary-dark, #334155) 0%,
+                    var(--bg-soft-elevated-dark, #1e293b) 100%);
+                border-top-color: rgba(255, 255, 255, 0.1);
             }
             
-            .theme-dark .input-modal-field {
-                background: #0f172a;
-                border-color: #475569;
-                color: #f8fafc;
+            .theme-dark .classic-input-modal-cancel {
+                background: var(--bg-soft-flat-dark, #475569);
+                color: var(--text-soft-secondary-dark, #cbd5e1);
+                box-shadow: var(--shadow-soft-raised-dark);
             }
             
-            .theme-dark .input-modal-field::placeholder {
-                color: #64748b;
-            }
-            
-            .theme-dark .input-modal-field:focus {
-                border-color: #38bdf8;
-                box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
-            }
-            
-            .theme-dark .input-modal-footer {
-                background: #334155;
-                border-top-color: #475569;
-            }
-            
-            .theme-dark .input-modal-cancel {
-                background: #64748b;
-                color: #f8fafc;
-            }
-            
-            .theme-dark .input-modal-cancel:hover {
-                background: #94a3b8;
-                color: #ffffff;
-            }
-            
-            .theme-dark .input-modal-submit {
-                background: #0ea5e9;
-                color: #ffffff;
-            }
-            
-            .theme-dark .input-modal-submit:hover {
-                background: #0284c7;
-                box-shadow: 0 4px 14px rgba(14, 165, 233, 0.4);
+            .theme-dark .classic-input-modal-cancel:hover {
+                background: var(--bg-soft-elevated-dark, #64748b);
+                color: var(--text-soft-primary-dark, #f8fafc);
             }
         `;
         document.head.appendChild(style);
