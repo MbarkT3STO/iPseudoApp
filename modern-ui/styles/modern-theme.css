@@ -25,18 +25,28 @@
     --editor-text-tertiary: #6e7681;
     --editor-text-muted: #484f58;
     
-    /* Glass effects for dark theme */
+    /* Enhanced Glass effects inspired by About Modal */
     --glass-bg: rgba(255, 255, 255, 0.05);
     --glass-bg-hover: rgba(255, 255, 255, 0.08);
     --glass-bg-active: rgba(255, 255, 255, 0.12);
+    --glass-bg-header: rgba(255, 255, 255, 0.08);
+    --glass-bg-footer: rgba(255, 255, 255, 0.04);
     --glass-border: rgba(255, 255, 255, 0.1);
     --glass-border-hover: rgba(255, 255, 255, 0.15);
+    --glass-border-light: rgba(255, 255, 255, 0.2);
     --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     --glass-shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.4);
+    --glass-shadow-enhanced: 
+        0 25px 50px rgba(0, 0, 0, 0.25),
+        0 0 100px rgba(147, 51, 234, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
     
-    /* Gradients for dark theme */
+    /* Enhanced Gradients inspired by About Modal */
     --gradient-secondary: linear-gradient(135deg, var(--editor-bg) 0%, var(--editor-bg-secondary) 50%, var(--editor-bg) 100%);
     --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    --gradient-glass-header: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+    --gradient-glass-footer: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
+    --gradient-enhanced-accent: linear-gradient(135deg, #9333ea 0%, #4f46e5 100%);
 }
 
 /* ===== LIGHT THEME ===== */
@@ -52,18 +62,28 @@
     --editor-text-tertiary: #94a3b8;
     --editor-text-muted: #cbd5e1;
     
-    /* Glass effects for light theme */
+    /* Enhanced Glass effects inspired by About Modal */
     --glass-bg: rgba(0, 0, 0, 0.03);
     --glass-bg-hover: rgba(0, 0, 0, 0.05);
     --glass-bg-active: rgba(0, 0, 0, 0.08);
+    --glass-bg-header: rgba(0, 0, 0, 0.04);
+    --glass-bg-footer: rgba(0, 0, 0, 0.02);
     --glass-border: rgba(0, 0, 0, 0.08);
     --glass-border-hover: rgba(0, 0, 0, 0.12);
+    --glass-border-light: rgba(0, 0, 0, 0.1);
     --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     --glass-shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.15);
+    --glass-shadow-enhanced: 
+        0 25px 50px rgba(0, 0, 0, 0.15),
+        0 0 100px rgba(147, 51, 234, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
     
-    /* Gradients for light theme */
+    /* Enhanced Gradients inspired by About Modal */
     --gradient-secondary: linear-gradient(135deg, var(--editor-bg) 0%, var(--editor-bg-secondary) 50%, var(--editor-bg) 100%);
     --gradient-glass: linear-gradient(135deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.02) 100%);
+    --gradient-glass-header: linear-gradient(135deg, rgba(0, 0, 0, 0.03) 0%, rgba(0, 0, 0, 0.01) 100%);
+    --gradient-glass-footer: linear-gradient(135deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.005) 100%);
+    --gradient-enhanced-accent: linear-gradient(135deg, #9333ea 0%, #4f46e5 100%);
 }
 
 /* ===== THEME-SPECIFIC COMPONENT OVERRIDES ===== */
