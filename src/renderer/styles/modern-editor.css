@@ -160,13 +160,13 @@
   align-items: center;
   gap: var(--space-1);
   padding: var(--space-1) var(--space-3);
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
+  /* Simplified background for maximum performance - no gradients */
+  background: rgba(255, 255, 255, 0.08);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
   margin: 0 var(--space-3);
-  box-shadow: var(--glass-shadow);
+  /* Minimal shadow for performance */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   position: relative;
   z-index: 10;
   overflow-x: auto;
@@ -176,116 +176,90 @@
   min-height: 48px;
   max-height: 48px;
   flex-shrink: 0;
-  display: flex;
-  align-items: center;
+  /* Maximum performance settings */
+  contain: layout style paint;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .modern-tabs-container::-webkit-scrollbar {
   display: none;
 }
 
-.tabs-wrapper {
-  display: flex;
-  align-items: center;
-  gap: var(--space-1);
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-  height: 100%;
-  position: relative;
-}
-
-.tabs-track {
-  display: flex;
-  align-items: center;
-  gap: var(--space-1);
-  min-width: 0;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  flex: 1;
-  height: 100%;
-}
-
-.tabs-track::-webkit-scrollbar {
-  display: none;
-}
+/* tabs-track removed - tabs now directly in modern-tabs-container */
 
 .modern-tab {
   display: flex;
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-2) var(--space-3);
-  background: var(--glass-bg);
+  background: rgba(255, 255, 255, 0.06);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-full);
   color: var(--text-secondary);
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* ZERO EFFECTS ENTIRELY DISABLED FOR MAXIMUM SPEED */
+  transition: none !important;
+  animation: none !important;
+  transform: translateZ(0px) !important;
+  box-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  scale: none !important;
   position: relative;
   overflow: hidden;
   white-space: nowrap;
   min-width: 0;
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  box-shadow: var(--shadow-sm);
   user-select: none;
   flex-shrink: 0;
   height: 36px;
   max-height: 36px;
   min-height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  /* Minimal performance settings */
+  contain: layout;
 }
 
-.modern-tab::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.6s ease;
-  z-index: 1;
+/* DISABLED ALL pseudo-element effects for pure performance */
+.modern-tab::before,
+.modern-tab::after {
+  display: none !important;
+  content: none !important;
+  background: none !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  visibility: hidden !important;
 }
 
 .modern-tab:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: translateY(-1px) scale(1.02);
-  box-shadow: var(--shadow-md);
-  z-index: 10;
-}
-
-.modern-tab:hover::before {
-  left: 100%;
+  /* AGGRESSIVE DISABLE FOR FILE TABS */
+  background: rgba(255, 255, 255, 0.06) !important;
+  background-image: none !important;
+  transform: translateY(0px) !important;
+  scale: none !important;
+  box-shadow: none !important;
+  border-color: inherit !important;
+  transition: none !important;
+  filter: none !important;
+  animation: none !important;
+  color: inherit !important;
 }
 
 .modern-tab.active {
   background: var(--gradient-primary);
   color: white;
-  border-color: transparent;
-  box-shadow: var(--shadow-glow);
-  transform: translateY(-1px) scale(1.03);
+  border-color: rgba(59, 130, 246, 0.4);
+  /* ZERO DISTRACTING EFFECTS */
+  box-shadow: none !important;
+  transform: none !important;
+  filter: none !important;
+  transition: none !important;
   z-index: 20;
 }
 
-.modern-tab.active::before {
-  display: none;
-}
-
+.modern-tab.active::before,
 .modern-tab.active::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
-  border-radius: inherit;
-  pointer-events: none;
+  display: none;
 }
 
 .tab-label {
@@ -308,36 +282,43 @@
   height: 18px;
   border-radius: 50%;
   border: none;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
   color: inherit;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  /* ZERO EFFECTS DISABLED */
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
+  box-shadow: none !important;
   z-index: 3;
   position: relative;
   font-size: 0.75rem;
-  opacity: 0.7;
+  opacity: 0.8;
   flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .tab-close:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: scale(1.15);
-  opacity: 1;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  /* ZERO HOVER EFFECTS */
+  background: rgba(255, 255, 255, 0.08) !important;
+  transform: none !important;
+  box-shadow: none !important;
+  transition: none !important;
 }
 
 .tab-close:active {
-  transform: scale(0.95);
+  /* ZERO ACTIVE EFFECTS */
+  transform: none !important;
+  box-shadow: none !important;
+  transition: none !important;
 }
 
 .modern-tab:hover .tab-close {
-  opacity: 1;
+  /* KEEP CONSISTENT - NO ANIMATION */
+  opacity: 0.8 !important;
+  transform: none !important;
 }
 
 .dirty-indicator {
@@ -363,32 +344,32 @@
   height: 36px;
   border-radius: 50%;
   border: 2px dashed var(--glass-border);
-  background: var(--glass-bg);
+  background: rgba(255, 255, 255, 0.06);
   color: var(--text-secondary);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: var(--transition-normal);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  box-shadow: var(--shadow-sm);
+  /* ZERO EFFECTS DISABLED */
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
+  box-shadow: none !important;
   flex-shrink: 0;
   position: relative;
   z-index: 2;
   font-size: 1rem;
   font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  contain: layout;
 }
 
 .new-tab-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: var(--primary-500);
-  color: var(--primary-500);
-  transform: scale(1.05);
-  box-shadow: var(--shadow-md);
+  /* ZERO HOVER EFFECTS ENFORCED */
+  background: rgba(255, 255, 255, 0.06) !important;
+  transform: none !important;
+  box-shadow: none !important;
+  border-color: inherit !important;
+  transition: none !important;
 }
 
 /* ===== MODERN EDITOR SECTION ===== */
@@ -845,100 +826,19 @@
   -webkit-backdrop-filter: var(--glass-blur);
 }
 
-/* ===== MODERN ANIMATIONS ===== */
-@keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes tabSlideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-20px) scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0) scale(1);
-  }
-}
-
-@keyframes tabSlideOut {
-  from {
-    opacity: 1;
-    transform: translateX(0) scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: translateX(20px) scale(0.9);
-  }
-}
-
-@keyframes tabBounce {
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(-2px) scale(1.05);
-  }
-  40% {
-    transform: translateY(-4px) scale(1.08);
-  }
-  60% {
-    transform: translateY(-3px) scale(1.06);
-  }
-}
+/* ===== PERFORMANCE OPTIMIZED - DISABLED ANIMATIONS ===== */
+/* All complex animations disabled for maximum performance */
 
 @keyframes pulse {
   0%, 100% {
     opacity: 1;
-    transform: scale(1);
   }
   50% {
-    opacity: 0.8;
-    transform: scale(1.05);
+    opacity: 0.9;
   }
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-4px);
-  }
-}
-
-@keyframes glow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(59, 130, 246, 0.6);
-  }
-}
+/* All performance-heavy animations disabled for speed */
 
 /* ===== DARK THEME OVERRIDES ===== */
 .theme-dark {
@@ -968,8 +868,9 @@
 }
 
 .theme-dark .modern-tab:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.2);
+  /* DISABLED hover effects for dark theme */
+  background: var(--glass-bg-dark);
+  border-color: var(--glass-border-dark);
 }
 
 .theme-dark .action-btn {
@@ -1248,4 +1149,31 @@
   .modern-tab.active {
     border-width: 3px;
   }
+}
+
+/* PERFORMANCE OVERRIDES FOR FILE TABS ONLY */
+.modern-tab:hover:not(.discrete) {
+  background: rgba(255, 255, 255, 0.06) !important !important;
+  color: inherit !important !important;
+  transform: translateY(0px) translateZ(0px) !important !important !important;
+  box-shadow: none !important !important !important;
+  filter: none !important !important !important;
+  backdrop-filter: none !important !important !important;
+  scale: none !important !important;
+}
+
+/* AGGRESSIVE FIXES TO DISABLE HOVER ANIMATIONS */
+.tab:hover,
+.tab.active:hover,
+.tab:active,
+.tab.active:active,
+.modern-tab:hover,
+.modern-tab.active:hover,
+.modern-tab:active,
+.modern-tab.active:active {
+  transform: translateY(0px) translateZ(0px) !important !important !important;
+  scale: none !important !important !important;
+  background: rgba(255, 255, 255, 0.06) !important !important;
+  transition: none !important !important !important;
+  animation: none !important !important !important;
 }

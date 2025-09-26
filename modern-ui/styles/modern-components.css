@@ -954,15 +954,27 @@
     margin-left: var(--space-4);
 }
 
-/* New Tab Button Styling */
+/* Enhanced New Tab Button Styling */
 #btnNewTab {
-    background: var(--accent-primary);
+    background: 
+        linear-gradient(135deg, 
+            var(--accent-primary) 0%, 
+            var(--accent-secondary) 100%);
     color: white;
     border: 1px solid var(--accent-primary);
-    box-shadow: var(--shadow-glow-primary);
-    transition: all var(--duration-normal) var(--ease-in-out);
+    box-shadow: 
+        0 8px 32px rgba(59, 130, 246, 0.4),
+        0 4px 16px rgba(0, 0, 0, 0.12),
+        0 0 40px rgba(59, 130, 246, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
+    border-radius: var(--radius-2xl);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    transform: translateZ(0);
+    will-change: transform;
 }
 
 #btnNewTab::before {
@@ -981,15 +993,27 @@
 }
 
 #btnNewTab:hover {
-    background: var(--accent-secondary);
+    background: 
+        linear-gradient(135deg, 
+            var(--accent-secondary) 0%, 
+            #4f46e5 100%);
     border-color: var(--accent-secondary);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-glow-secondary), var(--shadow-lg);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 
+        0 16px 48px rgba(59, 130, 246, 0.5),
+        0 8px 24px rgba(0, 0, 0, 0.15),
+        0 0 60px rgba(59, 130, 246, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(24px) saturate(200%);
+    -webkit-backdrop-filter: blur(24px) saturate(200%);
 }
 
 #btnNewTab:active {
-    transform: translateY(0);
-    box-shadow: var(--shadow-glow-secondary), var(--shadow-md);
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 
+        0 8px 24px rgba(59, 130, 246, 0.4),
+        0 4px 12px rgba(0, 0, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 /* New File Button Styling */

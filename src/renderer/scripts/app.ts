@@ -499,7 +499,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         if (tabsSpan) {
-            tabsSpan.textContent = document.querySelectorAll('.modern-tab').length.toString();
+            tabsSpan.textContent = getCurrentTabCount().toString();
         }
         
         if (autosaveSpan) {
@@ -611,7 +611,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         if (tabCount) {
-            tabCount.textContent = document.querySelectorAll('.modern-tab').length.toString();
+            tabCount.textContent = getCurrentTabCount().toString();
         }
     }
     
@@ -670,15 +670,55 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     
+    // Cache for tab management to avoid repeated DOM queries
+    let tabCache: Element[] = [];
+    let tabCacheVersion = 0;
+    
+    // Function to get cached tabs
+    function getTabElements(): Element[] {
+        const currentQuery = document.querySelectorAll('.modern-tab');
+        if (currentQuery.length !== tabCache.length || tabCacheVersion++ > 5) {
+            tabCache = Array.from(currentQuery);
+            tabCacheVersion = 0;
+        }
+        return tabCache;
+    }
+    
+    // Function to invalidate tab cache
+    function invalidateTabCache(): void {
+        tabCache = [];
+        tabCacheVersion = 0;
+    }
+    
+    // Ultra-fast tab UI update with immediate execution
+    function performImmediateUIUpdate(): void {
+        updateAllTabUI();
+        // Force immediate reflow for ultra-performance
+        requestAnimationFrame(() => {
+            document.documentElement.offsetHeight; // Force layout recalculation
+        });
+    }
+    
+    // Single frame debounce for extreme performance
+    let rafScheduled = false;
+    function ultraFastTabUpdate(): void {
+        if (!rafScheduled) {
+            rafScheduled = true;
+            requestAnimationFrame(() => {
+                updateAllTabUI();
+                rafScheduled = false;
+            });
+        }
+    }
+    
     // Function to check if we can create a new tab
     function canCreateNewTab(): boolean {
-        const currentTabs = document.querySelectorAll('.modern-tab');
-        return currentTabs.length < getMaxTabs();
+        return getTabElements().length < getMaxTabs();
     }
     
     // Function to get current tab count
     function getCurrentTabCount(): number {
-        return document.querySelectorAll('.modern-tab').length;
+        return getTabElements().length;
     }
     
     // Function to update tab counter display
@@ -760,17 +800,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const MAX_CONSOLE_MESSAGES = 1000; // Limit to prevent performance issues
     let messageCleanupInterval: NodeJS.Timeout | null = null;
     
-    // Hardware acceleration monitoring
+    // Ultra-performance hardware acceleration 
     function enableHardwareAcceleration() {
-        const settings = loadSettings();
-        if (!settings.hardwareAcceleration) {
-            console.log('Hardware acceleration disabled in settings');
-            return;
-        }
-        
-        // Force hardware acceleration on key elements
+        // Force hardware acceleration on ALL tab elements for maximum performance
         const elements = [
             '.main-content',
+            '.modern-tabs-container',
+            '.modern-tab',
+            '.tab-close',
+            '.new-tab-btn',
             '.print-output-container',
             '.print-output-content',
             '.console-container',
@@ -780,18 +818,28 @@ document.addEventListener('DOMContentLoaded', () => {
         ];
         
         elements.forEach(selector => {
-            const element = document.querySelector(selector) as HTMLElement;
-            if (element) {
+            const elementList = document.querySelectorAll(selector) as NodeListOf<HTMLElement>;
+            elementList.forEach(element => {
+                // Ultra-performance hardware acceleration
                 element.style.transform = 'translateZ(0)';
                 element.style.webkitTransform = 'translateZ(0)';
                 element.style.webkitBackfaceVisibility = 'hidden';
                 element.style.webkitPerspective = '1000px';
                 element.style.willChange = 'transform';
-                element.style.contain = 'layout style paint';
-            }
+                element.style.contain = 'layout style paint composite';
+                element.style.isolation = 'isolate';
+                
+                // Additional optimizations for ultra-responsiveness
+                if (element.classList.contains('modern-tab') || 
+                    element.classList.contains('modern-tabs-container')) {
+                    element.style.pointerEvents = 'auto';
+                    element.style.zIndex = 'auto';
+                    element.style.overflow = 'visible';
+                }
+            });
         });
         
-        console.log('Hardware acceleration enabled for all key elements');
+        console.log('Ultra-performance hardware acceleration enabled');
     }
     
     // Disable hardware acceleration
@@ -4811,9 +4859,9 @@ function hideInputModal(): void {
 
     // Function to create or switch to a tab
     function createOrSwitchToTab(filePath: string, initialContent: string = ''): HTMLElement | undefined {
-        const tabBar = document.getElementById('tabsTrack');
+        const tabBar = document.getElementById('tabsContainer');
         if (!tabBar) {
-            console.error('Tab track not found');
+            console.error('Modern tabs container not found');
             return;
         }
         
@@ -4837,7 +4885,13 @@ function hideInputModal(): void {
         tab.className = 'modern-tab active';
         tab.dataset.path = filePath;
         tab.dataset.tabId = tabId;
-        tab.style.animation = 'tabSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        // Disable slow animations for maximum performance
+        // tab.style.animation = 'tabSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        
+        // Optimize tab immediately for GPU rendering
+        tab.style.willChange = 'transform';
+        tab.style.transform = 'translateZ(0)';
+        tab.style.contain = 'layout style paint';
         
         const fileName = filePath.split(/[\\/]/).pop();
         tab.innerHTML = `
@@ -4849,8 +4903,11 @@ function hideInputModal(): void {
         // Insert the new tab at the end of the tabs track
         tabBar.appendChild(tab);
         
+        // Invalidate tab cache since we added a new tab
+        invalidateTabCache();
+        
         // Update active tab state
-        document.querySelectorAll('.modern-tab').forEach(t => t.classList.remove('active'));
+        getTabElements().forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         
         // Add to open files if not already there
@@ -4899,8 +4956,21 @@ function hideInputModal(): void {
         // Update document title
         document.title = `${fileName} - iPseudo IDE`;
         
-        // Update tab counter
-        updateTabCounter();
+        // Ultra-fast tab counter update
+        ultraFastTabUpdate();
+        
+        // Apply hardware acceleration to new tab immediately for maximum speed
+        enableHardwareAcceleration();
+        
+        // Force immediate tab state update for instant responsiveness
+        performImmediateUIUpdate();
+        
+        // Force immediate layout update for ultra-fast performance
+        requestAnimationFrame(() => {
+            tab.style.transform = 'translateZ(0)';
+            tab.style.willChange = 'transform';
+            tab.focus();
+        });
         
         return tab;
     }
@@ -4916,24 +4986,23 @@ function hideInputModal(): void {
         saveEditorState();
         
         // Update active tab - remove active from all tabs first
-        document.querySelectorAll('.modern-tab').forEach(t => {
+        getTabElements().forEach(t => {
             t.classList.remove('active');
         });
         
         // Add active class to clicked tab
         tab.classList.add('active');
         
-        // Add bounce animation
-        tab.style.animation = 'tabBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
-        setTimeout(() => {
-            tab.style.animation = '';
-        }, 600);
-        
-        // Update active file path
+        // Update active file path immediately for performance
         activeFilePath = filePath;
         (window as any).activeFilePath = activeFilePath || '';
         
-        // Refresh editor content for the new tab
+        // Apply immediate hardware acceleration to the new active tab
+        tab.style.willChange = 'transform';
+        tab.style.transform = 'translateZ(0)';
+        tab.style.contain = 'layout style paint composite';
+        
+        // Refresh editor content for the new tab with immediate rendering
         refreshEditorForCurrentTab();
         
         // Restore tab-specific status and console
@@ -4944,10 +5013,12 @@ function hideInputModal(): void {
             updateSideBySideConsole();
         }
         
-        // Focus the editor
-        if ((window as any).editor) {
-            (window as any).editor.focus();
-        }
+        // Force immediate focus for ultra-responsiveness
+        requestAnimationFrame(() => {
+            if ((window as any).editor) {
+                (window as any).editor.focus();
+            }
+        });
     }
 
     // Function to check if tab is file-based (has a real file path)
@@ -5139,18 +5210,20 @@ function hideInputModal(): void {
         const filePath = tabElement.dataset.path || '';
         const wasActive = tabElement.classList.contains('active');
         
-        // Add slide-out animation
-        tabElement.style.animation = 'tabSlideOut 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        // Disable slide-out animation for maximum performance
+        // tabElement.style.animation = 'tabSlideOut 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
         
-        setTimeout(() => {
-            tabElement.remove();
-            // Update tab counter after removal
-            updateTabCounter();
-        }, 300);
+        // Remove tab immediately for performance
+        tabElement.remove();
+        // Invalidate cache and update counter after removal
+        invalidateTabCache();
+        // Use ultra-fast updates for tab closures
+        ultraFastTabUpdate();
+        performImmediateUIUpdate();
         
         // Clean up openFiles if this was the last tab with this path
         if (filePath) {
-            const isPathUsed = Array.from(document.querySelectorAll('.modern-tab')).some(
+            const isPathUsed = getTabElements().some(
                 t => (t as HTMLElement).dataset.path === filePath
             );
             if (!isPathUsed) {
@@ -5160,7 +5233,7 @@ function hideInputModal(): void {
         
         // If this was the active tab, switch to another tab
         if (wasActive) {
-            const remainingTabs = document.querySelectorAll('.modern-tab');
+            const remainingTabs = getTabElements().filter(tab => tab !== tabElement);
             if (remainingTabs.length > 0) {
                 // Find the best tab to switch to
                 let targetTab: HTMLElement | null = null;
@@ -6469,7 +6542,7 @@ function hideInputModal(): void {
         // Ctrl+Tab or Ctrl+PageDown - Next tab
         if ((e.ctrlKey && e.key === 'Tab') || (e.ctrlKey && e.key === 'PageDown')) {
             e.preventDefault();
-            const tabs = Array.from(document.querySelectorAll('.modern-tab')) as HTMLElement[];
+            const tabs = getTabElements() as HTMLElement[];
             const activeTab = document.querySelector('.modern-tab.active') as HTMLElement | null;
             if (activeTab && tabs.length > 1) {
                 const currentIndex = tabs.indexOf(activeTab);
@@ -6481,7 +6554,7 @@ function hideInputModal(): void {
         // Ctrl+Shift+Tab or Ctrl+PageUp - Previous tab
         if ((e.ctrlKey && e.shiftKey && e.key === 'Tab') || (e.ctrlKey && e.key === 'PageUp')) {
             e.preventDefault();
-            const tabs = Array.from(document.querySelectorAll('.modern-tab')) as HTMLElement[];
+            const tabs = getTabElements() as HTMLElement[];
             const activeTab = document.querySelector('.modern-tab.active') as HTMLElement | null;
             if (activeTab && tabs.length > 1) {
                 const currentIndex = tabs.indexOf(activeTab);
