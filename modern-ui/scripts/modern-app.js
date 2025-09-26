@@ -410,36 +410,38 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // Modern glassmorphism input modal function
+    // Clean, fast modern glass modal
     function showInputModal(title, inputId, worker) {
         // Remove any existing input modal
         hideInputModal();
         
-        // Create modern glassmorphism input modal
+        // Create elegant glass modal
         const modal = document.createElement('div');
         modal.id = 'input-modal';
-        modal.className = 'modern-input-modal-overlay';
+        modal.className = 'glass-modal-overlay';
         modal.innerHTML = `
-            <div class="modern-input-modal-container">
-                <div class="modern-input-modal-glass">
-                    <div class="modern-input-modal-header">
-                        <h3 class="modern-input-modal-title">${title || 'Input Required'}</h3>
-                        <button type="button" class="modern-input-modal-close" id="input-modal-close">
+            <div class="glass-modal-container">
+                <div class="glass-modal-card">
+                    <div class="modal-header">
+                        <div class="modal-icon">
+                            <i class="ri-keyboard-line"></i>
+                        </div>
+                        <h3 class="modal-title">${title || 'Input Required'}</h3>
+                        <button type="button" class="modal-close" id="input-modal-close">
                             <i class="ri-close-line"></i>
                         </button>
                     </div>
-                    <div class="modern-input-modal-body">
-                        <div class="modern-input-field-wrapper">
-                            <input type="text" id="input-modal-field" class="modern-input-modal-field" placeholder="Enter value..." autofocus>
-                            <div class="modern-input-field-shine"></div>
-                        </div>
+                    
+                    <div class="modal-body">
+                        <input type="text" id="input-modal-field" class="glass-input" placeholder="Enter value..." autofocus>
                     </div>
-                    <div class="modern-input-modal-footer">
-                        <button type="button" id="input-modal-cancel" class="modern-input-modal-cancel">
+                    
+                    <div class="modal-footer">
+                        <button type="button" id="input-modal-cancel" class="glass-btn glass-cancel">
                             <i class="ri-close-line"></i>
                             Cancel
                         </button>
-                        <button type="button" id="input-modal-submit" class="modern-input-modal-submit">
+                        <button type="button" id="input-modal-submit" class="glass-btn glass-submit">
                             <i class="ri-check-line"></i>
                             Submit
                         </button>
@@ -451,275 +453,289 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add the modal to body
         document.body.appendChild(modal);
         
-        // Create modern glassmorphism styles
-        if (!document.getElementById('modern-input-modal-styles')) {
+        // Create ideal modern glass modal styles
+        if (!document.getElementById('glass-modal-styles')) {
             const style = document.createElement('style');
-            style.id = 'modern-input-modal-styles';
+            style.id = 'glass-modal-styles';
             style.textContent = `
-                /* ===== MODERN GLASSMORPHISM INPUT MODAL ===== */
-                .modern-input-modal-overlay {
+                /* ===== IDEAL MODERN GLASS MODAL ===== */
+                .glass-modal-overlay {
                     position: fixed;
                     top: 0;
                     left: 0;
                     width: 100%;
                     height: 100%;
-                    background: rgba(0, 0, 0, 0.6);
-                    backdrop-filter: blur(20px);
-                    -webkit-backdrop-filter: blur(20px);
+                    background: rgba(0, 0, 0, 0.5);
+                    backdrop-filter: blur(16px);
+                    -webkit-backdrop-filter: blur(16px);
                     z-index: 9999;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    padding: var(--space-6);
-                    animation: modernModalFadeIn var(--duration-normal) var(--ease-out);
+                    padding: 2rem;
+                    animation: modalSlideIn 0.3s ease-out;
                 }
                 
-                @keyframes modernModalFadeIn {
-                    from { 
+                @keyframes modalSlideIn {
+                    0% {
                         opacity: 0;
-                        backdrop-filter: blur(0px);
+                        transform: translateY(20px) scale(0.95);
                     }
-                    to { 
+                    100% {
                         opacity: 1;
-                        backdrop-filter: blur(20px);
-                    }
-                }
-                
-                .modern-input-modal-container {
-                    width: 100%;
-                    max-width: 500px;
-                    position: relative;
-                    animation: modernModalSlideIn var(--duration-normal) var(--ease-out);
-                }
-                
-                @keyframes modernModalSlideIn {
-                    from { 
-                        transform: translateY(-30px) scale(0.95);
-                        opacity: 0;
-                    }
-                    to { 
                         transform: translateY(0) scale(1);
+                    }
+                }
+                
+                .glass-modal-container {
+                    width: 100%;
+                    max-width: 420px;
+                    position: relative;
+                    animation: modalRise 0.3s ease-out;
+                }
+                
+                @keyframes modalRise {
+                    0% {
+                        transform: translateY(10px);
+                        opacity: 0.8;
+                    }
+                    100% {
+                        transform: translateY(0);
                         opacity: 1;
                     }
                 }
                 
-                .modern-input-modal-glass {
-                    background: var(--glass-bg, rgba(255, 255, 255, 0.05));
-                    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
-                    border-radius: var(--radius-2xl);
-                    box-shadow: var(--shadow-glass, 0 8px 32px rgba(0, 0, 0, 0.3));
-                    backdrop-filter: var(--glass-blur, blur(20px));
-                    -webkit-backdrop-filter: var(--glass-blur, blur(20px));
+                .glass-modal-card {
+                    background: rgba(255, 255, 255, 0.1);
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    border-radius: 20px;
+                    box-shadow: 
+                        0 20px 40px rgba(0, 0, 0, 0.15),
+                        0 0 0 1px rgba(255, 255, 255, 0.1),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+                    backdrop-filter: blur(20px);
+                    -webkit-backdrop-filter: blur(20px);
                     overflow: hidden;
                     position: relative;
                 }
                 
-                .modern-input-modal-glass::before {
+                .glass-modal-card::before {
                     content: '';
                     position: absolute;
                     top: 0;
                     left: 0;
                     right: 0;
                     bottom: 0;
-                    background: var(--gradient-glass, linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%));
+                    background: linear-gradient(135deg, 
+                        rgba(255, 255, 255, 0.1) 0%,
+                        transparent 50%,
+                        rgba(255, 255, 255, 0.05) 100%);
                     pointer-events: none;
                     z-index: 1;
                 }
                 
-                .modern-input-modal-header {
+                .modal-header {
                     display: flex;
                     align-items: center;
-                    justify-content: space-between;
-                    padding: var(--space-6);
-                    border-bottom: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+                    padding: 1.5rem 2rem 1rem 2rem;
                     position: relative;
                     z-index: 2;
-                    background: rgba(255, 255, 255, 0.02);
                 }
                 
-                .modern-input-modal-title {
-                    font-size: var(--font-size-lg);
-                    font-weight: var(--font-weight-semibold);
-                    color: var(--editor-text, #f0f6fc);
-                    margin: 0;
-                    background: var(--gradient-text, linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 50%, var(--accent-tertiary) 100%));
-                    -webkit-background-clip: text;
-                    background-clip: text;
-                    -webkit-text-fill-color: transparent;
-                }
-                
-                .modern-input-modal-close {
-                    background: none;
-                    border: none;
-                    color: var(--editor-text-secondary, #8b949e);
-                    cursor: pointer;
-                    padding: var(--space-2);
-                    border-radius: var(--radius-lg);
+                .modal-icon {
+                    width: 40px;
+                    height: 40px;
+                    background: rgba(255, 255, 255, 0.15);
+                    border: 1px solid rgba(255, 255, 255, 0.3);
+                    border-radius: 12px;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    font-size: var(--font-size-lg);
-                    transition: all var(--duration-fast) var(--ease-out);
-                    position: relative;
-                    z-index: 2;
+                    font-size: 1.1rem;
+                    color: rgba(255, 255, 255, 0.9);
+                    margin-right: 1rem;
+                    backdrop-filter: blur(10px);
+                    -webkit-backdrop-filter: blur(10px);
                 }
                 
-                .modern-input-modal-close:hover {
-                    background: var(--glass-bg-hover, rgba(255, 255, 255, 0.08));
-                    color: var(--editor-text, #f0f6fc);
-                    transform: scale(1.1);
-                    box-shadow: var(--shadow-glow-primary, 0 0 20px rgba(59, 130, 246, 0.3));
+                .modal-title {
+                    font-size: 1.125rem;
+                    font-weight: 600;
+                    color: rgba(255, 255, 255, 0.95);
+                    margin: 0;
+                    flex: 1;
+                    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
                 }
                 
-                .modern-input-modal-body {
-                    padding: var(--space-6);
-                    position: relative;
-                    z-index: 2;
-                }
-                
-                .modern-input-field-wrapper {
-                    position: relative;
-                    border-radius: var(--radius-lg);
-                    overflow: hidden;
-                }
-                
-                .modern-input-modal-field {
-                    width: 100%;
-                    padding: var(--space-4) var(--space-5);
-                    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
-                    border-radius: var(--radius-lg);
-                    font-size: var(--font-size-base);
-                    font-family: var(--font-family-primary, 'Inter');
-                    background: var(--glass-bg, rgba(255, 255, 255, 0.05));
-                    color: var(--editor-text, #f0f6fc);
-                    transition: all var(--duration-fast) var(--ease-out);
-                    outline: none;
-                    backdrop-filter: var(--glass-blur-light, blur(10px));
-                    -webkit-backdrop-filter: var(--glass-blur-light, blur(10px));
-                }
-                
-                .modern-input-modal-field::placeholder {
-                    color: var(--editor-text-tertiary, #6e7681);
-                    opacity: 0.8;
-                }
-                
-                .modern-input-modal-field:focus {
-                    border-color: var(--accent-primary, #3b82f6);
-                    background: var(--glass-bg-active, rgba(255, 255, 255, 0.12));
-                    box-shadow: var(--shadow-glow-primary, 0 0 20px rgba(59, 130, 246, 0.3)), 
-                                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-                    transform: translateY(-1px);
-                }
-                
-                .modern-input-field-shine {
-                    position: absolute;
-                    top: 0;
-                    left: -100%;
-                    width: 100%;
-                    height: 100%;
-                    background: linear-gradient(90deg, 
-                        transparent, 
-                        rgba(255, 255, 255, 0.2), 
-                        transparent);
-                    transition: left 0.6s ease;
-                    pointer-events: none;
-                }
-                
-                .modern-input-modal-field:focus + .modern-input-field-shine {
-                    left: 100%;
-                }
-                
-                .modern-input-modal-footer {
-                    display: flex;
-                    align-items: center;
-                    justify-content: flex-end;
-                    gap: var(--space-3);
-                    padding: var(--space-6);
-                    border-top: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
-                    position: relative;
-                    z-index: 2;
-                    background: rgba(255, 255, 255, 0.02);
-                }
-                
-                .modern-input-modal-cancel,
-                .modern-input-modal-submit {
-                    display: flex;
-                    align-items: center;
-                    gap: var(--space-2);
-                    padding: var(--space-3) var(--space-5);
-                    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
-                    border-radius: var(--radius-lg);
-                    font-size: var(--font-size-sm);
-                    font-weight: var(--font-weight-medium);
-                    cursor: pointer;
-                    transition: all var(--duration-fast) var(--ease-out);
-                    backdrop-filter: var(--glass-blur-light, blur(10px));
-                    -webkit-backdrop-filter: var(--glass-blur-light, blur(10px));
-                    position: relative;
-                    overflow: hidden;
-                }
-                
-                .modern-input-modal-cancel {
-                    background: var(--glass-bg, rgba(255, 255, 255, 0.05));
-                    color: var(--editor-text-secondary, #8b949e);
-                    border-color: rgba(255, 255, 255, 0.05);
-                }
-                
-                .modern-input-modal-cancel:hover {
-                    background: var(--glass-bg-hover, rgba(255, 255, 255, 0.08));
-                    color: var(--editor-text, #f0f6fc);
-                    transform: translateY(-1px);
-                    box-shadow: var(--shadow-lg);
-                }
-                
-                .modern-input-modal-submit {
-                    background: var(--gradient-primary, linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%));
-                    color: whitesmoke;
+                .modal-close {
+                    width: 32px;
+                    height: 32px;
+                    background: rgba(255, 255, 255, 0.1);
                     border: 1px solid rgba(255, 255, 255, 0.2);
-                    font-weight: var(--font-weight-semibold);
+                    border-radius: 8px;
+                    color: rgba(255, 255, 255, 0.7);
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 1rem;
+                    transition: all 0.2s ease;
+                    backdrop-filter: blur(8px);
+                    -webkit-backdrop-filter: blur(8px);
                 }
                 
-                .modern-input-modal-submit:hover {
-                    transform: translateY(-2px) scale(1.02);
-                    box-shadow: var(--shadow-glow-primary, 0 0 20px rgba(59, 130, 246, 0.4)), 
-                                var(--shadow-xl);
+                .modal-close:hover {
+                    background: rgba(255, 255, 255, 0.2);
+                    color: white;
+                    transform: scale(1.05);
+                    border-color: rgba(255, 255, 255, 0.4);
                 }
                 
-                .modern-input-modal-submit:active {
-                    transform: translateY(0) scale(0.98);
+                .modal-body {
+                    padding: 0 2rem 2rem 2rem;
+                    position: relative;
+                    z-index: 2;
                 }
                 
-                /* Theme overrides for light mode */
-                [data-theme="light"] .modern-input-modal-overlay {
-                    background: rgba(255, 255, 255, 0.3);
+                .glass-input {
+                    width: 100%;
+                    padding: 1rem 1.25rem;
+                    background: rgba(255, 255, 255, 0.08);
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    border-radius: 12px;
+                    font-size: 1rem;
+                    font-family: var(--font-family-primary, 'Inter');
+                    color: rgba(255, 255, 255, 0.95);
+                    outline: none;
+                    transition: all 0.25s ease;
+                    backdrop-filter: blur(10px);
+                    -webkit-backdrop-filter: blur(10px);
+                    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
                 }
                 
-                [data-theme="light"] .modern-input-modal-glass {
-                    background: rgba(255, 255, 255, 0.8);
+                .glass-input::placeholder {
+                    color: rgba(255, 255, 255, 0.5);
+                }
+                
+                .glass-input:focus {
+                    background: rgba(255, 255, 255, 0.12);
+                    border-color: rgba(255, 255, 255, 0.4);
+                    box-shadow: 
+                        0 0 0 3px rgba(59, 130, 246, 0.2),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+                    transform: translateY(-1px);
+                }
+                
+                .modal-footer {
+                    padding: 0 2rem 2rem 2rem;
+                    display: flex;
+                    gap: 0.75rem;
+                    justify-content: flex-end;
+                    position: relative;
+                    z-index: 2;
+                }
+                
+                .glass-btn {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    padding: 0.75rem 1.5rem;
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    border-radius: 10px;
+                    font-size: 0.875rem;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: all 0.25s ease;
+                    backdrop-filter: blur(10px);
+                    -webkit-backdrop-filter: blur(10px);
+                    position: relative;
+                    overflow: hidden;
+                }
+                
+                .glass-cancel {
+                    background: rgba(255, 255, 255, 0.08);
+                    color: rgba(255, 255, 255, 0.8);
+                    border-color: rgba(255, 255, 255, 0.15);
+                }
+                
+                .glass-cancel:hover {
+                    background: rgba(255, 255, 255, 0.12);
+                    color: white;
+                    transform: translateY(-1px);
+                    border-color: rgba(255, 255, 255, 0.3);
+                }
+                
+                .glass-submit {
+                    background: rgba(59, 130, 246, 0.7);
+                    color: white;
+                    border-color: rgba(59, 130, 246, 0.5);
+                    font-weight: 600;
+                }
+                
+                .glass-submit:hover {
+                    background: rgba(59, 130, 246, 0.8);
+                    transform: translateY(-1px);
+                    border-color: rgba(59, 130, 246, 0.7);
+                    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+                }
+                
+                .glass-submit:active {
+                    transform: translateY(0);
+                    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+                }
+                
+                /* Light theme optimizations */
+                [data-theme="light"] .glass-modal-overlay {
+                    background: rgba(255, 255, 255, 0.4);
+                }
+                
+                [data-theme="light"] .glass-modal-card {
+                    background: rgba(255, 255, 255, 0.85);
                     border-color: rgba(0, 0, 0, 0.1);
-                    box-shadow: var(--shadow-glass, 0 8px 32px rgba(0, 0, 0, 0.15));
+                    box-shadow: 
+                        0 20px 40px rgba(0, 0, 0, 0.1),
+                        0 0 0 1px rgba(255, 255, 255, 0.8),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.9);
                 }
                 
-                [data-theme="light"] .modern-input-modal-title {
-                    background: var(--gradient-text);
-                    -webkit-background-clip: text;
-                    background-clip: text;
-                    -webkit-text-fill-color: transparent;
+                [data-theme="light"] .modal-icon {
+                    background: rgba(255, 255, 255, 0.6);
+                    border-color: rgba(255, 255, 255, 0.8);
                 }
                 
-                [data-theme="light"] .modern-input-modal-field {
+                [data-theme="light"] .modal-title {
+                    color: rgba(30, 41, 59, 0.9);
+                }
+                
+                [data-theme="light"] .glass-input {
                     background: rgba(255, 255, 255, 0.9);
-                    color: #0d1117;
+                    border-color: rgba(0, 0, 0, 0.1);
+                    color: rgba(30, 41, 59, 0.9);
+                    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+                }
+                
+                [data-theme="light"] .glass-input::placeholder {
+                    color: rgba(30, 41, 59, 0.4);
+                }
+                
+                [data-theme="light"] .glass-input:focus {
+                    background: rgba(255, 255, 255, 0.95);
+                    border-color: rgba(59, 130, 246, 0.6);
+                    box-shadow: 
+                        0 0 0 3px rgba(59, 130, 246, 0.15),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.95);
+                }
+                
+                [data-theme="light"] .glass-cancel {
+                    background: rgba(255, 255, 255, 0.6);
+                    color: rgba(30, 41, 59, 0.7);
                     border-color: rgba(0, 0, 0, 0.1);
                 }
                 
-                [data-theme="light"] .modern-input-modal-field::placeholder {
-                    color: #6e7681;
-                }
-                
-                [data-theme="light"] .modern-input-modal-field:focus {
-                    border-color: var(--accent-primary);
-                    background: rgba(255, 255, 255, 0.95);
+                [data-theme="light"] .glass-cancel:hover {
+                    background: rgba(255, 255, 255, 0.8);
+                    color: rgba(30, 41, 59, 0.9);
+                    border-color: rgba(0, 0, 0, 0.15);
                 }
             `;
             document.head.appendChild(style);
