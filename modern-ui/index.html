@@ -406,23 +406,61 @@
                 </div>
 
                 <!-- Developer Section -->
-                <div class="author-section">
-                    <div class="author-avatar">
-                        <span class="avatar-initials">MB</span>
+                <div class="developer-section">
+                    <div class="developer-profile">
+                        <div class="developer-avatar">
+                            <span class="avatar-initials">MB</span>
+                        </div>
+                        <div class="developer-info">
+                            <div class="developer-name">MBARK</div>
+                            <div class="developer-title">Developer</div>
+                            <div class="developer-email">
+                                <i class="ri-mail-line"></i>
+                                <span>me@MBVRK.onmicrosoft.com</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="author-info">
-                        <div class="author-name">MBARK</div>
-                        <div class="author-title">Developer</div>
-                    </div>
-                    <div class="author-links">
-                        <a href="mailto:me@MBVRK.onmicrosoft.com" class="author-link">
-                            <i class="ri-mail-line"></i>
+                    
+                    <!-- Enhanced Social Links -->
+                    <div class="social-links-container">
+                        <a href="mailto:me@MBVRK.onmicrosoft.com" class="social-button social-button-email">
+                            <div class="social-button-icon">
+                                <i class="ri-mail-fill"></i>
+                            </div>
+                            <div class="social-button-content">
+                                <span class="social-button-label">Email</span>
+                                <span class="social-button-subtitle">Get in touch</span>
+                            </div>
                         </a>
-                        <a href="https://github.com/mbarkt3sto" target="_blank" class="author-link">
-                            <i class="ri-github-line"></i>
+                        
+                        <a href="https://github.com/mbarkt3sto" target="_blank" class="social-button social-button-github">
+                            <div class="social-button-icon">
+                                <i class="ri-github-fill"></i>
+                            </div>
+                            <div class="social-button-content">
+                                <span class="social-button-label">GitHub</span>
+                                <span class="social-button-subtitle">Code & Projects</span>
+                            </div>
                         </a>
-                        <a href="https://hashnode.com/@mbarkt3sto" target="_blank" class="author-link">
-                            <i class="ri-user-voice-line"></i>
+                        
+                        <a href="https://hashnode.com/@mbarkt3sto" target="_blank" class="social-button social-button-hashnode">
+                            <div class="social-button-icon">
+                                <i class="ri-edit-box-fill"></i>
+                            </div>
+                            <div class="social-button-content">
+                                <span class="social-button-label">Hashnode</span>
+                                <span class="social-button-subtitle">Blog & Articles</span>
+                            </div>
+                        </a>
+                        
+                        <a href="https://linkedin.com/in/mbarkt3sto" target="_blank" class="social-button social-button-linkedin">
+                            <div class="social-button-icon">
+                                <i class="ri-linkedin-fill"></i>
+                            </div>
+                            <div class="social-button-content">
+                                <span class="social-button-label">LinkedIn</span>
+                                <span class="social-button-subtitle">Professional</span>
+                            </div>
                         </a>
                     </div>
                 </div>
@@ -655,81 +693,225 @@
             margin: 0;
         }
 
-        /* Author Section */
-        .author-section {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1.25rem;
+        /* Enhanced Developer Section */
+        .developer-section {
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 18px;
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
         }
 
-        .author-avatar {
+        .developer-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .developer-avatar {
             flex-shrink: 0;
         }
 
-        .avatar-initials {
-            width: 48px;
-            height: 48px;
+        .developer-avatar .avatar-initials {
+            width: 52px;
+            height: 52px;
             background: linear-gradient(135deg, #9333ea 0%, #4f46e5 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.125rem;
+            font-size: 1.25rem;
             font-weight: 700;
-            box-shadow: 0 6px 20px rgba(147, 51, 234, 0.3);
+            box-shadow: 0 8px 24px rgba(147, 51, 234, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
 
-        .author-info {
+        .developer-info {
             flex: 1;
         }
 
-        .author-name {
-            font-size: 1rem;
-            font-weight: 600;
+        .developer-name {
+            font-size: 1.125rem;
+            font-weight: 700;
             color: rgba(255, 255, 255, 0.95);
-            margin: 0 0 0.2rem 0;
+            margin: 0 0 0.25rem 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(147, 51, 234, 0.8) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .author-title {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.7);
-            margin: 0;
+        .developer-title {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.75);
+            margin: 0 0 0.5rem 0;
+            font-weight: 500;
         }
 
-        .author-links {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .author-link {
-            width: 32px;
-            height: 32px;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            color: rgba(255, 255, 255, 0.8);
+        .developer-email {
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 0.5rem;
             font-size: 0.875rem;
-            text-decoration: none;
-            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.06);
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
         }
 
-        .author-link:hover {
-            background: rgba(147, 51, 234, 0.7);
+        .developer-email i {
+            font-size: 1rem;
+            color: #93c5fd;
+        }
+
+        /* Social Links Container */
+        .social-links-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        /* Enhanced Social Buttons */
+        .social-button {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.875rem 1rem;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .social-button:hover::before {
+            left: 100%;
+        }
+
+        .social-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .social-button-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.125rem;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .social-button-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.125rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .social-button-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.95);
+            line-height: 1.2;
+        }
+
+        .social-button-subtitle {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.2;
+        }
+
+        /* Social Button Variants */
+        .social-button-email {
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.1) 0%, rgba(147, 51, 234, 0.05) 100%);
+            border-color: rgba(147, 51, 234, 0.2);
+        }
+
+        .social-button-email:hover {
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.2) 0%, rgba(147, 51, 234, 0.1) 100%);
+            border-color: rgba(147, 51, 234, 0.4);
+        }
+
+        .social-button-email .social-button-icon {
+            background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
             color: white;
-            transform: scale(1.05);
-            border-color: rgba(147, 51, 234, 0.5);
+        }
+
+        .social-button-github {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.05) 100%);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .social-button-github:hover {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.1) 100%);
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .social-button-github .social-button-icon {
+            background: linear-gradient(135deg, #24292e 0%, #1a1a1a 100%);
+            color: white;
+        }
+
+        .social-button-hashnode {
+            background: linear-gradient(135deg, rgba(255, 165, 0, 0.1) 0%, rgba(255, 165, 0, 0.05) 100%);
+            border-color: rgba(255, 165, 0, 0.2);
+        }
+
+        .social-button-hashnode:hover {
+            background: linear-gradient(135deg, rgba(255, 165, 0, 0.2) 0%, rgba(255, 165, 0, 0.1) 100%);
+            border-color: rgba(255, 165, 0, 0.4);
+        }
+
+        .social-button-hashnode .social-button-icon {
+            background: linear-gradient(135deg, #FFA500 0%, #ff8c00 100%);
+            color: white;
+        }
+
+        .social-button-linkedin {
+            background: linear-gradient(135deg, rgba(0, 119, 181, 0.1) 0%, rgba(0, 119, 181, 0.05) 100%);
+            border-color: rgba(0, 119, 181, 0.2);
+        }
+
+        .social-button-linkedin:hover {
+            background: linear-gradient(135deg, rgba(0, 119, 181, 0.2) 0%, rgba(0, 119, 181, 0.1) 100%);
+            border-color: rgba(0, 119, 181, 0.4);
+        }
+
+        .social-button-linkedin .social-button-icon {
+            background: linear-gradient(135deg, #0A66C2 0%, #004182 100%);
+            color: white;
         }
 
         /* Footer Section */
@@ -806,16 +988,59 @@
 
         [data-theme="light"] .version-info,
         [data-theme="light"] .description,
-        [data-theme="light"] .author-name,
-        [data-theme="light"] .author-title,
         [data-theme="light"] .feat-content h4 {
             color: #1e293b;
         }
 
         [data-theme="light"] .version-info,
         [data-theme="light"] .description,
-        [data-theme="light"] .author-title,
         [data-theme="light"] .feat-content p {
+            color: #64748b;
+        }
+
+        /* Light Theme Developer Section */
+        [data-theme="light"] .developer-section {
+            background: rgba(255, 255, 255, 0.6);
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+
+        [data-theme="light"] .developer-name {
+            color: #1e293b;
+            background: linear-gradient(135deg, #1e293b 0%, #9333ea 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        [data-theme="light"] .developer-title {
+            color: #64748b;
+        }
+
+        [data-theme="light"] .developer-email {
+            background: rgba(248, 250, 252, 0.8);
+            color: #1e293b;
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+
+        [data-theme="light"] .developer-email i {
+            color: #3b82f6;
+        }
+
+        [data-theme="light"] .social-button {
+            background: rgba(248, 250, 252, 0.6);
+            border-color: rgba(0, 0, 0, 0.06);
+        }
+
+        [data-theme="light"] .social-button:hover {
+            background: rgba(248, 250, 252, 0.8);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="light"] .social-button-label {
+            color: #1e293b;
+        }
+
+        [data-theme="light"] .social-button-subtitle {
             color: #64748b;
         }
 
@@ -833,6 +1058,20 @@
             
             .modal-body-scroll {
                 padding: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .social-links-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .developer-section {
+                padding: 1.25rem;
+            }
+            
+            .social-button {
+                padding: 0.75rem;
             }
         }
     </style>
@@ -857,6 +1096,20 @@
                     }
                 }
             }
+        });
+
+        // Enhanced social button interactions
+        document.addEventListener('DOMContentLoaded', () => {
+            const socialButtons = document.querySelectorAll('.social-button');
+            socialButtons.forEach(button => {
+                button.addEventListener('mouseenter', () => {
+                    button.style.transform = 'translateY(-3px)';
+                });
+                
+                button.addEventListener('mouseleave', () => {
+                    button.style.transform = 'translateY(0)';
+                });
+            });
         });
 
         // Handle mailto links
