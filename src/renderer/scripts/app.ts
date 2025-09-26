@@ -3703,8 +3703,11 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Update UI state
         if (runButton) {
-            runButton.disabled = false;
             runButton.style.display = 'flex';
+            // Update button state based on editor content
+            if ((window as any).updateRunButtonState) {
+                (window as any).updateRunButtonState();
+            }
         }
         if (stopButton) {
             stopButton.style.display = 'none';
@@ -4097,6 +4100,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (runButton) runButton.addEventListener('click', async () => {
+        // Don't proceed if button is disabled
+        if (runButton.disabled) return;
+        
+        // Get the code first to check if it's not empty
+        const code = (window as any).editor && typeof (window as any).editor.getValue === 'function' ? (window as any).editor.getValue() : '';
+        
+        // Check if code is empty or contains only whitespace/comments
+        const trimmedCode = code.trim();
+        if (!trimmedCode || trimmedCode === '') {
+            // Early return if no meaningful content
+            return;
+        }
+        
         // Add running state
         runButton.classList.add('running');
         runButton.disabled = true;
@@ -4108,8 +4124,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (statusDot) statusDot.style.backgroundColor = 'var(--status-running)';
         }
         
-        // Get the code and clear console
-        const code = (window as any).editor && typeof (window as any).editor.getValue === 'function' ? (window as any).editor.getValue() : '';
+        // Clear console
         if (outputConsole) {
             outputConsole.innerHTML = '';
             scrollOutputToBottom();
@@ -4139,7 +4154,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // Reset button state after a short delay to show completion
             setTimeout(() => {
                 runButton.classList.remove('running');
-                runButton.disabled = false;
+                // Update button state based on editor content
+                if ((window as any).updateRunButtonState) {
+                    (window as any).updateRunButtonState();
+                }
             }, 300);
         }
     });

@@ -111,6 +111,22 @@
   box-shadow: var(--shadow-cyber);
 }
 
+/* Run Button Disabled State */
+.btn-run:disabled {
+  background: linear-gradient(135deg, var(--neutral-600) 0%, var(--neutral-700) 100%);
+  color: var(--neutral-500);
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+}
+
+.btn-run:disabled::before {
+  display: none;
+}
+
 .btn-theme {
   background: var(--bg-glass);
   color: var(--text-primary);

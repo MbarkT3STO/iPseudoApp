@@ -412,17 +412,17 @@ interface Window {
         }
     });
 
-    // Add content change listener to handle run button state
+    // Initialize Run button state and set up content change listeners
     const runButton = document.getElementById('btnRun');
     if (runButton) {
-        // Initial state
-        (runButton as HTMLButtonElement).disabled = !editor.getValue().trim();
+        // Set initial state using our comprehensive updateRunButtonState function
+        setTimeout(() => {
+            if ((window as any).updateRunButtonState) {
+                (window as any).updateRunButtonState();
+            }
+        }, 10);
 
-        // Listen for content changes
-        editor.onDidChangeModelContent(() => {
-            const content = editor.getValue().trim();
-            (runButton as HTMLButtonElement).disabled = !content;
-        });
+        // Note: The detailed content change logic is handled in setupEditorListeners
     }
 
     // Notify other scripts that editor is ready (if a global hook exists)
@@ -483,6 +483,9 @@ interface Window {
 function setupEditorListeners(): void {
     if (!window.editor) return;
 
+    // Initialize Run button state
+    updateRunButtonState();
+
     // Track cursor position changes
     window.editor.onDidChangeCursorPosition((e: any) => {
         if (window.activeFilePath && window.openFiles && window.openFiles.has(window.activeFilePath)) {
@@ -521,8 +524,52 @@ function setupEditorListeners(): void {
                 }
             }
         }
+        
+        // Update Run button state based on editor content
+        updateRunButtonState();
     });
 }
+
+/**
+ * Updates the Run button disabled state based on editor content.
+ * Disables the Run button if the editor is empty or contains only 
+ * whitespace/comments, enables it otherwise.
+ */
+function updateRunButtonState(): void {
+    const runButton = document.getElementById('btnRun') as HTMLButtonElement;
+    if (!runButton || !window.editor) return;
+    
+    // Get current editor content
+    const content = window.editor.getValue();
+    
+    // Check if content is empty or contains only whitespace/newlines/comments
+    const trimmedContent = content.trim();
+    const isEmpty = !trimmedContent || trimmedContent === '' || trimOnlyWhitespaceAndComments(trimmedContent);
+    
+    // Disable/enable Run button accordingly
+    runButton.disabled = isEmpty;
+}
+
+/**
+ * Helper function to check if content contains only whitespace and comments.
+ * Returns true if all lines are empty or start with '#' (comments).
+ */
+function trimOnlyWhitespaceAndComments(content: string): boolean {
+    if (!content) return true;
+    
+    // Split content into lines and check if all lines are empty or comments
+    const lines = content.split('\n');
+    for (const line of lines) {
+        const trimmedLine = line.trim();
+        if (trimmedLine && !trimmedLine.startsWith('#')) {
+            return false; // Found non-empty, non-comment line
+        }
+    }
+    return true; // All lines are empty or comments
+}
+
+// Make functions globally available
+(window as any).updateRunButtonState = updateRunButtonState;
 
 // Fallback clipboard actions when Monaco commands fail
 function handleClipboardAction(action: string): void {

@@ -350,6 +350,28 @@
   transform: translateX(2px);
 }
 
+/* Run Button Disabled State */
+.btn-run:disabled {
+  background: linear-gradient(135deg, var(--neutral-400) 0%, var(--neutral-500) 50%, var(--neutral-600) 100%);
+  color: var(--neutral-600);
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.1),
+    0 2px 6px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+}
+
+.btn-run:disabled::before {
+  display: none;
+}
+
+.btn-run:disabled i {
+  transform: none;
+  opacity: 0.5;
+}
+
 /* Stop Button - Icon Only with Dynamic States */
 .btn-stop {
   background: linear-gradient(135deg, 
