@@ -253,8 +253,24 @@ function translatePseudoToJs(src) {
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
+        // Variable declarations with input: var x = input "prompt" or const x = input "prompt"
+        let m = line.match(/^(var|const)\s+([a-zA-Z_$][\w$]*)\s*=\s*input\s+(.+)$/i);
+        if (m) {
+            const keyword = m[1].toLowerCase();
+            const varName = m[2];
+            let prompt = m[3].trim();
+            // Remove quotes if present from both ends
+            if ((prompt.startsWith('"') && prompt.endsWith('"')) || 
+                (prompt.startsWith("'") && prompt.endsWith("'"))) {
+                prompt = prompt.slice(1, -1).trim();
+            }
+            out.push(`${keyword} ${varName} = await input("${prompt}");`);
+            mapping.push({ srcLine: srcLineNum, srcText: raw });
+            continue;
+        }
+
         // Variable declarations: var x = expr or const x = expr
-        let m = line.match(/^(var|const)\s+([a-zA-Z_$][\w$]*)\s*=\s*(.*)$/i);
+        m = line.match(/^(var|const)\s+([a-zA-Z_$][\w$]*)\s*=\s*(.*)$/i);
         if (m) {
             const keyword = m[1].toLowerCase();
             const varName = m[2];
@@ -386,10 +402,26 @@ self.onmessage = function (e) {
                     if (ev.data && ev.data.type === 'input-response' && ev.data.id === id) {
                         self.removeEventListener('message', handler);
                         resolve(ev.data.value || '');
+                        // Timer will be cleared by the calling code since finished is set
                     }
                 }
                 self.addEventListener('message', handler);
+                
+                // Clear timeout during user input wait and restart timer after this promise
+                clearTimeout(timer);
+                
                 self.postMessage({ type: 'input-request', id, prompt: promptText || 'Input:' });
+            }).then((value) => {
+                // Restart timeout timer for continued execution
+                timer = setTimeout(() => {
+                    if (finished) return;
+                    finished = true;
+                    postError({ name: 'TimeoutError', message: `Execution timed out after 8000ms`, phase: 'timeout' });
+                    try {
+                        self.close && self.close();
+                    } catch (e) { }
+                }, 8000);
+                return value;
             });
         };
         let source = msg.code;
@@ -417,70 +449,10 @@ self.onmessage = function (e) {
             }
         }
         const asyncWrapper = `(async function(print, input){\n${source}\n})(print, input);`;
-        // syntax check
-        try {
-            new Function(source);
-        }
-        catch (syntaxError) {
-            // try to map the error to original pseudocode line if mapping exists
-            let original = null;
-            let lineNumber = 0;
-            let columnNumber = 0;
-            // Extract line and column numbers from the error if available
-            const lineMatch = String(syntaxError.stack || syntaxError.message || '').match(/(\d+):(\d+)/);
-            if (lineMatch) {
-                lineNumber = parseInt(lineMatch[1], 10) || 0;
-                columnNumber = parseInt(lineMatch[2], 10) || 0;
-                // Adjust for the wrapper function if needed
-                if (lineNumber > 1) {
-                    lineNumber -= 1; // Account for the wrapper function line
-                }
-                if (mapping && mapping.length >= lineNumber && lineNumber > 0) {
-                    original = mapping[lineNumber - 1];
-                }
-            }
-            // Create a more detailed error message
-            let errorMessage = `❌ ${syntaxError.name || 'Syntax Error'}: ${syntaxError.message || 'Invalid syntax'}`;
-            if (original) {
-                errorMessage += `\n\n  At line ${original.srcLine}:`;
-                errorMessage += `\n  ${original.srcText}`;
-                // Add a pointer to the error location if we have column info
-                if (columnNumber > 0) {
-                    const pointer = ' '.repeat(2 + columnNumber) + '^';
-                    errorMessage += `\n  ${pointer}`;
-                }
-                // Add context if available
-                if (original.srcLine > 1) {
-                    const contextLine = mapping[lineNumber - 2]; // Previous line
-                    if (contextLine) {
-                        errorMessage += `\n\n  Previous line (${contextLine.srcLine}):`;
-                        errorMessage += `\n  ${contextLine.srcText}`;
-                    }
-                }
-                // Add suggestions for common errors
-                if (syntaxError.message.includes('Unexpected token') ||
-                    syntaxError.message.includes('Missing')) {
-                    errorMessage += '\n\n💡 Tip: Check for missing or mismatched brackets, parentheses, or quotes.';
-                }
-                else if (syntaxError.message.includes('Unexpected end of input')) {
-                    errorMessage += '\n\n💡 Tip: You might be missing a closing bracket, parenthesis, or quote.';
-                }
-            }
-            postError({
-                name: 'SyntaxError',
-                message: errorMessage,
-                stack: syntaxError.stack,
-                line: original ? original.srcLine : lineNumber,
-                column: columnNumber,
-                originalText: original ? original.srcText : undefined,
-                phase: 'syntax',
-                formatted: true // Flag to indicate this is a formatted error message
-            });
-            return;
-        }
+        // Skip syntax check for source with await - runtime validation will catch issues
         let finished = false;
         const TIMEOUT_MS = typeof msg.timeout === 'number' ? Math.max(1000, msg.timeout) : 5000;
-        const timer = setTimeout(() => {
+        let timer = setTimeout(() => {
             if (finished)
                 return;
             finished = true;

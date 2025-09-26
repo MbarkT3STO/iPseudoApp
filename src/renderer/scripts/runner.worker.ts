@@ -310,8 +310,24 @@ function translatePseudoToJs(src: string): TranslationResult {
             continue; 
         }
 
+        // Variable declarations with input: var x = input "prompt" or const x = input "prompt"
+        let m = line.match(/^(var|const)\s+([a-zA-Z_$][\w$]*)\s*=\s*input\s+(.+)$/i);
+        if (m) { 
+            const keyword = m[1].toLowerCase();
+            const varName = m[2];
+            let prompt = m[3].trim();
+            // Remove quotes if present from both ends
+            if ((prompt.startsWith('"') && prompt.endsWith('"')) || 
+                (prompt.startsWith("'") && prompt.endsWith("'"))) {
+                prompt = prompt.slice(1, -1).trim();
+            }
+            out.push(`${keyword} ${varName} = await input("${prompt}");`); 
+            mapping.push({ srcLine: srcLineNum, srcText: raw }); 
+            continue; 
+        }
+
         // Variable declarations: var x = expr or const x = expr
-        let m = line.match(/^(var|const)\s+([a-zA-Z_$][\w$]*)\s*=\s*(.*)$/i);
+        m = line.match(/^(var|const)\s+([a-zA-Z_$][\w$]*)\s*=\s*(.*)$/i);
         if (m) { 
             const keyword = m[1].toLowerCase();
             const varName = m[2];

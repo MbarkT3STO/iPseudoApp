@@ -409,6 +409,261 @@ document.addEventListener('DOMContentLoaded', () => {
             panel.remove();
         }
     }
+    
+    // Modern input modal function
+    function showInputModal(title, inputId, worker) {
+        // Remove any existing input modal
+        hideInputModal();
+        
+        // Create modern input modal
+        const modal = document.createElement('div');
+        modal.id = 'input-modal';
+        modal.className = 'input-modal-overlay';
+        modal.innerHTML = `
+            <div class="input-modal-container">
+                <div class="input-modal-header">
+                    <h3 class="input-modal-title">${title || 'Input Required'}</h3>
+                    <button type="button" class="input-modal-close" id="input-modal-close">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="input-modal-body">
+                    <input type="text" id="input-modal-field" class="input-modal-field" placeholder="Enter value..." autofocus>
+                </div>
+                <div class="input-modal-footer">
+                    <button type="button" id="input-modal-cancel" class="input-modal-cancel">Cancel</button>
+                    <button type="button" id="input-modal-submit" class="input-modal-submit">Submit</button>
+                </div>
+            </div>
+        `;
+
+        // Add the modal to body
+        document.body.appendChild(modal);
+        
+        // Create styles if not already present
+        if (!document.getElementById('input-modal-styles')) {
+            const style = document.createElement('style');
+            style.id = 'input-modal-styles';
+            style.textContent = `
+                .input-modal-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.4);
+                    backdrop-filter: blur(8px);
+                    z-index: 9999;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    animation: modalFadeIn 0.2s ease-out;
+                }
+                
+                @keyframes modalFadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+                
+                .input-modal-container {
+                    background: var(--modal-bg, #ffffff);
+                    border-radius: 12px;
+                    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+                    border: 1px solid var(--modal-border, rgba(0, 0, 0, 0.1));
+                    min-width: 400px;
+                    max-width: 500px;
+                    margin: 20px;
+                    animation: modalSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    overflow: hidden;
+                }
+                
+                @keyframes modalSlideIn {
+                    from { 
+                        transform: translateY(-20px) scale(0.95);
+                        opacity: 0;
+                    }
+                    to { 
+                        transform: translateY(0) scale(1);
+                        opacity: 1;
+                    }
+                }
+                
+                .input-modal-header {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 20px 24px;
+                    background: var(--modal-header-bg, rgba(0, 0, 0, 0.02));
+                    border-bottom: 1px solid var(--modal-border, rgba(0, 0, 0, 0.05));
+                }
+                
+                .input-modal-title {
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: var(--modal-title-color, #1a1a1a);
+                    margin: 0;
+                }
+                
+                .input-modal-close {
+                    background: none;
+                    border: none;
+                    color: var(--modal-close-color, rgba(0, 0, 0, 0.5));
+                    cursor: pointer;
+                    padding: 6px;
+                    border-radius: 6px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.2s ease;
+                }
+                
+                .input-modal-close:hover {
+                    background: var(--modal-close-hover-bg, rgba(0, 0, 0, 0.05));
+                    color: var(--modal-close-hover-color, #1a1a1a);
+                }
+                
+                .input-modal-body {
+                    padding: 24px;
+                }
+                
+                .input-modal-field {
+                    width: 100%;
+                    padding: 12px 16px;
+                    border: 2px solid var(--input-border, #e5e7eb);
+                    border-radius: 8px;
+                    font-size: 16px;
+                    background: var(--input-bg, #ffffff);
+                    color: var(--input-text, #1a1a1a);
+                    transition: all 0.2s ease;
+                    outline: none;
+                }
+                
+                .input-modal-field:focus {
+                    border-color: var(--input-focus-border, #0ea5e9);
+                    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+                }
+                
+                .input-modal-footer {
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-end;
+                    gap: 12px;
+                    padding: 16px 24px;
+                    background: var(--modal-footer-bg, rgba(0, 0, 0, 0.02));
+                    border-top: 1px solid var(--modal-border, rgba(0, 0, 0, 0.05));
+                }
+                
+                .input-modal-cancel,
+                .input-modal-submit {
+                    padding: 8px 16px;
+                    border: none;
+                    border-radius: 6px;
+                    font-size: 14px;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                }
+                
+                .input-modal-cancel {
+                    background: var(--cancel-bg, #f3f4f6);
+                    color: var(--cancel-text, #374151);
+                }
+                
+                .input-modal-cancel:hover {
+                    background: var(--cancel-hover-bg, #e5e7eb);
+                }
+                
+                .input-modal-submit {
+                    background: var(--submit-bg, #0ea5e9);
+                    color: var(--submit-text, #ffffff);
+                }
+                
+                .input-modal-submit:hover {
+                    background: var(--submit-hover-bg, #0284c7);
+                    transform: translateY(-1px);
+                }
+                
+                /* Dark mode styles */
+                [data-theme="dark"] .input-modal-container {
+                    --modal-bg: #1f2937;
+                    --modal-border: rgba(255, 255, 255, 0.1);
+                    --modal-header-bg: rgba(255, 255, 255, 0.02);
+                    --modal-title-color: #ffffff;
+                    --modal-close-color: rgba(255, 255, 255, 0.5);
+                    --modal-close-hover-bg: rgba(255, 255, 255, 0.05);
+                    --modal-close-hover-color: #ffffff;
+                    --input-bg: #374151;
+                    --input-border: #4b5563;
+                    --input-text: #ffffff;
+                    --input-focus-border: #0ea5e9;
+                    --modal-footer-bg: rgba(255, 255, 255, 0.02);
+                    --cancel-bg: #374151;
+                    --cancel-text: #d1d5db;
+                    --cancel-hover-bg: #4b5563;
+                    --submit-bg: #0ea5e9;
+                    --submit-text: #ffffff;
+                    --submit-hover-bg: #0284c7;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        // Get elements
+        const modalElement = document.getElementById('input-modal');
+        const inputField = document.getElementById('input-modal-field');
+        const submitButton = document.getElementById('input-modal-submit');
+        const cancelButton = document.getElementById('input-modal-cancel');
+        const closeButton = document.getElementById('input-modal-close');
+        
+        // Focus the input field
+        setTimeout(() => inputField.focus(), 100);
+        
+        // Handle submit
+        const submitHandler = () => {
+            const value = inputField.value;
+            hideInputModal();
+            worker.postMessage({ type: 'input-response', id: inputId, value: value });
+        };
+        
+        // Handle cancel
+        const cancelHandler = () => {
+            hideInputModal();
+            worker.postMessage({ type: 'input-response', id: inputId, value: '' });
+        };
+        
+        // Event listeners
+        submitButton.addEventListener('click', submitHandler);
+        cancelButton.addEventListener('click', cancelHandler);
+        closeButton.addEventListener('click', cancelHandler);
+        
+        // Handle ESC key
+        const keyHandler = (e) => {
+            if (e.key === 'Escape') {
+                cancelHandler();
+                document.removeEventListener('keydown', keyHandler);
+            } else if (e.key === 'Enter') {
+                submitHandler();
+                document.removeEventListener('keydown', keyHandler);
+            }
+        };
+        document.addEventListener('keydown', keyHandler);
+        
+        // Handle overlay click
+        modalElement.addEventListener('click', (e) => {
+            if (e.target === modalElement) {
+                cancelHandler();
+            }
+        });
+    }
+    
+    function hideInputModal() {
+        const modal = document.getElementById('input-modal');
+        if (modal) {
+            modal.remove();
+        }
+    }
     function updateDebugInfo() {
         const fileSpan = document.getElementById('debug-file');
         const tabsSpan = document.getElementById('debug-tabs');
@@ -2060,7 +2315,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         // Force a layout update after a short delay to ensure the editor is stable
                         setTimeout(() => {
                             try {
-                                if (editor && editor.layout) {
+                                if (editor && typeof editor.layout === 'function') {
                                     editor.layout();
                                 }
                             }
@@ -3616,8 +3871,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         cleanupWorker();
                     }
                     else if (m.type === 'input-request') {
-                        const val = window.prompt(m.prompt || 'Input:') || '';
-                        runnerWorker.postMessage({ type: 'input-response', id: m.id, value: val });
+                        showInputModal(m.prompt || 'Input:', m.id, runnerWorker);
                     }
                     else if (m.type === 'done') {
                         if (!executionStopped) {
@@ -4645,7 +4899,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // Ensure main editor is properly initialized
     setTimeout(() => {
-        if (window.editor) {
+        if (window.editor && typeof window.editor.layout === 'function') {
             window.editor.layout();
             console.log('Main editor layout refreshed');
         }
@@ -4683,7 +4937,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 isTabLayout = true;
                 addSystemMessage('Switched to tab layout');
                 // Ensure main editor is properly resized
-                if (window.editor) {
+                if (window.editor && typeof window.editor.layout === 'function') {
                     setTimeout(() => {
                         window.editor.layout();
                     }, 100);
