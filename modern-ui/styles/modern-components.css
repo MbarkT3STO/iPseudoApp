@@ -975,6 +975,16 @@
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     transform: translateZ(0);
     will-change: transform;
+    /* Enhanced dimensions for better usability */
+    width: 80px;
+    min-width: 80px;
+    height: var(--btn-height-base);
+    min-height: var(--btn-height-base);
+    padding: var(--space-2) var(--space-3);
+    gap: var(--space-1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #btnNewTab::before {
@@ -1014,6 +1024,29 @@
         0 8px 24px rgba(59, 130, 246, 0.4),
         0 4px 12px rgba(0, 0, 0, 0.12),
         inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive design for New Tab button */
+@media (max-width: 768px) {
+    #btnNewTab {
+        width: 60px;
+        min-width: 60px;
+        padding: var(--space-1) var(--space-2);
+    }
+    
+    #btnNewTab span {
+        display: none; /* Hide text on mobile, keep only icon */
+    }
+}
+
+@media (max-width: 480px) {
+    #btnNewTab {
+        width: 48px;
+        min-width: 48px;
+        height: var(--btn-height-sm);
+        min-height: var(--btn-height-sm);
+        padding: var(--space-1);
+    }
 }
 
 /* New File Button Styling */
@@ -1198,13 +1231,15 @@
     backdrop-filter: blur(24px) saturate(150%);
     -webkit-backdrop-filter: blur(24px) saturate(150%);
     overflow: hidden;
-    height: 100%;
+    height: calc(100% - 4rem);
+    max-height: calc(100vh - 380px);
     display: flex;
     flex-direction: column;
     flex: 1;
     min-height: 0;
     position: relative;
     transition: all var(--duration-normal) var(--ease-in-out);
+    margin-top: var(--space-2);
 }
 
 /* Light mode console container */
@@ -1500,13 +1535,15 @@
     box-shadow: var(--shadow-glass);
     backdrop-filter: var(--glass-blur);
     overflow: hidden;
-    height: 100%;
+    height: calc(100% - 4rem);
+    max-height: calc(100vh - 380px);
     display: flex;
     flex-direction: column;
     flex: 1;
     min-height: 0;
     width: 100%;
     position: relative;
+    margin-top: var(--space-2);
 }
 
 /* Editor tab specific styling */
@@ -1551,7 +1588,7 @@
     flex-direction: column;
 }
 
-/* ===== BRAND ===== */
+/* ===== FLOATING BRAND ===== */
 .modern-app-brand {
     display: flex;
     align-items: center;
@@ -1559,13 +1596,46 @@
     text-decoration: none;
     color: var(--editor-text);
     transition: all var(--duration-normal) var(--ease-in-out);
-    padding: var(--space-2);
-    border-radius: var(--radius-lg);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-xl);
+    background: 
+        linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.1) 0%, 
+            rgba(255, 255, 255, 0.05) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(16px) saturate(150%);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+    position: relative;
+    overflow: hidden;
+}
+
+.modern-app-brand::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.6s ease;
 }
 
 .modern-app-brand:hover {
     color: var(--accent-primary);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    background: 
+        linear-gradient(135deg, 
+            rgba(59, 130, 246, 0.15) 0%, 
+            rgba(139, 92, 246, 0.12) 100%);
+    border-color: rgba(59, 130, 246, 0.3);
+    box-shadow: 
+        0 8px 25px rgba(59, 130, 246, 0.2),
+        0 4px 12px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.modern-app-brand:hover::before {
+    left: 100%;
 }
 
 .brand-logo {

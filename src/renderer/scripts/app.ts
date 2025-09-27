@@ -6002,6 +6002,14 @@ function hideInputModal(): void {
             
             // Update document title
             document.title = `${newTabId} - iPseudo IDE`;
+            
+            // Ensure tab counter is updated after initial tab creation
+            setTimeout(() => {
+                updateTabCounter();
+            }, 100);
+        } else {
+            // Update counter even if tabs already exist
+            updateTabCounter();
         }
     }
     

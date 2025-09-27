@@ -126,8 +126,9 @@
                 </div>
                 <div class="tabs-controls">
                     <div class="tab-counter" id="tabCounter">1/3</div>
-                    <button class="modern-btn modern-btn-icon" id="btnNewTab" aria-label="New Tab">
+                    <button class="modern-btn" id="btnNewTab" aria-label="New Tab">
                         <i class="ri-add-line"></i>
+                        <span>New</span>
                     </button>
                 </div>
             </div>
@@ -162,15 +163,15 @@
                                     <div class="modern-badge modern-badge-primary">Live</div>
                                 </div>
                                 <div class="panel-actions">
-                                    <button class="modern-btn modern-btn-sm" id="btnFormat"Format Code">
+                                    <button class="modern-btn modern-btn-sm" id="btnFormat" aria-label="Format Code">
                                         <i class="ri-code-s-slash-line"></i>
                                         <span>Format</span>
                                     </button>
-                                    <button class="modern-btn modern-btn-sm" id="btnMinimap"Toggle Minimap">
+                                    <button class="modern-btn modern-btn-sm" id="btnMinimap" aria-label="Toggle Minimap">
                                         <i class="ri-map-line"></i>
                                         <span>Minimap</span>
                                     </button>
-                                    <button class="modern-btn modern-btn-sm" id="btnWordWrap"Toggle Word Wrap">
+                                    <button class="modern-btn modern-btn-sm" id="btnWordWrap" aria-label="Toggle Word Wrap">
                                         <i class="ri-text-wrap"></i>
                                         <span>Wrap</span>
                                     </button>
@@ -201,15 +202,15 @@
                                         </div>
                                     </div>
                                     <div class="console-controls">
-                                        <button class="modern-btn modern-btn-sm" id="clearConsole"Clear Output">
+                                        <button class="modern-btn modern-btn-sm" id="clearConsole" aria-label="Clear Output">
                                             <i class="ri-delete-bin-line"></i>
                                             <span>Clear</span>
                                         </button>
-                                        <button class="modern-btn modern-btn-sm" id="btnCopyOutput"Copy Output">
+                                        <button class="modern-btn modern-btn-sm" id="btnCopyOutput" aria-label="Copy Output">
                                             <i class="ri-file-copy-line"></i>
                                             <span>Copy</span>
                                         </button>
-                                        <button class="modern-btn modern-btn-sm" id="btnSaveOutput"Save Output">
+                                        <button class="modern-btn modern-btn-sm" id="btnSaveOutput" aria-label="Save Output">
                                             <i class="ri-save-line"></i>
                                             <span>Save</span>
                                         </button>
@@ -245,15 +246,15 @@
                                     <div class="modern-badge modern-badge-primary">Live</div>
                                 </div>
                                 <div class="panel-actions">
-                                    <button class="modern-btn modern-btn-sm" id="btnFormatSide"Format Code">
+                                    <button class="modern-btn modern-btn-sm" id="btnFormatSide" aria-label="Format Code">
                                         <i class="ri-code-s-slash-line"></i>
                                         <span class="sm:block">Format</span>
                                     </button>
-                                    <button class="modern-btn modern-btn-sm" id="btnMinimapSide"Toggle Minimap">
+                                    <button class="modern-btn modern-btn-sm" id="btnMinimapSide" aria-label="Toggle Minimap">
                                         <i class="ri-map-line"></i>
                                         <span class="sm:block">Minimap</span>
                                     </button>
-                                    <button class="modern-btn modern-btn-sm" id="btnWordWrapSide"Toggle Word Wrap">
+                                    <button class="modern-btn modern-btn-sm" id="btnWordWrapSide" aria-label="Toggle Word Wrap">
                                         <i class="ri-text-wrap"></i>
                                         <span class="sm:block">Wrap</span>
                                     </button>
@@ -285,15 +286,15 @@
                                             </div>
                                         </div>
                                         <div class="console-controls">
-                                            <button class="modern-btn modern-btn-sm" id="clearConsoleSide"Clear Output">
+                                            <button class="modern-btn modern-btn-sm" id="clearConsoleSide" aria-label="Clear Output">
                                                 <i class="ri-delete-bin-line"></i>
                                                 <span class="sm:block">Clear</span>
                                             </button>
-                                            <button class="modern-btn modern-btn-sm" id="btnCopyOutputSide"Copy Output">
+                                            <button class="modern-btn modern-btn-sm" id="btnCopyOutputSide" aria-label="Copy Output">
                                                 <i class="ri-file-copy-line"></i>
                                                 <span class="sm:block">Copy</span>
                                             </button>
-                                            <button class="modern-btn modern-btn-sm" id="btnSaveOutputSide"Save Output">
+                                            <button class="modern-btn modern-btn-sm" id="btnSaveOutputSide" aria-label="Save Output">
                                                 <i class="ri-save-line"></i>
                                                 <span class="sm:block">Save</span>
                                             </button>
@@ -307,13 +308,13 @@
                                             <span>Output Console</span>
                                         </div>
                                         <div class="print-output-controls">
-                                            <button class="modern-btn modern-btn-sm" id="clearConsoleSide"Clear Output">
+                                            <button class="modern-btn modern-btn-sm" id="clearConsoleSide" aria-label="Clear Output">
                                                 <i class="ri-delete-bin-line"></i>
                                             </button>
-                                            <button class="modern-btn modern-btn-sm" id="btnCopyOutputSide"Copy Output">
+                                            <button class="modern-btn modern-btn-sm" id="btnCopyOutputSide" aria-label="Copy Output">
                                                 <i class="ri-file-copy-line"></i>
                                             </button>
-                                            <button class="modern-btn modern-btn-sm" id="btnSaveOutputSide"Save Output">
+                                            <button class="modern-btn modern-btn-sm" id="btnSaveOutputSide" aria-label="Save Output">
                                                 <i class="ri-save-line"></i>
                                             </button>
                                         </div>
@@ -1073,6 +1074,114 @@
     </style>
     
     <script>
+        // Ultra Modern Modal functionality
+        const aboutModal = document.getElementById('aboutModal');
+        const closeModal = document.getElementById('closeModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const appBrand = document.getElementById('appBrand');
+
+        // Handle external links
+        document.addEventListener('click', (e) => {
+            const link = e.target.closest('a');
+            if (link && link.href) {
+                if (link.target === '_blank' || link.hostname !== window.location.hostname) {
+                    e.preventDefault();
+                    if (window.electron && typeof window.electron.openExternal === 'function') {
+                        window.electron.openExternal(link.href);
+                    } else {
+                        window.open(link.href, '_blank', 'noopener,noreferrer');
+                    }
+                }
+            }
+        });
+
+        // Enhanced social button interactions
+        document.addEventListener('DOMContentLoaded', () => {
+            const socialButtons = document.querySelectorAll('.social-button');
+            socialButtons.forEach(button => {
+                button.addEventListener('mouseenter', () => {
+                    button.style.transform = 'translateY(-3px)';
+                });
+                
+                button.addEventListener('mouseleave', () => {
+                    button.style.transform = 'translateY(0)';
+                });
+            });
+        });
+
+        // Handle mailto links
+        document.addEventListener('click', (e) => {
+            const mailtoLink = e.target.closest('a[href^="mailto:"]');
+            if (mailtoLink) {
+                e.preventDefault();
+                if (window.electron && typeof window.electron.openExternal === 'function') {
+                    window.electron.openExternal(mailtoLink.href);
+                } else {
+                    window.location.href = mailtoLink.href;
+                }
+            }
+        });
+
+        // Design+Code Inspired modal handlers
+        const showModal = () => {
+            aboutModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => {
+                aboutModal.style.opacity = '1';
+                aboutModal.style.visibility = 'visible';
+                const modalBox = aboutModal.querySelector('.dc-modal-box');
+                modalBox.classList.add('show');
+            }, 10);
+        };
+
+        const hideModal = () => {
+            const modalBox = aboutModal.querySelector('.dc-modal-box');
+            modalBox.classList.remove('show');
+            aboutModal.style.opacity = '0';
+            aboutModal.style.visibility = 'hidden';
+            setTimeout(() => {
+                aboutModal.style.display = 'none';
+                document.body.style.overflow = '';
+            }, 300);
+        };
+
+        appBrand.addEventListener('click', (e) => {
+            e.preventDefault();
+            showModal();
+        });
+
+        closeModal.addEventListener('click', hideModal);
+        closeModalBtn.addEventListener('click', hideModal);
+
+        // Close modal when clicking outside content
+        aboutModal.addEventListener('click', (e) => {
+            if (e.target === aboutModal) {
+                hideModal();
+            }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && aboutModal.style.display === 'flex') {
+                hideModal();
+            }
+        });
+
+        // Classic UI Switch functionality
+        const classicUIBtn = document.getElementById('btnClassicUI');
+        if (classicUIBtn) {
+            classicUIBtn.addEventListener('click', () => {
+                // Store preference for Classic UI
+                localStorage.setItem('preferredUI', 'classic');
+                
+                // Show confirmation
+                if (confirm('Switch to Classic UI? The application will restart to apply changes.')) {
+                    // Navigate to Classic UI
+                    window.location.href = '../src/renderer/index.html';
+                }
+            });
+        }
+
         // Ultra Modern Modal functionality
         const aboutModal = document.getElementById('aboutModal');
         const closeModal = document.getElementById('closeModal');

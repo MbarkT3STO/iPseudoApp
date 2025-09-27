@@ -193,9 +193,9 @@
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-2) var(--space-3);
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-full);
+  background: transparent;
+  border: none;
+  border-radius: 0;
   color: var(--text-secondary);
   cursor: pointer;
   /* ZERO EFFECTS ENTIRELY DISABLED FOR MAXIMUM SPEED */
@@ -233,7 +233,7 @@
 
 .modern-tab:hover {
   /* AGGRESSIVE DISABLE FOR FILE TABS */
-  background: rgba(255, 255, 255, 0.06) !important;
+  background: transparent !important;
   background-image: none !important;
   transform: translateY(0px) !important;
   scale: none !important;
@@ -246,9 +246,9 @@
 }
 
 .modern-tab.active {
-  background: var(--gradient-primary);
-  color: white;
-  border-color: rgba(59, 130, 246, 0.4);
+  background: transparent;
+  color: var(--text-primary);
+  border: none;
   /* ZERO DISTRACTING EFFECTS */
   box-shadow: none !important;
   transform: none !important;
@@ -340,9 +340,9 @@
 }
 
 .new-tab-btn {
-  width: 36px;
+  width: 48px;
   height: 36px;
-  border-radius: 50%;
+  border-radius: 18px;
   border: 2px dashed var(--glass-border);
   background: rgba(255, 255, 255, 0.06);
   color: var(--text-secondary);
@@ -862,15 +862,15 @@
 }
 
 .theme-dark .modern-tab {
-  background: var(--glass-bg-dark);
-  border-color: var(--glass-border-dark);
+  background: transparent;
+  border: none;
   color: var(--text-secondary);
 }
 
 .theme-dark .modern-tab:hover {
   /* DISABLED hover effects for dark theme */
-  background: var(--glass-bg-dark);
-  border-color: var(--glass-border-dark);
+  background: transparent;
+  border: none;
 }
 
 .theme-dark .action-btn {
@@ -929,7 +929,7 @@
   }
   
   .new-tab-btn {
-    width: 32px;
+    width: 40px;
     height: 32px;
     font-size: 0.9rem;
   }
@@ -974,7 +974,7 @@
   }
   
   .new-tab-btn {
-    width: 28px;
+    width: 36px;
     height: 28px;
     font-size: 0.8rem;
   }
@@ -1045,7 +1045,7 @@
   }
   
   .new-tab-btn {
-    width: 24px;
+    width: 32px;
     height: 24px;
     font-size: 0.7rem;
   }
@@ -1133,27 +1133,30 @@
 .modern-tab:focus-visible,
 .action-btn:focus-visible,
 .new-tab-btn:focus-visible {
-  outline: 2px solid var(--primary-500);
-  outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+  outline: none;
+  outline-offset: 0;
+  box-shadow: none;
 }
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {
-  .modern-tab,
-  .action-btn,
-  .new-tab-btn {
-    border-width: 2px;
+  .modern-tab {
+    border: none;
   }
 
   .modern-tab.active {
-    border-width: 3px;
+    border: none;
+  }
+  
+  .action-btn,
+  .new-tab-btn {
+    border-width: 2px;
   }
 }
 
 /* PERFORMANCE OVERRIDES FOR FILE TABS ONLY */
 .modern-tab:hover:not(.discrete) {
-  background: rgba(255, 255, 255, 0.06) !important !important;
+  background: transparent !important !important;
   color: inherit !important !important;
   transform: translateY(0px) translateZ(0px) !important !important !important;
   box-shadow: none !important !important !important;
@@ -1173,7 +1176,42 @@
 .modern-tab.active:active {
   transform: translateY(0px) translateZ(0px) !important !important !important;
   scale: none !important !important !important;
-  background: rgba(255, 255, 255, 0.06) !important !important;
+  background: transparent !important !important;
   transition: none !important !important !important;
   animation: none !important !important !important;
+}
+
+/* COMPREHENSIVE DISABLE ALL EFFECTS FOR MODERN-TAB */
+.modern-tab,
+.modern-tab::before,
+.modern-tab::after,
+.modern-tab:hover,
+.modern-tab:active,
+.modern-tab:focus,
+.modern-tab:focus-visible,
+.modern-tab.active,
+.modern-tab.active:hover,
+.modern-tab.active:active,
+.modern-tab.active:focus,
+.modern-tab.active:focus-visible {
+  background: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  outline: none !important;
+  outline-offset: 0 !important;
+  scale: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  content: none !important;
+  position: static !important;
+  z-index: auto !important;
 }
