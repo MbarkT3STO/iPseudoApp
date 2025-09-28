@@ -138,12 +138,24 @@
     display: flex;
     align-items: center;
     gap: var(--space-4);
+    flex: 1;
+    justify-content: flex-start;
+}
+
+.nav-center {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex: 1;
+    justify-content: center;
 }
 
 .nav-right {
     display: flex;
     align-items: center;
     gap: var(--space-2);
+    flex: 1;
+    justify-content: flex-end;
 }
 
 .file-actions {
@@ -160,7 +172,7 @@
     overflow: hidden;
     position: relative;
     z-index: 1;
-    margin-top: calc(56px + 44px + 4rem); /* Account for floating nav + floating tabs + proper spacing */
+    margin-top: calc(56px + 44px + 0.5rem); /* Account for floating nav + floating tabs + minimal spacing */
     padding-top: var(--space-1);
 }
 
@@ -258,6 +270,15 @@
     .side-by-side-container .modern-panel {
         min-height: 300px;
     }
+    
+    /* Adjust navigation for tablets */
+    .nav-center {
+        gap: var(--space-2);
+    }
+    
+    .file-actions {
+        gap: var(--space-1);
+    }
 }
 
 @media (max-width: 768px) {
@@ -271,20 +292,28 @@
     }
     
     .modern-main-content {
-        margin-top: calc(48px + 40px + 3rem);
+        margin-top: calc(48px + 40px + 0.5rem);
     }
     
     .modern-content-area {
-        height: calc(100vh - 48px - 40px - 3rem - 2rem);
-        max-height: calc(100vh - 48px - 40px - 3rem - 2rem);
+        height: calc(100vh - 48px - 40px - 0.5rem - 2rem);
+        max-height: calc(100vh - 48px - 40px - 0.5rem - 2rem);
     }
     
     .nav-left {
-        gap: var(--space-4);
+        gap: var(--space-2);
+        flex: 0 0 auto;
+    }
+    
+    .nav-center {
+        gap: var(--space-1);
+        flex: 1;
+        justify-content: center;
     }
     
     .nav-right {
-        gap: var(--space-2);
+        gap: var(--space-1);
+        flex: 0 0 auto;
     }
     
     .file-actions {
@@ -312,20 +341,28 @@
     }
     
     .modern-main-content {
-        margin-top: calc(44px + 36px + 2.5rem);
+        margin-top: calc(44px + 36px + 0.25rem);
     }
     
     .modern-content-area {
-        height: calc(100vh - 44px - 36px - 2.5rem - 2rem);
-        max-height: calc(100vh - 44px - 36px - 2.5rem - 2rem);
+        height: calc(100vh - 44px - 36px - 0.25rem - 2rem);
+        max-height: calc(100vh - 44px - 36px - 0.25rem - 2rem);
     }
     
     .nav-left {
-        gap: var(--space-2);
+        gap: var(--space-1);
+        flex: 0 0 auto;
+    }
+    
+    .nav-center {
+        gap: var(--space-1);
+        flex: 1;
+        justify-content: center;
     }
     
     .nav-right {
         gap: var(--space-1);
+        flex: 0 0 auto;
     }
     
     .file-actions .modern-btn span {
