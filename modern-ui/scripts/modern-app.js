@@ -1221,7 +1221,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         const content = window.editor.getValue();
         if (!content.trim()) {
-            out('Nothing to format', 'warning');
+            out('⚠️ No code to format', 'warning');
             return;
         }
         // Add loading state to format button
@@ -1270,10 +1270,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 openFiles.set(activeFilePath, fileData);
                 updateTabDirtyState(activeFilePath, true);
             }
-            out('Code formatted successfully', 'success');
+            out('✨ Code beautified!', 'success');
         }
         catch (error) {
-            out(`Formatting error: ${error.message}`, 'error');
+            out(`❌ Format failed: ${error.message}`, 'error');
         }
         finally {
             // Restore format button
@@ -3448,35 +3448,19 @@ document.addEventListener('DOMContentLoaded', () => {
         // Apply syntax highlighting based on message type
         switch (type) {
             case 'error':
-                // Highlight error patterns
-                formatted = formatted
-                    .replace(/(Error|Exception|Failed|Cannot|Unable)/gi, '<span class="error-keyword">$1</span>')
-                    .replace(/(at line \d+|line \d+)/gi, '<span class="error-location">$1</span>')
-                    .replace(/(\d+)/g, '<span class="error-number">$1</span>');
+                // No special formatting for error messages
                 break;
             case 'warning':
-                // Highlight warning patterns
-                formatted = formatted
-                    .replace(/(Warning|Caution|Deprecated|Notice)/gi, '<span class="warning-keyword">$1</span>')
-                    .replace(/(\d+)/g, '<span class="warning-number">$1</span>');
+                // No special formatting for warning messages
                 break;
             case 'success':
-                // Highlight success patterns
-                formatted = formatted
-                    .replace(/(Success|Completed|Done|Finished)/gi, '<span class="success-keyword">$1</span>')
-                    .replace(/(\d+)/g, '<span class="success-number">$1</span>');
+                // No special formatting for success messages
                 break;
             case 'info':
-                // Highlight info patterns
-                formatted = formatted
-                    .replace(/(Info|Information|Note|Tip)/gi, '<span class="info-keyword">$1</span>')
-                    .replace(/(\d+)/g, '<span class="info-number">$1</span>');
+                // No special formatting for info messages
                 break;
             case 'debug':
-                // Highlight debug patterns
-                formatted = formatted
-                    .replace(/(Debug|Trace|Log)/gi, '<span class="debug-keyword">$1</span>')
-                    .replace(/(\d+)/g, '<span class="debug-number">$1</span>');
+                // No special formatting for debug messages
                 break;
         }
         // Highlight common patterns for all types
@@ -3539,7 +3523,7 @@ document.addEventListener('DOMContentLoaded', () => {
             messageElement.className = 'modern-console-message modern-success';
             messageElement.innerHTML = `
                 <i class="ri-checkbox-circle-fill modern-icon"></i>
-                <span class="modern-text">${message}</span>
+                <span class="modern-text">🎉 Execution completed!</span>
             `;
         }
         else if (message.startsWith('Suggestion:')) {
@@ -3631,7 +3615,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const messages = outputConsole.querySelectorAll('.console-message .message-text');
         const output = Array.from(messages).map(msg => msg.textContent).join('\n');
         navigator.clipboard.writeText(output).then(() => {
-            addConsoleMessage('Console output copied to clipboard', 'success');
+            addConsoleMessage('📋 Console copied!', 'success');
         }).catch(() => {
             addConsoleMessage('Failed to copy console output', 'error');
         });
@@ -3724,7 +3708,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Force cleanup after a short delay
             setTimeout(() => {
                 cleanupWorker();
-                out('Execution stopped by user', 'warning');
+                out('⏹️ Execution stopped by user', 'warning');
                 // Status will be updated by cleanupWorker
             }, 100);
         }
@@ -3815,32 +3799,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 const line = lines[i].trim();
                 if (!line)
                     continue;
-                // Style different parts of the error message
-                if (line.startsWith('At line')) {
-                    outputConsole.innerHTML += `<div class="error-location">${line}</div>`;
-                }
-                else if (line.startsWith('  ') && line.trim() !== '^') {
-                    // This is a line of code with the error
-                    outputConsole.innerHTML += `<div class="error-code"><pre>${line}</pre></div>`;
-                }
-                else if (line.trim() === '^') {
-                    // This is the pointer to the error location
-                    outputConsole.innerHTML += `<div class="error-pointer">${line}</div>`;
-                }
-                else if (line.startsWith('Previous line')) {
-                    outputConsole.innerHTML += `<div class="error-context">${line}</div>`;
-                }
-                else if (line.startsWith('💡')) {
-                    // This is a tip/suggestion
-                    outputConsole.innerHTML += `<div class="error-tip">${line}</div>`;
-                }
-                else {
-                    // Default styling for other lines
-                    outputConsole.innerHTML += `<div>${line}</div>`;
-                }
+                // Add error message lines as modern console messages
+                outputConsole.innerHTML += `<div class="modern-console-message modern-error">
+                    <i class="ri-error-warning-fill modern-icon"></i>
+                    <span class="modern-text">${line}</span>
+                </div>`;
             }
-            // Add a separator after the error
-            outputConsole.innerHTML += '<div class="error-separator"></div>';
+            // No separator needed
             // Scroll to the bottom to show the error
             scrollOutputToBottom();
             return;
@@ -3917,7 +3882,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     };
                     // Add suggestions for common errors
                     if (errorType === 'ReferenceError' && errorMessage.includes('is not defined')) {
-                        const varName = errorMessage.split(' ')[0];
+                        // Extract variable name from error message more robustly
+                        let varName = 'the variable';
+                        const match = errorMessage.match(/(\w+) is not defined/i) || 
+                                     errorMessage.match(/ReferenceError: (\w+) is not defined/i) ||
+                                     errorMessage.match(/'(\w+)' is not defined/i) ||
+                                     errorMessage.match(/"(\w+)" is not defined/i);
+                        if (match && match[1]) {
+                            varName = match[1];
+                        }
                         decoration.suggestion = `Did you forget to declare '${varName}' with 'var'?`;
                     }
                     else if (errorType === 'TypeError' && errorMessage.includes('undefined is not a function')) {
@@ -3952,7 +3925,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function execute(code) {
         if (!code || !code.trim()) {
-            out('Nothing to run', 'warning');
+            out('⚠️ No code to execute', 'warning');
             return;
         }
         try {
@@ -3991,7 +3964,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const isPseudo = /\bprint\b|\bvar\b|\bfor\b|\bendfor\b/i.test(code);
             const timeout = isPseudo ? 8000 : 5000;
             runnerWorker.onerror = (e) => {
-                out('Worker error: ' + (e && e.message ? e.message : JSON.stringify(e)), 'error');
+                out('💥 Worker crashed: ' + (e && e.message ? e.message : 'Unknown error'), 'error');
                 cleanupWorker();
             };
             runnerWorker.onmessage = (ev) => {
@@ -4045,7 +4018,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
                 catch (err) {
-                    out('Message handler error: ' + err.message, 'error');
+                    out('🔧 Handler error: ' + err.message, 'error');
                     cleanupWorker();
                 }
             };
@@ -4403,7 +4376,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     fileData.dirty = false;
                     openFiles.set(filePath, fileData);
                     updateTabDirtyState(filePath, false);
-                    out(`File saved: ${filePath}`, 'success');
+                    out(`💾 Saved: ${filePath.split('/').pop()}`, 'success');
                 }
                 // Track last save time for auto save
                 lastSaveTime.set(filePath, Date.now());
@@ -4449,7 +4422,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     window.activeFilePath = activeFilePath || '';
                     // Track last save time for auto save
                     lastSaveTime.set(newPath, Date.now());
-                    out(`File saved: ${newPath}`, 'success');
+                    out(`💾 Saved as: ${newPath.split('/').pop()}`, 'success');
                     return true;
                 }
             }
@@ -4731,7 +4704,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function createNewTab() {
         // Check if we can create a new tab
         if (!canCreateNewTab()) {
-            out(`Maximum of ${getMaxTabs()} tabs allowed. Close a tab first.`, 'warning');
+            out(`📑 Tab limit reached (${getMaxTabs()}) - close a tab to continue`, 'warning');
             return;
         }
         const newTabId = `Untitled-${getNextUntitledNumber()}.pseudo`;
@@ -4912,7 +4885,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             catch (error) {
                 console.error('Error saving file:', error);
-                out(`Error saving file: ${error.message}`, 'error');
+                out(`💾 Save failed: ${error.message}`, 'error');
             }
         });
     }
@@ -5036,9 +5009,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (outputConsole) {
                 const text = outputConsole.innerText;
                 navigator.clipboard.writeText(text).then(() => {
-                    out('Output copied to clipboard', 'success');
+                    out('📋 Copied to clipboard!', 'success');
                 }).catch(() => {
-                    out('Failed to copy output', 'error');
+                    out('❌ Copy failed - try again', 'error');
                 });
             }
         });
@@ -5154,7 +5127,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 a.click();
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
-                out('Output exported', 'success');
+                out('📤 Exported successfully!', 'success');
             }
         });
     }
@@ -5278,7 +5251,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         for (let i = 1; i <= 10; i++) {
             setTimeout(() => {
-                out(`Test line ${i} - This should auto-scroll to show the latest content`, 'info');
+                out(`📝 Test ${i}/10 - Auto-scroll demo`, 'info');
             }, i * 500); // Add a line every 500ms
         }
     }
@@ -5311,7 +5284,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         // Add a final message after the loop
         setTimeout(() => {
-            out('Loop completed! This should be the last visible item.', 'success');
+            out('✅ Auto-scroll test completed!', 'success');
         }, 1100); // After all the loop iterations
     }
     // Test function for immediate live scrolling during loop execution
@@ -5325,7 +5298,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         // Add a final message after the loop
         setTimeout(() => {
-            out('Live loop completed! You should have seen each iteration scroll immediately.', 'success');
+            out('🎯 Live scroll test completed!', 'success');
         }, 2600); // After all the loop iterations
     }
     // Test function for stop button states

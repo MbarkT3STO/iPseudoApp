@@ -3037,35 +3037,19 @@ document.addEventListener('DOMContentLoaded', () => {
         // Apply syntax highlighting based on message type
         switch (type) {
             case 'error':
-                // Highlight error patterns
-                formatted = formatted
-                    .replace(/(Error|Exception|Failed|Cannot|Unable)/gi, '<span class="error-keyword">$1</span>')
-                    .replace(/(at line \d+|line \d+)/gi, '<span class="error-location">$1</span>')
-                    .replace(/(\d+)/g, '<span class="error-number">$1</span>');
+                // No special formatting for error messages
                 break;
             case 'warning':
-                // Highlight warning patterns
-                formatted = formatted
-                    .replace(/(Warning|Caution|Deprecated|Notice)/gi, '<span class="warning-keyword">$1</span>')
-                    .replace(/(\d+)/g, '<span class="warning-number">$1</span>');
+                // No special formatting for warning messages
                 break;
             case 'success':
-                // Highlight success patterns
-                formatted = formatted
-                    .replace(/(Success|Completed|Done|Finished)/gi, '<span class="success-keyword">$1</span>')
-                    .replace(/(\d+)/g, '<span class="success-number">$1</span>');
+                // No special formatting for success messages
                 break;
             case 'info':
-                // Highlight info patterns
-                formatted = formatted
-                    .replace(/(Info|Information|Note|Tip)/gi, '<span class="info-keyword">$1</span>')
-                    .replace(/(\d+)/g, '<span class="info-number">$1</span>');
+                // No special formatting for info messages
                 break;
             case 'debug':
-                // Highlight debug patterns
-                formatted = formatted
-                    .replace(/(Debug|Trace|Log)/gi, '<span class="debug-keyword">$1</span>')
-                    .replace(/(\d+)/g, '<span class="debug-number">$1</span>');
+                // No special formatting for debug messages
                 break;
         }
         // Highlight common patterns for all types
@@ -3508,7 +3492,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     };
                     // Add suggestions for common errors
                     if (errorType === 'ReferenceError' && errorMessage.includes('is not defined')) {
-                        const varName = errorMessage.split(' ')[0];
+                        // Extract variable name from error message more robustly
+                        let varName = 'the variable';
+                        const match = errorMessage.match(/(\w+) is not defined/i) || 
+                                     errorMessage.match(/ReferenceError: (\w+) is not defined/i) ||
+                                     errorMessage.match(/'(\w+)' is not defined/i) ||
+                                     errorMessage.match(/"(\w+)" is not defined/i);
+                        if (match && match[1]) {
+                            varName = match[1];
+                        }
                         decoration.suggestion = `Did you forget to declare '${varName}' with 'var'?`;
                     }
                     else if (errorType === 'TypeError' && errorMessage.includes('undefined is not a function')) {

@@ -113,10 +113,10 @@
         
         <div class="test-controls">
             <button class="test-button success" onclick="addMessage('success', 'Done')">✅ Success</button>
-            <button class="test-button error" onclick="addMessage('error', 'Error: Something went wrong!')">❌ Error</button>
+            <button class="test-button error" onclick="addMessage('error', 'Error: This is a very long error message that should flow normally as regular text without being divided into columns or appearing in a column-like layout. The text should wrap naturally and be easy to read.')">❌ Error</button>
             <button class="test-button warning" onclick="addMessage('warning', 'Warning: This is a warning message')">⚠️ Warning</button>
             <button class="test-button info" onclick="addMessage('info', 'Info: This is an informational message')">ℹ️ Info</button>
-            <button class="test-button debug" onclick="addMessage('debug', 'Debug: Debug information here')">🐛 Debug</button>
+            <button class="test-button debug" onclick="addMessage('debug', 'Debug: Memory usage 45.2MB | Worker active | 3 tabs open')">🐛 Debug</button>
             <button class="test-button" onclick="addSuggestion()">💡 Suggestion</button>
             <button class="test-button clear-button" onclick="clearConsole()">🗑️ Clear</button>
         </div>
@@ -183,7 +183,7 @@
             addMessage('info', 'Loading user preferences...');
             addMessage('warning', 'Deprecated API detected in line 42');
             addMessage('error', 'Failed to connect to database');
-            addMessage('debug', 'Debug: Current memory usage: 45.2MB');
+            addMessage('debug', 'Debug: Memory 45.2MB | Worker active | 3 tabs open');
         }, 1000);
     </script>
 </body>
