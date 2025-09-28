@@ -13,20 +13,40 @@
     padding: var(--space-2) var(--space-4);
     font-family: var(--font-family-primary);
     font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-tight);
     text-decoration: none;
     border: 1px solid transparent;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-xl);
     cursor: pointer;
     user-select: none;
-    transition: all var(--duration-normal) cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
     white-space: nowrap;
     min-height: var(--btn-height-base);
-    backdrop-filter: blur(8px) saturate(120%);
-    -webkit-backdrop-filter: blur(8px) saturate(120%);
+    backdrop-filter: blur(12px) saturate(150%);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+    box-shadow: var(--shadow-btn-secondary);
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+/* Enhanced button shimmer effect */
+.modern-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+}
+
+.modern-btn:hover::before {
+    left: 100%;
 }
 
 .modern-btn:disabled {
@@ -40,19 +60,35 @@
     outline-offset: var(--focus-ring-offset);
 }
 
-/* Button sizes */
+/* Enhanced Button sizes */
 .modern-btn-sm {
-    padding: var(--space-1) var(--space-3);
+    padding: var(--space-2) var(--space-3);
     font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
     min-height: var(--btn-height-sm);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-btn-secondary);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modern-btn-sm:hover:not(:disabled) {
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: var(--shadow-btn-secondary-hover);
 }
 
 .modern-btn-lg {
     padding: var(--space-3) var(--space-6);
     font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
     min-height: var(--btn-height-lg);
     border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-btn-primary);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modern-btn-lg:hover:not(:disabled) {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: var(--shadow-btn-primary-hover);
 }
 
 .modern-btn-xl {
@@ -62,73 +98,44 @@
     border-radius: var(--radius-2xl);
 }
 
-/* Icon buttons */
+/* Enhanced Icon buttons */
 .modern-btn-icon {
-    padding: var(--space-1);
-    min-width: 32px;
-    width: 32px;
-    height: 32px;
-    border-radius: var(--radius-md);
+    padding: var(--space-2);
+    min-width: 40px;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-xl);
     position: relative;
     overflow: hidden;
-}
-
-/* Icon button hover effects */
-.modern-btn-icon:not(#btnNew):not(#btnNewTab):not(.modern-tab-close) {
-    background: 
-        linear-gradient(135deg,
-            rgba(255, 255, 255, 0.08) 0%,
-            rgba(255, 255, 255, 0.03) 100%);
+    background: var(--gradient-glass);
     border: 1px solid var(--glass-border);
-    backdrop-filter: blur(12px) saturate(150%);
-    -webkit-backdrop-filter: blur(12px) saturate(150%);
-    box-shadow: 
-        0 4px 16px rgba(0, 0, 0, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: var(--shadow-btn-icon);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modern-btn-icon i {
     position: relative;
-    overflow: hidden;
-    transition: all var(--duration-normal) cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 2;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.modern-btn-icon:not(#btnNew):not(#btnNewTab):not(.modern-tab-close)::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-    transition: left 0.5s ease;
-}
-
-.modern-btn-icon:not(#btnNew):not(#btnNewTab):not(.modern-tab-close):hover::before {
-    left: 100%;
-}
-
+/* Enhanced Icon button hover effects */
 .modern-btn-icon:not(#btnNew):not(#btnNewTab):not(.modern-tab-close):hover {
-    background: 
-        linear-gradient(135deg,
-            rgba(255, 255, 255, 0.15) 0%,
-            rgba(255, 255, 255, 0.08) 100%);
+    background: var(--gradient-glass-hover);
     border-color: var(--glass-border-hover);
+    box-shadow: var(--shadow-btn-icon-hover);
     transform: translateY(-2px) scale(1.05);
-    box-shadow: 
-        0 8px 25px rgba(0, 0, 0, 0.2),
-        0 0 20px rgba(147, 51, 234, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
 }
 
 .modern-btn-icon:not(#btnNew):not(#btnNewTab):not(.modern-tab-close):hover i {
     transform: scale(1.1);
-    transition: transform var(--duration-normal) var(--ease-in-out);
+    color: var(--accent-primary);
 }
 
 .modern-btn-icon:not(#btnNew):not(#btnNewTab):not(.modern-tab-close):active {
     background: var(--glass-bg-active);
-    transform: translateY(0);
-    box-shadow: var(--shadow-glass-active);
+    transform: translateY(0) scale(1.02);
+    box-shadow: var(--shadow-btn-icon);
 }
 
 .modern-btn-icon.modern-btn-sm {
@@ -145,91 +152,81 @@
     padding: var(--space-3);
 }
 
-/* Button variants */
+/* Enhanced Button variants */
 .modern-btn-primary {
-    background: var(--gradient-enhanced-accent);
+    background: var(--gradient-primary);
     color: white;
     border-color: transparent;
-    box-shadow: 
-        0 6px 20px rgba(147, 51, 234, 0.4),
-        0 0 30px rgba(147, 51, 234, 0.2);
-    transition: all var(--duration-normal) cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-btn-primary);
+    position: relative;
+    z-index: 2;
 }
 
 .modern-btn-primary:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 
-        0 8px 24px rgba(147, 51, 234, 0.5),
-        0 0 40px rgba(147, 51, 234, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: var(--shadow-btn-primary-hover);
+    background: linear-gradient(135deg, #5b21b6 0%, #7c3aed 50%, #c026d3 100%);
 }
 
 .modern-btn-primary:active:not(:disabled) {
-    transform: translateY(0);
-    box-shadow: var(--shadow-glow-primary), var(--shadow-md);
+    transform: translateY(-1px) scale(1.01);
+    box-shadow: var(--shadow-btn-primary);
 }
 
 .modern-btn-secondary {
-    background: var(--glass-bg);
+    background: var(--gradient-glass);
     color: var(--editor-text);
     border-color: var(--glass-border);
     backdrop-filter: var(--glass-blur);
-    box-shadow: var(--shadow-glass);
+    box-shadow: var(--shadow-btn-secondary);
+    position: relative;
+    z-index: 2;
 }
 
 .modern-btn-secondary:hover:not(:disabled) {
-    background: var(--glass-bg-hover);
+    background: var(--gradient-glass-hover);
     border-color: var(--glass-border-hover);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-glass-hover);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: var(--shadow-btn-secondary-hover);
+    color: var(--accent-primary);
 }
 
 .modern-btn-secondary:active:not(:disabled) {
     background: var(--glass-bg-active);
-    transform: translateY(0);
-    box-shadow: var(--shadow-glass-active);
+    transform: translateY(0) scale(1.01);
+    box-shadow: var(--shadow-btn-secondary);
 }
 
 .modern-btn-run {
-    background: var(--gradient-enhanced-accent);
+    background: var(--gradient-primary);
     color: white;
     border-color: transparent;
-    box-shadow: 
-        0 8px 24px rgba(147, 51, 234, 0.4),
-        0 0 40px rgba(147, 51, 234, 0.3);
-    font-weight: var(--font-weight-semibold);
-    transition: all var(--duration-normal) cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-btn-primary);
+    font-weight: var(--font-weight-bold);
     position: relative;
+    z-index: 2;
     overflow: hidden;
 }
 
-.modern-btn-run::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-    transition: left 0.6s ease;
-}
-
-.modern-btn-run:hover::before {
-    left: 100%;
-}
-
 .modern-btn-run:hover:not(:disabled) {
-    transform: translateY(-3px);
-    box-shadow: 
-        0 12px 30px rgba(147, 51, 234, 0.5),
-        0 0 60px rgba(147, 51, 234, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.25);
-    background: linear-gradient(135deg, #8227d0 0%, #4f46e5 100%);
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: var(--shadow-btn-primary-hover);
+    background: linear-gradient(135deg, #4c1d95 0%, #6d28d9 50%, #a855f7 100%);
+}
+
+.modern-btn-run:hover:not(:disabled) i {
+    transform: scale(1.1);
+    animation: pulse 0.6s ease-in-out;
 }
 
 .modern-btn-run:active:not(:disabled) {
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-glow-primary), var(--shadow-lg);
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: var(--shadow-btn-primary);
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1.1); }
+    50% { transform: scale(1.2); }
 }
 
 /* Modern Run Button Disabled State */
@@ -245,21 +242,96 @@
 }
 
 .modern-btn-stop {
-    background: var(--accent-error);
+    background: var(--gradient-error);
     color: white;
     border-color: transparent;
-    box-shadow: var(--shadow-glow-error);
+    box-shadow: var(--shadow-btn-error);
+    position: relative;
+    z-index: 2;
 }
 
 .modern-btn-stop:hover:not(:disabled) {
-    background: #dc2626;
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-glow-error), var(--shadow-lg);
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #991b1b 100%);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: var(--shadow-btn-error-hover);
+}
+
+.modern-btn-stop:hover:not(:disabled) i {
+    transform: scale(1.1);
+    animation: shake 0.6s ease-in-out;
 }
 
 .modern-btn-stop:active:not(:disabled) {
-    transform: translateY(0);
-    box-shadow: var(--shadow-glow-error), var(--shadow-md);
+    transform: translateY(-1px) scale(1.01);
+    box-shadow: var(--shadow-btn-error);
+}
+
+@keyframes shake {
+    0%, 100% { transform: scale(1.1) translateX(0); }
+    25% { transform: scale(1.1) translateX(-2px); }
+    75% { transform: scale(1.1) translateX(2px); }
+}
+
+/* Additional Button Variants */
+.modern-btn-success {
+    background: var(--gradient-success);
+    color: white;
+    border-color: transparent;
+    box-shadow: var(--shadow-btn-success);
+    position: relative;
+    z-index: 2;
+}
+
+.modern-btn-success:hover:not(:disabled) {
+    background: linear-gradient(135deg, #059669 0%, #047857 50%, #065f46 100%);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: var(--shadow-btn-success-hover);
+}
+
+.modern-btn-success:hover:not(:disabled) i {
+    transform: scale(1.1);
+    animation: bounce 0.6s ease-in-out;
+}
+
+.modern-btn-success:active:not(:disabled) {
+    transform: translateY(-1px) scale(1.01);
+    box-shadow: var(--shadow-btn-success);
+}
+
+.modern-btn-warning {
+    background: var(--gradient-warning);
+    color: white;
+    border-color: transparent;
+    box-shadow: var(--shadow-btn-warning);
+    position: relative;
+    z-index: 2;
+}
+
+.modern-btn-warning:hover:not(:disabled) {
+    background: linear-gradient(135deg, #d97706 0%, #b45309 50%, #92400e 100%);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: var(--shadow-btn-warning-hover);
+}
+
+.modern-btn-warning:hover:not(:disabled) i {
+    transform: scale(1.1);
+    animation: wiggle 0.6s ease-in-out;
+}
+
+.modern-btn-warning:active:not(:disabled) {
+    transform: translateY(-1px) scale(1.01);
+    box-shadow: var(--shadow-btn-warning);
+}
+
+@keyframes bounce {
+    0%, 100% { transform: scale(1.1) translateY(0); }
+    50% { transform: scale(1.1) translateY(-3px); }
+}
+
+@keyframes wiggle {
+    0%, 100% { transform: scale(1.1) rotate(0deg); }
+    25% { transform: scale(1.1) rotate(-5deg); }
+    75% { transform: scale(1.1) rotate(5deg); }
 }
 
 /* ===== BADGES ===== */
@@ -994,18 +1066,11 @@
 
 /* Enhanced New Tab Button Styling */
 #btnNewTab {
-    background: 
-        linear-gradient(135deg, 
-            var(--accent-primary) 0%, 
-            var(--accent-secondary) 100%);
+    background: var(--gradient-primary);
     color: white;
-    border: 1px solid var(--accent-primary);
-    box-shadow: 
-        0 8px 32px rgba(59, 130, 246, 0.4),
-        0 4px 16px rgba(0, 0, 0, 0.12),
-        0 0 40px rgba(59, 130, 246, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.25);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    box-shadow: var(--shadow-btn-primary);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
     border-radius: var(--radius-2xl);
@@ -1023,6 +1088,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 2;
+}
+
+#btnNewTab i {
+    position: relative;
+    z-index: 3;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 #btnNewTab::before {
@@ -1041,27 +1113,26 @@
 }
 
 #btnNewTab:hover {
-    background: 
-        linear-gradient(135deg, 
-            var(--accent-secondary) 0%, 
-            #4f46e5 100%);
-    border-color: var(--accent-secondary);
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 
-        0 16px 48px rgba(59, 130, 246, 0.5),
-        0 8px 24px rgba(0, 0, 0, 0.15),
-        0 0 60px rgba(59, 130, 246, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(24px) saturate(200%);
-    -webkit-backdrop-filter: blur(24px) saturate(200%);
+    background: linear-gradient(135deg, #5b21b6 0%, #7c3aed 50%, #c026d3 100%);
+    border-color: rgba(139, 92, 246, 0.5);
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: var(--shadow-btn-primary-hover);
+}
+
+#btnNewTab:hover i {
+    transform: scale(1.2) rotate(90deg);
+    animation: rotateIn 0.4s ease-out;
 }
 
 #btnNewTab:active {
-    transform: translateY(-1px) scale(1.02);
-    box-shadow: 
-        0 8px 24px rgba(59, 130, 246, 0.4),
-        0 4px 12px rgba(0, 0, 0, 0.12),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px) scale(1.05);
+    box-shadow: var(--shadow-btn-primary);
+}
+
+@keyframes rotateIn {
+    0% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.1) rotate(45deg); }
+    100% { transform: scale(1.2) rotate(90deg); }
 }
 
 /* Responsive design for New Tab button */
@@ -1473,32 +1544,52 @@
 }
 
 .console-controls .modern-btn {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: var(--gradient-glass);
+    border: 1px solid var(--glass-border);
     color: var(--editor-text);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    transition: all var(--duration-normal) var(--ease-in-out);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: var(--shadow-btn-secondary);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 2;
 }
 
 .console-controls .modern-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.3);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background: var(--gradient-glass-hover);
+    border-color: var(--glass-border-hover);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: var(--shadow-btn-secondary-hover);
+    color: var(--accent-primary);
+}
+
+.console-controls .modern-btn:hover i {
+    transform: scale(1.1);
+}
+
+.console-controls .modern-btn:active {
+    transform: translateY(0) scale(1.02);
+    box-shadow: var(--shadow-btn-secondary);
 }
 
 /* Light mode console controls */
 [data-theme="light"] .console-controls .modern-btn {
-    background: rgba(0, 0, 0, 0.05);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.02) 100%);
     border: 1px solid rgba(0, 0, 0, 0.1);
     color: var(--editor-text);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 [data-theme="light"] .console-controls .modern-btn:hover {
-    background: rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.05) 100%);
     border-color: rgba(0, 0, 0, 0.15);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    color: var(--accent-primary);
+}
+
+[data-theme="light"] .console-controls .modern-btn:hover i {
+    transform: scale(1.1);
 }
 
 .print-output-container {
