@@ -1441,6 +1441,8 @@ document.addEventListener('DOMContentLoaded', () => {
         applyAccentColor(settings.accentColor || '#0ea5e9');
         // Apply other settings
         applyAppSettings(settings);
+        // Apply floating system setting
+        applyFloatingSystem(settings.floatingSystem !== false);
         // Apply UI visibility settings with additional delay to ensure DOM is ready
         setTimeout(() => {
             console.log('Applying UI visibility on app startup');
@@ -1543,6 +1545,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setToggleValue('showPerformance', settings.showPerformance || false);
         setToggleValue('animationsEnabled', settings.animationsEnabled !== false);
         setToggleValue('glassEffects', settings.glassEffects !== false);
+        setToggleValue('floatingSystem', settings.floatingSystem !== false);
         setToggleValue('hardwareAcceleration', settings.hardwareAcceleration !== false);
         // Console settings
         const consoleFontSize = document.getElementById('consoleFontSize');
@@ -2043,6 +2046,7 @@ document.addEventListener('DOMContentLoaded', () => {
             animationsEnabled: true,
             glassEffects: true,
             particleEffects: true,
+            floatingSystem: true,
             wordWrap: false,
             minimap: true,
             autoSave: true,
@@ -2188,6 +2192,17 @@ document.addEventListener('DOMContentLoaded', () => {
             (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 +
             (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
     }
+
+    function applyFloatingSystem(enabled) {
+        const body = document.body;
+        if (enabled) {
+            body.classList.add('floating-system');
+            body.classList.remove('static-system');
+        } else {
+            body.classList.add('static-system');
+            body.classList.remove('floating-system');
+        }
+    }
     function applyAppSettings(settings) {
         // Apply animations
         if (!settings.animationsEnabled) {
@@ -2230,6 +2245,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
         applyParticleEffects();
+        // Apply floating system
+        applyFloatingSystem(settings.floatingSystem !== false);
         // Apply console height
         const consoleContent = document.querySelector('.console-output');
         console.log('Console content element found:', !!consoleContent);

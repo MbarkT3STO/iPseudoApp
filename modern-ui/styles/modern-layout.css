@@ -695,3 +695,275 @@
     .print\:text-black { color: black !important; }
     .print\:bg-white { background-color: white !important; }
 }
+
+/* ===== FLOATING SYSTEM TOGGLE ===== */
+/* Static System - Traditional Layout */
+.static-system .modern-top-nav {
+    position: static !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-width: auto !important;
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    top: auto !important;
+    z-index: auto !important;
+    box-sizing: border-box !important;
+    padding: var(--space-3) var(--space-6) !important;
+    background: var(--background-primary) !important;
+    border: 1px solid var(--border-primary) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.static-system .modern-tabs-container {
+    position: static !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-width: auto !important;
+    left: auto !important;
+    right: auto !important;
+    margin: var(--space-4) 0 !important;
+    top: auto !important;
+    border-radius: 0 !important;
+    border-left: none !important;
+    border-right: none !important;
+    z-index: auto !important;
+    box-sizing: border-box !important;
+    padding: var(--space-3) var(--space-6) !important;
+    background: var(--background-secondary) !important;
+    border: 1px solid var(--border-primary) !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05) !important;
+}
+
+.static-system .modern-content-area {
+    position: static !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-width: auto !important;
+    left: auto !important;
+    right: auto !important;
+    height: calc(100vh - 200px) !important;
+    max-height: calc(100vh - 200px) !important;
+    min-height: 400px !important;
+    top: auto !important;
+    border-radius: 0 !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: none !important;
+    z-index: auto !important;
+    box-sizing: border-box !important;
+    padding: var(--space-4) !important;
+    background: var(--background-primary) !important;
+    border: 1px solid var(--border-primary) !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05) !important;
+    margin: 0 0 var(--space-4) 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+}
+
+.static-system .modern-main-content {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* Static System Layout Modes */
+.static-system .layout-mode {
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.static-system .editor-container {
+    flex: 1 !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.static-system .console-container {
+    flex: 1 !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.static-system .side-by-side-container {
+    flex: 1 !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: var(--space-2) !important;
+}
+
+.static-system .editor-panel {
+    flex: 1 !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.static-system .console-panel {
+    flex: 1 !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* Hide side-by-side layout in static system unless explicitly shown */
+.static-system .side-by-side-layout {
+    display: none !important;
+}
+
+/* Ensure only the tab system is visible in static mode */
+.static-system .modern-tab-system {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+}
+
+.static-system .modern-tab-panels {
+    flex: 1 !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.static-system .tab-panel {
+    flex: 1 !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.static-system .tab-panel.active {
+    display: flex !important;
+}
+
+.static-system .tab-panel:not(.active) {
+    display: none !important;
+}
+
+/* Monaco editor specific fixes for static system */
+.static-system .monaco-editor {
+    height: 100% !important;
+    min-height: 300px !important;
+}
+
+.static-system .panel-content {
+    flex: 1 !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.static-system .console-output {
+    flex: 1 !important;
+    min-height: 200px !important;
+    overflow-y: auto !important;
+}
+
+/* Floating System - Default Modern Layout */
+.floating-system .modern-top-nav {
+    position: fixed;
+    top: var(--space-4);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    max-width: 1000px;
+    min-width: 600px;
+    z-index: 1000;
+    border-radius: var(--radius-3xl);
+}
+
+.floating-system .modern-tabs-container {
+    position: fixed;
+    top: calc(64px + 4rem);
+    left: 15%;
+    right: 15%;
+    width: 70%;
+    max-width: 1000px;
+    min-width: 600px;
+    z-index: 999;
+    margin-top: var(--space-6);
+    border-radius: var(--radius-2xl);
+}
+
+.floating-system .modern-content-area {
+    position: fixed;
+    top: calc(64px + 44px + 8rem);
+    left: 15%;
+    right: 15%;
+    width: 70%;
+    max-width: 1000px;
+    min-width: 600px;
+    height: calc(100vh - 64px - 44px - 8rem - 2rem);
+    max-height: calc(100vh - 64px - 44px - 8rem - 2rem);
+    z-index: 998;
+    border-radius: var(--radius-2xl);
+}
+
+.floating-system .modern-main-content {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+/* ===== STATIC SYSTEM RESPONSIVE ===== */
+@media (max-width: 1024px) {
+    .static-system .modern-top-nav {
+        padding: var(--space-2) var(--space-4) !important;
+    }
+    
+    .static-system .modern-tabs-container {
+        padding: var(--space-2) var(--space-4) !important;
+        margin: var(--space-3) 0 !important;
+    }
+    
+    .static-system .modern-content-area {
+        padding: var(--space-3) !important;
+        height: calc(100vh - 180px) !important;
+        max-height: calc(100vh - 180px) !important;
+        margin: 0 0 var(--space-3) 0 !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .static-system .modern-top-nav {
+        padding: var(--space-2) var(--space-3) !important;
+    }
+    
+    .static-system .modern-tabs-container {
+        padding: var(--space-2) var(--space-3) !important;
+        margin: var(--space-3) 0 !important;
+    }
+    
+    .static-system .modern-content-area {
+        padding: var(--space-2) !important;
+        height: calc(100vh - 160px) !important;
+        max-height: calc(100vh - 160px) !important;
+        margin: 0 0 var(--space-3) 0 !important;
+    }
+}
+
+@media (max-width: 640px) {
+    .static-system .modern-top-nav {
+        padding: var(--space-2) !important;
+    }
+    
+    .static-system .modern-tabs-container {
+        padding: var(--space-2) !important;
+        margin: var(--space-2) 0 !important;
+    }
+    
+    .static-system .modern-content-area {
+        padding: var(--space-2) !important;
+        height: calc(100vh - 140px) !important;
+        max-height: calc(100vh - 140px) !important;
+        margin: 0 0 var(--space-2) 0 !important;
+    }
+}

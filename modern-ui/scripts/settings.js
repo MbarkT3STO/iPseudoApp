@@ -104,6 +104,15 @@ class ModernSettingsManager {
                 icon: 'ri-sparkling-line',
                 keywords: ['particle', 'effect', 'background', 'visual', 'animation']
             },
+            {
+                id: 'floatingSystem',
+                title: 'Floating System',
+                description: 'Enable floating navigation, tabs, and editor areas',
+                section: 'Appearance',
+                sectionId: 'appearance',
+                icon: 'ri-layout-3-line',
+                keywords: ['floating', 'system', 'layout', 'navigation', 'tabs', 'editor', 'ui']
+            },
             
             // Editor Settings
             {
@@ -887,6 +896,9 @@ class ModernSettingsManager {
             case 'particleEffects':
                 this.toggleParticleEffects(value);
                 break;
+            case 'floatingSystem':
+                this.toggleFloatingSystem(value);
+                break;
             case 'wordWrap':
                 this.applyWordWrap(value);
                 break;
@@ -1163,6 +1175,20 @@ class ModernSettingsManager {
                     el.classList.add('no-particles');
                 }
             });
+        }
+    }
+
+    // Toggle floating system
+    toggleFloatingSystem(enabled) {
+        if (this.isOnMainPage()) {
+            const body = document.body;
+            if (enabled) {
+                body.classList.add('floating-system');
+                body.classList.remove('static-system');
+            } else {
+                body.classList.add('static-system');
+                body.classList.remove('floating-system');
+            }
         }
     }
 
@@ -1566,6 +1592,7 @@ class ModernSettingsManager {
             animationsEnabled: true,
             glassEffects: true,
             particleEffects: true,
+            floatingSystem: true,
             wordWrap: false,
             minimap: true,
             autoSave: true,
