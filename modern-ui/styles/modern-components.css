@@ -1231,8 +1231,8 @@
     backdrop-filter: blur(24px) saturate(150%);
     -webkit-backdrop-filter: blur(24px) saturate(150%);
     overflow: hidden;
-    height: calc(100% - 4rem);
-    max-height: calc(100vh - 380px);
+    height: 100%;
+    max-height: 100%;
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -1535,8 +1535,8 @@
     box-shadow: var(--shadow-glass);
     backdrop-filter: var(--glass-blur);
     overflow: hidden;
-    height: calc(100% - 4rem);
-    max-height: calc(100vh - 380px);
+    height: 100%;
+    max-height: 100%;
     display: flex;
     flex-direction: column;
     flex: 1;

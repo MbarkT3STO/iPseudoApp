@@ -160,7 +160,7 @@
     overflow: hidden;
     position: relative;
     z-index: 1;
-    margin-top: calc(56px + 44px + 1.5rem); /* Account for floating nav + floating tabs + proper spacing */
+    margin-top: calc(56px + 44px + 4rem); /* Account for floating nav + floating tabs + proper spacing */
     padding-top: var(--space-1);
 }
 
@@ -173,8 +173,8 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: calc(100% - 100px);
-    max-height: calc(100vh - 200px);
+    height: calc(100vh - 56px - 44px - 4rem - 2rem);
+    max-height: calc(100vh - 56px - 44px - 4rem - 2rem);
     min-height: 0;
 }
 
@@ -271,7 +271,12 @@
     }
     
     .modern-main-content {
-        margin-top: calc(48px + 40px + 0.75rem);
+        margin-top: calc(48px + 40px + 3rem);
+    }
+    
+    .modern-content-area {
+        height: calc(100vh - 48px - 40px - 3rem - 2rem);
+        max-height: calc(100vh - 48px - 40px - 3rem - 2rem);
     }
     
     .nav-left {
@@ -307,7 +312,12 @@
     }
     
     .modern-main-content {
-        margin-top: calc(44px + 36px + 0.5rem);
+        margin-top: calc(44px + 36px + 2.5rem);
+    }
+    
+    .modern-content-area {
+        height: calc(100vh - 44px - 36px - 2.5rem - 2rem);
+        max-height: calc(100vh - 44px - 36px - 2.5rem - 2rem);
     }
     
     .nav-left {

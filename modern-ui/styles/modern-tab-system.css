@@ -15,7 +15,7 @@
     padding: var(--space-2) var(--space-4);
     min-height: 44px;
     position: fixed;
-    top: calc(56px + 1.5rem);
+    top: calc(56px + 4rem);
     left: var(--space-4);
     right: var(--space-4);
     z-index: 999;
@@ -349,7 +349,7 @@
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
     .modern-tabs-container {
-        top: calc(48px + 1rem);
+        top: calc(48px + 3rem);
         left: var(--space-3);
         right: var(--space-3);
         max-width: calc(100vw - 1.5rem);
@@ -383,7 +383,7 @@
 
 @media (max-width: 480px) {
     .modern-tabs-container {
-        top: calc(44px + 0.75rem);
+        top: calc(44px + 2.5rem);
         left: var(--space-2);
         right: var(--space-2);
         max-width: calc(100vw - 1rem);

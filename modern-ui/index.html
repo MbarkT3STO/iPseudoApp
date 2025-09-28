@@ -1129,14 +1129,18 @@
             setTimeout(() => {
                 aboutModal.style.opacity = '1';
                 aboutModal.style.visibility = 'visible';
-                const modalBox = aboutModal.querySelector('.dc-modal-box');
-                modalBox.classList.add('show');
+                const modalBox = aboutModal.querySelector('.modern-modal-box');
+                if (modalBox) {
+                    modalBox.classList.add('show');
+                }
             }, 10);
         };
 
         const hideModal = () => {
-            const modalBox = aboutModal.querySelector('.dc-modal-box');
-            modalBox.classList.remove('show');
+            const modalBox = aboutModal.querySelector('.modern-modal-box');
+            if (modalBox) {
+                modalBox.classList.remove('show');
+            }
             aboutModal.style.opacity = '0';
             aboutModal.style.visibility = 'hidden';
             setTimeout(() => {
@@ -1181,117 +1185,6 @@
                 }
             });
         }
-
-        // Ultra Modern Modal functionality
-        const aboutModal = document.getElementById('aboutModal');
-        const closeModal = document.getElementById('closeModal');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-        const appBrand = document.getElementById('appBrand');
-
-        // Handle external links
-        document.addEventListener('click', (e) => {
-            const link = e.target.closest('a');
-            if (link && link.href) {
-                if (link.target === '_blank' || link.hostname !== window.location.hostname) {
-                    e.preventDefault();
-                    if (window.electron && typeof window.electron.openExternal === 'function') {
-                        window.electron.openExternal(link.href);
-                    } else {
-                        window.open(link.href, '_blank', 'noopener,noreferrer');
-                    }
-                }
-            }
-        });
-
-        // Enhanced social button interactions
-        document.addEventListener('DOMContentLoaded', () => {
-            const socialButtons = document.querySelectorAll('.social-button');
-            socialButtons.forEach(button => {
-                button.addEventListener('mouseenter', () => {
-                    button.style.transform = 'translateY(-3px)';
-                });
-                
-                button.addEventListener('mouseleave', () => {
-                    button.style.transform = 'translateY(0)';
-                });
-            });
-        });
-
-        // Handle mailto links
-        document.addEventListener('click', (e) => {
-            const mailtoLink = e.target.closest('a[href^="mailto:"]');
-            if (mailtoLink) {
-                e.preventDefault();
-                if (window.electron && typeof window.electron.openExternal === 'function') {
-                    window.electron.openExternal(mailtoLink.href);
-                } else {
-                    window.location.href = mailtoLink.href;
-                }
-            }
-        });
-
-        // Ultra Modern modal handlers
-        const showModal = () => {
-            aboutModal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-            setTimeout(() => {
-                aboutModal.style.opacity = '1';
-                const modalBox = aboutModal.querySelector('.modern-modal-box');
-                modalBox.classList.add('show');
-            }, 10);
-        };
-
-        const hideModal = () => {
-            const modalBox = aboutModal.querySelector('.modern-modal-box');
-            modalBox.classList.remove('show');
-            aboutModal.style.opacity = '0';
-            setTimeout(() => {
-                aboutModal.style.display = 'none';
-                document.body.style.overflow = '';
-            }, 300);
-        };
-
-        appBrand.addEventListener('click', (e) => {
-            e.preventDefault();
-            showModal();
-        });
-
-        closeModal.addEventListener('click', hideModal);
-        closeModalBtn.addEventListener('click', hideModal);
-
-        // Close modal when clicking outside content
-        aboutModal.addEventListener('click', (e) => {
-            if (e.target === aboutModal) {
-                hideModal();
-            }
-        });
-
-        // Keyboard shortcuts
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && aboutModal.style.display === 'flex') {
-                hideModal();
-            }
-        });
-
-        // Classic UI Switch functionality
-        const classicUIBtn = document.getElementById('btnClassicUI');
-        if (classicUIBtn) {
-            classicUIBtn.addEventListener('click', () => {
-                // Store preference for Classic UI
-                localStorage.setItem('preferredUI', 'classic');
-                
-                // Show confirmation
-                if (confirm('Switch to Classic UI? The application will restart to apply changes.')) {
-                    // Navigate to Classic UI
-                    window.location.href = '../src/renderer/index.html';
-                }
-            });
-        }
-
-        // Modern loading animation
-        document.addEventListener('DOMContentLoaded', () => {
-            document.body.classList.add('animate-fade-in');
-        });
     </script>
 
 
