@@ -1013,13 +1013,13 @@
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     transform: translateZ(0);
     will-change: transform;
-    /* Enhanced dimensions for better usability */
-    width: 80px;
-    min-width: 80px;
-    height: var(--btn-height-base);
-    min-height: var(--btn-height-base);
-    padding: var(--space-2) var(--space-3);
-    gap: var(--space-1);
+    /* Perfect dimensions for icon-only button */
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    min-height: 40px;
+    padding: 0;
+    gap: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1067,23 +1067,21 @@
 /* Responsive design for New Tab button */
 @media (max-width: 768px) {
     #btnNewTab {
-        width: 60px;
-        min-width: 60px;
-        padding: var(--space-1) var(--space-2);
-    }
-    
-    #btnNewTab span {
-        display: none; /* Hide text on mobile, keep only icon */
+        width: 36px;
+        min-width: 36px;
+        height: 36px;
+        min-height: 36px;
+        padding: 0;
     }
 }
 
 @media (max-width: 480px) {
     #btnNewTab {
-        width: 48px;
-        min-width: 48px;
-        height: var(--btn-height-sm);
-        min-height: var(--btn-height-sm);
-        padding: var(--space-1);
+        width: 32px;
+        min-width: 32px;
+        height: 32px;
+        min-height: 32px;
+        padding: 0;
     }
 }
 
