@@ -1503,34 +1503,49 @@
     display: flex;
     align-items: center;
     gap: var(--space-4);
-    background: rgba(255, 255, 255, 0.05);
-    padding: var(--space-2) var(--space-3);
-    border-radius: var(--radius-lg);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: var(--gradient-glass);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px) saturate(150%);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+    box-shadow: var(--shadow-btn-secondary);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 2;
+}
+
+.console-stats:hover {
+    background: var(--gradient-glass-hover);
+    box-shadow: var(--shadow-btn-secondary-hover);
+    transform: translateY(-1px);
 }
 
 /* Light mode console stats */
 [data-theme="light"] .console-stats {
-    background: rgba(0, 0, 0, 0.03);
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.02) 100%);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .stat-item {
     display: flex;
     align-items: center;
-    gap: var(--space-1);
+    gap: var(--space-2);
     font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
     color: var(--editor-text-secondary);
-    padding: var(--space-1) var(--space-2);
-    border-radius: var(--radius-md);
-    transition: all var(--duration-normal) var(--ease-in-out);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-lg);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 3;
 }
 
 .stat-item:hover {
     background: rgba(255, 255, 255, 0.1);
-    color: var(--editor-text);
+    color: var(--accent-primary);
+    transform: scale(1.05);
 }
 
 [data-theme="light"] .stat-item:hover {

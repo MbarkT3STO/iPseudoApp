@@ -73,6 +73,20 @@
     --shadow-btn-icon: 0 2px 8px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05);
     --shadow-btn-icon-hover: 0 4px 12px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     
+    /* Enhanced Panel Shadow System */
+    --shadow-panel: 0 8px 32px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.05);
+    --shadow-panel-hover: 0 12px 40px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.08);
+    --shadow-panel-header: 0 4px 16px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    --shadow-editor: 0 0 0 1px rgba(255, 255, 255, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    --shadow-console: 0 0 0 1px rgba(255, 255, 255, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    
+    /* Enhanced Gradient System for Panels */
+    --gradient-panel-header: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+    --gradient-panel-header-hover: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.06) 100%);
+    --gradient-editor-bg: linear-gradient(135deg, var(--editor-bg) 0%, var(--editor-bg-secondary) 100%);
+    --gradient-console-bg: linear-gradient(135deg, var(--editor-bg-secondary) 0%, var(--editor-bg-tertiary) 100%);
+    --gradient-console-welcome: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%);
+    
     /* Modern gradients */
     --gradient-primary: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 50%, var(--accent-tertiary) 100%);
     --gradient-secondary: linear-gradient(135deg, var(--editor-bg) 0%, var(--editor-bg-secondary) 50%, var(--editor-bg) 100%);
