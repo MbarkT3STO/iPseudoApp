@@ -3357,23 +3357,21 @@ document.addEventListener('DOMContentLoaded', () => {
             welcomeMessage.remove();
         }
         const messageElement = document.createElement('div');
-        messageElement.className = `console-message console-${type}`;
+        messageElement.className = `modern-console-message modern-${type}`;
         // Apply current font size setting
         const settings = loadSettings();
         if (settings.consoleFontSize) {
             messageElement.style.fontSize = `${settings.consoleFontSize}px`;
         }
-        const icon = getMessageIcon(type);
+        const icon = getModernMessageIcon(type);
         const showTimestamps = window.showTimestamps !== false;
         const timestamp = showTimestamps ? new Date().toLocaleTimeString() : '';
         // Enhanced message formatting with syntax highlighting
         const formattedMessage = formatConsoleMessage(message, type);
         messageElement.innerHTML = `
-            <i class="${icon}"></i>
-            <span class="message-content">
-                <span class="message-text">${formattedMessage}</span>
-                ${showTimestamps ? `<span class="message-timestamp">${timestamp}</span>` : ''}
-            </span>
+            <i class="${icon} modern-icon"></i>
+            <span class="modern-text">${formattedMessage}</span>
+            ${showTimestamps ? `<span class="modern-timestamp">${timestamp}</span>` : ''}
         `;
         // Add message with animation
         outputConsole.appendChild(messageElement);
@@ -3431,6 +3429,18 @@ document.addEventListener('DOMContentLoaded', () => {
             system: 'ri-settings-3-line'
         };
         return icons[type] || 'ri-information-line';
+    }
+
+    function getModernMessageIcon(type) {
+        const icons = {
+            success: 'ri-checkbox-circle-fill', // Cute filled checkmark
+            error: 'ri-error-warning-fill', // Cute filled error
+            warning: 'ri-alert-fill', // Cute filled warning
+            info: 'ri-information-fill', // Cute filled info
+            debug: 'ri-bug-fill', // Cute filled bug
+            system: 'ri-settings-3-fill' // Cute filled settings
+        };
+        return icons[type] || 'ri-information-fill';
     }
     function formatConsoleMessage(message, type) {
         // Escape HTML first
@@ -3526,21 +3536,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const messageElement = document.createElement('div');
         // Check if it's a Done or Suggestion message for enhanced styling
         if (message === 'Done') {
-            messageElement.className = 'done-message';
+            messageElement.className = 'modern-console-message modern-success';
             messageElement.innerHTML = `
-                <i class="ri-check-line done-icon"></i>
-                <span class="done-text">${message}</span>
+                <i class="ri-checkbox-circle-fill modern-icon"></i>
+                <span class="modern-text">${message}</span>
             `;
         }
         else if (message.startsWith('Suggestion:')) {
-            messageElement.className = 'suggestion-message';
+            messageElement.className = 'modern-console-message modern-info';
             const suggestionText = message.replace('Suggestion:', '').trim();
             messageElement.innerHTML = `
-                <i class="ri-lightbulb-line suggestion-icon"></i>
-                <div class="suggestion-content">
-                    <span class="suggestion-label">Suggestion</span>
-                    <span class="suggestion-text">${suggestionText}</span>
-                </div>
+                <i class="ri-lightbulb-fill modern-icon"></i>
+                <span class="modern-text"><strong>Suggestion:</strong> ${suggestionText}</span>
             `;
         }
         else {

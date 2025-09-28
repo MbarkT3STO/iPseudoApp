@@ -2243,232 +2243,281 @@
     color: var(--accent-secondary);
 }
 
-/* Done Message - Special Success Styling */
-.done-message {
+/* ===== MODERN CONSOLE MESSAGES ===== */
+
+/* Modern Console Message Base */
+.modern-console-message {
     display: flex;
     align-items: center;
     gap: var(--space-3);
     padding: var(--space-4) var(--space-5);
-    margin: var(--space-3) 0;
-    border-radius: var(--radius-xl);
-    background: 
-        linear-gradient(135deg, 
-            rgba(34, 197, 94, 0.15) 0%, 
-            rgba(34, 197, 94, 0.08) 50%,
-            rgba(34, 197, 94, 0.12) 100%);
-    border: 2px solid rgba(34, 197, 94, 0.3);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    margin: var(--space-2) 0;
+    border-radius: var(--radius-2xl);
     position: relative;
     overflow: hidden;
-    animation: doneMessageSlideIn var(--duration-normal) var(--ease-out);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid transparent;
+    transition: all var(--duration-normal) var(--ease-out);
+    animation: modernMessageSlideIn 0.4s var(--ease-out);
     box-shadow: 
-        0 8px 25px rgba(34, 197, 94, 0.2),
-        0 4px 12px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        0 4px 20px rgba(0, 0, 0, 0.1),
+        0 2px 8px rgba(0, 0, 0, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-.done-message::before {
+.modern-console-message::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: 
-        radial-gradient(circle at 20% 20%, rgba(34, 197, 94, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(34, 197, 94, 0.05) 0%, transparent 50%);
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.1) 0%, 
+        rgba(255, 255, 255, 0.05) 50%,
+        rgba(255, 255, 255, 0.08) 100%);
     pointer-events: none;
     z-index: 0;
 }
 
-.done-message .done-icon {
-    font-size: var(--font-size-xl);
-    color: #22c55e;
-    filter: drop-shadow(0 2px 4px rgba(34, 197, 94, 0.3));
-    z-index: 1;
-    position: relative;
-    animation: doneIconPulse 2s ease-in-out infinite;
+.modern-console-message:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 
+        0 8px 30px rgba(0, 0, 0, 0.15),
+        0 4px 12px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-.done-message .done-text {
-    font-size: var(--font-size-lg);
+/* Success Message - Done */
+.modern-console-message.modern-success {
+    background: linear-gradient(135deg, 
+        rgba(34, 197, 94, 0.12) 0%, 
+        rgba(34, 197, 94, 0.08) 50%,
+        rgba(34, 197, 94, 0.10) 100%);
+    border-color: rgba(34, 197, 94, 0.25);
+}
+
+.modern-console-message.modern-success::before {
+    background: linear-gradient(135deg, 
+        rgba(34, 197, 94, 0.08) 0%, 
+        rgba(34, 197, 94, 0.04) 50%,
+        rgba(34, 197, 94, 0.06) 100%);
+}
+
+.modern-console-message.modern-success .modern-icon {
+    color: #22c55e;
+    filter: drop-shadow(0 2px 8px rgba(34, 197, 94, 0.4));
+    animation: modernSuccessIconBounce 0.6s var(--ease-out);
+}
+
+.modern-console-message.modern-success .modern-text {
+    color: #16a34a;
     font-weight: var(--font-weight-semibold);
-    color: #22c55e;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    z-index: 1;
-    position: relative;
 }
 
-/* Light mode done message */
-[data-theme="light"] .done-message {
-    background: 
-        linear-gradient(135deg, 
-            rgba(34, 197, 94, 0.08) 0%, 
-            rgba(34, 197, 94, 0.04) 50%,
-            rgba(34, 197, 94, 0.06) 100%);
-    border: 2px solid rgba(34, 197, 94, 0.2);
-    box-shadow: 
-        0 8px 25px rgba(34, 197, 94, 0.15),
-        0 4px 12px rgba(0, 0, 0, 0.05),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+/* Error Message */
+.modern-console-message.modern-error {
+    background: linear-gradient(135deg, 
+        rgba(239, 68, 68, 0.12) 0%, 
+        rgba(239, 68, 68, 0.08) 50%,
+        rgba(239, 68, 68, 0.10) 100%);
+    border-color: rgba(239, 68, 68, 0.25);
 }
 
-/* Suggestion Message - Special Info Styling */
-.suggestion-message {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--space-3);
-    padding: var(--space-4) var(--space-5);
-    margin: var(--space-3) 0;
-    border-radius: var(--radius-xl);
-    background: 
-        linear-gradient(135deg, 
-            rgba(59, 130, 246, 0.15) 0%, 
-            rgba(59, 130, 246, 0.08) 50%,
-            rgba(59, 130, 246, 0.12) 100%);
-    border: 2px solid rgba(59, 130, 246, 0.3);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    position: relative;
-    overflow: hidden;
-    animation: suggestionMessageSlideIn var(--duration-normal) var(--ease-out);
-    box-shadow: 
-        0 8px 25px rgba(59, 130, 246, 0.2),
-        0 4px 12px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+.modern-console-message.modern-error::before {
+    background: linear-gradient(135deg, 
+        rgba(239, 68, 68, 0.08) 0%, 
+        rgba(239, 68, 68, 0.04) 50%,
+        rgba(239, 68, 68, 0.06) 100%);
 }
 
-.suggestion-message::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
-}
-
-.suggestion-message .suggestion-icon {
-    font-size: var(--font-size-xl);
-    color: #3b82f6;
-    filter: drop-shadow(0 2px 4px rgba(59, 130, 246, 0.3));
-    z-index: 1;
-    position: relative;
-    margin-top: 2px;
-    animation: suggestionIconGlow 3s ease-in-out infinite;
-}
-
-.suggestion-message .suggestion-text {
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-medium);
-    color: #3b82f6;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    z-index: 1;
-    position: relative;
-    line-height: var(--line-height-relaxed);
-    flex: 1;
-}
-
-/* Light mode suggestion message */
-[data-theme="light"] .suggestion-message {
-    background: 
-        linear-gradient(135deg, 
-            rgba(59, 130, 246, 0.08) 0%, 
-            rgba(59, 130, 246, 0.04) 50%,
-            rgba(59, 130, 246, 0.06) 100%);
-    border: 2px solid rgba(59, 130, 246, 0.2);
-    box-shadow: 
-        0 8px 25px rgba(59, 130, 246, 0.15),
-        0 4px 12px rgba(0, 0, 0, 0.05),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
-}
-
-/* Error Message - Special Error Styling */
-.error-message {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--space-3);
-    padding: var(--space-4) var(--space-5);
-    margin: var(--space-3) 0;
-    border-radius: var(--radius-xl);
-    background: 
-        linear-gradient(135deg, 
-            rgba(239, 68, 68, 0.15) 0%, 
-            rgba(239, 68, 68, 0.08) 50%,
-            rgba(239, 68, 68, 0.12) 100%);
-    border: 2px solid rgba(239, 68, 68, 0.3);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    position: relative;
-    overflow: hidden;
-    animation: errorMessageSlideIn var(--duration-normal) var(--ease-out);
-    box-shadow: 
-        0 8px 25px rgba(239, 68, 68, 0.2),
-        0 4px 12px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-
-.error-message::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        radial-gradient(circle at 20% 20%, rgba(239, 68, 68, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(239, 68, 68, 0.05) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
-}
-
-.error-message::after {
-    content: '⚠';
-    position: absolute;
-    top: var(--space-2);
-    right: var(--space-3);
-    font-size: var(--font-size-lg);
+.modern-console-message.modern-error .modern-icon {
     color: #ef4444;
-    opacity: 0.3;
-    z-index: 1;
+    filter: drop-shadow(0 2px 8px rgba(239, 68, 68, 0.4));
+    animation: modernErrorIconShake 0.5s var(--ease-out);
 }
 
-.error-message .error-text {
-    font-size: var(--font-size-base);
+.modern-console-message.modern-error .modern-text {
+    color: #dc2626;
     font-weight: var(--font-weight-medium);
-    color: #ef4444;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    z-index: 1;
-    position: relative;
-    line-height: var(--line-height-relaxed);
-    flex: 1;
+}
+
+/* Warning Message */
+.modern-console-message.modern-warning {
+    background: linear-gradient(135deg, 
+        rgba(245, 158, 11, 0.12) 0%, 
+        rgba(245, 158, 11, 0.08) 50%,
+        rgba(245, 158, 11, 0.10) 100%);
+    border-color: rgba(245, 158, 11, 0.25);
+}
+
+.modern-console-message.modern-warning::before {
+    background: linear-gradient(135deg, 
+        rgba(245, 158, 11, 0.08) 0%, 
+        rgba(245, 158, 11, 0.04) 50%,
+        rgba(245, 158, 11, 0.06) 100%);
+}
+
+.modern-console-message.modern-warning .modern-icon {
+    color: #f59e0b;
+    filter: drop-shadow(0 2px 8px rgba(245, 158, 11, 0.4));
+    animation: modernWarningIconPulse 1s ease-in-out infinite;
+}
+
+.modern-console-message.modern-warning .modern-text {
+    color: #d97706;
+    font-weight: var(--font-weight-medium);
+}
+
+/* Info Message */
+.modern-console-message.modern-info {
+    background: linear-gradient(135deg, 
+        rgba(59, 130, 246, 0.12) 0%, 
+        rgba(59, 130, 246, 0.08) 50%,
+        rgba(59, 130, 246, 0.10) 100%);
+    border-color: rgba(59, 130, 246, 0.25);
+}
+
+.modern-console-message.modern-info::before {
+    background: linear-gradient(135deg, 
+        rgba(59, 130, 246, 0.08) 0%, 
+        rgba(59, 130, 246, 0.04) 50%,
+        rgba(59, 130, 246, 0.06) 100%);
+}
+
+.modern-console-message.modern-info .modern-icon {
+    color: #3b82f6;
+    filter: drop-shadow(0 2px 8px rgba(59, 130, 246, 0.4));
+    animation: modernInfoIconGlow 2s ease-in-out infinite;
+}
+
+.modern-console-message.modern-info .modern-text {
+    color: #2563eb;
+    font-weight: var(--font-weight-medium);
+}
+
+/* Debug Message */
+.modern-console-message.modern-debug {
+    background: linear-gradient(135deg, 
+        rgba(107, 114, 128, 0.12) 0%, 
+        rgba(107, 114, 128, 0.08) 50%,
+        rgba(107, 114, 128, 0.10) 100%);
+    border-color: rgba(107, 114, 128, 0.25);
+}
+
+.modern-console-message.modern-debug::before {
+    background: linear-gradient(135deg, 
+        rgba(107, 114, 128, 0.08) 0%, 
+        rgba(107, 114, 128, 0.04) 50%,
+        rgba(107, 114, 128, 0.06) 100%);
+}
+
+.modern-console-message.modern-debug .modern-icon {
+    color: #6b7280;
+    filter: drop-shadow(0 2px 8px rgba(107, 114, 128, 0.4));
+}
+
+.modern-console-message.modern-debug .modern-text {
+    color: #4b5563;
+    font-weight: var(--font-weight-normal);
     font-family: var(--font-family-mono, 'Fira Code', 'Consolas', monospace);
 }
 
-/* Light mode error message */
-[data-theme="light"] .error-message {
-    background: 
-        linear-gradient(135deg, 
-            rgba(239, 68, 68, 0.08) 0%, 
-            rgba(239, 68, 68, 0.04) 50%,
-            rgba(239, 68, 68, 0.06) 100%);
-    border: 2px solid rgba(239, 68, 68, 0.2);
+/* Message Content */
+.modern-console-message .modern-icon {
+    font-size: var(--font-size-xl);
+    min-width: 24px;
+    text-align: center;
+    z-index: 1;
+    position: relative;
+}
+
+.modern-console-message .modern-text {
+    flex: 1;
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-relaxed);
+    z-index: 1;
+    position: relative;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.modern-console-message .modern-timestamp {
+    font-size: var(--font-size-xs);
+    color: var(--editor-text-tertiary);
+    font-weight: var(--font-weight-medium);
+    min-width: 60px;
+    text-align: right;
+    z-index: 1;
+    position: relative;
+    opacity: 0.7;
+}
+
+/* Light Mode Adjustments */
+[data-theme="light"] .modern-console-message {
+    background: linear-gradient(135deg, 
+        rgba(0, 0, 0, 0.03) 0%, 
+        rgba(0, 0, 0, 0.01) 50%,
+        rgba(0, 0, 0, 0.02) 100%);
+    border-color: rgba(0, 0, 0, 0.08);
     box-shadow: 
-        0 8px 25px rgba(239, 68, 68, 0.15),
-        0 4px 12px rgba(0, 0, 0, 0.05),
+        0 4px 20px rgba(0, 0, 0, 0.05),
+        0 2px 8px rgba(0, 0, 0, 0.02),
         inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
+[data-theme="light"] .modern-console-message:hover {
+    box-shadow: 
+        0 8px 30px rgba(0, 0, 0, 0.08),
+        0 4px 12px rgba(0, 0, 0, 0.03),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="light"] .modern-console-message.modern-success {
+    background: linear-gradient(135deg, 
+        rgba(34, 197, 94, 0.08) 0%, 
+        rgba(34, 197, 94, 0.04) 50%,
+        rgba(34, 197, 94, 0.06) 100%);
+    border-color: rgba(34, 197, 94, 0.15);
+}
+
+[data-theme="light"] .modern-console-message.modern-error {
+    background: linear-gradient(135deg, 
+        rgba(239, 68, 68, 0.08) 0%, 
+        rgba(239, 68, 68, 0.04) 50%,
+        rgba(239, 68, 68, 0.06) 100%);
+    border-color: rgba(239, 68, 68, 0.15);
+}
+
+[data-theme="light"] .modern-console-message.modern-warning {
+    background: linear-gradient(135deg, 
+        rgba(245, 158, 11, 0.08) 0%, 
+        rgba(245, 158, 11, 0.04) 50%,
+        rgba(245, 158, 11, 0.06) 100%);
+    border-color: rgba(245, 158, 11, 0.15);
+}
+
+[data-theme="light"] .modern-console-message.modern-info {
+    background: linear-gradient(135deg, 
+        rgba(59, 130, 246, 0.08) 0%, 
+        rgba(59, 130, 246, 0.04) 50%,
+        rgba(59, 130, 246, 0.06) 100%);
+    border-color: rgba(59, 130, 246, 0.15);
+}
+
+[data-theme="light"] .modern-console-message.modern-debug {
+    background: linear-gradient(135deg, 
+        rgba(107, 114, 128, 0.08) 0%, 
+        rgba(107, 114, 128, 0.04) 50%,
+        rgba(107, 114, 128, 0.06) 100%);
+    border-color: rgba(107, 114, 128, 0.15);
+}
+
 /* Animations */
-@keyframes doneMessageSlideIn {
+@keyframes modernMessageSlideIn {
     0% {
         opacity: 0;
-        transform: translateY(-20px) scale(0.95);
+        transform: translateY(-10px) scale(0.98);
     }
     100% {
         opacity: 1;
@@ -2476,45 +2525,47 @@
     }
 }
 
-@keyframes suggestionMessageSlideIn {
-    0% {
-        opacity: 0;
-        transform: translateX(-20px) scale(0.95);
+@keyframes modernSuccessIconBounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
     }
-    100% {
-        opacity: 1;
-        transform: translateX(0) scale(1);
+    40% {
+        transform: translateY(-8px);
     }
-}
-
-@keyframes errorMessageSlideIn {
-    0% {
-        opacity: 0;
-        transform: translateY(20px) scale(0.95);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
+    60% {
+        transform: translateY(-4px);
     }
 }
 
-@keyframes doneIconPulse {
+@keyframes modernErrorIconShake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-2px);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateX(2px);
+    }
+}
+
+@keyframes modernWarningIconPulse {
     0%, 100% {
         transform: scale(1);
-        filter: drop-shadow(0 2px 4px rgba(34, 197, 94, 0.3));
+        filter: drop-shadow(0 2px 8px rgba(245, 158, 11, 0.4));
     }
     50% {
         transform: scale(1.1);
-        filter: drop-shadow(0 4px 8px rgba(34, 197, 94, 0.5));
+        filter: drop-shadow(0 4px 12px rgba(245, 158, 11, 0.6));
     }
 }
 
-@keyframes suggestionIconGlow {
+@keyframes modernInfoIconGlow {
     0%, 100% {
-        filter: drop-shadow(0 2px 4px rgba(59, 130, 246, 0.3));
+        filter: drop-shadow(0 2px 8px rgba(59, 130, 246, 0.4));
     }
     50% {
-        filter: drop-shadow(0 4px 12px rgba(59, 130, 246, 0.6));
+        filter: drop-shadow(0 4px 16px rgba(59, 130, 246, 0.7));
     }
 }
 
