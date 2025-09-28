@@ -980,6 +980,10 @@ document.addEventListener('DOMContentLoaded', () => {
             else if (tabCount >= maxTabs - 1) {
                 tabCounterElement.classList.add('warning');
             }
+            // Ensure the counter is visible
+            tabCounterElement.style.display = 'flex';
+        } else {
+            console.warn('Tab counter element not found');
         }
         // Add visual indicator when approaching limit
         const tabsContainer = document.getElementById('tabsContainer');
@@ -5678,11 +5682,15 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('DOMContentLoaded', () => {
         initializeSettings();
         setupThemeToggleButton();
+        // Initialize tab counter
+        updateTabCounter();
     });
     // Also initialize after a delay as backup
     setTimeout(() => {
         initializeSettings();
         setupThemeToggleButton();
+        // Initialize tab counter as backup
+        updateTabCounter();
     }, 1000);
     // Add keyboard shortcuts for tab navigation
     document.addEventListener('keydown', (e) => {

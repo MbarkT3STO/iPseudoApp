@@ -35,41 +35,50 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: var(--space-2) var(--space-6);
+    padding: var(--space-3) var(--space-8);
     background: 
         linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.12) 0%, 
-            rgba(255, 255, 255, 0.08) 50%,
-            rgba(255, 255, 255, 0.10) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: var(--radius-2xl);
-    backdrop-filter: blur(32px) saturate(200%);
-    -webkit-backdrop-filter: blur(32px) saturate(200%);
+            rgba(255, 255, 255, 0.15) 0%, 
+            rgba(255, 255, 255, 0.10) 30%,
+            rgba(255, 255, 255, 0.12) 70%,
+            rgba(255, 255, 255, 0.08) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: var(--radius-3xl);
+    backdrop-filter: blur(40px) saturate(220%);
+    -webkit-backdrop-filter: blur(40px) saturate(220%);
     box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.3),
-        0 8px 32px rgba(0, 0, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3),
-        0 0 0 1px rgba(255, 255, 255, 0.1);
+        0 25px 80px rgba(0, 0, 0, 0.4),
+        0 12px 40px rgba(0, 0, 0, 0.25),
+        0 0 120px rgba(147, 51, 234, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.15);
     position: fixed;
-    top: var(--space-4);
-    left: var(--space-4);
-    right: var(--space-4);
+    top: var(--space-6);
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 1000;
-    min-height: 56px;
+    min-height: 64px;
+    width: 70%;
+    max-width: 1000px;
+    min-width: 700px;
     transition: all var(--duration-normal) cubic-bezier(0.4, 0, 0.2, 1);
-    margin: 0 auto;
-    max-width: calc(100vw - 2rem);
     overflow: hidden;
-    animation: floatingNav 6s ease-in-out infinite;
+    animation: floatingNav 8s ease-in-out infinite, navPulse 4s ease-in-out infinite;
 }
 
 /* Floating animation for the navigation */
 @keyframes floatingNav {
     0%, 100% {
-        transform: translateY(0px);
+        transform: translateX(-50%) translateY(0px) scale(1);
+    }
+    25% {
+        transform: translateX(-50%) translateY(-3px) scale(1.01);
     }
     50% {
-        transform: translateY(-2px);
+        transform: translateX(-50%) translateY(-1px) scale(1.005);
+    }
+    75% {
+        transform: translateX(-50%) translateY(-4px) scale(1.008);
     }
 }
 
@@ -82,13 +91,16 @@
     right: 0;
     bottom: 0;
     background: 
-        radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.08) 0%, transparent 70%);
-    border-radius: var(--radius-2xl);
+        radial-gradient(circle at 15% 15%, rgba(59, 130, 246, 0.2) 0%, transparent 60%),
+        radial-gradient(circle at 85% 85%, rgba(139, 92, 246, 0.18) 0%, transparent 60%),
+        radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.12) 0%, transparent 80%),
+        radial-gradient(circle at 30% 70%, rgba(236, 72, 153, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 70% 30%, rgba(34, 197, 94, 0.06) 0%, transparent 50%);
+    border-radius: var(--radius-3xl);
     pointer-events: none;
     z-index: -1;
-    opacity: 0.8;
+    opacity: 0.9;
+    animation: glowPulse 4s ease-in-out infinite;
 }
 
 .modern-top-nav::after {
@@ -99,29 +111,81 @@
     right: 0;
     bottom: 0;
     background: 
-        linear-gradient(90deg, 
+        linear-gradient(135deg, 
             transparent 0%, 
-            rgba(255, 255, 255, 0.05) 50%,
+            rgba(255, 255, 255, 0.08) 25%,
+            rgba(255, 255, 255, 0.12) 50%,
+            rgba(255, 255, 255, 0.08) 75%,
             transparent 100%);
-    border-radius: var(--radius-2xl);
+    border-radius: var(--radius-3xl);
     pointer-events: none;
     z-index: -1;
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+/* Glow pulse animation */
+@keyframes glowPulse {
+    0%, 100% {
+        opacity: 0.9;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.02);
+    }
+}
+
+/* Shimmer animation */
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%) skewX(-15deg);
+    }
+    100% {
+        transform: translateX(200%) skewX(-15deg);
+    }
+}
+
+/* Navigation pulse animation */
+@keyframes navPulse {
+    0%, 100% {
+        box-shadow: 
+            0 25px 80px rgba(0, 0, 0, 0.4),
+            0 12px 40px rgba(0, 0, 0, 0.25),
+            0 0 120px rgba(147, 51, 234, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.4),
+            0 0 0 1px rgba(255, 255, 255, 0.15);
+    }
+    50% {
+        box-shadow: 
+            0 25px 80px rgba(0, 0, 0, 0.4),
+            0 12px 40px rgba(0, 0, 0, 0.25),
+            0 0 140px rgba(147, 51, 234, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.4),
+            0 0 0 1px rgba(255, 255, 255, 0.15);
+    }
 }
 
 /* Enhanced hover effects for floating nav */
 .modern-top-nav:hover {
-    transform: translateY(-2px);
+    transform: translateX(-50%) translateY(-4px) scale(1.02);
     box-shadow: 
-        0 25px 70px rgba(0, 0, 0, 0.35),
-        0 12px 40px rgba(0, 0, 0, 0.25),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4),
-        0 0 0 1px rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(36px) saturate(220%);
-    -webkit-backdrop-filter: blur(36px) saturate(220%);
+        0 35px 100px rgba(0, 0, 0, 0.45),
+        0 16px 50px rgba(0, 0, 0, 0.3),
+        0 0 150px rgba(147, 51, 234, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(48px) saturate(250%);
+    -webkit-backdrop-filter: blur(48px) saturate(250%);
+    border-color: rgba(255, 255, 255, 0.35);
 }
 
 .modern-top-nav:hover::before {
     opacity: 1;
+    animation: glowPulse 2s ease-in-out infinite;
+}
+
+.modern-top-nav:hover::after {
+    animation: shimmer 1.5s ease-in-out infinite;
 }
 
 /* Fallback for browsers that don't support backdrop-filter */
@@ -162,6 +226,16 @@
     display: flex;
     align-items: center;
     gap: var(--space-2);
+    position: relative;
+}
+
+.file-actions .modern-btn {
+    transition: all var(--duration-normal) cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.file-actions .modern-btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    z-index: 10;
 }
 
 /* ===== MAIN CONTENT ===== */
@@ -172,8 +246,8 @@
     overflow: hidden;
     position: relative;
     z-index: 1;
-    margin-top: calc(56px + 44px + 0.5rem); /* Account for floating nav + floating tabs + minimal spacing */
-    padding-top: var(--space-1);
+    margin-top: 0; /* No margin needed since editor/console will be floating */
+    padding-top: 0;
 }
 
 /* ===== CONTENT AREA ===== */
@@ -181,13 +255,34 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: calc(100vh - 56px - 44px - 4rem - 2rem);
-    max-height: calc(100vh - 56px - 44px - 4rem - 2rem);
+    position: fixed;
+    top: calc(64px + 44px + 8rem); /* Position below tabs with increased spacing */
+    left: 15%;
+    right: 15%;
+    width: 70%;
+    max-width: 1000px;
+    min-width: 600px;
+    height: calc(100vh - 64px - 44px - 8rem - 2rem);
+    max-height: calc(100vh - 64px - 44px - 8rem - 2rem);
     min-height: 0;
+    z-index: 998;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+    background: 
+        linear-gradient(135deg,
+            rgba(255, 255, 255, 0.08) 0%,
+            rgba(255, 255, 255, 0.04) 50%,
+            rgba(255, 255, 255, 0.06) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-2xl);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    box-shadow: 
+        0 12px 32px rgba(0, 0, 0, 0.2),
+        0 4px 16px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    transition: all var(--duration-normal) var(--ease-in-out);
 }
 
 /* ===== LAYOUT MODES ===== */
@@ -261,6 +356,12 @@
 
 /* ===== RESPONSIVE LAYOUT ===== */
 @media (max-width: 1024px) {
+    .modern-top-nav {
+        width: 75%;
+        min-width: 600px;
+        padding: var(--space-2) var(--space-6);
+    }
+    
     .side-by-side-container {
         flex-direction: column;
         gap: 0;
@@ -283,21 +384,25 @@
 
 @media (max-width: 768px) {
     .modern-top-nav {
-        padding: var(--space-2) var(--space-3);
-        min-height: 48px;
-        top: var(--space-3);
-        left: var(--space-3);
-        right: var(--space-3);
-        max-width: calc(100vw - 1.5rem);
+        width: 80%;
+        min-width: 450px;
+        padding: var(--space-2) var(--space-4);
+        min-height: 52px;
+        top: var(--space-4);
     }
     
     .modern-main-content {
-        margin-top: calc(48px + 40px + 0.5rem);
+        margin-top: 0;
     }
     
     .modern-content-area {
-        height: calc(100vh - 48px - 40px - 0.5rem - 2rem);
-        max-height: calc(100vh - 48px - 40px - 0.5rem - 2rem);
+        top: calc(52px + 44px + 6.5rem);
+        left: 12.5%;
+        right: 12.5%;
+        width: 75%;
+        min-width: 500px;
+        height: calc(100vh - 52px - 44px - 6.5rem - 2rem);
+        max-height: calc(100vh - 52px - 44px - 6.5rem - 2rem);
     }
     
     .nav-left {
@@ -332,26 +437,40 @@
 
 @media (max-width: 640px) {
     .modern-top-nav {
-        padding: var(--space-1) var(--space-2);
-        min-height: 44px;
-        top: var(--space-2);
-        left: var(--space-2);
-        right: var(--space-2);
-        max-width: calc(100vw - 1rem);
+        width: 90%;
+        min-width: 350px;
+        padding: var(--space-2) var(--space-3);
+        min-height: 48px;
+        top: var(--space-3);
     }
     
     .modern-main-content {
-        margin-top: calc(44px + 36px + 0.25rem);
+        margin-top: 0;
     }
     
     .modern-content-area {
-        height: calc(100vh - 44px - 36px - 0.25rem - 2rem);
-        max-height: calc(100vh - 44px - 36px - 0.25rem - 2rem);
+        top: calc(48px + 40px + 5.5rem);
+        left: 10%;
+        right: 10%;
+        width: 80%;
+        min-width: 400px;
+        height: calc(100vh - 48px - 40px - 5.5rem - 2rem);
+        max-height: calc(100vh - 48px - 40px - 5.5rem - 2rem);
     }
     
     .nav-left {
         gap: var(--space-1);
         flex: 0 0 auto;
+    }
+    
+    .modern-content-area {
+        top: calc(48px + 40px + 4.5rem);
+        left: 5%;
+        right: 5%;
+        width: 90%;
+        min-width: 320px;
+        height: calc(100vh - 48px - 40px - 4.5rem - 2rem);
+        max-height: calc(100vh - 48px - 40px - 4.5rem - 2rem);
     }
     
     .nav-center {

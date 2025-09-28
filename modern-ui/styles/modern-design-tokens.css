@@ -41,10 +41,13 @@
     --glass-bg-active: rgba(255, 255, 255, 0.12);
     --glass-border: rgba(255, 255, 255, 0.1);
     --glass-border-hover: rgba(255, 255, 255, 0.15);
+    --glass-border-light: rgba(255, 255, 255, 0.08);
     --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     --glass-shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.4);
+    --glass-shadow-enhanced: 0 25px 50px rgba(0, 0, 0, 0.25), 0 0 100px rgba(147, 51, 234, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.3);
     --glass-blur: blur(20px);
     --glass-blur-light: blur(10px);
+    --glass-blur-enhanced: blur(40px) saturate(220%);
     
     /* Modern gradients */
     --gradient-primary: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 50%, var(--accent-tertiary) 100%);
