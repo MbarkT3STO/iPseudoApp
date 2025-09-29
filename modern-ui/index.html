@@ -1175,7 +1175,8 @@
 
         appBrand.addEventListener('click', (e) => {
             e.preventDefault();
-            showModal();
+            // Navigate to the about page instead of showing modal
+            window.location.href = 'about.html';
         });
 
         closeModal.addEventListener('click', hideModal);

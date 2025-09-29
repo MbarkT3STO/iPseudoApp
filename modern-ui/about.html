@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-transition">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - iPseudo IDE</title>
+    
+    <!-- Modern Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Modern Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <!-- Modern Styles -->
+    <link rel="stylesheet" href="styles/modern-base.css">
+    <link rel="stylesheet" href="styles/modern-components.css">
+    <link rel="stylesheet" href="styles/modern-layout.css">
+    <link rel="stylesheet" href="styles/modern-theme.css">
+    <link rel="stylesheet" href="styles/modern-design-tokens.css">
+    <link rel="stylesheet" href="styles/modern-tab-system.css">
+    
+    <!-- Settings Specific Styles -->
+    <link rel="stylesheet" href="styles/settings.css">
+    
+    <!-- Theme Initialization Script -->
+    <script>
+        // Initialize about page theme system
+        function initializeAboutTheme() {
+            try {
+                const settings = JSON.parse(localStorage.getItem('iPseudoSettings') || '{}');
+                const theme = settings.theme || 'dark';
+                
+                // Handle system theme
+                let actualTheme = theme;
+                if (theme === 'system') {
+                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    actualTheme = prefersDark ? 'dark' : 'light';
+                }
+                
+                // Apply about page theme classes
+                document.documentElement.classList.add(`settings-theme-${actualTheme}`);
+                document.documentElement.setAttribute('data-settings-theme', actualTheme);
+                
+                // Only apply to body if it exists
+                if (document.body) {
+                    document.body.classList.add(`settings-theme-${actualTheme}`);
+                }
+            } catch (e) {
+                // Fallback to dark theme
+                document.documentElement.classList.add('settings-theme-dark');
+                document.documentElement.setAttribute('data-settings-theme', 'dark');
+                
+                if (document.body) {
+                    document.body.classList.add('settings-theme-dark');
+                }
+            }
+        }
+        
+        // Initialize immediately if body exists, otherwise wait for DOM ready
+        if (document.body) {
+            initializeAboutTheme();
+        } else {
+            document.addEventListener('DOMContentLoaded', initializeAboutTheme);
+        }
+    </script>
+    
+    <!-- Cute Animations -->
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .cute-float { animation: float 3s ease-in-out infinite; }
+        .cute-pulse { animation: pulse 2s ease-in-out infinite; }
+        .cute-bounce { animation: bounce 1s ease-in-out; }
+    </style>
+</head>
+<body>
+    <div class="settings-main">
+        <!-- About Header -->
+        <header class="settings-header">
+            <div class="header-left">
+                <button class="modern-btn modern-btn-icon cute-bounce" id="btnBack" aria-label="Back to Editor">
+                    <i class="ri-arrow-left-line"></i>
+                </button>
+                
+                <div class="header-title">
+                    <div class="title-text">
+                        <h1>About iPseudo IDE</h1>
+                        <p class="header-subtitle">Modern development environment for pseudocode ✨</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="header-right">
+                <div class="header-actions">
+                    <button class="modern-btn modern-btn-icon cute-pulse" id="btnThemeToggle" aria-label="Toggle Theme">
+                        <i class="ri-contrast-2-line"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- About Content -->
+        <div class="settings-layout">
+            <div class="settings-content">
+                <!-- About Panel -->
+                <div class="settings-panel active" id="about">
+                    <div class="panel-header">
+                        <div class="header-content">
+                            <div class="header-icon cute-float">
+                                <i class="ri-information-line"></i>
+                                <div class="icon-sparkle"></div>
+                            </div>
+                            <div class="header-text">
+                                <h2>About iPseudo IDE</h2>
+                                <p>Modern development environment for pseudocode ✨</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Modern About Content -->
+                    <div class="about-redesign">
+                        <!-- Hero Section -->
+                        <div class="about-hero">
+                            <div class="hero-content">
+                                <div class="hero-icon">
+                                    <div class="app-icon-enhanced">
+                                        <i class="ri-code-s-slash-line"></i>
+                                    </div>
+                                </div>
+                                <div class="hero-text">
+                                    <h1 class="hero-title">iPseudo IDE</h1>
+                                    <p class="hero-subtitle">Version 1.0.0 • Modern Pseudocode IDE</p>
+                                    <p class="hero-description">Empowering algorithm development with an intuitive, beautiful interface designed for learning and collaboration.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stats Section -->
+                        <div class="about-stats">
+                            <div class="stat-card">
+                                <div class="stat-number">1.0.0</div>
+                                <div class="stat-label">Current Version</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">Modern</div>
+                                <div class="stat-label">Design UI</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">100%</div>
+                                <div class="stat-label">Open Source</div>
+                            </div>
+                        </div>
+
+                        <!-- Features Grid -->
+                        <div class="features-grid">
+                            <div class="feature-card primary">
+                                <div class="feature-icon">
+                                    <i class="ri-brush-fill"></i>
+                                </div>
+                                <h3 class="feature-title">Modern UI</h3>
+                                <p class="feature-description">Glass morphism design with smooth animations and beautiful gradients</p>
+                            </div>
+
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="ri-code-s-slash-line"></i>
+                                </div>
+                                <h3 class="feature-title">Syntax Highlight</h3>
+                                <p class="feature-description">Advanced syntax highlighting with error detection and smart suggestions</p>
+                            </div>
+
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="ri-play-circle-line"></i>
+                                </div>
+                                <h3 class="feature-title">Real-time Execution</h3>
+                                <p class="feature-description">Execute pseudocode instantly with live output and error reporting</p>
+                            </div>
+
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="ri-layout-grid-line"></i>
+                                </div>
+                                <h3 class="feature-title">Multiple Tabs</h3>
+                                <p class="feature-description">Work with multiple files simultaneously in organized tab interface</p>
+                            </div>
+
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="ri-palette-line"></i>
+                                </div>
+                                <h3 class="feature-title">Custom Themes</h3>
+                                <p class="feature-description">Personalize your experience with light and dark themes</p>
+                            </div>
+
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="ri-flashlight-line"></i>
+                                </div>
+                                <h3 class="feature-title">Performance</h3>
+                                <p class="feature-description">Optimized for speed with hardware acceleration and smart caching</p>
+                            </div>
+                        </div>
+
+                        <!-- Developer Info -->
+                        <div class="developer-showcase">
+                            <div class="developer-card">
+                                <div class="developer-header">
+                                    <div class="developer-avatar">
+                                        <i class="ri-user-3-fill"></i>
+                                    </div>
+                                    <div class="developer-info">
+                                        <h3>MBARK</h3>
+                                        <p>Software Engineer & UI Designer</p>
+                                        <div class="developer-contact">
+                                            <span class="email">me@MBVRK.onmicrosoft.com</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="developer-description">
+                                    <p>Passionate developer creating modern, accessible tools for education and software development. Focus on clean code, beautiful design, and exceptional user experience.</p>
+                                </div>
+
+                                <div class="social-networks">
+                                    <h4>Connect with me</h4>
+                                    <div class="social-links-modern">
+                                        <a href="https://github.com/mbarkt3sto" target="_blank" class="social-link-modern github">
+                                            <i class="ri-github-fill"></i>
+                                            <span>GitHub</span>
+                                        </a>
+                                        <a href="https://hashnode.com/@mbarkt3sto" target="_blank" class="social-link-modern hashnode">
+                                            <i class="ri-hashtag"></i>
+                                            <span>Hashnode</span>
+                                        </a>
+                                        <a href="https://linkedin.com/in/mbarkt3sto" target="_blank" class="social-link-modern linkedin">
+                                            <i class="ri-linkedin-fill"></i>
+                                            <span>LinkedIn</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tech Stack -->
+                        <div class="tech-stack">
+                            <h3>Built with modern technologies</h3>
+                            <div class="tech-badges">
+                                <span class="tech-badge electron">Electron</span>
+                                <span class="tech-badge typescript">TypeScript</span>
+                                <span class="tech-badge html">HTML5</span>
+                                <span class="tech-badge css">CSS3</span>
+                                <span class="tech-badge js">JavaScript</span>
+                                <span class="tech-badge monaco">Monaco Editor</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Scroll to Top Button -->
+        <button id="scrollToTop" class="scroll-to-top cute-float" title="Scroll to top">
+            <i class="ri-arrow-up-line"></i>
+        </button>
+    </div>
+
+    <script>
+        // Initialize about page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Theme toggle functionality
+            const themeToggle = document.getElementById('btnThemeToggle');
+            const body = document.body;
+            const html = document.documentElement;
+            
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    // Toggle between about page themes
+                    const isDark = body.classList.contains('settings-theme-dark');
+                    
+                    // Remove existing theme classes
+                    body.classList.remove('settings-theme-dark', 'settings-theme-light');
+                    html.classList.remove('settings-theme-dark', 'settings-theme-light');
+                    
+                    if (isDark) {
+                        // Switch to light theme
+                        body.classList.add('settings-theme-light');
+                        html.classList.add('settings-theme-light');
+                        html.setAttribute('data-settings-theme', 'light');
+                    } else {
+                        // Switch to dark theme
+                        body.classList.add('settings-theme-dark');
+                        html.classList.add('settings-theme-dark');
+                        html.setAttribute('data-settings-theme', 'dark');
+                    }
+                    
+                    // Update main app settings
+                    try {
+                        const mainSettings = JSON.parse(localStorage.getItem('iPseudoSettings') || '{}');
+                        mainSettings.theme = isDark ? 'light' : 'dark';
+                        localStorage.setItem('iPseudoSettings', JSON.stringify(mainSettings));
+                    } catch (e) {
+                        console.error('Failed to update main app settings:', e);
+                    }
+                });
+            }
+            
+            // Back button functionality
+            const backButton = document.getElementById('btnBack');
+            if (backButton) {
+                backButton.addEventListener('click', () => {
+                    window.history.back();
+                });
+            }
+            
+            // Scroll to top functionality
+            const scrollToTopBtn = document.getElementById('scrollToTop');
+            if (scrollToTopBtn) {
+                window.addEventListener('scroll', () => {
+                    if (window.pageYOffset > 300) {
+                        scrollToTopBtn.classList.add('visible');
+                    } else {
+                        scrollToTopBtn.classList.remove('visible');
+                    }
+                });
+                
+                scrollToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
