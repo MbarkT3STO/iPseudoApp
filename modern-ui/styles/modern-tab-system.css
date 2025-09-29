@@ -22,15 +22,15 @@
     margin: 0;
     overflow: hidden;
     transition: all var(--duration-normal) ease;
-    backdrop-filter: blur(32px) saturate(200%);
-    -webkit-backdrop-filter: blur(32px) saturate(200%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     box-shadow: 
         0 20px 60px rgba(0, 0, 0, 0.3),
         0 8px 32px rgba(0, 0, 0, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.3),
         0 0 0 1px rgba(255, 255, 255, 0.1);
     max-width: calc(100vw - 3rem);
-    animation: floatingTabs 6s ease-in-out infinite;
+    /* Removed automatic floating animation for better performance */
 }
 
 /* Floating animation for the tabs */
@@ -86,8 +86,8 @@
         0 12px 40px rgba(0, 0, 0, 0.25),
         inset 0 1px 0 rgba(255, 255, 255, 0.4),
         0 0 0 1px rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(36px) saturate(220%);
-    -webkit-backdrop-filter: blur(36px) saturate(220%);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
 }
 
 .modern-tabs-container:hover::before {
@@ -311,7 +311,7 @@
 }
 
 .tab-counter {
-    animation: subtlePulse 4s ease-in-out infinite;
+    /* Removed automatic pulse animation for better performance */
 }
 
 @keyframes subtlePulse {
@@ -710,7 +710,7 @@
 }
 
 .tab-panel.active::before {
-    animation: panelGlow 3s ease-in-out infinite;
+    /* Removed automatic panel glow animation for better performance */
 }
 
 @keyframes panelGlow {

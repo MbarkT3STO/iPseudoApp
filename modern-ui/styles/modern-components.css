@@ -1382,7 +1382,7 @@
     box-shadow: 
         0 4px 12px rgba(239, 68, 68, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    animation: tabCounterPulse 2s ease-in-out infinite;
+    /* Removed automatic pulse animation for better performance */
 }
 
 @keyframes tabCounterPulse {
@@ -1992,7 +1992,7 @@
     height: 100%;
     filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.3));
     transition: all var(--duration-normal) cubic-bezier(0.4, 0, 0.2, 1);
-    animation: logoFloat 3s ease-in-out infinite;
+    /* Removed automatic logo float animation for better performance */
 }
 
 .modern-app-brand:hover .brand-logo .logo-svg {
@@ -2493,7 +2493,7 @@
 .modern-console-message.modern-warning .modern-icon {
     color: #f59e0b;
     filter: drop-shadow(0 2px 8px rgba(245, 158, 11, 0.4));
-    animation: modernWarningIconPulse 1s ease-in-out infinite;
+    /* Removed automatic warning icon pulse animation for better performance */
 }
 
 .modern-console-message.modern-warning .modern-text {
@@ -2520,7 +2520,7 @@
 .modern-console-message.modern-info .modern-icon {
     color: #3b82f6;
     filter: drop-shadow(0 2px 8px rgba(59, 130, 246, 0.4));
-    animation: modernInfoIconGlow 2s ease-in-out infinite;
+    /* Removed automatic info icon glow animation for better performance */
 }
 
 .modern-console-message.modern-info .modern-text {
@@ -2915,7 +2915,7 @@
 .animated-gradient {
     background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
     background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
+    /* Removed automatic gradient shift animation for better performance */
 }
 
 @keyframes gradientShift {
@@ -2945,7 +2945,7 @@
 
 /* Floating animation */
 .floating {
-    animation: floating 6s ease-in-out infinite;
+    /* Removed automatic floating animation for better performance */
 }
 
 @keyframes floating {
@@ -2955,7 +2955,7 @@
 
 /* Pulse glow effect */
 .pulse-glow {
-    animation: pulseGlow 2s ease-in-out infinite alternate;
+    /* Removed automatic pulse glow animation for better performance */
 }
 
 @keyframes pulseGlow {
@@ -2981,7 +2981,7 @@
     width: 100%;
     height: 100%;
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-    animation: shimmer 2s infinite;
+    /* Removed automatic shimmer animation for better performance */
 }
 
 @keyframes shimmer {

@@ -36,22 +36,14 @@
     align-items: center;
     justify-content: space-between;
     padding: var(--space-3) var(--space-8);
-    background: 
-        linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.15) 0%, 
-            rgba(255, 255, 255, 0.10) 30%,
-            rgba(255, 255, 255, 0.12) 70%,
-            rgba(255, 255, 255, 0.08) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: var(--radius-3xl);
-    backdrop-filter: blur(40px) saturate(220%);
-    -webkit-backdrop-filter: blur(40px) saturate(220%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     box-shadow: 
-        0 25px 80px rgba(0, 0, 0, 0.4),
-        0 12px 40px rgba(0, 0, 0, 0.25),
-        0 0 120px rgba(147, 51, 234, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4),
-        0 0 0 1px rgba(255, 255, 255, 0.15);
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
     position: fixed;
     top: var(--space-6);
     left: 50%;
@@ -63,7 +55,7 @@
     min-width: 700px;
     transition: all var(--duration-normal) cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
-    animation: floatingNav 8s ease-in-out infinite, navPulse 4s ease-in-out infinite;
+    /* Removed automatic animations for better performance */
 }
 
 /* Floating animation for the navigation */
@@ -83,110 +75,26 @@
 }
 
 /* Floating navigation glow effect */
-.modern-top-nav::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        radial-gradient(circle at 15% 15%, rgba(59, 130, 246, 0.2) 0%, transparent 60%),
-        radial-gradient(circle at 85% 85%, rgba(139, 92, 246, 0.18) 0%, transparent 60%),
-        radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.12) 0%, transparent 80%),
-        radial-gradient(circle at 30% 70%, rgba(236, 72, 153, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 70% 30%, rgba(34, 197, 94, 0.06) 0%, transparent 50%);
-    border-radius: var(--radius-3xl);
-    pointer-events: none;
-    z-index: -1;
-    opacity: 0.9;
-    animation: glowPulse 4s ease-in-out infinite;
-}
+/* Removed ::before pseudo-element with automatic glow animation */
 
-.modern-top-nav::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        linear-gradient(135deg, 
-            transparent 0%, 
-            rgba(255, 255, 255, 0.08) 25%,
-            rgba(255, 255, 255, 0.12) 50%,
-            rgba(255, 255, 255, 0.08) 75%,
-            transparent 100%);
-    border-radius: var(--radius-3xl);
-    pointer-events: none;
-    z-index: -1;
-    animation: shimmer 3s ease-in-out infinite;
-}
+/* Removed ::after pseudo-element with automatic shimmer animation */
 
-/* Glow pulse animation */
-@keyframes glowPulse {
-    0%, 100% {
-        opacity: 0.9;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 1;
-        transform: scale(1.02);
-    }
-}
+/* Removed unused keyframe animations for better performance */
 
-/* Shimmer animation */
-@keyframes shimmer {
-    0% {
-        transform: translateX(-100%) skewX(-15deg);
-    }
-    100% {
-        transform: translateX(200%) skewX(-15deg);
-    }
-}
-
-/* Navigation pulse animation */
-@keyframes navPulse {
-    0%, 100% {
-        box-shadow: 
-            0 25px 80px rgba(0, 0, 0, 0.4),
-            0 12px 40px rgba(0, 0, 0, 0.25),
-            0 0 120px rgba(147, 51, 234, 0.15),
-            inset 0 1px 0 rgba(255, 255, 255, 0.4),
-            0 0 0 1px rgba(255, 255, 255, 0.15);
-    }
-    50% {
-        box-shadow: 
-            0 25px 80px rgba(0, 0, 0, 0.4),
-            0 12px 40px rgba(0, 0, 0, 0.25),
-            0 0 140px rgba(147, 51, 234, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.4),
-            0 0 0 1px rgba(255, 255, 255, 0.15);
-    }
-}
+/* Removed navPulse animation for better performance */
 
 /* Enhanced hover effects for floating nav */
 .modern-top-nav:hover {
-    transform: translateX(-50%) translateY(-4px) scale(1.02);
+    transform: translateX(-50%) translateY(-2px);
     box-shadow: 
-        0 35px 100px rgba(0, 0, 0, 0.45),
-        0 16px 50px rgba(0, 0, 0, 0.3),
-        0 0 150px rgba(147, 51, 234, 0.25),
-        inset 0 1px 0 rgba(255, 255, 255, 0.5),
-        0 0 0 1px rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(48px) saturate(250%);
-    -webkit-backdrop-filter: blur(48px) saturate(250%);
-    border-color: rgba(255, 255, 255, 0.35);
+        0 12px 40px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-color: rgba(255, 255, 255, 0.3);
 }
 
-.modern-top-nav:hover::before {
-    opacity: 1;
-    animation: glowPulse 2s ease-in-out infinite;
-}
-
-.modern-top-nav:hover::after {
-    animation: shimmer 1.5s ease-in-out infinite;
-}
+/* Removed complex animations for better performance */
 
 /* Fallback for browsers that don't support backdrop-filter */
 @supports not (backdrop-filter: blur(20px)) {
@@ -269,19 +177,14 @@
     margin-left: auto;
     margin-right: auto;
     box-sizing: border-box;
-    background: 
-        linear-gradient(135deg,
-            rgba(255, 255, 255, 0.08) 0%,
-            rgba(255, 255, 255, 0.04) 50%,
-            rgba(255, 255, 255, 0.06) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: var(--radius-2xl);
-    backdrop-filter: blur(20px) saturate(150%);
-    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     box-shadow: 
-        0 12px 32px rgba(0, 0, 0, 0.2),
-        0 4px 16px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        0 8px 24px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
     transition: all var(--duration-normal) var(--ease-in-out);
 }
 
