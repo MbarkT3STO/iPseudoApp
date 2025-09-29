@@ -6,16 +6,23 @@ function isLikelyPseudo(src) {
     if (!src)
         return false;
     const lowered = src.toLowerCase();
-    return /\b(print|var|const|if|else|elseif|endif|for|to|endfor|while|endwhile|function|endfunction|return|break|continue|input|algorithm|endalgorithm)\b/.test(lowered);
+    return /\b(print|var|const|if|else|elseif|endif|for|to|endfor|while|endwhile|function|endfunction|return|break|continue|input|algorithm|endalgorithm)\b/.test(lowered) || 
+           /\b(Print|Var|Const|If|Else|Elseif|Endif|For|To|Endfor|While|Endwhile|Function|Endfunction|Return|Break|Continue|Input|Algorithm|Endalgorithm)\b/.test(src);
 }
 function validatePseudo(src) {
     const lines = src.split(/\r?\n/);
     const issues = [];
     const blockStack = []; // Tracks for/if/while blocks
     
-    // Check for Algorithm/EndAlgorithm structure
-    const hasAlgorithmStart = lines.some(line => line.trim().toLowerCase().startsWith('algorithm '));
-    const hasAlgorithmEnd = lines.some(line => line.trim().toLowerCase() === 'endalgorithm');
+    // Check for Algorithm/EndAlgorithm structure (both lowercase and Pascal Case)
+    const hasAlgorithmStart = lines.some(line => {
+        const trimmed = line.trim();
+        return trimmed.toLowerCase().startsWith('algorithm ') || trimmed.startsWith('Algorithm ');
+    });
+    const hasAlgorithmEnd = lines.some(line => {
+        const trimmed = line.trim();
+        return trimmed.toLowerCase() === 'endalgorithm' || trimmed === 'Endalgorithm';
+    });
     
     if (!hasAlgorithmStart) {
         issues.push({
@@ -52,9 +59,9 @@ function validatePseudo(src) {
                 });
             }
         }
-        // Check for Algorithm declaration
-        if (lower.startsWith('algorithm ')) {
-            const m = t.match(/^algorithm\s+([a-zA-Z_$][\w$]*)\s*$/i);
+        // Check for Algorithm declaration (both cases)
+        if (lower.startsWith('algorithm ') || t.startsWith('Algorithm ')) {
+            const m = t.match(/^(algorithm|Algorithm)\s+([a-zA-Z_$][\w$]*)\s*$/i);
             if (!m) {
                 issues.push({ 
                     line: lineNum, 
@@ -65,8 +72,8 @@ function validatePseudo(src) {
             continue;
         }
         
-        // Check for EndAlgorithm declaration
-        if (lower === 'endalgorithm') {
+        // Check for EndAlgorithm declaration (both cases)
+        if (lower === 'endalgorithm' || t === 'Endalgorithm') {
             if (blockStack.length > 0) {
                 issues.push({ 
                     line: lineNum, 
@@ -300,25 +307,26 @@ function translatePseudoToJs(src) {
             continue;
         }
 
-        // Algorithm declaration - convert to comment
-        if (line.toLowerCase().startsWith('algorithm ')) {
-            out.push('// Algorithm: ' + line.slice(9).trim()); 
+        // Algorithm declaration - convert to comment (both cases)
+        if (line.toLowerCase().startsWith('algorithm ') || line.startsWith('Algorithm ')) {
+            const algorithmName = line.toLowerCase().startsWith('algorithm ') ? line.slice(9).trim() : line.slice(10).trim();
+            out.push('// Algorithm: ' + algorithmName); 
             mapping.push({ srcLine: srcLineNum, srcText: raw }); 
             continue; 
         }
 
-        // EndAlgorithm declaration - convert to comment
-        if (line.toLowerCase() === 'endalgorithm') {
+        // EndAlgorithm declaration - convert to comment (both cases)
+        if (line.toLowerCase() === 'endalgorithm' || line === 'Endalgorithm') {
             out.push('// End Algorithm'); 
             mapping.push({ srcLine: srcLineNum, srcText: raw }); 
             continue; 
         }
-        // Variable declarations with input: var x = input "prompt" or const x = input "prompt"
-        let m = line.match(/^(var|const)\s+([a-zA-Z_$][\w$]*)\s*=\s*input\s+(.+)$/i);
+        // Variable declarations with input: var x = input "prompt" or const x = input "prompt" (both cases)
+        let m = line.match(/^(var|const|Var|Const)\s+([a-zA-Z_$][\w$]*)\s*=\s*(input|Input)\s+(.+)$/i);
         if (m) {
             const keyword = m[1].toLowerCase();
             const varName = m[2];
-            let prompt = m[3].trim();
+            let prompt = m[4].trim();
             // Remove quotes if present from both ends
             if ((prompt.startsWith('"') && prompt.endsWith('"')) || 
                 (prompt.startsWith("'") && prompt.endsWith("'"))) {
@@ -329,8 +337,8 @@ function translatePseudoToJs(src) {
             continue;
         }
 
-        // Variable declarations: var x = expr or const x = expr
-        m = line.match(/^(var|const)\s+([a-zA-Z_$][\w$]*)\s*=\s*(.*)$/i);
+        // Variable declarations: var x = expr or const x = expr (both cases)
+        m = line.match(/^(var|const|Var|Const)\s+([a-zA-Z_$][\w$]*)\s*=\s*(.*)$/i);
         if (m) {
             const keyword = m[1].toLowerCase();
             const varName = m[2];
@@ -339,17 +347,17 @@ function translatePseudoToJs(src) {
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
-        // Print statements: print arg1, arg2
-        m = line.match(/^print\s+(.+)$/i);
+        // Print statements: print arg1, arg2 (both cases)
+        m = line.match(/^(print|Print)\s+(.+)$/i);
         if (m) {
-            out.push(`print(${m[1]});`);
+            out.push(`print(${m[2]});`);
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
-        // Input statements: input "prompt" or input prompt
-        m = line.match(/^input\s+(.+)$/i);
+        // Input statements: input "prompt" or input prompt (both cases)
+        m = line.match(/^(input|Input)\s+(.+)$/i);
         if (m) {
-            out.push(`await input(${m[1]});`);
+            out.push(`await input(${m[2]});`);
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }

@@ -45,7 +45,8 @@ interface BlockInfo {
 function isLikelyPseudo(src: string): boolean {
     if (!src) return false;
     const lowered = src.toLowerCase();
-    return /\b(print|var|const|if|else|elseif|endif|for|to|endfor|while|endwhile|function|endfunction|return|break|continue|input|algorithm|endalgorithm)\b/.test(lowered);
+    return /\b(print|var|const|if|else|elseif|endif|for|to|endfor|while|endwhile|function|endfunction|return|break|continue|input|algorithm|endalgorithm)\b/.test(lowered) || 
+           /\b(Print|Var|Const|If|Else|Elseif|Endif|For|To|Endfor|While|Endwhile|Function|Endfunction|Return|Break|Continue|Input|Algorithm|Endalgorithm)\b/.test(src);
 }
 
 function validatePseudo(src: string): ValidationIssue[] {
@@ -53,9 +54,15 @@ function validatePseudo(src: string): ValidationIssue[] {
     const issues: ValidationIssue[] = [];
     const blockStack: BlockInfo[] = []; // Tracks for/if/while blocks
     
-    // Check for Algorithm/EndAlgorithm structure
-    const hasAlgorithmStart = lines.some(line => line.trim().toLowerCase().startsWith('algorithm '));
-    const hasAlgorithmEnd = lines.some(line => line.trim().toLowerCase() === 'endalgorithm');
+    // Check for Algorithm/EndAlgorithm structure (both lowercase and Pascal Case)
+    const hasAlgorithmStart = lines.some(line => {
+        const trimmed = line.trim();
+        return trimmed.toLowerCase().startsWith('algorithm ') || trimmed.startsWith('Algorithm ');
+    });
+    const hasAlgorithmEnd = lines.some(line => {
+        const trimmed = line.trim();
+        return trimmed.toLowerCase() === 'endalgorithm' || trimmed === 'Endalgorithm';
+    });
     
     if (!hasAlgorithmStart) {
         issues.push({
@@ -94,9 +101,9 @@ function validatePseudo(src: string): ValidationIssue[] {
             }
         }
 
-        // Check for Algorithm declaration
-        if (lower.startsWith('algorithm ')) {
-            const m = t.match(/^algorithm\s+([a-zA-Z_$][\w$]*)\s*$/i);
+        // Check for Algorithm declaration (both cases)
+        if (lower.startsWith('algorithm ') || t.startsWith('Algorithm ')) {
+            const m = t.match(/^(algorithm|Algorithm)\s+([a-zA-Z_$][\w$]*)\s*$/i);
             if (!m) {
                 issues.push({ 
                     line: lineNum, 
@@ -107,8 +114,8 @@ function validatePseudo(src: string): ValidationIssue[] {
             continue;
         }
         
-        // Check for EndAlgorithm declaration
-        if (lower === 'endalgorithm') {
+        // Check for EndAlgorithm declaration (both cases)
+        if (lower === 'endalgorithm' || t === 'Endalgorithm') {
             if (blockStack.length > 0) {
                 issues.push({ 
                     line: lineNum, 
@@ -120,16 +127,16 @@ function validatePseudo(src: string): ValidationIssue[] {
         }
 
         // Check for common pseudo-code structures
-        if (lower.startsWith('for ')) {
-            const m = t.match(/^for\s+([a-zA-Z_$][\w$]*)\s*=\s*(.+?)\s+to\s+(.+?)(?:\s+step\s+([-+]?\d+))?\s*$/i);
+        if (lower.startsWith('for ') || t.startsWith('For ')) {
+            const m = t.match(/^(for|For)\s+([a-zA-Z_$][\w$]*)\s*=\s*(.+?)\s+(to|To)\s+(.+?)(?:\s+step\s+([-+]?\d+))?\s*$/i);
             if (!m) {
                 issues.push({ 
                     line: lineNum, 
                     text: raw, 
-                    message: 'Malformed for-loop. Expected: for <var> = <start> to <end> [step <increment>]' 
+                    message: 'Malformed for-loop. Expected: For <var> = <start> To <end> [step <increment>]' 
                 });
             } else {
-                blockStack.push({ type: 'for', var: m[1], line: lineNum, indent });
+                blockStack.push({ type: 'for', var: m[2], line: lineNum, indent });
             }
             continue;
         }
@@ -355,26 +362,27 @@ function translatePseudoToJs(src: string): TranslationResult {
             continue; 
         }
 
-        // Algorithm declaration - convert to comment
-        if (line.toLowerCase().startsWith('algorithm ')) {
-            out.push('// Algorithm: ' + line.slice(9).trim()); 
+        // Algorithm declaration - convert to comment (both cases)
+        if (line.toLowerCase().startsWith('algorithm ') || line.startsWith('Algorithm ')) {
+            const algorithmName = line.toLowerCase().startsWith('algorithm ') ? line.slice(9).trim() : line.slice(10).trim();
+            out.push('// Algorithm: ' + algorithmName); 
             mapping.push({ srcLine: srcLineNum, srcText: raw }); 
             continue; 
         }
 
-        // EndAlgorithm declaration - convert to comment
-        if (line.toLowerCase() === 'endalgorithm') {
+        // EndAlgorithm declaration - convert to comment (both cases)
+        if (line.toLowerCase() === 'endalgorithm' || line === 'Endalgorithm') {
             out.push('// End Algorithm'); 
             mapping.push({ srcLine: srcLineNum, srcText: raw }); 
             continue; 
         }
 
-        // Variable declarations with input: var x = input "prompt" or const x = input "prompt"
-        let m = line.match(/^(var|const)\s+([a-zA-Z_$][\w$]*)\s*=\s*input\s+(.+)$/i);
+        // Variable declarations with input: var x = input "prompt" or const x = input "prompt" (both cases)
+        let m = line.match(/^(var|const|Var|Const)\s+([a-zA-Z_$][\w$]*)\s*=\s*(input|Input)\s+(.+)$/i);
         if (m) { 
             const keyword = m[1].toLowerCase();
             const varName = m[2];
-            let prompt = m[3].trim();
+            let prompt = m[4].trim();
             // Remove quotes if present from both ends
             if ((prompt.startsWith('"') && prompt.endsWith('"')) || 
                 (prompt.startsWith("'") && prompt.endsWith("'"))) {
@@ -385,8 +393,8 @@ function translatePseudoToJs(src: string): TranslationResult {
             continue; 
         }
 
-        // Variable declarations: var x = expr or const x = expr
-        m = line.match(/^(var|const)\s+([a-zA-Z_$][\w$]*)\s*=\s*(.*)$/i);
+        // Variable declarations: var x = expr or const x = expr (both cases)
+        m = line.match(/^(var|const|Var|Const)\s+([a-zA-Z_$][\w$]*)\s*=\s*(.*)$/i);
         if (m) { 
             const keyword = m[1].toLowerCase();
             const varName = m[2];
@@ -396,101 +404,101 @@ function translatePseudoToJs(src: string): TranslationResult {
             continue; 
         }
 
-        // Print statements: print arg1, arg2
-        m = line.match(/^print\s+(.+)$/i);
+        // Print statements: print arg1, arg2 (both cases)
+        m = line.match(/^(print|Print)\s+(.+)$/i);
         if (m) { 
-            out.push(`print(${m[1]});`); 
+            out.push(`print(${m[2]});`); 
             mapping.push({ srcLine: srcLineNum, srcText: raw }); 
             continue; 
         }
 
-        // Input statements: input "prompt" or input prompt
-        m = line.match(/^input\s+(.+)$/i);
+        // Input statements: input "prompt" or input prompt (both cases)
+        m = line.match(/^(input|Input)\s+(.+)$/i);
         if (m) { 
-            out.push(`await input(${m[1]});`); 
+            out.push(`await input(${m[2]});`); 
             mapping.push({ srcLine: srcLineNum, srcText: raw }); 
             continue; 
         }
 
-        // For loops: for i = 1 to n [step increment]
-        m = line.match(/^for\s+([a-zA-Z_$][\w$]*)\s*=\s*(.+?)\s+to\s+(.+?)(?:\s+step\s+([-+]?\d+))?\s*$/i);
+        // For loops: for i = 1 to n [step increment] (both cases)
+        m = line.match(/^(for|For)\s+([a-zA-Z_$][\w$]*)\s*=\s*(.+?)\s+(to|To)\s+(.+?)(?:\s+step\s+([-+]?\d+))?\s*$/i);
         if (m) { 
-            const varName = m[1];
-            const start = m[2];
-            const end = m[3];
-            const step = m[4] || '1';
+            const varName = m[2];
+            const start = m[3];
+            const end = m[5];
+            const step = m[6] || '1';
             out.push(`for (let ${varName} = ${start}; ${varName} <= ${end}; ${varName} += ${step}) {`); 
             mapping.push({ srcLine: srcLineNum, srcText: raw }); 
             continue; 
         }
 
-        // While loops: while condition [then]
-        m = line.match(/^while\s+(.+?)(?:\s+then)?\s*$/i);
+        // While loops: while condition [then] (both cases)
+        m = line.match(/^(while|While)\s+(.+?)(?:\s+(then|Then))?\s*$/i);
         if (m) { 
-            out.push(`while (${m[1]}) {`); 
+            out.push(`while (${m[2]}) {`); 
             mapping.push({ srcLine: srcLineNum, srcText: raw }); 
             continue; 
         }
 
-        // If statements: if condition [then]
-        m = line.match(/^if\s+(.+?)(?:\s+then)?\s*$/i);
+        // If statements: if condition [then] (both cases)
+        m = line.match(/^(if|If)\s+(.+?)(?:\s+(then|Then))?\s*$/i);
         if (m) { 
-            out.push(`if (${m[1]}) {`); 
+            out.push(`if (${m[2]}) {`); 
             mapping.push({ srcLine: srcLineNum, srcText: raw }); 
             continue; 
         }
 
-        // Elseif statements: elseif condition [then]
-        m = line.match(/^elseif\s+(.+?)(?:\s+then)?\s*$/i);
+        // Elseif statements: elseif condition [then] (both cases)
+        m = line.match(/^(elseif|Elseif)\s+(.+?)(?:\s+(then|Then))?\s*$/i);
         if (m) { 
-            out.push(`} else if (${m[1]}) {`); 
+            out.push(`} else if (${m[2]}) {`); 
             mapping.push({ srcLine: srcLineNum, srcText: raw }); 
             continue; 
         }
 
-        // Else statements: else
-        if (/^else\s*$/i.test(line)) { 
+        // Else statements: else (both cases)
+        if (/^(else|Else)\s*$/i.test(line)) { 
             out.push('} else {'); 
             mapping.push({ srcLine: srcLineNum, srcText: raw }); 
             continue; 
         }
 
-        // Function declarations: function name(params)
-        m = line.match(/^function\s+([a-zA-Z_$][\w$]*)\s*\(([^)]*)\)\s*$/i);
+        // Function declarations: function name(params) (both cases)
+        m = line.match(/^(function|Function)\s+([a-zA-Z_$][\w$]*)\s*\(([^)]*)\)\s*$/i);
         if (m) { 
-            const funcName = m[1];
-            const params = m[2] || '';
+            const funcName = m[2];
+            const params = m[3] || '';
             functionStack.push(funcName);
             out.push(`function ${funcName}(${params}) {`); 
             mapping.push({ srcLine: srcLineNum, srcText: raw }); 
             continue; 
         }
 
-        // Return statements: return expression
-        m = line.match(/^return\s+(.+)$/i);
+        // Return statements: return expression (both cases)
+        m = line.match(/^(return|Return)\s+(.+)$/i);
         if (m) { 
-            out.push(`return ${m[1]};`); 
+            out.push(`return ${m[2]};`); 
             mapping.push({ srcLine: srcLineNum, srcText: raw }); 
             continue; 
         }
 
-        // Break statements: break
-        if (/^break\s*$/i.test(line)) { 
+        // Break statements: break (both cases)
+        if (/^(break|Break)\s*$/i.test(line)) { 
             out.push('break;'); 
             mapping.push({ srcLine: srcLineNum, srcText: raw }); 
             continue; 
         }
 
-        // Continue statements: continue
-        if (/^continue\s*$/i.test(line)) { 
+        // Continue statements: continue (both cases)
+        if (/^(continue|Continue)\s*$/i.test(line)) { 
             out.push('continue;'); 
             mapping.push({ srcLine: srcLineNum, srcText: raw }); 
             continue; 
         }
 
-        // End blocks: endfor, endif, endwhile, endfunction
-        if (/^(endfor|endif|endwhile|endfunction)\s*$/i.test(line)) { 
-            if (line.toLowerCase() === 'endfunction') {
+        // End blocks: endfor, endif, endwhile, endfunction (both cases)
+        if (/^(endfor|endif|endwhile|endfunction|Endfor|Endif|Endwhile|Endfunction)\s*$/i.test(line)) { 
+            if (line.toLowerCase() === 'endfunction' || line === 'Endfunction') {
                 functionStack.pop();
             }
             out.push('}'); 
