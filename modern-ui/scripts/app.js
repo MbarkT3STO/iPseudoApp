@@ -1053,11 +1053,11 @@ document.addEventListener('DOMContentLoaded', () => {
         applyAccentColor(settings.accentColor || '#0ea5e9');
         // Apply other settings
         applyAppSettings(settings);
-        // Apply UI visibility settings with additional delay to ensure DOM is ready
+        // Apply UI visibility settings with minimal delay to ensure DOM is ready
         setTimeout(() => {
             console.log('Applying UI visibility on app startup');
             applyUIVisibilitySettings(settings);
-        }, 500);
+        }, 100); // Reduced from 500ms to 100ms for faster startup
         // Initialize local variables from settings
         autoScrollEnabled = settings.autoScroll !== false;
     }
@@ -1821,7 +1821,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             else {
                 // Retry if elements not found yet
-                setTimeout(applyGlassEffects, 100);
+                setTimeout(applyGlassEffects, 50); // Reduced from 100ms to 50ms for faster effects
             }
         };
         applyGlassEffects();
@@ -1838,7 +1838,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             else {
                 // Retry if elements not found yet
-                setTimeout(applyParticleEffects, 100);
+                setTimeout(applyParticleEffects, 50); // Reduced from 100ms to 50ms for faster effects
             }
         };
         applyParticleEffects();
@@ -2013,7 +2013,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const editor = window.editor;
                     if (!editor.getModel() || !editor.getDomNode()) {
                         console.warn('Editor not in stable state, retrying...');
-                        setTimeout(applyWhenReady, 100);
+                        setTimeout(applyWhenReady, 50); // Reduced from 100ms to 50ms for faster retry
                         return;
                     }
                     // Only apply valid editor options
@@ -2059,7 +2059,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (Object.keys(editorOptions).length > 0) {
                         console.log('Applying editor settings:', editorOptions);
                         editor.updateOptions(editorOptions);
-                        // Force a layout update after a short delay to ensure the editor is stable
+                        // Force a layout update after a minimal delay to ensure the editor is stable
                         setTimeout(() => {
                             try {
                                 if (editor && editor.layout) {
@@ -2069,7 +2069,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             catch (layoutError) {
                                 console.warn('Layout update failed:', layoutError);
                             }
-                        }, 100);
+                        }, 10); // Reduced from 100ms to 10ms for faster editor initialization
                     }
                 }
                 catch (error) {
@@ -2078,7 +2078,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             else {
                 // Retry after a short delay if editor is not ready
-                setTimeout(applyWhenReady, 100);
+                setTimeout(applyWhenReady, 50); // Reduced from 100ms to 50ms for faster retry
             }
         };
         applyWhenReady();
