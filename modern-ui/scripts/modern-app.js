@@ -5162,6 +5162,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const settingsButton = document.getElementById('btnSettings');
     if (settingsButton) {
         settingsButton.addEventListener('click', () => {
+            // Store current state before navigating
+            const currentState = {
+                theme: document.documentElement.classList.contains('theme-dark') ? 'dark' : 'light',
+                timestamp: Date.now()
+            };
+            localStorage.setItem('appStateBeforeSettings', JSON.stringify(currentState));
+            
             // Navigate to settings page
             window.location.href = 'settings.html';
         });

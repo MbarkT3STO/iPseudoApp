@@ -1175,6 +1175,13 @@
 
         appBrand.addEventListener('click', (e) => {
             e.preventDefault();
+            // Store current state before navigating
+            const currentState = {
+                theme: document.documentElement.classList.contains('theme-dark') ? 'dark' : 'light',
+                timestamp: Date.now()
+            };
+            localStorage.setItem('appStateBeforeAbout', JSON.stringify(currentState));
+            
             // Navigate to the about page instead of showing modal
             window.location.href = 'about.html';
         });

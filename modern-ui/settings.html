@@ -1433,7 +1433,24 @@
             const backButton = document.getElementById('btnBack');
             if (backButton) {
                 backButton.addEventListener('click', () => {
-                    window.history.back();
+                    // Check if we have stored state from main app
+                    const storedState = localStorage.getItem('appStateBeforeSettings');
+                    if (storedState) {
+                        try {
+                            const state = JSON.parse(storedState);
+                            // Clear the stored state
+                            localStorage.removeItem('appStateBeforeSettings');
+                            
+                            // Navigate back to main page
+                            window.location.href = 'index.html';
+                        } catch (e) {
+                            console.error('Error parsing stored state:', e);
+                            window.location.href = 'index.html';
+                        }
+                    } else {
+                        // Fallback: navigate to main page
+                        window.location.href = 'index.html';
+                    }
                 });
             }
             
