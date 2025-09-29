@@ -4608,6 +4608,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const contextMenu = document.createElement('div');
             contextMenu.className = 'tab-context-menu';
             contextMenu.innerHTML = `
+                <div class="context-menu-item" data-action="show-editor">
+                    <i class="ri-code-s-slash-line"></i>
+                    <span>Show Editor</span>
+                </div>
+                <div class="context-menu-item" data-action="show-console">
+                    <i class="ri-terminal-box-line"></i>
+                    <span>Show Console</span>
+                </div>
+                <div class="context-menu-separator"></div>
                 <div class="context-menu-item" data-action="close">
                     <i class="ri-close-line"></i>
                     <span>Close Tab</span>
@@ -4655,6 +4664,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 const action = e.target.closest('.context-menu-item')?.getAttribute('data-action');
                 if (action) {
                     switch (action) {
+                        case 'show-editor':
+                            showEditorForTab(tab);
+                            break;
+                        case 'show-console':
+                            showConsoleForTab(tab);
+                            break;
                         case 'close':
                             closeTabElement(tab);
                             break;
@@ -4816,6 +4831,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 scrollPosition: 0
             });
             createOrSwitchToTab(newTabId, file.content);
+        }
+    }
+
+    function showEditorForTab(tab) {
+        // First switch to the tab
+        switchToTab(tab);
+        
+        // Then switch to editor view
+        const editorTab = document.getElementById('editorTab');
+        if (editorTab) {
+            editorTab.click();
+        }
+    }
+
+    function showConsoleForTab(tab) {
+        // First switch to the tab
+        switchToTab(tab);
+        
+        // Then switch to console view
+        const consoleTab = document.getElementById('consoleTab');
+        if (consoleTab) {
+            consoleTab.click();
         }
     }
     // Add event listener for the save button
