@@ -232,7 +232,7 @@ class ModernSettingsManager {
                 description: 'Adjust the height of the console panel',
                 section: 'Console',
                 sectionId: 'console',
-                icon: 'ri-arrows-vertical',
+                icon: 'ri-line-height',
                 keywords: ['console', 'height', 'size', 'panel', 'output']
             },
             {
