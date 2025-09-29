@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="theme-light">
+<html lang="en" class="theme-transition">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,6 +25,34 @@
     
     <!-- Settings Specific Styles -->
     <link rel="stylesheet" href="styles/settings.css">
+    
+    <!-- Theme Initialization Script -->
+    <script>
+        // Initialize theme from main app settings before page loads
+        (function() {
+            try {
+                const settings = JSON.parse(localStorage.getItem('iPseudoSettings') || '{}');
+                const theme = settings.theme || 'dark';
+                
+                // Handle system theme
+                let actualTheme = theme;
+                if (theme === 'system') {
+                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    actualTheme = prefersDark ? 'dark' : 'light';
+                }
+                
+                // Apply theme immediately
+                document.documentElement.classList.add(`theme-${actualTheme}`);
+                document.documentElement.setAttribute('data-theme', actualTheme);
+                document.body.classList.add(`theme-${actualTheme}`);
+            } catch (e) {
+                // Fallback to dark theme
+                document.documentElement.classList.add('theme-dark');
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.body.classList.add('theme-dark');
+            }
+        })();
+    </script>
     
     <!-- Cute Animations -->
     <style>

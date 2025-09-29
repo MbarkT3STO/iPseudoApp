@@ -2089,14 +2089,8 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
     function applyTheme(theme) {
-        console.log('=== APPLYING THEME ===');
-        console.log('Input theme:', theme);
         const body = document.body;
         const html = document.documentElement;
-        
-        console.log('Before - Body classes:', body.className);
-        console.log('Before - HTML classes:', html.className);
-        console.log('Before - HTML data-theme:', html.getAttribute('data-theme'));
         
         // Remove existing theme classes
         body.classList.remove('theme-light', 'theme-dark');
@@ -2107,18 +2101,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (theme === 'auto' || theme === 'system') {
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             actualTheme = prefersDark ? 'dark' : 'light';
-            console.log('System theme detected:', actualTheme);
         }
         // Apply the theme
         const themeClass = `theme-${actualTheme}`;
         body.classList.add(themeClass);
         html.classList.add(themeClass);
         html.setAttribute('data-theme', actualTheme);
-        
-        console.log('After - Body classes:', body.className);
-        console.log('After - HTML classes:', html.className);
-        console.log('After - HTML data-theme:', html.getAttribute('data-theme'));
-        console.log('Theme applied:', themeClass);
         // Update Monaco editor theme if available
         if (typeof window.monaco !== 'undefined' && window.monaco.editor) {
             try {
@@ -2156,37 +2144,25 @@ document.addEventListener('DOMContentLoaded', () => {
         const isDark = document.body.classList.contains('theme-dark') || 
                       document.documentElement.classList.contains('theme-dark');
         
-        console.log('=== UPDATING THEME TOGGLE BUTTON ===');
-        console.log('Settings theme:', settings.theme);
-        console.log('Body has theme-dark class:', document.body.classList.contains('theme-dark'));
-        console.log('HTML has theme-dark class:', document.documentElement.classList.contains('theme-dark'));
-        console.log('Is dark overall:', isDark);
-        console.log('Current icon class:', icon.className);
-        
         // Update icon and tooltip based on current theme setting
         if (settings.theme === 'system') {
             icon.className = 'ri-contrast-2-line';
             themeToggle.title = 'Toggle Theme (System)';
             themeToggle.setAttribute('aria-label', 'Switch Theme (System)');
-            console.log('Updated to system icon');
         }
         else if (settings.theme === 'dark' || isDark) {
             icon.className = 'ri-moon-line';
             themeToggle.title = 'Toggle Theme (Dark)';
             themeToggle.setAttribute('aria-label', 'Switch to Light Theme');
-            console.log('Updated to moon icon (dark)');
         }
         else if (settings.theme === 'light' || !isDark) {
             icon.className = 'ri-sun-line';
             themeToggle.title = 'Toggle Theme (Light)';
             themeToggle.setAttribute('aria-label', 'Switch to Dark Theme');
-            console.log('Updated to sun icon (light)');
         }
         
         // Update aria-pressed state
         themeToggle.setAttribute('aria-pressed', isDark ? 'true' : 'false');
-        console.log('Final icon class:', icon.className);
-        console.log('Final aria-pressed:', themeToggle.getAttribute('aria-pressed'));
     }
     let systemThemeListener = null;
     function setupSystemThemeListener() {
@@ -5671,11 +5647,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const currentSettings = loadSettings();
             const currentTheme = currentSettings.theme;
             
-            console.log('=== THEME TOGGLE DEBUG ===');
-            console.log('Current theme setting:', currentTheme);
-            console.log('Body classes:', document.body.className);
-            console.log('HTML data-theme:', document.documentElement.getAttribute('data-theme'));
-            
             // Determine next theme based on current theme
             let nextTheme;
             
@@ -5683,25 +5654,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const isCurrentlyDark = document.body.classList.contains('theme-dark') || 
                                   document.documentElement.classList.contains('theme-dark');
             
-            console.log('Current theme setting:', currentTheme);
-            console.log('Currently dark in DOM:', isCurrentlyDark);
-            
             if (currentTheme === 'system') {
                 nextTheme = 'light';
-                console.log('System -> Light');
             } else if (currentTheme === 'light') {
                 nextTheme = 'dark';
-                console.log('Light -> Dark');
             } else if (currentTheme === 'dark') {
                 nextTheme = 'light';
-                console.log('Dark -> Light');
             } else {
                 // Fallback: toggle based on actual DOM state
                 nextTheme = isCurrentlyDark ? 'light' : 'dark';
-                console.log('Fallback - isCurrentlyDark:', isCurrentlyDark, '->', nextTheme);
             }
-            
-            console.log('Next theme will be:', nextTheme);
             
             // Save the setting first
             saveSetting('theme', nextTheme);
@@ -5717,10 +5679,6 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Update button state after theme is applied
             setTimeout(() => {
-                console.log('=== VERIFYING THEME CHANGE ===');
-                console.log('After change - Body classes:', document.body.className);
-                console.log('After change - HTML classes:', document.documentElement.className);
-                console.log('After change - HTML data-theme:', document.documentElement.getAttribute('data-theme'));
                 updateThemeToggleButtonFromSettings();
             }, 50);
             
@@ -5747,10 +5705,42 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update button state after setup
         updateThemeToggleButtonFromSettings();
     }
+    
+    // Setup theme change listener for settings page sync
+    function setupThemeChangeListener() {
+        // Listen for theme changes from settings page
+        window.addEventListener('themeChanged', (e) => {
+            const newTheme = e.detail.theme;
+            console.log('Theme changed from settings page:', newTheme);
+            
+            // Apply the theme
+            applyTheme(newTheme);
+            
+            // Update button state
+            updateThemeToggleButtonFromSettings();
+        });
+        
+        // Also listen for storage events
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'iPseudoSettings' && e.newValue) {
+                try {
+                    const settings = JSON.parse(e.newValue);
+                    if (settings.theme) {
+                        console.log('Theme synced from storage:', settings.theme);
+                        applyTheme(settings.theme);
+                        updateThemeToggleButtonFromSettings();
+                    }
+                } catch (error) {
+                    console.error('Error syncing theme from storage:', error);
+                }
+            }
+        });
+    }
     // Initialize settings manager immediately when DOM is ready
     document.addEventListener('DOMContentLoaded', () => {
         initializeSettings();
         setupThemeToggleButton();
+        setupThemeChangeListener();
         // Initialize tab counter
         updateTabCounter();
     });

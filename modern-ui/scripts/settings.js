@@ -16,6 +16,7 @@ class ModernSettingsManager {
         this.setupSearch();
         this.applySettings();
         this.updateUI();
+        this.setupStorageListener();
         
         // Apply UI visibility settings immediately
         this.forceApplyUIVisibility();
@@ -652,10 +653,12 @@ class ModernSettingsManager {
         // Theme selector
         const themeSelect = document.getElementById('themeSelect');
         if (themeSelect) {
-            themeSelect.value = this.settings.theme || 'light';
+            themeSelect.value = this.settings.theme || 'dark';
             themeSelect.addEventListener('change', (e) => {
                 this.updateSetting('theme', e.target.value);
                 this.applyTheme(e.target.value);
+                // Notify main app of theme change
+                this.notifyMainAppThemeChange(e.target.value);
             });
         }
 
@@ -1128,27 +1131,35 @@ class ModernSettingsManager {
         }
     }
 
-    // Apply theme
+    // Apply theme - Updated to use main app's settings system
     applyTheme(theme) {
         const body = document.body;
         const html = document.documentElement;
         
         // Remove existing theme classes
         body.classList.remove('theme-light', 'theme-dark');
+        html.classList.remove('theme-light', 'theme-dark');
         
         // Determine the actual theme to apply
         let actualTheme = theme;
-        if (theme === 'auto') {
+        if (theme === 'auto' || theme === 'system') {
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             actualTheme = prefersDark ? 'dark' : 'light';
         }
         
         // Apply theme classes and data attribute
         body.classList.add(`theme-${actualTheme}`);
+        html.classList.add(`theme-${actualTheme}`);
         html.setAttribute('data-theme', actualTheme);
         
-        // Save the theme to localStorage for persistence
-        localStorage.setItem('theme', actualTheme);
+        // Update main app's settings instead of separate theme storage
+        try {
+            const mainSettings = JSON.parse(localStorage.getItem('iPseudoSettings') || '{}');
+            mainSettings.theme = theme; // Keep the original theme setting (including 'system')
+            localStorage.setItem('iPseudoSettings', JSON.stringify(mainSettings));
+        } catch (e) {
+            console.error('Failed to update main app settings:', e);
+        }
         
         // Show notification
         this.showNotification(`Theme switched to ${actualTheme} mode`, 'success');
@@ -1528,7 +1539,7 @@ class ModernSettingsManager {
         });
     }
 
-    // Toggle theme
+    // Toggle theme - Updated to work with main app's theme system
     toggleTheme() {
         const body = document.body;
         const html = document.documentElement;
@@ -1537,6 +1548,7 @@ class ModernSettingsManager {
         const currentTheme = html.getAttribute('data-theme') || 
                            (body.classList.contains('theme-dark') ? 'dark' : 'light');
         
+        // Toggle between light and dark (skip system for direct toggle)
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
         
         // Update settings
@@ -1544,6 +1556,9 @@ class ModernSettingsManager {
         
         // Apply theme immediately
         this.applyTheme(newTheme);
+        
+        // Notify main app of theme change
+        this.notifyMainAppThemeChange(newTheme);
         
         // Update theme selector
         const themeSelect = document.getElementById('themeSelect');
@@ -1609,6 +1624,39 @@ class ModernSettingsManager {
         }
     }
 
+    // Setup storage listener to sync with main app
+    setupStorageListener() {
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'iPseudoSettings' && e.newValue) {
+                try {
+                    const newSettings = JSON.parse(e.newValue);
+                    // Update theme if it changed
+                    if (newSettings.theme && newSettings.theme !== this.settings.theme) {
+                        this.settings.theme = newSettings.theme;
+                        this.applyTheme(newSettings.theme);
+                        this.updateUI();
+                    }
+                } catch (error) {
+                    console.error('Error syncing settings from storage:', error);
+                }
+            }
+        });
+    }
+
+    // Notify main app of theme change
+    notifyMainAppThemeChange(theme) {
+        // Dispatch a custom event that the main app can listen to
+        window.dispatchEvent(new CustomEvent('themeChanged', {
+            detail: { theme: theme }
+        }));
+        
+        // Also trigger a storage event for cross-tab sync
+        window.dispatchEvent(new StorageEvent('storage', {
+            key: 'iPseudoSettings',
+            newValue: JSON.stringify(this.settings)
+        }));
+    }
+
     // Go back to main app
     goBack() {
         window.history.back();
@@ -1648,7 +1696,7 @@ class ModernSettingsManager {
     getDefaultSettings() {
         return {
             uiDesign: 'modern',
-            theme: 'light',
+            theme: 'dark',
             accentColor: '#0ea5e9',
             animationsEnabled: true,
             glassEffects: true,
@@ -1707,11 +1755,7 @@ class ModernSettingsManager {
                 settings = { ...settings, ...parsed };
             }
             
-            // Override theme with localStorage theme if it exists
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme && ['light', 'dark', 'auto'].includes(savedTheme)) {
-                settings.theme = savedTheme;
-            }
+            // Use main app's theme setting directly
             
             return settings;
         } catch (error) {
@@ -1725,10 +1769,7 @@ class ModernSettingsManager {
         try {
             localStorage.setItem('iPseudoSettings', JSON.stringify(this.settings));
             
-            // Also save theme separately for immediate access
-            if (this.settings.theme) {
-                localStorage.setItem('theme', this.settings.theme);
-            }
+            // Theme is now saved as part of main settings
             
             // Trigger storage event to notify other windows/tabs
             window.dispatchEvent(new StorageEvent('storage', {
