@@ -4221,20 +4221,25 @@ document.addEventListener('DOMContentLoaded', () => {
         modalOverlay.appendChild(modal);
         document.body.appendChild(modalOverlay);
         
+        // Show modal with animation
+        setTimeout(() => {
+            modalOverlay.classList.add('show');
+        }, 10);
+        
         // Add event listeners
         modal.addEventListener('click', (e) => {
             const target = e.target as HTMLElement;
             if (target.classList.contains('confirmation-btn')) {
                 const actionIndex = parseInt(target.dataset.action || '0');
                 buttons[actionIndex].action();
-                modalOverlay.remove();
+                closeConfirmationModal(modalOverlay);
             }
         });
         
         // Close on overlay click
         modalOverlay.addEventListener('click', (e) => {
             if (e.target === modalOverlay) {
-                modalOverlay.remove();
+                closeConfirmationModal(modalOverlay);
             }
         });
         
@@ -4243,6 +4248,25 @@ document.addEventListener('DOMContentLoaded', () => {
         if (firstButton) {
             firstButton.focus();
         }
+        
+        // Close on Escape key
+        const handleEscape = function(e: KeyboardEvent) {
+            if (e.key === 'Escape') {
+                closeConfirmationModal(modalOverlay);
+                document.removeEventListener('keydown', handleEscape);
+            }
+        };
+        document.addEventListener('keydown', handleEscape);
+    }
+    
+    // Function to close confirmation modal with animation
+    function closeConfirmationModal(modalOverlay: HTMLElement): void {
+        modalOverlay.classList.remove('show');
+        setTimeout(() => {
+            if (modalOverlay.parentNode) {
+                modalOverlay.parentNode.removeChild(modalOverlay);
+            }
+        }, 300);
     }
 
     // Function to save the current editor state
