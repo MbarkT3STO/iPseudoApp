@@ -1137,8 +1137,8 @@ class ModernSettingsManager {
         const html = document.documentElement;
         
         // Remove existing theme classes
-        body.classList.remove('theme-light', 'theme-dark');
-        html.classList.remove('theme-light', 'theme-dark');
+        body.classList.remove('settings-theme-light', 'settings-theme-dark');
+        html.classList.remove('settings-theme-light', 'settings-theme-dark');
         
         // Determine the actual theme to apply
         let actualTheme = theme;
@@ -1147,10 +1147,10 @@ class ModernSettingsManager {
             actualTheme = prefersDark ? 'dark' : 'light';
         }
         
-        // Apply theme classes and data attribute
-        body.classList.add(`theme-${actualTheme}`);
-        html.classList.add(`theme-${actualTheme}`);
-        html.setAttribute('data-theme', actualTheme);
+        // Apply settings page theme classes and data attribute
+        body.classList.add(`settings-theme-${actualTheme}`);
+        html.classList.add(`settings-theme-${actualTheme}`);
+        html.setAttribute('data-settings-theme', actualTheme);
         
         // Update main app's settings instead of separate theme storage
         try {

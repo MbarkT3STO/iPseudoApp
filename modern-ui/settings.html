@@ -28,8 +28,8 @@
     
     <!-- Theme Initialization Script -->
     <script>
-        // Initialize theme from main app settings before page loads
-        (function() {
+        // Initialize settings page theme system
+        function initializeSettingsTheme() {
             try {
                 const settings = JSON.parse(localStorage.getItem('iPseudoSettings') || '{}');
                 const theme = settings.theme || 'dark';
@@ -41,17 +41,31 @@
                     actualTheme = prefersDark ? 'dark' : 'light';
                 }
                 
-                // Apply theme immediately
-                document.documentElement.classList.add(`theme-${actualTheme}`);
-                document.documentElement.setAttribute('data-theme', actualTheme);
-                document.body.classList.add(`theme-${actualTheme}`);
+                // Apply settings page theme classes
+                document.documentElement.classList.add(`settings-theme-${actualTheme}`);
+                document.documentElement.setAttribute('data-settings-theme', actualTheme);
+                
+                // Only apply to body if it exists
+                if (document.body) {
+                    document.body.classList.add(`settings-theme-${actualTheme}`);
+                }
             } catch (e) {
                 // Fallback to dark theme
-                document.documentElement.classList.add('theme-dark');
-                document.documentElement.setAttribute('data-theme', 'dark');
-                document.body.classList.add('theme-dark');
+                document.documentElement.classList.add('settings-theme-dark');
+                document.documentElement.setAttribute('data-settings-theme', 'dark');
+                
+                if (document.body) {
+                    document.body.classList.add('settings-theme-dark');
+                }
             }
-        })();
+        }
+        
+        // Initialize immediately if body exists, otherwise wait for DOM ready
+        if (document.body) {
+            initializeSettingsTheme();
+        } else {
+            document.addEventListener('DOMContentLoaded', initializeSettingsTheme);
+        }
     </script>
     
     <!-- Cute Animations -->
@@ -83,77 +97,70 @@
     </style>
 </head>
 <body>
-    <div class="modern-app-container">
-        <!-- Modern Header -->
-        <header class="modern-header">
-            <div class="header-content">
-                <div class="header-left">
-                    <button class="modern-btn modern-btn-icon cute-bounce" id="btnBack" aria-label="Back to Editor">
-                        <i class="ri-arrow-left-line"></i>
-                    </button>
-                    
-                    <div class="header-title">
-                        <div class="title-icon cute-float">
-                            <i class="ri-settings-3-line"></i>
-                            <div class="icon-sparkle"></div>
-                        </div>
-                        <div class="title-text">
-                            <h1>Settings</h1>
-                            <p class="header-subtitle">Customize your experience ✨</p>
-                        </div>
+    <div class="settings-main">
+        <!-- Settings Header -->
+        <header class="settings-header">
+            <div class="header-left">
+                <button class="modern-btn modern-btn-icon cute-bounce" id="btnBack" aria-label="Back to Editor">
+                    <i class="ri-arrow-left-line"></i>
+                </button>
+                
+                <div class="header-title">
+                    <div class="title-text">
+                        <h1>Settings</h1>
+                        <p class="header-subtitle">Customize your experience</p>
                     </div>
                 </div>
-                
-                <div class="header-right">
-                    <div class="header-actions">
-                        <!-- Search Bar -->
-                        <div class="search-container">
-                            <div class="search-input-wrapper">
-                                <i class="ri-search-line search-icon"></i>
-                                <input type="text" id="settingsSearch" class="search-input" placeholder="Search settings...">
-                                <button class="search-clear" id="searchClear" style="display: none;">
+            </div>
+            
+            <div class="header-right">
+                <div class="header-actions">
+                    <!-- Search Bar -->
+                    <div class="search-container">
+                        <div class="search-input-wrapper">
+                            <i class="ri-search-line search-icon"></i>
+                            <input type="text" id="settingsSearch" class="search-input" placeholder="Search settings...">
+                            <button class="search-clear" id="searchClear" style="display: none;">
+                                <i class="ri-close-line"></i>
+                            </button>
+                        </div>
+                        <div class="search-results" id="searchResults" style="display: none;">
+                            <div class="search-results-header">
+                                <span class="results-count">0 results</span>
+                                <button class="search-close" id="searchClose">
                                     <i class="ri-close-line"></i>
                                 </button>
                             </div>
-                            <div class="search-results" id="searchResults" style="display: none;">
-                                <div class="search-results-header">
-                                    <span class="results-count">0 results</span>
-                                    <button class="search-close" id="searchClose">
-                                        <i class="ri-close-line"></i>
-                                    </button>
-                                </div>
-                                <div class="search-results-list" id="searchResultsList">
-                                    <!-- Search results will be populated here -->
-                                </div>
+                            <div class="search-results-list" id="searchResultsList">
+                                <!-- Search results will be populated here -->
                             </div>
                         </div>
-                        
-                        <button class="modern-btn modern-btn-icon cute-pulse" id="btnThemeToggle" aria-label="Toggle Theme">
-                            <i class="ri-contrast-2-line"></i>
-                        </button>
-                        
-                        <button class="modern-btn modern-btn-primary cute-bounce" id="btnApplySettings">
-                            <i class="ri-check-line"></i>
-                            <span>Apply</span>
-                        </button>
-                        
-                        <button class="modern-btn modern-btn-secondary" id="btnResetSettings">
-                            <i class="ri-refresh-line"></i>
-                            <span>Reset</span>
-                        </button>
                     </div>
+                    
+                    <button class="modern-btn modern-btn-icon cute-pulse" id="btnThemeToggle" aria-label="Toggle Theme">
+                        <i class="ri-contrast-2-line"></i>
+                    </button>
+                    
+                    <button class="modern-btn modern-btn-primary cute-bounce" id="btnApplySettings">
+                        <i class="ri-check-line"></i>
+                        <span>Apply</span>
+                    </button>
+                    
+                    <button class="modern-btn modern-btn-secondary" id="btnResetSettings">
+                        <i class="ri-refresh-line"></i>
+                        <span>Reset</span>
+                    </button>
                 </div>
             </div>
         </header>
 
         <!-- Settings Content -->
-        <main class="settings-main">
-            <div class="settings-layout">
+        <div class="settings-layout">
                 <!-- Modern Sidebar Navigation -->
                 <aside class="settings-sidebar">
                     <div class="sidebar-content">
                         <div class="sidebar-section">
-                            <h3 class="section-title">✨ General</h3>
+                            <h3 class="section-title">General</h3>
                             <div class="nav-group">
                                 <a href="#appearance" class="nav-link active" data-section="appearance">
                                     <div class="nav-icon cute-float">
@@ -162,7 +169,7 @@
                                     </div>
                                     <div class="nav-content">
                                         <span class="nav-label">Appearance</span>
-                                        <span class="nav-desc">Themes & Visual 🎨</span>
+                                        <span class="nav-desc">Themes & Visual</span>
                                     </div>
                                     <div class="nav-badge">New</div>
                                 </a>
@@ -173,7 +180,7 @@
                                     </div>
                                     <div class="nav-content">
                                         <span class="nav-label">Editor</span>
-                                        <span class="nav-desc">Code & Behavior 💻</span>
+                                        <span class="nav-desc">Code & Behavior</span>
                                     </div>
                                 </a>
                                 
@@ -183,7 +190,7 @@
                                     </div>
                                     <div class="nav-content">
                                         <span class="nav-label">Console</span>
-                                        <span class="nav-desc">Output & Display 📊</span>
+                                        <span class="nav-desc">Output & Display</span>
                                     </div>
                                 </a>
                                 
@@ -193,14 +200,14 @@
                                     </div>
                                     <div class="nav-content">
                                         <span class="nav-label">UI Elements</span>
-                                        <span class="nav-desc">Interface Controls 🎛️</span>
+                                        <span class="nav-desc">Interface Controls</span>
                                     </div>
                                 </a>
                             </div>
                         </div>
                         
                         <div class="sidebar-section">
-                            <h3 class="section-title">🚀 Advanced</h3>
+                            <h3 class="section-title">Advanced</h3>
                             <div class="nav-group">
                                 <a href="#performance" class="nav-link" data-section="performance">
                                     <div class="nav-icon">
@@ -208,7 +215,7 @@
                                     </div>
                                     <div class="nav-content">
                                         <span class="nav-label">Performance</span>
-                                        <span class="nav-desc">Speed & Memory ⚡</span>
+                                        <span class="nav-desc">Speed & Memory</span>
                                     </div>
                                 </a>
                                 
@@ -218,7 +225,7 @@
                                     </div>
                                     <div class="nav-content">
                                         <span class="nav-label">Shortcuts</span>
-                                        <span class="nav-desc">Keyboard Hotkeys ⌨️</span>
+                                        <span class="nav-desc">Keyboard Hotkeys</span>
                                     </div>
                                 </a>
                                 
@@ -228,7 +235,7 @@
                                     </div>
                                     <div class="nav-content">
                                         <span class="nav-label">About</span>
-                                        <span class="nav-desc">App Information ℹ️</span>
+                                        <span class="nav-desc">App Information</span>
                                     </div>
                                 </a>
                             </div>
@@ -248,14 +255,14 @@
                                 </div>
                                 <div class="header-text">
                                     <h2>Appearance</h2>
-                                    <p>Customize the look and feel of your IDE ✨</p>
+                                    <p>Customize the look and feel of your IDE</p>
                                 </div>
                             </div>
                         </div>
                         
                         <div class="settings-group">
                             <div class="group-header">
-                                <h3>🎨 Interface</h3>
+                                <h3>Interface</h3>
                                 <p>Choose your preferred UI design and color scheme</p>
                             </div>
                             
@@ -274,7 +281,7 @@
                                     </div>
                                     <div class="card-control">
                                         <select id="uiDesign" class="modern-select">
-                                            <option value="modern">Modern UI ✨</option>
+                                            <option value="modern">Modern UI</option>
                                             <option value="classic">Classic UI</option>
                                         </select>
                                     </div>
@@ -292,9 +299,9 @@
                                     </div>
                                     <div class="card-control">
                                         <select id="themeSelect" class="modern-select">
-                                            <option value="light">☀️ Light</option>
-                                            <option value="dark">🌙 Dark</option>
-                                            <option value="auto">🔄 Auto (System)</option>
+                                            <option value="light">Light</option>
+                                            <option value="dark">Dark</option>
+                                            <option value="system">System</option>
                                         </select>
                                     </div>
                                 </div>
@@ -1373,7 +1380,7 @@
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
     
         <!-- Scroll to Top Button -->
         <button id="scrollToTop" class="scroll-to-top cute-float" title="Scroll to top">
@@ -1387,27 +1394,256 @@
     <script>
         // Initialize settings page
         document.addEventListener('DOMContentLoaded', () => {
-        // Initialize settings functionality
-        if (window.SettingsManager) {
-            // Settings manager is already initialized in the constructor
-            console.log('Settings manager initialized');
-        }
+            // Initialize settings functionality
+            if (window.SettingsManager) {
+                console.log('Settings manager initialized');
+            }
             
             // Theme toggle functionality
             const themeToggle = document.getElementById('btnThemeToggle');
             const body = document.body;
+            const html = document.documentElement;
             
-            themeToggle.addEventListener('click', () => {
-                body.classList.toggle('theme-dark');
-                body.classList.toggle('theme-light');
-            });
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    // Toggle between settings page themes
+                    const isDark = body.classList.contains('settings-theme-dark');
+                    
+                    // Remove existing theme classes
+                    body.classList.remove('settings-theme-dark', 'settings-theme-light');
+                    html.classList.remove('settings-theme-dark', 'settings-theme-light');
+                    
+                    if (isDark) {
+                        // Switch to light theme
+                        body.classList.add('settings-theme-light');
+                        html.classList.add('settings-theme-light');
+                        html.setAttribute('data-settings-theme', 'light');
+                    } else {
+                        // Switch to dark theme
+                        body.classList.add('settings-theme-dark');
+                        html.classList.add('settings-theme-dark');
+                        html.setAttribute('data-settings-theme', 'dark');
+                    }
+                    
+                    // Update main app settings
+                    try {
+                        const mainSettings = JSON.parse(localStorage.getItem('iPseudoSettings') || '{}');
+                        mainSettings.theme = isDark ? 'light' : 'dark';
+                        localStorage.setItem('iPseudoSettings', JSON.stringify(mainSettings));
+                    } catch (e) {
+                        console.error('Failed to update main app settings:', e);
+                    }
+                });
+            }
             
             // Back button functionality
             const backButton = document.getElementById('btnBack');
-            backButton.addEventListener('click', () => {
-                window.history.back();
+            if (backButton) {
+                backButton.addEventListener('click', () => {
+                    window.history.back();
+                });
+            }
+            
+            // Navigation functionality
+            const navLinks = document.querySelectorAll('.nav-link');
+            const settingsPanels = document.querySelectorAll('.settings-panel');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links and panels
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    settingsPanels.forEach(p => p.classList.remove('active'));
+                    
+                    // Add active class to clicked link
+                    link.classList.add('active');
+                    
+                    // Show corresponding panel
+                    const targetSection = link.getAttribute('data-section');
+                    const targetPanel = document.getElementById(targetSection);
+                    if (targetPanel) {
+                        targetPanel.classList.add('active');
+                    }
+                });
+            });
+            
+            // Search functionality
+            const searchInput = document.getElementById('settingsSearch');
+            const searchResults = document.getElementById('searchResults');
+            const searchClear = document.getElementById('searchClear');
+            const searchClose = document.getElementById('searchClose');
+            
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    const query = e.target.value.toLowerCase();
+                    
+                    if (query.length > 0) {
+                        searchResults.style.display = 'block';
+                        searchClear.style.display = 'block';
+                        
+                        // Simple search implementation
+                        const allCards = document.querySelectorAll('.setting-card');
+                        let visibleCount = 0;
+                        
+                        allCards.forEach(card => {
+                            const title = card.querySelector('h4')?.textContent.toLowerCase() || '';
+                            const description = card.querySelector('p')?.textContent.toLowerCase() || '';
+                            
+                            if (title.includes(query) || description.includes(query)) {
+                                card.style.display = 'block';
+                                visibleCount++;
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        });
+                        
+                        const resultsCount = document.querySelector('.results-count');
+                        if (resultsCount) {
+                            resultsCount.textContent = `${visibleCount} results`;
+                        }
+                    } else {
+                        searchResults.style.display = 'none';
+                        searchClear.style.display = 'none';
+                        
+                        // Show all cards
+                        const allCards = document.querySelectorAll('.setting-card');
+                        allCards.forEach(card => {
+                            card.style.display = 'block';
+                        });
+                    }
+                });
+            }
+            
+            if (searchClear) {
+                searchClear.addEventListener('click', () => {
+                    searchInput.value = '';
+                    searchResults.style.display = 'none';
+                    searchClear.style.display = 'none';
+                    
+                    // Show all cards
+                    const allCards = document.querySelectorAll('.setting-card');
+                    allCards.forEach(card => {
+                        card.style.display = 'block';
+                    });
+                });
+            }
+            
+            if (searchClose) {
+                searchClose.addEventListener('click', () => {
+                    searchResults.style.display = 'none';
+                });
+            }
+            
+            // Scroll to top functionality
+            const scrollToTopBtn = document.getElementById('scrollToTop');
+            if (scrollToTopBtn) {
+                window.addEventListener('scroll', () => {
+                    if (window.pageYOffset > 300) {
+                        scrollToTopBtn.classList.add('visible');
+                    } else {
+                        scrollToTopBtn.classList.remove('visible');
+                    }
+                });
+                
+                scrollToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+            
+            // Apply and Reset buttons
+            const applyBtn = document.getElementById('btnApplySettings');
+            const resetBtn = document.getElementById('btnResetSettings');
+            
+            if (applyBtn) {
+                applyBtn.addEventListener('click', () => {
+                    // Show success notification
+                    showNotification('Settings applied successfully!', 'success');
+                });
+            }
+            
+            if (resetBtn) {
+                resetBtn.addEventListener('click', () => {
+                    if (confirm('Are you sure you want to reset all settings to default?')) {
+                        // Reset functionality would go here
+                        showNotification('Settings reset to default!', 'success');
+                    }
+                });
+            }
+            
+            // Toggle button functionality
+            const toggleButtons = document.querySelectorAll('.modern-toggle');
+            toggleButtons.forEach(toggle => {
+                const checkbox = toggle.querySelector('input[type="checkbox"]');
+                if (!checkbox) return;
+                
+                // Handle checkbox change
+                checkbox.addEventListener('change', () => {
+                    // Get the setting name from the checkbox ID or parent element
+                    const settingName = checkbox.id || 
+                                      toggle.closest('.setting-card')?.querySelector('h4')?.textContent?.toLowerCase().replace(/\s+/g, '');
+                    
+                    if (settingName) {
+                        // Update the setting value
+                        const isActive = checkbox.checked;
+                        console.log(`Setting ${settingName} changed to:`, isActive);
+                        
+                        // Save to localStorage
+                        try {
+                            const settings = JSON.parse(localStorage.getItem('iPseudoSettings') || '{}');
+                            settings[settingName] = isActive;
+                            localStorage.setItem('iPseudoSettings', JSON.stringify(settings));
+                        } catch (e) {
+                            console.error('Failed to save setting:', e);
+                        }
+                    }
+                });
+            });
+            
+            // Initialize toggle states from settings
+            toggleButtons.forEach(toggle => {
+                const checkbox = toggle.querySelector('input[type="checkbox"]');
+                if (!checkbox) return;
+                
+                const settingName = checkbox.id || 
+                                  toggle.closest('.setting-card')?.querySelector('h4')?.textContent?.toLowerCase().replace(/\s+/g, '');
+                
+                if (settingName) {
+                    try {
+                        const settings = JSON.parse(localStorage.getItem('iPseudoSettings') || '{}');
+                        const isActive = settings[settingName] || false;
+                        checkbox.checked = isActive;
+                    } catch (e) {
+                        console.error('Failed to load setting:', e);
+                    }
+                }
             });
         });
+        
+        // Notification function
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = 'toast-notification';
+            notification.innerHTML = `
+                <i class="ri-${type === 'success' ? 'check-line' : type === 'error' ? 'error-warning-line' : 'information-line'}"></i>
+                <span>${message}</span>
+                <button class="toast-close" onclick="this.parentElement.remove()">
+                    <i class="ri-close-line"></i>
+                </button>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 3000);
+        }
     </script>
 </body>
 </html>
