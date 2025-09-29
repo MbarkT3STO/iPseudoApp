@@ -410,6 +410,20 @@ function getKeywordHoverInfo(keyword) {
             description: 'Integer division operator that returns the quotient without the remainder.',
             usage: 'a div b',
             example: 'var quotient = 10 div 3'
+        },
+        'algorithm': {
+            label: 'algorithm',
+            category: 'Algorithm Declaration',
+            description: 'Declares the start of an algorithm with a given name. Must be the first statement in pseudocode.',
+            usage: 'Algorithm <name>',
+            example: 'Algorithm CalculateSum'
+        },
+        'endalgorithm': {
+            label: 'endalgorithm',
+            category: 'Algorithm Terminator',
+            description: 'Marks the end of an algorithm. Must be the last statement in pseudocode.',
+            usage: 'EndAlgorithm',
+            example: 'EndAlgorithm'
         }
     };
     return hoverData[keyword] || null;
@@ -420,7 +434,7 @@ const pseudocodeLanguage = {
     tokenizer: {
         root: [
             // Keywords - All reserved words from the pseudocode specification
-            [/\b(var|const|if|then|else|elseif|endif|for|to|endfor|while|endwhile|do|until|repeat|case|switch|endswitch|function|endfunction|return|break|continue|print|input|true|false|null|and|or|not|mod|div)\b/, 'keyword'],
+            [/\b(var|const|if|then|else|elseif|endif|for|to|endfor|while|endwhile|do|until|repeat|case|switch|endswitch|function|endfunction|return|break|continue|print|input|true|false|null|and|or|not|mod|div|algorithm|endalgorithm)\b/, 'keyword'],
             // Strings
             [/".*?"/, 'string'],
             [/'.*?'/, 'string'],
@@ -466,7 +480,7 @@ window.require(['vs/editor/editor.main'], function () {
         }
     });
     // Default initial value with welcome message and sample code
-    let initialValue = '# Welcome to iPseudo IDE\n# Write your pseudocode here\n\n# Sample factorial calculation:\nvar n = 5\nvar fact = 1\n\nfor i = 1 to n\n    fact = fact * i\nendfor\n\nprint "Factorial of", n\nprint fact';
+    let initialValue = 'Algorithm FactorialCalculation\n# Welcome to iPseudo IDE\n# Write your pseudocode here\n\n# Sample factorial calculation:\nvar n = 5\nvar fact = 1\n\nfor i = 1 to n\n    fact = fact * i\nendfor\n\nprint "Factorial of", n\nprint fact\n\nEndAlgorithm';
     // Determine editor font size from CSS variable (fallback to 15)
     const cssFontSize = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--editor-font-size')) || 15;
     // Load minimap setting from localStorage
@@ -565,7 +579,7 @@ window.require(['vs/editor/editor.main'], function () {
         }
     });
     // Register completion provider with all reserved pseudocode keywords
-    const reservedKeywords = ['var', 'const', 'if', 'then', 'else', 'elseif', 'endif', 'for', 'to', 'endfor', 'while', 'endwhile', 'do', 'until', 'repeat', 'case', 'switch', 'endswitch', 'function', 'endfunction', 'return', 'break', 'continue', 'print', 'input', 'true', 'false', 'null', 'and', 'or', 'not', 'mod', 'div'];
+    const reservedKeywords = ['var', 'const', 'if', 'then', 'else', 'elseif', 'endif', 'for', 'to', 'endfor', 'while', 'endwhile', 'do', 'until', 'repeat', 'case', 'switch', 'endswitch', 'function', 'endfunction', 'return', 'break', 'continue', 'print', 'input', 'true', 'false', 'null', 'and', 'or', 'not', 'mod', 'div', 'algorithm', 'endalgorithm'];
     window.monaco.languages.registerCompletionItemProvider('pseudocode', {
         triggerCharacters: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
         provideCompletionItems: function (model, position) {
@@ -624,7 +638,9 @@ window.require(['vs/editor/editor.main'], function () {
                 { label: 'or', detail: 'Logical OR', documentation: 'Logical OR operator' },
                 { label: 'not', detail: 'Logical NOT', documentation: 'Logical NOT operator' },
                 { label: 'mod', detail: 'Modulo operator', documentation: 'Returns the remainder of division' },
-                { label: 'div', detail: 'Integer division', documentation: 'Returns the quotient without remainder' }
+                { label: 'div', detail: 'Integer division', documentation: 'Returns the quotient without remainder' },
+                { label: 'algorithm', detail: 'Algorithm declaration', documentation: 'Declares the start of an algorithm with a given name' },
+                { label: 'endalgorithm', detail: 'End algorithm', documentation: 'Marks the end of an algorithm' }
             ];
             // Add keyword suggestions (filter by current word if any)
             const currentWord = word.word.toLowerCase();

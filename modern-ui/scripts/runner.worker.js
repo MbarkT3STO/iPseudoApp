@@ -6,12 +6,33 @@ function isLikelyPseudo(src) {
     if (!src)
         return false;
     const lowered = src.toLowerCase();
-    return /\b(print|var|const|if|else|elseif|endif|for|to|endfor|while|endwhile|function|endfunction|return|break|continue|input)\b/.test(lowered);
+    return /\b(print|var|const|if|else|elseif|endif|for|to|endfor|while|endwhile|function|endfunction|return|break|continue|input|algorithm|endalgorithm)\b/.test(lowered);
 }
 function validatePseudo(src) {
     const lines = src.split(/\r?\n/);
     const issues = [];
     const blockStack = []; // Tracks for/if/while blocks
+    
+    // Check for Algorithm/EndAlgorithm structure
+    const hasAlgorithmStart = lines.some(line => line.trim().toLowerCase().startsWith('algorithm '));
+    const hasAlgorithmEnd = lines.some(line => line.trim().toLowerCase() === 'endalgorithm');
+    
+    if (!hasAlgorithmStart) {
+        issues.push({
+            line: 1,
+            text: lines[0] || '',
+            message: 'Missing Algorithm declaration. Pseudocode must start with "Algorithm <name>"'
+        });
+    }
+    
+    if (!hasAlgorithmEnd) {
+        issues.push({
+            line: lines.length,
+            text: lines[lines.length - 1] || '',
+            message: 'Missing EndAlgorithm declaration. Pseudocode must end with "EndAlgorithm"'
+        });
+    }
+    
     for (let i = 0; i < lines.length; i++) {
         const raw = lines[i];
         const lineNum = i + 1;
@@ -31,6 +52,31 @@ function validatePseudo(src) {
                 });
             }
         }
+        // Check for Algorithm declaration
+        if (lower.startsWith('algorithm ')) {
+            const m = t.match(/^algorithm\s+([a-zA-Z_$][\w$]*)\s*$/i);
+            if (!m) {
+                issues.push({ 
+                    line: lineNum, 
+                    text: raw, 
+                    message: 'Malformed Algorithm declaration. Expected: Algorithm <name>' 
+                });
+            }
+            continue;
+        }
+        
+        // Check for EndAlgorithm declaration
+        if (lower === 'endalgorithm') {
+            if (blockStack.length > 0) {
+                issues.push({ 
+                    line: lineNum, 
+                    text: raw, 
+                    message: 'EndAlgorithm found but there are unclosed blocks. Close all blocks before EndAlgorithm' 
+                });
+            }
+            continue;
+        }
+
         // Check for common pseudo-code structures
         if (lower.startsWith('for ')) {
             const m = t.match(/^for\s+([a-zA-Z_$][\w$]*)\s*=\s*(.+?)\s+to\s+(.+?)(?:\s+step\s+([-+]?\d+))?\s*$/i);
@@ -252,6 +298,20 @@ function translatePseudoToJs(src) {
             out.push('// ' + line.slice(1).trim());
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
+        }
+
+        // Algorithm declaration - convert to comment
+        if (line.toLowerCase().startsWith('algorithm ')) {
+            out.push('// Algorithm: ' + line.slice(9).trim()); 
+            mapping.push({ srcLine: srcLineNum, srcText: raw }); 
+            continue; 
+        }
+
+        // EndAlgorithm declaration - convert to comment
+        if (line.toLowerCase() === 'endalgorithm') {
+            out.push('// End Algorithm'); 
+            mapping.push({ srcLine: srcLineNum, srcText: raw }); 
+            continue; 
         }
         // Variable declarations with input: var x = input "prompt" or const x = input "prompt"
         let m = line.match(/^(var|const)\s+([a-zA-Z_$][\w$]*)\s*=\s*input\s+(.+)$/i);

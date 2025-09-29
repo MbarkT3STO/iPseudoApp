@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithm Syntax Test - iPseudo IDE</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #1e1e1e;
+            color: #d4d4d4;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #569cd6;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            background: #2d2d30;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #3e3e42;
+        }
+        .test-title {
+            color: #4ec9b0;
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .test-code {
+            background: #1e1e1e;
+            border: 1px solid #3e3e42;
+            border-radius: 4px;
+            padding: 15px;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            margin-bottom: 10px;
+            overflow-x: auto;
+        }
+        .test-button {
+            background: #0e639c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .test-button:hover {
+            background: #1177bb;
+        }
+        .test-button:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+        .output {
+            background: #1e1e1e;
+            border: 1px solid #3e3e42;
+            border-radius: 4px;
+            padding: 15px;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            min-height: 100px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .error {
+            color: #f48771;
+        }
+        .success {
+            color: #4ec9b0;
+        }
+        .info {
+            color: #569cd6;
+        }
+        .warning {
+            color: #dcdcaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Algorithm Syntax Test - iPseudo IDE</h1>
+        
+        <div class="test-section">
+            <div class="test-title">Test 1: Valid Algorithm Structure</div>
+            <div class="test-code">Algorithm TestAlgorithm
+var x = 5
+var y = 10
+var sum = x + y
+print "Sum is", sum
+EndAlgorithm</div>
+            <button class="test-button" onclick="testValidAlgorithm()">Test Valid Algorithm</button>
+            <div class="output" id="output1"></div>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">Test 2: Missing Algorithm Declaration</div>
+            <div class="test-code">var x = 5
+var y = 10
+var sum = x + y
+print "Sum is", sum
+EndAlgorithm</div>
+            <button class="test-button" onclick="testMissingAlgorithm()">Test Missing Algorithm</button>
+            <div class="output" id="output2"></div>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">Test 3: Missing EndAlgorithm</div>
+            <div class="test-code">Algorithm TestAlgorithm
+var x = 5
+var y = 10
+var sum = x + y
+print "Sum is", sum</div>
+            <button class="test-button" onclick="testMissingEndAlgorithm()">Test Missing EndAlgorithm</button>
+            <div class="output" id="output3"></div>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">Test 4: Malformed Algorithm Declaration</div>
+            <div class="test-code">Algorithm
+var x = 5
+print x
+EndAlgorithm</div>
+            <button class="test-button" onclick="testMalformedAlgorithm()">Test Malformed Algorithm</button>
+            <div class="output" id="output4"></div>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">Test 5: Complex Algorithm with Loops and Conditions</div>
+            <div class="test-code">Algorithm FindMaximum
+var numbers = [3, 7, 2, 9, 1]
+var max = numbers[0]
+var i = 1
+
+while i < 5
+    if numbers[i] > max
+        max = numbers[i]
+    endif
+    i = i + 1
+endwhile
+
+print "Maximum number is", max
+EndAlgorithm</div>
+            <button class="test-button" onclick="testComplexAlgorithm()">Test Complex Algorithm</button>
+            <div class="output" id="output5"></div>
+        </div>
+    </div>
+
+    <script>
+        // Mock worker for testing validation
+        function validatePseudo(src) {
+            const lines = src.split(/\r?\n/);
+            const issues = [];
+            const blockStack = [];
+            
+            // Check for Algorithm/EndAlgorithm structure
+            const hasAlgorithmStart = lines.some(line => line.trim().toLowerCase().startsWith('algorithm '));
+            const hasAlgorithmEnd = lines.some(line => line.trim().toLowerCase() === 'endalgorithm');
+            
+            if (!hasAlgorithmStart) {
+                issues.push({
+                    line: 1,
+                    text: lines[0] || '',
+                    message: 'Missing Algorithm declaration. Pseudocode must start with "Algorithm <name>"'
+                });
+            }
+            
+            if (!hasAlgorithmEnd) {
+                issues.push({
+                    line: lines.length,
+                    text: lines[lines.length - 1] || '',
+                    message: 'Missing EndAlgorithm declaration. Pseudocode must end with "EndAlgorithm"'
+                });
+            }
+
+            for (let i = 0; i < lines.length; i++) {
+                const raw = lines[i];
+                const lineNum = i + 1;
+                const t = raw.trim();
+                if (!t || t.startsWith('#')) continue;
+                
+                const lower = t.toLowerCase();
+                
+                // Check for Algorithm declaration
+                if (lower.startsWith('algorithm ')) {
+                    const m = t.match(/^algorithm\s+([a-zA-Z_$][\w$]*)\s*$/i);
+                    if (!m) {
+                        issues.push({ 
+                            line: lineNum, 
+                            text: raw, 
+                            message: 'Malformed Algorithm declaration. Expected: Algorithm <name>' 
+                        });
+                    }
+                    continue;
+                }
+                
+                // Check for EndAlgorithm declaration
+                if (lower === 'endalgorithm') {
+                    if (blockStack.length > 0) {
+                        issues.push({ 
+                            line: lineNum, 
+                            text: raw, 
+                            message: 'EndAlgorithm found but there are unclosed blocks. Close all blocks before EndAlgorithm' 
+                        });
+                    }
+                    continue;
+                }
+            }
+            
+            return issues;
+        }
+
+        function runTest(testCode, outputId) {
+            const output = document.getElementById(outputId);
+            output.innerHTML = '';
+            
+            const issues = validatePseudo(testCode);
+            
+            if (issues.length === 0) {
+                output.innerHTML = '<span class="success">✅ Validation passed! No errors found.</span>';
+            } else {
+                output.innerHTML = '<span class="error">❌ Validation failed with the following errors:</span>\n\n';
+                issues.forEach(issue => {
+                    output.innerHTML += `<span class="error">Line ${issue.line}: ${issue.message}</span>\n`;
+                    output.innerHTML += `<span class="info">  ${issue.text}</span>\n\n`;
+                });
+            }
+        }
+
+        function testValidAlgorithm() {
+            const code = `Algorithm TestAlgorithm
+var x = 5
+var y = 10
+var sum = x + y
+print "Sum is", sum
+EndAlgorithm`;
+            runTest(code, 'output1');
+        }
+
+        function testMissingAlgorithm() {
+            const code = `var x = 5
+var y = 10
+var sum = x + y
+print "Sum is", sum
+EndAlgorithm`;
+            runTest(code, 'output2');
+        }
+
+        function testMissingEndAlgorithm() {
+            const code = `Algorithm TestAlgorithm
+var x = 5
+var y = 10
+var sum = x + y
+print "Sum is", sum`;
+            runTest(code, 'output3');
+        }
+
+        function testMalformedAlgorithm() {
+            const code = `Algorithm
+var x = 5
+print x
+EndAlgorithm`;
+            runTest(code, 'output4');
+        }
+
+        function testComplexAlgorithm() {
+            const code = `Algorithm FindMaximum
+var numbers = [3, 7, 2, 9, 1]
+var max = numbers[0]
+var i = 1
+
+while i < 5
+    if numbers[i] > max
+        max = numbers[i]
+    endif
+    i = i + 1
+endwhile
+
+print "Maximum number is", max
+EndAlgorithm`;
+            runTest(code, 'output5');
+        }
+    </script>
+</body>
+</html>
