@@ -147,18 +147,7 @@
 }
 
 /* ===== FONT OPTIMIZATION ===== */
-/* Optimize font loading */
-@font-face {
-    font-family: 'Inter';
-    font-display: swap;
-    src: url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-}
-
-@font-face {
-    font-family: 'Fira Code';
-    font-display: swap;
-    src: url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
-}
+/* Optimize font loading - now using local fonts */
 
 /* ===== MEDIA QUERY OPTIMIZATION ===== */
 /* Use efficient media queries */
