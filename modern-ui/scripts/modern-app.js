@@ -2089,9 +2089,15 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
     function applyTheme(theme) {
-        console.log('Applying theme:', theme);
+        console.log('=== APPLYING THEME ===');
+        console.log('Input theme:', theme);
         const body = document.body;
         const html = document.documentElement;
+        
+        console.log('Before - Body classes:', body.className);
+        console.log('Before - HTML classes:', html.className);
+        console.log('Before - HTML data-theme:', html.getAttribute('data-theme'));
+        
         // Remove existing theme classes
         body.classList.remove('theme-light', 'theme-dark');
         html.classList.remove('theme-light', 'theme-dark');
@@ -2108,6 +2114,10 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.add(themeClass);
         html.classList.add(themeClass);
         html.setAttribute('data-theme', actualTheme);
+        
+        console.log('After - Body classes:', body.className);
+        console.log('After - HTML classes:', html.className);
+        console.log('After - HTML data-theme:', html.getAttribute('data-theme'));
         console.log('Theme applied:', themeClass);
         // Update Monaco editor theme if available
         if (typeof window.monaco !== 'undefined' && window.monaco.editor) {
@@ -2120,7 +2130,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         // Update theme toggle button if it exists
-        updateThemeToggleButton(actualTheme === 'dark');
         updateThemeToggleButtonFromSettings();
     }
     function updateThemeToggleButton(isDark) {
@@ -2129,8 +2138,11 @@ document.addEventListener('DOMContentLoaded', () => {
             themeToggle.setAttribute('aria-pressed', isDark ? 'true' : 'false');
             const icon = themeToggle.querySelector('i');
             if (icon) {
+                // Update icon based on theme
                 icon.className = isDark ? 'ri-moon-line' : 'ri-sun-line';
             }
+            // Update aria-label for accessibility
+            themeToggle.setAttribute('aria-label', isDark ? 'Switch to Light Theme' : 'Switch to Dark Theme');
         }
     }
     function updateThemeToggleButtonFromSettings() {
@@ -2139,20 +2151,42 @@ document.addEventListener('DOMContentLoaded', () => {
         const icon = themeToggle?.querySelector('i');
         if (!themeToggle || !icon)
             return;
+        
+        // Determine the actual theme being displayed
+        const isDark = document.body.classList.contains('theme-dark') || 
+                      document.documentElement.classList.contains('theme-dark');
+        
+        console.log('=== UPDATING THEME TOGGLE BUTTON ===');
+        console.log('Settings theme:', settings.theme);
+        console.log('Body has theme-dark class:', document.body.classList.contains('theme-dark'));
+        console.log('HTML has theme-dark class:', document.documentElement.classList.contains('theme-dark'));
+        console.log('Is dark overall:', isDark);
+        console.log('Current icon class:', icon.className);
+        
         // Update icon and tooltip based on current theme setting
         if (settings.theme === 'system') {
             icon.className = 'ri-contrast-2-line';
             themeToggle.title = 'Toggle Theme (System)';
+            themeToggle.setAttribute('aria-label', 'Switch Theme (System)');
+            console.log('Updated to system icon');
         }
-        else if (settings.theme === 'dark') {
+        else if (settings.theme === 'dark' || isDark) {
             icon.className = 'ri-moon-line';
             themeToggle.title = 'Toggle Theme (Dark)';
+            themeToggle.setAttribute('aria-label', 'Switch to Light Theme');
+            console.log('Updated to moon icon (dark)');
         }
-        else if (settings.theme === 'light') {
+        else if (settings.theme === 'light' || !isDark) {
             icon.className = 'ri-sun-line';
             themeToggle.title = 'Toggle Theme (Light)';
+            themeToggle.setAttribute('aria-label', 'Switch to Dark Theme');
+            console.log('Updated to sun icon (light)');
         }
-        console.log('Theme toggle button updated for theme:', settings.theme);
+        
+        // Update aria-pressed state
+        themeToggle.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+        console.log('Final icon class:', icon.className);
+        console.log('Final aria-pressed:', themeToggle.getAttribute('aria-pressed'));
     }
     let systemThemeListener = null;
     function setupSystemThemeListener() {
@@ -5623,46 +5657,84 @@ document.addEventListener('DOMContentLoaded', () => {
     function setupThemeToggleButton() {
         const themeToggle = document.getElementById('btnThemeToggle');
         if (!themeToggle) {
-            console.log('Theme toggle button not found');
             return;
         }
-        console.log('Setting up theme toggle button');
-        themeToggle.addEventListener('click', () => {
+        
+        // Remove existing event listeners to prevent duplicates
+        const newThemeToggle = themeToggle.cloneNode(true);
+        themeToggle.parentNode.replaceChild(newThemeToggle, themeToggle);
+        newThemeToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
             // Get current settings
             const currentSettings = loadSettings();
             const currentTheme = currentSettings.theme;
-            console.log('Theme toggle clicked. Current theme:', currentTheme);
+            
+            console.log('=== THEME TOGGLE DEBUG ===');
+            console.log('Current theme setting:', currentTheme);
+            console.log('Body classes:', document.body.className);
+            console.log('HTML data-theme:', document.documentElement.getAttribute('data-theme'));
+            
             // Determine next theme based on current theme
             let nextTheme;
+            
+            // Check both the setting and the actual DOM state
+            const isCurrentlyDark = document.body.classList.contains('theme-dark') || 
+                                  document.documentElement.classList.contains('theme-dark');
+            
+            console.log('Current theme setting:', currentTheme);
+            console.log('Currently dark in DOM:', isCurrentlyDark);
+            
             if (currentTheme === 'system') {
-                // If system, toggle to light
                 nextTheme = 'light';
-            }
-            else if (currentTheme === 'light') {
-                // If light, toggle to dark
+                console.log('System -> Light');
+            } else if (currentTheme === 'light') {
                 nextTheme = 'dark';
+                console.log('Light -> Dark');
+            } else if (currentTheme === 'dark') {
+                nextTheme = 'light';
+                console.log('Dark -> Light');
+            } else {
+                // Fallback: toggle based on actual DOM state
+                nextTheme = isCurrentlyDark ? 'light' : 'dark';
+                console.log('Fallback - isCurrentlyDark:', isCurrentlyDark, '->', nextTheme);
             }
-            else if (currentTheme === 'dark') {
-                // If dark, toggle to system
-                nextTheme = 'system';
-            }
-            else {
-                // Fallback: toggle between light and dark
-                const isDark = document.body.classList.contains('theme-dark');
-                nextTheme = isDark ? 'light' : 'dark';
-            }
-            console.log('Switching to theme:', nextTheme);
-            // Apply the new theme
+            
+            console.log('Next theme will be:', nextTheme);
+            
+            // Save the setting first
+            saveSetting('theme', nextTheme);
+            
+            // Temporarily disable transitions for instant theme change
+            document.body.classList.add('no-transitions');
+            
+            // Apply the new theme immediately
             applyTheme(nextTheme);
-            // Save the setting
-            const updatedSettings = saveSetting('theme', nextTheme);
-            console.log('Theme setting saved:', updatedSettings.theme);
+            
+            // Force a reflow to ensure the theme is applied
+            document.body.offsetHeight;
+            
+            // Update button state after theme is applied
+            setTimeout(() => {
+                console.log('=== VERIFYING THEME CHANGE ===');
+                console.log('After change - Body classes:', document.body.className);
+                console.log('After change - HTML classes:', document.documentElement.className);
+                console.log('After change - HTML data-theme:', document.documentElement.getAttribute('data-theme'));
+                updateThemeToggleButtonFromSettings();
+            }, 50);
+            
+            // Re-enable transitions after a short delay
+            setTimeout(() => {
+                document.body.classList.remove('no-transitions');
+            }, 50);
+            
             // Update the theme select in settings if it exists
             const themeSelect = document.getElementById('themeSelect');
             if (themeSelect) {
                 themeSelect.value = nextTheme;
-                console.log('Theme select updated to:', nextTheme);
             }
+            
             // Update theme info
             const themeInfo = document.getElementById('themeInfo');
             if (themeInfo) {
@@ -5670,10 +5742,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     nextTheme === 'dark' ? 'Dark Theme' : 'Light Theme';
                 themeInfo.textContent = displayTheme;
             }
-            // Update theme toggle button appearance
-            updateThemeToggleButtonFromSettings();
         });
-        console.log('Theme toggle button setup complete');
+        
+        // Update button state after setup
+        updateThemeToggleButtonFromSettings();
     }
     // Initialize settings manager immediately when DOM is ready
     document.addEventListener('DOMContentLoaded', () => {

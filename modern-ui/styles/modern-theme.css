@@ -12,6 +12,11 @@
         transform var(--duration-normal) var(--ease-in-out);
 }
 
+/* Disable transitions for instant theme changes */
+.no-transitions * {
+    transition: none !important;
+}
+
 /* ===== DARK THEME (DEFAULT) ===== */
 .theme-dark {
     --editor-bg: #0d1117;
