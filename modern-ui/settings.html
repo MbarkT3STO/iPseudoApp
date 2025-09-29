@@ -1475,25 +1475,86 @@
                         searchResults.style.display = 'block';
                         searchClear.style.display = 'block';
                         
-                        // Simple search implementation
+                        // Enhanced search implementation
                         const allCards = document.querySelectorAll('.setting-card');
+                        const searchResultsList = document.getElementById('searchResultsList');
                         let visibleCount = 0;
+                        let searchResults = [];
                         
                         allCards.forEach(card => {
-                            const title = card.querySelector('h4')?.textContent.toLowerCase() || '';
-                            const description = card.querySelector('p')?.textContent.toLowerCase() || '';
+                            const title = card.querySelector('h4')?.textContent || '';
+                            const description = card.querySelector('p')?.textContent || '';
+                            const titleLower = title.toLowerCase();
+                            const descriptionLower = description.toLowerCase();
                             
-                            if (title.includes(query) || description.includes(query)) {
+                            if (titleLower.includes(query) || descriptionLower.includes(query)) {
                                 card.style.display = 'block';
                                 visibleCount++;
+                                
+                                // Add to search results
+                                const icon = card.querySelector('.card-icon i')?.className || 'ri-settings-3-line';
+                                searchResults.push({
+                                    title: title,
+                                    description: description,
+                                    icon: icon,
+                                    element: card
+                                });
                             } else {
                                 card.style.display = 'none';
                             }
                         });
                         
+                        // Update results count
                         const resultsCount = document.querySelector('.results-count');
                         if (resultsCount) {
                             resultsCount.textContent = `${visibleCount} results`;
+                        }
+                        
+                        // Populate search results list
+                        if (searchResultsList) {
+                            searchResultsList.innerHTML = '';
+                            
+                            if (searchResults.length > 0) {
+                                searchResults.forEach(result => {
+                                    const resultItem = document.createElement('div');
+                                    resultItem.className = 'search-result-item';
+                                    resultItem.innerHTML = `
+                                        <div class="result-icon">
+                                            <i class="${result.icon}"></i>
+                                        </div>
+                                        <div class="result-content">
+                                            <div class="result-title">${result.title}</div>
+                                            <div class="result-description">${result.description}</div>
+                                        </div>
+                                    `;
+                                    
+                                    // Add click handler to scroll to the setting
+                                    resultItem.addEventListener('click', () => {
+                                        result.element.scrollIntoView({ 
+                                            behavior: 'smooth', 
+                                            block: 'center' 
+                                        });
+                                        searchResults.style.display = 'none';
+                                        searchInput.value = '';
+                                        searchClear.style.display = 'none';
+                                    });
+                                    
+                                    searchResultsList.appendChild(resultItem);
+                                });
+                            } else {
+                                const noResults = document.createElement('div');
+                                noResults.className = 'search-result-item';
+                                noResults.innerHTML = `
+                                    <div class="result-icon">
+                                        <i class="ri-search-line"></i>
+                                    </div>
+                                    <div class="result-content">
+                                        <div class="result-title">No results found</div>
+                                        <div class="result-description">Try a different search term</div>
+                                    </div>
+                                `;
+                                searchResultsList.appendChild(noResults);
+                            }
                         }
                     } else {
                         searchResults.style.display = 'none';
