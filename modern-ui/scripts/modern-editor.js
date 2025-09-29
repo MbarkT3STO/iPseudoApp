@@ -305,6 +305,111 @@ function getKeywordHoverInfo(keyword) {
             description: 'Prompts the user for input and stores the value in a variable.',
             usage: 'input prompt',
             example: 'var name = input "Enter your name: "'
+        },
+        'then': {
+            label: 'then',
+            category: 'Conditional',
+            description: 'Indicates the beginning of the code block to execute when an if condition is true.',
+            usage: 'if condition then',
+            example: 'if x > 5 then'
+        },
+        'do': {
+            label: 'do',
+            category: 'Loop Control',
+            description: 'Begins a do-while loop that executes at least once before checking the condition.',
+            usage: 'do ... while condition',
+            example: 'do ... while x < 10'
+        },
+        'until': {
+            label: 'until',
+            category: 'Loop Control',
+            description: 'Used with repeat loops to specify the condition that must be met to exit the loop.',
+            usage: 'repeat ... until condition',
+            example: 'repeat ... until x > 10'
+        },
+        'repeat': {
+            label: 'repeat',
+            category: 'Loop Control',
+            description: 'Begins a repeat-until loop that executes until a condition is met.',
+            usage: 'repeat ... until condition',
+            example: 'repeat ... until x > 10'
+        },
+        'case': {
+            label: 'case',
+            category: 'Switch Statement',
+            description: 'Defines a specific case in a switch statement to match against a value.',
+            usage: 'case value:',
+            example: 'case 1:'
+        },
+        'switch': {
+            label: 'switch',
+            category: 'Switch Statement',
+            description: 'Begins a switch statement that executes different code based on a value.',
+            usage: 'switch expression',
+            example: 'switch choice'
+        },
+        'endswitch': {
+            label: 'endswitch',
+            category: 'Block Terminator',
+            description: 'Closes a switch statement block. Must be used to end switch statements.',
+            usage: 'endswitch',
+            example: 'endswitch'
+        },
+        'true': {
+            label: 'true',
+            category: 'Boolean Literal',
+            description: 'Boolean literal representing the true value.',
+            usage: 'true',
+            example: 'var flag = true'
+        },
+        'false': {
+            label: 'false',
+            category: 'Boolean Literal',
+            description: 'Boolean literal representing the false value.',
+            usage: 'false',
+            example: 'var flag = false'
+        },
+        'null': {
+            label: 'null',
+            category: 'Null Literal',
+            description: 'Represents the absence of a value or uninitialized variable.',
+            usage: 'null',
+            example: 'var value = null'
+        },
+        'and': {
+            label: 'and',
+            category: 'Logical Operator',
+            description: 'Logical AND operator that returns true only if both conditions are true.',
+            usage: 'condition1 and condition2',
+            example: 'if x > 5 and y < 10'
+        },
+        'or': {
+            label: 'or',
+            category: 'Logical Operator',
+            description: 'Logical OR operator that returns true if at least one condition is true.',
+            usage: 'condition1 or condition2',
+            example: 'if x > 5 or y < 10'
+        },
+        'not': {
+            label: 'not',
+            category: 'Logical Operator',
+            description: 'Logical NOT operator that inverts the boolean value of a condition.',
+            usage: 'not condition',
+            example: 'if not (x > 5)'
+        },
+        'mod': {
+            label: 'mod',
+            category: 'Arithmetic Operator',
+            description: 'Modulo operator that returns the remainder of a division operation.',
+            usage: 'a mod b',
+            example: 'var remainder = 10 mod 3'
+        },
+        'div': {
+            label: 'div',
+            category: 'Arithmetic Operator',
+            description: 'Integer division operator that returns the quotient without the remainder.',
+            usage: 'a div b',
+            example: 'var quotient = 10 div 3'
         }
     };
     return hoverData[keyword] || null;
@@ -315,7 +420,7 @@ const pseudocodeLanguage = {
     tokenizer: {
         root: [
             // Keywords - All reserved words from the pseudocode specification
-            [/\b(var|const|if|else|elseif|endif|for|to|endfor|while|endwhile|function|endfunction|return|break|continue|print|input)\b/, 'keyword'],
+            [/\b(var|const|if|then|else|elseif|endif|for|to|endfor|while|endwhile|do|until|repeat|case|switch|endswitch|function|endfunction|return|break|continue|print|input|true|false|null|and|or|not|mod|div)\b/, 'keyword'],
             // Strings
             [/".*?"/, 'string'],
             [/'.*?'/, 'string'],
@@ -387,6 +492,10 @@ window.require(['vs/editor/editor.main'], function () {
             enabled: minimapEnabled
         },
         quickSuggestions: { other: true, comments: false, strings: false },
+        suggestOnTriggerCharacters: true,
+        acceptSuggestionOnEnter: 'on',
+        tabCompletion: 'on',
+        wordBasedSuggestions: false,
         lineNumbers: 'on',
         renderLineHighlight: 'all',
         scrollBeyondLastLine: false,
@@ -456,8 +565,9 @@ window.require(['vs/editor/editor.main'], function () {
         }
     });
     // Register completion provider with all reserved pseudocode keywords
-    const reservedKeywords = ['var', 'const', 'if', 'else', 'elseif', 'endif', 'for', 'to', 'endfor', 'while', 'endwhile', 'function', 'endfunction', 'return', 'break', 'continue', 'print', 'input'];
+    const reservedKeywords = ['var', 'const', 'if', 'then', 'else', 'elseif', 'endif', 'for', 'to', 'endfor', 'while', 'endwhile', 'do', 'until', 'repeat', 'case', 'switch', 'endswitch', 'function', 'endfunction', 'return', 'break', 'continue', 'print', 'input', 'true', 'false', 'null', 'and', 'or', 'not', 'mod', 'div'];
     window.monaco.languages.registerCompletionItemProvider('pseudocode', {
+        triggerCharacters: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
         provideCompletionItems: function (model, position) {
             const word = model.getWordUntilPosition(position);
             const range = {
@@ -485,6 +595,7 @@ window.require(['vs/editor/editor.main'], function () {
                 { label: 'var', detail: 'Declare a variable', documentation: 'Declares a new variable that can be modified' },
                 { label: 'const', detail: 'Declare a constant', documentation: 'Declares a constant value that cannot be changed' },
                 { label: 'if', detail: 'Conditional statement', documentation: 'Executes code if condition is true' },
+                { label: 'then', detail: 'If condition block', documentation: 'Indicates the beginning of code block when if condition is true' },
                 { label: 'else', detail: 'Alternative condition', documentation: 'Executes code if previous condition is false' },
                 { label: 'elseif', detail: 'Additional condition', documentation: 'Checks another condition if previous ones are false' },
                 { label: 'endif', detail: 'End if block', documentation: 'Closes an if statement block' },
@@ -493,25 +604,43 @@ window.require(['vs/editor/editor.main'], function () {
                 { label: 'endfor', detail: 'End for loop', documentation: 'Closes a for loop block' },
                 { label: 'while', detail: 'While loop', documentation: 'Repeats code while condition is true' },
                 { label: 'endwhile', detail: 'End while loop', documentation: 'Closes a while loop block' },
+                { label: 'do', detail: 'Do-while loop', documentation: 'Begins a do-while loop that executes at least once' },
+                { label: 'until', detail: 'Repeat until condition', documentation: 'Used with repeat loops for exit condition' },
+                { label: 'repeat', detail: 'Repeat-until loop', documentation: 'Begins a repeat-until loop' },
+                { label: 'case', detail: 'Switch case', documentation: 'Defines a specific case in a switch statement' },
+                { label: 'switch', detail: 'Switch statement', documentation: 'Begins a switch statement' },
+                { label: 'endswitch', detail: 'End switch', documentation: 'Closes a switch statement block' },
                 { label: 'function', detail: 'Function declaration', documentation: 'Declares a new function' },
                 { label: 'endfunction', detail: 'End function', documentation: 'Closes a function block' },
                 { label: 'return', detail: 'Return value', documentation: 'Returns a value from a function' },
                 { label: 'break', detail: 'Break loop', documentation: 'Exits the current loop immediately' },
                 { label: 'continue', detail: 'Continue loop', documentation: 'Skips to the next iteration of the loop' },
                 { label: 'print', detail: 'Print output', documentation: 'Displays text or values to the console' },
-                { label: 'input', detail: 'Get user input', documentation: 'Prompts user for input and stores the value' }
+                { label: 'input', detail: 'Get user input', documentation: 'Prompts user for input and stores the value' },
+                { label: 'true', detail: 'Boolean true', documentation: 'Boolean literal representing the true value' },
+                { label: 'false', detail: 'Boolean false', documentation: 'Boolean literal representing the false value' },
+                { label: 'null', detail: 'Null value', documentation: 'Represents the absence of a value' },
+                { label: 'and', detail: 'Logical AND', documentation: 'Logical AND operator' },
+                { label: 'or', detail: 'Logical OR', documentation: 'Logical OR operator' },
+                { label: 'not', detail: 'Logical NOT', documentation: 'Logical NOT operator' },
+                { label: 'mod', detail: 'Modulo operator', documentation: 'Returns the remainder of division' },
+                { label: 'div', detail: 'Integer division', documentation: 'Returns the quotient without remainder' }
             ];
-            // Add keyword suggestions
+            // Add keyword suggestions (filter by current word if any)
+            const currentWord = word.word.toLowerCase();
             keywordSuggestions.forEach(kw => {
-                suggestions.push({
-                    label: kw.label,
-                    kind: window.monaco.languages.CompletionItemKind.Keyword,
-                    insertText: kw.label,
-                    range,
-                    sortText: '0' + kw.label,
-                    detail: kw.detail,
-                    documentation: kw.documentation
-                });
+                // Show all suggestions if no current word, or filter by current word
+                if (!currentWord || kw.label.toLowerCase().startsWith(currentWord)) {
+                    suggestions.push({
+                        label: kw.label,
+                        kind: window.monaco.languages.CompletionItemKind.Keyword,
+                        insertText: kw.label,
+                        range,
+                        sortText: '0' + kw.label,
+                        detail: kw.detail,
+                        documentation: kw.documentation
+                    });
+                }
             });
             // Add function suggestions
             Array.from(funcs).sort().forEach(f => {

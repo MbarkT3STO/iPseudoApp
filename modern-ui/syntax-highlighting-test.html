@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-transition theme-dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Syntax Highlighting Test - iPseudo IDE</title>
+    
+    <!-- Local Fonts -->
+    <link rel="stylesheet" href="fonts/google/inter.css">
+    <link rel="stylesheet" href="fonts/google/jetbrains-mono.css">
+    <link rel="stylesheet" href="fonts/google/fira-code.css">
+    <link rel="stylesheet" href="fonts/google/poppins.css">
+    
+    <!-- Local Icons -->
+    <link rel="stylesheet" href="fonts/remixicon/remixicon.css">
+    
+    <!-- Modern Styles -->
+    <link rel="stylesheet" href="styles/modern-design-tokens.css">
+    <link rel="stylesheet" href="styles/modern-base.css">
+    <link rel="stylesheet" href="styles/modern-components.css">
+    <link rel="stylesheet" href="styles/modern-layout.css">
+    <link rel="stylesheet" href="styles/modern-theme.css">
+    <link rel="stylesheet" href="styles/modern-tab-system.css">
+    <link rel="stylesheet" href="styles/performance.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            padding: 2rem;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .test-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 50%, var(--accent-primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+        }
+        
+        .test-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .test-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .test-section {
+            background: 
+                linear-gradient(135deg, 
+                    rgba(255, 255, 255, 0.1) 0%, 
+                    rgba(255, 255, 255, 0.05) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .keyword-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .keyword-item {
+            padding: 0.5rem;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 8px;
+            text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-primary);
+            font-weight: 500;
+        }
+        
+        .editor-container {
+            height: 400px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+        
+        .test-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        
+        kbd {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+            color: var(--text-primary);
+        }
+        
+        @media (max-width: 768px) {
+            .test-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1 class="test-title">Enhanced Syntax Highlighting Test</h1>
+        <p class="test-subtitle">Test the newly added pseudocode keywords with syntax highlighting and hover information</p>
+        
+        <div class="test-buttons">
+            <button class="modern-btn modern-btn-primary" onclick="loadTestCode()">
+                <i class="ri-code-s-slash-line"></i>
+                Load Test Code
+            </button>
+            
+            <button class="modern-btn modern-btn-secondary" onclick="toggleTheme()">
+                <i class="ri-contrast-2-line"></i>
+                Toggle Theme
+            </button>
+        </div>
+        
+        <div class="test-grid">
+            <div class="test-section">
+                <h3 class="section-title">New Keywords Added</h3>
+                <div class="keyword-list">
+                    <div class="keyword-item">then</div>
+                    <div class="keyword-item">do</div>
+                    <div class="keyword-item">until</div>
+                    <div class="keyword-item">repeat</div>
+                    <div class="keyword-item">case</div>
+                    <div class="keyword-item">switch</div>
+                    <div class="keyword-item">endswitch</div>
+                    <div class="keyword-item">true</div>
+                    <div class="keyword-item">false</div>
+                    <div class="keyword-item">null</div>
+                    <div class="keyword-item">and</div>
+                    <div class="keyword-item">or</div>
+                    <div class="keyword-item">not</div>
+                    <div class="keyword-item">mod</div>
+                    <div class="keyword-item">div</div>
+                </div>
+            </div>
+            
+            <div class="test-section">
+                <h3 class="section-title">Existing Keywords</h3>
+                <div class="keyword-list">
+                    <div class="keyword-item">var</div>
+                    <div class="keyword-item">const</div>
+                    <div class="keyword-item">if</div>
+                    <div class="keyword-item">else</div>
+                    <div class="keyword-item">elseif</div>
+                    <div class="keyword-item">endif</div>
+                    <div class="keyword-item">for</div>
+                    <div class="keyword-item">to</div>
+                    <div class="keyword-item">endfor</div>
+                    <div class="keyword-item">while</div>
+                    <div class="keyword-item">endwhile</div>
+                    <div class="keyword-item">function</div>
+                    <div class="keyword-item">endfunction</div>
+                    <div class="keyword-item">return</div>
+                    <div class="keyword-item">break</div>
+                    <div class="keyword-item">continue</div>
+                    <div class="keyword-item">print</div>
+                    <div class="keyword-item">input</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3 class="section-title">Monaco Editor Test</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                <strong>Testing Instructions:</strong><br>
+                1. <strong>Syntax Highlighting:</strong> Type keywords - they should highlight in blue<br>
+                2. <strong>Auto-completion:</strong> Press <kbd>Ctrl+Space</kbd> or start typing a keyword<br>
+                3. <strong>Hover Information:</strong> Hover over keywords to see descriptions<br>
+                4. <strong>Try typing:</strong> "th" and press <kbd>Ctrl+Space</kbd> to see "then" suggestion
+            </p>
+            <div id="editor" class="editor-container"></div>
+        </div>
+    </div>
+    
+    <button class="modern-btn modern-btn-secondary theme-toggle" id="themeToggle">
+        <i class="ri-contrast-2-line"></i>
+        Theme
+    </button>
+    
+    <!-- Monaco Editor Setup -->
+    <script>
+        window.nodeRequire = window.require;
+        try { 
+            window.require = undefined; 
+            window.module = undefined; 
+            window.exports = undefined; 
+        } catch(e) {}
+    </script>
+    <script src="./monaco/vs/loader.js"></script>
+    
+    <script>
+        // Theme toggle functionality
+        function toggleTheme() {
+            const html = document.documentElement;
+            const isDark = html.classList.contains('theme-dark');
+            
+            if (isDark) {
+                html.classList.remove('theme-dark');
+                html.classList.add('theme-light');
+            } else {
+                html.classList.remove('theme-light');
+                html.classList.add('theme-dark');
+            }
+            
+            // Update Monaco editor theme
+            if (window.monaco && window.monaco.editor) {
+                const newTheme = isDark ? 'vs' : 'vs-dark';
+                window.monaco.editor.setTheme(newTheme);
+            }
+        }
+        
+        document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+        
+        // Test code with all the new keywords
+        const testCode = `// Enhanced Pseudocode Syntax Highlighting Test
+// Try hovering over the keywords to see their descriptions
+
+// Variables and constants
+var name = "John"
+const age = 25
+var isStudent = true
+var value = null
+
+// Conditional statements with 'then'
+if age > 18 then
+    print "Adult"
+else
+    print "Minor"
+endif
+
+// Switch statement
+switch choice
+    case 1:
+        print "Option 1"
+    case 2:
+        print "Option 2"
+    default:
+        print "Invalid choice"
+endswitch
+
+// For loop
+for i = 1 to 10
+    print i
+endfor
+
+// While loop
+while x < 100
+    x = x + 1
+endwhile
+
+// Do-while loop
+do
+    print "This runs at least once"
+while condition
+
+// Repeat-until loop
+repeat
+    print "Repeating..."
+until x > 50
+
+// Function with return
+function calculateSum(a, b)
+    return a + b
+endfunction
+
+// Logical operators
+if x > 5 and y < 10 then
+    print "Both conditions true"
+endif
+
+if x > 5 or y < 10 then
+    print "At least one condition true"
+endif
+
+if not (x > 5) then
+    print "x is not greater than 5"
+endif
+
+// Arithmetic operators
+var remainder = 10 mod 3
+var quotient = 10 div 3
+
+// Input and output
+var userInput = input "Enter your name: "
+print "Hello, " + userInput
+
+// Loop control
+for i = 1 to 100
+    if i mod 2 = 0 then
+        continue
+    endif
+    if i > 50 then
+        break
+    endif
+    print i
+endfor`;
+
+        function loadTestCode() {
+            if (window.editor) {
+                window.editor.setValue(testCode);
+            }
+        }
+        
+        // Initialize Monaco Editor
+        require(['vs/editor/editor.main'], function () {
+            // Hover data for keywords
+            const hoverData = {
+                'then': {
+                    label: 'then',
+                    category: 'Conditional',
+                    description: 'Indicates the beginning of the code block to execute when an if condition is true.',
+                    usage: 'if condition then',
+                    example: 'if x > 5 then'
+                },
+                'do': {
+                    label: 'do',
+                    category: 'Loop Control',
+                    description: 'Begins a do-while loop that executes at least once before checking the condition.',
+                    usage: 'do ... while condition',
+                    example: 'do ... while x < 10'
+                },
+                'until': {
+                    label: 'until',
+                    category: 'Loop Control',
+                    description: 'Used with repeat loops to specify the condition that must be met to exit the loop.',
+                    usage: 'repeat ... until condition',
+                    example: 'repeat ... until x > 10'
+                },
+                'repeat': {
+                    label: 'repeat',
+                    category: 'Loop Control',
+                    description: 'Begins a repeat-until loop that executes until a condition is met.',
+                    usage: 'repeat ... until condition',
+                    example: 'repeat ... until x > 10'
+                },
+                'case': {
+                    label: 'case',
+                    category: 'Switch Statement',
+                    description: 'Defines a specific case in a switch statement to match against a value.',
+                    usage: 'case value:',
+                    example: 'case 1:'
+                },
+                'switch': {
+                    label: 'switch',
+                    category: 'Switch Statement',
+                    description: 'Begins a switch statement that executes different code based on a value.',
+                    usage: 'switch expression',
+                    example: 'switch choice'
+                },
+                'endswitch': {
+                    label: 'endswitch',
+                    category: 'Block Terminator',
+                    description: 'Closes a switch statement block. Must be used to end switch statements.',
+                    usage: 'endswitch',
+                    example: 'endswitch'
+                },
+                'true': {
+                    label: 'true',
+                    category: 'Boolean Literal',
+                    description: 'Boolean literal representing the true value.',
+                    usage: 'true',
+                    example: 'var flag = true'
+                },
+                'false': {
+                    label: 'false',
+                    category: 'Boolean Literal',
+                    description: 'Boolean literal representing the false value.',
+                    usage: 'false',
+                    example: 'var flag = false'
+                },
+                'null': {
+                    label: 'null',
+                    category: 'Null Literal',
+                    description: 'Represents the absence of a value or uninitialized variable.',
+                    usage: 'null',
+                    example: 'var value = null'
+                },
+                'and': {
+                    label: 'and',
+                    category: 'Logical Operator',
+                    description: 'Logical AND operator that returns true only if both conditions are true.',
+                    usage: 'condition1 and condition2',
+                    example: 'if x > 5 and y < 10'
+                },
+                'or': {
+                    label: 'or',
+                    category: 'Logical Operator',
+                    description: 'Logical OR operator that returns true if at least one condition is true.',
+                    usage: 'condition1 or condition2',
+                    example: 'if x > 5 or y < 10'
+                },
+                'not': {
+                    label: 'not',
+                    category: 'Logical Operator',
+                    description: 'Logical NOT operator that inverts the boolean value of a condition.',
+                    usage: 'not condition',
+                    example: 'if not (x > 5)'
+                },
+                'mod': {
+                    label: 'mod',
+                    category: 'Arithmetic Operator',
+                    description: 'Modulo operator that returns the remainder of a division operation.',
+                    usage: 'a mod b',
+                    example: 'var remainder = 10 mod 3'
+                },
+                'div': {
+                    label: 'div',
+                    category: 'Arithmetic Operator',
+                    description: 'Integer division operator that returns the quotient without the remainder.',
+                    usage: 'a div b',
+                    example: 'var quotient = 10 div 3'
+                }
+            };
+            
+            function getKeywordHoverInfo(keyword) {
+                return hoverData[keyword] || null;
+            }
+            
+            // Define custom language for pseudocode
+            const pseudocodeLanguage = {
+                defaultToken: '',
+                tokenizer: {
+                    root: [
+                        // Keywords - All reserved words from the pseudocode specification
+                        [/\b(var|const|if|then|else|elseif|endif|for|to|endfor|while|endwhile|do|until|repeat|case|switch|endswitch|function|endfunction|return|break|continue|print|input|true|false|null|and|or|not|mod|div)\b/, 'keyword'],
+                        
+                        // Strings
+                        [/".*?"/, 'string'],
+                        [/'.*?'/, 'string'],
+                        
+                        // Numbers
+                        [/\b\d+(\.\d+)?\b/, 'number'],
+                        
+                        // Comments
+                        [/#.*$/, 'comment'],
+                        
+                        // Operators
+                        [/[+\-*\/=<>!]+/, 'operator'],
+                    ]
+                }
+            };
+            
+            // Register custom language
+            monaco.languages.register({ id: 'pseudocode' });
+            monaco.languages.setMonarchTokensProvider('pseudocode', pseudocodeLanguage);
+            
+            // Define custom theme
+            monaco.editor.defineTheme('pseudoTheme', {
+                base: 'vs-dark',
+                inherit: true,
+                rules: [
+                    { token: 'keyword', foreground: '569CD6', fontStyle: 'bold' },
+                    { token: 'string', foreground: '4EC9B0' },
+                    { token: 'number', foreground: 'B5CEA8' },
+                    { token: 'comment', foreground: '608B4E', fontStyle: 'italic' },
+                    { token: 'operator', foreground: 'D4D4D4' }
+                ],
+                colors: {
+                    'editor.background': '#1e1e1e',
+                    'editor.foreground': '#d4d4d4'
+                }
+            });
+            
+            // Create editor instance
+            window.editor = monaco.editor.create(document.getElementById('editor'), {
+                value: '// Start typing pseudocode here...\n// Try keywords like: if, then, while, do, until, switch, case, true, false, and, or, not, mod, div\n\n// Test auto-completion:\n// 1. Type "th" and press Ctrl+Space\n// 2. Type "sw" and press Ctrl+Space\n// 3. Type "tr" and press Ctrl+Space\n\n',
+                language: 'pseudocode',
+                theme: 'pseudoTheme',
+                fontSize: 16,
+                fontFamily: 'JetBrains Mono, Fira Code, monospace',
+                minimap: { enabled: false },
+                quickSuggestions: { other: true, comments: false, strings: false },
+                suggestOnTriggerCharacters: true,
+                acceptSuggestionOnEnter: 'on',
+                tabCompletion: 'on',
+                wordBasedSuggestions: false,
+                lineNumbers: 'on',
+                renderLineHighlight: 'all',
+                scrollBeyondLastLine: false,
+                automaticLayout: true,
+                wordWrap: 'off',
+                tabSize: 4,
+                insertSpaces: true,
+                renderWhitespace: 'selection'
+            });
+            
+            // Register hover provider for pseudocode keywords
+            monaco.languages.registerHoverProvider('pseudocode', {
+                provideHover: function (model, position) {
+                    const word = model.getWordAtPosition(position);
+                    if (!word) return null;
+                    
+                    const wordText = word.word.toLowerCase();
+                    const hoverInfo = getKeywordHoverInfo(wordText);
+                    
+                    if (hoverInfo) {
+                        return {
+                            range: new monaco.Range(position.lineNumber, word.startColumn, position.lineNumber, word.endColumn),
+                            contents: [
+                                { value: `**${hoverInfo.label}** - ${hoverInfo.category}` },
+                                { value: hoverInfo.description },
+                                { value: `**Usage:** \`${hoverInfo.usage}\`` },
+                                { value: `**Example:** \`${hoverInfo.example}\`` }
+                            ]
+                        };
+                    }
+                    return null;
+                }
+            });
+            
+            // Register completion provider
+            const reservedKeywords = ['var','const','if','then','else','elseif','endif','for','to','endfor','while','endwhile','do','until','repeat','case','switch','endswitch','function','endfunction','return','break','continue','print','input','true','false','null','and','or','not','mod','div'];
+            monaco.languages.registerCompletionItemProvider('pseudocode', {
+                provideCompletionItems: function (model, position) {
+                    const word = model.getWordUntilPosition(position);
+                    const range = {
+                        startLineNumber: position.lineNumber,
+                        endLineNumber: position.lineNumber,
+                        startColumn: word.startColumn,
+                        endColumn: word.endColumn
+                    };
+                    
+                    const suggestions = reservedKeywords.map(keyword => ({
+                        label: keyword,
+                        kind: monaco.languages.CompletionItemKind.Keyword,
+                        insertText: keyword,
+                        range: range
+                    }));
+                    
+                    return { suggestions: suggestions };
+                }
+            });
+        });
+    </script>
+</body>
+</html>
