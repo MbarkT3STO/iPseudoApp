@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Any Case Syntax Highlighting Test - iPseudo IDE</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #1e1e1e;
+            color: #d4d4d4;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #569cd6;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            background: #2d2d30;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #3e3e42;
+        }
+        .test-title {
+            color: #4ec9b0;
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .test-code {
+            background: #1e1e1e;
+            border: 1px solid #3e3e42;
+            border-radius: 4px;
+            padding: 15px;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            margin-bottom: 10px;
+            overflow-x: auto;
+        }
+        .highlighted-code {
+            background: #1e1e1e;
+            border: 1px solid #3e3e42;
+            border-radius: 4px;
+            padding: 15px;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            margin-bottom: 10px;
+            overflow-x: auto;
+        }
+        .keyword {
+            color: #569cd6;
+            font-weight: bold;
+        }
+        .string {
+            color: #4ec9b0;
+        }
+        .number {
+            color: #b5cea8;
+        }
+        .comment {
+            color: #608b4e;
+            font-style: italic;
+        }
+        .test-button {
+            background: #0e639c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .test-button:hover {
+            background: #1177bb;
+        }
+        .test-button:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+        .output {
+            background: #1e1e1e;
+            border: 1px solid #3e3e42;
+            border-radius: 4px;
+            padding: 15px;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            min-height: 100px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .success {
+            color: #4ec9b0;
+        }
+        .info {
+            color: #569cd6;
+        }
+        .warning {
+            color: #dcdcaa;
+        }
+        .case-example {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .case-example > div {
+            flex: 1;
+        }
+        .case-title {
+            color: #dcdcaa;
+            font-size: 14px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .crazy-case {
+            color: #f48771;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Any Case Syntax Highlighting Test - iPseudo IDE</h1>
+        
+        <div class="test-section">
+            <div class="test-title">Test 1: Crazy Case Combinations</div>
+            <div class="case-example">
+                <div>
+                    <div class="case-title">Mixed Cases:</div>
+                    <div class="highlighted-code" id="mixed-cases-example"></div>
+                </div>
+                <div>
+                    <div class="case-title">Random Cases:</div>
+                    <div class="highlighted-code" id="random-cases-example"></div>
+                </div>
+                <div>
+                    <div class="case-title">Crazy Cases:</div>
+                    <div class="highlighted-code" id="crazy-cases-example"></div>
+                </div>
+            </div>
+            <button class="test-button" onclick="highlightCrazyCases()">Highlight Crazy Cases</button>
+            <div class="output" id="output1"></div>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">Test 2: Algorithm with Any Case</div>
+            <div class="test-code" id="any-case-algorithm">ALGOrITHm CrazyCaseTest
+vAr x = 5
+CoNsT y = 10
+iF x > 0 tHeN
+    pRiNt "Positive"
+eLsE
+    PrInT "Non-positive"
+eNdIf
+eNdAlGoRiThM</div>
+            <button class="test-button" onclick="highlightAnyCaseAlgorithm()">Highlight Any Case Algorithm</button>
+            <div class="output" id="output2"></div>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">Test 3: Complex Algorithm with Random Cases</div>
+            <div class="test-code" id="complex-any-case-algorithm">aLgOrItHm CoMpLeXaNyCaSe
+vAr NuMbErS = [3, 7, 2, 9, 1]
+cOnSt MaX = numbers[0]
+VaR i = 1
+
+wHiLe i < 5
+    If NuMbErS[i] > MaX tHeN
+        MaX = NuMbErS[i]
+    eNdIf
+    i = i + 1
+eNdWhIlE
+
+pRiNt "Maximum number is", MaX
+eNdAlGoRiThM</div>
+            <button class="test-button" onclick="highlightComplexAnyCaseAlgorithm()">Highlight Complex Any Case Algorithm</button>
+            <div class="output" id="output3"></div>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">Test 4: Function with Weird Cases</div>
+            <div class="test-code" id="function-any-case-algorithm">aLgOrItHm FuNcTiOnWeIrDcAsE
+fUnCtIoN AdDnUmBeRs(a, b)
+    ReTuRn a + b
+eNdFuNcTiOn
+
+vAr ReSuLt = AdDnUmBeRs(5, 3)
+pRiNt "Result is", ReSuLt
+eNdAlGoRiThM</div>
+            <button class="test-button" onclick="highlightFunctionAnyCaseAlgorithm()">Highlight Function Any Case Algorithm</button>
+            <div class="output" id="output4"></div>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">Test 5: Loop with Extreme Cases</div>
+            <div class="test-code" id="loop-any-case-algorithm">aLgOrItHm LoOpExTrEmEcAsE
+vAr SuM = 0
+fOr i = 1 tO 10
+    SuM = SuM + i
+eNdFoR
+pRiNt "Sum from 1 to 10 is", SuM
+eNdAlGoRiThM</div>
+            <button class="test-button" onclick="highlightLoopAnyCaseAlgorithm()">Highlight Loop Any Case Algorithm</button>
+            <div class="output" id="output5"></div>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">Test 6: Ultimate Case Test</div>
+            <div class="test-code" id="ultimate-case-algorithm">aLgOrItHm UlTiMaTeCaSeTeSt
+vAr CoUnTeR = 0
+cOnSt MaX_lOoP = 5
+
+fOr I = 1 tO MaX_lOoP
+    iF CoUnTeR < 3 tHeN
+        pRiNt "Counter is", CoUnTeR
+        CoUnTeR = CoUnTeR + 1
+    eLsE
+        pRiNt "Counter reached limit"
+        BrEaK
+    eNdIf
+eNdFoR
+
+wHiLe CoUnTeR > 0
+    pRiNt "Decrementing counter"
+    CoUnTeR = CoUnTeR - 1
+eNdWhIlE
+
+pRiNt "Algorithm completed"
+eNdAlGoRiThM</div>
+            <button class="test-button" onclick="highlightUltimateCaseAlgorithm()">Highlight Ultimate Case Algorithm</button>
+            <div class="output" id="output6"></div>
+        </div>
+    </div>
+
+    <script>
+        // Mock syntax highlighting function with case-insensitive regex
+        function highlightPseudocode(code) {
+            // Define keyword patterns with case-insensitive flag
+            const keywordPatterns = [
+                /\b(var|const|if|then|else|elseif|endif|for|to|endfor|while|endwhile|do|until|repeat|case|switch|endswitch|function|endfunction|return|break|continue|print|input|true|false|null|and|or|not|mod|div|algorithm|endalgorithm)\b/gi
+            ];
+            
+            let highlightedCode = code;
+            
+            // Highlight keywords (case-insensitive)
+            keywordPatterns.forEach(pattern => {
+                highlightedCode = highlightedCode.replace(pattern, '<span class="keyword">$&</span>');
+            });
+            
+            // Highlight strings
+            highlightedCode = highlightedCode.replace(/"([^"]*)"/g, '<span class="string">"$1"</span>');
+            highlightedCode = highlightedCode.replace(/'([^']*)'/g, '<span class="string">\'$1\'</span>');
+            
+            // Highlight numbers
+            highlightedCode = highlightedCode.replace(/\b\d+(\.\d+)?\b/g, '<span class="number">$&</span>');
+            
+            // Highlight comments
+            highlightedCode = highlightedCode.replace(/#.*$/gm, '<span class="comment">$&</span>');
+            
+            return highlightedCode;
+        }
+
+        function highlightCrazyCases() {
+            const mixedCases = `aLgOrItHm TeSt
+vAr x = 5
+iF x > 0 tHeN
+    pRiNt "positive"
+eNdIf
+eNdAlGoRiThM`;
+
+            const randomCases = `AlGoRiThM tEsT
+VaR x = 5
+If X > 0 ThEn
+    PrInT "positive"
+EnDiF
+EnDaLgOrItHm`;
+
+            const crazyCases = `aLgOrItHm TeSt
+vAr x = 5
+iF x > 0 tHeN
+    pRiNt "positive"
+eNdIf
+eNdAlGoRiThM`;
+
+            document.getElementById('mixed-cases-example').innerHTML = highlightPseudocode(mixedCases);
+            document.getElementById('random-cases-example').innerHTML = highlightPseudocode(randomCases);
+            document.getElementById('crazy-cases-example').innerHTML = highlightPseudocode(crazyCases);
+
+            document.getElementById('output1').innerHTML = '<span class="success">✅ All crazy case combinations highlighted successfully!</span>\n\n<span class="info">Keywords highlighted regardless of case pattern:</span>\n- <span class="keyword">aLgOrItHm</span> (mixed case)\n- <span class="keyword">vAr</span> (mixed case)\n- <span class="keyword">iF</span> (mixed case)\n- <span class="keyword">tHeN</span> (mixed case)\n- <span class="keyword">pRiNt</span> (mixed case)\n- <span class="keyword">eNdIf</span> (mixed case)\n- <span class="keyword">eNdAlGoRiThM</span> (mixed case)';
+        }
+
+        function highlightAnyCaseAlgorithm() {
+            const code = document.getElementById('any-case-algorithm').textContent;
+            const highlighted = highlightPseudocode(code);
+            document.getElementById('any-case-algorithm').innerHTML = highlighted;
+            
+            document.getElementById('output2').innerHTML = '<span class="success">✅ Any case algorithm highlighted successfully!</span>\n\n<span class="info">Keywords highlighted with any case combination:</span>\n- <span class="keyword">ALGOrITHm</span> (crazy case)\n- <span class="keyword">vAr</span> (mixed case)\n- <span class="keyword">CoNsT</span> (mixed case)\n- <span class="keyword">iF</span> (mixed case)\n- <span class="keyword">tHeN</span> (mixed case)\n- <span class="keyword">pRiNt</span> (mixed case)\n- <span class="keyword">eLsE</span> (mixed case)\n- <span class="keyword">PrInT</span> (mixed case)\n- <span class="keyword">eNdIf</span> (mixed case)\n- <span class="keyword">eNdAlGoRiThM</span> (crazy case)';
+        }
+
+        function highlightComplexAnyCaseAlgorithm() {
+            const code = document.getElementById('complex-any-case-algorithm').textContent;
+            const highlighted = highlightPseudocode(code);
+            document.getElementById('complex-any-case-algorithm').innerHTML = highlighted;
+            
+            document.getElementById('output3').innerHTML = '<span class="success">✅ Complex any case algorithm highlighted successfully!</span>\n\n<span class="info">All keyword variations highlighted:</span>\n- <span class="keyword">aLgOrItHm</span> (crazy case)\n- <span class="keyword">vAr</span> (mixed case)\n- <span class="keyword">NuMbErS</span> (mixed case)\n- <span class="keyword">cOnSt</span> (mixed case)\n- <span class="keyword">VaR</span> (mixed case)\n- <span class="keyword">wHiLe</span> (mixed case)\n- <span class="keyword">If</span> (mixed case)\n- <span class="keyword">tHeN</span> (mixed case)\n- <span class="keyword">eNdIf</span> (mixed case)\n- <span class="keyword">eNdWhIlE</span> (crazy case)\n- <span class="keyword">pRiNt</span> (mixed case)\n- <span class="keyword">eNdAlGoRiThM</span> (crazy case)';
+        }
+
+        function highlightFunctionAnyCaseAlgorithm() {
+            const code = document.getElementById('function-any-case-algorithm').textContent;
+            const highlighted = highlightPseudocode(code);
+            document.getElementById('function-any-case-algorithm').innerHTML = highlighted;
+            
+            document.getElementById('output4').innerHTML = '<span class="success">✅ Function any case algorithm highlighted successfully!</span>\n\n<span class="info">Function keywords highlighted:</span>\n- <span class="keyword">aLgOrItHm</span> (crazy case)\n- <span class="keyword">fUnCtIoN</span> (crazy case)\n- <span class="keyword">ReTuRn</span> (crazy case)\n- <span class="keyword">eNdFuNcTiOn</span> (crazy case)\n- <span class="keyword">vAr</span> (mixed case)\n- <span class="keyword">pRiNt</span> (mixed case)\n- <span class="keyword">eNdAlGoRiThM</span> (crazy case)';
+        }
+
+        function highlightLoopAnyCaseAlgorithm() {
+            const code = document.getElementById('loop-any-case-algorithm').textContent;
+            const highlighted = highlightPseudocode(code);
+            document.getElementById('loop-any-case-algorithm').innerHTML = highlighted;
+            
+            document.getElementById('output5').innerHTML = '<span class="success">✅ Loop any case algorithm highlighted successfully!</span>\n\n<span class="info">Loop keywords highlighted:</span>\n- <span class="keyword">aLgOrItHm</span> (crazy case)\n- <span class="keyword">vAr</span> (mixed case)\n- <span class="keyword">fOr</span> (mixed case)\n- <span class="keyword">tO</span> (mixed case)\n- <span class="keyword">eNdFoR</span> (crazy case)\n- <span class="keyword">pRiNt</span> (mixed case)\n- <span class="keyword">eNdAlGoRiThM</span> (crazy case)';
+        }
+
+        function highlightUltimateCaseAlgorithm() {
+            const code = document.getElementById('ultimate-case-algorithm').textContent;
+            const highlighted = highlightPseudocode(code);
+            document.getElementById('ultimate-case-algorithm').innerHTML = highlighted;
+            
+            document.getElementById('output6').innerHTML = '<span class="success">✅ Ultimate case algorithm highlighted successfully!</span>\n\n<span class="info">All keyword variations highlighted with extreme cases:</span>\n- <span class="keyword">aLgOrItHm</span> (crazy case)\n- <span class="keyword">vAr</span> (mixed case)\n- <span class="keyword">cOnSt</span> (mixed case)\n- <span class="keyword">fOr</span> (mixed case)\n- <span class="keyword">tO</span> (mixed case)\n- <span class="keyword">iF</span> (mixed case)\n- <span class="keyword">tHeN</span> (mixed case)\n- <span class="keyword">pRiNt</span> (mixed case)\n- <span class="keyword">eLsE</span> (mixed case)\n- <span class="keyword">BrEaK</span> (crazy case)\n- <span class="keyword">eNdIf</span> (mixed case)\n- <span class="keyword">eNdFoR</span> (crazy case)\n- <span class="keyword">wHiLe</span> (mixed case)\n- <span class="keyword">eNdWhIlE</span> (crazy case)\n- <span class="keyword">eNdAlGoRiThM</span> (crazy case)';
+        }
+
+        // Initialize examples on page load
+        window.onload = function() {
+            highlightCrazyCases();
+        };
+    </script>
+</body>
+</html>

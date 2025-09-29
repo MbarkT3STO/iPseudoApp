@@ -179,6 +179,9 @@ function showMonacoContextMenu(e) {
 }
 // Function to get hover information for pseudocode keywords
 function getKeywordHoverInfo(keyword) {
+    // Convert keyword to lowercase for lookup
+    const lowerKeyword = keyword.toLowerCase();
+    
     const hoverData = {
         'var': {
             label: 'Var',
@@ -426,7 +429,7 @@ function getKeywordHoverInfo(keyword) {
             example: 'Endalgorithm'
         }
     };
-    return hoverData[keyword] || null;
+    return hoverData[lowerKeyword] || null;
 }
 // Define custom language for pseudocode
 const pseudocodeLanguage = {
@@ -434,7 +437,7 @@ const pseudocodeLanguage = {
     tokenizer: {
         root: [
             // Keywords - All reserved words from the pseudocode specification
-            [/\b(Var|Const|If|Then|Else|Elseif|Endif|For|To|Endfor|While|Endwhile|Do|Until|Repeat|Case|Switch|Endswitch|Function|Endfunction|Return|Break|Continue|Print|Input|True|False|Null|And|Or|Not|Mod|Div|Algorithm|Endalgorithm)\b/, 'keyword'],
+            [/\b(var|const|if|then|else|elseif|endif|for|to|endfor|while|endwhile|do|until|repeat|case|switch|endswitch|function|endfunction|return|break|continue|print|input|true|false|null|and|or|not|mod|div|algorithm|endalgorithm|VAR|CONST|IF|THEN|ELSE|ELSEIF|ENDIF|FOR|TO|ENDFOR|WHILE|ENDWHILE|DO|UNTIL|REPEAT|CASE|SWITCH|ENDSWITCH|FUNCTION|ENDFUNCTION|RETURN|BREAK|CONTINUE|PRINT|INPUT|TRUE|FALSE|NULL|AND|OR|NOT|MOD|DIV|ALGORITHM|ENDALGORITHM|Var|Const|If|Then|Else|Elseif|Endif|For|To|Endfor|While|Endwhile|Do|Until|Repeat|Case|Switch|Endswitch|Function|Endfunction|Return|Break|Continue|Print|Input|True|False|Null|And|Or|Not|Mod|Div|Algorithm|Endalgorithm|vAr|cOnSt|iF|tHeN|eLsE|eLsEiF|eNdIf|fOr|tO|eNdFoR|wHiLe|eNdWhIlE|dO|uNtIl|rEpEaT|cAsE|sWiTcH|eNdSwItCh|fUnCtIoN|eNdFuNcTiOn|rEtUrN|bReAk|cOnTiNuE|pRiNt|iNpUt|tRuE|fAlSe|nUlL|aNd|Or|nOt|mOd|dIv|aLgOrItHm|eNdAlGoRiThM)\b/, 'keyword'],
             // Strings
             [/".*?"/, 'string'],
             [/'.*?'/, 'string'],
@@ -642,10 +645,10 @@ window.require(['vs/editor/editor.main'], function () {
                 { label: 'Algorithm', detail: 'Algorithm declaration', documentation: 'Declares the start of an algorithm with a given name' },
                 { label: 'Endalgorithm', detail: 'End algorithm', documentation: 'Marks the end of an algorithm' }
             ];
-            // Add keyword suggestions (filter by current word if any)
+            // Add keyword suggestions (filter by current word if any, case-insensitive)
             const currentWord = word.word.toLowerCase();
             keywordSuggestions.forEach(kw => {
-                // Show all suggestions if no current word, or filter by current word
+                // Show all suggestions if no current word, or filter by current word (case-insensitive)
                 if (!currentWord || kw.label.toLowerCase().startsWith(currentWord)) {
                     suggestions.push({
                         label: kw.label,
