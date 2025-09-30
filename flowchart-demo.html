@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flowchart Generation Demo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #1e293b;
+            color: white;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .demo-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .code-block {
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .feature-list li:before {
+            content: "✅ ";
+            margin-right: 10px;
+        }
+        h1, h2 {
+            color: #60a5fa;
+        }
+        .highlight {
+            background: rgba(96, 165, 250, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #93c5fd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Advanced Flowchart Generation Demo</h1>
+        
+        <div class="demo-section">
+            <h2>✨ New Features Implemented</h2>
+            <ul class="feature-list">
+                <li><span class="highlight">Branching for Conditions</span> - if/else statements generate diamond decision nodes with Yes/No arrows</li>
+                <li><span class="highlight">ElseIf Handling</span> - elseif statements chain as additional decision nodes</li>
+                <li><span class="highlight">Loop Structures</span> - for and while loops show proper iteration with loop-back arrows</li>
+                <li><span class="highlight">Break & Continue</span> - break exits loops immediately, continue jumps to next iteration</li>
+                <li><span class="highlight">Nested Structures</span> - supports complex nested conditions and loops</li>
+                <li><span class="highlight">Standard Symbols</span> - Oval (Start/End), Rectangle (Process), Diamond (Decision), Parallelogram (I/O)</li>
+                <li><span class="highlight">Clean Connectors</span> - Non-overlapping arrows with proper Yes/No labels</li>
+            </ul>
+        </div>
+
+        <div class="demo-section">
+            <h2>📝 Example Pseudocode</h2>
+            <p>Here's a complex example that demonstrates all the new features:</p>
+            
+            <div class="code-block">
+# Test pseudocode for flowchart generation
+var number = 5
+var result = 1
+
+# Simple if-else statement
+if number > 0 then
+    print "Number is positive"
+else
+    print "Number is not positive"
+endif
+
+# For loop with break and continue
+for i = 1 to 10
+    if i == 5 then
+        break
+    endif
+    
+    if i % 2 == 0 then
+        continue
+    endif
+    
+    print "Odd number:", i
+endfor
+
+# Complex nested structure
+var score = 85
+
+if score >= 90 then
+    print "Grade: A"
+elseif score >= 80 then
+    print "Grade: B"
+    
+    # Nested loop inside elseif
+    for j = 1 to 3
+        print "Good job!"
+    endfor
+elseif score >= 70 then
+    print "Grade: C"
+else
+    print "Grade: F"
+    
+    # Nested if inside else
+    if score < 50 then
+        print "You need to study more"
+    endif
+endif
+
+print "Program completed"
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>🎨 Visual Features</h2>
+            <ul class="feature-list">
+                <li><span class="highlight">Color-coded Arrows</span> - Green for "Yes", Red for "No", Blue for loops</li>
+                <li><span class="highlight">Arrow Labels</span> - Clear "YES" and "NO" labels on decision arrows</li>
+                <li><span class="highlight">Loop Indicators</span> - Dashed lines for loop-back arrows</li>
+                <li><span class="highlight">Break/Continue</span> - Special styling for control flow statements</li>
+                <li><span class="highlight">Merge Points</span> - Clean merging of different execution paths</li>
+                <li><span class="highlight">Zoom & Pan</span> - Interactive controls for large flowcharts</li>
+                <li><span class="highlight">Export Support</span> - Save flowcharts as PNG images</li>
+            </ul>
+        </div>
+
+        <div class="demo-section">
+            <h2>🚀 How to Test</h2>
+            <ol>
+                <li>Open the iPseudo IDE application</li>
+                <li>Switch to the Modern UI (if not already)</li>
+                <li>Click the <span class="highlight">"Flow"</span> button in the toolbar</li>
+                <li>Paste the example pseudocode above into the editor</li>
+                <li>Click <span class="highlight">"Generate"</span> in the flow diagram modal</li>
+                <li>Observe the generated flowchart with proper branching and loops!</li>
+            </ol>
+        </div>
+
+        <div class="demo-section">
+            <h2>🔧 Technical Implementation</h2>
+            <p>The new flowchart generator includes:</p>
+            <ul class="feature-list">
+                <li><span class="highlight">Advanced Parser</span> - Recursive descent parser for nested structures</li>
+                <li><span class="highlight">Block Recognition</span> - Identifies if/elseif/else, for/while, break/continue</li>
+                <li><span class="highlight">Indentation Analysis</span> - Proper handling of nested code blocks</li>
+                <li><span class="highlight">SVG Generation</span> - Dynamic SVG creation with proper positioning</li>
+                <li><span class="highlight">Layout Algorithm</span> - Intelligent positioning to avoid overlaps</li>
+                <li><span class="highlight">Interactive Controls</span> - Zoom, pan, fullscreen, and export features</li>
+            </ul>
+        </div>
+
+        <div class="demo-section">
+            <h2>📋 Supported Pseudocode Syntax</h2>
+            <div class="code-block">
+# Control Flow
+if condition then
+    # statements
+elseif other_condition then
+    # statements
+else
+    # statements
+endif
+
+# Loops
+for variable = start to end
+    # statements
+    if condition then
+        break    # Exit loop immediately
+    endif
+    
+    if other_condition then
+        continue # Skip to next iteration
+    endif
+endfor
+
+while condition
+    # statements
+endwhile
+
+# I/O Operations
+print "Hello World"
+input variable_name
+var name = "value"
+            </div>
+        </div>
+    </div>
+</body>
+</html>

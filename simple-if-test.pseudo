@@ -1,0 +1,12 @@
+# Simple if-else test
+var number = 5
+
+if number > 0 then
+    print "Number is positive"
+    print "This is in the then block"
+else
+    print "Number is not positive"
+    print "This is in the else block"
+endif
+
+print "Program completed"

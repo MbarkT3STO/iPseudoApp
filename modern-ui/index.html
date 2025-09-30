@@ -1432,6 +1432,30 @@
             stroke: #ef4444;
         }
 
+        .flow-arrow.loop {
+            stroke: #3b82f6;
+            stroke-dasharray: 5,5;
+        }
+
+        .flow-arrow.break {
+            stroke: #f59e0b;
+        }
+
+        .flow-arrow.continue {
+            stroke: #8b5cf6;
+        }
+
+        /* Arrow label styling */
+        .flow-arrow-label {
+            fill: rgba(255, 255, 255, 0.9);
+            font-family: var(--font-family-primary);
+            font-size: 12px;
+            font-weight: bold;
+            text-anchor: middle;
+            dominant-baseline: middle;
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+        }
+
         /* Light Theme Flow Diagram */
         [data-theme="light"] .flow-diagram-container {
             background: rgba(248, 250, 252, 0.8);
@@ -1713,7 +1737,7 @@
             }
         });
 
-        // Flow Diagram Generation Logic
+        // Advanced Flow Diagram Generation Logic
         const generateFlowDiagram = () => {
             // Get the current pseudocode from the editor
             let pseudocode = '';
@@ -1738,8 +1762,10 @@
             svg.setAttribute('width', '100%');
             svg.setAttribute('height', '100%');
 
-            // Add arrow marker definition
+            // Add arrow marker definitions
             const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+            
+            // Default arrow marker
             const marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
             marker.setAttribute('id', 'arrowhead');
             marker.setAttribute('markerWidth', '10');
@@ -1750,123 +1776,52 @@
             
             const polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
             polygon.setAttribute('points', '0 0, 10 3.5, 0 7');
-            polygon.setAttribute('fill', 'rgba(255, 255, 255, 0.6)');
+            polygon.setAttribute('fill', 'rgba(255, 255, 255, 0.8)');
             marker.appendChild(polygon);
             defs.appendChild(marker);
+
+            // Yes arrow marker (green)
+            const yesMarker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+            yesMarker.setAttribute('id', 'arrowhead-yes');
+            yesMarker.setAttribute('markerWidth', '10');
+            yesMarker.setAttribute('markerHeight', '7');
+            yesMarker.setAttribute('refX', '9');
+            yesMarker.setAttribute('refY', '3.5');
+            yesMarker.setAttribute('orient', 'auto');
+            
+            const yesPolygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+            yesPolygon.setAttribute('points', '0 0, 10 3.5, 0 7');
+            yesPolygon.setAttribute('fill', '#10b981');
+            yesMarker.appendChild(yesPolygon);
+            defs.appendChild(yesMarker);
+
+            // No arrow marker (red)
+            const noMarker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+            noMarker.setAttribute('id', 'arrowhead-no');
+            noMarker.setAttribute('markerWidth', '10');
+            noMarker.setAttribute('markerHeight', '7');
+            noMarker.setAttribute('refX', '9');
+            noMarker.setAttribute('refY', '3.5');
+            noMarker.setAttribute('orient', 'auto');
+            
+            const noPolygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+            noPolygon.setAttribute('points', '0 0, 10 3.5, 0 7');
+            noPolygon.setAttribute('fill', '#ef4444');
+            noMarker.appendChild(noPolygon);
+            defs.appendChild(noMarker);
+
             svg.appendChild(defs);
 
-            // Parse pseudocode and create flow diagram
-            let inBlockComment = false;
-            const lines = pseudocode.split('\n')
-                .map(line => line.trim())
-                .filter(line => {
-                    // Filter out empty lines
-                    if (!line) return false;
-                    
-                    const trimmedLine = line.trim();
-                    
-                    // Handle block comments /* ... */
-                    if (trimmedLine.includes('/*')) {
-                        inBlockComment = true;
-                    }
-                    if (inBlockComment) {
-                        if (trimmedLine.includes('*/')) {
-                            inBlockComment = false;
-                        }
-                        return false;
-                    }
-                    
-                    // Filter out single-line comments
-                    if (trimmedLine.startsWith('#') || 
-                        trimmedLine.startsWith('//') || 
-                        trimmedLine.startsWith('/*') ||
-                        trimmedLine.startsWith('*') ||
-                        trimmedLine.startsWith('--')) {
-                        return false;
-                    }
-                    
-                    return true;
-                });
-            const nodes = [];
-            const arrows = [];
-
-            // Simple parsing logic for common pseudocode patterns
-            let yPos = 80;
-            let nodeId = 0;
-            const centerX = 400;
-
-            // Start node (oval)
-            const startNode = createFlowNode(svg, centerX, yPos, 'START', 'start', nodeId++);
-            nodes.push(startNode);
-            yPos += 100;
-
-            // Process each line
-            for (let i = 0; i < lines.length; i++) {
-                let originalLine = lines[i];
-                
-                // Remove inline comments (everything after #, //, or --)
-                const commentIndex = Math.min(
-                    originalLine.indexOf('#') !== -1 ? originalLine.indexOf('#') : originalLine.length,
-                    originalLine.indexOf('//') !== -1 ? originalLine.indexOf('//') : originalLine.length,
-                    originalLine.indexOf('--') !== -1 ? originalLine.indexOf('--') : originalLine.length
-                );
-                
-                if (commentIndex < originalLine.length) {
-                    originalLine = originalLine.substring(0, commentIndex).trim();
-                }
-                
-                // Skip if line becomes empty after removing comments
-                if (!originalLine) continue;
-                
-                const line = originalLine.toLowerCase();
-                
-                if (line.includes('if') || line.includes('while') || line.includes('for')) {
-                    // Decision node (diamond)
-                    const displayText = originalLine.length > 25 ? originalLine.substring(0, 25) + '...' : originalLine;
-                    const decisionNode = createFlowNode(svg, centerX, yPos, displayText, 'decision', nodeId++);
-                    nodes.push(decisionNode);
-                    yPos += Math.max(100, decisionNode.height + 60);
-                } else if (line.includes('end') || line.includes('stop') || line.includes('return')) {
-                    // End node (oval)
-                    const endNode = createFlowNode(svg, centerX, yPos, 'END', 'end', nodeId++);
-                    nodes.push(endNode);
-                    break;
-                } else if (line.includes('print') || line.includes('output') || line.includes('display')) {
-                    // Output node (parallelogram)
-                    const displayText = originalLine.length > 25 ? originalLine.substring(0, 25) + '...' : originalLine;
-                    const outputNode = createFlowNode(svg, centerX, yPos, displayText, 'output', nodeId++);
-                    nodes.push(outputNode);
-                    yPos += Math.max(100, outputNode.height + 60);
-                } else if (line.includes('input') || line.includes('read') || line.includes('get')) {
-                    // Input node (parallelogram)
-                    const displayText = originalLine.length > 25 ? originalLine.substring(0, 25) + '...' : originalLine;
-                    const inputNode = createFlowNode(svg, centerX, yPos, displayText, 'input', nodeId++);
-                    nodes.push(inputNode);
-                    yPos += Math.max(100, inputNode.height + 60);
-                } else if (line.includes('var') || line.includes('=') || line.trim()) {
-                    // Process node (rectangle)
-                    const displayText = originalLine.length > 25 ? originalLine.substring(0, 25) + '...' : originalLine;
-                    const processNode = createFlowNode(svg, centerX, yPos, displayText, 'process', nodeId++);
-                    nodes.push(processNode);
-                    yPos += Math.max(100, processNode.height + 60);
-                }
-            }
-
-            // If no end node was found, add one
-            if (nodes.length > 0 && !nodes[nodes.length - 1].type === 'end') {
-                const endNode = createFlowNode(svg, centerX, yPos, 'END', 'end', nodeId++);
-                nodes.push(endNode);
-            }
-
-            // Add arrows between nodes
-            for (let i = 0; i < nodes.length - 1; i++) {
-                createFlowArrow(svg, nodes[i], nodes[i + 1]);
-            }
+            // Parse pseudocode into structured blocks
+            const parsedBlocks = parsePseudocodeBlocks(pseudocode);
+            
+            // Generate flowchart from parsed blocks
+            const flowchart = generateFlowchartFromBlocks(svg, parsedBlocks);
 
             // Calculate the bounding box of all elements
             let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
             
-            nodes.forEach(node => {
+            flowchart.nodes.forEach(node => {
                 const left = node.x - node.width / 2;
                 const right = node.x + node.width / 2;
                 const top = node.y - node.height / 2;
@@ -1903,6 +1858,615 @@
             flowZoomControls.style.display = 'flex';
 
             flowDiagramContainer.appendChild(svg);
+        };
+
+        // Parse pseudocode into structured blocks
+        const parsePseudocodeBlocks = (pseudocode) => {
+            let inBlockComment = false;
+            const lines = pseudocode.split('\n')
+                .filter(line => {
+                    // Don't trim here - preserve indentation
+                    const trimmedLine = line.trim();
+                    
+                    // Filter out empty lines
+                    if (!trimmedLine) return false;
+                    
+                    // Handle block comments /* ... */
+                    if (trimmedLine.includes('/*')) {
+                        inBlockComment = true;
+                    }
+                    if (inBlockComment) {
+                        if (trimmedLine.includes('*/')) {
+                            inBlockComment = false;
+                        }
+                        return false;
+                    }
+                    
+                    // Filter out single-line comments
+                    if (trimmedLine.startsWith('#') || 
+                        trimmedLine.startsWith('//') || 
+                        trimmedLine.startsWith('/*') ||
+                        trimmedLine.startsWith('*') ||
+                        trimmedLine.startsWith('--')) {
+                        return false;
+                    }
+                    
+                    return true;
+                });
+
+            const blocks = [];
+            let i = 0;
+
+            while (i < lines.length) {
+                const line = lines[i];
+                
+                // Remove inline comments but preserve indentation
+                const commentIndex = Math.min(
+                    line.indexOf('#') !== -1 ? line.indexOf('#') : line.length,
+                    line.indexOf('//') !== -1 ? line.indexOf('//') : line.length,
+                    line.indexOf('--') !== -1 ? line.indexOf('--') : line.length
+                );
+                
+                const cleanLine = commentIndex < line.length ? line.substring(0, commentIndex) : line;
+                const trimmedLine = cleanLine.trim();
+                
+                if (!trimmedLine) {
+                    i++;
+                    continue;
+                }
+
+                const lowerLine = trimmedLine.toLowerCase();
+
+                if (lowerLine.startsWith('if ')) {
+                    // Parse if block
+                    const ifBlock = parseIfBlock(lines, i);
+                    blocks.push(ifBlock);
+                    // Add the endif as a separate block
+                    blocks.push({
+                        type: 'end',
+                        keyword: 'endif',
+                        line: lines[ifBlock.endIndex].trim(),
+                        lineIndex: ifBlock.endIndex
+                    });
+                    i = ifBlock.endIndex + 1;
+                } else if (lowerLine.startsWith('while ') || lowerLine.startsWith('for ')) {
+                    // Parse loop block
+                    const loopBlock = parseLoopBlock(lines, i);
+                    blocks.push(loopBlock);
+                    // Add the endwhile/endfor as a separate block
+                    const endKeyword = loopBlock.type === 'while' ? 'endwhile' : 'endfor';
+                    blocks.push({
+                        type: 'end',
+                        keyword: endKeyword,
+                        line: lines[loopBlock.endIndex].trim(),
+                        lineIndex: loopBlock.endIndex
+                    });
+                    i = loopBlock.endIndex + 1;
+                } else if (lowerLine === 'break' || lowerLine === 'continue') {
+                    // Control flow statements
+                    blocks.push({
+                        type: 'control',
+                        statement: lowerLine,
+                        line: trimmedLine,
+                        lineIndex: i
+                    });
+                    i++;
+                } else {
+                    // Regular statement
+                    blocks.push({
+                        type: 'statement',
+                        line: trimmedLine,
+                        lineIndex: i
+                    });
+                    i++;
+                }
+            }
+
+            return blocks;
+        };
+
+        // Parse if block (including elseif and else)
+        const parseIfBlock = (lines, startIndex) => {
+            const ifBlock = {
+                type: 'if',
+                condition: lines[startIndex],
+                lineIndex: startIndex,
+                thenBlocks: [],
+                elseBlocks: [],
+                elseifBlocks: [],
+                endIndex: startIndex
+            };
+
+            let i = startIndex + 1;
+            let currentBlock = ifBlock.thenBlocks;
+            let indentLevel = getIndentLevel(lines[startIndex]);
+            let inIfBlock = true;
+
+            while (i < lines.length && inIfBlock) {
+                const line = lines[i];
+                const currentIndent = getIndentLevel(line);
+                const trimmedLine = line.trim();
+                const lowerLine = trimmedLine.toLowerCase();
+
+                if (currentIndent <= indentLevel && (lowerLine.startsWith('elseif ') || lowerLine.startsWith('else') || lowerLine.startsWith('endif'))) {
+                    if (lowerLine.startsWith('elseif ')) {
+                        currentBlock = [];
+                        ifBlock.elseifBlocks.push({
+                            condition: trimmedLine,
+                            lineIndex: i,
+                            blocks: currentBlock
+                        });
+                    } else if (lowerLine.startsWith('else')) {
+                        currentBlock = ifBlock.elseBlocks;
+                    } else if (lowerLine.startsWith('endif')) {
+                        inIfBlock = false;
+                        ifBlock.endIndex = i;
+                    }
+                    i++;
+                } else if (currentIndent > indentLevel) {
+                    // Parse nested block - this is inside the if/else block
+                    if (lowerLine.startsWith('if ')) {
+                        const nestedIf = parseIfBlock(lines, i);
+                        currentBlock.push(nestedIf);
+                        i = nestedIf.endIndex + 1; // Move past the endif
+                    } else if (lowerLine.startsWith('while ') || lowerLine.startsWith('for ')) {
+                        const nestedLoop = parseLoopBlock(lines, i);
+                        currentBlock.push(nestedLoop);
+                        i = nestedLoop.endIndex + 1; // Move past the endwhile/endfor
+                    } else {
+                        // Regular statement inside the block
+                        currentBlock.push({
+                            type: 'statement',
+                            line: trimmedLine,
+                            lineIndex: i
+                        });
+                        i++;
+                    }
+                } else {
+                    // Same indentation level but not a control keyword - skip it
+                    i++;
+                }
+            }
+
+            return ifBlock;
+        };
+
+        // Parse loop block (while or for)
+        const parseLoopBlock = (lines, startIndex) => {
+            const loopBlock = {
+                type: lines[startIndex].toLowerCase().startsWith('while') ? 'while' : 'for',
+                condition: lines[startIndex],
+                lineIndex: startIndex,
+                bodyBlocks: [],
+                endIndex: startIndex
+            };
+
+            let i = startIndex + 1;
+            let indentLevel = getIndentLevel(lines[startIndex]);
+            let inLoopBlock = true;
+            const endKeyword = loopBlock.type === 'while' ? 'endwhile' : 'endfor';
+
+            while (i < lines.length && inLoopBlock) {
+                const line = lines[i];
+                const currentIndent = getIndentLevel(line);
+                const lowerLine = line.toLowerCase().trim();
+
+                if (currentIndent <= indentLevel && lowerLine.startsWith(endKeyword)) {
+                    inLoopBlock = false;
+                    loopBlock.endIndex = i;
+                    i++;
+                } else if (currentIndent > indentLevel) {
+                    // Parse nested block - this is inside the loop body
+                    if (lowerLine.startsWith('if ')) {
+                        const nestedIf = parseIfBlock(lines, i);
+                        loopBlock.bodyBlocks.push(nestedIf);
+                        i = nestedIf.endIndex + 1; // Move past the endif
+                    } else if (lowerLine.startsWith('while ') || lowerLine.startsWith('for ')) {
+                        const nestedLoop = parseLoopBlock(lines, i);
+                        loopBlock.bodyBlocks.push(nestedLoop);
+                        i = nestedLoop.endIndex + 1; // Move past the endwhile/endfor
+                    } else {
+                        // Regular statement inside the loop body
+                        loopBlock.bodyBlocks.push({
+                            type: 'statement',
+                            line: line,
+                            lineIndex: i
+                        });
+                        i++;
+                    }
+                } else {
+                    // Same indentation level but not the end keyword - skip it
+                    i++;
+                }
+            }
+
+            return loopBlock;
+        };
+
+        // Get indentation level of a line
+        const getIndentLevel = (line) => {
+            // Count leading spaces and tabs
+            let indent = 0;
+            for (let i = 0; i < line.length; i++) {
+                if (line[i] === ' ' || line[i] === '\t') {
+                    indent++;
+                } else {
+                    break;
+                }
+            }
+            return indent;
+        };
+
+        // Generate flowchart from parsed blocks
+        const generateFlowchartFromBlocks = (svg, blocks) => {
+            const flowchart = {
+                nodes: [],
+                arrows: [],
+                connectors: []
+            };
+
+            let nodeId = 0;
+            let yPos = 80;
+            const centerX = 400;
+
+            // Start node
+            const startNode = createFlowNode(svg, centerX, yPos, 'START', 'start', nodeId++);
+            flowchart.nodes.push(startNode);
+            yPos += 100;
+
+            let lastNode = startNode;
+
+            // Process each block
+            for (let i = 0; i < blocks.length; i++) {
+                const block = blocks[i];
+                const result = processBlock(svg, block, lastNode, nodeId, yPos, centerX);
+                
+                lastNode = result.lastNode;
+                nodeId = result.nodeId;
+                yPos = result.yPos;
+                
+                flowchart.nodes.push(...result.nodes);
+                flowchart.arrows.push(...result.arrows);
+            }
+
+            // End node
+            const endNode = createFlowNode(svg, centerX, yPos, 'END', 'end', nodeId++);
+            flowchart.nodes.push(endNode);
+            createFlowArrow(svg, lastNode, endNode);
+
+            return flowchart;
+        };
+
+        // Process individual block and return result
+        const processBlock = (svg, block, fromNode, nodeId, yPos, centerX) => {
+            const result = {
+                nodes: [],
+                arrows: [],
+                lastNode: fromNode,
+                nodeId: nodeId,
+                yPos: yPos
+            };
+
+            switch (block.type) {
+                case 'statement':
+                    result.nodes.push(processStatement(svg, block, result.lastNode, result.nodeId++, result.yPos, centerX));
+                    result.yPos += 100;
+                    result.lastNode = result.nodes[result.nodes.length - 1];
+                    break;
+                    
+                case 'if':
+                    const ifResult = processIfBlock(svg, block, result.lastNode, result.nodeId, result.yPos, centerX);
+                    result.nodes.push(...ifResult.nodes);
+                    result.arrows.push(...ifResult.arrows);
+                    result.lastNode = ifResult.lastNode;
+                    result.nodeId = ifResult.nodeId;
+                    result.yPos = ifResult.yPos;
+                    break;
+                    
+                case 'while':
+                case 'for':
+                    const loopResult = processLoopBlock(svg, block, result.lastNode, result.nodeId, result.yPos, centerX);
+                    result.nodes.push(...loopResult.nodes);
+                    result.arrows.push(...loopResult.arrows);
+                    result.lastNode = loopResult.lastNode;
+                    result.nodeId = loopResult.nodeId;
+                    result.yPos = loopResult.yPos;
+                    break;
+                    
+                case 'control':
+                    result.nodes.push(processControlStatement(svg, block, result.lastNode, result.nodeId++, result.yPos, centerX));
+                    result.yPos += 100;
+                    result.lastNode = result.nodes[result.nodes.length - 1];
+                    break;
+                    
+                case 'end':
+                    result.nodes.push(processEndBlock(svg, block, result.lastNode, result.nodeId++, result.yPos, centerX));
+                    result.yPos += 100;
+                    result.lastNode = result.nodes[result.nodes.length - 1];
+                    break;
+            }
+
+            return result;
+        };
+
+        // Process a statement block
+        const processStatement = (svg, block, fromNode, nodeId, yPos, centerX) => {
+            const lowerLine = block.line.toLowerCase();
+            let nodeType = 'process';
+            
+            if (lowerLine.includes('print') || lowerLine.includes('output') || lowerLine.includes('display')) {
+                nodeType = 'output';
+            } else if (lowerLine.includes('input') || lowerLine.includes('read') || lowerLine.includes('get')) {
+                nodeType = 'input';
+            }
+
+            const displayText = block.line.length > 25 ? block.line.substring(0, 25) + '...' : block.line;
+            const node = createFlowNode(svg, centerX, yPos, displayText, nodeType, nodeId);
+            
+            createFlowArrow(svg, fromNode, node);
+            
+            return node;
+        };
+
+        // Process if block with branching
+        const processIfBlock = (svg, block, fromNode, nodeId, yPos, centerX) => {
+            const result = {
+                nodes: [],
+                arrows: [],
+                lastNode: null,
+                nodeId: nodeId,
+                yPos: yPos
+            };
+
+            // Create decision node
+            const conditionText = block.condition.length > 25 ? block.condition.substring(0, 25) + '...' : block.condition;
+            const decisionNode = createFlowNode(svg, centerX, result.yPos, conditionText, 'decision', result.nodeId++);
+            result.nodes.push(decisionNode);
+            createFlowArrow(svg, fromNode, decisionNode);
+            result.yPos += 150;
+
+            // Process then blocks
+            let thenLastNode = decisionNode;
+            let thenY = result.yPos;
+            if (block.thenBlocks.length > 0) {
+                for (const thenBlock of block.thenBlocks) {
+                    const thenResult = processBlock(svg, thenBlock, thenLastNode, result.nodeId, thenY, centerX - 150);
+                    result.nodes.push(...thenResult.nodes);
+                    result.arrows.push(...thenResult.arrows);
+                    thenLastNode = thenResult.lastNode;
+                    result.nodeId = thenResult.nodeId;
+                    thenY = thenResult.yPos;
+                }
+            }
+
+            // Process elseif blocks
+            let elseifLastNode = decisionNode;
+            let elseifY = result.yPos;
+            for (const elseifBlock of block.elseifBlocks) {
+                const elseifResult = processElseifBlock(svg, elseifBlock, elseifLastNode, result.nodeId, elseifY, centerX);
+                result.nodes.push(...elseifResult.nodes);
+                result.arrows.push(...elseifResult.arrows);
+                elseifLastNode = elseifResult.lastNode;
+                result.nodeId = elseifResult.nodeId;
+                elseifY = elseifResult.yPos;
+            }
+
+            // Process else blocks
+            let elseLastNode = decisionNode;
+            let elseY = result.yPos;
+            if (block.elseBlocks.length > 0) {
+                for (const elseBlock of block.elseBlocks) {
+                    const elseResult = processBlock(svg, elseBlock, elseLastNode, result.nodeId, elseY, centerX + 150);
+                    result.nodes.push(...elseResult.nodes);
+                    result.arrows.push(...elseResult.arrows);
+                    elseLastNode = elseResult.lastNode;
+                    result.nodeId = elseResult.nodeId;
+                    elseY = elseResult.yPos;
+                }
+            }
+
+            // Create merge point where YES and NO branches come together
+            const mergeY = Math.max(result.yPos, thenY, elseifY, elseY) + 50;
+            const mergePoint = {
+                x: centerX,
+                y: mergeY,
+                width: 0,
+                height: 0,
+                type: 'merge'
+            };
+
+            // Create Yes/No arrows from decision node to branches
+            if (thenLastNode !== decisionNode) {
+                createDecisionArrow(svg, decisionNode, thenLastNode, 'yes');
+                // Connect from then branch to merge point
+                createFlowArrow(svg, thenLastNode, mergePoint, 'yes');
+            } else {
+                // If no then branch, connect decision directly to merge point
+                createDecisionArrow(svg, decisionNode, mergePoint, 'yes');
+            }
+            
+            if (block.elseifBlocks.length > 0) {
+                createDecisionArrow(svg, decisionNode, elseifLastNode, 'no');
+                // Connect from elseif branch to merge point
+                createFlowArrow(svg, elseifLastNode, mergePoint, 'no');
+            } else if (block.elseBlocks.length > 0) {
+                createDecisionArrow(svg, decisionNode, elseLastNode, 'no');
+                // Connect from else branch to merge point
+                createFlowArrow(svg, elseLastNode, mergePoint, 'no');
+            } else {
+                // If no else/elseif branch, connect decision directly to merge point
+                createDecisionArrow(svg, decisionNode, mergePoint, 'no');
+            }
+
+            // Set the result to continue from the merge point
+            result.lastNode = mergePoint;
+            result.yPos = mergeY + 100;
+
+            return result;
+        };
+
+        // Process elseif block
+        const processElseifBlock = (svg, elseifBlock, fromNode, nodeId, yPos, centerX) => {
+            const result = {
+                nodes: [],
+                arrows: [],
+                lastNode: null,
+                nodeId: nodeId,
+                yPos: yPos
+            };
+
+            // Create elseif decision node
+            const conditionText = elseifBlock.condition.length > 25 ? elseifBlock.condition.substring(0, 25) + '...' : elseifBlock.condition;
+            const decisionNode = createFlowNode(svg, centerX, result.yPos, conditionText, 'decision', result.nodeId++);
+            result.nodes.push(decisionNode);
+            result.yPos += 150;
+
+            // Process elseif body
+            let bodyLastNode = decisionNode;
+            for (const bodyBlock of elseifBlock.blocks) {
+                const bodyResult = processBlock(svg, bodyBlock, bodyLastNode, result.nodeId, result.yPos, centerX - 150);
+                result.nodes.push(...bodyResult.nodes);
+                result.arrows.push(...bodyResult.arrows);
+                bodyLastNode = bodyResult.lastNode;
+                result.nodeId = bodyResult.nodeId;
+                result.yPos = bodyResult.yPos;
+            }
+
+            // Create merge point for elseif
+            const mergeY = Math.max(result.yPos, bodyLastNode.y + 100) + 50;
+            const mergePoint = {
+                x: centerX,
+                y: mergeY,
+                width: 0,
+                height: 0,
+                type: 'merge'
+            };
+
+            // Create arrows
+            if (bodyLastNode !== decisionNode) {
+                createDecisionArrow(svg, decisionNode, bodyLastNode, 'yes');
+                // Connect from elseif body to merge point
+                createFlowArrow(svg, bodyLastNode, mergePoint, 'yes');
+            } else {
+                // If no body, connect decision directly to merge point
+                createDecisionArrow(svg, decisionNode, mergePoint, 'yes');
+            }
+            // Note: The 'no' arrow will be handled by the parent if block
+
+            result.lastNode = mergePoint;
+            result.yPos = mergeY + 100;
+
+            return result;
+        };
+
+        // Process loop block (while/for)
+        const processLoopBlock = (svg, block, fromNode, nodeId, yPos, centerX) => {
+            const result = {
+                nodes: [],
+                arrows: [],
+                lastNode: null,
+                nodeId: nodeId,
+                yPos: yPos
+            };
+
+            // Create loop condition node
+            const conditionText = block.condition.length > 25 ? block.condition.substring(0, 25) + '...' : block.condition;
+            const conditionNode = createFlowNode(svg, centerX, result.yPos, conditionText, 'decision', result.nodeId++);
+            result.nodes.push(conditionNode);
+            createFlowArrow(svg, fromNode, conditionNode);
+            result.yPos += 150;
+
+            // Process loop body
+            let bodyLastNode = conditionNode;
+            let hasBreak = false;
+            let hasContinue = false;
+
+            for (const bodyBlock of block.bodyBlocks) {
+                if (bodyBlock.type === 'control') {
+                    if (bodyBlock.statement === 'break') {
+                        hasBreak = true;
+                        const breakNode = createFlowNode(svg, centerX + 200, result.yPos, 'BREAK', 'process', result.nodeId++);
+                        result.nodes.push(breakNode);
+                        createFlowArrow(svg, bodyLastNode, breakNode);
+                        bodyLastNode = breakNode;
+                        result.yPos += 100;
+                    } else if (bodyBlock.statement === 'continue') {
+                        hasContinue = true;
+                        const continueNode = createFlowNode(svg, centerX - 200, result.yPos, 'CONTINUE', 'process', result.nodeId++);
+                        result.nodes.push(continueNode);
+                        createFlowArrow(svg, bodyLastNode, continueNode);
+                        // Continue arrow back to condition
+                        createFlowArrow(svg, continueNode, conditionNode, 'continue');
+                        bodyLastNode = continueNode;
+                        result.yPos += 100;
+                    }
+                } else {
+                    const bodyResult = processBlock(svg, bodyBlock, bodyLastNode, result.nodeId, result.yPos, centerX);
+                    result.nodes.push(...bodyResult.nodes);
+                    result.arrows.push(...bodyResult.arrows);
+                    bodyLastNode = bodyResult.lastNode;
+                    result.nodeId = bodyResult.nodeId;
+                    result.yPos = bodyResult.yPos;
+                }
+            }
+
+            // Create loop exit node
+            const exitY = Math.max(result.yPos, bodyLastNode.y + 100);
+            const exitNode = createFlowNode(svg, centerX, exitY, 'EXIT LOOP', 'process', result.nodeId++);
+            result.nodes.push(exitNode);
+
+            // Create arrows
+            if (bodyLastNode !== conditionNode && !hasContinue) {
+                // Arrow from loop body back to condition
+                createFlowArrow(svg, bodyLastNode, conditionNode, 'loop');
+            }
+            
+            // Yes arrow (enter loop)
+            if (bodyLastNode !== conditionNode) {
+                createDecisionArrow(svg, conditionNode, bodyLastNode, 'yes');
+            } else {
+                createDecisionArrow(svg, conditionNode, exitNode, 'yes');
+            }
+            
+            // No arrow (exit loop)
+            createDecisionArrow(svg, conditionNode, exitNode, 'no');
+
+            // Break arrow to exit
+            if (hasBreak) {
+                createFlowArrow(svg, bodyLastNode, exitNode, 'break');
+            }
+
+            result.lastNode = exitNode;
+            result.yPos = exitY + 100;
+
+            return result;
+        };
+
+        // Process control statement (break/continue)
+        const processControlStatement = (svg, block, fromNode, nodeId, yPos, centerX) => {
+            const nodeType = block.statement === 'break' ? 'break' : 'continue';
+            const node = createFlowNode(svg, centerX, yPos, block.statement.toUpperCase(), 'process', nodeId);
+            
+            createFlowArrow(svg, fromNode, node);
+            
+            return node;
+        };
+
+        // Process end block (endif, endfor, endwhile)
+        const processEndBlock = (svg, block, fromNode, nodeId, yPos, centerX) => {
+            // Determine the node type based on the keyword to match the opening keyword style
+            let nodeType = 'process'; // default
+            if (block.keyword === 'endif') {
+                nodeType = 'decision'; // match if statement (diamond shape)
+            } else if (block.keyword === 'endfor' || block.keyword === 'endwhile') {
+                nodeType = 'decision'; // match for/while statements (diamond shape)
+            }
+            
+            const node = createFlowNode(svg, centerX, yPos, block.keyword.toUpperCase(), nodeType, nodeId);
+            
+            createFlowArrow(svg, fromNode, node);
+            
+            return node;
         };
 
         const createFlowNode = (svg, x, y, text, type, id) => {
@@ -1985,9 +2549,7 @@
             return { x, y, width, height, id, element: shapeElement, type };
         };
 
-        const createFlowArrow = (svg, fromNode, toNode) => {
-            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            
+        const createFlowArrow = (svg, fromNode, toNode, arrowType = 'default') => {
             // Calculate arrow positions based on node types and positions
             let startY, endY;
             
@@ -2005,13 +2567,104 @@
                 endY = toNode.y - toNode.height/2;
             }
             
-            line.setAttribute('x1', fromNode.x);
-            line.setAttribute('y1', startY);
-            line.setAttribute('x2', toNode.x);
-            line.setAttribute('y2', endY);
-            line.setAttribute('class', 'flow-arrow');
+            // Create orthogonal path (square-angled connector)
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            
+            // Calculate the midpoint for the orthogonal connection
+            const midY = startY + (endY - startY) / 2;
+            
+            // Create path: down from start, across, then up to end
+            const pathData = `M ${fromNode.x} ${startY} L ${fromNode.x} ${midY} L ${toNode.x} ${midY} L ${toNode.x} ${endY}`;
+            path.setAttribute('d', pathData);
+            path.setAttribute('fill', 'none');
+            
+            // Set arrow class based on type
+            let arrowClass = 'flow-arrow';
+            let markerEnd = 'arrowhead';
+            
+            switch (arrowType) {
+                case 'yes':
+                    arrowClass = 'flow-arrow yes';
+                    markerEnd = 'arrowhead-yes';
+                    break;
+                case 'no':
+                    arrowClass = 'flow-arrow no';
+                    markerEnd = 'arrowhead-no';
+                    break;
+                case 'loop':
+                    arrowClass = 'flow-arrow loop';
+                    markerEnd = 'arrowhead';
+                    break;
+                case 'break':
+                    arrowClass = 'flow-arrow break';
+                    markerEnd = 'arrowhead-no';
+                    break;
+                case 'continue':
+                    arrowClass = 'flow-arrow continue';
+                    markerEnd = 'arrowhead';
+                    break;
+                default:
+                    arrowClass = 'flow-arrow';
+                    markerEnd = 'arrowhead';
+                    break;
+            }
+            
+            path.setAttribute('class', arrowClass);
+            path.setAttribute('marker-end', `url(#${markerEnd})`);
 
-            svg.appendChild(line);
+            svg.appendChild(path);
+        };
+
+        // Create decision arrow with label
+        const createDecisionArrow = (svg, fromNode, toNode, label) => {
+            const arrow = createFlowArrow(svg, fromNode, toNode, label);
+            
+            // Add label text for decision arrows
+            if (label === 'yes' || label === 'no') {
+                const labelText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                
+                // Calculate label position for orthogonal path
+                // Position label on the horizontal segment of the orthogonal path
+                let startY, endY;
+                
+                if (fromNode.type === 'start' || fromNode.type === 'end') {
+                    startY = fromNode.y + fromNode.height/2;
+                } else {
+                    startY = fromNode.y + fromNode.height/2;
+                }
+                
+                if (toNode.type === 'start' || toNode.type === 'end') {
+                    endY = toNode.y - toNode.height/2;
+                } else {
+                    endY = toNode.y - toNode.height/2;
+                }
+                
+                const midY = startY + (endY - startY) / 2;
+                const midX = (fromNode.x + toNode.x) / 2;
+                
+                // Offset label based on arrow direction
+                let offsetX = 0, offsetY = 0;
+                if (label === 'yes') {
+                    offsetX = -25;
+                    offsetY = -8;
+                } else if (label === 'no') {
+                    offsetX = 25;
+                    offsetY = -8;
+                }
+                
+                labelText.setAttribute('x', midX + offsetX);
+                labelText.setAttribute('y', midY + offsetY);
+                labelText.setAttribute('class', 'flow-arrow-label');
+                labelText.setAttribute('text-anchor', 'middle');
+                labelText.setAttribute('dominant-baseline', 'middle');
+                labelText.setAttribute('font-size', '12');
+                labelText.setAttribute('font-weight', 'bold');
+                labelText.textContent = label.toUpperCase();
+
+                svg.appendChild(labelText);
+            }
+            
+            return arrow;
         };
 
         // Zoom functionality
