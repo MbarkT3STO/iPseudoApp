@@ -110,6 +110,12 @@
                     <span>Run</span>
                 </button>
                 
+                <!-- Flow Diagram Button -->
+                <button class="modern-btn modern-btn-secondary" id="btnFlowDiagram" aria-label="Generate Flow Diagram">
+                    <i class="ri-flow-chart"></i>
+                    <span>Flow</span>
+                </button>
+                
                 <!-- Stop Button -->
                 <button class="modern-btn modern-btn-stop" id="btnStop" style="display: none;">
                     <i class="ri-stop-line"></i>
@@ -491,6 +497,82 @@
                     <i class="ri-check-line"></i>
                     Got it
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Flow Diagram Modal -->
+    <div class="ultra-modal-backdrop" id="flowDiagramModal" style="display: none;">
+        <div class="modern-modal-box flow-diagram-modal">
+            <!-- Brand & Close Header -->
+            <div class="modal-brand-header">
+                <div class="brand-section">
+                    <div class="brand-icon">
+                        <div class="icon-shell">
+                            <i class="ri-flow-chart"></i>
+                        </div>
+                    </div>
+                    <div class="brand-text">
+                        <div class="app-title-line">Flow Diagram</div>
+                        <div class="version-info">Visual representation of your pseudocode</div>
+                    </div>
+                </div>
+                <button class="modal-close-btn" id="closeFlowModal">
+                    <i class="ri-close-line"></i>
+                </button>
+            </div>
+
+            <!-- Flow Diagram Content -->
+            <div class="modal-body-scroll">
+                <!-- Zoom Controls -->
+                <div class="flow-zoom-controls" id="flowZoomControls" style="display: none;">
+                    <div class="zoom-info">
+                        <span id="zoomLevel">100%</span>
+                    </div>
+                    <div class="zoom-buttons">
+                        <button class="modern-btn modern-btn-sm" id="btnZoomOut" aria-label="Zoom Out">
+                            <i class="ri-zoom-out-line"></i>
+                        </button>
+                        <button class="modern-btn modern-btn-sm" id="btnZoomReset" aria-label="Reset Zoom">
+                            <i class="ri-refresh-line"></i>
+                        </button>
+                        <button class="modern-btn modern-btn-sm" id="btnZoomIn" aria-label="Zoom In">
+                            <i class="ri-zoom-in-line"></i>
+                        </button>
+                        <button class="modern-btn modern-btn-sm" id="btnZoomFit" aria-label="Fit to Screen">
+                            <i class="ri-fullscreen-line"></i>
+                        </button>
+                        <button class="modern-btn modern-btn-sm" id="btnFullscreen" aria-label="Toggle Full Screen">
+                            <i class="ri-fullscreen-fill"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="flow-diagram-container" id="flowDiagramContainer">
+                    <div class="flow-diagram-placeholder">
+                        <div class="placeholder-icon">
+                            <i class="ri-flow-chart"></i>
+                        </div>
+                        <div class="placeholder-content">
+                            <h4>Flow Diagram</h4>
+                            <p>Click "Generate" to create a visual flow diagram from your pseudocode</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Actions -->
+            <div class="modal-footer-section">
+                <div class="flow-actions">
+                    <button class="modern-btn modern-btn-secondary" id="btnExportFlow">
+                        <i class="ri-download-line"></i>
+                        <span>Export</span>
+                    </button>
+                    <button class="modern-btn modern-btn-primary" id="btnGenerateFlow">
+                        <i class="ri-refresh-line"></i>
+                        <span>Generate</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -1063,6 +1145,347 @@
             color: #64748b;
         }
 
+        /* Flow Diagram Modal Styles */
+        .flow-diagram-modal {
+            max-width: 800px;
+            max-height: 90vh;
+        }
+
+        .flow-diagram-container {
+            min-height: 400px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: auto;
+            max-height: 70vh;
+            cursor: grab;
+            user-select: none;
+        }
+
+        .flow-diagram-container:active {
+            cursor: grabbing;
+        }
+
+        .flow-diagram-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 350px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .placeholder-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #9333ea 0%, #4f46e5 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 24px rgba(147, 51, 234, 0.3);
+        }
+
+        .placeholder-content h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            margin: 0 0 0.5rem 0;
+        }
+
+        .placeholder-content p {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.65);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .flow-actions {
+            display: flex;
+            gap: 0.75rem;
+            width: 100%;
+        }
+
+        .flow-actions .modern-btn {
+            flex: 1;
+        }
+
+        /* Zoom Controls */
+        .flow-zoom-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .zoom-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .zoom-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .zoom-buttons .modern-btn {
+            min-width: 36px;
+            height: 36px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Light theme zoom controls */
+        [data-theme="light"] .flow-zoom-controls {
+            background: rgba(248, 250, 252, 0.8);
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+
+        [data-theme="light"] .zoom-info {
+            color: #1e293b;
+        }
+
+        /* Full Screen Mode */
+        .flow-diagram-fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 10000;
+            background: linear-gradient(135deg,
+                rgba(15, 23, 42, 0.95) 0%,
+                rgba(30, 41, 59, 0.95) 50%,
+                rgba(51, 65, 85, 0.95) 100%),
+                var(--bg-primary);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .flow-diagram-fullscreen .flow-zoom-controls {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 10001;
+            margin: 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .flow-diagram-fullscreen .flow-diagram-container {
+            flex: 1;
+            margin: 0;
+            border-radius: 0;
+            max-height: none;
+            height: 100vh;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px) saturate(150%);
+            -webkit-backdrop-filter: blur(12px) saturate(150%);
+        }
+
+        .flow-diagram-fullscreen .flow-diagram-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Full screen close button */
+        .flow-fullscreen-close {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 10001;
+            width: 48px;
+            height: 48px;
+            background: rgba(239, 68, 68, 0.9);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+        }
+
+        .flow-fullscreen-close:hover {
+            background: rgba(239, 68, 68, 1);
+            transform: scale(1.1);
+        }
+
+        /* Light theme full screen */
+        [data-theme="light"] .flow-diagram-fullscreen {
+            background: linear-gradient(135deg,
+                rgba(248, 250, 252, 0.95) 0%,
+                rgba(241, 245, 249, 0.95) 50%,
+                rgba(226, 232, 240, 0.95) 100%),
+                var(--bg-primary);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+        }
+
+        [data-theme="light"] .flow-diagram-fullscreen .flow-zoom-controls {
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        [data-theme="light"] .flow-diagram-fullscreen .flow-diagram-container {
+            background: rgba(248, 250, 252, 0.8);
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+
+        /* Flow Diagram SVG Styles */
+        .flow-diagram-svg {
+            width: 100%;
+            height: 100%;
+            min-height: 350px;
+        }
+
+        /* Base flow node styles */
+        .flow-node {
+            stroke-width: 2;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+        }
+
+        /* Start/End nodes (Oval) */
+        .flow-node.start {
+            fill: #10b981;
+            stroke: #059669;
+        }
+
+        .flow-node.end {
+            fill: #ef4444;
+            stroke: #dc2626;
+        }
+
+        /* Process nodes (Rectangle) */
+        .flow-node.process {
+            fill: #3b82f6;
+            stroke: #1d4ed8;
+        }
+
+        /* Decision nodes (Diamond) */
+        .flow-node.decision {
+            fill: #f59e0b;
+            stroke: #d97706;
+        }
+
+        /* Input/Output nodes (Parallelogram) */
+        .flow-node.input {
+            fill: #8b5cf6;
+            stroke: #7c3aed;
+        }
+
+        .flow-node.output {
+            fill: #06b6d4;
+            stroke: #0891b2;
+        }
+
+        /* Text styling */
+        .flow-text {
+            fill: white;
+            font-family: var(--font-family-primary);
+            font-size: 13px;
+            font-weight: 600;
+            text-anchor: middle;
+            dominant-baseline: middle;
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+        }
+
+        /* Arrow styling */
+        .flow-arrow {
+            stroke: rgba(255, 255, 255, 0.8);
+            stroke-width: 2.5;
+            fill: none;
+            marker-end: url(#arrowhead);
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .flow-arrow.yes {
+            stroke: #10b981;
+        }
+
+        .flow-arrow.no {
+            stroke: #ef4444;
+        }
+
+        /* Light Theme Flow Diagram */
+        [data-theme="light"] .flow-diagram-container {
+            background: rgba(248, 250, 252, 0.8);
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+
+        [data-theme="light"] .placeholder-content h4 {
+            color: #1e293b;
+        }
+
+        [data-theme="light"] .placeholder-content p {
+            color: #64748b;
+        }
+
+        [data-theme="light"] .flow-text {
+            fill: white;
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+        }
+
+        [data-theme="light"] .flow-arrow {
+            stroke: #475569;
+        }
+
+        /* Light theme node colors - slightly adjusted for better contrast */
+        [data-theme="light"] .flow-node.start {
+            fill: #059669;
+            stroke: #047857;
+        }
+
+        [data-theme="light"] .flow-node.end {
+            fill: #dc2626;
+            stroke: #b91c1c;
+        }
+
+        [data-theme="light"] .flow-node.process {
+            fill: #2563eb;
+            stroke: #1d4ed8;
+        }
+
+        [data-theme="light"] .flow-node.decision {
+            fill: #d97706;
+            stroke: #b45309;
+        }
+
+        [data-theme="light"] .flow-node.input {
+            fill: #7c3aed;
+            stroke: #6d28d9;
+        }
+
+        [data-theme="light"] .flow-node.output {
+            fill: #0891b2;
+            stroke: #0e7490;
+        }
+
         /* Responsive Adjustments */
         @media (max-height: 600px) {
             .modern-modal-box {
@@ -1092,6 +1515,14 @@
             .social-button {
                 padding: 0.75rem;
             }
+            
+            .flow-diagram-modal {
+                max-width: 95vw;
+            }
+            
+            .flow-actions {
+                flex-direction: column;
+            }
         }
     </style>
     
@@ -1101,6 +1532,38 @@
         const closeModal = document.getElementById('closeModal');
         const closeModalBtn = document.getElementById('closeModalBtn');
         const appBrand = document.getElementById('appBrand');
+
+        // Flow Diagram Modal functionality
+        const flowDiagramModal = document.getElementById('flowDiagramModal');
+        const closeFlowModal = document.getElementById('closeFlowModal');
+        const btnFlowDiagram = document.getElementById('btnFlowDiagram');
+        const btnGenerateFlow = document.getElementById('btnGenerateFlow');
+        const btnExportFlow = document.getElementById('btnExportFlow');
+        const flowDiagramContainer = document.getElementById('flowDiagramContainer');
+        
+        // Zoom controls
+        const flowZoomControls = document.getElementById('flowZoomControls');
+        const btnZoomOut = document.getElementById('btnZoomOut');
+        const btnZoomReset = document.getElementById('btnZoomReset');
+        const btnZoomIn = document.getElementById('btnZoomIn');
+        const btnZoomFit = document.getElementById('btnZoomFit');
+        const btnFullscreen = document.getElementById('btnFullscreen');
+        const zoomLevel = document.getElementById('zoomLevel');
+        
+        // Zoom state
+        let currentZoom = 1;
+        let originalViewBox = null;
+        
+        // Pan state
+        let isPanning = false;
+        let panStartX = 0;
+        let panStartY = 0;
+        let currentPanX = 0;
+        let currentPanY = 0;
+        
+        // Full screen state
+        let isFullscreen = false;
+        let fullscreenContainer = null;
 
         // Handle external links
         document.addEventListener('click', (e) => {
@@ -1194,10 +1657,812 @@
             }
         });
 
+        // Flow Diagram Modal handlers
+        const showFlowModal = () => {
+            flowDiagramModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => {
+                flowDiagramModal.style.opacity = '1';
+                flowDiagramModal.style.visibility = 'visible';
+                const modalBox = flowDiagramModal.querySelector('.modern-modal-box');
+                if (modalBox) {
+                    modalBox.classList.add('show');
+                }
+            }, 10);
+        };
+
+        const hideFlowModal = () => {
+            // Exit full screen if active
+            if (isFullscreen) {
+                exitFullscreen();
+            }
+            
+            const modalBox = flowDiagramModal.querySelector('.modern-modal-box');
+            if (modalBox) {
+                modalBox.classList.remove('show');
+            }
+            flowDiagramModal.style.opacity = '0';
+            flowDiagramModal.style.visibility = 'hidden';
+            setTimeout(() => {
+                flowDiagramModal.style.display = 'none';
+                document.body.style.overflow = '';
+                
+                // Hide zoom controls and reset state
+                flowZoomControls.style.display = 'none';
+                currentZoom = 1;
+                originalViewBox = null;
+                currentPanX = 0;
+                currentPanY = 0;
+                isPanning = false;
+            }, 300);
+        };
+
+        // Flow Diagram button click handler
+        btnFlowDiagram.addEventListener('click', (e) => {
+            e.preventDefault();
+            showFlowModal();
+        });
+
+        // Close flow modal handlers
+        closeFlowModal.addEventListener('click', hideFlowModal);
+
+        // Close flow modal when clicking outside content
+        flowDiagramModal.addEventListener('click', (e) => {
+            if (e.target === flowDiagramModal) {
+                hideFlowModal();
+            }
+        });
+
+        // Flow Diagram Generation Logic
+        const generateFlowDiagram = () => {
+            // Get the current pseudocode from the editor
+            let pseudocode = '';
+            if (window.monaco && window.monaco.editor) {
+                const editor = window.monaco.editor.getEditors()[0];
+                if (editor) {
+                    pseudocode = editor.getValue();
+                }
+            }
+
+            if (!pseudocode.trim()) {
+                alert('Please write some pseudocode first!');
+                return;
+            }
+
+            // Clear the container
+            flowDiagramContainer.innerHTML = '';
+
+            // Create SVG element with dynamic sizing
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('class', 'flow-diagram-svg');
+            svg.setAttribute('width', '100%');
+            svg.setAttribute('height', '100%');
+
+            // Add arrow marker definition
+            const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+            const marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+            marker.setAttribute('id', 'arrowhead');
+            marker.setAttribute('markerWidth', '10');
+            marker.setAttribute('markerHeight', '7');
+            marker.setAttribute('refX', '9');
+            marker.setAttribute('refY', '3.5');
+            marker.setAttribute('orient', 'auto');
+            
+            const polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+            polygon.setAttribute('points', '0 0, 10 3.5, 0 7');
+            polygon.setAttribute('fill', 'rgba(255, 255, 255, 0.6)');
+            marker.appendChild(polygon);
+            defs.appendChild(marker);
+            svg.appendChild(defs);
+
+            // Parse pseudocode and create flow diagram
+            let inBlockComment = false;
+            const lines = pseudocode.split('\n')
+                .map(line => line.trim())
+                .filter(line => {
+                    // Filter out empty lines
+                    if (!line) return false;
+                    
+                    const trimmedLine = line.trim();
+                    
+                    // Handle block comments /* ... */
+                    if (trimmedLine.includes('/*')) {
+                        inBlockComment = true;
+                    }
+                    if (inBlockComment) {
+                        if (trimmedLine.includes('*/')) {
+                            inBlockComment = false;
+                        }
+                        return false;
+                    }
+                    
+                    // Filter out single-line comments
+                    if (trimmedLine.startsWith('#') || 
+                        trimmedLine.startsWith('//') || 
+                        trimmedLine.startsWith('/*') ||
+                        trimmedLine.startsWith('*') ||
+                        trimmedLine.startsWith('--')) {
+                        return false;
+                    }
+                    
+                    return true;
+                });
+            const nodes = [];
+            const arrows = [];
+
+            // Simple parsing logic for common pseudocode patterns
+            let yPos = 80;
+            let nodeId = 0;
+            const centerX = 400;
+
+            // Start node (oval)
+            const startNode = createFlowNode(svg, centerX, yPos, 'START', 'start', nodeId++);
+            nodes.push(startNode);
+            yPos += 100;
+
+            // Process each line
+            for (let i = 0; i < lines.length; i++) {
+                let originalLine = lines[i];
+                
+                // Remove inline comments (everything after #, //, or --)
+                const commentIndex = Math.min(
+                    originalLine.indexOf('#') !== -1 ? originalLine.indexOf('#') : originalLine.length,
+                    originalLine.indexOf('//') !== -1 ? originalLine.indexOf('//') : originalLine.length,
+                    originalLine.indexOf('--') !== -1 ? originalLine.indexOf('--') : originalLine.length
+                );
+                
+                if (commentIndex < originalLine.length) {
+                    originalLine = originalLine.substring(0, commentIndex).trim();
+                }
+                
+                // Skip if line becomes empty after removing comments
+                if (!originalLine) continue;
+                
+                const line = originalLine.toLowerCase();
+                
+                if (line.includes('if') || line.includes('while') || line.includes('for')) {
+                    // Decision node (diamond)
+                    const displayText = originalLine.length > 25 ? originalLine.substring(0, 25) + '...' : originalLine;
+                    const decisionNode = createFlowNode(svg, centerX, yPos, displayText, 'decision', nodeId++);
+                    nodes.push(decisionNode);
+                    yPos += Math.max(100, decisionNode.height + 60);
+                } else if (line.includes('end') || line.includes('stop') || line.includes('return')) {
+                    // End node (oval)
+                    const endNode = createFlowNode(svg, centerX, yPos, 'END', 'end', nodeId++);
+                    nodes.push(endNode);
+                    break;
+                } else if (line.includes('print') || line.includes('output') || line.includes('display')) {
+                    // Output node (parallelogram)
+                    const displayText = originalLine.length > 25 ? originalLine.substring(0, 25) + '...' : originalLine;
+                    const outputNode = createFlowNode(svg, centerX, yPos, displayText, 'output', nodeId++);
+                    nodes.push(outputNode);
+                    yPos += Math.max(100, outputNode.height + 60);
+                } else if (line.includes('input') || line.includes('read') || line.includes('get')) {
+                    // Input node (parallelogram)
+                    const displayText = originalLine.length > 25 ? originalLine.substring(0, 25) + '...' : originalLine;
+                    const inputNode = createFlowNode(svg, centerX, yPos, displayText, 'input', nodeId++);
+                    nodes.push(inputNode);
+                    yPos += Math.max(100, inputNode.height + 60);
+                } else if (line.includes('var') || line.includes('=') || line.trim()) {
+                    // Process node (rectangle)
+                    const displayText = originalLine.length > 25 ? originalLine.substring(0, 25) + '...' : originalLine;
+                    const processNode = createFlowNode(svg, centerX, yPos, displayText, 'process', nodeId++);
+                    nodes.push(processNode);
+                    yPos += Math.max(100, processNode.height + 60);
+                }
+            }
+
+            // If no end node was found, add one
+            if (nodes.length > 0 && !nodes[nodes.length - 1].type === 'end') {
+                const endNode = createFlowNode(svg, centerX, yPos, 'END', 'end', nodeId++);
+                nodes.push(endNode);
+            }
+
+            // Add arrows between nodes
+            for (let i = 0; i < nodes.length - 1; i++) {
+                createFlowArrow(svg, nodes[i], nodes[i + 1]);
+            }
+
+            // Calculate the bounding box of all elements
+            let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+            
+            nodes.forEach(node => {
+                const left = node.x - node.width / 2;
+                const right = node.x + node.width / 2;
+                const top = node.y - node.height / 2;
+                const bottom = node.y + node.height / 2;
+                
+                minX = Math.min(minX, left);
+                maxX = Math.max(maxX, right);
+                minY = Math.min(minY, top);
+                maxY = Math.max(maxY, bottom);
+            });
+
+            // Add padding around the content
+            const padding = 50;
+            minX -= padding;
+            minY -= padding;
+            maxX += padding;
+            maxY += padding;
+
+            // Set the viewBox to fit all content
+            const width = maxX - minX;
+            const height = maxY - minY;
+            svg.setAttribute('viewBox', `${minX} ${minY} ${width} ${height}`);
+
+            // Adjust container height to accommodate content
+            const containerHeight = Math.max(400, height + 100);
+            flowDiagramContainer.style.height = `${containerHeight}px`;
+
+            // Store original viewBox for zoom reset
+            originalViewBox = `${minX} ${minY} ${width} ${height}`;
+            currentZoom = 1;
+            updateZoomDisplay();
+
+            // Show zoom controls
+            flowZoomControls.style.display = 'flex';
+
+            flowDiagramContainer.appendChild(svg);
+        };
+
+        const createFlowNode = (svg, x, y, text, type, id) => {
+            // Calculate text dimensions for proper fitting
+            const textLength = text.length;
+            const charWidth = 8; // Approximate character width
+            const lineHeight = 16;
+            const padding = 16;
+            
+            // Calculate dimensions based on text length and type
+            let width, height;
+            if (type === 'start' || type === 'end') {
+                // Oval shape - wider for start/end
+                width = Math.max(120, textLength * charWidth + padding * 2);
+                height = 50;
+            } else if (type === 'decision') {
+                // Diamond shape - square dimensions
+                const size = Math.max(100, Math.max(textLength * charWidth, 60) + padding);
+                width = size;
+                height = size;
+            } else if (type === 'input' || type === 'output') {
+                // Parallelogram - wider for I/O
+                width = Math.max(140, textLength * charWidth + padding * 2);
+                height = 40;
+            } else {
+                // Rectangle - standard process
+                width = Math.max(120, textLength * charWidth + padding * 2);
+                height = 40;
+            }
+
+            let shapeElement;
+            
+            if (type === 'start' || type === 'end') {
+                // Create oval/ellipse
+                shapeElement = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+                shapeElement.setAttribute('cx', x);
+                shapeElement.setAttribute('cy', y);
+                shapeElement.setAttribute('rx', width / 2);
+                shapeElement.setAttribute('ry', height / 2);
+            } else if (type === 'decision') {
+                // Create diamond
+                const halfWidth = width / 2;
+                const halfHeight = height / 2;
+                const points = `${x},${y - halfHeight} ${x + halfWidth},${y} ${x},${y + halfHeight} ${x - halfWidth},${y}`;
+                shapeElement = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+                shapeElement.setAttribute('points', points);
+            } else if (type === 'input' || type === 'output') {
+                // Create parallelogram
+                const halfWidth = width / 2;
+                const halfHeight = height / 2;
+                const skew = 10; // Parallelogram skew amount
+                const points = `${x - halfWidth + skew},${y - halfHeight} ${x + halfWidth + skew},${y - halfHeight} ${x + halfWidth - skew},${y + halfHeight} ${x - halfWidth - skew},${y + halfHeight}`;
+                shapeElement = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+                shapeElement.setAttribute('points', points);
+            } else {
+                // Create rectangle
+                shapeElement = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                shapeElement.setAttribute('x', x - width/2);
+                shapeElement.setAttribute('y', y - height/2);
+                shapeElement.setAttribute('width', width);
+                shapeElement.setAttribute('height', height);
+                shapeElement.setAttribute('rx', 8);
+                shapeElement.setAttribute('ry', 8);
+            }
+
+            shapeElement.setAttribute('class', `flow-node ${type}`);
+            shapeElement.setAttribute('data-node-id', id);
+
+            const textElement = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            textElement.setAttribute('x', x);
+            textElement.setAttribute('y', y);
+            textElement.setAttribute('class', 'flow-text');
+            textElement.setAttribute('text-anchor', 'middle');
+            textElement.setAttribute('dominant-baseline', 'middle');
+            textElement.textContent = text;
+
+            svg.appendChild(shapeElement);
+            svg.appendChild(textElement);
+
+            return { x, y, width, height, id, element: shapeElement, type };
+        };
+
+        const createFlowArrow = (svg, fromNode, toNode) => {
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            
+            // Calculate arrow positions based on node types and positions
+            let startY, endY;
+            
+            if (fromNode.type === 'start' || fromNode.type === 'end') {
+                // For oval shapes, use the bottom/top edge
+                startY = fromNode.y + fromNode.height/2;
+            } else {
+                startY = fromNode.y + fromNode.height/2;
+            }
+            
+            if (toNode.type === 'start' || toNode.type === 'end') {
+                // For oval shapes, use the top edge
+                endY = toNode.y - toNode.height/2;
+            } else {
+                endY = toNode.y - toNode.height/2;
+            }
+            
+            line.setAttribute('x1', fromNode.x);
+            line.setAttribute('y1', startY);
+            line.setAttribute('x2', toNode.x);
+            line.setAttribute('y2', endY);
+            line.setAttribute('class', 'flow-arrow');
+
+            svg.appendChild(line);
+        };
+
+        // Zoom functionality
+        const updateZoomDisplay = () => {
+            zoomLevel.textContent = `${Math.round(currentZoom * 100)}%`;
+        };
+
+        const applyZoom = (zoomFactor, panX = currentPanX, panY = currentPanY) => {
+            // Determine which container to use (modal or fullscreen)
+            let svg, container;
+            if (isFullscreen && fullscreenContainer) {
+                container = fullscreenContainer.querySelector('#flowDiagramContainerFullscreen');
+                svg = container?.querySelector('svg');
+            } else {
+                container = flowDiagramContainer;
+                svg = container?.querySelector('svg');
+            }
+
+            if (!svg || !originalViewBox) return;
+
+            const [x, y, width, height] = originalViewBox.split(' ').map(Number);
+            const newWidth = width / zoomFactor;
+            const newHeight = height / zoomFactor;
+            const newX = x + (width - newWidth) / 2 + panX;
+            const newY = y + (height - newHeight) / 2 + panY;
+
+            svg.setAttribute('viewBox', `${newX} ${newY} ${newWidth} ${newHeight}`);
+            
+            // Update zoom display in the appropriate container
+            if (isFullscreen && fullscreenContainer) {
+                const fullscreenZoomLevel = fullscreenContainer.querySelector('#zoomLevelFullscreen');
+                if (fullscreenZoomLevel) {
+                    fullscreenZoomLevel.textContent = `${Math.round(zoomFactor * 100)}%`;
+                }
+            } else {
+                updateZoomDisplay();
+            }
+        };
+
+        const zoomIn = () => {
+            if (currentZoom < 3) {
+                currentZoom *= 1.2;
+                applyZoom(currentZoom);
+            }
+        };
+
+        const zoomOut = () => {
+            if (currentZoom > 0.3) {
+                currentZoom /= 1.2;
+                applyZoom(currentZoom);
+            }
+        };
+
+        const resetZoom = () => {
+            currentZoom = 1;
+            currentPanX = 0;
+            currentPanY = 0;
+            const svg = flowDiagramContainer.querySelector('svg');
+            if (svg && originalViewBox) {
+                svg.setAttribute('viewBox', originalViewBox);
+                updateZoomDisplay();
+            }
+        };
+
+        const fitToScreen = () => {
+            const svg = flowDiagramContainer.querySelector('svg');
+            if (!svg || !originalViewBox) return;
+
+            const container = flowDiagramContainer;
+            const containerWidth = container.clientWidth - 32; // Account for padding
+            const containerHeight = container.clientHeight - 32;
+
+            const [x, y, width, height] = originalViewBox.split(' ').map(Number);
+            const scaleX = containerWidth / width;
+            const scaleY = containerHeight / height;
+            const scale = Math.min(scaleX, scaleY, 1); // Don't zoom in beyond 100%
+
+            currentZoom = scale;
+            applyZoom(currentZoom);
+        };
+
+        // Mouse wheel zoom
+        const handleWheelZoom = (e) => {
+            if (!flowZoomControls.style.display || flowZoomControls.style.display === 'none') return;
+            
+            e.preventDefault();
+            if (e.deltaY < 0) {
+                zoomIn();
+            } else {
+                zoomOut();
+            }
+        };
+
+        // Event listeners for zoom controls
+        btnZoomIn.addEventListener('click', zoomIn);
+        btnZoomOut.addEventListener('click', zoomOut);
+        btnZoomReset.addEventListener('click', resetZoom);
+        btnZoomFit.addEventListener('click', fitToScreen);
+        btnFullscreen.addEventListener('click', () => {
+            if (isFullscreen) {
+                exitFullscreen();
+            } else {
+                enterFullscreen();
+            }
+        });
+
+        // Pan functionality
+        const startPan = (clientX, clientY) => {
+            isPanning = true;
+            panStartX = clientX;
+            panStartY = clientY;
+            // Set cursor for the appropriate container
+            if (isFullscreen && fullscreenContainer) {
+                const container = fullscreenContainer.querySelector('#flowDiagramContainerFullscreen');
+                if (container) container.style.cursor = 'grabbing';
+            } else {
+                flowDiagramContainer.style.cursor = 'grabbing';
+            }
+        };
+
+        const doPan = (clientX, clientY) => {
+            if (!isPanning) return;
+
+            const deltaX = clientX - panStartX;
+            const deltaY = clientY - panStartY;
+
+            // Determine which container to use for coordinate conversion
+            let container;
+            if (isFullscreen && fullscreenContainer) {
+                container = fullscreenContainer.querySelector('#flowDiagramContainerFullscreen');
+            } else {
+                container = flowDiagramContainer;
+            }
+
+            if (!container) return;
+
+            // Convert screen coordinates to SVG coordinates
+            const [x, y, width, height] = originalViewBox.split(' ').map(Number);
+            const scaleX = width / container.clientWidth;
+            const scaleY = height / container.clientHeight;
+
+            currentPanX += deltaX * scaleX;
+            currentPanY += deltaY * scaleY;
+
+            applyZoom(currentZoom, currentPanX, currentPanY);
+
+            panStartX = clientX;
+            panStartY = clientY;
+        };
+
+        const endPan = () => {
+            isPanning = false;
+            // Reset cursor for the appropriate container
+            if (isFullscreen && fullscreenContainer) {
+                const container = fullscreenContainer.querySelector('#flowDiagramContainerFullscreen');
+                if (container) container.style.cursor = 'grab';
+            } else {
+                flowDiagramContainer.style.cursor = 'grab';
+            }
+        };
+
+        // Mouse events for panning
+        flowDiagramContainer.addEventListener('mousedown', (e) => {
+            if (e.button === 0) { // Left mouse button
+                e.preventDefault();
+                startPan(e.clientX, e.clientY);
+            }
+        });
+
+        flowDiagramContainer.addEventListener('mousemove', (e) => {
+            if (isPanning) {
+                e.preventDefault();
+                doPan(e.clientX, e.clientY);
+            }
+        });
+
+        flowDiagramContainer.addEventListener('mouseup', () => {
+            endPan();
+        });
+
+        flowDiagramContainer.addEventListener('mouseleave', () => {
+            endPan();
+        });
+
+        // Touch events for mobile panning
+        flowDiagramContainer.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                startPan(touch.clientX, touch.clientY);
+            }
+        });
+
+        flowDiagramContainer.addEventListener('touchmove', (e) => {
+            if (isPanning && e.touches.length === 1) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                doPan(touch.clientX, touch.clientY);
+            }
+        });
+
+        flowDiagramContainer.addEventListener('touchend', () => {
+            endPan();
+        });
+
+        // Full screen functionality
+        const enterFullscreen = () => {
+            if (isFullscreen) return;
+            
+            // Create full screen container
+            fullscreenContainer = document.createElement('div');
+            fullscreenContainer.className = 'flow-diagram-fullscreen';
+            fullscreenContainer.id = 'flowDiagramFullscreen';
+            
+            // Clone the diagram container with its content
+            const clonedDiagramContainer = flowDiagramContainer.cloneNode(true);
+            clonedDiagramContainer.id = 'flowDiagramContainerFullscreen';
+            
+            // Create new zoom controls for full screen
+            const fullscreenZoomControls = document.createElement('div');
+            fullscreenZoomControls.className = 'flow-zoom-controls';
+            fullscreenZoomControls.innerHTML = `
+                <div class="zoom-info">
+                    <span id="zoomLevelFullscreen">${Math.round(currentZoom * 100)}%</span>
+                </div>
+                <div class="zoom-buttons">
+                    <button class="modern-btn modern-btn-sm" id="btnZoomOutFullscreen" aria-label="Zoom Out">
+                        <i class="ri-zoom-out-line"></i>
+                    </button>
+                    <button class="modern-btn modern-btn-sm" id="btnZoomResetFullscreen" aria-label="Reset Zoom">
+                        <i class="ri-refresh-line"></i>
+                    </button>
+                    <button class="modern-btn modern-btn-sm" id="btnZoomInFullscreen" aria-label="Zoom In">
+                        <i class="ri-zoom-in-line"></i>
+                    </button>
+                    <button class="modern-btn modern-btn-sm" id="btnZoomFitFullscreen" aria-label="Fit to Screen">
+                        <i class="ri-fullscreen-line"></i>
+                    </button>
+                    <button class="modern-btn modern-btn-sm" id="btnExitFullscreen" aria-label="Exit Full Screen">
+                        <i class="ri-fullscreen-exit-line"></i>
+                    </button>
+                </div>
+            `;
+            
+            // Add close button
+            const closeButton = document.createElement('button');
+            closeButton.className = 'flow-fullscreen-close';
+            closeButton.innerHTML = '<i class="ri-close-line"></i>';
+            closeButton.addEventListener('click', exitFullscreen);
+            
+            // Assemble full screen content
+            fullscreenContainer.appendChild(closeButton);
+            fullscreenContainer.appendChild(fullscreenZoomControls);
+            fullscreenContainer.appendChild(clonedDiagramContainer);
+            
+            // Add to body
+            document.body.appendChild(fullscreenContainer);
+            
+            // Update state
+            isFullscreen = true;
+            btnFullscreen.innerHTML = '<i class="ri-fullscreen-exit-line"></i>';
+            
+            // Attach event listeners for full screen elements
+            attachFullscreenEventListeners();
+        };
+
+        const exitFullscreen = () => {
+            if (!isFullscreen || !fullscreenContainer) return;
+            
+            // Remove full screen container
+            document.body.removeChild(fullscreenContainer);
+            fullscreenContainer = null;
+            
+            // Update state
+            isFullscreen = false;
+            btnFullscreen.innerHTML = '<i class="ri-fullscreen-fill"></i>';
+        };
+
+        const attachFullscreenEventListeners = () => {
+            if (!fullscreenContainer) return;
+            
+            const fullscreenZoomControls = fullscreenContainer.querySelector('.flow-zoom-controls');
+            const fullscreenDiagramContainer = fullscreenContainer.querySelector('#flowDiagramContainerFullscreen');
+            const fullscreenZoomLevel = fullscreenContainer.querySelector('#zoomLevelFullscreen');
+            
+            if (!fullscreenZoomControls || !fullscreenDiagramContainer) return;
+            
+            // Get the new button references
+            const fullscreenBtnZoomOut = fullscreenZoomControls.querySelector('#btnZoomOutFullscreen');
+            const fullscreenBtnZoomReset = fullscreenZoomControls.querySelector('#btnZoomResetFullscreen');
+            const fullscreenBtnZoomIn = fullscreenZoomControls.querySelector('#btnZoomInFullscreen');
+            const fullscreenBtnZoomFit = fullscreenZoomControls.querySelector('#btnZoomFitFullscreen');
+            const fullscreenBtnExit = fullscreenZoomControls.querySelector('#btnExitFullscreen');
+            
+            // Create full screen specific functions
+            const fullscreenZoomIn = () => {
+                if (currentZoom < 3) {
+                    currentZoom *= 1.2;
+                    applyZoom(currentZoom);
+                    fullscreenZoomLevel.textContent = `${Math.round(currentZoom * 100)}%`;
+                }
+            };
+
+            const fullscreenZoomOut = () => {
+                if (currentZoom > 0.3) {
+                    currentZoom /= 1.2;
+                    applyZoom(currentZoom);
+                    fullscreenZoomLevel.textContent = `${Math.round(currentZoom * 100)}%`;
+                }
+            };
+
+            const fullscreenResetZoom = () => {
+                currentZoom = 1;
+                currentPanX = 0;
+                currentPanY = 0;
+                const svg = fullscreenDiagramContainer.querySelector('svg');
+                if (svg && originalViewBox) {
+                    svg.setAttribute('viewBox', originalViewBox);
+                    fullscreenZoomLevel.textContent = '100%';
+                }
+            };
+
+            const fullscreenFitToScreen = () => {
+                const svg = fullscreenDiagramContainer.querySelector('svg');
+                if (!svg || !originalViewBox) return;
+
+                const containerWidth = fullscreenDiagramContainer.clientWidth - 64; // Account for padding
+                const containerHeight = fullscreenDiagramContainer.clientHeight - 64;
+
+                const [x, y, width, height] = originalViewBox.split(' ').map(Number);
+                const scaleX = containerWidth / width;
+                const scaleY = containerHeight / height;
+                const scale = Math.min(scaleX, scaleY, 1);
+
+                currentZoom = scale;
+                currentPanX = 0;
+                currentPanY = 0;
+                applyZoom(currentZoom);
+                fullscreenZoomLevel.textContent = `${Math.round(currentZoom * 100)}%`;
+            };
+
+            // Add event listeners
+            fullscreenBtnZoomIn?.addEventListener('click', fullscreenZoomIn);
+            fullscreenBtnZoomOut?.addEventListener('click', fullscreenZoomOut);
+            fullscreenBtnZoomReset?.addEventListener('click', fullscreenResetZoom);
+            fullscreenBtnZoomFit?.addEventListener('click', fullscreenFitToScreen);
+            fullscreenBtnExit?.addEventListener('click', exitFullscreen);
+            
+            // Add pan and zoom events to fullscreen container
+            fullscreenDiagramContainer.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                if (e.deltaY < 0) {
+                    fullscreenZoomIn();
+                } else {
+                    fullscreenZoomOut();
+                }
+            }, { passive: false });
+
+            fullscreenDiagramContainer.addEventListener('mousedown', (e) => {
+                if (e.button === 0) {
+                    e.preventDefault();
+                    startPan(e.clientX, e.clientY);
+                }
+            });
+
+            fullscreenDiagramContainer.addEventListener('mousemove', (e) => {
+                if (isPanning) {
+                    e.preventDefault();
+                    doPan(e.clientX, e.clientY);
+                }
+            });
+
+            fullscreenDiagramContainer.addEventListener('mouseup', endPan);
+            fullscreenDiagramContainer.addEventListener('mouseleave', endPan);
+            
+            // Touch events
+            fullscreenDiagramContainer.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    startPan(touch.clientX, touch.clientY);
+                }
+            });
+
+            fullscreenDiagramContainer.addEventListener('touchmove', (e) => {
+                if (isPanning && e.touches.length === 1) {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    doPan(touch.clientX, touch.clientY);
+                }
+            });
+
+            fullscreenDiagramContainer.addEventListener('touchend', endPan);
+        };
+
+        // Mouse wheel zoom
+        flowDiagramContainer.addEventListener('wheel', handleWheelZoom, { passive: false });
+
+        // Generate flow diagram button handler
+        btnGenerateFlow.addEventListener('click', () => {
+            generateFlowDiagram();
+        });
+
+        // Export flow diagram button handler
+        btnExportFlow.addEventListener('click', () => {
+            const svg = flowDiagramContainer.querySelector('svg');
+            if (!svg) {
+                alert('Please generate a flow diagram first!');
+                return;
+            }
+
+            const svgData = new XMLSerializer().serializeToString(svg);
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+            
+            img.onload = () => {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.fillStyle = 'white';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, 0, 0);
+                
+                const link = document.createElement('a');
+                link.download = 'flow-diagram.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            };
+            
+            img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+        });
+
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && aboutModal.style.display === 'flex') {
-                hideModal();
+            if (e.key === 'Escape') {
+                if (isFullscreen) {
+                    exitFullscreen();
+                } else if (aboutModal.style.display === 'flex') {
+                    hideModal();
+                } else if (flowDiagramModal.style.display === 'flex') {
+                    hideFlowModal();
+                }
+            } else if (e.key === 'F11') {
+                e.preventDefault();
+                if (flowDiagramModal.style.display === 'flex' && flowZoomControls.style.display !== 'none') {
+                    if (isFullscreen) {
+                        exitFullscreen();
+                    } else {
+                        enterFullscreen();
+                    }
+                }
             }
         });
 
