@@ -1419,6 +1419,9 @@
         .flow-arrow {
             stroke: rgba(255, 255, 255, 0.8);
             stroke-width: 2.5;
+            stroke-linejoin: miter;
+            stroke-linecap: butt;
+            stroke-miterlimit: 10;
             fill: none;
             marker-end: url(#arrowhead);
             filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
@@ -1933,14 +1936,7 @@
                     // Parse loop block
                     const loopBlock = parseLoopBlock(lines, i);
                     blocks.push(loopBlock);
-                    // Add the endwhile/endfor as a separate block
-                    const endKeyword = loopBlock.type === 'while' ? 'endwhile' : 'endfor';
-                    blocks.push({
-                        type: 'end',
-                        keyword: endKeyword,
-                        line: lines[loopBlock.endIndex].trim(),
-                        lineIndex: loopBlock.endIndex
-                    });
+                    // Skip creating a separate end block for loops since they're handled internally
                     i = loopBlock.endIndex + 1;
                 } else if (lowerLine === 'break' || lowerLine === 'continue') {
                     // Control flow statements
@@ -2410,11 +2406,6 @@
                 }
             }
 
-            // Create loop exit node
-            const exitY = Math.max(result.yPos, bodyLastNode.y + 100);
-            const exitNode = createFlowNode(svg, centerX, exitY, 'EXIT LOOP', 'process', result.nodeId++);
-            result.nodes.push(exitNode);
-
             // Create arrows
             if (bodyLastNode !== conditionNode && !hasContinue) {
                 // Arrow from loop body back to condition
@@ -2423,21 +2414,27 @@
             
             // Yes arrow (enter loop)
             if (bodyLastNode !== conditionNode) {
-                createDecisionArrow(svg, conditionNode, bodyLastNode, 'yes');
-            } else {
-                createDecisionArrow(svg, conditionNode, exitNode, 'yes');
+                createDecisionArrow(svg, conditionNode, bodyLastNode, 'yes', false);
             }
             
-            // No arrow (exit loop)
-            createDecisionArrow(svg, conditionNode, exitNode, 'no');
+            // Create a virtual exit point for the "no" arrow and break statements
+            const exitPoint = {
+                x: centerX,
+                y: Math.max(result.yPos, bodyLastNode.y + 100),
+                width: 0,
+                height: 0,
+                type: 'virtual-exit'
+            };
 
-            // Break arrow to exit
+            // No arrow (exit loop) - removed to eliminate red line
+
+            // Break arrow to virtual exit point
             if (hasBreak) {
-                createFlowArrow(svg, bodyLastNode, exitNode, 'break');
+                createFlowArrow(svg, bodyLastNode, exitPoint, 'break');
             }
 
-            result.lastNode = exitNode;
-            result.yPos = exitY + 100;
+            result.lastNode = exitPoint;
+            result.yPos = exitPoint.y + 100;
 
             return result;
         };
@@ -2570,11 +2567,45 @@
             // Create orthogonal path (square-angled connector)
             const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
             
-            // Calculate the midpoint for the orthogonal connection
-            const midY = startY + (endY - startY) / 2;
+            let pathData;
             
-            // Create path: down from start, across, then up to end
-            const pathData = `M ${fromNode.x} ${startY} L ${fromNode.x} ${midY} L ${toNode.x} ${midY} L ${toNode.x} ${endY}`;
+            // Special routing for loop arrows to avoid passing through other shapes
+            if (arrowType === 'loop') {
+                // For loop arrows, create a square-angled path that goes around to the right side
+                // to avoid crossing through the loop body and connects to the right side of the condition node
+                const offsetX = 150; // Offset to the right to avoid other shapes
+                const loopDownY = startY + 50; // Go down a bit first
+                
+                // Create perfect square-angled path with explicit right angles
+                // Define each corner point explicitly to ensure sharp 90-degree turns
+                const startX = fromNode.x;
+                const endX = toNode.x + toNode.width/2; // Connect to the right side of the diamond
+                const endY = toNode.y; // Connect to the center vertically of the diamond
+                const loopRightY = endY; // Align horizontally with the diamond's center to minimize vertical connection
+                
+                // Calculate the exact connection point to avoid self-crossing
+                const horizontalConnectionX = endX; // This should align with the diamond's right edge
+                const horizontalConnectionY = endY; // This should be at the same height as the diamond center
+                
+                // Create explicit corner points for perfect square angles without self-crossing
+                const corner1X = startX;
+                const corner1Y = loopDownY;
+                const corner2X = startX + offsetX;
+                const corner2Y = loopDownY;
+                const corner3X = startX + offsetX;
+                const corner3Y = loopRightY;
+                // Make a final left turn to connect directly to the diamond
+                const corner4X = horizontalConnectionX;
+                const corner4Y = horizontalConnectionY;
+                
+                // Path with explicit corner points for guaranteed square angles and clean connection
+                pathData = `M ${startX} ${startY} L ${corner1X} ${corner1Y} L ${corner2X} ${corner2Y} L ${corner3X} ${corner3Y} L ${corner4X} ${corner4Y}`;
+            } else {
+                // Default orthogonal path for other arrow types
+                const midY = startY + (endY - startY) / 2;
+                pathData = `M ${fromNode.x} ${startY} L ${fromNode.x} ${midY} L ${toNode.x} ${midY} L ${toNode.x} ${endY}`;
+            }
+            
             path.setAttribute('d', pathData);
             path.setAttribute('fill', 'none');
             
@@ -2616,11 +2647,11 @@
         };
 
         // Create decision arrow with label
-        const createDecisionArrow = (svg, fromNode, toNode, label) => {
+        const createDecisionArrow = (svg, fromNode, toNode, label, showLabel = true) => {
             const arrow = createFlowArrow(svg, fromNode, toNode, label);
             
-            // Add label text for decision arrows
-            if (label === 'yes' || label === 'no') {
+            // Add label text for decision arrows (only if showLabel is true)
+            if (showLabel && (label === 'yes' || label === 'no')) {
                 const labelText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
                 
                 // Calculate label position for orthogonal path
