@@ -1589,6 +1589,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setToggleValue('showThemeToggle', settings.showThemeToggle === true);
         setToggleValue('showLayoutToggle', settings.showLayoutToggle === true);
         setToggleValue('showSettingsButton', settings.showSettingsButton === true);
+        setToggleValue('showFlowButton', settings.showFlowButton === true);
         setToggleValue('showEditorActions', settings.showEditorActions === true);
         setToggleValue('showConsoleStats', settings.showConsoleStats === true);
         setToggleValue('showTabCounter', settings.showTabCounter === true);
@@ -1779,6 +1780,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         setupToggleInput('showSettingsButton', (value) => {
             saveSetting('showSettingsButton', value);
+            applyUIVisibilitySettings(loadSettings());
+        });
+        setupToggleInput('showFlowButton', (value) => {
+            saveSetting('showFlowButton', value);
             applyUIVisibilitySettings(loadSettings());
         });
         setupToggleInput('showEditorActions', (value) => {
@@ -1990,7 +1995,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Check if any UI visibility settings are false (which would hide elements)
                 const uiVisibilityKeys = [
                     'showFileActions', 'showRunButton', 'showThemeToggle', 'showLayoutToggle',
-                    'showSettingsButton', 'showEditorActions', 'showEditorTitle',
+                    'showSettingsButton', 'showFlowButton', 'showEditorActions', 'showEditorTitle',
                     'showConsoleActions', 'showConsoleStats', 'showConsoleTitle',
                     'showTabCounter', 'showNewTabButton'
                 ];
@@ -2028,6 +2033,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     showThemeToggle: mergedSettings.showThemeToggle !== undefined ? mergedSettings.showThemeToggle : true,
                     showLayoutToggle: mergedSettings.showLayoutToggle !== undefined ? mergedSettings.showLayoutToggle : true,
                     showSettingsButton: mergedSettings.showSettingsButton !== undefined ? mergedSettings.showSettingsButton : true,
+                    showFlowButton: mergedSettings.showFlowButton !== undefined ? mergedSettings.showFlowButton : true,
                     showEditorActions: mergedSettings.showEditorActions !== undefined ? mergedSettings.showEditorActions : true,
                     showEditorTitle: mergedSettings.showEditorTitle !== undefined ? mergedSettings.showEditorTitle : true,
                     showConsoleActions: mergedSettings.showConsoleActions !== undefined ? mergedSettings.showConsoleActions : true,
@@ -2088,6 +2094,7 @@ document.addEventListener('DOMContentLoaded', () => {
             showThemeToggle: true,
             showLayoutToggle: true,
             showSettingsButton: true,
+            showFlowButton: true,
             showEditorActions: true,
             showEditorTitle: true,
             showConsoleActions: true,
@@ -2568,6 +2575,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (settingsButton) {
             settingsButton.style.display = settings.showSettingsButton ? 'flex' : 'none';
             console.log('Settings button visibility:', settings.showSettingsButton);
+        }
+        
+        // Flow button
+        const flowButton = document.getElementById('btnFlowDiagram');
+        if (flowButton) {
+            flowButton.style.display = settings.showFlowButton ? 'flex' : 'none';
+            console.log('Flow button visibility:', settings.showFlowButton);
         }
         // Editor Controls
         const editorActions = document.querySelector('.editor-actions');
