@@ -45,8 +45,8 @@ interface BlockInfo {
 function isLikelyPseudo(src: string): boolean {
     if (!src) return false;
     const lowered = src.toLowerCase();
-    return /\b(print|var|const|if|else|elseif|endif|for|to|endfor|while|endwhile|function|endfunction|return|break|continue|input|algorithm|endalgorithm|variable|set|declare|as|number|string|boolean|integer|float|char)\b/.test(lowered) || 
-           /\b(Print|Var|Const|If|Else|Elseif|Endif|For|To|Endfor|While|Endwhile|Function|Endfunction|Return|Break|Continue|Input|Algorithm|Endalgorithm|Variable|Set|Declare|As|Number|String|Boolean|Integer|Float|Char)\b/.test(src);
+    return /\b(print|var|const|constant|if|else|elseif|endif|for|to|endfor|while|endwhile|function|endfunction|return|break|continue|input|algorithm|endalgorithm|variable|set|declare|as|number|string|boolean|integer|float|char)\b/.test(lowered) || 
+           /\b(Print|Var|Const|Constant|If|Else|Elseif|Endif|For|To|Endfor|While|Endwhile|Function|Endfunction|Return|Break|Continue|Input|Algorithm|Endalgorithm|Variable|Set|Declare|As|Number|String|Boolean|Integer|Float|Char)\b/.test(src);
 }
 
 function validatePseudo(src: string): ValidationIssue[] {
@@ -279,11 +279,11 @@ function validatePseudo(src: string): ValidationIssue[] {
             continue;
         }
         
-        // Check for variable declarations (var, const, variable)
-        if (lower.startsWith('var ') || lower.startsWith('const ') || lower.startsWith('variable ')) {
-            const m = t.match(/^(var|const|variable|Var|Const|Variable)\s+([a-zA-Z_$][\w$]*)\s*(?:=\s*(.+))?$/i);
+        // Check for variable declarations (var, const, constant, variable)
+        if (lower.startsWith('var ') || lower.startsWith('const ') || lower.startsWith('constant ') || lower.startsWith('variable ')) {
+            const m = t.match(/^(var|const|constant|variable|Var|Const|Constant|Variable)\s+([a-zA-Z_$][\w$]*)\s*(?:=\s*(.+))?$/i);
             if (!m) {
-                const keyword = lower.startsWith('var') ? 'var' : lower.startsWith('const') ? 'const' : 'variable';
+                const keyword = lower.startsWith('var') ? 'var' : lower.startsWith('const') ? 'const' : lower.startsWith('constant') ? 'constant' : 'variable';
                 issues.push({ 
                     line: lineNum, 
                     text: raw, 
@@ -421,14 +421,14 @@ function translatePseudoToJs(src: string): TranslationResult {
             continue; 
         }
 
-        // Variable declarations: var x = expr or const x = expr or variable x = expr (both cases)
-        m = line.match(/^(var|const|variable|Var|Const|Variable)\s+([a-zA-Z_$][\w$]*)\s*=\s*(.*)$/i);
+        // Variable declarations: var x = expr or const x = expr or constant x = expr or variable x = expr (both cases)
+        m = line.match(/^(var|const|constant|variable|Var|Const|Constant|Variable)\s+([a-zA-Z_$][\w$]*)\s*=\s*(.*)$/i);
         if (m) { 
             const keyword = m[1].toLowerCase();
             const varName = m[2];
             const value = m[3];
-            // Convert 'variable' to 'var' for JavaScript
-            const jsKeyword = keyword === 'variable' ? 'var' : keyword;
+            // Convert 'variable' and 'constant' to appropriate JavaScript keywords
+            const jsKeyword = keyword === 'variable' ? 'var' : keyword === 'constant' ? 'const' : keyword;
             out.push(`${jsKeyword} ${varName} = ${value};`); 
             mapping.push({ srcLine: srcLineNum, srcText: raw }); 
             continue; 

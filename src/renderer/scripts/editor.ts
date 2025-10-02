@@ -27,6 +27,13 @@ function getKeywordHoverInfo(keyword: string): any {
             usage: 'const constantName = value',
             example: 'const PI = 3.14159'
         },
+        'constant': {
+            label: 'constant',
+            category: 'Constant Declaration',
+            description: 'Declares a constant value that cannot be changed after initialization (alternative to const).',
+            usage: 'constant constantName = value',
+            example: 'constant pi = 3.14'
+        },
         'if': {
             label: 'if',
             category: 'Conditional Statement',
@@ -192,7 +199,7 @@ const pseudocodeLanguage = {
     tokenizer: {
         root: [
             // Keywords - All reserved words from the pseudocode specification
-            [/\b(var|const|if|else|elseif|endif|for|to|endfor|while|endwhile|function|endfunction|return|break|continue|print|input|variable|set|declare|number|string|boolean|integer|float|char)\b/, 'keyword'],
+            [/\b(var|const|constant|if|else|elseif|endif|for|to|endfor|while|endwhile|function|endfunction|return|break|continue|print|input|variable|set|declare|number|string|boolean|integer|float|char)\b/, 'keyword'],
 
             // Strings
             [/".*?"/, 'string'],
@@ -362,7 +369,7 @@ interface Window {
     });
 
     // Register completion provider with all reserved pseudocode keywords
-    const reservedKeywords = ['var','const','if','else','elseif','endif','for','to','endfor','while','endwhile','function','endfunction','return','break','continue','print','input'];
+    const reservedKeywords = ['var','const','constant','if','else','elseif','endif','for','to','endfor','while','endwhile','function','endfunction','return','break','continue','print','input'];
     window.monaco.languages.registerCompletionItemProvider('pseudocode', {
         provideCompletionItems: function(model: any, position: any) {
             const word = model.getWordUntilPosition(position);
@@ -376,12 +383,17 @@ interface Window {
             // Scan model for current var, const, variable, and declare declarations
             const text = model.getValue();
             const vars = new Set<string>();
+            const constants = new Set<string>();
             const funcs = new Set<string>();
             
-            // Use matchAll to avoid regex state issues
-            const varMatches = text.matchAll(/\b(?:var|const|variable|Variable)\s+([a-zA-Z_]\w*)/gi);
+            // Use matchAll to avoid regex state issues - separate constants from variables
+            const varMatches = text.matchAll(/\b(?:var|variable|Variable)\s+([a-zA-Z_]\w*)/gi);
             for (const match of varMatches) {
                 vars.add(match[1]);
+            }
+            const constMatches = text.matchAll(/\b(?:const|constant|Constant)\s+([a-zA-Z_]\w*)/gi);
+            for (const match of constMatches) {
+                constants.add(match[1]);
             }
             
             const declareMatches = text.matchAll(/\b(?:declare|Declare)\s+([a-zA-Z_]\w*)\s+(?:as|As)\s+/gi);
@@ -400,6 +412,7 @@ interface Window {
             const keywordSuggestions = [
                 { label: 'var', detail: 'Declare a variable', documentation: 'Declares a new variable that can be modified' },
                 { label: 'const', detail: 'Declare a constant', documentation: 'Declares a constant value that cannot be changed' },
+                { label: 'constant', detail: 'Declare a constant', documentation: 'Declares a constant value that cannot be changed (alternative to const)' },
                 { label: 'if', detail: 'Conditional statement', documentation: 'Executes code if condition is true' },
                 { label: 'else', detail: 'Alternative condition', documentation: 'Executes code if previous condition is false' },
                 { label: 'elseif', detail: 'Additional condition', documentation: 'Checks another condition if previous ones are false' },
@@ -454,6 +467,19 @@ interface Window {
                     sortText: '2' + v,
                     detail: 'Variable',
                     documentation: `Variable: ${v}`
+                });
+            });
+
+            // Add constant suggestions
+            Array.from(constants).sort().forEach(c => {
+                suggestions.push({ 
+                    label: c, 
+                    kind: window.monaco.languages.CompletionItemKind.Constant, 
+                    insertText: c, 
+                    range, 
+                    sortText: '2' + c,
+                    detail: 'Constant',
+                    documentation: `Constant: ${c}`
                 });
             });
 

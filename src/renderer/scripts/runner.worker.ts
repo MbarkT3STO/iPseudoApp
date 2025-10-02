@@ -227,11 +227,11 @@ function validatePseudo(src: string): ValidationIssue[] {
             continue;
         }
         
-        // Check for variable declarations (var, const, variable)
-        if (lower.startsWith('var ') || lower.startsWith('const ') || lower.startsWith('variable ')) {
-            const m = t.match(/^(var|const|variable)\s+([a-zA-Z_$][\w$]*)\s*(?:=\s*(.+))?$/i);
+        // Check for variable declarations (var, const, constant, variable)
+        if (lower.startsWith('var ') || lower.startsWith('const ') || lower.startsWith('constant ') || lower.startsWith('variable ')) {
+            const m = t.match(/^(var|const|constant|variable)\s+([a-zA-Z_$][\w$]*)\s*(?:=\s*(.+))?$/i);
             if (!m) {
-                const keyword = lower.startsWith('var') ? 'var' : lower.startsWith('const') ? 'const' : 'variable';
+                const keyword = lower.startsWith('var') ? 'var' : lower.startsWith('const') ? 'const' : lower.startsWith('constant') ? 'constant' : 'variable';
                 issues.push({
                     line: lineNum,
                     text: raw,
@@ -354,14 +354,14 @@ function translatePseudoToJs(src: string): TranslationResult {
             continue;
         }
 
-        // Variable declarations: var x = expr or const x = expr or variable x = expr
-        m = line.match(/^(var|const|variable)\s+([a-zA-Z_$][\w$]*)\s*=\s*(.*)$/i);
+        // Variable declarations: var x = expr or const x = expr or constant x = expr or variable x = expr
+        m = line.match(/^(var|const|constant|variable)\s+([a-zA-Z_$][\w$]*)\s*=\s*(.*)$/i);
         if (m) {
             const keyword = m[1].toLowerCase();
             const varName = m[2];
             const value = m[3];
-            // Convert 'variable' to 'var' for JavaScript
-            const jsKeyword = keyword === 'variable' ? 'var' : keyword;
+            // Convert 'variable' and 'constant' to appropriate JavaScript keywords
+            const jsKeyword = keyword === 'variable' ? 'var' : keyword === 'constant' ? 'const' : keyword;
             out.push(`${jsKeyword} ${varName} = ${value};`);
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;

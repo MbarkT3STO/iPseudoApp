@@ -205,6 +205,13 @@ function getKeywordHoverInfo(keyword: string): any {
             usage: 'Const constantName = value',
             example: 'Const PI = 3.14159'
         },
+        'constant': {
+            label: 'Constant',
+            category: 'Constant Declaration',
+            description: 'Declares a constant value that cannot be changed after initialization (alternative to Const).',
+            usage: 'Constant constantName = value',
+            example: 'Constant pi = 3.14'
+        },
         'if': {
             label: 'If',
             category: 'Conditional Statement',
@@ -517,7 +524,7 @@ const pseudocodeLanguage = {
     tokenizer: {
         root: [
             // Keywords - All reserved words from the pseudocode specification (case-insensitive)
-            [/\b(var|const|if|then|else|elseif|endif|for|to|endfor|while|endwhile|do|until|repeat|case|switch|endswitch|function|endfunction|return|break|continue|print|input|true|false|null|and|or|not|mod|div|algorithm|endalgorithm|variable|set|declare|as|number|string|boolean|integer|float|char|VAR|CONST|IF|THEN|ELSE|ELSEIF|ENDIF|FOR|TO|ENDFOR|WHILE|ENDWHILE|DO|UNTIL|REPEAT|CASE|SWITCH|ENDSWITCH|FUNCTION|ENDFUNCTION|RETURN|BREAK|CONTINUE|PRINT|INPUT|TRUE|FALSE|NULL|AND|OR|NOT|MOD|DIV|ALGORITHM|ENDALGORITHM|VARIABLE|SET|DECLARE|AS|NUMBER|STRING|BOOLEAN|INTEGER|FLOAT|CHAR|Var|Const|If|Then|Else|Elseif|Endif|For|To|Endfor|While|Endwhile|Do|Until|Repeat|Case|Switch|Endswitch|Function|Endfunction|Return|Break|Continue|Print|Input|True|False|Null|And|Or|Not|Mod|Div|Algorithm|Endalgorithm|Variable|Set|Declare|As|Number|String|Boolean|Integer|Float|Char|vAr|cOnSt|iF|tHeN|eLsE|eLsEiF|eNdIf|fOr|tO|eNdFoR|wHiLe|eNdWhIlE|dO|uNtIl|rEpEaT|cAsE|sWiTcH|eNdSwItCh|fUnCtIoN|eNdFuNcTiOn|rEtUrN|bReAk|cOnTiNuE|pRiNt|iNpUt|tRuE|fAlSe|nUlL|aNd|Or|nOt|mOd|dIv|aLgOrItHm|eNdAlGoRiThM|vArIaBlE|sEt|dEcLaRe|aS|nUmBeR|sTrInG|bOoL|iNtEgEr|fLoAt|cHaR)\b/, 'keyword'],
+            [/\b(var|const|constant|if|then|else|elseif|endif|for|to|endfor|while|endwhile|do|until|repeat|case|switch|endswitch|function|endfunction|return|break|continue|print|input|true|false|null|and|or|not|mod|div|algorithm|endalgorithm|variable|set|declare|as|number|string|boolean|integer|float|char|VAR|CONST|CONSTANT|IF|THEN|ELSE|ELSEIF|ENDIF|FOR|TO|ENDFOR|WHILE|ENDWHILE|DO|UNTIL|REPEAT|CASE|SWITCH|ENDSWITCH|FUNCTION|ENDFUNCTION|RETURN|BREAK|CONTINUE|PRINT|INPUT|TRUE|FALSE|NULL|AND|OR|NOT|MOD|DIV|ALGORITHM|ENDALGORITHM|VARIABLE|SET|DECLARE|AS|NUMBER|STRING|BOOLEAN|INTEGER|FLOAT|CHAR|Var|Const|Constant|If|Then|Else|Elseif|Endif|For|To|Endfor|While|Endwhile|Do|Until|Repeat|Case|Switch|Endswitch|Function|Endfunction|Return|Break|Continue|Print|Input|True|False|Null|And|Or|Not|Mod|Div|Algorithm|Endalgorithm|Variable|Set|Declare|As|Number|String|Boolean|Integer|Float|Char|vAr|cOnSt|CoNsTaNt|iF|tHeN|eLsE|eLsEiF|eNdIf|fOr|tO|eNdFoR|wHiLe|eNdWhIlE|dO|uNtIl|rEpEaT|cAsE|sWiTcH|eNdSwItCh|fUnCtIoN|eNdFuNcTiOn|rEtUrN|bReAk|cOnTiNuE|pRiNt|iNpUt|tRuE|fAlSe|nUlL|aNd|Or|nOt|mOd|dIv|aLgOrItHm|eNdAlGoRiThM|vArIaBlE|sEt|dEcLaRe|aS|nUmBeR|sTrInG|bOoL|iNtEgEr|fLoAt|cHaR)\b/, 'keyword'],
 
             // Strings
             [/".*?"/, 'string'],
@@ -701,7 +708,7 @@ interface Window {
     });
 
     // Register completion provider with all reserved pseudocode keywords (Pascal Case)
-    const reservedKeywords = ['Var','Const','If','Then','Else','Elseif','Endif','For','To','Endfor','While','Endwhile','Do','Until','Repeat','Case','Switch','Endswitch','Function','Endfunction','Return','Break','Continue','Print','Input','True','False','Null','And','Or','Not','Mod','Div','Algorithm','Endalgorithm','Variable','Set','Declare','As','Number','String','Boolean','Integer','Float','Char'];
+    const reservedKeywords = ['Var','Const','Constant','If','Then','Else','Elseif','Endif','For','To','Endfor','While','Endwhile','Do','Until','Repeat','Case','Switch','Endswitch','Function','Endfunction','Return','Break','Continue','Print','Input','True','False','Null','And','Or','Not','Mod','Div','Algorithm','Endalgorithm','Variable','Set','Declare','As','Number','String','Boolean','Integer','Float','Char'];
     window.monaco.languages.registerCompletionItemProvider('pseudocode', {
         triggerCharacters: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
         provideCompletionItems: function(model: any, position: any) {
@@ -716,12 +723,17 @@ interface Window {
             // Scan model for current var, const, variable, and declare declarations
             const text = model.getValue();
             const vars = new Set<string>();
+            const constants = new Set<string>();
             const funcs = new Set<string>();
             
-            // Use matchAll to avoid regex state issues
-            const varMatches = text.matchAll(/\b(?:var|const|variable|Variable)\s+([a-zA-Z_]\w*)/gi);
+            // Use matchAll to avoid regex state issues - separate constants from variables
+            const varMatches = text.matchAll(/\b(?:var|variable|Variable)\s+([a-zA-Z_]\w*)/gi);
             for (const match of varMatches) {
                 vars.add(match[1]);
+            }
+            const constMatches = text.matchAll(/\b(?:const|constant|Const|Constant)\s+([a-zA-Z_]\w*)/gi);
+            for (const match of constMatches) {
+                constants.add(match[1]);
             }
             
             const declareMatches = text.matchAll(/\b(?:declare|Declare)\s+([a-zA-Z_]\w*)\s+(?:as|As)\s+/gi);
@@ -740,6 +752,7 @@ interface Window {
             const keywordSuggestions = [
                 { label: 'Var', detail: 'Declare a variable', documentation: 'Declares a new variable that can be modified' },
                 { label: 'Const', detail: 'Declare a constant', documentation: 'Declares a constant value that cannot be changed' },
+                { label: 'Constant', detail: 'Declare a constant', documentation: 'Declares a constant value that cannot be changed (alternative to Const)' },
                 { label: 'If', detail: 'Conditional statement', documentation: 'Executes code if condition is true' },
                 { label: 'Then', detail: 'If condition block', documentation: 'Indicates the beginning of code block when if condition is true' },
                 { label: 'Else', detail: 'Alternative condition', documentation: 'Executes code if previous condition is false' },
@@ -825,6 +838,19 @@ interface Window {
                     sortText: '2' + v,
                     detail: 'Variable',
                     documentation: `Variable: ${v}`
+                });
+            });
+
+            // Add constant suggestions
+            Array.from(constants).sort().forEach(c => {
+                suggestions.push({ 
+                    label: c, 
+                    kind: window.monaco.languages.CompletionItemKind.Constant, 
+                    insertText: c, 
+                    range, 
+                    sortText: '2' + c,
+                    detail: 'Constant',
+                    documentation: `Constant: ${c}`
                 });
             });
 
