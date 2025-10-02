@@ -46,7 +46,7 @@ function validatePseudo(src) {
         // Check for proper indentation if inside a block
         if (blockStack.length > 0 && indent <= blockStack[blockStack.length - 1].indent) {
             const expectedIndent = blockStack[blockStack.length - 1].indent + 2;
-            if (indent < expectedIndent && !lower.match(/^(end(if|for|while)|else|elif)/)) {
+            if (indent < expectedIndent && !lower.match(/^(end(if|for|while|repeat)|else|elif|until)/)) {
                 issues.push({
                     line: lineNum,
                     text: raw,
@@ -202,7 +202,7 @@ function validatePseudo(src) {
         }
         // Check for break statements
         if (lower === 'break') {
-            if (blockStack.length === 0 || !['for', 'while'].includes(blockStack[blockStack.length - 1].type)) {
+            if (blockStack.length === 0 || !['for', 'while', 'repeat'].includes(blockStack[blockStack.length - 1].type)) {
                 issues.push({
                     line: lineNum,
                     text: raw,
@@ -213,7 +213,7 @@ function validatePseudo(src) {
         }
         // Check for continue statements
         if (lower === 'continue') {
-            if (blockStack.length === 0 || !['for', 'while'].includes(blockStack[blockStack.length - 1].type)) {
+            if (blockStack.length === 0 || !['for', 'while', 'repeat'].includes(blockStack[blockStack.length - 1].type)) {
                 issues.push({
                     line: lineNum,
                     text: raw,

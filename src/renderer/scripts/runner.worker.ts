@@ -45,7 +45,7 @@ interface BlockInfo {
 function isLikelyPseudo(src: string): boolean {
     if (!src) return false;
     const lowered = src.toLowerCase();
-    return /\b(print|var|const|if|else|elseif|endif|for|to|endfor|while|endwhile|function|endfunction|return|break|continue|input|variable|set|declare|as|number|string|boolean|integer|float|char)\b/.test(lowered);
+    return /\b(print|var|const|if|else|elseif|endif|for|to|endfor|while|endwhile|function|endfunction|return|break|continue|input|variable|set|declare|as|number|string|boolean|integer|float|char|repeat|until|endrepeat)\b/.test(lowered);
 }
 
 function validatePseudo(src: string): ValidationIssue[] {
@@ -65,7 +65,7 @@ function validatePseudo(src: string): ValidationIssue[] {
         // Check for proper indentation if inside a block
         if (blockStack.length > 0 && indent <= blockStack[blockStack.length - 1].indent) {
             const expectedIndent = blockStack[blockStack.length - 1].indent + 2;
-            if (indent < expectedIndent && !lower.match(/^(end(if|for|while)|else|elif)/)) {
+            if (indent < expectedIndent && !lower.match(/^(end(if|for|while|repeat)|else|elif|until)/)) {
                 issues.push({
                     line: lineNum,
                     text: raw,
@@ -101,6 +101,12 @@ function validatePseudo(src: string): ValidationIssue[] {
             } else {
                 blockStack.push({ type: 'while', line: lineNum, indent });
             }
+            continue;
+        }
+        
+        // Check for repeat loops
+        if (lower === 'repeat') {
+            blockStack.push({ type: 'repeat', line: lineNum, indent });
             continue;
         }
         
@@ -181,7 +187,7 @@ function validatePseudo(src: string): ValidationIssue[] {
         
         // Check for break statements
         if (lower === 'break') {
-            if (blockStack.length === 0 || !['for', 'while'].includes(blockStack[blockStack.length - 1].type)) {
+            if (blockStack.length === 0 || !['for', 'while', 'repeat'].includes(blockStack[blockStack.length - 1].type)) {
                 issues.push({
                     line: lineNum,
                     text: raw,
@@ -193,7 +199,7 @@ function validatePseudo(src: string): ValidationIssue[] {
         
         // Check for continue statements
         if (lower === 'continue') {
-            if (blockStack.length === 0 || !['for', 'while'].includes(blockStack[blockStack.length - 1].type)) {
+            if (blockStack.length === 0 || !['for', 'while', 'repeat'].includes(blockStack[blockStack.length - 1].type)) {
                 issues.push({
                     line: lineNum,
                     text: raw,
@@ -203,8 +209,22 @@ function validatePseudo(src: string): ValidationIssue[] {
             continue;
         }
         
+        // Check for until statements (end of repeat loop)
+        if (lower.startsWith('until ')) {
+            if (blockStack.length === 0 || blockStack[blockStack.length - 1].type !== 'repeat') {
+                issues.push({
+                    line: lineNum,
+                    text: raw,
+                    message: 'until statement without matching repeat'
+                });
+            } else {
+                blockStack.pop();
+            }
+            continue;
+        }
+        
         // Check for end blocks
-        if (lower === 'endfor' || lower === 'endif' || lower === 'endwhile' || lower === 'endfunction') {
+        if (lower === 'endfor' || lower === 'endif' || lower === 'endwhile' || lower === 'endfunction' || lower === 'endrepeat') {
             if (blockStack.length === 0) {
                 issues.push({
                     line: lineNum,
@@ -424,6 +444,21 @@ function translatePseudoToJs(src: string): TranslationResult {
             continue;
         }
 
+        // Repeat loops: repeat
+        if (/^repeat\s*$/i.test(line)) {
+            out.push('do {');
+            mapping.push({ srcLine: srcLineNum, srcText: raw });
+            continue;
+        }
+
+        // Until statements: until condition
+        m = line.match(/^until\s+(.+)\s*$/i);
+        if (m) {
+            out.push(`} while (!(${m[1]}));`);
+            mapping.push({ srcLine: srcLineNum, srcText: raw });
+            continue;
+        }
+
         // If statements: if condition [then]
         m = line.match(/^if\s+(.+?)(?:\s+then)?\s*$/i);
         if (m) {
@@ -480,8 +515,8 @@ function translatePseudoToJs(src: string): TranslationResult {
             continue;
         }
 
-        // End blocks: endfor, endif, endwhile, endfunction
-        if (/^(endfor|endif|endwhile|endfunction)\s*$/i.test(line)) {
+        // End blocks: endfor, endif, endwhile, endfunction, endrepeat
+        if (/^(endfor|endif|endwhile|endfunction|endrepeat)\s*$/i.test(line)) {
             if (line.toLowerCase() === 'endfunction') {
                 functionStack.pop();
             }
