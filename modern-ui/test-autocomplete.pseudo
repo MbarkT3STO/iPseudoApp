@@ -1,0 +1,21 @@
+Algorithm AutocompleteTest
+# Test that all variable declarations show in autocomplete
+
+Variable studentCount = 0
+var teacherCount = 5
+Declare schoolName As String
+declare principalName As String
+
+# When typing below, all variables should appear in autocomplete:
+# studentCount, teacherCount, schoolName, principalName
+
+Set 25 To studentCount
+Set "Springfield High" To schoolName
+Set "John Smith" To principalName
+
+Print "Students:", studentCount
+Print "Teachers:", teacherCount
+Print "School:", schoolName
+Print "Principal:", principalName
+
+Endalgorithm

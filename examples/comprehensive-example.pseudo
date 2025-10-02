@@ -1,0 +1,76 @@
+Algorithm ComprehensiveExample
+# Comprehensive example using all new features together
+
+# 1. Declare variables with types
+Declare totalStudents As Integer
+Declare averageAge As Float
+Declare schoolName As String
+Declare isPublicSchool As Boolean
+
+# 2. Initialize using Variable keyword
+Variable currentStudent = 1
+Variable sumOfAges = 0
+
+# 3. Set initial values using Set syntax
+Set 0 To totalStudents
+Set 0.0 To averageAge
+Set "Springfield High School" To schoolName
+Set true To isPublicSchool
+
+Print "School:", schoolName
+Print "Public School:", isPublicSchool
+
+# Simulate student data processing
+For currentStudent = 1 To 5
+    Declare studentAge As Integer
+    Declare studentName As String
+    Declare isHonorStudent As Boolean
+    
+    # Generate sample data
+    Set currentStudent * 3 + 15 To studentAge
+    Set "Student" + currentStudent To studentName
+    Set studentAge >= 18 To isHonorStudent
+    
+    Print "Student", currentStudent, ":", studentName, "Age:", studentAge
+    
+    If isHonorStudent Then
+        Print "  -> Honor Student"
+    Endif
+    
+    Set sumOfAges + studentAge To sumOfAges
+    Set totalStudents + 1 To totalStudents
+Endfor
+
+# Calculate average using Set syntax
+Set sumOfAges / totalStudents To averageAge
+
+Print ""
+Print "Summary:"
+Print "Total Students:", totalStudents
+Print "Sum of Ages:", sumOfAges
+Print "Average Age:", averageAge
+
+# Function using mixed syntax
+Function processStudentData(name As String, age As Integer)
+    Declare status As String
+    Declare canVote As Boolean
+    
+    If age >= 18 Then
+        Set "Adult" To status
+        Set true To canVote
+    Else
+        Set "Minor" To status
+        Set false To canVote
+    Endif
+    
+    Print "Processing:", name, "Status:", status, "Can Vote:", canVote
+Endfunction
+
+# Test the function
+Variable testName = "John Doe"
+Variable testAge = 19
+
+processStudentData(testName, testAge)
+
+Endalgorithm
+

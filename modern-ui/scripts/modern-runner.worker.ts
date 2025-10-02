@@ -45,8 +45,8 @@ interface BlockInfo {
 function isLikelyPseudo(src: string): boolean {
     if (!src) return false;
     const lowered = src.toLowerCase();
-    return /\b(print|var|const|if|else|elseif|endif|for|to|endfor|while|endwhile|function|endfunction|return|break|continue|input|algorithm|endalgorithm)\b/.test(lowered) || 
-           /\b(Print|Var|Const|If|Else|Elseif|Endif|For|To|Endfor|While|Endwhile|Function|Endfunction|Return|Break|Continue|Input|Algorithm|Endalgorithm)\b/.test(src);
+    return /\b(print|var|const|if|else|elseif|endif|for|to|endfor|while|endwhile|function|endfunction|return|break|continue|input|algorithm|endalgorithm|variable|set|declare|as|number|string|boolean|integer|float|char)\b/.test(lowered) || 
+           /\b(Print|Var|Const|If|Else|Elseif|Endif|For|To|Endfor|While|Endwhile|Function|Endfunction|Return|Break|Continue|Input|Algorithm|Endalgorithm|Variable|Set|Declare|As|Number|String|Boolean|Integer|Float|Char)\b/.test(src);
 }
 
 function validatePseudo(src: string): ValidationIssue[] {
@@ -279,13 +279,41 @@ function validatePseudo(src: string): ValidationIssue[] {
             continue;
         }
         
-        if (lower.startsWith('var ') || lower.startsWith('const ')) {
-            const m = t.match(/^(var|const)\s+([a-zA-Z_$][\w$]*)\s*(?:=\s*(.+))?$/i);
+        // Check for variable declarations (var, const, variable)
+        if (lower.startsWith('var ') || lower.startsWith('const ') || lower.startsWith('variable ')) {
+            const m = t.match(/^(var|const|variable|Var|Const|Variable)\s+([a-zA-Z_$][\w$]*)\s*(?:=\s*(.+))?$/i);
+            if (!m) {
+                const keyword = lower.startsWith('var') ? 'var' : lower.startsWith('const') ? 'const' : 'variable';
+                issues.push({ 
+                    line: lineNum, 
+                    text: raw, 
+                    message: `Malformed ${keyword} declaration. Expected: ${keyword} <name> [= <value>]` 
+                });
+            }
+            continue;
+        }
+
+        // Check for "Set value To variableName" syntax
+        if (lower.startsWith('set ')) {
+            const m = t.match(/^(set|Set)\s+(.+)\s+(to|To)\s+([a-zA-Z_$][\w$]*)\s*$/i);
             if (!m) {
                 issues.push({ 
                     line: lineNum, 
                     text: raw, 
-                    message: `Malformed ${lower.startsWith('var') ? 'var' : 'const'} declaration. Expected: ${lower.startsWith('var') ? 'var' : 'const'} <name> [= <value>]` 
+                    message: 'Malformed Set statement. Expected: Set <value> To <variableName>' 
+                });
+            }
+            continue;
+        }
+
+        // Check for "Declare variableName As Type" syntax
+        if (lower.startsWith('declare ')) {
+            const m = t.match(/^(declare|Declare)\s+([a-zA-Z_$][\w$]*)\s+(as|As)\s+(number|string|boolean|integer|float|char|Number|String|Boolean|Integer|Float|Char)\s*$/i);
+            if (!m) {
+                issues.push({ 
+                    line: lineNum, 
+                    text: raw, 
+                    message: 'Malformed Declare statement. Expected: Declare <variableName> As <Type>' 
                 });
             }
             continue;
@@ -393,13 +421,36 @@ function translatePseudoToJs(src: string): TranslationResult {
             continue; 
         }
 
-        // Variable declarations: var x = expr or const x = expr (both cases)
-        m = line.match(/^(var|const|Var|Const)\s+([a-zA-Z_$][\w$]*)\s*=\s*(.*)$/i);
+        // Variable declarations: var x = expr or const x = expr or variable x = expr (both cases)
+        m = line.match(/^(var|const|variable|Var|Const|Variable)\s+([a-zA-Z_$][\w$]*)\s*=\s*(.*)$/i);
         if (m) { 
             const keyword = m[1].toLowerCase();
             const varName = m[2];
             const value = m[3];
-            out.push(`${keyword} ${varName} = ${value};`); 
+            // Convert 'variable' to 'var' for JavaScript
+            const jsKeyword = keyword === 'variable' ? 'var' : keyword;
+            out.push(`${jsKeyword} ${varName} = ${value};`); 
+            mapping.push({ srcLine: srcLineNum, srcText: raw }); 
+            continue; 
+        }
+
+        // Declare statements: Declare variableName As Type (both cases)
+        m = line.match(/^(declare|Declare)\s+([a-zA-Z_$][\w$]*)\s+(as|As)\s+(number|string|boolean|integer|float|char|Number|String|Boolean|Integer|Float|Char)\s*$/i);
+        if (m) { 
+            const varName = m[2];
+            // Convert to JavaScript var declaration (types are handled dynamically in JS)
+            out.push(`var ${varName};`); 
+            mapping.push({ srcLine: srcLineNum, srcText: raw }); 
+            continue; 
+        }
+
+        // Set statements: Set value To variableName (both cases)
+        m = line.match(/^(set|Set)\s+(.+)\s+(to|To)\s+([a-zA-Z_$][\w$]*)\s*$/i);
+        if (m) { 
+            const value = m[2].trim();
+            const varName = m[4];
+            // Convert to JavaScript assignment
+            out.push(`${varName} = ${value};`); 
             mapping.push({ srcLine: srcLineNum, srcText: raw }); 
             continue; 
         }

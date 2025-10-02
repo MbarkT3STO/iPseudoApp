@@ -1,0 +1,56 @@
+Algorithm DeclareAsTypeExamples
+# Examples using the new 'Declare variableName As Type' syntax
+
+# Primitive type declarations
+Declare studentAge As Number
+Declare studentName As String
+Declare isEnrolled As Boolean
+Declare studentId As Integer
+Declare averageScore As Float
+Declare letterGrade As Char
+
+# Assigning values to declared variables
+Set 20 To studentAge
+Set "Alice Johnson" To studentName
+Set true To isEnrolled
+Set 12345 To studentId
+Set 85.5 To averageScore
+Set 'A' To letterGrade
+
+# Displaying the values
+Print "Student Information:"
+Print "Name:", studentName
+Print "Age:", studentAge
+Print "ID:", studentId
+Print "Enrolled:", isEnrolled
+Print "Average Score:", averageScore
+Print "Grade:", letterGrade
+
+# Function with typed parameters
+Function calculateGrade(score As Number)
+    Declare grade As Char
+    
+    If score >= 90 Then
+        Set 'A' To grade
+    Elseif score >= 80 Then
+        Set 'B' To grade
+    Elseif score >= 70 Then
+        Set 'C' To grade
+    Elseif score >= 60 Then
+        Set 'D' To grade
+    Else
+        Set 'F' To grade
+    Endif
+    
+    Return grade
+Endfunction
+
+# Using the function
+Declare testScore As Number
+Set 92 To testScore
+
+Variable finalGrade = calculateGrade(testScore)
+Print "Test score:", testScore, "Final grade:", finalGrade
+
+Endalgorithm
+

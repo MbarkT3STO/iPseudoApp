@@ -5,36 +5,12 @@ function isLikelyPseudo(src) {
     if (!src)
         return false;
     const lowered = src.toLowerCase();
-    return /\b(print|var|const|if|else|elseif|endif|for|to|endfor|while|endwhile|function|endfunction|return|break|continue|input|algorithm|endalgorithm|variable|set|declare|as|number|string|boolean|integer|float|char)\b/.test(lowered) ||
-        /\b(Print|Var|Const|If|Else|Elseif|Endif|For|To|Endfor|While|Endwhile|Function|Endfunction|Return|Break|Continue|Input|Algorithm|Endalgorithm|Variable|Set|Declare|As|Number|String|Boolean|Integer|Float|Char)\b/.test(src);
+    return /\b(print|var|const|if|else|elseif|endif|for|to|endfor|while|endwhile|function|endfunction|return|break|continue|input|variable|set|declare|as|number|string|boolean|integer|float|char)\b/.test(lowered);
 }
 function validatePseudo(src) {
     const lines = src.split(/\r?\n/);
     const issues = [];
     const blockStack = []; // Tracks for/if/while blocks
-    // Check for Algorithm/EndAlgorithm structure (both lowercase and Pascal Case)
-    const hasAlgorithmStart = lines.some(line => {
-        const trimmed = line.trim();
-        return trimmed.toLowerCase().startsWith('algorithm ') || trimmed.startsWith('Algorithm ');
-    });
-    const hasAlgorithmEnd = lines.some(line => {
-        const trimmed = line.trim();
-        return trimmed.toLowerCase() === 'endalgorithm' || trimmed === 'Endalgorithm';
-    });
-    if (!hasAlgorithmStart) {
-        issues.push({
-            line: 1,
-            text: lines[0] || '',
-            message: 'Missing Algorithm declaration. Pseudocode must start with "Algorithm <name>"'
-        });
-    }
-    if (!hasAlgorithmEnd) {
-        issues.push({
-            line: lines.length,
-            text: lines[lines.length - 1] || '',
-            message: 'Missing EndAlgorithm declaration. Pseudocode must end with "EndAlgorithm"'
-        });
-    }
     for (let i = 0; i < lines.length; i++) {
         const raw = lines[i];
         const lineNum = i + 1;
@@ -54,41 +30,18 @@ function validatePseudo(src) {
                 });
             }
         }
-        // Check for Algorithm declaration (both cases)
-        if (lower.startsWith('algorithm ') || t.startsWith('Algorithm ')) {
-            const m = t.match(/^(algorithm|Algorithm)\s+([a-zA-Z_$][\w$]*)\s*$/i);
-            if (!m) {
-                issues.push({
-                    line: lineNum,
-                    text: raw,
-                    message: 'Malformed Algorithm declaration. Expected: Algorithm <name>'
-                });
-            }
-            continue;
-        }
-        // Check for EndAlgorithm declaration (both cases)
-        if (lower === 'endalgorithm' || t === 'Endalgorithm') {
-            if (blockStack.length > 0) {
-                issues.push({
-                    line: lineNum,
-                    text: raw,
-                    message: 'EndAlgorithm found but there are unclosed blocks. Close all blocks before EndAlgorithm'
-                });
-            }
-            continue;
-        }
         // Check for common pseudo-code structures
-        if (lower.startsWith('for ') || t.startsWith('For ')) {
-            const m = t.match(/^(for|For)\s+([a-zA-Z_$][\w$]*)\s*=\s*(.+?)\s+(to|To)\s+(.+?)(?:\s+step\s+([-+]?\d+))?\s*$/i);
+        if (lower.startsWith('for ')) {
+            const m = t.match(/^for\s+([a-zA-Z_$][\w$]*)\s*=\s*(.+?)\s+to\s+(.+?)(?:\s+step\s+([-+]?\d+))?\s*$/i);
             if (!m) {
                 issues.push({
                     line: lineNum,
                     text: raw,
-                    message: 'Malformed for-loop. Expected: For <var> = <start> To <end> [step <increment>]'
+                    message: 'Malformed for-loop. Expected: for <var> = <start> to <end> [step <increment>]'
                 });
             }
             else {
-                blockStack.push({ type: 'for', var: m[2], line: lineNum, indent });
+                blockStack.push({ type: 'for', var: m[1], line: lineNum, indent });
             }
             continue;
         }
@@ -227,7 +180,7 @@ function validatePseudo(src) {
         }
         // Check for variable declarations (var, const, variable)
         if (lower.startsWith('var ') || lower.startsWith('const ') || lower.startsWith('variable ')) {
-            const m = t.match(/^(var|const|variable|Var|Const|Variable)\s+([a-zA-Z_$][\w$]*)\s*(?:=\s*(.+))?$/i);
+            const m = t.match(/^(var|const|variable)\s+([a-zA-Z_$][\w$]*)\s*(?:=\s*(.+))?$/i);
             if (!m) {
                 const keyword = lower.startsWith('var') ? 'var' : lower.startsWith('const') ? 'const' : 'variable';
                 issues.push({
@@ -240,7 +193,7 @@ function validatePseudo(src) {
         }
         // Check for "Set value To variableName" syntax
         if (lower.startsWith('set ')) {
-            const m = t.match(/^(set|Set)\s+(.+)\s+(to|To)\s+([a-zA-Z_$][\w$]*)\s*$/i);
+            const m = t.match(/^set\s+(.+)\s+to\s+([a-zA-Z_$][\w$]*)\s*$/i);
             if (!m) {
                 issues.push({
                     line: lineNum,
@@ -252,7 +205,7 @@ function validatePseudo(src) {
         }
         // Check for "Declare variableName As Type" syntax
         if (lower.startsWith('declare ')) {
-            const m = t.match(/^(declare|Declare)\s+([a-zA-Z_$][\w$]*)\s+(as|As)\s+(number|string|boolean|integer|float|char|Number|String|Boolean|Integer|Float|Char)\s*$/i);
+            const m = t.match(/^declare\s+([a-zA-Z_$][\w$]*)\s+as\s+(number|string|boolean|integer|float|char)\s*$/i);
             if (!m) {
                 issues.push({
                     line: lineNum,
@@ -325,25 +278,12 @@ function translatePseudoToJs(src) {
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
-        // Algorithm declaration - convert to comment (both cases)
-        if (line.toLowerCase().startsWith('algorithm ') || line.startsWith('Algorithm ')) {
-            const algorithmName = line.toLowerCase().startsWith('algorithm ') ? line.slice(9).trim() : line.slice(10).trim();
-            out.push('// Algorithm: ' + algorithmName);
-            mapping.push({ srcLine: srcLineNum, srcText: raw });
-            continue;
-        }
-        // EndAlgorithm declaration - convert to comment (both cases)
-        if (line.toLowerCase() === 'endalgorithm' || line === 'Endalgorithm') {
-            out.push('// End Algorithm');
-            mapping.push({ srcLine: srcLineNum, srcText: raw });
-            continue;
-        }
-        // Variable declarations with input: var x = input "prompt" or const x = input "prompt" (both cases)
-        let m = line.match(/^(var|const|Var|Const)\s+([a-zA-Z_$][\w$]*)\s*=\s*(input|Input)\s+(.+)$/i);
+        // Variable declarations with input: var x = input "prompt" or const x = input "prompt"
+        let m = line.match(/^(var|const)\s+([a-zA-Z_$][\w$]*)\s*=\s*input\s+(.+)$/i);
         if (m) {
             const keyword = m[1].toLowerCase();
             const varName = m[2];
-            let prompt = m[4].trim();
+            let prompt = m[3].trim();
             // Remove quotes if present from both ends
             if ((prompt.startsWith('"') && prompt.endsWith('"')) ||
                 (prompt.startsWith("'") && prompt.endsWith("'"))) {
@@ -353,8 +293,8 @@ function translatePseudoToJs(src) {
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
-        // Variable declarations: var x = expr or const x = expr or variable x = expr (both cases)
-        m = line.match(/^(var|const|variable|Var|Const|Variable)\s+([a-zA-Z_$][\w$]*)\s*=\s*(.*)$/i);
+        // Variable declarations: var x = expr or const x = expr or variable x = expr
+        m = line.match(/^(var|const|variable)\s+([a-zA-Z_$][\w$]*)\s*=\s*(.*)$/i);
         if (m) {
             const keyword = m[1].toLowerCase();
             const varName = m[2];
@@ -365,109 +305,109 @@ function translatePseudoToJs(src) {
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
-        // Declare statements: Declare variableName As Type (both cases)
-        m = line.match(/^(declare|Declare)\s+([a-zA-Z_$][\w$]*)\s+(as|As)\s+(number|string|boolean|integer|float|char|Number|String|Boolean|Integer|Float|Char)\s*$/i);
+        // Declare statements: Declare variableName As Type
+        m = line.match(/^declare\s+([a-zA-Z_$][\w$]*)\s+as\s+(number|string|boolean|integer|float|char)\s*$/i);
         if (m) {
-            const varName = m[2];
+            const varName = m[1];
             // Convert to JavaScript var declaration (types are handled dynamically in JS)
             out.push(`var ${varName};`);
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
-        // Set statements: Set value To variableName (both cases)
-        m = line.match(/^(set|Set)\s+(.+)\s+(to|To)\s+([a-zA-Z_$][\w$]*)\s*$/i);
+        // Set statements: Set value To variableName
+        m = line.match(/^set\s+(.+)\s+to\s+([a-zA-Z_$][\w$]*)\s*$/i);
         if (m) {
-            const value = m[2].trim();
-            const varName = m[4];
+            const value = m[1].trim();
+            const varName = m[2];
             // Convert to JavaScript assignment
             out.push(`${varName} = ${value};`);
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
-        // Print statements: print arg1, arg2 (both cases)
-        m = line.match(/^(print|Print)\s+(.+)$/i);
+        // Print statements: print arg1, arg2
+        m = line.match(/^print\s+(.+)$/i);
         if (m) {
-            out.push(`print(${m[2]});`);
+            out.push(`print(${m[1]});`);
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
-        // Input statements: input "prompt" or input prompt (both cases)
-        m = line.match(/^(input|Input)\s+(.+)$/i);
+        // Input statements: input "prompt" or input prompt
+        m = line.match(/^input\s+(.+)$/i);
         if (m) {
-            out.push(`await input(${m[2]});`);
+            out.push(`await input(${m[1]});`);
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
-        // For loops: for i = 1 to n [step increment] (both cases)
-        m = line.match(/^(for|For)\s+([a-zA-Z_$][\w$]*)\s*=\s*(.+?)\s+(to|To)\s+(.+?)(?:\s+step\s+([-+]?\d+))?\s*$/i);
+        // For loops: for i = 1 to n [step increment]
+        m = line.match(/^for\s+([a-zA-Z_$][\w$]*)\s*=\s*(.+?)\s+to\s+(.+?)(?:\s+step\s+([-+]?\d+))?\s*$/i);
         if (m) {
-            const varName = m[2];
-            const start = m[3];
-            const end = m[5];
-            const step = m[6] || '1';
+            const varName = m[1];
+            const start = m[2];
+            const end = m[3];
+            const step = m[4] || '1';
             out.push(`for (let ${varName} = ${start}; ${varName} <= ${end}; ${varName} += ${step}) {`);
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
-        // While loops: while condition [then] (both cases)
-        m = line.match(/^(while|While)\s+(.+?)(?:\s+(then|Then))?\s*$/i);
+        // While loops: while condition [then]
+        m = line.match(/^while\s+(.+?)(?:\s+then)?\s*$/i);
         if (m) {
-            out.push(`while (${m[2]}) {`);
+            out.push(`while (${m[1]}) {`);
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
-        // If statements: if condition [then] (both cases)
-        m = line.match(/^(if|If)\s+(.+?)(?:\s+(then|Then))?\s*$/i);
+        // If statements: if condition [then]
+        m = line.match(/^if\s+(.+?)(?:\s+then)?\s*$/i);
         if (m) {
-            out.push(`if (${m[2]}) {`);
+            out.push(`if (${m[1]}) {`);
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
-        // Elseif statements: elseif condition [then] (both cases)
-        m = line.match(/^(elseif|Elseif)\s+(.+?)(?:\s+(then|Then))?\s*$/i);
+        // Elseif statements: elseif condition [then]
+        m = line.match(/^elseif\s+(.+?)(?:\s+then)?\s*$/i);
         if (m) {
-            out.push(`} else if (${m[2]}) {`);
+            out.push(`} else if (${m[1]}) {`);
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
-        // Else statements: else (both cases)
-        if (/^(else|Else)\s*$/i.test(line)) {
+        // Else statements: else
+        if (/^else\s*$/i.test(line)) {
             out.push('} else {');
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
-        // Function declarations: function name(params) (both cases)
-        m = line.match(/^(function|Function)\s+([a-zA-Z_$][\w$]*)\s*\(([^)]*)\)\s*$/i);
+        // Function declarations: function name(params)
+        m = line.match(/^function\s+([a-zA-Z_$][\w$]*)\s*\(([^)]*)\)\s*$/i);
         if (m) {
-            const funcName = m[2];
-            const params = m[3] || '';
+            const funcName = m[1];
+            const params = m[2] || '';
             functionStack.push(funcName);
             out.push(`function ${funcName}(${params}) {`);
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
-        // Return statements: return expression (both cases)
-        m = line.match(/^(return|Return)\s+(.+)$/i);
+        // Return statements: return expression
+        m = line.match(/^return\s+(.+)$/i);
         if (m) {
-            out.push(`return ${m[2]};`);
+            out.push(`return ${m[1]};`);
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
-        // Break statements: break (both cases)
-        if (/^(break|Break)\s*$/i.test(line)) {
+        // Break statements: break
+        if (/^break\s*$/i.test(line)) {
             out.push('break;');
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
-        // Continue statements: continue (both cases)
-        if (/^(continue|Continue)\s*$/i.test(line)) {
+        // Continue statements: continue
+        if (/^continue\s*$/i.test(line)) {
             out.push('continue;');
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
-        // End blocks: endfor, endif, endwhile, endfunction (both cases)
-        if (/^(endfor|endif|endwhile|endfunction|Endfor|Endif|Endwhile|Endfunction)\s*$/i.test(line)) {
-            if (line.toLowerCase() === 'endfunction' || line === 'Endfunction') {
+        // End blocks: endfor, endif, endwhile, endfunction
+        if (/^(endfor|endif|endwhile|endfunction)\s*$/i.test(line)) {
+            if (line.toLowerCase() === 'endfunction') {
                 functionStack.pop();
             }
             out.push('}');
@@ -494,6 +434,9 @@ self.onmessage = function (e) {
     const msg = e.data;
     if (!(msg && typeof msg.code === 'string'))
         return;
+    // Declare variables for input processing
+    let finished = false;
+    let timer;
     try {
         const postStdout = (text) => self.postMessage({ type: 'stdout', text: String(text) });
         const postStderr = (text) => self.postMessage({ type: 'stderr', text: String(text) });
@@ -506,10 +449,25 @@ self.onmessage = function (e) {
                 function handler(ev) {
                     if (ev.data && ev.data.type === 'input-response' && ev.data.id === id) {
                         self.removeEventListener('message', handler);
+                        // Restart timeout timer for continued execution
+                        timer = setTimeout(() => {
+                            if (finished)
+                                return;
+                            finished = true;
+                            postError({ name: 'TimeoutError', message: `Execution timed out after 8000ms`, phase: 'timeout' });
+                            try {
+                                self.close && self.close();
+                            }
+                            catch (e) { }
+                        }, 8000);
                         resolve(ev.data.value || '');
                     }
                 }
                 self.addEventListener('message', handler);
+                // Clear timeout during user input wait - only if timer exists
+                if (timer) {
+                    clearTimeout(timer);
+                }
                 self.postMessage({ type: 'input-request', id, prompt: promptText || 'Input:' });
             });
         };
@@ -538,70 +496,9 @@ self.onmessage = function (e) {
             }
         }
         const asyncWrapper = `(async function(print, input){\n${source}\n})(print, input);`;
-        // syntax check
-        try {
-            new Function(source);
-        }
-        catch (syntaxError) {
-            // try to map the error to original pseudocode line if mapping exists
-            let original = null;
-            let lineNumber = 0;
-            let columnNumber = 0;
-            // Extract line and column numbers from the error if available
-            const lineMatch = String(syntaxError.stack || syntaxError.message || '').match(/(\d+):(\d+)/);
-            if (lineMatch) {
-                lineNumber = parseInt(lineMatch[1], 10) || 0;
-                columnNumber = parseInt(lineMatch[2], 10) || 0;
-                // Adjust for the wrapper function if needed
-                if (lineNumber > 1) {
-                    lineNumber -= 1; // Account for the wrapper function line
-                }
-                if (mapping && mapping.length >= lineNumber && lineNumber > 0) {
-                    original = mapping[lineNumber - 1];
-                }
-            }
-            // Create a more detailed error message
-            let errorMessage = `❌ ${syntaxError.name || 'Syntax Error'}: ${syntaxError.message || 'Invalid syntax'}`;
-            if (original) {
-                errorMessage += `\n\n  At line ${original.srcLine}:`;
-                errorMessage += `\n  ${original.srcText}`;
-                // Add a pointer to the error location if we have column info
-                if (columnNumber > 0) {
-                    const pointer = ' '.repeat(2 + columnNumber) + '^';
-                    errorMessage += `\n  ${pointer}`;
-                }
-                // Add context if available
-                if (original.srcLine > 1) {
-                    const contextLine = mapping[lineNumber - 2]; // Previous line
-                    if (contextLine) {
-                        errorMessage += `\n\n  Previous line (${contextLine.srcLine}):`;
-                        errorMessage += `\n  ${contextLine.srcText}`;
-                    }
-                }
-                // Add suggestions for common errors
-                if (syntaxError.message.includes('Unexpected token') ||
-                    syntaxError.message.includes('Missing')) {
-                    errorMessage += '\n\n💡 Tip: Check for missing or mismatched brackets, parentheses, or quotes.';
-                }
-                else if (syntaxError.message.includes('Unexpected end of input')) {
-                    errorMessage += '\n\n💡 Tip: You might be missing a closing bracket, parenthesis, or quote.';
-                }
-            }
-            postError({
-                name: 'SyntaxError',
-                message: errorMessage,
-                stack: syntaxError.stack,
-                line: original ? original.srcLine : lineNumber,
-                column: columnNumber,
-                originalText: original ? original.srcText : undefined,
-                phase: 'syntax',
-                formatted: true // Flag to indicate this is a formatted error message
-            });
-            return;
-        }
-        let finished = false;
+        // Initialize timer first to avoid 'used before assigned' errors
         const TIMEOUT_MS = typeof msg.timeout === 'number' ? Math.max(1000, msg.timeout) : 5000;
-        const timer = setTimeout(() => {
+        timer = setTimeout(() => {
             if (finished)
                 return;
             finished = true;
@@ -661,6 +558,9 @@ self.onmessage = function (e) {
                 else if (err.message.includes('Cannot read properties of undefined') ||
                     err.message.includes('Cannot read property')) {
                     errorMessage += '\n\n💡 Tip: You might be trying to access a property of an undefined or null value. Check if the variable exists and has the expected value.';
+                }
+                else if (err.message.includes('missing ) after argument list')) {
+                    errorMessage += '\n\n💡 String concatenation tip: Check your print statements for missing + operators! Use format: print "text" + variable + "more text"';
                 }
                 postError({
                     name: err.name || 'RuntimeError',

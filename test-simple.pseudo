@@ -1,0 +1,5 @@
+Algorithm SimpleTest
+Variable x = 5
+Set 10 To x
+Print x
+Endalgorithm

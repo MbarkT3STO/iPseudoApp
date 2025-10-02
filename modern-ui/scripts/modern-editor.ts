@@ -242,10 +242,10 @@ function getKeywordHoverInfo(keyword: string): any {
         },
         'to': {
             label: 'To',
-            category: 'Loop Range',
-            description: 'Specifies the end value in a for loop. Used with for statements.',
-            usage: 'For variable = start To end',
-            example: 'For i = 1 To 10'
+            category: 'Keyword',
+            description: 'Used in for loops to specify the end value, or in Set statements to specify the target variable.',
+            usage: 'For variable = start To end | Set value To variableName',
+            example: 'For i = 1 To 10 | Set 5 To age'
         },
         'endfor': {
             label: 'Endfor',
@@ -435,6 +435,76 @@ function getKeywordHoverInfo(keyword: string): any {
             description: 'Marks the end of an algorithm. Must be the last statement in pseudocode.',
             usage: 'Endalgorithm',
             example: 'Endalgorithm'
+        },
+        'variable': {
+            label: 'Variable',
+            category: 'Variable Declaration',
+            description: 'Declares a new variable that can be modified throughout the program (alternative to Var).',
+            usage: 'Variable variableName = value',
+            example: 'Variable age = 25'
+        },
+        'set': {
+            label: 'Set',
+            category: 'Assignment Statement',
+            description: 'Assigns a value to a variable using natural language syntax.',
+            usage: 'Set <value> To <variableName>',
+            example: 'Set 5 To age'
+        },
+        'declare': {
+            label: 'Declare',
+            category: 'Variable Declaration',
+            description: 'Declares a variable with explicit type specification.',
+            usage: 'Declare variableName As Type',
+            example: 'Declare age As Number'
+        },
+        'as': {
+            label: 'As',
+            category: 'Type Declaration',
+            description: 'Used with Declare statement to specify the variable type.',
+            usage: 'Declare variableName As Type',
+            example: 'Declare age As Number'
+        },
+        'number': {
+            label: 'Number',
+            category: 'Primitive Type',
+            description: 'Primitive type for numeric values.',
+            usage: 'Declare variableName As Number',
+            example: 'Declare age As Number'
+        },
+        'string': {
+            label: 'String',
+            category: 'Primitive Type',
+            description: 'Primitive type for text values.',
+            usage: 'Declare variableName As String',
+            example: 'Declare name As String'
+        },
+        'boolean': {
+            label: 'Boolean',
+            category: 'Primitive Type',
+            description: 'Primitive type for true/false values.',
+            usage: 'Declare variableName As Boolean',
+            example: 'Declare isActive As Boolean'
+        },
+        'integer': {
+            label: 'Integer',
+            category: 'Primitive Type',
+            description: 'Primitive type for whole number values.',
+            usage: 'Declare variableName As Integer',
+            example: 'Declare count As Integer'
+        },
+        'float': {
+            label: 'Float',
+            category: 'Primitive Type',
+            description: 'Primitive type for decimal number values.',
+            usage: 'Declare variableName As Float',
+            example: 'Declare price As Float'
+        },
+        'char': {
+            label: 'Char',
+            category: 'Primitive Type',
+            description: 'Primitive type for single character values.',
+            usage: 'Declare variableName As Char',
+            example: 'Declare grade As Char'
         }
     };
 
@@ -447,7 +517,7 @@ const pseudocodeLanguage = {
     tokenizer: {
         root: [
             // Keywords - All reserved words from the pseudocode specification (case-insensitive)
-            [/\b(var|const|if|then|else|elseif|endif|for|to|endfor|while|endwhile|do|until|repeat|case|switch|endswitch|function|endfunction|return|break|continue|print|input|true|false|null|and|or|not|mod|div|algorithm|endalgorithm|VAR|CONST|IF|THEN|ELSE|ELSEIF|ENDIF|FOR|TO|ENDFOR|WHILE|ENDWHILE|DO|UNTIL|REPEAT|CASE|SWITCH|ENDSWITCH|FUNCTION|ENDFUNCTION|RETURN|BREAK|CONTINUE|PRINT|INPUT|TRUE|FALSE|NULL|AND|OR|NOT|MOD|DIV|ALGORITHM|ENDALGORITHM|Var|Const|If|Then|Else|Elseif|Endif|For|To|Endfor|While|Endwhile|Do|Until|Repeat|Case|Switch|Endswitch|Function|Endfunction|Return|Break|Continue|Print|Input|True|False|Null|And|Or|Not|Mod|Div|Algorithm|Endalgorithm|vAr|cOnSt|iF|tHeN|eLsE|eLsEiF|eNdIf|fOr|tO|eNdFoR|wHiLe|eNdWhIlE|dO|uNtIl|rEpEaT|cAsE|sWiTcH|eNdSwItCh|fUnCtIoN|eNdFuNcTiOn|rEtUrN|bReAk|cOnTiNuE|pRiNt|iNpUt|tRuE|fAlSe|nUlL|aNd|Or|nOt|mOd|dIv|aLgOrItHm|eNdAlGoRiThM)\b/, 'keyword'],
+            [/\b(var|const|if|then|else|elseif|endif|for|to|endfor|while|endwhile|do|until|repeat|case|switch|endswitch|function|endfunction|return|break|continue|print|input|true|false|null|and|or|not|mod|div|algorithm|endalgorithm|variable|set|declare|as|number|string|boolean|integer|float|char|VAR|CONST|IF|THEN|ELSE|ELSEIF|ENDIF|FOR|TO|ENDFOR|WHILE|ENDWHILE|DO|UNTIL|REPEAT|CASE|SWITCH|ENDSWITCH|FUNCTION|ENDFUNCTION|RETURN|BREAK|CONTINUE|PRINT|INPUT|TRUE|FALSE|NULL|AND|OR|NOT|MOD|DIV|ALGORITHM|ENDALGORITHM|VARIABLE|SET|DECLARE|AS|NUMBER|STRING|BOOLEAN|INTEGER|FLOAT|CHAR|Var|Const|If|Then|Else|Elseif|Endif|For|To|Endfor|While|Endwhile|Do|Until|Repeat|Case|Switch|Endswitch|Function|Endfunction|Return|Break|Continue|Print|Input|True|False|Null|And|Or|Not|Mod|Div|Algorithm|Endalgorithm|Variable|Set|Declare|As|Number|String|Boolean|Integer|Float|Char|vAr|cOnSt|iF|tHeN|eLsE|eLsEiF|eNdIf|fOr|tO|eNdFoR|wHiLe|eNdWhIlE|dO|uNtIl|rEpEaT|cAsE|sWiTcH|eNdSwItCh|fUnCtIoN|eNdFuNcTiOn|rEtUrN|bReAk|cOnTiNuE|pRiNt|iNpUt|tRuE|fAlSe|nUlL|aNd|Or|nOt|mOd|dIv|aLgOrItHm|eNdAlGoRiThM|vArIaBlE|sEt|dEcLaRe|aS|nUmBeR|sTrInG|bOoL|iNtEgEr|fLoAt|cHaR)\b/, 'keyword'],
 
             // Strings
             [/".*?"/, 'string'],
@@ -631,7 +701,7 @@ interface Window {
     });
 
     // Register completion provider with all reserved pseudocode keywords (Pascal Case)
-    const reservedKeywords = ['Var','Const','If','Then','Else','Elseif','Endif','For','To','Endfor','While','Endwhile','Do','Until','Repeat','Case','Switch','Endswitch','Function','Endfunction','Return','Break','Continue','Print','Input','True','False','Null','And','Or','Not','Mod','Div','Algorithm','Endalgorithm'];
+    const reservedKeywords = ['Var','Const','If','Then','Else','Elseif','Endif','For','To','Endfor','While','Endwhile','Do','Until','Repeat','Case','Switch','Endswitch','Function','Endfunction','Return','Break','Continue','Print','Input','True','False','Null','And','Or','Not','Mod','Div','Algorithm','Endalgorithm','Variable','Set','Declare','As','Number','String','Boolean','Integer','Float','Char'];
     window.monaco.languages.registerCompletionItemProvider('pseudocode', {
         triggerCharacters: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
         provideCompletionItems: function(model: any, position: any) {
@@ -643,18 +713,25 @@ interface Window {
                 endColumn: word.endColumn
             };
 
-            // Scan model for current var, const, and function declarations
+            // Scan model for current var, const, variable, and declare declarations
             const text = model.getValue();
-            const varRe = /\b(?:var|const)\s+([a-zA-Z_]\w*)/gi;
-            const funcRe = /^\s*function\s+([a-zA-Z_]\w*)/gim;
             const vars = new Set<string>();
             const funcs = new Set<string>();
-            let m;
-            while ((m = varRe.exec(text))) {
-                vars.add(m[1]);
+            
+            // Use matchAll to avoid regex state issues
+            const varMatches = text.matchAll(/\b(?:var|const|variable|Variable)\s+([a-zA-Z_]\w*)/gi);
+            for (const match of varMatches) {
+                vars.add(match[1]);
             }
-            while ((m = funcRe.exec(text))) {
-                funcs.add(m[1]);
+            
+            const declareMatches = text.matchAll(/\b(?:declare|Declare)\s+([a-zA-Z_]\w*)\s+(?:as|As)\s+/gi);
+            for (const match of declareMatches) {
+                vars.add(match[1]);
+            }
+            
+            const funcMatches = text.matchAll(/^\s*function\s+([a-zA-Z_]\w*)/gim);
+            for (const match of funcMatches) {
+                funcs.add(match[1]);
             }
 
             const suggestions: any[] = [];
@@ -695,7 +772,17 @@ interface Window {
                 { label: 'Mod', detail: 'Modulo operator', documentation: 'Returns the remainder of division' },
                 { label: 'Div', detail: 'Integer division', documentation: 'Returns the quotient without remainder' },
                 { label: 'Algorithm', detail: 'Algorithm declaration', documentation: 'Declares the start of an algorithm with a given name' },
-                { label: 'Endalgorithm', detail: 'End algorithm', documentation: 'Marks the end of an algorithm' }
+                { label: 'Endalgorithm', detail: 'End algorithm', documentation: 'Marks the end of an algorithm' },
+                { label: 'Variable', detail: 'Variable declaration', documentation: 'Declares a new variable (alternative to Var)' },
+                { label: 'Set', detail: 'Set value', documentation: 'Assigns a value to a variable using natural language syntax' },
+                { label: 'Declare', detail: 'Declare variable', documentation: 'Declares a variable with explicit type specification' },
+                { label: 'As', detail: 'Type specification', documentation: 'Used with Declare statement to specify the variable type' },
+                { label: 'Number', detail: 'Number type', documentation: 'Primitive type for numeric values' },
+                { label: 'String', detail: 'String type', documentation: 'Primitive type for text values' },
+                { label: 'Boolean', detail: 'Boolean type', documentation: 'Primitive type for true/false values' },
+                { label: 'Integer', detail: 'Integer type', documentation: 'Primitive type for whole number values' },
+                { label: 'Float', detail: 'Float type', documentation: 'Primitive type for decimal number values' },
+                { label: 'Char', detail: 'Char type', documentation: 'Primitive type for single character values' }
             ];
 
             // Add keyword suggestions (filter by current word if any, case-insensitive)

@@ -1,0 +1,45 @@
+Algorithm NewFeaturesDemo
+# Examples of new pseudocode features
+
+# 1. Variable keyword (alternative to var)
+Variable count = 0
+Variable name = "John"
+Variable isActive = true
+
+# 2. Set value To syntax (alternative to = operator)
+Set 10 To count
+Set "Hello World" To message
+Set true To flag
+
+# 3. Declare As Type syntax with primitive types
+Declare age As Number
+Declare firstName As String
+Declare isStudent As Boolean
+Declare studentId As Integer
+Declare gpa As Float
+Declare grade As Char
+
+# Mixed usage example
+Declare numbers As Number
+Set 42 To numbers
+
+Variable result = numbers * 2
+Set result To finalValue
+
+Print "Final value:", finalValue
+
+# Function using new syntax
+Function calculateSum(a As Number, b As Number)
+    Declare sum As Number
+    Set a + b To sum
+    Return sum
+Endfunction
+
+Variable firstNumber = 10
+Variable secondNumber = 20
+
+Set calculateSum(firstNumber, secondNumber) To total
+Print "Sum is:", total
+
+Endalgorithm
+

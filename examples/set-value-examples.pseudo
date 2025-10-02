@@ -1,0 +1,42 @@
+Algorithm SetValueExamples
+# Examples using the new 'Set value To variable' syntax
+
+Variable x = 0
+Variable y = 0
+Variable message = ""
+
+# Basic assignments using Set syntax
+Set 10 To x
+Set 20 To y
+Set "Hello World" To message
+
+Print "x =", x
+Print "y =", y
+Print "message =", message
+
+# Mathematical expressions
+Set x + y To sum
+Set x * y To product
+Set x / y To quotient
+
+Print "Sum:", sum
+Print "Product:", product
+Print "Quotient:", quotient
+
+# String operations
+Set message + " - Extended" To extendedMessage
+Print "Extended message:", extendedMessage
+
+# Boolean assignments
+Variable flag = false
+Set true To flag
+Print "Flag is now:", flag
+
+# Mixed with traditional assignment
+x = 100  # Traditional way
+Set 200 To y  # New Set syntax
+
+Print "Mixed assignments - x:", x, "y:", y
+
+Endalgorithm
+

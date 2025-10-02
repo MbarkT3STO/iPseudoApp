@@ -1,0 +1,32 @@
+Algorithm VariableKeywordExamples
+# Examples using the new 'variable' keyword
+
+# Basic variable declarations
+Variable counter = 0
+Variable userName = "Alice"
+Variable isLoggedIn = false
+
+# Variables in loops
+For i = 1 To 5
+    Variable temp = i * 2
+    Print "Iteration", i, "temp value:", temp
+Endfor
+
+# Variables in conditions
+If isLoggedIn Then
+    Variable welcomeMessage = "Welcome back!"
+    Print welcomeMessage
+Else
+    Variable loginPrompt = "Please log in"
+    Print loginPrompt
+Endif
+
+# Mixed with traditional var keyword
+Var traditionalVar = 100
+Variable newStyleVar = 200
+
+Print "Traditional var:", traditionalVar
+Print "New variable keyword:", newStyleVar
+
+Endalgorithm
+
