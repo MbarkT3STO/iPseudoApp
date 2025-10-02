@@ -103,195 +103,226 @@ class UIDetector {
         }, 800); // Reduced from 1000ms to 800ms for faster experience
     }
 
-    // Show modern loading message during redirect
+    // Show modern loading message during redirect - Flow Chart Modal Style
     showLoadingMessage() {
-        // Create modern loading overlay
+        // Create modern loading overlay - matching Flow Chart modal
         const overlay = document.createElement('div');
         overlay.style.cssText = `
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 30% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 70% 80%, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
-                radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.8) 100%);
-            backdrop-filter: blur(24px) saturate(200%) brightness(0.9);
-            -webkit-backdrop-filter: blur(24px) saturate(200%) brightness(0.9);
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg,
+                rgba(147, 51, 234, 0.25) 0%,
+                rgba(79, 70, 229, 0.25) 50%,
+                rgba(6, 182, 212, 0.2) 100%),
+                rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            z-index: 10000;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 10000;
+            padding: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
             color: white;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            animation: overlayPulse 3s ease-in-out infinite alternate;
         `;
 
-        // Create modern loading card
-        const card = document.createElement('div');
-        card.style.cssText = `
-            background: 
-                linear-gradient(135deg, 
-                    rgba(255, 255, 255, 0.25) 0%, 
-                    rgba(255, 255, 255, 0.1) 50%,
-                    rgba(255, 255, 255, 0.15) 100%);
+        // Create modern loading container - matching Flow Chart modal
+        const container = document.createElement('div');
+        container.style.cssText = `
+            width: 100%;
+            max-width: 500px;
+            max-height: calc(100vh - 2rem);
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.12) 0%,
+                rgba(255, 255, 255, 0.05) 50%,
+                rgba(255, 255, 255, 0.08) 100%);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 24px;
-            padding: 3rem 2.5rem;
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(32px) saturate(200%) brightness(1.1);
-            -webkit-backdrop-filter: blur(32px) saturate(200%) brightness(1.1);
-            box-shadow: 
-                0 40px 80px rgba(0, 0, 0, 0.5),
-                0 20px 40px rgba(0, 0, 0, 0.3),
-                0 10px 20px rgba(0, 0, 0, 0.2),
-                inset 0 2px 0 rgba(255, 255, 255, 0.3),
-                inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+            box-shadow:
+                0 25px 50px rgba(0, 0, 0, 0.25),
+                0 0 100px rgba(147, 51, 234, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(24px) saturate(200%);
+            -webkit-backdrop-filter: blur(24px) saturate(200%);
+            display: flex;
+            flex-direction: column;
             transform: scale(0.9) translateY(20px);
-            opacity: 0;
-            animation: cardEntrance 0.6s ease-out forwards, cardFloat 4s ease-in-out infinite 0.6s;
+            transition: transform 0.4s cubic-bezier(0.32, 1.0, 0.68, 1.0);
+            text-align: center;
+            position: relative;
+            z-index: 2;
         `;
 
-        // Add animated background
-        const background = document.createElement('div');
-        background.style.cssText = `
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 60%),
-                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.12) 0%, transparent 60%),
-                radial-gradient(circle at 50% 10%, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
-            animation: backgroundGlow 3s ease-in-out infinite alternate;
-        `;
-
-        // Create modern icon container
-        const iconContainer = document.createElement('div');
-        iconContainer.style.cssText = `
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: 
-                linear-gradient(135deg, 
-                    rgba(59, 130, 246, 0.3) 0%, 
-                    rgba(139, 92, 246, 0.2) 100%);
+        // Create header section - matching Flow Chart modal
+        const header = document.createElement('div');
+        header.style.cssText = `
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1.5rem auto;
-            position: relative;
-            z-index: 1;
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.08) 0%,
+                rgba(255, 255, 255, 0.02) 100%);
+            flex-shrink: 0;
+            border-radius: 24px 24px 0 0;
+        `;
+
+        const brandSection = document.createElement('div');
+        brandSection.style.cssText = `
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        `;
+
+        const brandIcon = document.createElement('div');
+        brandIcon.style.cssText = `
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, 
+                rgba(147, 51, 234, 0.2) 0%, 
+                rgba(79, 70, 229, 0.2) 50%, 
+                rgba(6, 182, 212, 0.2) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
             animation: iconPulse 2s ease-in-out infinite;
         `;
 
-        const icon = document.createElement('div');
+        const icon = document.createElement('i');
+        icon.className = 'ri-refresh-line';
         icon.style.cssText = `
             font-size: 2rem;
-            color: #3b82f6;
+            color: #ffffff;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
             animation: iconSpin 1.5s linear infinite;
         `;
-        icon.innerHTML = '⚡';
 
-        // Create title
-        const title = document.createElement('div');
-        title.style.cssText = `
+        const brandText = document.createElement('div');
+        brandText.style.cssText = `
+            text-align: left;
+        `;
+
+        const appTitle = document.createElement('div');
+        appTitle.style.cssText = `
             font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, #ffffff 0%, #3b82f6 50%, #8b5cf6 100%);
+            color: #ffffff;
+            background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            position: relative;
-            z-index: 1;
+            margin-bottom: 0.25rem;
+            animation: titleGlow 2s ease-in-out infinite alternate;
         `;
-        title.textContent = `Switching to ${this.preferredUI === 'modern' ? 'Modern' : 'Classic'} UI`;
+        appTitle.textContent = `Switching to ${this.preferredUI === 'modern' ? 'Modern' : 'Classic'} UI`;
 
-        // Create subtitle
-        const subtitle = document.createElement('div');
-        subtitle.style.cssText = `
-            font-size: 1rem;
-            opacity: 0.8;
-            line-height: 1.5;
-            position: relative;
-            z-index: 1;
+        const versionInfo = document.createElement('div');
+        versionInfo.style.cssText = `
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 400;
         `;
-        subtitle.textContent = 'Preparing your enhanced experience...';
+        versionInfo.textContent = 'Preparing your enhanced experience...';
+
+        // Create content section
+        const content = document.createElement('div');
+        content.style.cssText = `
+            padding: 2rem 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        `;
 
         // Create progress bar
         const progressContainer = document.createElement('div');
         progressContainer.style.cssText = `
             width: 100%;
-            height: 4px;
+            max-width: 300px;
+            height: 6px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
-            margin-top: 1.5rem;
+            border-radius: 3px;
             overflow: hidden;
+            margin: 0 auto 1.5rem;
             position: relative;
-            z-index: 1;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         `;
 
         const progressBar = document.createElement('div');
         progressBar.style.cssText = `
             height: 100%;
-            background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 50%, #10b981 100%);
-            border-radius: 2px;
+            background: linear-gradient(90deg, 
+                rgba(147, 51, 234, 0.8) 0%, 
+                rgba(79, 70, 229, 0.8) 50%, 
+                rgba(6, 182, 212, 0.8) 100%);
+            border-radius: 3px;
             width: 0%;
-            animation: progressFill 1s ease-out forwards;
+            transition: width 0.3s ease-out;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(147, 51, 234, 0.3);
         `;
 
-        // Add all CSS animations
+        // Create progress percentage
+        const percentage = document.createElement('div');
+        percentage.style.cssText = `
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        `;
+        percentage.textContent = '0%';
+
+        // Create status text
+        const status = document.createElement('div');
+        status.style.cssText = `
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+            min-height: 1.2rem;
+            text-align: center;
+        `;
+        status.textContent = 'Initializing...';
+
+        // Create steps
+        const steps = document.createElement('div');
+        steps.style.cssText = `
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        `;
+
+        // Create step indicators
+        for (let i = 0; i < 5; i++) {
+            const step = document.createElement('div');
+            step.style.cssText = `
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.2);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                transition: all 0.3s ease;
+            `;
+            steps.appendChild(step);
+        }
+
+        // Add CSS animations
         const style = document.createElement('style');
         style.textContent = `
-            @keyframes overlayPulse {
-                0% {
-                    background: 
-                        radial-gradient(circle at 30% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 80%, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
-                        radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.8) 100%);
-                }
-                100% {
-                    background: 
-                        radial-gradient(circle at 30% 20%, rgba(59, 130, 246, 0.2) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 80%, rgba(139, 92, 246, 0.18) 0%, transparent 50%),
-                        radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.85) 100%);
-                }
-            }
-            
-            @keyframes cardEntrance {
-                to {
-                    transform: scale(1) translateY(0);
-                    opacity: 1;
-                }
-            }
-            
-            @keyframes cardFloat {
-                0%, 100% {
-                    transform: translateY(0px);
-                }
-                50% {
-                    transform: translateY(-5px);
-                }
-            }
-            
-            @keyframes backgroundGlow {
-                0% {
-                    opacity: 0.6;
-                }
-                100% {
-                    opacity: 1;
-                }
-            }
-            
             @keyframes iconPulse {
                 0%, 100% {
                     transform: scale(1);
@@ -306,6 +337,15 @@ class UIDetector {
                 to { transform: rotate(360deg); }
             }
             
+            @keyframes titleGlow {
+                0% {
+                    filter: brightness(1);
+                }
+                100% {
+                    filter: brightness(1.2);
+                }
+            }
+            
             @keyframes progressFill {
                 to {
                     width: 100%;
@@ -314,18 +354,48 @@ class UIDetector {
         `;
         document.head.appendChild(style);
 
-        // Assemble the card
-        iconContainer.appendChild(icon);
+        // Assemble the components
+        brandIcon.appendChild(icon);
+        brandText.appendChild(appTitle);
+        brandText.appendChild(versionInfo);
+        brandSection.appendChild(brandIcon);
+        brandSection.appendChild(brandText);
+        header.appendChild(brandSection);
+
         progressContainer.appendChild(progressBar);
-        
-        card.appendChild(background);
-        card.appendChild(iconContainer);
-        card.appendChild(title);
-        card.appendChild(subtitle);
-        card.appendChild(progressContainer);
-        
-        overlay.appendChild(card);
+        content.appendChild(progressContainer);
+        content.appendChild(percentage);
+        content.appendChild(status);
+        content.appendChild(steps);
+
+        container.appendChild(header);
+        container.appendChild(content);
+        overlay.appendChild(container);
         document.body.appendChild(overlay);
+
+        // Show with animation
+        setTimeout(() => {
+            overlay.style.opacity = '1';
+            container.style.transform = 'scale(1) translateY(0)';
+            
+            // Animate progress
+            setTimeout(() => {
+                progressBar.style.width = '100%';
+                percentage.textContent = '100%';
+                status.textContent = 'Redirecting...';
+                
+                // Animate steps
+                const stepElements = steps.querySelectorAll('div');
+                stepElements.forEach((step, index) => {
+                    setTimeout(() => {
+                        step.style.background = 'rgba(147, 51, 234, 0.8)';
+                        step.style.borderColor = 'rgba(147, 51, 234, 0.6)';
+                        step.style.transform = 'scale(1.3)';
+                        step.style.boxShadow = '0 0 15px rgba(147, 51, 234, 0.4)';
+                    }, index * 100);
+                });
+            }, 200);
+        }, 100);
     }
 
     // Method to change UI preference
