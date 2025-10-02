@@ -475,26 +475,28 @@
     box-shadow: var(--shadow-glow-success);
 }
 
-/* ===== ENHANCED MODALS ===== */
+/* ===== ENHANCED MODALS - FLOW CHART STYLE ===== */
 .modern-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 100%);
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg,
+        rgba(147, 51, 234, 0.25) 0%,
+        rgba(79, 70, 229, 0.25) 50%,
+        rgba(6, 182, 212, 0.2) 100%),
+        rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
+    z-index: 10000;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: var(--z-index-modal);
-    padding: var(--space-4);
-    animation: modalFadeIn var(--duration-normal) var(--ease-out);
+    padding: 1rem;
     opacity: 0;
     visibility: hidden;
-    transition: all var(--duration-normal) var(--ease-out);
+    transition: all 0.4s cubic-bezier(0.32, 1.0, 0.68, 1.0);
 }
 
 .modern-modal-overlay.show {
@@ -502,37 +504,29 @@
     visibility: visible;
 }
 
-/* Light mode overlay */
-[data-theme="light"] .modern-modal-overlay {
-    background: 
-        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
-}
-
 .modern-modal {
-    background: 
-        linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.25) 0%, 
-            rgba(255, 255, 255, 0.1) 50%,
-            rgba(255, 255, 255, 0.15) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: var(--radius-3xl);
-    box-shadow: 
-        0 32px 64px rgba(0, 0, 0, 0.4),
-        0 16px 32px rgba(0, 0, 0, 0.2),
-        0 8px 16px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.12) 0%,
+        rgba(255, 255, 255, 0.05) 50%,
+        rgba(255, 255, 255, 0.08) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 24px;
+    box-shadow:
+        0 25px 50px rgba(0, 0, 0, 0.25),
+        0 0 100px rgba(147, 51, 234, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(24px) saturate(200%);
+    -webkit-backdrop-filter: blur(24px) saturate(200%);
     max-width: 600px;
     width: 100%;
-    max-height: 85vh;
-    overflow: hidden;
-    animation: modalScaleIn var(--duration-normal) var(--ease-out);
+    max-height: calc(100vh - 2rem);
     position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
     transform: scale(0.9) translateY(20px);
     opacity: 0;
-    transition: all var(--duration-normal) var(--ease-out);
+    transition: all 0.4s cubic-bezier(0.32, 1.0, 0.68, 1.0);
 }
 
 .modern-modal.show {
@@ -540,20 +534,24 @@
     opacity: 1;
 }
 
-/* Light mode modal */
+/* Light theme support */
+[data-theme="light"] .modern-modal-overlay {
+    background: linear-gradient(135deg,
+        rgba(147, 51, 234, 0.15) 0%,
+        rgba(79, 70, 229, 0.15) 50%,
+        rgba(6, 182, 212, 0.1) 100%),
+        rgba(255, 255, 255, 0.4);
+}
+
 [data-theme="light"] .modern-modal {
-    background: 
-        linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.9) 0%, 
-            rgba(255, 255, 255, 0.7) 50%,
-            rgba(255, 255, 255, 0.8) 100%);
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    box-shadow: 
-        0 32px 64px rgba(0, 0, 0, 0.2),
-        0 16px 32px rgba(0, 0, 0, 0.1),
-        0 8px 16px rgba(0, 0, 0, 0.05),
-        inset 0 1px 0 rgba(255, 255, 255, 0.9),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.8) 0%,
+        rgba(255, 255, 255, 0.6) 50%,
+        rgba(255, 255, 255, 0.7) 100%);
+    border-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1),
+        0 0 100px rgba(147, 51, 234, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 .modern-modal::before {
@@ -589,116 +587,80 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: var(--space-8);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    background: 
-        linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.2) 0%, 
-            rgba(255, 255, 255, 0.1) 50%,
-            rgba(255, 255, 255, 0.15) 100%);
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    padding: 24px 24px 20px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     position: relative;
-    overflow: hidden;
-}
-
-.modern-modal .modal-header::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        linear-gradient(90deg, 
-            transparent 0%, 
-            rgba(255, 255, 255, 0.1) 50%, 
-            transparent 100%);
-    animation: modalShimmer 2s ease-in-out infinite;
-}
-
-/* Light mode modal header */
-[data-theme="light"] .modern-modal .modal-header {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-    background: 
-        linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.9) 0%, 
-            rgba(255, 255, 255, 0.7) 50%,
-            rgba(255, 255, 255, 0.8) 100%);
+    z-index: 2;
 }
 
 .modern-modal .modal-title {
-    font-size: var(--font-size-2xl);
-    font-weight: var(--font-weight-bold);
-    color: var(--editor-text);
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff;
     margin: 0;
-    background: linear-gradient(135deg, var(--editor-text) 0%, var(--accent-primary) 50%, var(--accent-secondary) 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     position: relative;
     z-index: 2;
+    line-height: 1.3;
 }
 
 .modern-modal .modal-close {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: var(--radius-xl);
-    background: 
-        linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.1) 0%, 
-            rgba(255, 255, 255, 0.05) 100%);
-    color: var(--editor-text-secondary);
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
     cursor: pointer;
-    transition: all var(--duration-normal) var(--ease-in-out);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    transition: all 0.3s cubic-bezier(0.32, 1.0, 0.68, 1.0);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     position: relative;
     z-index: 2;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .modern-modal .modal-close:hover {
-    background: 
-        linear-gradient(135deg, 
-            rgba(239, 68, 68, 0.2) 0%, 
-            rgba(239, 68, 68, 0.1) 100%);
-    border-color: rgba(239, 68, 68, 0.4);
-    color: #ef4444;
-    transform: scale(1.1) rotate(90deg);
-    box-shadow: 
-        0 8px 24px rgba(239, 68, 68, 0.3),
-        0 4px 12px rgba(239, 68, 68, 0.2);
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
-.modern-modal .modal-close:active {
-    transform: scale(0.95) rotate(90deg);
+/* Light theme support */
+[data-theme="light"] .modern-modal .modal-title {
+    color: #1e293b;
+    background: linear-gradient(135deg, #1e293b 0%, #9333ea 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
-/* Light mode close button */
 [data-theme="light"] .modern-modal .modal-close {
+    background: rgba(0, 0, 0, 0.1);
+    color: #1e293b;
     border-color: rgba(0, 0, 0, 0.1);
 }
 
 [data-theme="light"] .modern-modal .modal-close:hover {
-    background: rgba(239, 68, 68, 0.15);
-    border-color: rgba(239, 68, 68, 0.25);
-    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
+    background: rgba(0, 0, 0, 0.15);
 }
 
 .modern-modal .modal-body {
-    padding: var(--space-8);
+    padding: 24px;
     overflow-y: auto;
-    max-height: 60vh;
-    color: var(--editor-text);
-    line-height: var(--line-height-relaxed);
+    max-height: calc(100vh - 200px);
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
     position: relative;
     z-index: 1;
+    font-size: 16px;
 }
 
 .modern-modal .modal-body::-webkit-scrollbar {
@@ -723,48 +685,44 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: var(--space-4);
-    padding: var(--space-8);
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    background: 
-        linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.15) 0%, 
-            rgba(255, 255, 255, 0.08) 50%,
-            rgba(255, 255, 255, 0.1) 100%);
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    gap: 16px;
+    padding: 20px 24px 24px 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     position: relative;
     z-index: 1;
 }
 
-/* Light mode modal footer */
-[data-theme="light"] .modern-modal .modal-footer {
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    background: 
-        linear-gradient(135deg, 
-            rgba(0, 0, 0, 0.02) 0%, 
-            rgba(0, 0, 0, 0.01) 100%);
+/* Light theme support */
+[data-theme="light"] .modern-modal .modal-body {
+    color: #64748b;
 }
 
-/* ===== ENHANCED CONFIRMATION MODALS ===== */
+[data-theme="light"] .modern-modal .modal-footer {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* ===== CONFIRMATION MODALS - FLOW CHART STYLE ===== */
 .confirmation-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: 
-        radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 100%);
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg,
+        rgba(147, 51, 234, 0.25) 0%,
+        rgba(79, 70, 229, 0.25) 50%,
+        rgba(6, 182, 212, 0.2) 100%),
+        rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
+    z-index: 10000;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: var(--z-index-modal);
-    padding: var(--space-4);
+    padding: 1rem;
     opacity: 0;
     visibility: hidden;
-    transition: all var(--duration-normal) var(--ease-out);
+    transition: all 0.4s cubic-bezier(0.32, 1.0, 0.68, 1.0);
 }
 
 .confirmation-modal-overlay.show {
@@ -772,57 +730,35 @@
     visibility: visible;
 }
 
-/* Light mode overlay */
-[data-theme="light"] .confirmation-modal-overlay {
-    background: 
-        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
-}
-
 .confirmation-modal {
-    background: 
-        linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.25) 0%, 
-            rgba(255, 255, 255, 0.1) 50%,
-            rgba(255, 255, 255, 0.15) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: var(--radius-3xl);
-    box-shadow: 
-        0 32px 64px rgba(0, 0, 0, 0.4),
-        0 16px 32px rgba(0, 0, 0, 0.2),
-        0 8px 16px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    max-width: 450px;
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.12) 0%,
+        rgba(255, 255, 255, 0.05) 50%,
+        rgba(255, 255, 255, 0.08) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 24px;
+    box-shadow:
+        0 25px 50px rgba(0, 0, 0, 0.25),
+        0 0 100px rgba(147, 51, 234, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(24px) saturate(200%);
+    -webkit-backdrop-filter: blur(24px) saturate(200%);
+    max-width: 500px;
     width: 100%;
-    padding: var(--space-8);
+    max-height: calc(100vh - 2rem);
+    padding: 32px;
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
     transform: scale(0.9) translateY(20px);
     opacity: 0;
-    transition: all var(--duration-normal) var(--ease-out);
+    transition: all 0.4s cubic-bezier(0.32, 1.0, 0.68, 1.0);
 }
 
 .confirmation-modal-overlay.show .confirmation-modal {
     transform: scale(1) translateY(0);
     opacity: 1;
-}
-
-/* Light mode modal */
-[data-theme="light"] .confirmation-modal {
-    background: 
-        linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.9) 0%, 
-            rgba(255, 255, 255, 0.7) 50%,
-            rgba(255, 255, 255, 0.8) 100%);
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    box-shadow: 
-        0 32px 64px rgba(0, 0, 0, 0.2),
-        0 16px 32px rgba(0, 0, 0, 0.1),
-        0 8px 16px rgba(0, 0, 0, 0.05),
-        inset 0 1px 0 rgba(255, 255, 255, 0.9),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.05);
 }
 
 .confirmation-modal::before {
@@ -832,21 +768,12 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: 
-        radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 60%),
-        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.12) 0%, transparent 60%),
-        radial-gradient(circle at 50% 10%, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.1) 0%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.05) 100%);
     pointer-events: none;
     z-index: 0;
-    animation: confirmationGlow 3s ease-in-out infinite alternate;
-}
-
-/* Light mode modal background */
-[data-theme="light"] .confirmation-modal::before {
-    background: 
-        radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 60%),
-        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 60%),
-        radial-gradient(circle at 50% 10%, rgba(16, 185, 129, 0.04) 0%, transparent 50%);
 }
 
 .confirmation-modal > * {
@@ -855,46 +782,52 @@
 }
 
 .confirmation-modal h3 {
-    margin: 0 0 var(--space-4) 0;
-    color: var(--editor-text);
-    font-size: var(--font-size-xl);
-    font-weight: var(--font-weight-bold);
-    background: linear-gradient(135deg, var(--editor-text) 0%, var(--accent-primary) 50%, var(--accent-secondary) 100%);
+    margin: 0 0 20px 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff;
+    background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     text-align: center;
+    line-height: 1.3;
 }
 
 .confirmation-modal p {
-    margin: 0 0 var(--space-6) 0;
-    color: var(--editor-text-secondary);
-    font-size: var(--font-size-base);
-    line-height: var(--line-height-relaxed);
+    margin: 0 0 32px 0;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
+    line-height: 1.6;
     text-align: center;
+    font-weight: 400;
 }
 
 .confirmation-modal .confirmation-buttons {
     display: flex;
-    gap: var(--space-4);
+    gap: 16px;
     justify-content: center;
-    margin-top: var(--space-2);
+    margin-top: 8px;
 }
 
 .confirmation-btn {
-    padding: var(--space-3) var(--space-6);
-    border-radius: var(--radius-xl);
-    border: 1px solid transparent;
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-semibold);
+    padding: 16px 28px;
+    border: none;
+    border-radius: 16px;
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
-    transition: all var(--duration-normal) var(--ease-in-out);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s cubic-bezier(0.32, 1.0, 0.68, 1.0);
+    backdrop-filter: blur(20px) saturate(200%);
+    -webkit-backdrop-filter: blur(20px) saturate(200%);
     position: relative;
     overflow: hidden;
-    min-width: 100px;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    min-width: 120px;
+    justify-content: center;
 }
 
 .confirmation-btn::before {
@@ -904,7 +837,10 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.1) 50%, 
+        transparent 100%);
     transition: left 0.5s ease;
 }
 
@@ -913,74 +849,136 @@
 }
 
 .confirmation-btn.primary {
-    background: 
-        linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
-    color: white;
-    border-color: var(--accent-primary);
-    box-shadow: 
-        0 8px 24px rgba(59, 130, 246, 0.3),
-        0 4px 12px rgba(59, 130, 246, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-
-.confirmation-btn.primary:hover {
-    background: 
-        linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-primary) 100%);
-    border-color: var(--accent-secondary);
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 
-        0 12px 32px rgba(59, 130, 246, 0.4),
-        0 6px 16px rgba(59, 130, 246, 0.3),
+    background: linear-gradient(135deg,
+        rgba(147, 51, 234, 0.8) 0%,
+        rgba(79, 70, 229, 0.7) 50%,
+        rgba(6, 182, 212, 0.8) 100%);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 12px 40px rgba(147, 51, 234, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
+.confirmation-btn.primary:hover {
+    background: linear-gradient(135deg,
+        rgba(147, 51, 234, 0.9) 0%,
+        rgba(79, 70, 229, 0.8) 50%,
+        rgba(6, 182, 212, 0.9) 100%);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 16px 50px rgba(147, 51, 234, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.confirmation-btn.primary:active {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 8px 32px rgba(147, 51, 234, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
 .confirmation-btn.secondary {
-    background: 
-        linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.15) 0%, 
-            rgba(255, 255, 255, 0.05) 100%);
-    color: var(--editor-text);
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 
-        0 4px 12px rgba(0, 0, 0, 0.1),
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0.05) 50%,
+        rgba(255, 255, 255, 0.08) 100%);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1),
         inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .confirmation-btn.secondary:hover {
-    background: 
-        linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.25) 0%, 
-            rgba(255, 255, 255, 0.1) 100%);
-    border-color: rgba(255, 255, 255, 0.3);
-    transform: translateY(-1px) scale(1.01);
-    box-shadow: 
-        0 8px 20px rgba(0, 0, 0, 0.15),
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(255, 255, 255, 0.08) 50%,
+        rgba(255, 255, 255, 0.12) 100%);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
-/* Add confirmation modal animations */
-@keyframes confirmationGlow {
-    0% {
-        opacity: 0.6;
-        transform: scale(1);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1.02);
-    }
+.confirmation-btn.secondary:active {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-/* Light mode button adjustments */
-[data-theme="light"] .confirmation-btn.secondary {
-    background: rgba(0, 0, 0, 0.05);
+/* Light theme support */
+[data-theme="light"] .confirmation-modal-overlay {
+    background: linear-gradient(135deg,
+        rgba(147, 51, 234, 0.15) 0%,
+        rgba(79, 70, 229, 0.15) 50%,
+        rgba(6, 182, 212, 0.1) 100%),
+        rgba(255, 255, 255, 0.4);
+}
+
+[data-theme="light"] .confirmation-modal {
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.8) 0%,
+        rgba(255, 255, 255, 0.6) 50%,
+        rgba(255, 255, 255, 0.7) 100%);
     border-color: rgba(0, 0, 0, 0.1);
-    color: var(--editor-text);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1),
+        0 0 100px rgba(147, 51, 234, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+[data-theme="light"] .confirmation-modal h3 {
+    color: #1e293b;
+    background: linear-gradient(135deg, #1e293b 0%, #9333ea 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+[data-theme="light"] .confirmation-modal p {
+    color: #64748b;
+}
+
+[data-theme="light"] .confirmation-btn.secondary {
+    background: linear-gradient(135deg,
+        rgba(0, 0, 0, 0.1) 0%,
+        rgba(0, 0, 0, 0.05) 50%,
+        rgba(0, 0, 0, 0.08) 100%);
+    color: #1e293b;
+    border-color: rgba(0, 0, 0, 0.1);
 }
 
 [data-theme="light"] .confirmation-btn.secondary:hover {
-    background: rgba(0, 0, 0, 0.1);
-    border-color: rgba(0, 0, 0, 0.15);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg,
+        rgba(0, 0, 0, 0.15) 0%,
+        rgba(0, 0, 0, 0.08) 50%,
+        rgba(0, 0, 0, 0.12) 100%);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .confirmation-modal {
+        max-width: calc(100vw - 2rem);
+        margin: 0 1rem;
+        padding: 24px;
+    }
+    
+    .confirmation-modal h3 {
+        font-size: 20px;
+        margin-bottom: 16px;
+    }
+    
+    .confirmation-modal p {
+        font-size: 14px;
+        margin-bottom: 24px;
+    }
+    
+    .confirmation-modal .confirmation-buttons {
+        gap: 12px;
+        flex-direction: column;
+    }
+    
+    .confirmation-btn {
+        padding: 14px 24px;
+        font-size: 14px;
+        min-width: auto;
+        width: 100%;
+    }
 }
 
 /* Enhanced Modal animations */
