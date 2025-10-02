@@ -95,6 +95,10 @@
             background: #6b7280;
         }
         
+        .test-button.system {
+            background: #8b5cf6;
+        }
+        
         .clear-button {
             background: var(--text-tertiary);
         }
@@ -112,11 +116,13 @@
         </div>
         
         <div class="test-controls">
-            <button class="test-button success" onclick="addMessage('success', 'Done')">✅ Success</button>
+            <button class="test-button success" onclick="addMessage('success', 'Execution completed successfully')">✅ Done Message</button>
             <button class="test-button error" onclick="addMessage('error', 'Error: This is a very long error message that should flow normally as regular text without being divided into columns or appearing in a column-like layout. The text should wrap naturally and be easy to read.')">❌ Error</button>
             <button class="test-button warning" onclick="addMessage('warning', 'Warning: This is a warning message')">⚠️ Warning</button>
             <button class="test-button info" onclick="addMessage('info', 'Info: This is an informational message')">ℹ️ Info</button>
             <button class="test-button debug" onclick="addMessage('debug', 'Debug: Memory usage 45.2MB | Worker active | 3 tabs open')">🐛 Debug</button>
+            <button class="test-button system" onclick="addMessage('system', 'Application initialized successfully')">⚙️ System</button>
+            <button class="test-button success" onclick="addMessage('success', 'Execution completed successfully with all tasks processed and validated without any errors or warnings')">✅ Long Done</button>
             <button class="test-button" onclick="addSuggestion()">💡 Suggestion</button>
             <button class="test-button clear-button" onclick="clearConsole()">🗑️ Clear</button>
         </div>
@@ -140,7 +146,8 @@
                 error: 'ri-error-warning-fill',
                 warning: 'ri-alert-fill',
                 info: 'ri-information-fill',
-                debug: 'ri-bug-fill'
+                debug: 'ri-bug-fill',
+                system: 'ri-settings-3-line'
             };
             
             const timestamp = new Date().toLocaleTimeString();

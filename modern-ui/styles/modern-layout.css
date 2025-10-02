@@ -767,8 +767,11 @@
 
 .static-system .console-output {
     flex: 1 !important;
-    min-height: 200px !important;
+    height: 500px !important; /* Fixed height */
+    min-height: 500px !important;
+    max-height: 500px !important;
     overflow-y: auto !important;
+    flex-shrink: 0 !important; /* Prevent shrinking */
 }
 
 /* Floating System - Default Modern Layout */

@@ -880,13 +880,15 @@
     font-size: var(--font-size-sm);
     line-height: var(--line-height-relaxed);
     color: var(--editor-text);
-    height: 100%;
-    min-height: 0;
+    height: 500px; /* Fixed height instead of 100% */
+    min-height: 500px; /* Ensure minimum height */
+    max-height: 500px; /* Ensure maximum height */
     display: flex;
     flex-direction: column;
     border-radius: 0 0 var(--radius-2xl) var(--radius-2xl);
     position: relative;
     z-index: 1;
+    flex-shrink: 0; /* Prevent shrinking */
     column-count: 1;
     column-gap: 0;
     column-fill: auto;
@@ -1056,6 +1058,23 @@
 
 .console-output::-webkit-scrollbar-thumb:hover {
     background: var(--accent-primary);
+}
+
+/* ===== RESPONSIVE CONSOLE OUTPUT ===== */
+@media (max-width: 768px) {
+    .console-output {
+        height: 400px; /* Fixed height for tablets */
+        min-height: 400px;
+        max-height: 400px;
+    }
+}
+
+@media (max-width: 480px) {
+    .console-output {
+        height: 300px; /* Fixed height for mobile */
+        min-height: 300px;
+        max-height: 300px;
+    }
 }
 
 /* ===== FINAL ENHANCEMENTS ===== */

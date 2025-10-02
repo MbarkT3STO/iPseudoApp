@@ -1884,6 +1884,7 @@
     overflow: hidden;
     position: relative;
     z-index: 1;
+    min-height: 0; /* Allow proper flex behavior */
 }
 
 .print-output-content {
@@ -1961,6 +1962,7 @@
     flex-direction: column;
     height: 100%;
     min-height: 0;
+    flex-shrink: 0; /* Prevent shrinking */
 }
 
 .print-output-content {
@@ -2402,12 +2404,16 @@
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     padding: var(--space-3);
+    padding-bottom: var(--space-6); /* Extra bottom padding for Done message */
     margin: var(--space-3) 0;
     position: relative;
-    max-height: 300px;
+    height: 500px; /* Fixed height instead of max-height */
+    min-height: 500px; /* Ensure minimum height */
+    max-height: 500px; /* Ensure maximum height */
     overflow-y: auto;
     overflow-x: hidden;
     scroll-behavior: smooth;
+    flex-shrink: 0; /* Prevent shrinking */
 }
 
 .pseudo-output-container::before {
@@ -2538,6 +2544,9 @@
     column-gap: 0;
     column-fill: auto;
     break-inside: avoid;
+    max-width: 100%;
+    min-width: 0;
+    word-break: break-word;
 }
 
 .modern-console-message::before {
@@ -2570,6 +2579,19 @@
         rgba(34, 197, 94, 0.08) 50%,
         rgba(34, 197, 94, 0.10) 100%);
     border-color: rgba(34, 197, 94, 0.25);
+    margin-bottom: var(--space-4); /* Extra bottom margin for Done message */
+    position: relative;
+    z-index: 10; /* Ensure it appears above other content */
+    width: 100%; /* Full width */
+    max-width: 100%; /* Prevent overflow */
+    min-width: 0; /* Allow shrinking */
+    word-wrap: break-word; /* Break long words */
+    overflow-wrap: break-word; /* Modern word breaking */
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+    text-align: center; /* Center text alignment */
+    min-height: 60px; /* Minimum height for better centering */
+    display: flex; /* Ensure flexbox behavior */
 }
 
 .modern-console-message.modern-success::before {
@@ -2583,11 +2605,26 @@
     color: #22c55e;
     filter: drop-shadow(0 2px 8px rgba(34, 197, 94, 0.4));
     animation: modernSuccessIconBounce 0.6s var(--ease-out);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 }
 
 .modern-console-message.modern-success .modern-text {
     color: #16a34a;
     font-weight: var(--font-weight-semibold);
+    font-size: clamp(0.875rem, 2.5vw, 1rem); /* Responsive font size */
+    line-height: 1.4; /* Better line height for readability */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Left align text */
+    text-align: left; /* Left align text content */
 }
 
 /* Error Message */
@@ -2597,6 +2634,16 @@
         rgba(239, 68, 68, 0.08) 50%,
         rgba(239, 68, 68, 0.10) 100%);
     border-color: rgba(239, 68, 68, 0.25);
+    width: 100%; /* Full width */
+    max-width: 100%; /* Prevent overflow */
+    min-width: 0; /* Allow shrinking */
+    word-wrap: break-word; /* Break long words */
+    overflow-wrap: break-word; /* Modern word breaking */
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+    text-align: center; /* Center text alignment */
+    min-height: 60px; /* Minimum height for better centering */
+    display: flex; /* Ensure flexbox behavior */
 }
 
 .modern-console-message.modern-error::before {
@@ -2610,11 +2657,26 @@
     color: #ef4444;
     filter: drop-shadow(0 2px 8px rgba(239, 68, 68, 0.4));
     animation: modernErrorIconShake 0.5s var(--ease-out);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 }
 
 .modern-console-message.modern-error .modern-text {
     color: #dc2626;
     font-weight: var(--font-weight-medium);
+    font-size: clamp(0.875rem, 2.5vw, 1rem); /* Responsive font size */
+    line-height: 1.4; /* Better line height for readability */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Left align text */
+    text-align: left; /* Left align text content */
 }
 
 /* Warning Message */
@@ -2624,6 +2686,16 @@
         rgba(245, 158, 11, 0.08) 50%,
         rgba(245, 158, 11, 0.10) 100%);
     border-color: rgba(245, 158, 11, 0.25);
+    width: 100%; /* Full width */
+    max-width: 100%; /* Prevent overflow */
+    min-width: 0; /* Allow shrinking */
+    word-wrap: break-word; /* Break long words */
+    overflow-wrap: break-word; /* Modern word breaking */
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+    text-align: center; /* Center text alignment */
+    min-height: 60px; /* Minimum height for better centering */
+    display: flex; /* Ensure flexbox behavior */
 }
 
 .modern-console-message.modern-warning::before {
@@ -2636,12 +2708,27 @@
 .modern-console-message.modern-warning .modern-icon {
     color: #f59e0b;
     filter: drop-shadow(0 2px 8px rgba(245, 158, 11, 0.4));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
     /* Removed automatic warning icon pulse animation for better performance */
 }
 
 .modern-console-message.modern-warning .modern-text {
     color: #d97706;
     font-weight: var(--font-weight-medium);
+    font-size: clamp(0.875rem, 2.5vw, 1rem); /* Responsive font size */
+    line-height: 1.4; /* Better line height for readability */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Left align text */
+    text-align: left; /* Left align text content */
 }
 
 /* Info Message */
@@ -2651,6 +2738,16 @@
         rgba(59, 130, 246, 0.08) 50%,
         rgba(59, 130, 246, 0.10) 100%);
     border-color: rgba(59, 130, 246, 0.25);
+    width: 100%; /* Full width */
+    max-width: 100%; /* Prevent overflow */
+    min-width: 0; /* Allow shrinking */
+    word-wrap: break-word; /* Break long words */
+    overflow-wrap: break-word; /* Modern word breaking */
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+    text-align: center; /* Center text alignment */
+    min-height: 60px; /* Minimum height for better centering */
+    display: flex; /* Ensure flexbox behavior */
 }
 
 .modern-console-message.modern-info::before {
@@ -2663,12 +2760,27 @@
 .modern-console-message.modern-info .modern-icon {
     color: #3b82f6;
     filter: drop-shadow(0 2px 8px rgba(59, 130, 246, 0.4));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
     /* Removed automatic info icon glow animation for better performance */
 }
 
 .modern-console-message.modern-info .modern-text {
     color: #2563eb;
     font-weight: var(--font-weight-medium);
+    font-size: clamp(0.875rem, 2.5vw, 1rem); /* Responsive font size */
+    line-height: 1.4; /* Better line height for readability */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Left align text */
+    text-align: left; /* Left align text content */
 }
 
 /* Debug Message */
@@ -2678,6 +2790,16 @@
         rgba(107, 114, 128, 0.08) 50%,
         rgba(107, 114, 128, 0.10) 100%);
     border-color: rgba(107, 114, 128, 0.25);
+    width: 100%; /* Full width */
+    max-width: 100%; /* Prevent overflow */
+    min-width: 0; /* Allow shrinking */
+    word-wrap: break-word; /* Break long words */
+    overflow-wrap: break-word; /* Modern word breaking */
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+    text-align: center; /* Center text alignment */
+    min-height: 60px; /* Minimum height for better centering */
+    display: flex; /* Ensure flexbox behavior */
 }
 
 .modern-console-message.modern-debug::before {
@@ -2690,12 +2812,78 @@
 .modern-console-message.modern-debug .modern-icon {
     color: #6b7280;
     filter: drop-shadow(0 2px 8px rgba(107, 114, 128, 0.4));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 }
 
 .modern-console-message.modern-debug .modern-text {
     color: #4b5563;
     font-weight: var(--font-weight-normal);
     font-family: var(--font-family-mono, 'Fira Code', 'Consolas', monospace);
+    font-size: clamp(0.875rem, 2.5vw, 1rem); /* Responsive font size */
+    line-height: 1.4; /* Better line height for readability */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Left align text */
+    text-align: left; /* Left align text content */
+}
+
+/* System Message */
+.modern-console-message.modern-system {
+    background: linear-gradient(135deg, 
+        rgba(139, 92, 246, 0.12) 0%, 
+        rgba(139, 92, 246, 0.08) 50%,
+        rgba(139, 92, 246, 0.10) 100%);
+    border-color: rgba(139, 92, 246, 0.25);
+    width: 100%; /* Full width */
+    max-width: 100%; /* Prevent overflow */
+    min-width: 0; /* Allow shrinking */
+    word-wrap: break-word; /* Break long words */
+    overflow-wrap: break-word; /* Modern word breaking */
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+    text-align: center; /* Center text alignment */
+    min-height: 60px; /* Minimum height for better centering */
+    display: flex; /* Ensure flexbox behavior */
+}
+
+.modern-console-message.modern-system::before {
+    background: linear-gradient(135deg, 
+        rgba(139, 92, 246, 0.08) 0%, 
+        rgba(139, 92, 246, 0.04) 50%,
+        rgba(139, 92, 246, 0.06) 100%);
+}
+
+.modern-console-message.modern-system .modern-icon {
+    color: #8b5cf6;
+    filter: drop-shadow(0 2px 8px rgba(139, 92, 246, 0.4));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.modern-console-message.modern-system .modern-text {
+    color: #7c3aed;
+    font-weight: var(--font-weight-medium);
+    font-size: clamp(0.875rem, 2.5vw, 1rem); /* Responsive font size */
+    line-height: 1.4; /* Better line height for readability */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Left align text */
+    text-align: left; /* Left align text content */
 }
 
 /* Message Content */
@@ -2705,6 +2893,7 @@
     text-align: center;
     z-index: 1;
     position: relative;
+    flex-shrink: 0;
 }
 
 .modern-console-message .modern-text {
@@ -2718,6 +2907,15 @@
     white-space: normal;
     overflow-wrap: break-word;
     hyphens: auto;
+    min-width: 0; /* Allow text to shrink */
+}
+
+.modern-console-message .modern-text-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    min-width: 0; /* Allow content to shrink */
 }
 
 .modern-console-message .modern-timestamp {
@@ -2791,7 +2989,191 @@
     border-color: rgba(107, 114, 128, 0.15);
 }
 
+[data-theme="light"] .modern-console-message.modern-system {
+    background: linear-gradient(135deg, 
+        rgba(139, 92, 246, 0.08) 0%, 
+        rgba(139, 92, 246, 0.04) 50%,
+        rgba(139, 92, 246, 0.06) 100%);
+    border-color: rgba(139, 92, 246, 0.15);
+}
+
 /* Animations */
+/* Responsive Design for Messages */
+@media (max-width: 768px) {
+    .modern-console-message {
+        padding: var(--space-3) var(--space-4);
+        margin: var(--space-1) 0;
+        gap: var(--space-2);
+    }
+    
+    .modern-console-message .modern-icon {
+        font-size: var(--font-size-lg);
+        min-width: 20px;
+    }
+    
+    .modern-console-message .modern-text {
+        font-size: var(--font-size-sm);
+    }
+    
+    /* Enhanced Done message responsiveness for tablets */
+    .modern-console-message.modern-success {
+        padding: var(--space-3) var(--space-4);
+        margin-bottom: var(--space-3);
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+    
+    .modern-console-message.modern-success .modern-text {
+        font-size: clamp(0.75rem, 3vw, 0.875rem);
+        line-height: 1.3;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start; /* Left align text */
+        text-align: left; /* Left align text content */
+    }
+    
+    .modern-console-message.modern-success .modern-icon {
+        font-size: var(--font-size-lg);
+        min-width: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Adjust output container height for tablets */
+    .pseudo-output-container {
+        height: 400px; /* Fixed height for tablets */
+        min-height: 400px;
+        max-height: 400px;
+    }
+}
+
+@media (max-width: 480px) {
+    .modern-console-message {
+        padding: var(--space-2) var(--space-3);
+        border-radius: var(--radius-lg);
+    }
+    
+    .modern-console-message .modern-text {
+        font-size: var(--font-size-xs);
+        line-height: var(--line-height-normal);
+    }
+    
+    /* Enhanced Done message responsiveness for mobile */
+    .modern-console-message.modern-success {
+        padding: var(--space-2) var(--space-3);
+        margin-bottom: var(--space-2);
+        border-radius: var(--radius-lg);
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+    
+    .modern-console-message.modern-success .modern-text {
+        font-size: clamp(0.625rem, 4vw, 0.75rem);
+        line-height: 1.2;
+        font-weight: var(--font-weight-medium);
+        display: flex;
+        align-items: center;
+        justify-content: flex-start; /* Left align text */
+        text-align: left; /* Left align text content */
+    }
+    
+    .modern-console-message.modern-success .modern-icon {
+        font-size: var(--font-size-base);
+        min-width: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Adjust output container height for mobile */
+    .pseudo-output-container {
+        height: 300px; /* Fixed height for mobile */
+        min-height: 300px;
+        max-height: 300px;
+    }
+}
+
+/* Extra small screens and landscape orientation */
+@media (max-width: 360px) {
+    .modern-console-message.modern-success {
+        padding: var(--space-1) var(--space-2);
+        margin-bottom: var(--space-1);
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+    
+    .modern-console-message.modern-success .modern-text {
+        font-size: clamp(0.5rem, 5vw, 0.625rem);
+        line-height: 1.1;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start; /* Left align text */
+        text-align: left; /* Left align text content */
+    }
+    
+    .modern-console-message.modern-success .modern-icon {
+        font-size: var(--font-size-sm);
+        min-width: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* Landscape orientation on mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+    .modern-console-message.modern-success {
+        padding: var(--space-2) var(--space-3);
+        margin-bottom: var(--space-2);
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+    
+    .modern-console-message.modern-success .modern-text {
+        font-size: clamp(0.75rem, 2.5vw, 0.875rem);
+        line-height: 1.25;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start; /* Left align text */
+        text-align: left; /* Left align text content */
+    }
+    
+    .modern-console-message.modern-success .modern-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* Performance optimizations for many messages */
+.modern-console-message {
+    contain: layout style;
+}
+
+.modern-console-message:hover {
+    will-change: transform, opacity;
+}
+
+/* Ensure console output maintains fixed height regardless of content */
+.console-output:empty::after {
+    content: '';
+    display: block;
+    height: 100%;
+    min-height: 500px;
+}
+
+.pseudo-output-container:empty::after {
+    content: '';
+    display: block;
+    height: 100%;
+    min-height: 500px;
+}
+
 @keyframes modernMessageSlideIn {
     0% {
         opacity: 0;

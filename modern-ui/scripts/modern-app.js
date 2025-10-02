@@ -3533,7 +3533,7 @@ document.addEventListener('DOMContentLoaded', () => {
             messageElement.className = 'modern-console-message modern-success';
             messageElement.innerHTML = `
                 <i class="ri-checkbox-circle-fill modern-icon"></i>
-                <span class="modern-text">🎉 Execution completed!</span>
+                <span class="modern-text">Execution completed successfully</span>
             `;
         }
         else if (message.startsWith('Suggestion:')) {
@@ -3545,16 +3545,16 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         }
         else {
-            // Default system message styling
-            messageElement.className = 'console-message console-system';
+            // Enhanced system message styling with modern design
+            messageElement.className = 'modern-console-message modern-system';
             const showTimestamps = window.showTimestamps !== false;
             const timestamp = showTimestamps ? new Date().toLocaleTimeString() : '';
             messageElement.innerHTML = `
-                <i class="ri-settings-3-line"></i>
-                <span class="message-content">
-                    <span class="message-text">${message}</span>
-                    ${showTimestamps ? `<span class="message-timestamp">${timestamp}</span>` : ''}
-                </span>
+                <i class="ri-settings-3-line modern-icon"></i>
+                <div class="modern-text-content">
+                    <span class="modern-text">${message}</span>
+                    ${showTimestamps ? `<span class="modern-timestamp">${timestamp}</span>` : ''}
+                </div>
             `;
         }
         // Apply current font size setting
@@ -3567,7 +3567,36 @@ document.addEventListener('DOMContentLoaded', () => {
         updateTabConsoleStats(consoleStats);
         updateTabConsoleOutput(outputConsole.innerHTML);
         updateConsoleUI();
-        scrollOutputToBottom();
+        
+        // Enhanced scrolling for Done message to ensure it's fully visible
+        if (message === 'Done') {
+            // Multiple scroll attempts to ensure Done message is visible
+            requestAnimationFrame(() => {
+                scrollOutputToBottom();
+                // Force scroll to the very bottom
+                const consoleOutputElement = document.querySelector('.console-output');
+                if (consoleOutputElement) {
+                    consoleOutputElement.scrollTop = consoleOutputElement.scrollHeight;
+                }
+            });
+            setTimeout(() => {
+                scrollOutputToBottom();
+                const consoleOutputElement = document.querySelector('.console-output');
+                if (consoleOutputElement) {
+                    consoleOutputElement.scrollTop = consoleOutputElement.scrollHeight;
+                }
+            }, 50);
+            setTimeout(() => {
+                scrollOutputToBottom();
+                const consoleOutputElement = document.querySelector('.console-output');
+                if (consoleOutputElement) {
+                    consoleOutputElement.scrollTop = consoleOutputElement.scrollHeight;
+                }
+            }, 150);
+        } else {
+            scrollOutputToBottom();
+        }
+        
         // Update side-by-side console if in side-by-side layout
         if (!isTabLayout) {
             updateSideBySideConsole();
