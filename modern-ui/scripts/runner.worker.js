@@ -642,7 +642,7 @@ self.onmessage = function (e) {
         const asyncWrapper = `(async function(print, input){\n${source}\n})(print, input);`;
         // syntax check
         try {
-            new Function(source);
+            new Function(asyncWrapper);
         }
         catch (syntaxError) {
             // try to map the error to original pseudocode line if mapping exists

@@ -627,7 +627,7 @@ self.onmessage = function(e: MessageEvent<WorkerMessage>) {
 
         // syntax check
         try {
-            new Function(source);
+            new Function(asyncWrapper);
         } catch (syntaxError: any) {
             // try to map the error to original pseudocode line if mapping exists
             let original: MappingEntry | null = null;
