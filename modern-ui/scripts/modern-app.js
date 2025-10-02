@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const consoleStatus = document.getElementById('consoleStatus');
     const consoleStatusBadge = document.getElementById('consoleStatusBadge');
     const messageCount = document.getElementById('messageCount');
+    const outputsCount = document.getElementById('outputsCount');
     const executionTime = document.getElementById('executionTime');
     const copyButton = document.getElementById('btnCopyOutput');
     const consoleSaveButton = document.getElementById('btnSaveOutput');
@@ -1033,6 +1034,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let consoleMessageCount = 0;
     let consoleStats = {
         messages: 0,
+        outputs: 0,
         errors: 0,
         warnings: 0,
         info: 0,
@@ -1291,6 +1293,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (tabData.consoleStats) {
             consoleStats = {
                 messages: tabData.consoleStats.messages || 0,
+                outputs: tabData.consoleStats.outputs || 0,
                 errors: tabData.consoleStats.errors || 0,
                 warnings: tabData.consoleStats.warnings || 0,
                 info: tabData.consoleStats.info || 0,
@@ -1299,8 +1302,13 @@ document.addEventListener('DOMContentLoaded', () => {
             consoleMessageCount = tabData.consoleStats.messages || 0;
         }
         else {
-            consoleStats = { messages: 0, errors: 0, warnings: 0, info: 0, executionTime: 0 };
+            consoleStats = { messages: 0, outputs: 0, errors: 0, warnings: 0, info: 0, executionTime: 0 };
             consoleMessageCount = 0;
+        }
+        
+        // Ensure outputs count is initialized
+        if (consoleStats.outputs === undefined) {
+            consoleStats.outputs = 0;
         }
         // Restore console output
         if (tabData.consoleOutput && outputConsole) {
@@ -1323,6 +1331,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (messageCount) {
             messageCount.textContent = consoleMessageCount.toString();
         }
+        
         // Update status indicator
         updateConsoleUI();
     }
@@ -3082,6 +3091,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // Use textContent to avoid any HTML processing
             line.textContent = safe;
             printContent.appendChild(line);
+            
+            // Increment outputs count
+            consoleStats.outputs++;
+            
             updateConsoleStats('info');
             // Performance optimization: batch DOM updates
             if (consoleMessageCount % 10 === 0) {
@@ -3341,13 +3354,17 @@ document.addEventListener('DOMContentLoaded', () => {
             outputConsole.innerHTML = welcomeMessage;
         }
         consoleMessageCount = 0;
-        consoleStats = { messages: 0, errors: 0, warnings: 0, info: 0, executionTime: 0 };
+        consoleStats = { messages: 0, outputs: 0, errors: 0, warnings: 0, info: 0, executionTime: 0 };
         // Reset execution state if not currently executing
         if (!isExecuting) {
             isExecuting = false;
             window.isExecuting = isExecuting;
             executionStopped = false;
         }
+        
+        // Reset outputs count to 0
+        consoleStats.outputs = 0;
+        
         // Update tab-specific data
         updateTabConsoleStats(consoleStats);
         updateTabConsoleOutput(outputConsole.innerHTML);
@@ -3385,6 +3402,9 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         // Add message with animation
         outputConsole.appendChild(messageElement);
+        
+        // Increment outputs count
+        consoleStats.outputs++;
         // Trigger animation
         requestAnimationFrame(() => {
             messageElement.style.opacity = '1';
@@ -3563,6 +3583,10 @@ document.addEventListener('DOMContentLoaded', () => {
             messageElement.style.fontSize = `${settings.consoleFontSize}px`;
         }
         printContent.appendChild(messageElement);
+        
+        // Increment outputs count
+        consoleStats.outputs++;
+        
         updateConsoleStats('info');
         updateTabConsoleStats(consoleStats);
         updateTabConsoleOutput(outputConsole.innerHTML);
@@ -3615,6 +3639,42 @@ document.addEventListener('DOMContentLoaded', () => {
             messageCount.textContent = consoleMessageCount.toString();
         }
     }
+    
+    function updateOutputsCount() {
+        if (!outputConsole) return;
+        
+        // Count all output elements (print-output-line, pseudo-output-container, etc.)
+        const outputElements = outputConsole.querySelectorAll('.print-output-line, .pseudo-output-container, .modern-console-message');
+        consoleStats.outputs = outputElements.length;
+        
+        if (outputsCount) {
+            outputsCount.textContent = consoleStats.outputs.toString();
+        }
+        
+        // Update tab-specific data with current outputs count
+        updateTabConsoleStats(consoleStats);
+    }
+    
+    function updateOutputsCountFromDOM() {
+        if (!outputConsole) return;
+        
+        // Count all output elements (print-output-line, pseudo-output-container, etc.)
+        const outputElements = outputConsole.querySelectorAll('.print-output-line, .pseudo-output-container, .modern-console-message');
+        consoleStats.outputs = outputElements.length;
+        
+        if (outputsCount) {
+            outputsCount.textContent = consoleStats.outputs.toString();
+        }
+        
+        // Update tab-specific data with current outputs count
+        updateTabConsoleStats(consoleStats);
+    }
+    
+    function updateOutputsCountFromStoredData() {
+        if (outputsCount) {
+            outputsCount.textContent = consoleStats.outputs.toString();
+        }
+    }
     function updateConsoleUI() {
         if (consoleStatusBadge) {
             const tabStatus = getTabStatus();
@@ -3637,6 +3697,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (executionTime && executionStartTime > 0) {
             const elapsed = Date.now() - executionStartTime;
             executionTime.textContent = `${elapsed}ms`;
+        }
+        
+        // Update outputs count display
+        if (outputsCount) {
+            outputsCount.textContent = (consoleStats.outputs || 0).toString();
         }
         // Debug logging for status changes
         const tabData = getCurrentTabData();
@@ -4085,6 +4150,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (outputConsole) {
                 outputConsole.innerHTML = '';
             }
+            
+            // Reset outputs count when starting new execution
+            consoleStats.outputs = 0;
             // Focus/switch to console tab when running code
             focusConsole();
             // Force aggressive auto-scroll to bottom

@@ -1812,6 +1812,19 @@
     z-index: 3;
 }
 
+.stat-item i {
+    font-size: var(--font-size-base);
+    opacity: 0.8;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stat-item span {
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    min-width: 1.5rem;
+    text-align: center;
+}
+
 .stat-item:hover {
     background: rgba(255, 255, 255, 0.1);
     color: var(--accent-primary);

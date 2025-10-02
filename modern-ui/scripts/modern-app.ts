@@ -12,6 +12,7 @@ interface FileData {
     executionStopped?: boolean;
     consoleStats?: {
         messages: number;
+        outputs: number;
         errors: number;
         warnings: number;
         info: number;
@@ -67,6 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const consoleStatus = document.getElementById('consoleStatus') as HTMLElement | null;
     const consoleStatusBadge = document.getElementById('consoleStatusBadge') as HTMLElement | null;
     const messageCount = document.getElementById('messageCount') as HTMLElement | null;
+    const outputsCount = document.getElementById('outputsCount') as HTMLElement | null;
     const executionTime = document.getElementById('executionTime') as HTMLElement | null;
     const copyButton = document.getElementById('btnCopyOutput') as HTMLButtonElement | null;
     const consoleSaveButton = document.getElementById('btnSaveOutput') as HTMLButtonElement | null;
@@ -750,6 +752,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let consoleMessageCount = 0;
     let consoleStats = {
         messages: 0,
+        outputs: 0,
         errors: 0,
         warnings: 0,
         info: 0,
@@ -1040,6 +1043,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (tabData.consoleStats) {
             consoleStats = { 
                 messages: tabData.consoleStats.messages || 0,
+                outputs: tabData.consoleStats.outputs || 0,
                 errors: tabData.consoleStats.errors || 0,
                 warnings: tabData.consoleStats.warnings || 0,
                 info: tabData.consoleStats.info || 0,
@@ -1047,8 +1051,13 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             consoleMessageCount = tabData.consoleStats.messages || 0;
         } else {
-            consoleStats = { messages: 0, errors: 0, warnings: 0, info: 0, executionTime: 0 };
+            consoleStats = { messages: 0, outputs: 0, errors: 0, warnings: 0, info: 0, executionTime: 0 };
             consoleMessageCount = 0;
+        }
+        
+        // Ensure outputs count is initialized
+        if (consoleStats.outputs === undefined) {
+            consoleStats.outputs = 0;
         }
 
         // Restore console output
@@ -3042,6 +3051,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // Use textContent to avoid any HTML processing
             line.textContent = safe;
             printContent.appendChild(line);
+            
+            // Increment outputs count
+            consoleStats.outputs++;
+            
             updateConsoleStats('info');
             
             // Performance optimization: batch DOM updates
@@ -3332,7 +3345,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         consoleMessageCount = 0;
-        consoleStats = { messages: 0, errors: 0, warnings: 0, info: 0, executionTime: 0 };
+        consoleStats = { messages: 0, outputs: 0, errors: 0, warnings: 0, info: 0, executionTime: 0 };
         
         // Reset execution state if not currently executing
         if (!isExecuting) {
@@ -3340,6 +3353,9 @@ document.addEventListener('DOMContentLoaded', () => {
             (window as any).isExecuting = isExecuting;
             executionStopped = false;
         }
+        
+        // Reset outputs count to 0
+        consoleStats.outputs = 0;
         
         // Update tab-specific data
         updateTabConsoleStats(consoleStats);
@@ -3387,6 +3403,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Add message with animation
         outputConsole.appendChild(messageElement);
+        
+        // Increment outputs count
+        consoleStats.outputs++;
         
         // Trigger animation
         requestAnimationFrame(() => {
@@ -3592,6 +3611,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         printContent.appendChild(messageElement);
+        
+        // Increment outputs count
+        consoleStats.outputs++;
+        
         updateConsoleStats('info');
         updateTabConsoleStats(consoleStats);
         updateTabConsoleOutput(outputConsole.innerHTML);
@@ -3645,6 +3668,42 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
+    function updateOutputsCount() {
+        if (!outputConsole) return;
+        
+        // Count all output elements (print-output-line, pseudo-output-container, etc.)
+        const outputElements = outputConsole.querySelectorAll('.print-output-line, .pseudo-output-container, .modern-console-message');
+        consoleStats.outputs = outputElements.length;
+        
+        if (outputsCount) {
+            outputsCount.textContent = consoleStats.outputs.toString();
+        }
+        
+        // Update tab-specific data with current outputs count
+        updateTabConsoleStats(consoleStats);
+    }
+    
+    function updateOutputsCountFromDOM() {
+        if (!outputConsole) return;
+        
+        // Count all output elements (print-output-line, pseudo-output-container, etc.)
+        const outputElements = outputConsole.querySelectorAll('.print-output-line, .pseudo-output-container, .modern-console-message');
+        consoleStats.outputs = outputElements.length;
+        
+        if (outputsCount) {
+            outputsCount.textContent = consoleStats.outputs.toString();
+        }
+        
+        // Update tab-specific data with current outputs count
+        updateTabConsoleStats(consoleStats);
+    }
+    
+    function updateOutputsCountFromStoredData() {
+        if (outputsCount) {
+            outputsCount.textContent = consoleStats.outputs.toString();
+        }
+    }
+    
     function updateConsoleUI() {
         if (consoleStatusBadge) {
             const tabStatus = getTabStatus();
@@ -3667,6 +3726,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (executionTime && executionStartTime > 0) {
             const elapsed = Date.now() - executionStartTime;
             executionTime.textContent = `${elapsed}ms`;
+        }
+        
+        // Update outputs count display
+        if (outputsCount) {
+            outputsCount.textContent = (consoleStats.outputs || 0).toString();
         }
         
         // Debug logging for status changes
@@ -4155,6 +4219,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (outputConsole) {
             outputConsole.innerHTML = '';
         }
+        
+        // Reset outputs count when starting new execution
+        consoleStats.outputs = 0;
         
         // Focus/switch to console tab when running code
         focusConsole();
