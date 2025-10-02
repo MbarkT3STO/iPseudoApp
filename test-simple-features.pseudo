@@ -1,0 +1,23 @@
+Algorithm SimpleTest
+
+/* Multi-line comment test */
+Global count = 0
+
+Array items[3]
+items[0] = "First"
+items[1] = "Second" 
+items[2] = "Third"
+
+Repeat
+    Print "Count:", count
+    count = count + 1
+Until count >= 2
+
+Foreach item In items
+    Print "Item:", item
+Endforeach
+
+Local size = Size(items)
+Print "Array size:", size
+
+Endalgorithm

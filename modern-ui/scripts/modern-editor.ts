@@ -352,6 +352,62 @@ function getKeywordHoverInfo(keyword: string): any {
             usage: 'Repeat ... Until condition',
             example: 'Repeat ... Until x > 10'
         },
+        'endrepeat': {
+            label: 'Endrepeat',
+            category: 'Block Terminator',
+            description: 'Closes a repeat loop block. Must be used to end repeat loops.',
+            usage: 'Endrepeat',
+            example: 'Endrepeat'
+        },
+        'foreach': {
+            label: 'Foreach',
+            category: 'Loop Statement',
+            description: 'Iterates through each element in a collection or array.',
+            usage: 'Foreach item In collection',
+            example: 'Foreach student In students'
+        },
+        'in': {
+            label: 'In',
+            category: 'Loop Keyword',
+            description: 'Used with Foreach to specify the collection to iterate through.',
+            usage: 'Foreach item In collection',
+            example: 'Foreach item In myArray'
+        },
+        'endforeach': {
+            label: 'Endforeach',
+            category: 'Block Terminator',
+            description: 'Closes a foreach loop block. Must be used to end foreach loops.',
+            usage: 'Endforeach',
+            example: 'Endforeach'
+        },
+        'global': {
+            label: 'Global',
+            category: 'Scope Declaration',
+            description: 'Declares a variable with global scope, accessible throughout the program.',
+            usage: 'Global Variable variableName = value',
+            example: 'Global Variable totalCount = 0'
+        },
+        'local': {
+            label: 'Local',
+            category: 'Scope Declaration',
+            description: 'Declares a variable with local scope, accessible only within the current block.',
+            usage: 'Local Variable variableName = value',
+            example: 'Local Variable tempValue = 5'
+        },
+        'array': {
+            label: 'Array',
+            category: 'Data Structure',
+            description: 'Declares an array data structure to store multiple values.',
+            usage: 'Array arrayName[size]',
+            example: 'Array numbers[10]'
+        },
+        'size': {
+            label: 'Size',
+            category: 'Array Function',
+            description: 'Returns the size/length of an array.',
+            usage: 'Size(arrayName)',
+            example: 'Var length = Size(numbers)'
+        },
         'case': {
             label: 'Case',
             category: 'Switch Statement',
@@ -524,7 +580,7 @@ const pseudocodeLanguage = {
     tokenizer: {
         root: [
             // Keywords - All reserved words from the pseudocode specification (case-insensitive)
-            [/\b(var|const|constant|if|then|else|elseif|endif|for|to|endfor|while|endwhile|do|until|repeat|case|switch|endswitch|function|endfunction|return|break|continue|print|input|true|false|null|and|or|not|mod|div|algorithm|endalgorithm|variable|set|declare|as|number|string|boolean|integer|float|char|VAR|CONST|CONSTANT|IF|THEN|ELSE|ELSEIF|ENDIF|FOR|TO|ENDFOR|WHILE|ENDWHILE|DO|UNTIL|REPEAT|CASE|SWITCH|ENDSWITCH|FUNCTION|ENDFUNCTION|RETURN|BREAK|CONTINUE|PRINT|INPUT|TRUE|FALSE|NULL|AND|OR|NOT|MOD|DIV|ALGORITHM|ENDALGORITHM|VARIABLE|SET|DECLARE|AS|NUMBER|STRING|BOOLEAN|INTEGER|FLOAT|CHAR|Var|Const|Constant|If|Then|Else|Elseif|Endif|For|To|Endfor|While|Endwhile|Do|Until|Repeat|Case|Switch|Endswitch|Function|Endfunction|Return|Break|Continue|Print|Input|True|False|Null|And|Or|Not|Mod|Div|Algorithm|Endalgorithm|Variable|Set|Declare|As|Number|String|Boolean|Integer|Float|Char|vAr|cOnSt|CoNsTaNt|iF|tHeN|eLsE|eLsEiF|eNdIf|fOr|tO|eNdFoR|wHiLe|eNdWhIlE|dO|uNtIl|rEpEaT|cAsE|sWiTcH|eNdSwItCh|fUnCtIoN|eNdFuNcTiOn|rEtUrN|bReAk|cOnTiNuE|pRiNt|iNpUt|tRuE|fAlSe|nUlL|aNd|Or|nOt|mOd|dIv|aLgOrItHm|eNdAlGoRiThM|vArIaBlE|sEt|dEcLaRe|aS|nUmBeR|sTrInG|bOoL|iNtEgEr|fLoAt|cHaR)\b/, 'keyword'],
+            [/\b(var|const|constant|if|then|else|elseif|endif|for|to|endfor|while|endwhile|do|until|repeat|endrepeat|case|switch|endswitch|function|endfunction|return|break|continue|print|input|true|false|null|and|or|not|mod|div|algorithm|endalgorithm|variable|set|declare|as|number|string|boolean|integer|float|char|global|local|foreach|in|endforeach|array|size|VAR|CONST|CONSTANT|IF|THEN|ELSE|ELSEIF|ENDIF|FOR|TO|ENDFOR|WHILE|ENDWHILE|DO|UNTIL|REPEAT|ENDREPEAT|CASE|SWITCH|ENDSWITCH|FUNCTION|ENDFUNCTION|RETURN|BREAK|CONTINUE|PRINT|INPUT|TRUE|FALSE|NULL|AND|OR|NOT|MOD|DIV|ALGORITHM|ENDALGORITHM|VARIABLE|SET|DECLARE|AS|NUMBER|STRING|BOOLEAN|INTEGER|FLOAT|CHAR|GLOBAL|LOCAL|FOREACH|IN|ENDFOREACH|ARRAY|SIZE|Var|Const|Constant|If|Then|Else|Elseif|Endif|For|To|Endfor|While|Endwhile|Do|Until|Repeat|Endrepeat|Case|Switch|Endswitch|Function|Endfunction|Return|Break|Continue|Print|Input|True|False|Null|And|Or|Not|Mod|Div|Algorithm|Endalgorithm|Variable|Set|Declare|As|Number|String|Boolean|Integer|Float|Char|Global|Local|Foreach|In|Endforeach|Array|Size|vAr|cOnSt|CoNsTaNt|iF|tHeN|eLsE|eLsEiF|eNdIf|fOr|tO|eNdFoR|wHiLe|eNdWhIlE|dO|uNtIl|rEpEaT|eNdRepeAt|cAsE|sWiTcH|eNdSwItCh|fUnCtIoN|eNdFuNcTiOn|rEtUrN|bReAk|cOnTiNuE|pRiNt|iNpUt|tRuE|fAlSe|nUlL|aNd|Or|nOt|mOd|dIv|aLgOrItHm|eNdAlGoRiThM|vArIaBlE|sEt|dEcLaRe|aS|nUmBeR|sTrInG|bOoL|iNtEgEr|fLoAt|cHaR|gLoBaL|lOcAl|fOrEaCh|In|eNdFoReAcH|aRrAy|SiZe)\b/, 'keyword'],
 
             // Strings
             [/".*?"/, 'string'],
@@ -535,9 +591,15 @@ const pseudocodeLanguage = {
 
             // Comments
             [/#.*$/, 'comment'],
+            [/\/\*/, 'comment', '@comment'],
 
             // Operators
             [/[+\-*\/=<>!]+/, 'operator'],
+        ],
+        comment: [
+            [/[^\/*]+/, 'comment'],
+            [/\*\//, 'comment', '@pop'],
+            [/[\/*]/, 'comment']
         ]
     }
 };
@@ -708,7 +770,7 @@ interface Window {
     });
 
     // Register completion provider with all reserved pseudocode keywords (Pascal Case)
-    const reservedKeywords = ['Var','Const','Constant','If','Then','Else','Elseif','Endif','For','To','Endfor','While','Endwhile','Do','Until','Repeat','Case','Switch','Endswitch','Function','Endfunction','Return','Break','Continue','Print','Input','True','False','Null','And','Or','Not','Mod','Div','Algorithm','Endalgorithm','Variable','Set','Declare','As','Number','String','Boolean','Integer','Float','Char'];
+    const reservedKeywords = ['Var','Const','Constant','If','Then','Else','Elseif','Endif','For','To','Endfor','While','Endwhile','Do','Until','Repeat','Endrepeat','Case','Switch','Endswitch','Function','Endfunction','Return','Break','Continue','Print','Input','True','False','Null','And','Or','Not','Mod','Div','Algorithm','Endalgorithm','Variable','Set','Declare','As','Number','String','Boolean','Integer','Float','Char','Global','Local','Foreach','In','Endforeach','Array','Size'];
     window.monaco.languages.registerCompletionItemProvider('pseudocode', {
         triggerCharacters: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
         provideCompletionItems: function(model: any, position: any) {
@@ -731,9 +793,19 @@ interface Window {
             for (const match of varMatches) {
                 vars.add(match[1]);
             }
+            // Global/Local variable declarations: Global Variable name or Global Var name
+            const globalLocalMatches = text.matchAll(/\b(?:global|local|Global|Local)\s+(?:var|variable|Var|Variable)\s+([a-zA-Z_]\w*)/gi);
+            for (const match of globalLocalMatches) {
+                vars.add(match[1]);
+            }
             const constMatches = text.matchAll(/\b(?:const|constant|Const|Constant)\s+([a-zA-Z_]\w*)/gi);
             for (const match of constMatches) {
                 constants.add(match[1]);
+            }
+            // Array declarations
+            const arrayMatches = text.matchAll(/\b(?:array|Array)\s+([a-zA-Z_]\w*)/gi);
+            for (const match of arrayMatches) {
+                vars.add(match[1]);
             }
             
             const declareMatches = text.matchAll(/\b(?:declare|Declare)\s+([a-zA-Z_]\w*)\s+(?:as|As)\s+/gi);
@@ -766,6 +838,14 @@ interface Window {
                 { label: 'Do', detail: 'Do-while loop', documentation: 'Begins a do-while loop that executes at least once' },
                 { label: 'Until', detail: 'Repeat until condition', documentation: 'Used with repeat loops for exit condition' },
                 { label: 'Repeat', detail: 'Repeat-until loop', documentation: 'Begins a repeat-until loop' },
+                { label: 'Endrepeat', detail: 'End repeat loop', documentation: 'Closes a repeat loop block' },
+                { label: 'Foreach', detail: 'For-each loop', documentation: 'Iterates through each element in a collection' },
+                { label: 'In', detail: 'Collection iterator', documentation: 'Used with Foreach to specify the collection' },
+                { label: 'Endforeach', detail: 'End foreach loop', documentation: 'Closes a foreach loop block' },
+                { label: 'Global', detail: 'Global scope', documentation: 'Declares a variable with global scope' },
+                { label: 'Local', detail: 'Local scope', documentation: 'Declares a variable with local scope' },
+                { label: 'Array', detail: 'Array declaration', documentation: 'Declares an array data structure' },
+                { label: 'Size', detail: 'Array size', documentation: 'Returns the size/length of an array' },
                 { label: 'Case', detail: 'Switch case', documentation: 'Defines a specific case in a switch statement' },
                 { label: 'Switch', detail: 'Switch statement', documentation: 'Begins a switch statement' },
                 { label: 'Endswitch', detail: 'End switch', documentation: 'Closes a switch statement block' },

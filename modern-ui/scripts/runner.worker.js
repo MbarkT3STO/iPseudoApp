@@ -5,8 +5,8 @@ function isLikelyPseudo(src) {
     if (!src)
         return false;
     const lowered = src.toLowerCase();
-    return /\b(print|var|const|constant|if|else|elseif|endif|for|to|endfor|while|endwhile|function|endfunction|return|break|continue|input|algorithm|endalgorithm|variable|set|declare|as|number|string|boolean|integer|float|char)\b/.test(lowered) ||
-        /\b(Print|Var|Const|Constant|If|Else|Elseif|Endif|For|To|Endfor|While|Endwhile|Function|Endfunction|Return|Break|Continue|Input|Algorithm|Endalgorithm|Variable|Set|Declare|As|Number|String|Boolean|Integer|Float|Char)\b/.test(src);
+    return /\b(print|var|const|constant|if|else|elseif|endif|for|to|endfor|while|endwhile|function|endfunction|return|break|continue|input|algorithm|endalgorithm|variable|set|declare|as|number|string|boolean|integer|float|char|global|local|repeat|until|endrepeat|foreach|in|endforeach|array|size)\b/.test(lowered) ||
+        /\b(Print|Var|Const|Constant|If|Else|Elseif|Endif|For|To|Endfor|While|Endwhile|Function|Endfunction|Return|Break|Continue|Input|Algorithm|Endalgorithm|Variable|Set|Declare|As|Number|String|Boolean|Integer|Float|Char|Global|Local|Repeat|Until|Endrepeat|Foreach|In|Endforeach|Array|Size)\b/.test(src);
 }
 function validatePseudo(src) {
     const lines = src.split(/\r?\n/);
@@ -107,6 +107,26 @@ function validatePseudo(src) {
             }
             continue;
         }
+        // Check for repeat loops
+        if (lower === 'repeat') {
+            blockStack.push({ type: 'repeat', line: lineNum, indent });
+            continue;
+        }
+        // Check for foreach loops
+        if (lower.startsWith('foreach ')) {
+            const m = t.match(/^foreach\s+([a-zA-Z_$][\w$]*)\s+in\s+([a-zA-Z_$][\w$]*)\s*$/i);
+            if (!m) {
+                issues.push({
+                    line: lineNum,
+                    text: raw,
+                    message: 'Malformed foreach loop. Expected: foreach <item> in <collection>'
+                });
+            }
+            else {
+                blockStack.push({ type: 'foreach', line: lineNum, indent });
+            }
+            continue;
+        }
         // Check for if statements
         if (lower.startsWith('if ')) {
             const m = t.match(/^if\s+(.+?)(?:\s+then)?\s*$/i);
@@ -203,7 +223,7 @@ function validatePseudo(src) {
             continue;
         }
         // Check for end blocks
-        if (lower === 'endfor' || lower === 'endif' || lower === 'endwhile' || lower === 'endfunction') {
+        if (lower === 'endfor' || lower === 'endif' || lower === 'endwhile' || lower === 'endfunction' || lower === 'endrepeat' || lower === 'endforeach') {
             if (blockStack.length === 0) {
                 issues.push({
                     line: lineNum,
@@ -225,6 +245,19 @@ function validatePseudo(src) {
             }
             continue;
         }
+        // Check for until statements (end of repeat loop)
+        if (lower.startsWith('until ')) {
+            if (blockStack.length === 0 || blockStack[blockStack.length - 1].type !== 'repeat') {
+                issues.push({
+                    line: lineNum,
+                    text: raw,
+                    message: 'until statement without matching repeat'
+                });
+            } else {
+                blockStack.pop();
+            }
+            continue;
+        }
         // Check for variable declarations (var, const, constant, variable)
         if (lower.startsWith('var ') || lower.startsWith('const ') || lower.startsWith('constant ') || lower.startsWith('variable ')) {
             const m = t.match(/^(var|const|constant|variable|Var|Const|Constant|Variable)\s+([a-zA-Z_$][\w$]*)\s*(?:=\s*(.+))?$/i);
@@ -234,6 +267,19 @@ function validatePseudo(src) {
                     line: lineNum,
                     text: raw,
                     message: `Malformed ${keyword} declaration. Expected: ${keyword} <name> [= <value>]`
+                });
+            }
+            continue;
+        }
+        // Check for Global/Local variable declarations (Global Variable name = value)
+        if (lower.startsWith('global ') || lower.startsWith('local ')) {
+            const m = t.match(/^(global|local|Global|Local)\s+(var|variable|Var|Variable)\s+([a-zA-Z_$][\w$]*)\s*(?:=\s*(.+))?$/i);
+            if (!m) {
+                const scope = lower.startsWith('global') ? 'Global' : 'Local';
+                issues.push({
+                    line: lineNum,
+                    text: raw,
+                    message: `Malformed ${scope} declaration. Expected: ${scope} Variable <name> [= <value>] or ${scope} Var <name> [= <value>]`
                 });
             }
             continue;
@@ -359,9 +405,39 @@ function translatePseudoToJs(src) {
             const keyword = m[1].toLowerCase();
             const varName = m[2];
             const value = m[3];
-            // Convert 'variable' and 'constant' to appropriate JavaScript keywords
+            // Convert pseudocode keywords to appropriate JavaScript keywords
             const jsKeyword = keyword === 'variable' ? 'var' : keyword === 'constant' ? 'const' : keyword;
             out.push(`${jsKeyword} ${varName} = ${value};`);
+            mapping.push({ srcLine: srcLineNum, srcText: raw });
+            continue;
+        }
+        // Global/Local variable declarations: Global Variable name = value (both cases)
+        m = line.match(/^(global|local|Global|Local)\s+(var|variable|Var|Variable)\s+([a-zA-Z_$][\w$]*)\s*=\s*(.*)$/i);
+        if (m) {
+            const scope = m[1].toLowerCase();
+            const varType = m[2].toLowerCase();
+            const varName = m[3];
+            const value = m[4];
+            // Both global and local translate to 'var' in JavaScript (scope is handled by placement)
+            out.push(`var ${varName} = ${value};`);
+            mapping.push({ srcLine: srcLineNum, srcText: raw });
+            continue;
+        }
+        // Array declarations: Array name[size] (both cases)
+        m = line.match(/^(array|Array)\s+([a-zA-Z_$][\w$]*)\[(\d+)\]\s*$/i);
+        if (m) {
+            const arrayName = m[2];
+            const size = m[3];
+            out.push(`var ${arrayName} = new Array(${size});`);
+            mapping.push({ srcLine: srcLineNum, srcText: raw });
+            continue;
+        }
+        // Array declarations with initialization: Array name = [values] (both cases)
+        m = line.match(/^(array|Array)\s+([a-zA-Z_$][\w$]*)\s*=\s*(.*)$/i);
+        if (m) {
+            const arrayName = m[2];
+            const values = m[3];
+            out.push(`var ${arrayName} = ${values};`);
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
@@ -416,6 +492,28 @@ function translatePseudoToJs(src) {
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
+        // Repeat loops: repeat (both cases)
+        if (/^(repeat|Repeat)\s*$/i.test(line)) {
+            out.push('do {');
+            mapping.push({ srcLine: srcLineNum, srcText: raw });
+            continue;
+        }
+        // Until statements: until condition (both cases)
+        m = line.match(/^(until|Until)\s+(.+)\s*$/i);
+        if (m) {
+            out.push(`} while (!(${m[2]}));`);
+            mapping.push({ srcLine: srcLineNum, srcText: raw });
+            continue;
+        }
+        // Foreach loops: foreach item in collection (both cases)
+        m = line.match(/^(foreach|Foreach)\s+([a-zA-Z_$][\w$]*)\s+(in|In)\s+([a-zA-Z_$][\w$]*)\s*$/i);
+        if (m) {
+            const item = m[2];
+            const collection = m[4];
+            out.push(`for (const ${item} of ${collection}) {`);
+            mapping.push({ srcLine: srcLineNum, srcText: raw });
+            continue;
+        }
         // If statements: if condition [then] (both cases)
         m = line.match(/^(if|If)\s+(.+?)(?:\s+(then|Then))?\s*$/i);
         if (m) {
@@ -465,8 +563,8 @@ function translatePseudoToJs(src) {
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
-        // End blocks: endfor, endif, endwhile, endfunction (both cases)
-        if (/^(endfor|endif|endwhile|endfunction|Endfor|Endif|Endwhile|Endfunction)\s*$/i.test(line)) {
+        // End blocks: endfor, endif, endwhile, endfunction, endrepeat, endforeach (both cases)
+        if (/^(endfor|endif|endwhile|endfunction|endrepeat|endforeach|Endfor|Endif|Endwhile|Endfunction|Endrepeat|Endforeach)\s*$/i.test(line)) {
             if (line.toLowerCase() === 'endfunction' || line === 'Endfunction') {
                 functionStack.pop();
             }
@@ -474,6 +572,10 @@ function translatePseudoToJs(src) {
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
+        // Size function calls: Size(array) -> array.length
+        line = line.replace(/\bSize\s*\(\s*([a-zA-Z_$][\w$]*)\s*\)/gi, '$1.length');
+        line = line.replace(/\bsize\s*\(\s*([a-zA-Z_$][\w$]*)\s*\)/gi, '$1.length');
+        
         // Assignment statements: variable = expression
         m = line.match(/^([a-zA-Z_$][\w$]*)\s*=\s*(.+)$/);
         if (m) {

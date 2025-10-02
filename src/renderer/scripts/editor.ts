@@ -187,6 +187,76 @@ function getKeywordHoverInfo(keyword: string): any {
             description: 'Primitive type for true/false values.',
             usage: 'declare variableName as boolean',
             example: 'declare isActive as boolean'
+        },
+        'global': {
+            label: 'global',
+            category: 'Scope Declaration',
+            description: 'Declares a variable with global scope, accessible throughout the program.',
+            usage: 'global variable variableName = value',
+            example: 'global variable totalCount = 0'
+        },
+        'local': {
+            label: 'local',
+            category: 'Scope Declaration',
+            description: 'Declares a variable with local scope, accessible only within the current block.',
+            usage: 'local variable variableName = value',
+            example: 'local variable tempValue = 5'
+        },
+        'repeat': {
+            label: 'repeat',
+            category: 'Loop Control',
+            description: 'Begins a repeat-until loop that executes until a condition is met.',
+            usage: 'repeat ... until condition',
+            example: 'repeat ... until x > 10'
+        },
+        'until': {
+            label: 'until',
+            category: 'Loop Control',
+            description: 'Used with repeat loops to specify the condition that must be met to exit the loop.',
+            usage: 'repeat ... until condition',
+            example: 'repeat ... until x > 10'
+        },
+        'endrepeat': {
+            label: 'endrepeat',
+            category: 'Block Terminator',
+            description: 'Closes a repeat loop block. Must be used to end repeat loops.',
+            usage: 'endrepeat',
+            example: 'endrepeat'
+        },
+        'foreach': {
+            label: 'foreach',
+            category: 'Loop Statement',
+            description: 'Iterates through each element in a collection or array.',
+            usage: 'foreach item in collection',
+            example: 'foreach student in students'
+        },
+        'in': {
+            label: 'in',
+            category: 'Loop Keyword',
+            description: 'Used with foreach to specify the collection to iterate through.',
+            usage: 'foreach item in collection',
+            example: 'foreach item in myArray'
+        },
+        'endforeach': {
+            label: 'endforeach',
+            category: 'Block Terminator',
+            description: 'Closes a foreach loop block. Must be used to end foreach loops.',
+            usage: 'endforeach',
+            example: 'endforeach'
+        },
+        'array': {
+            label: 'array',
+            category: 'Data Structure',
+            description: 'Declares an array data structure to store multiple values.',
+            usage: 'array arrayName[size]',
+            example: 'array numbers[10]'
+        },
+        'size': {
+            label: 'size',
+            category: 'Array Function',
+            description: 'Returns the size/length of an array.',
+            usage: 'size(arrayName)',
+            example: 'var length = size(numbers)'
         }
     };
 
@@ -199,7 +269,7 @@ const pseudocodeLanguage = {
     tokenizer: {
         root: [
             // Keywords - All reserved words from the pseudocode specification
-            [/\b(var|const|constant|if|else|elseif|endif|for|to|endfor|while|endwhile|function|endfunction|return|break|continue|print|input|variable|set|declare|number|string|boolean|integer|float|char)\b/, 'keyword'],
+            [/\b(var|const|constant|if|else|elseif|endif|for|to|endfor|while|endwhile|function|endfunction|return|break|continue|print|input|variable|set|declare|number|string|boolean|integer|float|char|global|local|repeat|until|endrepeat|foreach|in|endforeach|array|size)\b/, 'keyword'],
 
             // Strings
             [/".*?"/, 'string'],
@@ -210,9 +280,15 @@ const pseudocodeLanguage = {
 
             // Comments
             [/#.*$/, 'comment'],
+            [/\/\*/, 'comment', '@comment'],
 
             // Operators
             [/[+\-*\/=<>!]+/, 'operator'],
+        ],
+        comment: [
+            [/[^\/*]+/, 'comment'],
+            [/\*\//, 'comment', '@pop'],
+            [/[\/*]/, 'comment']
         ]
     }
 };
@@ -369,7 +445,7 @@ interface Window {
     });
 
     // Register completion provider with all reserved pseudocode keywords
-    const reservedKeywords = ['var','const','constant','if','else','elseif','endif','for','to','endfor','while','endwhile','function','endfunction','return','break','continue','print','input'];
+    const reservedKeywords = ['var','const','constant','if','else','elseif','endif','for','to','endfor','while','endwhile','function','endfunction','return','break','continue','print','input','global','local','repeat','until','endrepeat','foreach','in','endforeach','array','size'];
     window.monaco.languages.registerCompletionItemProvider('pseudocode', {
         provideCompletionItems: function(model: any, position: any) {
             const word = model.getWordUntilPosition(position);
@@ -391,9 +467,19 @@ interface Window {
             for (const match of varMatches) {
                 vars.add(match[1]);
             }
+            // Global/Local variable declarations: Global Variable name or Global Var name
+            const globalLocalMatches = text.matchAll(/\b(?:global|local|Global|Local)\s+(?:var|variable|Var|Variable)\s+([a-zA-Z_]\w*)/gi);
+            for (const match of globalLocalMatches) {
+                vars.add(match[1]);
+            }
             const constMatches = text.matchAll(/\b(?:const|constant|Constant)\s+([a-zA-Z_]\w*)/gi);
             for (const match of constMatches) {
                 constants.add(match[1]);
+            }
+            // Array declarations
+            const arrayMatches = text.matchAll(/\b(?:array|Array)\s+([a-zA-Z_]\w*)/gi);
+            for (const match of arrayMatches) {
+                vars.add(match[1]);
             }
             
             const declareMatches = text.matchAll(/\b(?:declare|Declare)\s+([a-zA-Z_]\w*)\s+(?:as|As)\s+/gi);
@@ -428,7 +514,17 @@ interface Window {
                 { label: 'break', detail: 'Break loop', documentation: 'Exits the current loop immediately' },
                 { label: 'continue', detail: 'Continue loop', documentation: 'Skips to the next iteration of the loop' },
                 { label: 'print', detail: 'Print output', documentation: 'Displays text or values to the console' },
-                { label: 'input', detail: 'Get user input', documentation: 'Prompts user for input and stores the value' }
+                { label: 'input', detail: 'Get user input', documentation: 'Prompts user for input and stores the value' },
+                { label: 'global', detail: 'Global scope', documentation: 'Declares a variable with global scope' },
+                { label: 'local', detail: 'Local scope', documentation: 'Declares a variable with local scope' },
+                { label: 'repeat', detail: 'Repeat-until loop', documentation: 'Begins a repeat-until loop' },
+                { label: 'until', detail: 'Until condition', documentation: 'Used with repeat loops for exit condition' },
+                { label: 'endrepeat', detail: 'End repeat loop', documentation: 'Closes a repeat loop block' },
+                { label: 'foreach', detail: 'For-each loop', documentation: 'Iterates through each element in a collection' },
+                { label: 'in', detail: 'Collection iterator', documentation: 'Used with foreach to specify the collection' },
+                { label: 'endforeach', detail: 'End foreach loop', documentation: 'Closes a foreach loop block' },
+                { label: 'array', detail: 'Array declaration', documentation: 'Declares an array data structure' },
+                { label: 'size', detail: 'Array size', documentation: 'Returns the size/length of an array' }
             ];
 
             // Add keyword suggestions

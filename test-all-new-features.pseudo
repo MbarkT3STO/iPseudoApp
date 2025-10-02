@@ -1,0 +1,54 @@
+Algorithm TestAllNewFeatures
+
+/*
+This is a multi-line comment
+demonstrating the new comment feature
+*/
+
+# 1. Global and Local Variables
+Global totalCount = 0
+Local tempValue = 5
+
+# 2. Array Operations
+Array numbers[5]
+Array names = ["Alice", "Bob", "Charlie"]
+
+# Set array values
+numbers[0] = 10
+numbers[1] = 20
+numbers[2] = 30
+numbers[3] = 40
+numbers[4] = 50
+
+# 3. Repeat-Until Loop
+Var counter = 0
+Repeat
+    Print "Counter:", counter
+    counter = counter + 1
+Until counter >= 3
+
+# 4. ForEach Loop
+Print "Names in array:"
+Foreach name In names
+    Print "Name:", name
+Endforeach
+
+# 5. Array Size Function
+Var arraySize = Size(numbers)
+Print "Array size:", arraySize
+
+# 6. Mixed scope variables
+Global globalVar = "I'm global"
+Local localVar = "I'm local"
+
+Print globalVar
+Print localVar
+
+# 7. Constants with new keyword
+Constant maxRetries = 3
+Constant appVersion = "1.0"
+
+Print "Max retries:", maxRetries
+Print "App version:", appVersion
+
+Endalgorithm
