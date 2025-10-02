@@ -26,6 +26,14 @@ class ModernLoadingManager {
         };
         
         this.init();
+        
+        // Add fallback timeout to ensure loading screen doesn't stay forever
+        setTimeout(() => {
+            if (!this.isInitialized) {
+                console.warn('⚠️ Loading screen timeout - forcing completion');
+                this.completeLoading();
+            }
+        }, 10000); // 10 seconds fallback
     }
     
     init() {
@@ -550,10 +558,10 @@ class ModernLoadingManager {
         // Add completion effects
         this.addCompletionEffects();
         
-        // Hide loading screen after delay
+        // Hide loading screen after delay (reduced for faster transition)
         setTimeout(() => {
             this.hideLoadingScreen();
-        }, 2000);
+        }, 1000);
     }
     
     addCompletionEffects() {
@@ -644,20 +652,20 @@ class ModernLoadingManager {
         // Start the loading sequence
         this.updateStatus();
         
-        // Add keyboard shortcuts for development
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                this.completeLoading();
-            }
-        });
+        // Optional: Add keyboard shortcuts for development (commented out for automatic loading)
+        // document.addEventListener('keydown', (e) => {
+        //     if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
+        //         e.preventDefault();
+        //         this.completeLoading();
+        //     }
+        // });
         
-        // Add click to skip
-        if (this.loadingScreen) {
-            this.loadingScreen.addEventListener('click', () => {
-                this.completeLoading();
-            });
-        }
+        // Optional: Add click to skip (commented out for automatic loading)
+        // if (this.loadingScreen) {
+        //     this.loadingScreen.addEventListener('click', () => {
+        //         this.completeLoading();
+        //     });
+        // }
     }
 }
 
