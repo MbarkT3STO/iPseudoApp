@@ -1731,8 +1731,13 @@
     backdrop-filter: blur(15px) saturate(150%);
     -webkit-backdrop-filter: blur(15px) saturate(150%);
     position: relative;
-    z-index: 1;
+    z-index: 10; /* Higher z-index to ensure it stays above content */
     transition: all var(--duration-normal) var(--ease-in-out);
+    /* Ensure header stays in place */
+    flex-shrink: 0;
+    min-height: 60px; /* Ensure minimum header height */
+    /* Prevent content from going under header */
+    contain: layout style;
 }
 
 /* Light mode console header */
@@ -1903,12 +1908,25 @@
 .print-output-content {
     flex: 1;
     padding: var(--space-4);
+    padding-top: var(--space-12); /* Increased top padding to push content down more */
     overflow-y: auto;
     font-family: var(--font-family-mono, 'Fira Code', 'Consolas', monospace);
     font-size: var(--font-size-sm, 13px);
     line-height: var(--line-height-relaxed, 1.6);
     color: var(--editor-text, #ffffff);
     background: transparent;
+    /* Ensure content never goes under header */
+    margin-top: var(--space-6); /* Increased margin to push content down more */
+    clear: both;
+    position: relative;
+    z-index: 1;
+    /* Responsive design */
+    width: 100%;
+    min-height: 0;
+    /* Ensure proper spacing from header */
+    scroll-padding-top: var(--space-6);
+    /* Prevent content from going under header */
+    contain: layout style;
 }
 
 /* Custom scrollbar for console output */
@@ -1952,6 +1970,10 @@
     padding: var(--space-3) var(--space-4);
     background: var(--editor-bg-tertiary);
     border-bottom: 1px solid var(--editor-border);
+    position: relative;
+    z-index: 3; /* Higher z-index than content */
+    flex-shrink: 0; /* Prevent header from shrinking */
+    min-height: 60px; /* Ensure minimum header height */
 }
 
 .print-output-title {
@@ -1981,6 +2003,7 @@
 .print-output-content {
     flex: 1;
     padding: var(--space-4);
+    padding-top: var(--space-12); /* Increased top padding to push content down more */
     overflow-y: auto;
     font-family: var(--font-family-mono);
     font-size: var(--font-size-sm);
@@ -1990,6 +2013,17 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    /* Ensure content never goes under header */
+    margin-top: var(--space-6); /* Increased margin to push content down more */
+    clear: both;
+    position: relative;
+    z-index: 1;
+    /* Responsive design */
+    width: 100%;
+    /* Ensure proper spacing from header */
+    scroll-padding-top: var(--space-6);
+    /* Prevent content from going under header */
+    contain: layout style;
 }
 
 .console-welcome {
@@ -2407,6 +2441,32 @@
     line-height: var(--line-height-relaxed);
 }
 
+/* ===== PRINT OUTPUT CONTENT HEADER OVERLAP FIX ===== */
+
+/* Ensure print-output-content never goes under console header */
+.print-output-content {
+    /* Force proper positioning to prevent header overlap */
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    /* Ensure content starts below header */
+    transform: translateZ(0); /* Force hardware acceleration */
+    will-change: transform; /* Optimize for animations */
+}
+
+/* Ensure console header stays above content */
+.console-header {
+    /* Force header to stay above content */
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    /* Ensure header is always visible */
+    transform: translateZ(0); /* Force hardware acceleration */
+    will-change: transform; /* Optimize for animations */
+}
+
 /* ===== ENHANCED OUTPUT ITEMS ===== */
 
 /* Pseudo Code Output Container */
@@ -2416,9 +2476,10 @@
     border-radius: var(--radius-lg);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    padding: var(--space-3);
+    padding: var(--space-4) var(--space-3); /* Increased top padding */
     padding-bottom: var(--space-6); /* Extra bottom padding for Done message */
     margin: var(--space-3) 0;
+    margin-top: var(--space-4); /* Extra top margin to prevent header overlap */
     position: relative;
     height: 500px; /* Fixed height instead of max-height */
     min-height: 500px; /* Ensure minimum height */
@@ -2427,6 +2488,12 @@
     overflow-x: hidden;
     scroll-behavior: smooth;
     flex-shrink: 0; /* Prevent shrinking */
+    z-index: 2; /* Higher z-index to ensure visibility above header */
+    scroll-padding-top: var(--space-2); /* Ensure first items are visible when scrolling */
+    /* Ensure container never goes under header */
+    clear: both;
+    display: block;
+    width: 100%;
 }
 
 .pseudo-output-container::before {
@@ -2503,12 +2570,26 @@
     word-wrap: break-word;
     white-space: pre-wrap;
     position: relative;
-    z-index: 1;
+    z-index: 2; /* Higher z-index to ensure visibility */
     transition: all var(--duration-normal) var(--ease-in-out);
+    width: 100%; /* Ensure full width */
+    min-height: 1.5em; /* Ensure minimum height for visibility */
 }
 
 .print-output-line:last-child {
     margin-bottom: 0;
+}
+
+/* Ensure first output line is visible at the top */
+.print-output-line:first-child {
+    margin-top: 0;
+    padding-top: var(--space-1);
+}
+
+/* Ensure proper spacing for all output lines */
+.print-output-line {
+    margin-top: 0;
+    margin-bottom: var(--space-1);
 }
 
 .print-output-line::before {
@@ -3059,6 +3140,33 @@
         height: 400px; /* Fixed height for tablets */
         min-height: 400px;
         max-height: 400px;
+        padding: var(--space-3) var(--space-2); /* Responsive padding */
+    }
+    
+    /* Ensure print output lines are responsive on tablets */
+    .print-output-line {
+        font-size: clamp(0.75rem, 2.5vw, 0.875rem);
+        padding: var(--space-1) 0;
+        gap: var(--space-2);
+    }
+    
+    /* Ensure pseudo output container has proper spacing on tablets */
+    .pseudo-output-container {
+        margin-top: var(--space-5); /* Extra margin on tablets */
+    }
+    
+    /* Ensure print output content has proper spacing on tablets */
+    .print-output-content {
+        padding-top: var(--space-16); /* Increased top padding on tablets */
+        margin-top: var(--space-8); /* Increased margin on tablets */
+        padding: var(--space-3) var(--space-2); /* Responsive padding */
+        font-size: clamp(0.75rem, 2.5vw, 0.875rem); /* Responsive font size */
+    }
+    
+    /* Ensure console header has proper height on tablets */
+    .console-header {
+        min-height: 55px; /* Smaller header height on tablets */
+        padding: var(--space-3) var(--space-4);
     }
 }
 
@@ -3106,11 +3214,98 @@
         height: 300px; /* Fixed height for mobile */
         min-height: 300px;
         max-height: 300px;
+        padding: var(--space-2) var(--space-1); /* Responsive padding for mobile */
+    }
+    
+    /* Ensure print output lines are responsive on mobile */
+    .print-output-line {
+        font-size: clamp(0.625rem, 3vw, 0.75rem);
+        padding: var(--space-1) 0;
+        gap: var(--space-1);
+        line-height: 1.4; /* Tighter line height for mobile */
+    }
+    
+    /* Ensure pseudo output lines are visible on mobile */
+    .print-output-line::before {
+        min-width: 16px; /* Smaller prefix on mobile */
+        font-size: 0.75em;
+    }
+    
+    /* Ensure pseudo output container has proper spacing on mobile */
+    .pseudo-output-container {
+        margin-top: var(--space-6); /* Extra margin on mobile */
+    }
+    
+    /* Ensure print output content has proper spacing on mobile */
+    .print-output-content {
+        padding-top: var(--space-20); /* Increased top padding on mobile */
+        margin-top: var(--space-10); /* Increased margin on mobile */
+        padding: var(--space-2) var(--space-1); /* Responsive padding */
+        font-size: clamp(0.625rem, 3vw, 0.75rem); /* Responsive font size */
+        line-height: 1.4; /* Tighter line height for mobile */
+    }
+    
+    /* Ensure print output header has proper height on mobile */
+    .print-output-header {
+        min-height: 50px; /* Smaller header height on mobile */
+        padding: var(--space-2) var(--space-3);
+    }
+    
+    /* Ensure console header has proper height on mobile */
+    .console-header {
+        min-height: 50px; /* Smaller header height on mobile */
+        padding: var(--space-2) var(--space-3);
     }
 }
 
 /* Extra small screens and landscape orientation */
 @media (max-width: 360px) {
+    /* Ensure pseudo output container is visible on extra small screens */
+    .pseudo-output-container {
+        height: 250px; /* Smaller height for extra small screens */
+        min-height: 250px;
+        max-height: 250px;
+        padding: var(--space-1) var(--space-1);
+    }
+    
+    .print-output-line {
+        font-size: clamp(0.5rem, 4vw, 0.625rem);
+        padding: 2px 0;
+        gap: 8px;
+        line-height: 1.3;
+    }
+    
+    .print-output-line::before {
+        min-width: 12px;
+        font-size: 0.7em;
+    }
+    
+    /* Ensure pseudo output container has proper spacing on extra small screens */
+    .pseudo-output-container {
+        margin-top: var(--space-6); /* Extra margin on extra small screens */
+    }
+    
+    /* Ensure print output content has proper spacing on extra small screens */
+    .print-output-content {
+        padding-top: var(--space-20); /* Increased top padding on extra small screens */
+        margin-top: var(--space-10); /* Increased margin on extra small screens */
+        padding: var(--space-1) var(--space-1); /* Minimal padding */
+        font-size: clamp(0.5rem, 4vw, 0.625rem); /* Responsive font size */
+        line-height: 1.3; /* Tighter line height for extra small screens */
+    }
+    
+    /* Ensure print output header has proper height on extra small screens */
+    .print-output-header {
+        min-height: 45px; /* Even smaller header height on extra small screens */
+        padding: var(--space-1) var(--space-2);
+    }
+    
+    /* Ensure console header has proper height on extra small screens */
+    .console-header {
+        min-height: 45px; /* Even smaller header height on extra small screens */
+        padding: var(--space-1) var(--space-2);
+    }
+    
     .modern-console-message.modern-success {
         padding: var(--space-1) var(--space-2);
         margin-bottom: var(--space-1);
