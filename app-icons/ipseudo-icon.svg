@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Main Gradient -->
+    <linearGradient id="mainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Inner Gradient -->
+    <linearGradient id="innerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#60a5fa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a78bfa;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Accent Gradient -->
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Glow Filter -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Shadow Filter -->
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="16" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Background Circle with Gradient -->
+  <circle cx="256" cy="256" r="240" fill="url(#mainGradient)" filter="url(#shadow)"/>
+  
+  <!-- Inner Circle for Depth -->
+  <circle cx="256" cy="256" r="200" fill="url(#innerGradient)" opacity="0.3"/>
+  
+  <!-- Left Code Bracket -->
+  <path d="M140 140 L100 140 L100 256 L100 372 L140 372" 
+        stroke="white" 
+        stroke-width="24" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        fill="none"
+        opacity="0.95"
+        filter="url(#glow)"/>
+  
+  <!-- Right Code Bracket -->
+  <path d="M372 140 L412 140 L412 256 L412 372 L372 372" 
+        stroke="white" 
+        stroke-width="24" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        fill="none"
+        opacity="0.95"
+        filter="url(#glow)"/>
+  
+  <!-- Letter "i" - Dot -->
+  <circle cx="200" cy="180" r="24" fill="white" opacity="0.95"/>
+  
+  <!-- Letter "i" - Stem -->
+  <rect x="182" y="220" width="36" height="140" rx="18" fill="white" opacity="0.95"/>
+  
+  <!-- Letter "P" - Stem -->
+  <rect x="260" y="180" width="36" height="180" rx="18" fill="white" opacity="0.95"/>
+  
+  <!-- Letter "P" - Bowl -->
+  <path d="M296 180 L296 180 Q380 180 380 240 Q380 300 296 300 L296 300" 
+        stroke="white" 
+        stroke-width="36" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        fill="none"
+        opacity="0.95"/>
+  
+  <!-- Central Cursor Line (representing IDE) -->
+  <rect x="250" y="380" width="12" height="60" rx="6" fill="white" opacity="0.9">
+    <animate attributeName="opacity" values="0.9;0.3;0.9" dur="1.5s" repeatCount="indefinite"/>
+  </rect>
+  
+  <!-- Code Line Indicators -->
+  <rect x="160" y="400" width="60" height="6" rx="3" fill="white" opacity="0.7"/>
+  <rect x="160" y="415" width="80" height="6" rx="3" fill="white" opacity="0.6"/>
+  <rect x="160" y="430" width="50" height="6" rx="3" fill="white" opacity="0.5"/>
+  
+  <!-- Decorative Code Dots -->
+  <circle cx="330" y="400" r="4" fill="url(#accentGradient)" opacity="0.8"/>
+  <circle cx="345" y="400" r="4" fill="url(#accentGradient)" opacity="0.8"/>
+  <circle cx="360" y="400" r="4" fill="url(#accentGradient)" opacity="0.8"/>
+  
+  <!-- Highlight Arc (top-left) -->
+  <path d="M180 120 Q120 120 120 180" 
+        stroke="white" 
+        stroke-width="8" 
+        stroke-linecap="round" 
+        fill="none"
+        opacity="0.4"/>
+  
+  <!-- Highlight Arc (bottom-right) -->
+  <path d="M332 392 Q392 392 392 332" 
+        stroke="white" 
+        stroke-width="8" 
+        stroke-linecap="round" 
+        fill="none"
+        opacity="0.4"/>
+</svg>
+

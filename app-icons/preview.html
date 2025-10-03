@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPseudo IDE Icon Preview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            color: #f1f5f9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 3rem;
+            font-size: 1.125rem;
+        }
+        
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .preview-card {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.12) 0%,
+                rgba(255, 255, 255, 0.05) 50%,
+                rgba(255, 255, 255, 0.08) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            padding: 2rem;
+            text-align: center;
+            backdrop-filter: blur(24px) saturate(200%);
+            -webkit-backdrop-filter: blur(24px) saturate(200%);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .preview-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.25),
+                0 0 40px rgba(147, 51, 234, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+        
+        .preview-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+        
+        .icon-display {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .icon-display.dark {
+            background: #0f172a;
+        }
+        
+        .icon-display.light {
+            background: #f1f5f9;
+        }
+        
+        .size-label {
+            font-size: 0.875rem;
+            color: #94a3b8;
+            margin-top: 0.5rem;
+        }
+        
+        .info-section {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.15) 0%,
+                rgba(255, 255, 255, 0.08) 30%,
+                rgba(255, 255, 255, 0.12) 70%,
+                rgba(255, 255, 255, 0.10) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 24px;
+            padding: 2.5rem;
+            backdrop-filter: blur(32px) saturate(200%);
+            -webkit-backdrop-filter: blur(32px) saturate(200%);
+            box-shadow: 
+                0 35px 70px rgba(0, 0, 0, 0.35),
+                0 0 150px rgba(147, 51, 234, 0.4),
+                inset 0 2px 0 rgba(255, 255, 255, 0.5);
+        }
+        
+        .info-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .info-item {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .info-label {
+            font-size: 0.875rem;
+            color: #94a3b8;
+            margin-bottom: 0.25rem;
+        }
+        
+        .info-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #ffffff;
+        }
+        
+        .color-palette {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .color-swatch {
+            flex: 1;
+            min-width: 100px;
+            height: 80px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.875rem;
+            font-weight: 600;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        .color-name {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            margin-top: 0.25rem;
+        }
+        
+        .download-section {
+            margin-top: 3rem;
+            text-align: center;
+        }
+        
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(59, 130, 246, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>iPseudo IDE Icon</h1>
+        <p class="subtitle">Modern, beautiful app icon design</p>
+        
+        <!-- Preview Grid -->
+        <div class="preview-grid">
+            <!-- Large Preview -->
+            <div class="preview-card">
+                <div class="preview-title">512x512 (Original)</div>
+                <div class="icon-display">
+                    <img src="ipseudo-icon.svg" width="200" height="200" alt="iPseudo Icon Large">
+                </div>
+                <div class="size-label">Full Resolution</div>
+            </div>
+            
+            <!-- Dark Background -->
+            <div class="preview-card">
+                <div class="preview-title">On Dark Background</div>
+                <div class="icon-display dark">
+                    <img src="ipseudo-icon.svg" width="128" height="128" alt="iPseudo Icon Dark">
+                </div>
+                <div class="size-label">128x128</div>
+            </div>
+            
+            <!-- Light Background -->
+            <div class="preview-card">
+                <div class="preview-title">On Light Background</div>
+                <div class="icon-display light">
+                    <img src="ipseudo-icon.svg" width="128" height="128" alt="iPseudo Icon Light">
+                </div>
+                <div class="size-label">128x128</div>
+            </div>
+        </div>
+        
+        <!-- Small Sizes Preview -->
+        <div class="preview-grid">
+            <div class="preview-card">
+                <div class="preview-title">64x64</div>
+                <div class="icon-display">
+                    <img src="ipseudo-icon.svg" width="64" height="64" alt="iPseudo Icon 64">
+                </div>
+                <div class="size-label">Standard Size</div>
+            </div>
+            
+            <div class="preview-card">
+                <div class="preview-title">48x48</div>
+                <div class="icon-display">
+                    <img src="ipseudo-icon.svg" width="48" height="48" alt="iPseudo Icon 48">
+                </div>
+                <div class="size-label">Windows Taskbar</div>
+            </div>
+            
+            <div class="preview-card">
+                <div class="preview-title">32x32</div>
+                <div class="icon-display">
+                    <img src="ipseudo-icon.svg" width="32" height="32" alt="iPseudo Icon 32">
+                </div>
+                <div class="size-label">Favicon</div>
+            </div>
+            
+            <div class="preview-card">
+                <div class="preview-title">16x16</div>
+                <div class="icon-display">
+                    <img src="ipseudo-icon.svg" width="16" height="16" alt="iPseudo Icon 16">
+                </div>
+                <div class="size-label">Small Favicon</div>
+            </div>
+        </div>
+        
+        <!-- Info Section -->
+        <div class="info-section">
+            <div class="info-title">Icon Specifications</div>
+            
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">Format</div>
+                    <div class="info-value">SVG (Scalable)</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Dimensions</div>
+                    <div class="info-value">512 × 512 px</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Style</div>
+                    <div class="info-value">Modern Gradient</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Design Theme</div>
+                    <div class="info-value">Code Editor</div>
+                </div>
+            </div>
+            
+            <div class="info-title" style="margin-top: 2rem;">Color Palette</div>
+            <div class="color-palette">
+                <div class="color-swatch" style="background: linear-gradient(135deg, #3b82f6, #60a5fa);">
+                    <span>#3b82f6</span>
+                    <span class="color-name">Blue</span>
+                </div>
+                <div class="color-swatch" style="background: linear-gradient(135deg, #8b5cf6, #a78bfa);">
+                    <span>#8b5cf6</span>
+                    <span class="color-name">Purple</span>
+                </div>
+                <div class="color-swatch" style="background: linear-gradient(135deg, #06b6d4, #22d3ee);">
+                    <span>#06b6d4</span>
+                    <span class="color-name">Cyan</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Download Section -->
+        <div class="download-section">
+            <p style="color: #94a3b8; margin-bottom: 1rem;">
+                To convert this icon to platform-specific formats (.ico, .icns), run the conversion script:
+            </p>
+            <code style="background: rgba(255, 255, 255, 0.1); padding: 0.5rem 1rem; border-radius: 8px; display: inline-block; margin-bottom: 2rem;">
+                ./convert-icons.sh
+            </code>
+            <br><br>
+            <p style="color: #94a3b8;">
+                See <strong>README.md</strong> for detailed instructions
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+
