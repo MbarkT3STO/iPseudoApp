@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Reference - iPseudo IDE Documentation</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/docs.css">
+</head>
+<body>
+    <!-- Background -->
+    <div class="background-container">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-pattern"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-brand">
+                <div class="brand-icon">
+                    <i class="ri-code-s-slash-line"></i>
+                </div>
+                <span class="brand-name">iPseudo IDE</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="../index.html#features" class="nav-link">Features</a></li>
+                <li><a href="../index.html#download" class="nav-link">Download</a></li>
+                <li><a href="../index.html#documentation" class="nav-link">Documentation</a></li>
+                <li><a href="../index.html#about" class="nav-link">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Documentation Content -->
+    <div class="docs-layout">
+        <!-- Sidebar -->
+        <aside class="docs-sidebar">
+            <div class="sidebar-content">
+                <h3 class="sidebar-title">Documentation</h3>
+                
+                <nav class="sidebar-nav">
+                    <a href="getting-started.html" class="sidebar-link">
+                        <i class="ri-rocket-line"></i>
+                        <span>Getting Started</span>
+                    </a>
+                    <a href="language-overview.html" class="sidebar-link">
+                        <i class="ri-book-2-line"></i>
+                        <span>Language Overview</span>
+                    </a>
+                    <a href="variables.html" class="sidebar-link">
+                        <i class="ri-file-code-line"></i>
+                        <span>Variables & Data Types</span>
+                    </a>
+                    <a href="operators.html" class="sidebar-link">
+                        <i class="ri-function-line"></i>
+                        <span>Operators</span>
+                    </a>
+                    <a href="loops.html" class="sidebar-link">
+                        <i class="ri-loop-left-line"></i>
+                        <span>Loops</span>
+                    </a>
+                    <a href="functions.html" class="sidebar-link">
+                        <i class="ri-braces-line"></i>
+                        <span>Functions</span>
+                    </a>
+                    <a href="arrays.html" class="sidebar-link">
+                        <i class="ri-database-2-line"></i>
+                        <span>Arrays</span>
+                    </a>
+                    <a href="quick-reference.html" class="sidebar-link active">
+                        <i class="ri-file-list-2-line"></i>
+                        <span>Quick Reference</span>
+                    </a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="docs-main">
+            <div class="docs-content">
+                <div class="breadcrumb">
+                    <a href="../index.html">Home</a>
+                    <i class="ri-arrow-right-s-line"></i>
+                    <a href="../index.html#documentation">Documentation</a>
+                    <i class="ri-arrow-right-s-line"></i>
+                    <span>Quick Reference</span>
+                </div>
+
+                <article class="doc-article">
+                    <h1 class="doc-title">📋 Quick Reference</h1>
+                    
+                    <div class="doc-intro">
+                        <p>A comprehensive cheat sheet for iPseudo IDE syntax and keywords.</p>
+                    </div>
+
+                    <section class="doc-section">
+                        <h2>📝 Program Structure</h2>
+                        
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-lang">pseudocode</span>
+                                <button class="code-copy" onclick="copyCode(this)">
+                                    <i class="ri-file-copy-line"></i>
+                                    <span>Copy</span>
+                                </button>
+                            </div>
+                            <pre class="code-content"><span class="keyword">Algorithm</span> MyProgram
+    <span class="comment"># Your code here</span>
+<span class="keyword">Endalgorithm</span></pre>
+                        </div>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>🔤 Variables</h2>
+                        
+                        <div class="code-block">
+                            <pre class="code-content"><span class="comment"># Variable Declaration</span>
+<span class="keyword">Var</span> name = <span class="string">"value"</span>
+<span class="keyword">Variable</span> count = <span class="number">0</span>
+<span class="keyword">Declare</span> age <span class="keyword">As</span> Integer
+
+<span class="comment"># Constants</span>
+<span class="keyword">Const</span> PI = <span class="number">3.14159</span>
+<span class="keyword">Constant</span> MAX = <span class="number">100</span>
+
+<span class="comment"># Assignment</span>
+name = <span class="string">"new value"</span>
+<span class="keyword">Set</span> <span class="number">10</span> <span class="keyword">To</span> count</pre>
+                        </div>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>📊 Arrays</h2>
+                        
+                        <div class="code-block">
+                            <pre class="code-content"><span class="comment"># Array Declaration</span>
+<span class="keyword">Var</span> numbers[<span class="number">5</span>]
+
+<span class="comment"># Array Assignment</span>
+numbers[<span class="number">0</span>] = <span class="number">10</span>
+numbers[<span class="number">1</span>] = <span class="keyword">Input</span> <span class="string">"Enter value:"</span>
+
+<span class="comment"># Array Size</span>
+<span class="keyword">Var</span> length = <span class="function">Size</span>(numbers)
+
+<span class="comment"># Loop Through Array</span>
+<span class="keyword">For</span> i = <span class="number">0</span> <span class="keyword">To</span> <span class="function">Size</span>(numbers) - <span class="number">1</span>
+    <span class="keyword">Print</span> numbers[i]
+<span class="keyword">Endfor</span></pre>
+                        </div>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>🔄 Control Flow</h2>
+                        
+                        <h3>If Statements</h3>
+                        <div class="code-block">
+                            <pre class="code-content"><span class="keyword">If</span> condition <span class="keyword">Then</span>
+    <span class="comment"># code</span>
+<span class="keyword">Elseif</span> condition <span class="keyword">Then</span>
+    <span class="comment"># code</span>
+<span class="keyword">Else</span>
+    <span class="comment"># code</span>
+<span class="keyword">Endif</span></pre>
+                        </div>
+
+                        <h3>For Loops</h3>
+                        <div class="code-block">
+                            <pre class="code-content"><span class="keyword">For</span> i = <span class="number">1</span> <span class="keyword">To</span> <span class="number">10</span>
+    <span class="comment"># code</span>
+<span class="keyword">Endfor</span>
+
+<span class="comment"># With Step</span>
+<span class="keyword">For</span> i = <span class="number">0</span> <span class="keyword">To</span> <span class="number">10</span> <span class="keyword">Step</span> <span class="number">2</span>
+    <span class="comment"># code</span>
+<span class="keyword">Endfor</span></pre>
+                        </div>
+
+                        <h3>While Loops</h3>
+                        <div class="code-block">
+                            <pre class="code-content"><span class="keyword">While</span> condition
+    <span class="comment"># code</span>
+<span class="keyword">Endwhile</span></pre>
+                        </div>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>⚡ Functions</h2>
+                        
+                        <div class="code-block">
+                            <pre class="code-content"><span class="keyword">Function</span> <span class="function">FunctionName</span>(param1, param2)
+    <span class="comment"># code</span>
+    <span class="keyword">Return</span> result
+<span class="keyword">Endfunction</span>
+
+<span class="comment"># Call function</span>
+<span class="keyword">Var</span> result = <span class="function">FunctionName</span>(<span class="number">5</span>, <span class="number">10</span>)</pre>
+                        </div>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>💬 Input/Output</h2>
+                        
+                        <div class="code-block">
+                            <pre class="code-content"><span class="comment"># Output</span>
+<span class="keyword">Print</span> <span class="string">"Hello"</span>
+<span class="keyword">Print</span> <span class="string">"Value:"</span>, variable
+
+<span class="comment"># Input</span>
+<span class="keyword">Var</span> name = <span class="keyword">Input</span> <span class="string">"Enter name:"</span>
+<span class="keyword">Var</span> age = <span class="keyword">Input</span> <span class="string">"Enter age:"</span></pre>
+                        </div>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>🔢 Operators</h2>
+                        
+                        <h3>Arithmetic</h3>
+                        <p><code class="inline-code">+</code> <code class="inline-code">-</code> <code class="inline-code">*</code> <code class="inline-code">/</code> <code class="inline-code">Mod</code> <code class="inline-code">Div</code></p>
+                        
+                        <h3>Comparison</h3>
+                        <p><code class="inline-code">==</code> <code class="inline-code">!=</code> <code class="inline-code">&lt;</code> <code class="inline-code">&gt;</code> <code class="inline-code">&lt;=</code> <code class="inline-code">&gt;=</code></p>
+                        
+                        <h3>Logical</h3>
+                        <p><code class="inline-code">And</code> <code class="inline-code">Or</code> <code class="inline-code">Not</code></p>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>🎯 Keywords Reference</h2>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Keyword</th>
+                                    <th>Category</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code class="inline-code">Algorithm</code></td>
+                                    <td>Structure</td>
+                                    <td>Start of program</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code">Endalgorithm</code></td>
+                                    <td>Structure</td>
+                                    <td>End of program</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code">Var</code></td>
+                                    <td>Variable</td>
+                                    <td>Declare variable</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code">Const</code></td>
+                                    <td>Variable</td>
+                                    <td>Declare constant</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code">If/Then/Else/Endif</code></td>
+                                    <td>Control Flow</td>
+                                    <td>Conditional statements</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code">For/To/Step/Endfor</code></td>
+                                    <td>Loops</td>
+                                    <td>For loop</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code">While/Endwhile</code></td>
+                                    <td>Loops</td>
+                                    <td>While loop</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code">Function/Endfunction</code></td>
+                                    <td>Functions</td>
+                                    <td>Function declaration</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code">Return</code></td>
+                                    <td>Functions</td>
+                                    <td>Return value</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code">Print</code></td>
+                                    <td>I/O</td>
+                                    <td>Output to console</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code">Input</code></td>
+                                    <td>I/O</td>
+                                    <td>Get user input</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code">Size()</code></td>
+                                    <td>Array</td>
+                                    <td>Get array size</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code">Break</code></td>
+                                    <td>Control</td>
+                                    <td>Exit loop</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code">Continue</code></td>
+                                    <td>Control</td>
+                                    <td>Skip iteration</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>📝 Quick Template</h2>
+                        
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-lang">pseudocode</span>
+                                <button class="code-copy" onclick="copyCode(this)">
+                                    <i class="ri-file-copy-line"></i>
+                                    <span>Copy</span>
+                                </button>
+                            </div>
+                            <pre class="code-content"><span class="keyword">Algorithm</span> MyProgram
+
+<span class="comment"># 1. Declare variables</span>
+<span class="keyword">Var</span> myVariable = initialValue
+
+<span class="comment"># 2. Get input (if needed)</span>
+<span class="keyword">Var</span> userInput = <span class="keyword">Input</span> <span class="string">"Prompt:"</span>
+
+<span class="comment"># 3. Process data</span>
+<span class="comment"># Your logic here</span>
+
+<span class="comment"># 4. Display output</span>
+<span class="keyword">Print</span> <span class="string">"Result:"</span>, result
+
+<span class="keyword">Endalgorithm</span></pre>
+                        </div>
+                    </section>
+                </article>
+
+                <!-- Navigation Footer -->
+                <div class="doc-navigation">
+                    <a href="arrays.html" class="doc-nav-link doc-nav-prev">
+                        <i class="ri-arrow-left-line"></i>
+                        <span>Previous: Arrays</span>
+                    </a>
+                    <div class="doc-nav-placeholder"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/docs.js"></script>
+</body>
+</html>
+

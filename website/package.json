@@ -1,0 +1,19 @@
+{
+  "name": "ipseudo-website",
+  "version": "1.0.0",
+  "description": "iPseudo IDE official website with glass morphism design",
+  "scripts": {
+    "dev": "python3 -m http.server 8000",
+    "serve": "python3 -m http.server 8000"
+  },
+  "keywords": [
+    "ipseudo",
+    "pseudocode",
+    "ide",
+    "website",
+    "landing-page"
+  ],
+  "author": "",
+  "license": "SEE LICENSE IN ../LICENSE"
+}
+

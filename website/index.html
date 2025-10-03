@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="iPseudo IDE - A modern pseudocode IDE with beautiful glass morphism design. Learn algorithms and write pseudocode effortlessly.">
+    <meta name="keywords" content="pseudocode, IDE, editor, algorithms, learning, programming, education">
+    <title>iPseudo IDE - Modern Pseudocode Editor</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="background-container">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-pattern"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="brand-icon">
+                    <i class="ri-code-s-slash-line"></i>
+                </div>
+                <span class="brand-name">iPseudo IDE</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#download" class="nav-link">Download</a></li>
+                <li><a href="#documentation" class="nav-link">Documentation</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="#download" class="btn btn-primary">
+                    <i class="ri-download-line"></i>
+                    <span>Download</span>
+                </a>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="ri-menu-line"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="ri-star-fill"></i>
+                    <span>Free for Personal & Educational Use</span>
+                </div>
+                
+                <h1 class="hero-title">
+                    <span class="title-gradient">Beautiful Pseudocode</span>
+                    <br>
+                    <span class="title-secondary">Made Simple</span>
+                </h1>
+                
+                <p class="hero-description">
+                    A modern, cross-platform IDE designed specifically for learning and writing pseudocode. 
+                    With stunning glass morphism design, intuitive syntax, and real-time execution.
+                </p>
+                
+                <div class="hero-actions">
+                    <a href="#download" class="btn btn-large btn-primary">
+                        <i class="ri-download-cloud-line"></i>
+                        <span>Download for Free</span>
+                    </a>
+                    <a href="#features" class="btn btn-large btn-secondary">
+                        <i class="ri-play-circle-line"></i>
+                        <span>See Features</span>
+                    </a>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="ri-code-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value">50+</div>
+                            <div class="stat-label">Keywords</div>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="ri-flashlight-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value">Real-time</div>
+                            <div class="stat-label">Execution</div>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="ri-palette-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value">2</div>
+                            <div class="stat-label">UI Themes</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-visual">
+                <div class="editor-mockup">
+                    <div class="mockup-header">
+                        <div class="mockup-dots">
+                            <span class="dot dot-red"></span>
+                            <span class="dot dot-yellow"></span>
+                            <span class="dot dot-green"></span>
+                        </div>
+                        <div class="mockup-title">iPseudo IDE</div>
+                    </div>
+                    <div class="mockup-content">
+                        <pre class="code-preview"><span class="line-number">1</span>  <span class="keyword">Algorithm</span> <span class="function">CalculateFactorial</span>
+<span class="line-number">2</span>  
+<span class="line-number">3</span>  <span class="keyword">Var</span> n = <span class="keyword">Input</span> <span class="string">"Enter a number:"</span>
+<span class="line-number">4</span>  <span class="keyword">Var</span> fact = <span class="number">1</span>
+<span class="line-number">5</span>  
+<span class="line-number">6</span>  <span class="keyword">For</span> i = <span class="number">1</span> <span class="keyword">To</span> n
+<span class="line-number">7</span>      fact = fact * i
+<span class="line-number">8</span>  <span class="keyword">Endfor</span>
+<span class="line-number">9</span>  
+<span class="line-number">10</span>  <span class="keyword">Print</span> <span class="string">"Factorial:"</span>, fact
+<span class="line-number">11</span>  
+<span class="line-number">12</span>  <span class="keyword">Endalgorithm</span></pre>
+                        <div class="cursor-blink"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Powerful Features</h2>
+                <p class="section-subtitle">Everything you need to learn and write pseudocode</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="ri-palette-line"></i>
+                    </div>
+                    <h3 class="feature-title">Beautiful Design</h3>
+                    <p class="feature-description">
+                        Stunning glass morphism UI with dark and light themes. Modern, tactile interface with smooth animations.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="ri-code-s-slash-line"></i>
+                    </div>
+                    <h3 class="feature-title">Monaco Editor</h3>
+                    <p class="feature-description">
+                        Powered by VS Code's editor with custom syntax highlighting, auto-completion, and intelligent suggestions.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="ri-play-circle-line"></i>
+                    </div>
+                    <h3 class="feature-title">Real-time Execution</h3>
+                    <p class="feature-description">
+                        Run your pseudocode instantly with our sandboxed execution engine. See results in real-time.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="ri-edit-box-line"></i>
+                    </div>
+                    <h3 class="feature-title">Flexible Syntax</h3>
+                    <p class="feature-description">
+                        Case-insensitive keywords with multiple syntax styles. Write pseudocode your way.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="ri-database-2-line"></i>
+                    </div>
+                    <h3 class="feature-title">Array Support</h3>
+                    <p class="feature-description">
+                        Full array support with bounds checking, Size() function, and intuitive syntax.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="ri-global-line"></i>
+                    </div>
+                    <h3 class="feature-title">Cross-Platform</h3>
+                    <p class="feature-description">
+                        Works on Windows, macOS, and Linux. Native performance with Electron framework.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section class="download" id="download">
+        <div class="container">
+            <div class="download-content">
+                <div class="download-info">
+                    <h2 class="section-title">Download iPseudo IDE</h2>
+                    <p class="section-subtitle">Choose your platform and start coding</p>
+                    
+                    <div class="download-cards">
+                        <div class="download-card">
+                            <div class="download-icon">
+                                <i class="ri-windows-fill"></i>
+                            </div>
+                            <div class="download-details">
+                                <h3>Windows</h3>
+                                <p>Windows 10/11 (64-bit)</p>
+                            </div>
+                            <a href="#" class="btn btn-download">
+                                <i class="ri-download-line"></i>
+                                <span>Download</span>
+                            </a>
+                        </div>
+                        
+                        <div class="download-card">
+                            <div class="download-icon">
+                                <i class="ri-apple-fill"></i>
+                            </div>
+                            <div class="download-details">
+                                <h3>macOS</h3>
+                                <p>macOS 10.15+ (Intel & Apple Silicon)</p>
+                            </div>
+                            <a href="#" class="btn btn-download">
+                                <i class="ri-download-line"></i>
+                                <span>Download</span>
+                            </a>
+                        </div>
+                        
+                        <div class="download-card">
+                            <div class="download-icon">
+                                <i class="ri-ubuntu-fill"></i>
+                            </div>
+                            <div class="download-details">
+                                <h3>Linux</h3>
+                                <p>Ubuntu, Debian, Fedora (64-bit)</p>
+                            </div>
+                            <a href="#" class="btn btn-download">
+                                <i class="ri-download-line"></i>
+                                <span>Download</span>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="license-info">
+                        <div class="license-badge">
+                            <i class="ri-information-line"></i>
+                            <span><strong>Free</strong> for personal & educational use • <strong>Paid</strong> for commercial use</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Syntax Example Section -->
+    <section class="syntax-example">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Intuitive Syntax</h2>
+                <p class="section-subtitle">Write pseudocode that reads like natural language</p>
+            </div>
+            
+            <div class="syntax-showcase">
+                <div class="syntax-tabs">
+                    <button class="syntax-tab active" data-example="loop">For Loops</button>
+                    <button class="syntax-tab" data-example="array">Arrays</button>
+                    <button class="syntax-tab" data-example="function">Functions</button>
+                </div>
+                
+                <div class="syntax-content">
+                    <div class="syntax-example-box active" data-example="loop">
+                        <pre class="syntax-code"><span class="keyword">Algorithm</span> <span class="function">CountToTen</span>
+
+<span class="keyword">For</span> i = <span class="number">1</span> <span class="keyword">To</span> <span class="number">10</span> <span class="keyword">Step</span> <span class="number">2</span>
+    <span class="keyword">Print</span> <span class="string">"Count:"</span>, i
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Endalgorithm</span></pre>
+                    </div>
+                    
+                    <div class="syntax-example-box" data-example="array">
+                        <pre class="syntax-code"><span class="keyword">Algorithm</span> <span class="function">ArrayExample</span>
+
+<span class="keyword">Var</span> numbers[<span class="number">5</span>]
+
+<span class="keyword">For</span> i = <span class="number">0</span> <span class="keyword">To</span> <span class="function">Size</span>(numbers) - <span class="number">1</span>
+    numbers[i] = i * <span class="number">10</span>
+    <span class="keyword">Print</span> numbers[i]
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Endalgorithm</span></pre>
+                    </div>
+                    
+                    <div class="syntax-example-box" data-example="function">
+                        <pre class="syntax-code"><span class="keyword">Algorithm</span> <span class="function">FunctionDemo</span>
+
+<span class="keyword">Function</span> <span class="function">AddNumbers</span>(a, b)
+    <span class="keyword">Return</span> a + b
+<span class="keyword">Endfunction</span>
+
+<span class="keyword">Var</span> result = <span class="function">AddNumbers</span>(<span class="number">5</span>, <span class="number">10</span>)
+<span class="keyword">Print</span> <span class="string">"Sum:"</span>, result
+
+<span class="keyword">Endalgorithm</span></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Documentation Section -->
+    <section class="documentation" id="documentation">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Comprehensive Documentation</h2>
+                <p class="section-subtitle">Learn pseudocode from basics to advanced</p>
+            </div>
+            
+            <div class="docs-grid">
+                <a href="docs/getting-started.html" class="doc-card">
+                    <div class="doc-icon">
+                        <i class="ri-rocket-line"></i>
+                    </div>
+                    <h3>Getting Started</h3>
+                    <p>Quick start guide and your first program</p>
+                    <div class="doc-arrow">
+                        <i class="ri-arrow-right-line"></i>
+                    </div>
+                </a>
+                
+                <a href="docs/language-overview.html" class="doc-card">
+                    <div class="doc-icon">
+                        <i class="ri-book-2-line"></i>
+                    </div>
+                    <h3>Language Overview</h3>
+                    <p>Core concepts and philosophy</p>
+                    <div class="doc-arrow">
+                        <i class="ri-arrow-right-line"></i>
+                    </div>
+                </a>
+                
+                <a href="docs/loops.html" class="doc-card">
+                    <div class="doc-icon">
+                        <i class="ri-loop-left-line"></i>
+                    </div>
+                    <h3>Loops & Iteration</h3>
+                    <p>Master for, while, and repeat loops</p>
+                    <div class="doc-arrow">
+                        <i class="ri-arrow-right-line"></i>
+                    </div>
+                </a>
+                
+                <a href="docs/functions.html" class="doc-card">
+                    <div class="doc-icon">
+                        <i class="ri-function-line"></i>
+                    </div>
+                    <h3>Functions</h3>
+                    <p>Create reusable code blocks</p>
+                    <div class="doc-arrow">
+                        <i class="ri-arrow-right-line"></i>
+                    </div>
+                </a>
+                
+                <a href="docs/arrays.html" class="doc-card">
+                    <div class="doc-icon">
+                        <i class="ri-database-2-line"></i>
+                    </div>
+                    <h3>Arrays</h3>
+                    <p>Working with collections and data</p>
+                    <div class="doc-arrow">
+                        <i class="ri-arrow-right-line"></i>
+                    </div>
+                </a>
+                
+                <a href="docs/quick-reference.html" class="doc-card">
+                    <div class="doc-icon">
+                        <i class="ri-file-list-2-line"></i>
+                    </div>
+                    <h3>Quick Reference</h3>
+                    <p>Syntax cheat sheet</p>
+                    <div class="doc-arrow">
+                        <i class="ri-arrow-right-line"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="section-title">About iPseudo IDE</h2>
+                    <p class="about-description">
+                        iPseudo IDE is a modern desktop application built with passion for students, educators, 
+                        and developers who want to focus on algorithm design without the complexity of 
+                        production programming languages.
+                    </p>
+                    <p class="about-description">
+                        Built with Electron, TypeScript, and Monaco Editor, iPseudo combines the power of 
+                        modern web technologies with a beautiful, intuitive interface that makes learning 
+                        programming concepts enjoyable.
+                    </p>
+                    
+                    <div class="developer-info">
+                        <div class="developer-header">
+                            <h3 class="developer-title">Created by</h3>
+                        </div>
+                        <div class="developer-card">
+                            <div class="developer-avatar">
+                                <i class="ri-user-line"></i>
+                            </div>
+                            <div class="developer-details">
+                                <h4 class="developer-name">M'BARK</h4>
+                                <p class="developer-role">Full Stack Developer</p>
+                                <div class="developer-social">
+                                    <a href="https://github.com/mbvrk" target="_blank" rel="noopener noreferrer" class="social-btn" title="GitHub">
+                                        <i class="ri-github-fill"></i>
+                                    </a>
+                                    <a href="https://linkedin.com/in/mbvrk" target="_blank" rel="noopener noreferrer" class="social-btn" title="LinkedIn">
+                                        <i class="ri-linkedin-fill"></i>
+                                    </a>
+                                    <a href="https://hashnode.com/@mbvrk" target="_blank" rel="noopener noreferrer" class="social-btn" title="Hashnode">
+                                        <i class="ri-article-line"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tech-stack">
+                        <div class="tech-badge">
+                            <i class="ri-javascript-line"></i>
+                            <span>Electron</span>
+                        </div>
+                        <div class="tech-badge">
+                            <i class="ri-file-code-line"></i>
+                            <span>TypeScript</span>
+                        </div>
+                        <div class="tech-badge">
+                            <i class="ri-code-box-line"></i>
+                            <span>Monaco</span>
+                        </div>
+                        <div class="tech-badge">
+                            <i class="ri-css3-line"></i>
+                            <span>CSS3</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="about-image">
+                    <div class="floating-card">
+                        <div class="card-icon">
+                            <i class="ri-heart-pulse-line"></i>
+                        </div>
+                        <div class="card-text">
+                            <div class="card-title">Made with ❤️</div>
+                            <div class="card-subtitle">For educators and learners worldwide</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-box">
+                <h2 class="cta-title">Ready to Start Learning?</h2>
+                <p class="cta-description">Download iPseudo IDE now and begin your journey into algorithm design</p>
+                <a href="#download" class="btn btn-large btn-primary">
+                    <i class="ri-download-cloud-line"></i>
+                    <span>Download Now - It's Free</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="brand-icon">
+                        <i class="ri-code-s-slash-line"></i>
+                    </div>
+                    <span class="brand-name">iPseudo IDE</span>
+                    <p class="footer-tagline">Making pseudocode beautiful</p>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Product</h4>
+                        <ul>
+                            <li><a href="#features">Features</a></li>
+                            <li><a href="#download">Download</a></li>
+                            <li><a href="#documentation">Documentation</a></li>
+                            <li><a href="https://github.com/mbvrk/iPseudoApp">GitHub</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="docs/getting-started.html">Docs</a></li>
+                            <li><a href="https://github.com/mbvrk/iPseudoApp/tree/main/examples">Examples</a></li>
+                            <li><a href="https://github.com/mbvrk/iPseudoApp/blob/main/DESIGN_SYSTEM.md">Design System</a></li>
+                            <li><a href="https://github.com/mbvrk/iPseudoApp/blob/main/LICENSE">License</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Support</h4>
+                        <ul>
+                            <li><a href="https://github.com/mbvrk/iPseudoApp/issues">Report Bug</a></li>
+                            <li><a href="https://github.com/mbvrk/iPseudoApp/issues">Request Feature</a></li>
+                            <li><a href="https://hashnode.com/@mbvrk">Blog</a></li>
+                            <li><a href="https://linkedin.com/in/mbvrk">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 iPseudo IDE by <strong>M'BARK</strong>. Dual Licensed - Free for personal & educational use.</p>
+                <div class="social-links">
+                    <a href="https://github.com/mbvrk/iPseudoApp" class="social-link" title="GitHub">
+                        <i class="ri-github-fill"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/mbvrk" class="social-link" title="LinkedIn">
+                        <i class="ri-linkedin-fill"></i>
+                    </a>
+                    <a href="https://hashnode.com/@mbvrk" class="social-link" title="Hashnode">
+                        <i class="ri-article-line"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/script.js"></script>
+</body>
+</html>
+

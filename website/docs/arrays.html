@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arrays - iPseudo IDE Documentation</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/docs.css">
+</head>
+<body>
+    <!-- Background -->
+    <div class="background-container">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-pattern"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-brand">
+                <div class="brand-icon">
+                    <i class="ri-code-s-slash-line"></i>
+                </div>
+                <span class="brand-name">iPseudo IDE</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="../index.html#features" class="nav-link">Features</a></li>
+                <li><a href="../index.html#download" class="nav-link">Download</a></li>
+                <li><a href="../index.html#documentation" class="nav-link">Documentation</a></li>
+                <li><a href="../index.html#about" class="nav-link">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Documentation Content -->
+    <div class="docs-layout">
+        <!-- Sidebar -->
+        <aside class="docs-sidebar">
+            <div class="sidebar-content">
+                <h3 class="sidebar-title">Documentation</h3>
+                
+                <nav class="sidebar-nav">
+                    <a href="getting-started.html" class="sidebar-link">
+                        <i class="ri-rocket-line"></i>
+                        <span>Getting Started</span>
+                    </a>
+                    <a href="language-overview.html" class="sidebar-link">
+                        <i class="ri-book-2-line"></i>
+                        <span>Language Overview</span>
+                    </a>
+                    <a href="variables.html" class="sidebar-link">
+                        <i class="ri-file-code-line"></i>
+                        <span>Variables & Data Types</span>
+                    </a>
+                    <a href="operators.html" class="sidebar-link">
+                        <i class="ri-function-line"></i>
+                        <span>Operators</span>
+                    </a>
+                    <a href="loops.html" class="sidebar-link">
+                        <i class="ri-loop-left-line"></i>
+                        <span>Loops</span>
+                    </a>
+                    <a href="functions.html" class="sidebar-link">
+                        <i class="ri-braces-line"></i>
+                        <span>Functions</span>
+                    </a>
+                    <a href="arrays.html" class="sidebar-link active">
+                        <i class="ri-database-2-line"></i>
+                        <span>Arrays</span>
+                    </a>
+                    <a href="quick-reference.html" class="sidebar-link">
+                        <i class="ri-file-list-2-line"></i>
+                        <span>Quick Reference</span>
+                    </a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="docs-main">
+            <div class="docs-content">
+                <div class="breadcrumb">
+                    <a href="../index.html">Home</a>
+                    <i class="ri-arrow-right-s-line"></i>
+                    <a href="../index.html#documentation">Documentation</a>
+                    <i class="ri-arrow-right-s-line"></i>
+                    <span>Arrays</span>
+                </div>
+
+                <article class="doc-article">
+                    <h1 class="doc-title">📊 Working with Arrays</h1>
+                    
+                    <div class="doc-intro">
+                        <p>Arrays allow you to store multiple values in a single variable. Learn how to declare, manipulate, and work with arrays in iPseudo.</p>
+                    </div>
+
+                    <section class="doc-section">
+                        <h2>🎯 Array Declaration</h2>
+                        <p>Declare an array by specifying its size in square brackets:</p>
+                        
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-lang">pseudocode</span>
+                                <button class="code-copy" onclick="copyCode(this)">
+                                    <i class="ri-file-copy-line"></i>
+                                    <span>Copy</span>
+                                </button>
+                            </div>
+                            <pre class="code-content"><span class="keyword">Algorithm</span> ArrayDeclaration
+
+<span class="comment"># Declare array with 5 elements</span>
+<span class="keyword">Var</span> numbers[<span class="number">5</span>]
+
+<span class="comment"># Arrays use 0-based indexing</span>
+<span class="comment"># Valid indices: 0, 1, 2, 3, 4</span>
+
+<span class="keyword">Endalgorithm</span></pre>
+                        </div>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>✏️ Array Assignment</h2>
+                        <p>Assign values to specific array elements:</p>
+                        
+                        <div class="code-block">
+                            <pre class="code-content"><span class="keyword">Algorithm</span> ArrayAssignment
+
+<span class="keyword">Var</span> items[<span class="number">3</span>]
+
+<span class="comment"># Assign values</span>
+items[<span class="number">0</span>] = <span class="number">10</span>
+items[<span class="number">1</span>] = <span class="number">20</span>
+items[<span class="number">2</span>] = <span class="number">30</span>
+
+<span class="comment"># Using Input</span>
+items[<span class="number">1</span>] = <span class="keyword">Input</span> <span class="string">"Enter value:"</span>
+
+<span class="keyword">Print</span> items[<span class="number">0</span>]
+
+<span class="keyword">Endalgorithm</span></pre>
+                        </div>
+
+                        <div class="info-box info-success">
+                            <div class="info-icon">
+                                <i class="ri-shield-check-line"></i>
+                            </div>
+                            <div class="info-content">
+                                <strong>Bounds Checking:</strong>
+                                iPseudo automatically checks array bounds. Accessing an invalid index will throw an error!
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>📏 Size() Function</h2>
+                        <p>Get the size of an array using the <code class="inline-code">Size()</code> function:</p>
+                        
+                        <div class="code-block">
+                            <pre class="code-content"><span class="keyword">Algorithm</span> ArraySize
+
+<span class="keyword">Var</span> data[<span class="number">10</span>]
+
+<span class="keyword">Var</span> length = <span class="function">Size</span>(data)
+<span class="keyword">Print</span> <span class="string">"Array size:"</span>, length  <span class="comment"># Output: 10</span>
+
+<span class="comment"># Use in loops</span>
+<span class="keyword">For</span> i = <span class="number">0</span> <span class="keyword">To</span> <span class="function">Size</span>(data) - <span class="number">1</span>
+    <span class="keyword">Print</span> <span class="string">"Index:"</span>, i
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Endalgorithm</span></pre>
+                        </div>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>🔄 Looping Through Arrays</h2>
+                        
+                        <div class="code-block">
+                            <pre class="code-content"><span class="keyword">Algorithm</span> ArrayLoop
+
+<span class="keyword">Var</span> scores[<span class="number">5</span>]
+
+<span class="comment"># Fill array with values</span>
+<span class="keyword">For</span> i = <span class="number">0</span> <span class="keyword">To</span> <span class="number">4</span>
+    scores[i] = (i + <span class="number">1</span>) * <span class="number">10</span>
+<span class="keyword">Endfor</span>
+
+<span class="comment"># Display all elements</span>
+<span class="keyword">For</span> i = <span class="number">0</span> <span class="keyword">To</span> <span class="function">Size</span>(scores) - <span class="number">1</span>
+    <span class="keyword">Print</span> <span class="string">"Score"</span>, i + <span class="number">1</span>, <span class="string">":"</span>, scores[i]
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Endalgorithm</span></pre>
+                        </div>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>💡 Complete Example</h2>
+                        
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-lang">pseudocode</span>
+                                <button class="code-copy" onclick="copyCode(this)">
+                                    <i class="ri-file-copy-line"></i>
+                                    <span>Copy</span>
+                                </button>
+                            </div>
+                            <pre class="code-content"><span class="keyword">Algorithm</span> StudentGrades
+
+<span class="comment"># Declare array for 5 students</span>
+<span class="keyword">Var</span> grades[<span class="number">5</span>]
+<span class="keyword">Var</span> total = <span class="number">0</span>
+
+<span class="comment"># Input grades</span>
+<span class="keyword">For</span> i = <span class="number">0</span> <span class="keyword">To</span> <span class="function">Size</span>(grades) - <span class="number">1</span>
+    grades[i] = <span class="keyword">Input</span> <span class="string">"Enter grade for student "</span> + (i + <span class="number">1</span>)
+    total = total + grades[i]
+<span class="keyword">Endfor</span>
+
+<span class="comment"># Calculate average</span>
+<span class="keyword">Var</span> average = total / <span class="function">Size</span>(grades)
+
+<span class="comment"># Display results</span>
+<span class="keyword">Print</span> <span class="string">"All Grades:"</span>
+<span class="keyword">For</span> i = <span class="number">0</span> <span class="keyword">To</span> <span class="function">Size</span>(grades) - <span class="number">1</span>
+    <span class="keyword">Print</span> <span class="string">"Student"</span>, i + <span class="number">1</span>, <span class="string">":"</span>, grades[i]
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Print</span> <span class="string">"Average:"</span>, average
+
+<span class="keyword">Endalgorithm</span></pre>
+                        </div>
+                    </section>
+                </article>
+
+                <!-- Navigation Footer -->
+                <div class="doc-navigation">
+                    <a href="functions.html" class="doc-nav-link doc-nav-prev">
+                        <i class="ri-arrow-left-line"></i>
+                        <span>Previous: Functions</span>
+                    </a>
+                    <a href="quick-reference.html" class="doc-nav-link doc-nav-next">
+                        <span>Next: Quick Reference</span>
+                        <i class="ri-arrow-right-line"></i>
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/docs.js"></script>
+</body>
+</html>
+

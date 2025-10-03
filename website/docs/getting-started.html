@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started - iPseudo IDE Documentation</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/docs.css">
+</head>
+<body>
+    <!-- Background -->
+    <div class="background-container">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-pattern"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-brand">
+                <div class="brand-icon">
+                    <i class="ri-code-s-slash-line"></i>
+                </div>
+                <span class="brand-name">iPseudo IDE</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="../index.html#features" class="nav-link">Features</a></li>
+                <li><a href="../index.html#download" class="nav-link">Download</a></li>
+                <li><a href="../index.html#documentation" class="nav-link">Documentation</a></li>
+                <li><a href="../index.html#about" class="nav-link">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Documentation Content -->
+    <div class="docs-layout">
+        <!-- Sidebar -->
+        <aside class="docs-sidebar">
+            <div class="sidebar-content">
+                <h3 class="sidebar-title">Documentation</h3>
+                
+                <nav class="sidebar-nav">
+                    <a href="getting-started.html" class="sidebar-link active">
+                        <i class="ri-rocket-line"></i>
+                        <span>Getting Started</span>
+                    </a>
+                    <a href="language-overview.html" class="sidebar-link">
+                        <i class="ri-book-2-line"></i>
+                        <span>Language Overview</span>
+                    </a>
+                    <a href="variables.html" class="sidebar-link">
+                        <i class="ri-file-code-line"></i>
+                        <span>Variables & Data Types</span>
+                    </a>
+                    <a href="operators.html" class="sidebar-link">
+                        <i class="ri-function-line"></i>
+                        <span>Operators</span>
+                    </a>
+                    <a href="loops.html" class="sidebar-link">
+                        <i class="ri-loop-left-line"></i>
+                        <span>Loops</span>
+                    </a>
+                    <a href="functions.html" class="sidebar-link">
+                        <i class="ri-braces-line"></i>
+                        <span>Functions</span>
+                    </a>
+                    <a href="arrays.html" class="sidebar-link">
+                        <i class="ri-database-2-line"></i>
+                        <span>Arrays</span>
+                    </a>
+                    <a href="quick-reference.html" class="sidebar-link">
+                        <i class="ri-file-list-2-line"></i>
+                        <span>Quick Reference</span>
+                    </a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="docs-main">
+            <div class="docs-content">
+                <div class="breadcrumb">
+                    <a href="../index.html">Home</a>
+                    <i class="ri-arrow-right-s-line"></i>
+                    <a href="../index.html#documentation">Documentation</a>
+                    <i class="ri-arrow-right-s-line"></i>
+                    <span>Getting Started</span>
+                </div>
+
+                <article class="doc-article">
+                    <h1 class="doc-title">🚀 Getting Started with iPseudo</h1>
+                    
+                    <div class="doc-intro">
+                        <p>Welcome to iPseudo! This guide will help you write your first pseudocode algorithm and understand the basics of the language.</p>
+                    </div>
+
+                    <section class="doc-section">
+                        <h2>📝 What is Pseudocode?</h2>
+                        <p>Pseudocode is a way to describe algorithms using a combination of natural language and programming concepts. It's designed to be:</p>
+                        <ul class="doc-list">
+                            <li><strong>Easy to read</strong> - Like plain English</li>
+                            <li><strong>Easy to write</strong> - No complex syntax rules</li>
+                            <li><strong>Language independent</strong> - Focuses on logic, not implementation</li>
+                            <li><strong>Perfect for learning</strong> - Understand concepts without language barriers</li>
+                        </ul>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>🎯 Your First Algorithm</h2>
+                        <p>Let's write a simple "Hello World" program in iPseudo:</p>
+                        
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-lang">pseudocode</span>
+                                <button class="code-copy" onclick="copyCode(this)">
+                                    <i class="ri-file-copy-line"></i>
+                                    <span>Copy</span>
+                                </button>
+                            </div>
+                            <pre class="code-content"><span class="keyword">Algorithm</span> HelloWorld
+
+<span class="keyword">Print</span> <span class="string">"Hello, World!"</span>
+<span class="keyword">Print</span> <span class="string">"Welcome to iPseudo!"</span>
+
+<span class="keyword">Endalgorithm</span></pre>
+                        </div>
+
+                        <div class="info-box info-success">
+                            <div class="info-icon">
+                                <i class="ri-lightbulb-line"></i>
+                            </div>
+                            <div class="info-content">
+                                <strong>Running Your Code:</strong>
+                                <ol>
+                                    <li>Open iPseudo IDE</li>
+                                    <li>Type or paste the code in the editor</li>
+                                    <li>Click the Run button (▶️)</li>
+                                    <li>See the output in the console!</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>🔤 Basic Structure</h2>
+                        <p>Every iPseudo program follows this structure:</p>
+                        
+                        <div class="code-block">
+                            <pre class="code-content"><span class="keyword">Algorithm</span> ProgramName
+    <span class="comment"># Your code goes here</span>
+<span class="keyword">Endalgorithm</span></pre>
+                        </div>
+
+                        <h3>Components:</h3>
+                        <ul class="doc-list">
+                            <li><code class="inline-code">Algorithm</code> - Marks the start of your program</li>
+                            <li><code class="inline-code">ProgramName</code> - A descriptive name (no spaces, use CamelCase)</li>
+                            <li><code class="inline-code"># Comments</code> - Lines starting with # are comments</li>
+                            <li><code class="inline-code">Endalgorithm</code> - Marks the end of your program</li>
+                        </ul>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>📊 Simple Variables</h2>
+                        <p>Variables store data that can change:</p>
+                        
+                        <div class="code-block">
+                            <pre class="code-content"><span class="keyword">Algorithm</span> SimpleVariables
+
+<span class="comment"># Declare a variable</span>
+<span class="keyword">Var</span> name = <span class="string">"Alice"</span>
+<span class="keyword">Var</span> age = <span class="number">25</span>
+<span class="keyword">Var</span> score = <span class="number">95.5</span>
+
+<span class="comment"># Display the values</span>
+<span class="keyword">Print</span> <span class="string">"Name:"</span>, name
+<span class="keyword">Print</span> <span class="string">"Age:"</span>, age
+<span class="keyword">Print</span> <span class="string">"Score:"</span>, score
+
+<span class="keyword">Endalgorithm</span></pre>
+                        </div>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>🎯 Next Steps</h2>
+                        <p>Now that you've learned the basics, continue your journey:</p>
+                        
+                        <div class="next-steps">
+                            <a href="language-overview.html" class="next-step-card">
+                                <div class="step-icon">
+                                    <i class="ri-book-2-line"></i>
+                                </div>
+                                <div class="step-info">
+                                    <h4>Language Overview</h4>
+                                    <p>Learn core concepts and philosophy</p>
+                                </div>
+                                <i class="ri-arrow-right-line"></i>
+                            </a>
+                            
+                            <a href="variables.html" class="next-step-card">
+                                <div class="step-icon">
+                                    <i class="ri-file-code-line"></i>
+                                </div>
+                                <div class="step-info">
+                                    <h4>Variables & Data Types</h4>
+                                    <p>Deep dive into variables</p>
+                                </div>
+                                <i class="ri-arrow-right-line"></i>
+                            </a>
+                        </div>
+                    </section>
+                </article>
+
+                <!-- Navigation Footer -->
+                <div class="doc-navigation">
+                    <div class="doc-nav-placeholder"></div>
+                    <a href="language-overview.html" class="doc-nav-link doc-nav-next">
+                        <span>Next: Language Overview</span>
+                        <i class="ri-arrow-right-line"></i>
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/docs.js"></script>
+</body>
+</html>
+
