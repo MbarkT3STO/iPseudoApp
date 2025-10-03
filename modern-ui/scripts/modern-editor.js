@@ -246,6 +246,13 @@ function getKeywordHoverInfo(keyword) {
             usage: 'For variable = start To end | Set value To variableName',
             example: 'For i = 1 To 10 | Set 5 To age'
         },
+        'step': {
+            label: 'Step',
+            category: 'Loop Keyword',
+            description: 'Specifies the increment value in a for loop. Used to control how much the loop variable changes each iteration.',
+            usage: 'For variable = start To end Step increment',
+            example: 'For i = 0 To 10 Step 2'
+        },
         'endfor': {
             label: 'Endfor',
             category: 'Block Terminator',
@@ -570,7 +577,7 @@ const pseudocodeLanguage = {
     tokenizer: {
         root: [
             // Keywords - All reserved words from the pseudocode specification (case-insensitive)
-            [/\b(var|const|constant|if|then|else|elseif|endif|for|to|endfor|while|endwhile|do|until|repeat|endrepeat|case|switch|endswitch|function|endfunction|return|break|continue|print|input|true|false|null|and|or|not|mod|div|algorithm|endalgorithm|variable|set|declare|as|number|string|boolean|integer|float|char|global|local|foreach|in|endforeach|array|size|VAR|CONST|CONSTANT|IF|THEN|ELSE|ELSEIF|ENDIF|FOR|TO|ENDFOR|WHILE|ENDWHILE|DO|UNTIL|REPEAT|ENDREPEAT|CASE|SWITCH|ENDSWITCH|FUNCTION|ENDFUNCTION|RETURN|BREAK|CONTINUE|PRINT|INPUT|TRUE|FALSE|NULL|AND|OR|NOT|MOD|DIV|ALGORITHM|ENDALGORITHM|VARIABLE|SET|DECLARE|AS|NUMBER|STRING|BOOLEAN|INTEGER|FLOAT|CHAR|GLOBAL|LOCAL|FOREACH|IN|ENDFOREACH|ARRAY|SIZE|Var|Const|Constant|If|Then|Else|Elseif|Endif|For|To|Endfor|While|Endwhile|Do|Until|Repeat|Endrepeat|Case|Switch|Endswitch|Function|Endfunction|Return|Break|Continue|Print|Input|True|False|Null|And|Or|Not|Mod|Div|Algorithm|Endalgorithm|Variable|Set|Declare|As|Number|String|Boolean|Integer|Float|Char|Global|Local|Foreach|In|Endforeach|Array|Size|vAr|cOnSt|CoNsTaNt|iF|tHeN|eLsE|eLsEiF|eNdIf|fOr|tO|eNdFoR|wHiLe|eNdWhIlE|dO|uNtIl|rEpEaT|eNdRepeAt|cAsE|sWiTcH|eNdSwItCh|fUnCtIoN|eNdFuNcTiOn|rEtUrN|bReAk|cOnTiNuE|pRiNt|iNpUt|tRuE|fAlSe|nUlL|aNd|Or|nOt|mOd|dIv|aLgOrItHm|eNdAlGoRiThM|vArIaBlE|sEt|dEcLaRe|aS|nUmBeR|sTrInG|bOoL|iNtEgEr|fLoAt|cHaR|gLoBaL|lOcAl|fOrEaCh|In|eNdFoReAcH|aRrAy|SiZe)\b/, 'keyword'],
+            [/\b(var|const|constant|if|then|else|elseif|endif|for|to|step|endfor|while|endwhile|do|until|repeat|endrepeat|case|switch|endswitch|function|endfunction|return|break|continue|print|input|true|false|null|and|or|not|mod|div|algorithm|endalgorithm|variable|set|declare|as|number|string|boolean|integer|float|char|global|local|foreach|in|endforeach|array|size|VAR|CONST|CONSTANT|IF|THEN|ELSE|ELSEIF|ENDIF|FOR|TO|STEP|ENDFOR|WHILE|ENDWHILE|DO|UNTIL|REPEAT|ENDREPEAT|CASE|SWITCH|ENDSWITCH|FUNCTION|ENDFUNCTION|RETURN|BREAK|CONTINUE|PRINT|INPUT|TRUE|FALSE|NULL|AND|OR|NOT|MOD|DIV|ALGORITHM|ENDALGORITHM|VARIABLE|SET|DECLARE|AS|NUMBER|STRING|BOOLEAN|INTEGER|FLOAT|CHAR|GLOBAL|LOCAL|FOREACH|IN|ENDFOREACH|ARRAY|SIZE|Var|Const|Constant|If|Then|Else|Elseif|Endif|For|To|Step|Endfor|While|Endwhile|Do|Until|Repeat|Endrepeat|Case|Switch|Endswitch|Function|Endfunction|Return|Break|Continue|Print|Input|True|False|Null|And|Or|Not|Mod|Div|Algorithm|Endalgorithm|Variable|Set|Declare|As|Number|String|Boolean|Integer|Float|Char|Global|Local|Foreach|In|Endforeach|Array|Size|vAr|cOnSt|CoNsTaNt|iF|tHeN|eLsE|eLsEiF|eNdIf|fOr|tO|StEp|eNdFoR|wHiLe|eNdWhIlE|dO|uNtIl|rEpEaT|eNdRepeAt|cAsE|sWiTcH|eNdSwItCh|fUnCtIoN|eNdFuNcTiOn|rEtUrN|bReAk|cOnTiNuE|pRiNt|iNpUt|tRuE|fAlSe|nUlL|aNd|Or|nOt|mOd|dIv|aLgOrItHm|eNdAlGoRiThM|vArIaBlE|sEt|dEcLaRe|aS|nUmBeR|sTrInG|bOoL|iNtEgEr|fLoAt|cHaR|gLoBaL|lOcAl|fOrEaCh|In|eNdFoReAcH|aRrAy|SiZe)\b/, 'keyword'],
             // Strings
             [/".*?"/, 'string'],
             [/'.*?'/, 'string'],
@@ -721,7 +728,7 @@ window.require(['vs/editor/editor.main'], function () {
         }
     });
     // Register completion provider with all reserved pseudocode keywords (Pascal Case)
-    const reservedKeywords = ['Var', 'Const', 'Constant', 'If', 'Then', 'Else', 'Elseif', 'Endif', 'For', 'To', 'Endfor', 'While', 'Endwhile', 'Do', 'Until', 'Repeat', 'Endrepeat', 'Case', 'Switch', 'Endswitch', 'Function', 'Endfunction', 'Return', 'Break', 'Continue', 'Print', 'Input', 'True', 'False', 'Null', 'And', 'Or', 'Not', 'Mod', 'Div', 'Algorithm', 'Endalgorithm', 'Variable', 'Set', 'Declare', 'As', 'Number', 'String', 'Boolean', 'Integer', 'Float', 'Char', 'Global', 'Local', 'Foreach', 'In', 'Endforeach', 'Array', 'Size'];
+    const reservedKeywords = ['Var', 'Const', 'Constant', 'If', 'Then', 'Else', 'Elseif', 'Endif', 'For', 'To', 'Step', 'Endfor', 'While', 'Endwhile', 'Do', 'Until', 'Repeat', 'Endrepeat', 'Case', 'Switch', 'Endswitch', 'Function', 'Endfunction', 'Return', 'Break', 'Continue', 'Print', 'Input', 'True', 'False', 'Null', 'And', 'Or', 'Not', 'Mod', 'Div', 'Algorithm', 'Endalgorithm', 'Variable', 'Set', 'Declare', 'As', 'Number', 'String', 'Boolean', 'Integer', 'Float', 'Char', 'Global', 'Local', 'Foreach', 'In', 'Endforeach', 'Array', 'Size'];
     window.monaco.languages.registerCompletionItemProvider('pseudocode', {
         triggerCharacters: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
         provideCompletionItems: function (model, position) {
@@ -777,6 +784,7 @@ window.require(['vs/editor/editor.main'], function () {
                 { label: 'Endif', detail: 'End if block', documentation: 'Closes an if statement block' },
                 { label: 'For', detail: 'For loop', documentation: 'Repeats code for a range of values' },
                 { label: 'To', detail: 'Loop range', documentation: 'Specifies the end value in a for loop' },
+                { label: 'Step', detail: 'Loop increment', documentation: 'Specifies the increment value in a for loop' },
                 { label: 'Endfor', detail: 'End for loop', documentation: 'Closes a for loop block' },
                 { label: 'While', detail: 'While loop', documentation: 'Repeats code while condition is true' },
                 { label: 'Endwhile', detail: 'End while loop', documentation: 'Closes a while loop block' },
