@@ -11,7 +11,7 @@
     "copy-files": "mkdir -p dist/renderer && cp -r src/renderer/* dist/renderer/ && mkdir -p dist/renderer/monaco && cp -r node_modules/monaco-editor/min/* dist/renderer/monaco/"
   },
   "author": "",
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE",
   "devDependencies": {
     "@types/electron": "^1.6.10",
     "@types/node": "^20.8.0",
