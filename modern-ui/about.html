@@ -68,8 +68,249 @@
         }
     </script>
     
-    <!-- Cute Animations -->
+    <!-- About Page Specific Styles -->
     <style>
+        /* Override settings styles for about page */
+        .settings-main {
+            background: linear-gradient(135deg,
+                rgba(147, 51, 234, 0.15) 0%,
+                rgba(79, 70, 229, 0.15) 50%,
+                rgba(6, 182, 212, 0.1) 100%),
+                #0f172a;
+        }
+        
+        /* Hero section with Flow Chart modal design */
+        .about-hero {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.15) 0%,
+                rgba(255, 255, 255, 0.08) 30%,
+                rgba(255, 255, 255, 0.12) 70%,
+                rgba(255, 255, 255, 0.10) 100%),
+                radial-gradient(circle at 50% 0%, rgba(147, 51, 234, 0.08) 0%, transparent 60%);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(32px) saturate(200%);
+            -webkit-backdrop-filter: blur(32px) saturate(200%);
+            box-shadow: 
+                0 35px 70px rgba(0, 0, 0, 0.35),
+                0 0 150px rgba(147, 51, 234, 0.4),
+                0 0 60px rgba(79, 70, 229, 0.3),
+                inset 0 2px 0 rgba(255, 255, 255, 0.5);
+        }
+        
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.12) 0%,
+                rgba(255, 255, 255, 0.05) 50%,
+                rgba(255, 255, 255, 0.08) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            backdrop-filter: blur(24px) saturate(200%);
+            -webkit-backdrop-filter: blur(24px) saturate(200%);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.25),
+                0 0 40px rgba(147, 51, 234, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .feature-card {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.12) 0%,
+                rgba(255, 255, 255, 0.05) 50%,
+                rgba(255, 255, 255, 0.08) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(24px) saturate(200%);
+            -webkit-backdrop-filter: blur(24px) saturate(200%);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.25),
+                0 0 40px rgba(147, 51, 234, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+        
+        .feature-card.primary {
+            background: linear-gradient(135deg,
+                rgba(147, 51, 234, 0.2) 0%,
+                rgba(79, 70, 229, 0.15) 50%,
+                rgba(6, 182, 212, 0.2) 100%);
+            border-color: rgba(147, 51, 234, 0.4);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: white;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 24px rgba(147, 51, 234, 0.4);
+        }
+        
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.75rem;
+        }
+        
+        .feature-description {
+            font-size: 0.9375rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+        
+        .developer-showcase {
+            margin-bottom: 2rem;
+        }
+        
+        .developer-card {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.15) 0%,
+                rgba(255, 255, 255, 0.08) 30%,
+                rgba(255, 255, 255, 0.12) 70%,
+                rgba(255, 255, 255, 0.10) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 24px;
+            padding: 2.5rem;
+            backdrop-filter: blur(32px) saturate(200%);
+            -webkit-backdrop-filter: blur(32px) saturate(200%);
+            box-shadow: 
+                0 35px 70px rgba(0, 0, 0, 0.35),
+                0 0 150px rgba(147, 51, 234, 0.4),
+                inset 0 2px 0 rgba(255, 255, 255, 0.5);
+        }
+        
+        .developer-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: white;
+            box-shadow: 0 12px 40px rgba(147, 51, 234, 0.5);
+        }
+        
+        .social-link-modern {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.12) 0%,
+                rgba(255, 255, 255, 0.05) 50%,
+                rgba(255, 255, 255, 0.08) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            backdrop-filter: blur(24px) saturate(200%);
+            -webkit-backdrop-filter: blur(24px) saturate(200%);
+            box-shadow: 
+                0 4px 16px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .social-link-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 8px 24px rgba(0, 0, 0, 0.25),
+                0 0 30px rgba(147, 51, 234, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+        
+        .tech-stack {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.12) 0%,
+                rgba(255, 255, 255, 0.05) 50%,
+                rgba(255, 255, 255, 0.08) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            padding: 2.5rem;
+            backdrop-filter: blur(32px) saturate(200%);
+            -webkit-backdrop-filter: blur(32px) saturate(200%);
+            box-shadow: 
+                0 35px 70px rgba(0, 0, 0, 0.35),
+                0 0 150px rgba(147, 51, 234, 0.4),
+                inset 0 2px 0 rgba(255, 255, 255, 0.5);
+        }
+        
+        .tech-badge {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.12) 0%,
+                rgba(255, 255, 255, 0.05) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 0.75rem 1.5rem;
+            backdrop-filter: blur(24px) saturate(200%);
+            -webkit-backdrop-filter: blur(24px) saturate(200%);
+            box-shadow: 
+                0 4px 16px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .tech-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 8px 24px rgba(0, 0, 0, 0.25),
+                0 0 30px rgba(147, 51, 234, 0.3);
+        }
+        
+        /* Animations */
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
@@ -94,6 +335,50 @@
         .cute-float { animation: float 3s ease-in-out infinite; }
         .cute-pulse { animation: pulse 2s ease-in-out infinite; }
         .cute-bounce { animation: bounce 1s ease-in-out; }
+        
+        /* Light theme support */
+        .settings-theme-light .about-hero,
+        .settings-theme-light .developer-card,
+        .settings-theme-light .tech-stack {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.95) 0%,
+                rgba(255, 255, 255, 0.88) 30%,
+                rgba(255, 255, 255, 0.92) 70%,
+                rgba(255, 255, 255, 0.95) 100%);
+            border-color: rgba(147, 51, 234, 0.2);
+            box-shadow: 
+                0 35px 70px rgba(0, 0, 0, 0.12),
+                0 0 150px rgba(147, 51, 234, 0.15);
+        }
+        
+        .settings-theme-light .stat-card,
+        .settings-theme-light .feature-card,
+        .settings-theme-light .social-link-modern,
+        .settings-theme-light .tech-badge {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.95) 0%,
+                rgba(255, 255, 255, 0.88) 100%);
+            border-color: rgba(147, 51, 234, 0.2);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+        
+        .settings-theme-light .stat-number {
+            background: linear-gradient(135deg, #1e293b 0%, #9333ea 50%, #1e293b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .settings-theme-light .stat-label,
+        .settings-theme-light .feature-description {
+            color: #64748b;
+        }
+        
+        .settings-theme-light .feature-title {
+            color: #1e293b;
+        }
     </style>
 </head>
 <body>
