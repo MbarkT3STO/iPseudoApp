@@ -279,15 +279,16 @@ function validatePseudo(src: string): ValidationIssue[] {
             continue;
         }
         
-        // Check for variable declarations (var, const, constant, variable)
+        // Check for variable declarations (var, const, constant, variable) - including arrays
         if (lower.startsWith('var ') || lower.startsWith('const ') || lower.startsWith('constant ') || lower.startsWith('variable ')) {
-            const m = t.match(/^(var|const|constant|variable|Var|Const|Constant|Variable)\s+([a-zA-Z_$][\w$]*)\s*(?:=\s*(.+))?$/i);
+            // Support both regular variables and array declarations: var name [= value] or var name[size]
+            const m = t.match(/^(var|const|constant|variable|Var|Const|Constant|Variable)\s+([a-zA-Z_$][\w$]*)\s*(?:\[([^\]]+)\]|(?:=\s*(.+)))?$/i);
             if (!m) {
                 const keyword = lower.startsWith('var') ? 'var' : lower.startsWith('const') ? 'const' : lower.startsWith('constant') ? 'constant' : 'variable';
                 issues.push({ 
                     line: lineNum, 
                     text: raw, 
-                    message: `Malformed ${keyword} declaration. Expected: ${keyword} <name> [= <value>]` 
+                    message: `Malformed ${keyword} declaration. Expected: ${keyword} <name> [= <value>] or ${keyword} <name>[<size>]` 
                 });
             }
             continue;
@@ -405,8 +406,20 @@ function translatePseudoToJs(src: string): TranslationResult {
             continue; 
         }
 
+        // Array declarations: var arrayName[size] (both cases)
+        let m = line.match(/^(var|const|Var|Const)\s+([a-zA-Z_$][\w$]*)\s*\[([^\]]+)\]\s*$/i);
+        if (m) { 
+            const keyword = m[1].toLowerCase();
+            const varName = m[2];
+            const size = m[3].trim();
+            // Create array with specified size, initialized with undefined
+            out.push(`${keyword} ${varName} = new Array(${size});`); 
+            mapping.push({ srcLine: srcLineNum, srcText: raw }); 
+            continue; 
+        }
+
         // Variable declarations with input: var x = input "prompt" or const x = input "prompt" (both cases)
-        let m = line.match(/^(var|const|Var|Const)\s+([a-zA-Z_$][\w$]*)\s*=\s*(input|Input)\s+(.+)$/i);
+        m = line.match(/^(var|const|Var|Const)\s+([a-zA-Z_$][\w$]*)\s*=\s*(input|Input)\s+(.+)$/i);
         if (m) { 
             const keyword = m[1].toLowerCase();
             const varName = m[2];
@@ -557,8 +570,8 @@ function translatePseudoToJs(src: string): TranslationResult {
             continue; 
         }
 
-        // Assignment statements: variable = expression
-        m = line.match(/^([a-zA-Z_$][\w$]*)\s*=\s*(.+)$/);
+        // Assignment statements: variable = expression or arrayName[index] = expression
+        m = line.match(/^([a-zA-Z_$][\w$]*(?:\[[^\]]+\])?)\s*=\s*(.+)$/);
         if (m) { 
             out.push(`${m[1]} = ${m[2]};`); 
             mapping.push({ srcLine: srcLineNum, srcText: raw }); 
