@@ -358,21 +358,38 @@ function translatePseudoToJs(src) {
     const mapping = [];
     const functionStack = []; // Track function names for return statements
     
-    // Helper function for safe array access with bounds checking
-    const arraySafeAccessHelper = `
+    // Helper functions for array operations
+    const arrayHelpers = `
 function __arrayGet__(arr, index, name) {
     if (arr.__arraySize__ !== undefined && (index < 0 || index >= arr.__arraySize__)) {
         throw new Error("Array index out of bounds: index " + index + " for array '" + name + "' with size " + arr.__arraySize__);
     }
     return arr[index];
+}
+
+function __arraySize__(arr, name) {
+    if (arr === undefined || arr === null) {
+        throw new Error("Cannot get size of undefined or null array '" + name + "'");
+    }
+    if (arr.__arraySize__ !== undefined) {
+        return arr.__arraySize__;
+    }
+    if (Array.isArray(arr)) {
+        return arr.length;
+    }
+    throw new Error("'" + name + "' is not an array");
 }`.trim();
-    out.push(arraySafeAccessHelper);
+    out.push(arrayHelpers);
     out.push('');
     
-    // Helper to replace array accesses with safe access function
+    // Helper to replace array accesses and Size calls with safe functions
     function replaceArrayAccess(expr) {
+        // Replace Size(array) with __arraySize__(array, 'array')
+        expr = expr.replace(/\bSize\s*\(\s*([a-zA-Z_$][\w$]*)\s*\)/gi, '__arraySize__($1, \'$1\')');
+        expr = expr.replace(/\bsize\s*\(\s*([a-zA-Z_$][\w$]*)\s*\)/gi, '__arraySize__($1, \'$1\')');
         // Replace array[index] with __arrayGet__(array, index, 'array')
-        return expr.replace(/\b([a-zA-Z_$][\w$]*)\[([^\]]+)\]/g, '__arrayGet__($1, $2, \'$1\')');
+        expr = expr.replace(/\b([a-zA-Z_$][\w$]*)\[([^\]]+)\]/g, '__arrayGet__($1, $2, \'$1\')');
+        return expr;
     }
     for (let i = 0; i < lines.length; i++) {
         const raw = lines[i];
@@ -449,7 +466,7 @@ function __arrayGet__(arr, index, name) {
         if (m) {
             const keyword = m[1].toLowerCase();
             const varName = m[2];
-            const value = m[3];
+            const value = replaceArrayAccess(m[3]); // Apply array access and Size replacements
             // Convert pseudocode keywords to appropriate JavaScript keywords
             const jsKeyword = keyword === 'variable' ? 'var' : keyword === 'constant' ? 'const' : keyword;
             out.push(`${jsKeyword} ${varName} = ${value};`);
@@ -462,7 +479,7 @@ function __arrayGet__(arr, index, name) {
             const scope = m[1].toLowerCase();
             const varType = m[2].toLowerCase();
             const varName = m[3];
-            const value = m[4];
+            const value = replaceArrayAccess(m[4]); // Apply array access and Size replacements
             // Both global and local translate to 'var' in JavaScript (scope is handled by placement)
             out.push(`var ${varName} = ${value};`);
             mapping.push({ srcLine: srcLineNum, srcText: raw });
@@ -524,8 +541,8 @@ function __arrayGet__(arr, index, name) {
         m = line.match(/^(for|For)\s+([a-zA-Z_$][\w$]*)\s*=\s*(.+?)\s+(to|To)\s+(.+?)(?:\s+step\s+([-+]?\d+))?\s*$/i);
         if (m) {
             const varName = m[2];
-            const start = m[3];
-            const end = m[5];
+            const start = replaceArrayAccess(m[3]);
+            const end = replaceArrayAccess(m[5]);
             const step = m[6] || '1';
             out.push(`for (let ${varName} = ${start}; ${varName} <= ${end}; ${varName} += ${step}) {`);
             mapping.push({ srcLine: srcLineNum, srcText: raw });
@@ -623,15 +640,15 @@ function __arrayGet__(arr, index, name) {
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
-        // Size function calls: Size(array) -> array.length
-        line = line.replace(/\bSize\s*\(\s*([a-zA-Z_$][\w$]*)\s*\)/gi, '$1.length');
-        line = line.replace(/\bsize\s*\(\s*([a-zA-Z_$][\w$]*)\s*\)/gi, '$1.length');
+        // Size function calls: Size(array) -> __arraySize__(array, 'array')
+        line = line.replace(/\bSize\s*\(\s*([a-zA-Z_$][\w$]*)\s*\)/gi, '__arraySize__($1, \'$1\')');
+        line = line.replace(/\bsize\s*\(\s*([a-zA-Z_$][\w$]*)\s*\)/gi, '__arraySize__($1, \'$1\')');
         
         // Assignment statements: variable = expression or arrayName[index] = expression
         m = line.match(/^([a-zA-Z_$][\w$]*(?:\[[^\]]+\])?)\s*=\s*(.+)$/);
         if (m) {
             const target = m[1];
-            const value = m[2];
+            const value = replaceArrayAccess(m[2]); // Apply array access and Size replacements to value
             // Check if this is an array element assignment
             const arrayMatch = target.match(/^([a-zA-Z_$][\w$]*)\[([^\]]+)\]$/);
             if (arrayMatch) {
