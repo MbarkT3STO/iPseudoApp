@@ -5,7 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="iPseudo IDE - A modern pseudocode IDE with beautiful glass morphism design. Learn algorithms and write pseudocode effortlessly.">
     <meta name="keywords" content="pseudocode, IDE, editor, algorithms, learning, programming, education">
+    <meta name="author" content="M'BARK">
     <title>iPseudo IDE - Modern Pseudocode Editor</title>
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://MbarkT3sto.github.io/iPseudoApp/">
+    <meta property="og:title" content="iPseudo IDE - Beautiful Pseudocode Made Simple">
+    <meta property="og:description" content="Modern desktop IDE for writing and executing pseudocode. Features glass morphism design, Monaco editor, real-time execution, and 50+ keywords.">
+    <meta property="og:image" content="https://MbarkT3sto.github.io/iPseudoApp/assets/preview.png">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://MbarkT3sto.github.io/iPseudoApp/">
+    <meta name="twitter:title" content="iPseudo IDE - Beautiful Pseudocode Made Simple">
+    <meta name="twitter:description" content="Modern pseudocode IDE with glass morphism design. Write, execute, and learn algorithms effortlessly.">
+    <meta name="twitter:image" content="https://MbarkT3sto.github.io/iPseudoApp/assets/preview.png">
+    
+    <!-- Additional SEO -->
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="revisit-after" content="7 days">
+    <link rel="canonical" href="https://MbarkT3sto.github.io/iPseudoApp/">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/app-icon.svg">
+    <link rel="alternate icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="shortcut icon" type="image/svg+xml" href="assets/app-icon.svg">
     
     <!-- Fonts  -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,6 +65,7 @@
             </div>
             <ul class="nav-menu">
                 <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#screenshots" class="nav-link">Screenshots</a></li>
                 <li><a href="#download" class="nav-link">Download</a></li>
                 <li><a href="#documentation" class="nav-link">Documentation</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
@@ -529,6 +556,60 @@
         </div>
     </section>
 
+    <!-- Screenshots Section -->
+    <section class="screenshots" id="screenshots">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">See It In Action</h2>
+                <p class="section-subtitle">Beautiful interface, powerful features</p>
+            </div>
+            
+            <div class="screenshots-grid">
+                <div class="screenshot-card">
+                    <div class="screenshot-image" onclick="openLightbox('assets/screenshots/Modern-UI.png', 'Modern UI Theme')">
+                        <img src="assets/screenshots/Modern-UI.png" alt="Modern UI Theme - Glass morphism design with purple gradients">
+                        <div class="screenshot-overlay">
+                            <i class="ri-zoom-in-line"></i>
+                            <span>Click to zoom</span>
+                        </div>
+                    </div>
+                    <div class="screenshot-info">
+                        <h3 class="screenshot-title">Modern UI</h3>
+                        <p class="screenshot-description">Beautiful glass morphism design with smooth animations</p>
+                    </div>
+                </div>
+                
+                <div class="screenshot-card">
+                    <div class="screenshot-image" onclick="openLightbox('assets/screenshots/Editor.png', 'Code Editor')">
+                        <img src="assets/screenshots/Editor.png" alt="Code Editor - Monaco editor with syntax highlighting">
+                        <div class="screenshot-overlay">
+                            <i class="ri-zoom-in-line"></i>
+                            <span>Click to zoom</span>
+                        </div>
+                    </div>
+                    <div class="screenshot-info">
+                        <h3 class="screenshot-title">Smart Editor</h3>
+                        <p class="screenshot-description">Monaco-powered with autocomplete and syntax highlighting</p>
+                    </div>
+                </div>
+                
+                <div class="screenshot-card">
+                    <div class="screenshot-image" onclick="openLightbox('assets/screenshots/Execution.png', 'Real-time Execution')">
+                        <img src="assets/screenshots/Execution.png" alt="Real-time Execution - Run and see output instantly">
+                        <div class="screenshot-overlay">
+                            <i class="ri-zoom-in-line"></i>
+                            <span>Click to zoom</span>
+                        </div>
+                    </div>
+                    <div class="screenshot-info">
+                        <h3 class="screenshot-title">Live Execution</h3>
+                        <p class="screenshot-description">Run your pseudocode and see output in real-time</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- CTA Section -->
     <section class="cta">
         <div class="container">
@@ -542,6 +623,17 @@
             </div>
         </div>
     </section>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" onclick="closeLightbox()">
+                <i class="ri-close-line"></i>
+            </button>
+            <img id="lightbox-image" src="" alt="">
+            <div class="lightbox-caption" id="lightbox-caption"></div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
@@ -571,6 +663,7 @@
                         <ul>
                             <li><a href="docs/getting-started.html">Docs</a></li>
                             <li><a href="examples.html">Examples</a></li>
+                            <li><a href="changelog.html">Changelog</a></li>
                             <li><a href="design-system.html">Design System</a></li>
                             <li><a href="license.html">License</a></li>
                         </ul>
