@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documentation - iPseudo IDE</title>
+    <title>Operators - iPseudo IDE Documentation</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
@@ -17,6 +18,7 @@
         <div class="gradient-orb orb-3"></div>
         <div class="grid-pattern"></div>
     </div>
+
     <nav class="navbar">
         <div class="nav-container">
             <a href="../index.html" class="nav-brand">
@@ -31,6 +33,7 @@
             </ul>
         </div>
     </nav>
+
     <div class="docs-layout">
         <aside class="docs-sidebar">
             <div class="sidebar-content">
@@ -39,7 +42,7 @@
                     <a href="getting-started.html" class="sidebar-link"><i class="ri-rocket-line"></i><span>Getting Started</span></a>
                     <a href="language-overview.html" class="sidebar-link"><i class="ri-book-2-line"></i><span>Language Overview</span></a>
                     <a href="variables.html" class="sidebar-link"><i class="ri-file-code-line"></i><span>Variables & Data Types</span></a>
-                    <a href="operators.html" class="sidebar-link"><i class="ri-function-line"></i><span>Operators</span></a>
+                    <a href="operators.html" class="sidebar-link active"><i class="ri-function-line"></i><span>Operators</span></a>
                     <a href="loops.html" class="sidebar-link"><i class="ri-loop-left-line"></i><span>Loops</span></a>
                     <a href="functions.html" class="sidebar-link"><i class="ri-braces-line"></i><span>Functions</span></a>
                     <a href="arrays.html" class="sidebar-link"><i class="ri-database-2-line"></i><span>Arrays</span></a>
@@ -47,23 +50,227 @@
                 </nav>
             </div>
         </aside>
+
         <main class="docs-main">
             <div class="docs-content">
+                <div class="breadcrumb">
+                    <a href="../index.html">Home</a>
+                    <i class="ri-arrow-right-s-line"></i>
+                    <a href="../index.html#documentation">Documentation</a>
+                    <i class="ri-arrow-right-s-line"></i>
+                    <span>Operators</span>
+                </div>
+
                 <article class="doc-article">
-                    <h1 class="doc-title">📚 Documentation</h1>
+                    <h1 class="doc-title">⚡ Operators in iPseudo</h1>
+                    
                     <div class="doc-intro">
-                        <p>Full documentation coming soon! For now, please refer to our GitHub repository.</p>
+                        <p>Master all operators to perform calculations, comparisons, and logical operations!</p>
                     </div>
+
                     <section class="doc-section">
-                        <a href="https://github.com/yourusername/iPseudoApp/tree/main/documentation" class="btn btn-primary" target="_blank">
-                            <i class="ri-github-line"></i>
-                            <span>View Full Documentation on GitHub</span>
-                        </a>
+                        <h2>🔢 Arithmetic Operators</h2>
+                        <p>Perform mathematical calculations:</p>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Operator</th>
+                                    <th>Operation</th>
+                                    <th>Example</th>
+                                    <th>Result</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code class="inline-code">+</code></td>
+                                    <td>Addition</td>
+                                    <td><code class="inline-code">5 + 3</code></td>
+                                    <td><code class="inline-code">8</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code">-</code></td>
+                                    <td>Subtraction</td>
+                                    <td><code class="inline-code">5 - 3</code></td>
+                                    <td><code class="inline-code">2</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code">*</code></td>
+                                    <td>Multiplication</td>
+                                    <td><code class="inline-code">5 * 3</code></td>
+                                    <td><code class="inline-code">15</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code">/</code></td>
+                                    <td>Division</td>
+                                    <td><code class="inline-code">10 / 4</code></td>
+                                    <td><code class="inline-code">2.5</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code">mod</code></td>
+                                    <td>Modulus (remainder)</td>
+                                    <td><code class="inline-code">10 mod 3</code></td>
+                                    <td><code class="inline-code">1</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code">^</code></td>
+                                    <td>Exponentiation</td>
+                                    <td><code class="inline-code">2 ^ 3</code></td>
+                                    <td><code class="inline-code">8</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-lang">pseudocode</span>
+                                <button class="code-copy" onclick="copyCode(this)">
+                                    <i class="ri-file-copy-line"></i>
+                                    <span>Copy</span>
+                                </button>
+                            </div>
+                            <pre class="code-content"><span class="keyword">Algorithm</span> ArithmeticOperators
+
+<span class="keyword">var</span> a = <span class="number">15</span>
+<span class="keyword">var</span> b = <span class="number">4</span>
+
+<span class="keyword">Print</span> <span class="string">"a + b ="</span>, a + b        <span class="comment"># 19</span>
+<span class="keyword">Print</span> <span class="string">"a - b ="</span>, a - b        <span class="comment"># 11</span>
+<span class="keyword">Print</span> <span class="string">"a * b ="</span>, a * b        <span class="comment"># 60</span>
+<span class="keyword">Print</span> <span class="string">"a / b ="</span>, a / b        <span class="comment"># 3.75</span>
+<span class="keyword">Print</span> <span class="string">"a mod b ="</span>, a mod b    <span class="comment"># 3</span>
+<span class="keyword">Print</span> <span class="string">"a ^ 2 ="</span>, a ^ <span class="number">2</span>      <span class="comment"># 225</span>
+
+<span class="keyword">Endalgorithm</span></pre>
+                        </div>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>🔍 Comparison Operators</h2>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Operator</th>
+                                    <th>Meaning</th>
+                                    <th>Example</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code class="inline-code">==</code></td>
+                                    <td>Equal to</td>
+                                    <td><code class="inline-code">5 == 5</code> → <code class="inline-code">true</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code">!=</code></td>
+                                    <td>Not equal to</td>
+                                    <td><code class="inline-code">5 != 3</code> → <code class="inline-code">true</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code">></code></td>
+                                    <td>Greater than</td>
+                                    <td><code class="inline-code">5 > 3</code> → <code class="inline-code">true</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code"><</code></td>
+                                    <td>Less than</td>
+                                    <td><code class="inline-code">5 < 3</code> → <code class="inline-code">false</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code">>=</code></td>
+                                    <td>Greater or equal</td>
+                                    <td><code class="inline-code">5 >= 5</code> → <code class="inline-code">true</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code"><=</code></td>
+                                    <td>Less or equal</td>
+                                    <td><code class="inline-code">5 <= 3</code> → <code class="inline-code">false</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>🧠 Logical Operators</h2>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Operator</th>
+                                    <th>Description</th>
+                                    <th>Example</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code class="inline-code">and</code></td>
+                                    <td>Both conditions true</td>
+                                    <td><code class="inline-code">true and true</code> → <code class="inline-code">true</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code">or</code></td>
+                                    <td>At least one true</td>
+                                    <td><code class="inline-code">true or false</code> → <code class="inline-code">true</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code">not</code></td>
+                                    <td>Opposite value</td>
+                                    <td><code class="inline-code">not true</code> → <code class="inline-code">false</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="code-block">
+                            <pre class="code-content"><span class="keyword">Algorithm</span> LogicalOperators
+
+<span class="keyword">var</span> age = <span class="number">25</span>
+<span class="keyword">var</span> hasLicense = <span class="keyword">true</span>
+
+<span class="keyword">var</span> canDrive = age >= <span class="number">18</span> <span class="keyword">and</span> hasLicense
+<span class="keyword">Print</span> <span class="string">"Can drive:"</span>, canDrive
+
+<span class="keyword">Endalgorithm</span></pre>
+                        </div>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>⚙️ Operator Precedence</h2>
+                        <p>Operations are performed in this order (highest to lowest):</p>
+                        <ul class="doc-list">
+                            <li><strong>Parentheses</strong> <code class="inline-code">( )</code></li>
+                            <li><strong>Exponentiation</strong> <code class="inline-code">^</code></li>
+                            <li><strong>Multiplication/Division/Modulus</strong> <code class="inline-code">*</code>, <code class="inline-code">/</code>, <code class="inline-code">mod</code></li>
+                            <li><strong>Addition/Subtraction</strong> <code class="inline-code">+</code>, <code class="inline-code">-</code></li>
+                            <li><strong>Comparison</strong> <code class="inline-code">></code>, <code class="inline-code"><</code>, <code class="inline-code">==</code>, etc.</li>
+                            <li><strong>Logical</strong> <code class="inline-code">not</code>, <code class="inline-code">and</code>, <code class="inline-code">or</code></li>
+                        </ul>
+
+                        <div class="info-box info-success">
+                            <div class="info-icon">
+                                <i class="ri-lightbulb-line"></i>
+                            </div>
+                            <div class="info-content">
+                                <strong>Pro Tip:</strong> When in doubt, use parentheses to make your intent clear!
+                            </div>
+                        </div>
                     </section>
                 </article>
+
+                <div class="doc-navigation">
+                    <a href="variables.html" class="doc-nav-link doc-nav-prev">
+                        <i class="ri-arrow-left-line"></i>
+                        <span>Previous: Variables</span>
+                    </a>
+                    <a href="loops.html" class="doc-nav-link doc-nav-next">
+                        <span>Next: Loops</span>
+                        <i class="ri-arrow-right-line"></i>
+                    </a>
+                </div>
             </div>
         </main>
     </div>
+
     <script src="../js/script.js"></script>
     <script src="../js/docs.js"></script>
 </body>

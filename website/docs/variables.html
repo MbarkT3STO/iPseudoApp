@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documentation - iPseudo IDE</title>
+    <title>Variables & Data Types - iPseudo IDE Documentation</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
@@ -17,6 +18,7 @@
         <div class="gradient-orb orb-3"></div>
         <div class="grid-pattern"></div>
     </div>
+
     <nav class="navbar">
         <div class="nav-container">
             <a href="../index.html" class="nav-brand">
@@ -31,6 +33,7 @@
             </ul>
         </div>
     </nav>
+
     <div class="docs-layout">
         <aside class="docs-sidebar">
             <div class="sidebar-content">
@@ -38,7 +41,7 @@
                 <nav class="sidebar-nav">
                     <a href="getting-started.html" class="sidebar-link"><i class="ri-rocket-line"></i><span>Getting Started</span></a>
                     <a href="language-overview.html" class="sidebar-link"><i class="ri-book-2-line"></i><span>Language Overview</span></a>
-                    <a href="variables.html" class="sidebar-link"><i class="ri-file-code-line"></i><span>Variables & Data Types</span></a>
+                    <a href="variables.html" class="sidebar-link active"><i class="ri-file-code-line"></i><span>Variables & Data Types</span></a>
                     <a href="operators.html" class="sidebar-link"><i class="ri-function-line"></i><span>Operators</span></a>
                     <a href="loops.html" class="sidebar-link"><i class="ri-loop-left-line"></i><span>Loops</span></a>
                     <a href="functions.html" class="sidebar-link"><i class="ri-braces-line"></i><span>Functions</span></a>
@@ -47,23 +50,246 @@
                 </nav>
             </div>
         </aside>
+
         <main class="docs-main">
             <div class="docs-content">
+                <div class="breadcrumb">
+                    <a href="../index.html">Home</a>
+                    <i class="ri-arrow-right-s-line"></i>
+                    <a href="../index.html#documentation">Documentation</a>
+                    <i class="ri-arrow-right-s-line"></i>
+                    <span>Variables & Data Types</span>
+                </div>
+
                 <article class="doc-article">
-                    <h1 class="doc-title">📚 Documentation</h1>
+                    <h1 class="doc-title">📦 Variables and Data Types</h1>
+                    
                     <div class="doc-intro">
-                        <p>Full documentation coming soon! For now, please refer to our GitHub repository.</p>
+                        <p>Master variables and data types in iPseudo - the foundation of all programming!</p>
                     </div>
+
                     <section class="doc-section">
-                        <a href="https://github.com/yourusername/iPseudoApp/tree/main/documentation" class="btn btn-primary" target="_blank">
-                            <i class="ri-github-line"></i>
-                            <span>View Full Documentation on GitHub</span>
-                        </a>
+                        <h2>🎯 What are Variables?</h2>
+                        <p>Variables are <strong>containers</strong> that store data. Think of them as labeled boxes where you can put values and retrieve them later.</p>
+                        
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-lang">pseudocode</span>
+                                <button class="code-copy" onclick="copyCode(this)">
+                                    <i class="ri-file-copy-line"></i>
+                                    <span>Copy</span>
+                                </button>
+                            </div>
+                            <pre class="code-content"><span class="keyword">Algorithm</span> VariableBasics
+
+<span class="keyword">var</span> name = <span class="string">"Alice"</span>      <span class="comment"># A box labeled "name" containing "Alice"</span>
+<span class="keyword">var</span> age = <span class="number">25</span>            <span class="comment"># A box labeled "age" containing 25</span>
+<span class="keyword">var</span> score = <span class="number">98.5</span>        <span class="comment"># A box labeled "score" containing 98.5</span>
+
+<span class="keyword">Print</span> name    <span class="comment"># Look inside the "name" box</span>
+<span class="keyword">Print</span> age     <span class="comment"># Look inside the "age" box</span>
+<span class="keyword">Print</span> score   <span class="comment"># Look inside the "score" box</span>
+
+<span class="keyword">Endalgorithm</span></pre>
+                        </div>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>🔤 Variable Declaration Styles</h2>
+                        <p>iPseudo offers <strong>three ways</strong> to declare variables:</p>
+
+                        <h3>Style 1: Traditional <code class="inline-code">var</code> Keyword</h3>
+                        <div class="code-block">
+                            <pre class="code-content"><span class="keyword">Algorithm</span> TraditionalStyle
+
+<span class="keyword">var</span> studentName = <span class="string">"Bob"</span>
+<span class="keyword">var</span> studentAge = <span class="number">20</span>
+<span class="keyword">var</span> studentGPA = <span class="number">3.75</span>
+<span class="keyword">var</span> isEnrolled = <span class="keyword">true</span>
+
+<span class="keyword">Print</span> studentName, <span class="string">"-"</span>, <span class="string">"Age:"</span>, studentAge
+
+<span class="keyword">Endalgorithm</span></pre>
+                        </div>
+
+                        <h3>Style 2: <code class="inline-code">Variable</code> Keyword</h3>
+                        <div class="code-block">
+                            <pre class="code-content"><span class="keyword">Algorithm</span> VariableKeyword
+
+<span class="keyword">Variable</span> studentName = <span class="string">"Bob"</span>
+<span class="keyword">Variable</span> studentAge = <span class="number">20</span>
+<span class="keyword">Variable</span> studentGPA = <span class="number">3.75</span>
+
+<span class="keyword">Print</span> studentName, <span class="string">"-"</span>, <span class="string">"Age:"</span>, studentAge
+
+<span class="keyword">Endalgorithm</span></pre>
+                        </div>
+
+                        <h3>Style 3: <code class="inline-code">Declare As</code> Type System</h3>
+                        <div class="code-block">
+                            <pre class="code-content"><span class="keyword">Algorithm</span> TypedDeclaration
+
+<span class="keyword">Declare</span> studentName <span class="keyword">As</span> String
+<span class="keyword">Declare</span> studentAge <span class="keyword">As</span> Integer
+<span class="keyword">Declare</span> studentGPA <span class="keyword">As</span> Float
+
+<span class="comment"># Assign values later</span>
+<span class="keyword">Set</span> <span class="string">"Bob"</span> <span class="keyword">To</span> studentName
+<span class="keyword">Set</span> <span class="number">20</span> <span class="keyword">To</span> studentAge
+<span class="keyword">Set</span> <span class="number">3.75</span> <span class="keyword">To</span> studentGPA
+
+<span class="keyword">Print</span> studentName, <span class="string">"-"</span>, <span class="string">"Age:"</span>, studentAge
+
+<span class="keyword">Endalgorithm</span></pre>
+                        </div>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>📊 Data Types in Detail</h2>
+
+                        <h3>1. Integer (Whole Numbers)</h3>
+                        <div class="code-block">
+                            <pre class="code-content"><span class="keyword">Algorithm</span> IntegerExamples
+
+<span class="keyword">Declare</span> age <span class="keyword">As</span> Integer
+<span class="keyword">Declare</span> studentCount <span class="keyword">As</span> Integer
+<span class="keyword">Declare</span> temperature <span class="keyword">As</span> Integer
+
+<span class="keyword">Set</span> <span class="number">25</span> <span class="keyword">To</span> age
+<span class="keyword">Set</span> <span class="number">150</span> <span class="keyword">To</span> studentCount
+<span class="keyword">Set</span> <span class="number">-5</span> <span class="keyword">To</span> temperature
+
+<span class="keyword">Print</span> <span class="string">"Age:"</span>, age
+<span class="keyword">Print</span> <span class="string">"Students:"</span>, studentCount
+<span class="keyword">Print</span> <span class="string">"Temperature:"</span>, temperature
+
+<span class="keyword">Endalgorithm</span></pre>
+                        </div>
+
+                        <h3>2. String (Text)</h3>
+                        <div class="code-block">
+                            <pre class="code-content"><span class="keyword">Algorithm</span> StringExamples
+
+<span class="keyword">Declare</span> firstName <span class="keyword">As</span> String
+<span class="keyword">Declare</span> lastName <span class="keyword">As</span> String
+
+<span class="keyword">Set</span> <span class="string">"John"</span> <span class="keyword">To</span> firstName
+<span class="keyword">Set</span> <span class="string">"Doe"</span> <span class="keyword">To</span> lastName
+
+<span class="comment"># String concatenation</span>
+<span class="keyword">var</span> fullName = firstName + <span class="string">" "</span> + lastName
+<span class="keyword">Print</span> <span class="string">"Full name:"</span>, fullName
+
+<span class="keyword">Endalgorithm</span></pre>
+                        </div>
+
+                        <h3>3. Boolean (True/False)</h3>
+                        <div class="code-block">
+                            <pre class="code-content"><span class="keyword">Algorithm</span> BooleanExamples
+
+<span class="keyword">Declare</span> isStudent <span class="keyword">As</span> Boolean
+<span class="keyword">Declare</span> hasLicense <span class="keyword">As</span> Boolean
+
+<span class="keyword">Set</span> <span class="keyword">true</span> <span class="keyword">To</span> isStudent
+<span class="keyword">Set</span> <span class="keyword">false</span> <span class="keyword">To</span> hasLicense
+
+<span class="keyword">Print</span> <span class="string">"Is student:"</span>, isStudent
+<span class="keyword">Print</span> <span class="string">"Has license:"</span>, hasLicense
+
+<span class="keyword">Endalgorithm</span></pre>
+                        </div>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>📋 Data Types Reference</h2>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Values</th>
+                                    <th>Example</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code class="inline-code">Integer</code></td>
+                                    <td>Whole numbers</td>
+                                    <td><code class="inline-code">42</code>, <code class="inline-code">-10</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code">Float</code></td>
+                                    <td>Decimals</td>
+                                    <td><code class="inline-code">3.14</code>, <code class="inline-code">-2.5</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code">Number</code></td>
+                                    <td>Any number</td>
+                                    <td><code class="inline-code">42</code>, <code class="inline-code">3.14</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code">String</code></td>
+                                    <td>Text</td>
+                                    <td><code class="inline-code">"Hello"</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code">Boolean</code></td>
+                                    <td>true/false</td>
+                                    <td><code class="inline-code">true</code>, <code class="inline-code">false</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code class="inline-code">Char</code></td>
+                                    <td>Single character</td>
+                                    <td><code class="inline-code">'A'</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>💡 Best Practices</h2>
+                        <ul class="doc-list">
+                            <li><strong>Initialize variables</strong> when you declare them</li>
+                            <li><strong>Use descriptive names</strong> that explain the purpose</li>
+                            <li><strong>Choose appropriate types</strong> for your data</li>
+                            <li><strong>Be consistent</strong> with your syntax style</li>
+                            <li><strong>Group related variables</strong> together</li>
+                            <li><strong>Comment complex variable relationships</strong></li>
+                        </ul>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>🎯 Practice Exercises</h2>
+                        <div class="info-box info-success">
+                            <div class="info-icon">
+                                <i class="ri-pencil-line"></i>
+                            </div>
+                            <div class="info-content">
+                                <strong>Try These:</strong>
+                                <ul>
+                                    <li>Create a program that demonstrates each data type</li>
+                                    <li>Build a temperature converter using Float variables</li>
+                                    <li>Make a calculator with proper variable types</li>
+                                </ul>
+                            </div>
+                        </div>
                     </section>
                 </article>
+
+                <div class="doc-navigation">
+                    <a href="language-overview.html" class="doc-nav-link doc-nav-prev">
+                        <i class="ri-arrow-left-line"></i>
+                        <span>Previous: Language Overview</span>
+                    </a>
+                    <a href="operators.html" class="doc-nav-link doc-nav-next">
+                        <span>Next: Operators</span>
+                        <i class="ri-arrow-right-line"></i>
+                    </a>
+                </div>
             </div>
         </main>
     </div>
+
     <script src="../js/script.js"></script>
     <script src="../js/docs.js"></script>
 </body>

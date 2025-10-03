@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documentation - iPseudo IDE</title>
+    <title>Loops - iPseudo IDE Documentation</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
@@ -17,6 +18,7 @@
         <div class="gradient-orb orb-3"></div>
         <div class="grid-pattern"></div>
     </div>
+
     <nav class="navbar">
         <div class="nav-container">
             <a href="../index.html" class="nav-brand">
@@ -31,6 +33,7 @@
             </ul>
         </div>
     </nav>
+
     <div class="docs-layout">
         <aside class="docs-sidebar">
             <div class="sidebar-content">
@@ -40,30 +43,190 @@
                     <a href="language-overview.html" class="sidebar-link"><i class="ri-book-2-line"></i><span>Language Overview</span></a>
                     <a href="variables.html" class="sidebar-link"><i class="ri-file-code-line"></i><span>Variables & Data Types</span></a>
                     <a href="operators.html" class="sidebar-link"><i class="ri-function-line"></i><span>Operators</span></a>
-                    <a href="loops.html" class="sidebar-link"><i class="ri-loop-left-line"></i><span>Loops</span></a>
+                    <a href="loops.html" class="sidebar-link active"><i class="ri-loop-left-line"></i><span>Loops</span></a>
                     <a href="functions.html" class="sidebar-link"><i class="ri-braces-line"></i><span>Functions</span></a>
                     <a href="arrays.html" class="sidebar-link"><i class="ri-database-2-line"></i><span>Arrays</span></a>
                     <a href="quick-reference.html" class="sidebar-link"><i class="ri-file-list-2-line"></i><span>Quick Reference</span></a>
                 </nav>
             </div>
         </aside>
+
         <main class="docs-main">
             <div class="docs-content">
+                <div class="breadcrumb">
+                    <a href="../index.html">Home</a>
+                    <i class="ri-arrow-right-s-line"></i>
+                    <a href="../index.html#documentation">Documentation</a>
+                    <i class="ri-arrow-right-s-line"></i>
+                    <span>Loops</span>
+                </div>
+
                 <article class="doc-article">
-                    <h1 class="doc-title">📚 Documentation</h1>
+                    <h1 class="doc-title">🔁 Loops in iPseudo</h1>
+                    
                     <div class="doc-intro">
-                        <p>Full documentation coming soon! For now, please refer to our GitHub repository.</p>
+                        <p>Master repetition and iteration with FOR, WHILE, and REPEAT loops!</p>
                     </div>
+
                     <section class="doc-section">
-                        <a href="https://github.com/yourusername/iPseudoApp/tree/main/documentation" class="btn btn-primary" target="_blank">
-                            <i class="ri-github-line"></i>
-                            <span>View Full Documentation on GitHub</span>
-                        </a>
+                        <h2>🔄 FOR Loop</h2>
+                        <p>Repeat code a <strong>specific number of times</strong>:</p>
+                        
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-lang">pseudocode</span>
+                                <button class="code-copy" onclick="copyCode(this)">
+                                    <i class="ri-file-copy-line"></i>
+                                    <span>Copy</span>
+                                </button>
+                            </div>
+                            <pre class="code-content"><span class="keyword">Algorithm</span> SimpleForLoop
+
+<span class="keyword">Print</span> <span class="string">"Counting from 1 to 5:"</span>
+
+<span class="keyword">For</span> i = <span class="number">1</span> <span class="keyword">To</span> <span class="number">5</span>
+    <span class="keyword">Print</span> <span class="string">"Number:"</span>, i
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Print</span> <span class="string">"Done!"</span>
+
+<span class="keyword">Endalgorithm</span></pre>
+                        </div>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>⚡ FOR Loop with Step</h2>
+                        
+                        <div class="code-block">
+                            <pre class="code-content"><span class="keyword">Algorithm</span> ForLoopWithStep
+
+<span class="keyword">Print</span> <span class="string">"Even numbers from 2 to 10:"</span>
+
+<span class="keyword">For</span> i = <span class="number">2</span> <span class="keyword">To</span> <span class="number">10</span> <span class="keyword">Step</span> <span class="number">2</span>
+    <span class="keyword">Print</span> i
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"Countdown from 10:"</span>
+
+<span class="keyword">For</span> i = <span class="number">10</span> <span class="keyword">To</span> <span class="number">1</span> <span class="keyword">Step</span> <span class="number">-1</span>
+    <span class="keyword">Print</span> i
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Print</span> <span class="string">"Blast off!"</span>
+
+<span class="keyword">Endalgorithm</span></pre>
+                        </div>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>🌀 WHILE Loop</h2>
+                        <p>Repeat code <strong>while a condition is true</strong>:</p>
+                        
+                        <div class="code-block">
+                            <pre class="code-content"><span class="keyword">Algorithm</span> SimpleWhileLoop
+
+<span class="keyword">var</span> count = <span class="number">1</span>
+
+<span class="keyword">Print</span> <span class="string">"Counting with WHILE loop:"</span>
+
+<span class="keyword">While</span> count <= <span class="number">5</span> <span class="keyword">Do</span>
+    <span class="keyword">Print</span> <span class="string">"Count:"</span>, count
+    count = count + <span class="number">1</span>
+<span class="keyword">Endwhile</span>
+
+<span class="keyword">Print</span> <span class="string">"Done!"</span>
+
+<span class="keyword">Endalgorithm</span></pre>
+                        </div>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>🎯 Choosing the Right Loop</h2>
+                        
+                        <div class="info-box info-success">
+                            <div class="info-icon">
+                                <i class="ri-lightbulb-line"></i>
+                            </div>
+                            <div class="info-content">
+                                <strong>Quick Guide:</strong>
+                                <ul>
+                                    <li><strong>Use FOR</strong> when you know how many times to repeat</li>
+                                    <li><strong>Use WHILE</strong> when you don't know the iteration count</li>
+                                    <li><strong>Use REPEAT-UNTIL</strong> when loop must execute at least once</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>🎮 Real-World Example: Factorial</h2>
+                        
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-lang">pseudocode</span>
+                                <button class="code-copy" onclick="copyCode(this)">
+                                    <i class="ri-file-copy-line"></i>
+                                    <span>Copy</span>
+                                </button>
+                            </div>
+                            <pre class="code-content"><span class="keyword">Algorithm</span> FactorialCalculator
+
+<span class="keyword">var</span> n = <span class="keyword">Input</span> <span class="string">"Enter a number:"</span>
+<span class="keyword">var</span> factorial = <span class="number">1</span>
+
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"Calculating"</span>, n, <span class="string">"! ..."</span>
+
+<span class="keyword">For</span> i = <span class="number">1</span> <span class="keyword">To</span> n
+    factorial = factorial * i
+    <span class="keyword">Print</span> i, <span class="string">"! ="</span>, factorial
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"Final result:"</span>, n, <span class="string">"! ="</span>, factorial
+
+<span class="keyword">Endalgorithm</span></pre>
+                        </div>
+                    </section>
+
+                    <section class="doc-section">
+                        <h2>📋 Loop Quick Reference</h2>
+                        
+                        <div class="code-block">
+                            <pre class="code-content"><span class="comment"># Basic FOR loop</span>
+<span class="keyword">For</span> i = <span class="number">1</span> <span class="keyword">To</span> <span class="number">10</span>
+    <span class="comment"># code</span>
+<span class="keyword">Endfor</span>
+
+<span class="comment"># FOR with Step</span>
+<span class="keyword">For</span> i = <span class="number">0</span> <span class="keyword">To</span> <span class="number">100</span> <span class="keyword">Step</span> <span class="number">10</span>
+    <span class="comment"># code</span>
+<span class="keyword">Endfor</span>
+
+<span class="comment"># WHILE loop</span>
+<span class="keyword">While</span> condition <span class="keyword">Do</span>
+    <span class="comment"># code</span>
+    <span class="comment"># Update condition!</span>
+<span class="keyword">Endwhile</span></pre>
+                        </div>
                     </section>
                 </article>
+
+                <div class="doc-navigation">
+                    <a href="operators.html" class="doc-nav-link doc-nav-prev">
+                        <i class="ri-arrow-left-line"></i>
+                        <span>Previous: Operators</span>
+                    </a>
+                    <a href="functions.html" class="doc-nav-link doc-nav-next">
+                        <span>Next: Functions</span>
+                        <i class="ri-arrow-right-line"></i>
+                    </a>
+                </div>
             </div>
         </main>
     </div>
+
     <script src="../js/script.js"></script>
     <script src="../js/docs.js"></script>
 </body>
