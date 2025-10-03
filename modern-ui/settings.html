@@ -1507,6 +1507,21 @@
                     const query = e.target.value.toLowerCase();
                     
                     if (query.length > 0) {
+                        // Position search results absolutely on body level
+                        const searchInputRect = searchInput.getBoundingClientRect();
+                        const searchContainer = searchInput.closest('.search-container');
+                        const searchContainerRect = searchContainer.getBoundingClientRect();
+                        
+                        // Move search results to body if not already there
+                        if (searchResults.parentElement !== document.body) {
+                            document.body.appendChild(searchResults);
+                        }
+                        
+                        // Position the search results
+                        searchResults.style.position = 'fixed';
+                        searchResults.style.top = `${searchContainerRect.bottom + 12}px`;
+                        searchResults.style.left = `${searchContainerRect.left}px`;
+                        searchResults.style.width = `${Math.max(searchContainerRect.width, 400)}px`;
                         searchResults.style.display = 'block';
                         searchClear.style.display = 'block';
                         
@@ -1514,7 +1529,7 @@
                         const allCards = document.querySelectorAll('.setting-card');
                         const searchResultsList = document.getElementById('searchResultsList');
                         let visibleCount = 0;
-                        let searchResults = [];
+                        let searchResultsData = [];
                         
                         allCards.forEach(card => {
                             const title = card.querySelector('h4')?.textContent || '';
@@ -1528,7 +1543,7 @@
                                 
                                 // Add to search results
                                 const icon = card.querySelector('.card-icon i')?.className || 'ri-settings-3-line';
-                                searchResults.push({
+                                searchResultsData.push({
                                     title: title,
                                     description: description,
                                     icon: icon,
@@ -1549,8 +1564,8 @@
                         if (searchResultsList) {
                             searchResultsList.innerHTML = '';
                             
-                            if (searchResults.length > 0) {
-                                searchResults.forEach(result => {
+                            if (searchResultsData.length > 0) {
+                                searchResultsData.forEach(result => {
                                     const resultItem = document.createElement('div');
                                     resultItem.className = 'search-result-item';
                                     resultItem.innerHTML = `
@@ -1563,12 +1578,51 @@
                                         </div>
                                     `;
                                     
-                                    // Add click handler to scroll to the setting
+                                    // Add click handler to navigate to section and scroll to setting
                                     resultItem.addEventListener('click', () => {
-                                        result.element.scrollIntoView({ 
-                                            behavior: 'smooth', 
-                                            block: 'center' 
+                                        // Find which panel this setting belongs to
+                                        const settingPanel = result.element.closest('.settings-panel');
+                                        const panelId = settingPanel?.id;
+                                        
+                                        if (panelId) {
+                                            // Navigate to the correct panel first
+                                            const allPanels = document.querySelectorAll('.settings-panel');
+                                            const allNavLinks = document.querySelectorAll('.nav-link');
+                                            
+                                            // Hide all panels
+                                            allPanels.forEach(panel => panel.classList.remove('active'));
+                                            
+                                            // Remove active state from all nav links
+                                            allNavLinks.forEach(link => link.classList.remove('active'));
+                                            
+                                            // Show the target panel
+                                            const targetPanel = document.getElementById(panelId);
+                                            if (targetPanel) {
+                                                targetPanel.classList.add('active');
+                                            }
+                                            
+                                            // Set active state on corresponding nav link
+                                            const targetNavLink = document.querySelector(`.nav-link[href="#${panelId}"]`);
+                                            if (targetNavLink) {
+                                                targetNavLink.classList.add('active');
+                                            }
+                                            
+                                            // Wait for panel to be visible, then scroll to the setting
+                                            setTimeout(() => {
+                                                result.element.scrollIntoView({ 
+                                                    behavior: 'smooth', 
+                                                    block: 'center' 
+                                                });
+                                            }, 100);
+                                        }
+                                        
+                                        // Show all cards again
+                                        const allCards = document.querySelectorAll('.setting-card');
+                                        allCards.forEach(card => {
+                                            card.style.display = 'block';
                                         });
+                                        
+                                        // Close search results
                                         searchResults.style.display = 'none';
                                         searchInput.value = '';
                                         searchClear.style.display = 'none';
