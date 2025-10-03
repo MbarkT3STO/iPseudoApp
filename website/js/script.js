@@ -1,5 +1,52 @@
 // ===== iPseudo IDE Website - Interactive Script =====
 
+// ===== THEME TOGGLE =====
+// Load saved theme on page load
+const savedTheme = localStorage.getItem('theme') || 'dark';
+document.documentElement.setAttribute('data-theme', savedTheme);
+
+// Update theme toggle icons based on current theme
+function updateThemeIcons(theme) {
+    const lightIcon = document.getElementById('lightIcon');
+    const darkIcon = document.getElementById('darkIcon');
+    
+    if (lightIcon && darkIcon) {
+        if (theme === 'light') {
+            lightIcon.classList.add('hidden');
+            lightIcon.classList.remove('visible');
+            darkIcon.classList.remove('hidden');
+            darkIcon.classList.add('visible');
+        } else {
+            lightIcon.classList.remove('hidden');
+            lightIcon.classList.add('visible');
+            darkIcon.classList.add('hidden');
+            darkIcon.classList.remove('visible');
+        }
+    }
+}
+
+// Initialize theme icons
+updateThemeIcons(savedTheme);
+
+// Theme toggle functionality
+const themeToggle = document.getElementById('themeToggle');
+if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcons(newTheme);
+        
+        // Add click animation
+        themeToggle.style.transform = 'scale(0.9) rotate(180deg)';
+        setTimeout(() => {
+            themeToggle.style.transform = '';
+        }, 300);
+    });
+}
+
 // Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {

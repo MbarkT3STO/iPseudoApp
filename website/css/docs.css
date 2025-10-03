@@ -1,6 +1,205 @@
 /* ===== DOCUMENTATION PAGES STYLES ===== */
 /* Beautiful glass morphism design for documentation */
 
+/* ===== COMPREHENSIVE LIGHT THEME FOR DOCS ===== */
+
+/* Sidebar */
+[data-theme="light"] .sidebar-content {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.98) 100%);
+    border: 1px solid rgba(147, 51, 234, 0.2);
+    box-shadow: 0 8px 24px rgba(147, 51, 234, 0.12);
+}
+
+[data-theme="light"] .sidebar-title {
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .sidebar-nav-item {
+    color: var(--text-secondary);
+}
+
+[data-theme="light"] .sidebar-nav-item:hover {
+    background: rgba(147, 51, 234, 0.1);
+    color: var(--color-purple-600);
+}
+
+[data-theme="light"] .sidebar-nav-item.active {
+    background: linear-gradient(135deg, rgba(147, 51, 234, 0.15), rgba(59, 130, 246, 0.15));
+    color: var(--color-purple-600);
+    font-weight: 600;
+}
+
+/* Doc Article */
+[data-theme="light"] .doc-article {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(147, 51, 234, 0.2);
+    box-shadow: 0 8px 24px rgba(147, 51, 234, 0.12);
+}
+
+[data-theme="light"] .doc-section h2,
+[data-theme="light"] .doc-section h3,
+[data-theme="light"] .doc-section h4 {
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .doc-section p,
+[data-theme="light"] .doc-section li {
+    color: var(--text-secondary);
+}
+
+/* Info Boxes */
+[data-theme="light"] .info-box,
+[data-theme="light"] .warning-box,
+[data-theme="light"] .tip-box {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(147, 51, 234, 0.3);
+}
+
+[data-theme="light"] .info-icon {
+    color: var(--color-purple-600);
+}
+
+/* Code Blocks */
+[data-theme="light"] .code-block {
+    background: rgba(241, 245, 249, 0.95) !important;
+    border: 1px solid rgba(147, 51, 234, 0.25) !important;
+    box-shadow: 0 4px 12px rgba(147, 51, 234, 0.1) !important;
+}
+
+[data-theme="light"] .code-block pre {
+    background: transparent !important;
+    color: rgba(15, 23, 42, 0.95) !important;
+}
+
+[data-theme="light"] .code-block code {
+    background: transparent !important;
+    color: rgba(15, 23, 42, 0.95) !important;
+}
+
+[data-theme="light"] .code-content {
+    background: rgba(241, 245, 249, 0.95) !important;
+    border: 1px solid rgba(147, 51, 234, 0.25) !important;
+    color: rgba(15, 23, 42, 0.95) !important;
+}
+
+[data-theme="light"] .code-content .keyword {
+    color: var(--color-purple-600) !important;
+    font-weight: 600;
+}
+
+[data-theme="light"] .code-content .function {
+    color: var(--color-blue-600) !important;
+    font-weight: 600;
+}
+
+[data-theme="light"] .code-content .string {
+    color: var(--color-green-600) !important;
+}
+
+[data-theme="light"] .code-content .number {
+    color: var(--color-orange-600) !important;
+}
+
+[data-theme="light"] .code-header {
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom: 1px solid rgba(147, 51, 234, 0.2);
+}
+
+[data-theme="light"] .code-lang {
+    color: var(--color-purple-600);
+    font-weight: 600;
+}
+
+[data-theme="light"] .code-copy {
+    background: rgba(147, 51, 234, 0.1);
+    border: 1px solid rgba(147, 51, 234, 0.25);
+    color: var(--color-purple-600);
+}
+
+[data-theme="light"] .code-copy:hover {
+    background: rgba(147, 51, 234, 0.15);
+    border-color: rgba(147, 51, 234, 0.4);
+    color: var(--color-purple-600);
+}
+
+[data-theme="light"] code:not(pre code) {
+    background: rgba(147, 51, 234, 0.12) !important;
+    color: var(--color-purple-600) !important;
+    border: 1px solid rgba(147, 51, 234, 0.25);
+}
+
+/* Tables */
+[data-theme="light"] table {
+    border-color: rgba(147, 51, 234, 0.2);
+}
+
+[data-theme="light"] th {
+    background: linear-gradient(135deg, rgba(147, 51, 234, 0.12), rgba(59, 130, 246, 0.12));
+    color: var(--text-primary);
+}
+
+[data-theme="light"] td {
+    border-color: rgba(147, 51, 234, 0.15);
+    color: var(--text-secondary);
+}
+
+[data-theme="light"] tr:hover {
+    background: rgba(147, 51, 234, 0.05);
+}
+
+/* Keyboard Shortcuts */
+[data-theme="light"] .shortcut-item {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(147, 51, 234, 0.2);
+}
+
+[data-theme="light"] .shortcut-item:hover {
+    background: rgba(255, 255, 255, 1);
+    border-color: rgba(147, 51, 234, 0.35);
+    box-shadow: 0 8px 24px rgba(147, 51, 234, 0.15);
+}
+
+[data-theme="light"] .shortcut-keys kbd {
+    background: linear-gradient(135deg, rgba(147, 51, 234, 0.15), rgba(59, 130, 246, 0.15));
+    border-color: rgba(147, 51, 234, 0.35);
+    color: var(--color-purple-600);
+}
+
+[data-theme="light"] .shortcut-keys kbd:hover {
+    background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(59, 130, 246, 0.2));
+    border-color: rgba(147, 51, 234, 0.5);
+}
+
+[data-theme="light"] .shortcut-description strong {
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .shortcut-description p {
+    color: var(--text-secondary);
+}
+
+/* Breadcrumb */
+[data-theme="light"] .breadcrumb {
+    color: var(--text-tertiary);
+}
+
+[data-theme="light"] .breadcrumb a {
+    color: var(--text-secondary);
+}
+
+[data-theme="light"] .breadcrumb a:hover {
+    color: var(--color-purple-600);
+}
+
+/* Doc Lists */
+[data-theme="light"] .doc-list li {
+    color: var(--text-secondary);
+}
+
+[data-theme="light"] .doc-list li strong {
+    color: var(--text-primary);
+}
+
 .docs-layout {
     display: grid;
     grid-template-columns: 280px 1fr;
@@ -454,6 +653,131 @@ td {
 
 tr:hover {
     background: rgba(255, 255, 255, 0.03);
+}
+
+/* ===== KEYBOARD SHORTCUTS ===== */
+.shortcuts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-lg);
+    margin-top: var(--space-lg);
+}
+
+.shortcut-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+    padding: var(--space-lg);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    transition: all var(--transition-base);
+}
+
+.shortcut-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.15),
+        0 0 40px rgba(147, 51, 234, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.shortcut-keys {
+    display: flex;
+    gap: 0.25rem;
+    flex-shrink: 0;
+}
+
+.shortcut-keys kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    height: 2rem;
+    padding: 0.25rem 0.5rem;
+    background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(59, 130, 246, 0.2));
+    border: 1px solid rgba(147, 51, 234, 0.4);
+    border-radius: var(--radius-sm);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transition: all var(--transition-base);
+}
+
+.shortcut-keys kbd:hover {
+    background: linear-gradient(135deg, rgba(147, 51, 234, 0.3), rgba(59, 130, 246, 0.3));
+    border-color: rgba(147, 51, 234, 0.6);
+    transform: translateY(-1px);
+}
+
+.shortcut-description {
+    flex: 1;
+}
+
+.shortcut-description strong {
+    display: block;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.shortcut-description p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Responsive shortcuts */
+@media (max-width: 768px) {
+    .shortcuts-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .shortcut-item {
+        padding: var(--space-md);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-sm);
+    }
+    
+    .shortcut-keys {
+        align-self: flex-start;
+    }
+    
+    .shortcut-keys kbd {
+        min-width: 1.75rem;
+        height: 1.75rem;
+        font-size: 0.8125rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .shortcut-item {
+        padding: var(--space-sm) var(--space-md);
+    }
+    
+    .shortcut-keys kbd {
+        min-width: 1.5rem;
+        height: 1.5rem;
+        font-size: 0.75rem;
+    }
+    
+    .shortcut-description strong {
+        font-size: 0.9375rem;
+    }
+    
+    .shortcut-description p {
+        font-size: 0.8125rem;
+    }
 }
 
 /* ===== RESPONSIVE DESIGN ===== */

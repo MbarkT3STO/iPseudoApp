@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="iPseudo IDE Keyboard Shortcuts - Speed up your workflow with these handy shortcuts">
+    <meta name="author" content="M'BARK">
+    <title>Keyboard Shortcuts - iPseudo IDE</title>
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://MbarkT3sto.github.io/iPseudoApp/keyboard-shortcuts.html">
+    <meta property="og:title" content="iPseudo IDE Keyboard Shortcuts">
+    <meta property="og:description" content="Master iPseudo IDE with keyboard shortcuts for faster coding">
+    <meta property="og:image" content="https://MbarkT3sto.github.io/iPseudoApp/assets/preview.png">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="iPseudo IDE Keyboard Shortcuts">
+    <meta name="twitter:description" content="Speed up your pseudocode workflow">
+    <meta name="twitter:image" content="https://MbarkT3sto.github.io/iPseudoApp/assets/preview.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/app-icon.svg">
+    <link rel="alternate icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="shortcut icon" type="image/svg+xml" href="assets/app-icon.svg">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/docs.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="background-container">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-pattern"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <div class="brand-icon">
+                    <i class="ri-code-s-slash-line"></i>
+                </div>
+                <span class="brand-name">iPseudo IDE</span>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="ri-sun-line theme-toggle-icon" id="lightIcon"></i>
+                    <i class="ri-moon-line theme-toggle-icon hidden" id="darkIcon"></i>
+                </button>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html#features" class="nav-link">Features</a></li>
+                <li><a href="index.html#screenshots" class="nav-link">Screenshots</a></li>
+                <li><a href="index.html#download" class="nav-link">Download</a></li>
+                <li><a href="index.html#documentation" class="nav-link">Documentation</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="index.html#download" class="btn btn-primary">
+                    <i class="ri-download-line"></i>
+                    <span>Download</span>
+                </a>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="ri-menu-line"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main style="padding-top: calc(80px + 3rem); padding-bottom: 4rem;">
+        <div class="container" style="max-width: 900px;">
+            <div class="breadcrumb" style="margin-bottom: 2rem; display: flex; align-items: center; gap: 0.5rem; color: var(--text-tertiary);">
+                <a href="index.html" style="color: var(--text-secondary); text-decoration: none;">Home</a>
+                <i class="ri-arrow-right-s-line"></i>
+                <span>Keyboard Shortcuts</span>
+            </div>
+
+            <!-- Page Header -->
+            <div class="section-header">
+                <h1 class="section-title">⌨️ Keyboard Shortcuts</h1>
+                <p class="section-subtitle">Speed up your pseudocode workflow with these handy shortcuts</p>
+            </div>
+
+            <!-- Shortcuts Content -->
+            <div class="doc-article" style="margin-top: 2rem;">
+                <!-- General Shortcuts -->
+                <section class="doc-section">
+                    <h2>🎯 General Shortcuts</h2>
+                    <p>Essential shortcuts for everyday use in iPseudo IDE:</p>
+                    
+                    <div class="shortcuts-grid">
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Ctrl</kbd> + <kbd>S</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Save File</strong>
+                                <p>Save your current pseudocode file</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Ctrl</kbd> + <kbd>N</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>New File</strong>
+                                <p>Create a new pseudocode file</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Ctrl</kbd> + <kbd>O</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Open File</strong>
+                                <p>Open an existing pseudocode file</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>F5</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Run Code</strong>
+                                <p>Execute your pseudocode</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Ctrl</kbd> + <kbd>R</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Run Code</strong>
+                                <p>Alternative shortcut to execute pseudocode</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>F11</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Toggle Fullscreen</strong>
+                                <p>Enter/exit fullscreen mode</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Editor Shortcuts -->
+                <section class="doc-section">
+                    <h2>✏️ Editor Shortcuts</h2>
+                    <p>Power up your coding with these editor shortcuts:</p>
+                    
+                    <div class="shortcuts-grid">
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Ctrl</kbd> + <kbd>Z</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Undo</strong>
+                                <p>Undo the last action</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Ctrl</kbd> + <kbd>Y</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Redo</strong>
+                                <p>Redo the last undone action</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Ctrl</kbd> + <kbd>A</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Select All</strong>
+                                <p>Select all text in the editor</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Ctrl</kbd> + <kbd>C</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Copy</strong>
+                                <p>Copy selected text</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Ctrl</kbd> + <kbd>V</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Paste</strong>
+                                <p>Paste copied text</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Ctrl</kbd> + <kbd>X</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Cut</strong>
+                                <p>Cut selected text</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Ctrl</kbd> + <kbd>F</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Find</strong>
+                                <p>Search for text in the editor</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Ctrl</kbd> + <kbd>H</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Find & Replace</strong>
+                                <p>Search and replace text</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Ctrl</kbd> + <kbd>G</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Go to Line</strong>
+                                <p>Jump to a specific line number</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Ctrl</kbd> + <kbd>D</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Select Next Match</strong>
+                                <p>Select the next occurrence of the current word</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>K</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Delete Line</strong>
+                                <p>Delete the current line</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Alt</kbd> + <kbd>↑</kbd> / <kbd>↓</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Move Line</strong>
+                                <p>Move the current line up or down</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>↑</kbd> / <kbd>↓</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Copy Line</strong>
+                                <p>Copy the current line up or down</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Ctrl</kbd> + <kbd>/</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Toggle Comment</strong>
+                                <p>Comment/uncomment the current line or selection</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Command Palette</strong>
+                                <p>Open the command palette</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Navigation Shortcuts -->
+                <section class="doc-section">
+                    <h2>🧭 Navigation Shortcuts</h2>
+                    <p>Navigate through your code efficiently:</p>
+                    
+                    <div class="shortcuts-grid">
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Ctrl</kbd> + <kbd>Home</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Go to Start</strong>
+                                <p>Jump to the beginning of the file</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Ctrl</kbd> + <kbd>End</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Go to End</strong>
+                                <p>Jump to the end of the file</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Ctrl</kbd> + <kbd>←</kbd> / <kbd>→</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Word Navigation</strong>
+                                <p>Move cursor by word</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>←</kbd> / <kbd>→</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Select Word</strong>
+                                <p>Select text by word</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Page Up</kbd> / <kbd>Page Down</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Page Navigation</strong>
+                                <p>Scroll up/down by page</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- View Shortcuts -->
+                <section class="doc-section">
+                    <h2>👁️ View Shortcuts</h2>
+                    <p>Control how you see your code:</p>
+                    
+                    <div class="shortcuts-grid">
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Ctrl</kbd> + <kbd>+</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Zoom In</strong>
+                                <p>Increase font size</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Ctrl</kbd> + <kbd>-</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Zoom Out</strong>
+                                <p>Decrease font size</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Ctrl</kbd> + <kbd>0</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Reset Zoom</strong>
+                                <p>Reset to default font size</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Ctrl</kbd> + <kbd>B</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Toggle Sidebar</strong>
+                                <p>Show/hide the sidebar</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Ctrl</kbd> + <kbd>J</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Toggle Terminal</strong>
+                                <p>Show/hide the output panel</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd>
+                            </div>
+                            <div class="shortcut-description">
+                                <strong>Focus Explorer</strong>
+                                <p>Focus the file explorer</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Helpful Tips -->
+                <section class="doc-section">
+                    <h2>💡 Pro Tips</h2>
+                    <div class="info-box" style="margin-top: 1rem; padding: 1.5rem; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 16px;">
+                        <div class="info-icon" style="color: var(--color-blue-500); font-size: 1.5rem; margin-bottom: 0.5rem;">
+                            <i class="ri-lightbulb-line"></i>
+                        </div>
+                        <div class="info-content">
+                            <h4 style="margin-bottom: 1rem;">Master These First</h4>
+                            <ul class="doc-list">
+                                <li><strong>Ctrl+S</strong> - Save frequently to avoid losing work</li>
+                                <li><strong>F5</strong> - Quick way to run your pseudocode</li>
+                                <li><strong>Ctrl+Z</strong> - Undo mistakes instantly</li>
+                                <li><strong>Ctrl+F</strong> - Find text quickly in long files</li>
+                                <li><strong>Ctrl+/</strong> - Comment/uncomment code blocks</li>
+                            </ul>
+                            
+                            <h4 style="margin-top: 1.5rem; margin-bottom: 1rem;">Platform Differences</h4>
+                            <ul class="doc-list">
+                                <li><strong>macOS:</strong> Use <kbd>Cmd</kbd> instead of <kbd>Ctrl</kbd></li>
+                                <li><strong>Linux:</strong> Same as Windows shortcuts</li>
+                                <li><strong>Windows:</strong> Standard Ctrl-based shortcuts</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="brand-icon">
+                        <i class="ri-code-s-slash-line"></i>
+                    </div>
+                    <span class="brand-name">iPseudo IDE</span>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="ri-sun-line theme-toggle-icon" id="lightIcon"></i>
+                    <i class="ri-moon-line theme-toggle-icon hidden" id="darkIcon"></i>
+                </button>
+                    <p class="footer-tagline">Making pseudocode beautiful</p>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Product</h4>
+                        <ul>
+                            <li><a href="index.html#features">Features</a></li>
+                            <li><a href="index.html#download">Download</a></li>
+                            <li><a href="index.html#documentation">Documentation</a></li>
+                            <li><a href="https://github.com/MbarkT3sto/iPseudoApp">GitHub</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="docs/getting-started.html">Docs</a></li>
+                            <li><a href="examples.html">Examples</a></li>
+                            <li><a href="changelog.html">Changelog</a></li>
+                            <li><a href="design-system.html">Design System</a></li>
+                            <li><a href="license.html">License</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Support</h4>
+                        <ul>
+                            <li><a href="https://github.com/MbarkT3sto/iPseudoApp/issues">Report Bug</a></li>
+                            <li><a href="https://github.com/MbarkT3sto/iPseudoApp/issues">Request Feature</a></li>
+                            <li><a href="mailto:me@MBVRK.onmicrosoft.com">Email Support</a></li>
+                            <li><a href="https://hashnode.com/@MbarkT3sto">Blog</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 iPseudo IDE by <strong>M'BARK</strong>. Dual Licensed - Free for personal & educational use.</p>
+                <div class="social-links">
+                    <a href="https://github.com/MbarkT3sto/iPseudoApp" class="social-link" title="GitHub">
+                        <i class="ri-github-fill"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/MbarkT3sto" class="social-link" title="LinkedIn">
+                        <i class="ri-linkedin-fill"></i>
+                    </a>
+                    <a href="https://hashnode.com/@MbarkT3sto" class="social-link" title="Hashnode">
+                        <i class="ri-article-line"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -147,7 +147,7 @@ Matches the main project's dual license - free for personal/educational use, pai
 
 ## 👨‍💻 Developer
 
-**M'BARK** - Full Stack Developer
+**M'BARK** - Software Engineer
 
 - 🐙 GitHub: [@mbvrk](https://github.com/MbarkT3sto)
 - 💼 LinkedIn: [mbvrk](https://linkedin.com/in/mbvrk)
