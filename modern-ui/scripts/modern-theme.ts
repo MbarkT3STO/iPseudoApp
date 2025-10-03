@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 (window as any).monaco.editor.setTheme(isDark ? 'vs-dark' : 'vs');
             }
         } catch (e) {
-            console.error('Error updating Monaco theme:', e);
+            
         }
     }
     

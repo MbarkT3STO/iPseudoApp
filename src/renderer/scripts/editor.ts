@@ -320,7 +320,7 @@ interface Window {
     // Ensure editor container exists
     const editorContainer = document.getElementById('editor');
     if (!editorContainer) {
-        console.error('Editor container not found');
+        
         return;
     }
 
@@ -364,7 +364,7 @@ interface Window {
             minimapEnabled = settings.minimap !== undefined ? settings.minimap : true;
         }
     } catch (error) {
-        console.error('Error loading minimap setting:', error);
+        
     }
 
     // Create editor instance
@@ -598,7 +598,7 @@ interface Window {
 
     // Notify other scripts that editor is ready (if a global hook exists)
     if (window.onEditorReady && typeof window.onEditorReady === 'function') {
-        try { window.onEditorReady(editor); } catch (e) { console.error('onEditorReady hook failed', e); }
+        try { window.onEditorReady(editor); } catch (e) {  }
     }
 
     // Auto indentation on Enter: copy previous line's leading whitespace when available
@@ -781,7 +781,7 @@ function handleClipboardAction(action: string): void {
                 break;
         }
     } catch (error) {
-        console.error('Clipboard action failed:', action, error);
+        
     }
 }
 
@@ -889,7 +889,7 @@ function showMonacoContextMenu(e: MouseEvent): void {
                         break;
                 }
             } catch (error) {
-                console.error('Context menu action failed:', action, error);
+                
                 // Fallback to manual implementation for clipboard operations
                 if (action === 'cut' || action === 'copy' || action === 'paste') {
                     handleClipboardAction(action);

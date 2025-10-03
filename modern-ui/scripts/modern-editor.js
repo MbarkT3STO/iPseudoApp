@@ -49,12 +49,12 @@ function handleClipboardAction(action) {
         }
     }
     catch (error) {
-        console.error('Clipboard action failed:', action, error);
+        
     }
 }
 // Monaco Editor custom context menu
 function showMonacoContextMenu(e) {
-    console.log('Context menu triggered!', e);
+    
     // Remove existing context menu
     const existingMenu = document.getElementById('monaco-context-menu');
     if (existingMenu) {
@@ -114,7 +114,7 @@ function showMonacoContextMenu(e) {
     menu.style.top = `${e.clientY}px`;
     menu.style.zIndex = '10000';
     document.body.appendChild(menu);
-    console.log('Context menu added to DOM');
+    
     // Handle menu actions
     menu.addEventListener('click', (e) => {
         var _a;
@@ -162,7 +162,7 @@ function showMonacoContextMenu(e) {
                 }
             }
             catch (error) {
-                console.error('Context menu action failed:', action, error);
+                
                 // Fallback to manual implementation for clipboard operations
                 if (action === 'cut' || action === 'copy' || action === 'paste') {
                     handleClipboardAction(action);
@@ -595,7 +595,7 @@ window.require(['vs/editor/editor.main'], function () {
     // Ensure editor container exists
     const editorContainer = document.getElementById('editor');
     if (!editorContainer) {
-        console.error('Editor container not found');
+        
         return;
     }
     // Register custom language
@@ -635,7 +635,7 @@ window.require(['vs/editor/editor.main'], function () {
         }
     }
     catch (error) {
-        console.error('Error loading minimap setting:', error);
+        
     }
     // Create editor instance
     const editor = window.monaco.editor.create(document.getElementById('editor'), {
@@ -675,14 +675,14 @@ window.require(['vs/editor/editor.main'], function () {
     window.editor = editor;
     // Add custom context menu for Monaco Editor
     editor.onContextMenu((e) => {
-        console.log('Monaco onContextMenu triggered', e);
+        
         e.event.preventDefault();
         showMonacoContextMenu(e.event);
     });
     // Also add direct event listener to editor container as fallback
     if (editorContainer) {
         editorContainer.addEventListener('contextmenu', (e) => {
-            console.log('Direct contextmenu event on editor container', e);
+            
             e.preventDefault();
             showMonacoContextMenu(e);
         });
@@ -894,7 +894,7 @@ window.require(['vs/editor/editor.main'], function () {
             window.onEditorReady(editor);
         }
         catch (e) {
-            console.error('onEditorReady hook failed', e);
+            
         }
     }
     // Auto indentation on Enter: copy previous line's leading whitespace when available

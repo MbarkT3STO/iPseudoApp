@@ -38,7 +38,7 @@ class ModernEditorSplashScreen {
     }
 
     detectAndApplyTheme() {
-        if (this.debug) console.log('🎨 Detecting theme for splash screen...');
+        if (this.debug) 
         
         // Default to dark mode for splash screen
         let theme = 'dark';
@@ -48,11 +48,11 @@ class ModernEditorSplashScreen {
                 const savedTheme = localStorage.getItem('theme');
                 if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
                     theme = savedTheme;
-                    if (this.debug) console.log(`✅ Found theme in localStorage: ${theme}`);
+                    if (this.debug) 
                 }
             }
         } catch (error) {
-            if (this.debug) console.log('⚠️ Error reading localStorage:', error);
+            if (this.debug) 
         }
         
         this.applyTheme(theme);
@@ -72,11 +72,11 @@ class ModernEditorSplashScreen {
                 const appTheme = await Promise.race([themePromise, timeoutPromise]);
                 if (appTheme && appTheme !== document.documentElement.className.replace('theme-', '')) {
                     this.applyTheme(appTheme);
-                    if (this.debug) console.log(`🔄 Updated theme to: ${appTheme}`);
+                    if (this.debug) 
                 }
             }
         } catch (error) {
-            if (this.debug) console.log('ℹ️ Theme request failed, keeping current theme');
+            if (this.debug) 
         }
     }
 
@@ -85,7 +85,7 @@ class ModernEditorSplashScreen {
         html.classList.remove('theme-light', 'theme-dark');
         html.classList.add(`theme-${theme}`);
         
-        if (this.debug) console.log(`🎨 Applied theme: ${theme}`);
+        if (this.debug) 
     }
 
     setupEditorAnimations() {
@@ -250,11 +250,11 @@ class ModernEditorSplashScreen {
     setupKeyboardShortcuts() {
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                console.log('⌨️ Escape pressed - skipping splash screen');
+                
                 this.completeLoading();
             }
             if (e.key === 'Enter' || e.key === ' ') {
-                console.log('⌨️ Enter/Space pressed - completing splash screen');
+                
                 this.completeLoading();
             }
         });
@@ -416,7 +416,7 @@ class ModernEditorSplashScreen {
     }
 
     completeLoading() {
-        if (this.debug) console.log('🎉 Completing splash screen loading...');
+        if (this.debug) 
         
         this.isComplete = true;
         
@@ -585,7 +585,7 @@ class ModernEditorSplashScreen {
     }
 
     async notifyMainProcess() {
-        console.log('📡 Notifying main process of splash completion...');
+        
         
         try {
             if (window.electron?.ipcRenderer) {
@@ -595,18 +595,18 @@ class ModernEditorSplashScreen {
                 );
                 
                 await Promise.race([notifyPromise, timeoutPromise]);
-                console.log('✅ Splash completion notified to main process');
+                
             } else if (window.require) {
                 const { ipcRenderer } = window.require('electron');
                 await ipcRenderer.invoke('splash-complete');
-                console.log('✅ Splash screen completed, main window should be showing');
+                
             } else {
-                console.log('ℹ️ No IPC available, closing splash window directly');
+                
                 window.close();
             }
         } catch (error) {
-            console.error('❌ Error notifying main process:', error);
-            console.log('🔄 Attempting to close splash window directly...');
+            
+            
             window.close();
         }
     }
@@ -658,9 +658,9 @@ document.head.appendChild(style);
 
 // Initialize splash screen when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🚀 Editor splash screen DOM loaded, initializing...');
+    
     window.splashInstance = new ModernEditorSplashScreen();
-    console.log('✅ Editor splash screen initialized');
+    
 });
 
 // Handle window close

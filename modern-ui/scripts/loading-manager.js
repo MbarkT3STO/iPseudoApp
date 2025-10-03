@@ -30,7 +30,7 @@ class ModernLoadingManager {
         // Add fallback timeout to ensure loading screen doesn't stay forever
         setTimeout(() => {
             if (!this.isInitialized) {
-                console.warn('⚠️ Loading screen timeout - forcing completion');
+                
                 this.completeLoading();
             }
         }, 10000); // 10 seconds fallback
@@ -155,7 +155,7 @@ class ModernLoadingManager {
             setTimeout(() => {
                 clearInterval(interval);
                 if (!this.loadingStates.get('monaco-editor')) {
-                    console.warn('Monaco Editor failed to load within timeout');
+                    
                     this.markComponentLoaded('monaco-editor', false);
                 }
             }, 10000);
@@ -464,7 +464,7 @@ class ModernLoadingManager {
             required: this.components[componentName]?.required || false
         });
         
-        console.log(`✅ Component loaded: ${componentName} (${success ? 'success' : 'failed'})`);
+        
         
         this.updateProgress();
         this.checkCompletion();
@@ -549,7 +549,7 @@ class ModernLoadingManager {
         this.isInitialized = true;
         const loadTime = Date.now() - this.startTime;
         
-        console.log(`🎉 All components loaded in ${loadTime}ms`);
+        
         
         // Update final status
         this.updateProgressBar(100);
@@ -641,7 +641,7 @@ class ModernLoadingManager {
             
             setTimeout(() => {
                 if (!this.loadingStates.has(componentName)) {
-                    console.warn(`⚠️ Component ${componentName} failed to load within timeout`);
+                    
                     this.markComponentLoaded(componentName, false);
                 }
             }, component.timeout);

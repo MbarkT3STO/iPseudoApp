@@ -54,11 +54,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Simple Debug Mode Implementation - Global Functions
     function toggleDebugMode(enabled) {
         if (enabled) {
-            console.log('Debug mode enabled');
+            
             showDebugPanel();
         }
         else {
-            console.log('Debug mode disabled');
+            
             hideDebugPanel();
         }
     }
@@ -567,7 +567,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Auto save completed silently
         })
             .catch((error) => {
-            console.error('Auto save failed:', error);
+            
         });
     }
     // Function to check if we can create a new tab
@@ -656,7 +656,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function enableHardwareAcceleration() {
         const settings = loadSettings();
         if (!settings.hardwareAcceleration) {
-            console.log('Hardware acceleration disabled in settings');
+            
             return;
         }
         // Force hardware acceleration on key elements
@@ -680,7 +680,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 element.style.contain = 'layout style paint';
             }
         });
-        console.log('Hardware acceleration enabled for all key elements');
+        
     }
     // Disable hardware acceleration
     function disableHardwareAcceleration() {
@@ -704,7 +704,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 element.style.contain = '';
             }
         });
-        console.log('Hardware acceleration disabled for all key elements');
+        
     }
     // Toggle hardware acceleration based on settings
     function toggleHardwareAcceleration() {
@@ -724,7 +724,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function monitorPerformance() {
         if ('performance' in window) {
             const perfData = performance.getEntriesByType('measure');
-            console.log('Performance metrics:', perfData);
+            
         }
     }
     // Function to clean up old console messages for performance
@@ -738,7 +738,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const totalMessages = messages.length + pseudoLines.length;
         if (totalMessages > MAX_CONSOLE_MESSAGES) {
             const messagesToRemove = totalMessages - MAX_CONSOLE_MESSAGES;
-            console.log(`Cleaning up ${messagesToRemove} old messages for performance`);
+            
             
             // First remove old pseudo lines if needed
             if (pseudoLines.length > 0 && messagesToRemove > 0) {
@@ -1055,7 +1055,7 @@ document.addEventListener('DOMContentLoaded', () => {
         applyAppSettings(settings);
         // Apply UI visibility settings with minimal delay to ensure DOM is ready
         setTimeout(() => {
-            console.log('Applying UI visibility on app startup');
+            
             applyUIVisibilitySettings(settings);
         }, 100); // Reduced from 500ms to 100ms for faster startup
         // Initialize local variables from settings
@@ -1087,8 +1087,8 @@ document.addEventListener('DOMContentLoaded', () => {
         setupSettingsSearch();
         // Apply current UI visibility settings when modal opens
         const currentSettings = loadSettings();
-        console.log('Settings when modal opens:', currentSettings);
-        console.log('showRunButton when modal opens:', currentSettings.showRunButton);
+        
+        
         applyUIVisibilitySettings(currentSettings);
         // Update theme toggle button to reflect current settings
         updateThemeToggleButtonFromSettings();
@@ -1115,14 +1115,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Load settings into UI
     function loadSettingsToUI() {
         const settings = loadSettings();
-        console.log('Loading settings to UI:', settings);
-        console.log('showRunButton in loadSettingsToUI:', settings.showRunButton);
+        
+        
         // Theme
         const themeSelect = document.getElementById('themeSelect');
         if (themeSelect) {
             const theme = settings.theme || 'system';
             themeSelect.value = theme;
-            console.log('Theme select set to:', theme);
+            
         }
         // Accent color
         const accentColor = document.getElementById('accentColor');
@@ -1200,12 +1200,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (themeSelect) {
             themeSelect.addEventListener('change', (e) => {
                 const theme = e.target.value;
-                console.log('Theme changed to:', theme);
+                
                 // Apply theme immediately
                 applyTheme(theme);
                 // Save setting
                 const updatedSettings = saveSetting('theme', theme);
-                console.log('Theme setting saved:', updatedSettings.theme);
+                
                 // If system theme is selected, listen for system theme changes
                 if (theme === 'system') {
                     setupSystemThemeListener();
@@ -1244,10 +1244,10 @@ document.addEventListener('DOMContentLoaded', () => {
             applyEditorSettings(settings);
         });
         setupRangeInput('consoleFontSize', 'consoleFontSizeValue', 'px', (value) => {
-            console.log('=== CONSOLE FONT SIZE CHANGED ===');
-            console.log('New value:', value);
+            
+            
             const updatedSettings = saveSetting('consoleFontSize', value);
-            console.log('Updated settings:', updatedSettings);
+            
             // Apply immediately with multiple methods
             applyConsoleFontSizeImmediately(value);
             applyAppSettings(updatedSettings);
@@ -1303,13 +1303,13 @@ document.addEventListener('DOMContentLoaded', () => {
             applyEditorSettings(settings);
         });
         setupToggleInput('autoScroll', (value) => {
-            console.log('Auto scroll setting changed to:', value);
+            
             const updatedSettings = saveSetting('autoScroll', value);
             applyAppSettings(updatedSettings);
             // Update the local variable
             autoScrollEnabled = value;
-            console.log('Local autoScrollEnabled set to:', autoScrollEnabled);
-            console.log('Global autoScrollEnabled set to:', window.autoScrollEnabled);
+            
+            
         });
         setupToggleInput('showTimestamps', (value) => {
             const updatedSettings = saveSetting('showTimestamps', value);
@@ -1355,18 +1355,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         setupToggleInput('hardwareAcceleration', (value) => {
             const updatedSettings = saveSetting('hardwareAcceleration', value);
-            console.log('Hardware acceleration setting changed to:', value);
+            
             toggleHardwareAcceleration();
         });
         // UI visibility toggles
         setupToggleInput('showFileActions', (value) => {
             const updatedSettings = saveSetting('showFileActions', value);
-            console.log('Updated settings for showFileActions:', updatedSettings.showFileActions);
+            
             applyUIVisibilitySettings(updatedSettings);
         });
         setupToggleInput('showRunButton', (value) => {
             const updatedSettings = saveSetting('showRunButton', value);
-            console.log('Updated settings for showRunButton:', updatedSettings.showRunButton);
+            
             applyUIVisibilitySettings(updatedSettings);
         });
         setupToggleInput('showThemeToggle', (value) => {
@@ -1464,17 +1464,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function saveSetting(key, value) {
         try {
-            console.log(`Saving setting: ${key} = ${value}`);
+            
             const settings = loadSettings();
             settings[key] = value;
-            console.log('Updated settings before saving:', settings);
+            
             localStorage.setItem('iPseudoSettings', JSON.stringify(settings));
-            console.log('Settings saved to localStorage');
+            
             showSettingsNotification('Setting saved');
             return settings; // Return the updated settings
         }
         catch (error) {
-            console.error('Failed to save setting:', error);
+            
             return loadSettings(); // Return current settings on error
         }
     }
@@ -1602,22 +1602,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
                 if (hasHiddenElements) {
-                    console.log('Found hidden UI elements, resetting to visible...');
+                    
                     localStorage.setItem('iPseudoSettings', JSON.stringify(parsed));
                 }
             }
         }
         catch (error) {
-            console.error('Error clearing problematic UI settings:', error);
+            
         }
     }
     function loadSettings() {
         try {
             const saved = localStorage.getItem('iPseudoSettings');
-            console.log('Loading settings from localStorage:', saved);
+            
             if (saved) {
                 const parsed = JSON.parse(saved);
-                console.log('Parsed settings:', parsed);
+                
                 // Check if UI visibility settings are missing and add defaults
                 const defaults = getDefaultSettings();
                 const mergedSettings = { ...defaults, ...parsed };
@@ -1637,15 +1637,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     showNewTabButton: mergedSettings.showNewTabButton !== undefined ? mergedSettings.showNewTabButton : true
                 };
                 const finalSettings = { ...mergedSettings, ...uiVisibilityDefaults };
-                console.log('Final settings with UI defaults:', finalSettings);
+                
                 return finalSettings;
             }
         }
         catch (error) {
-            console.error('Error loading settings:', error);
+            
         }
         const defaults = getDefaultSettings();
-        console.log('Using default settings:', defaults);
+        
         return defaults;
     }
     function getDefaultSettings() {
@@ -1697,7 +1697,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
     function applyTheme(theme) {
-        console.log('Applying theme:', theme);
+        
         const body = document.body;
         const html = document.documentElement;
         // Remove existing theme classes
@@ -1709,22 +1709,22 @@ document.addEventListener('DOMContentLoaded', () => {
         if (theme === 'auto' || theme === 'system') {
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             actualTheme = prefersDark ? 'dark' : 'light';
-            console.log('System theme detected:', actualTheme);
+            
         }
         // Apply the theme
         const themeClass = `theme-${actualTheme}`;
         body.classList.add(themeClass);
         html.classList.add(themeClass);
         html.setAttribute('data-theme', actualTheme);
-        console.log('Theme applied:', themeClass);
+        
         // Update Monaco editor theme if available
         if (typeof window.monaco !== 'undefined' && window.monaco.editor) {
             try {
                 window.monaco.editor.setTheme(actualTheme === 'dark' ? 'vs-dark' : 'vs');
-                console.log('Monaco editor theme updated to:', actualTheme === 'dark' ? 'vs-dark' : 'vs');
+                
             }
             catch (error) {
-                console.error('Error updating Monaco theme:', error);
+                
             }
         }
         // Update theme toggle button if it exists
@@ -1760,14 +1760,14 @@ document.addEventListener('DOMContentLoaded', () => {
             icon.className = 'ri-sun-line';
             themeToggle.title = 'Toggle Theme (Light)';
         }
-        console.log('Theme toggle button updated for theme:', settings.theme);
+        
     }
     let systemThemeListener = null;
     function setupSystemThemeListener() {
         if (systemThemeListener)
             return; // Already set up
         systemThemeListener = (e) => {
-            console.log('System theme changed:', e.matches ? 'dark' : 'light');
+            
             const settings = loadSettings();
             if (settings.theme === 'system') {
                 applyTheme('system');
@@ -1775,14 +1775,14 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
         mediaQuery.addEventListener('change', systemThemeListener);
-        console.log('System theme listener set up');
+        
     }
     function removeSystemThemeListener() {
         if (systemThemeListener) {
             const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
             mediaQuery.removeEventListener('change', systemThemeListener);
             systemThemeListener = null;
-            console.log('System theme listener removed');
+            
         }
     }
     function applyAccentColor(color) {
@@ -1844,10 +1844,10 @@ document.addEventListener('DOMContentLoaded', () => {
         applyParticleEffects();
         // Apply console height
         const consoleContent = document.querySelector('.console-container');
-        console.log('Console content element found:', !!consoleContent);
+        
         if (consoleContent && settings.consoleHeight) {
             consoleContent.style.setProperty('height', `${settings.consoleHeight}px`, 'important');
-            console.log('Applied console height:', settings.consoleHeight);
+            
         }
         // Enable hardware acceleration for Monaco editor
         if (window.editor && settings.hardwareAcceleration) {
@@ -1864,7 +1864,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             catch (e) {
-                console.log('Could not apply hardware acceleration to Monaco editor:', e);
+                
             }
         }
         else if (window.editor && !settings.hardwareAcceleration) {
@@ -1881,22 +1881,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             catch (e) {
-                console.log('Could not disable hardware acceleration for Monaco editor:', e);
+                
             }
         }
         // Apply console font settings using multiple approaches
         const applyConsoleFontSettings = () => {
-            console.log('=== APPLYING CONSOLE FONT SETTINGS ===');
-            console.log('Settings object:', settings);
-            console.log('consoleFontSize:', settings.consoleFontSize);
+            
+            
+            
             // Method 1: Set CSS custom properties on the document root
             if (settings.consoleFontSize) {
                 document.documentElement.style.setProperty('--console-font-size', `${settings.consoleFontSize}px`);
-                console.log('Set CSS custom property --console-font-size to:', `${settings.consoleFontSize}px`);
+                
             }
             if (settings.consoleFontFamily) {
                 document.documentElement.style.setProperty('--console-font-family', settings.consoleFontFamily);
-                console.log('Set CSS custom property --console-font-family to:', settings.consoleFontFamily);
+                
             }
             // Method 2: Create or update a style element with high specificity
             let consoleStyleElement = document.getElementById('console-custom-styles');
@@ -1915,7 +1915,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 css += '}';
                 consoleStyleElement.textContent = css;
-                console.log('Created custom CSS:', css);
+                
             }
             // Method 3: Direct styling as backup - try both old and new selectors
             let consoleOutput = document.querySelector('.print-output-content');
@@ -1923,18 +1923,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 consoleOutput = document.querySelector('.console-output');
             }
             if (consoleOutput) {
-                console.log('Console output element found:', !!consoleOutput);
+                
                 if (settings.consoleFontSize) {
                     consoleOutput.style.setProperty('font-size', `${settings.consoleFontSize}px`, 'important');
-                    console.log('Applied console font size:', settings.consoleFontSize);
+                    
                 }
                 if (settings.consoleFontFamily) {
                     consoleOutput.style.setProperty('font-family', settings.consoleFontFamily, 'important');
-                    console.log('Applied console font family:', settings.consoleFontFamily);
+                    
                 }
             }
             else {
-                console.log('Console output element not found - skipping direct styling');
+                
             }
         };
         applyConsoleFontSettings();
@@ -2012,7 +2012,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Check if editor is in a stable state
                     const editor = window.editor;
                     if (!editor.getModel() || !editor.getDomNode()) {
-                        console.warn('Editor not in stable state, retrying...');
+                        
                         setTimeout(applyWhenReady, 50); // Reduced from 100ms to 50ms for faster retry
                         return;
                     }
@@ -2057,7 +2057,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     // Only update if we have valid options
                     if (Object.keys(editorOptions).length > 0) {
-                        console.log('Applying editor settings:', editorOptions);
+                        
                         editor.updateOptions(editorOptions);
                         // Force a layout update after a minimal delay to ensure the editor is stable
                         setTimeout(() => {
@@ -2067,13 +2067,13 @@ document.addEventListener('DOMContentLoaded', () => {
                                 }
                             }
                             catch (layoutError) {
-                                console.warn('Layout update failed:', layoutError);
+                                
                             }
                         }, 10); // Reduced from 100ms to 10ms for faster editor initialization
                     }
                 }
                 catch (error) {
-                    console.error('Error applying editor settings:', error);
+                    
                 }
             }
             else {
@@ -2084,27 +2084,27 @@ document.addEventListener('DOMContentLoaded', () => {
         applyWhenReady();
     }
     function applyUIVisibilitySettings(settings) {
-        console.log('=== APPLYING UI VISIBILITY SETTINGS ===');
-        console.log('Settings object:', settings);
-        console.log('showFileActions:', settings.showFileActions);
-        console.log('showRunButton:', settings.showRunButton);
+        
+        
+        
+        
         // Top Navigation - File Actions
         const fileActions = document.querySelector('.file-actions');
-        console.log('File actions element found:', !!fileActions);
+        
         if (fileActions) {
             fileActions.style.display = settings.showFileActions ? 'flex' : 'none';
-            console.log('File actions visibility set to:', fileActions.style.display);
+            
         }
         // Run and Stop buttons
         const runButton = document.getElementById('btnRun');
         const stopButton = document.getElementById('btnStop');
-        console.log('Run button element found:', !!runButton);
-        console.log('Stop button element found:', !!stopButton);
+        
+        
         if (runButton) {
-            console.log('Run button before change:');
-            console.log('- Computed style display:', window.getComputedStyle(runButton).display);
-            console.log('- Inline style display:', runButton.style.display);
-            console.log('- Visible:', runButton.offsetParent !== null);
+            
+            
+            
+            
             if (settings.showRunButton) {
                 runButton.style.display = 'flex';
                 runButton.style.visibility = 'visible';
@@ -2115,72 +2115,72 @@ document.addEventListener('DOMContentLoaded', () => {
                 runButton.style.visibility = 'hidden';
                 runButton.style.opacity = '0';
             }
-            console.log('Run button visibility set to:', runButton.style.display);
-            console.log('Run button after change:');
-            console.log('- Computed style display:', window.getComputedStyle(runButton).display);
-            console.log('- Inline style display:', runButton.style.display);
-            console.log('- Visible:', runButton.offsetParent !== null);
-            console.log('- Element visible in viewport:', runButton.offsetWidth > 0 && runButton.offsetHeight > 0);
+            
+            
+            
+            
+            
+            
         }
         if (stopButton) {
             stopButton.style.display = settings.showRunButton ? 'flex' : 'none';
-            console.log('Stop button visibility set to:', stopButton.style.display);
+            
         }
         // Theme toggle button
         const themeToggle = document.getElementById('btnThemeToggle');
         if (themeToggle) {
             themeToggle.style.display = settings.showThemeToggle ? 'flex' : 'none';
-            console.log('Theme toggle visibility:', settings.showThemeToggle);
+            
         }
         // Layout toggle button
         const layoutToggle = document.getElementById('layoutToggle');
         if (layoutToggle) {
             layoutToggle.style.display = settings.showLayoutToggle ? 'flex' : 'none';
-            console.log('Layout toggle visibility:', settings.showLayoutToggle);
+            
         }
         // Settings button
         const settingsButton = document.getElementById('btnSettings');
         if (settingsButton) {
             settingsButton.style.display = settings.showSettingsButton ? 'flex' : 'none';
-            console.log('Settings button visibility:', settings.showSettingsButton);
+            
         }
         // Editor Controls
         const editorActions = document.querySelector('.editor-actions');
         if (editorActions) {
             editorActions.style.display = settings.showEditorActions ? 'flex' : 'none';
-            console.log('Editor actions visibility:', settings.showEditorActions);
+            
         }
         const editorTitle = document.querySelector('.editor-title');
         if (editorTitle) {
             editorTitle.style.display = settings.showEditorTitle ? 'flex' : 'none';
-            console.log('Editor title visibility:', settings.showEditorTitle);
+            
         }
         // Console Controls
         const consoleControls = document.querySelector('.console-controls');
         if (consoleControls) {
             consoleControls.style.display = settings.showConsoleActions ? 'flex' : 'none';
-            console.log('Console controls visibility:', settings.showConsoleActions);
+            
         }
         const consoleStats = document.querySelector('.console-stats');
         if (consoleStats) {
             consoleStats.style.display = settings.showConsoleStats ? 'flex' : 'none';
-            console.log('Console stats visibility:', settings.showConsoleStats);
+            
         }
         const consoleTitle = document.querySelector('.console-title');
         if (consoleTitle) {
             consoleTitle.style.display = settings.showConsoleTitle ? 'flex' : 'none';
-            console.log('Console title visibility:', settings.showConsoleTitle);
+            
         }
         // Tab Controls
         const tabCounter = document.getElementById('tabCounter');
         if (tabCounter) {
             tabCounter.style.display = settings.showTabCounter ? 'block' : 'none';
-            console.log('Tab counter visibility:', settings.showTabCounter);
+            
         }
         const newTabButton = document.getElementById('btnNewTab');
         if (newTabButton) {
             newTabButton.style.display = settings.showNewTabButton ? 'flex' : 'none';
-            console.log('New tab button visibility:', settings.showNewTabButton);
+            
         }
         // Additional UI elements that might exist
         const formatButton = document.getElementById('btnFormat');
@@ -2336,7 +2336,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         catch (error) {
-            console.error('Clipboard action fallback failed:', action, error);
+            
         }
     }
     let isContentBeingAdded = false;
@@ -2346,9 +2346,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!outputConsole || !consoleContent || mutationObserver)
             return;
         mutationObserver = new MutationObserver((mutations) => {
-            console.log('MutationObserver triggered, autoScrollEnabled:', autoScrollEnabled);
+            
             if (!autoScrollEnabled) {
-                console.log('Auto scroll disabled, skipping scroll');
+                
                 return;
             }
             let shouldScroll = false;
@@ -2382,10 +2382,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Set a timeout to detect when loop context ends
                     loopScrollTimeout = window.setTimeout(() => {
                         isInLoopContext = false;
-                        console.log('Loop context ended - switching back to debounced scroll');
+                        
                     }, 200); // If no print statements for 200ms, assume loop ended
                     // Immediate scroll for loop context
-                    console.log('Loop context detected - immediate scroll');
+                    
                     performImmediateScroll();
                 }
                 else {
@@ -2409,7 +2409,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function performDebouncedScroll() {
         if (!autoScrollEnabled)
             return;
-        console.log('Performing debounced scroll - content addition has stopped');
+        
         // Use the enhanced scroll function for better handling of long content
         scrollToVeryBottom();
         // Also use the original function as backup
@@ -2425,7 +2425,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function forceImmediateScroll() {
         if (!autoScrollEnabled)
             return;
-        console.log('Forcing immediate scroll');
+        
         // Clear any pending debounced scroll
         if (scrollTimeout) {
             clearTimeout(scrollTimeout);
@@ -2438,7 +2438,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function performImmediateScroll() {
         if (!autoScrollEnabled)
             return;
-        console.log('Performing immediate scroll for loop context');
+        
         // Try multiple potential scrollable elements
         const scrollableElements = [
             consoleContent,
@@ -2477,11 +2477,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to scroll output console to bottom
     function scrollOutputToBottom() {
         if (!autoScrollEnabled) {
-            console.log('Auto scroll disabled, skipping scrollOutputToBottom');
+            
             return;
         }
         if (!consoleContent) {
-            console.warn('Console content element not found');
+            
             return;
         }
         // Enhanced scrolling function that ensures we reach the absolute bottom
@@ -2490,12 +2490,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const scrollHeight = consoleContent.scrollHeight;
             const clientHeight = consoleContent.clientHeight;
             const maxScroll = scrollHeight - clientHeight;
-            console.log('Scroll details:', {
-                scrollHeight,
-                clientHeight,
-                maxScroll,
-                currentScrollTop: consoleContent.scrollTop
-            });
+            
             // Method 1: Use scrollTo with exact positioning
             try {
                 consoleContent.scrollTo({
@@ -2521,15 +2516,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 const finalScrollHeight = consoleContent.scrollHeight;
                 const finalClientHeight = consoleContent.clientHeight;
                 const shouldBeAt = finalScrollHeight - finalClientHeight;
-                console.log('Final scroll check:', {
-                    current: finalScrollTop,
-                    shouldBe: shouldBeAt,
-                    difference: Math.abs(finalScrollTop - shouldBeAt)
-                });
+                
                 // If we're not at the bottom, force it
                 if (Math.abs(finalScrollTop - shouldBeAt) > 1) {
                     consoleContent.scrollTop = finalScrollHeight;
-                    console.log('Corrected scroll position');
+                    
                 }
             }, 50);
         };
@@ -2545,7 +2536,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Enhanced function to scroll to the very bottom with better handling of long content
     function scrollToVeryBottom() {
         if (!autoScrollEnabled) {
-            console.log('Auto scroll disabled, skipping scrollToVeryBottom');
+            
             return;
         }
         // Try multiple potential scrollable elements
@@ -2555,7 +2546,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelector('.console-container'),
             document.querySelector('.main-content')
         ].filter(el => el !== null);
-        console.log('Attempting to scroll with elements:', scrollableElements.map(el => el?.className || el?.id));
+        
         // Wait for the next frame to ensure DOM is fully updated
         requestAnimationFrame(() => {
             scrollableElements.forEach((element, index) => {
@@ -2564,13 +2555,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const scrollHeight = element.scrollHeight;
                 const clientHeight = element.clientHeight;
                 const maxScroll = scrollHeight - clientHeight;
-                console.log(`Element ${index} (${element.className || element.id}):`, {
-                    scrollHeight,
-                    clientHeight,
-                    maxScroll,
-                    currentScrollTop: element.scrollTop,
-                    canScroll: scrollHeight > clientHeight
-                });
                 // Only scroll if this element can actually scroll
                 if (scrollHeight > clientHeight) {
                     // First attempt: scroll to calculated bottom
@@ -2580,16 +2564,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         const newScrollHeight = element.scrollHeight;
                         const newClientHeight = element.clientHeight;
                         const newMaxScroll = newScrollHeight - newClientHeight;
-                        console.log(`Element ${index} second attempt:`, {
-                            newScrollHeight,
-                            newClientHeight,
-                            newMaxScroll,
-                            currentScrollTop: element.scrollTop
-                        });
+                        
                         // If content has grown, scroll to the new bottom
                         if (newScrollHeight > scrollHeight) {
                             element.scrollTop = newMaxScroll;
-                            console.log(`Element ${index} content grew, scrolled to new bottom`);
+                            
                         }
                         // Final verification after a longer delay
                         setTimeout(() => {
@@ -2597,17 +2576,11 @@ document.addEventListener('DOMContentLoaded', () => {
                             const finalClientHeight = element.clientHeight;
                             const finalMaxScroll = finalScrollHeight - finalClientHeight;
                             const currentScrollTop = element.scrollTop;
-                            console.log(`Element ${index} final verification:`, {
-                                finalScrollHeight,
-                                finalClientHeight,
-                                finalMaxScroll,
-                                currentScrollTop,
-                                isAtBottom: Math.abs(currentScrollTop - finalMaxScroll) <= 1
-                            });
+                            
                             // Force scroll to absolute bottom if not already there
                             if (Math.abs(currentScrollTop - finalMaxScroll) > 1) {
                                 element.scrollTop = finalScrollHeight;
-                                console.log(`Element ${index} forced scroll to absolute bottom`);
+                                
                             }
                         }, 100);
                     }, 50);
@@ -2618,7 +2591,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to scroll the last element into view
     function scrollLastElementIntoView() {
         if (!autoScrollEnabled) {
-            console.log('Auto scroll disabled, skipping scrollLastElementIntoView');
+            
             return;
         }
         if (!outputConsole || !consoleContent)
@@ -2627,7 +2600,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const children = outputConsole.children;
         if (children.length > 0) {
             const lastElement = children[children.length - 1];
-            console.log('Scrolling last element into view:', lastElement);
+            
             try {
                 // Use scrollIntoView to ensure the last element is visible
                 lastElement.scrollIntoView({
@@ -2788,7 +2761,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setupSideBySideEditorActions();
         }
         catch (error) {
-            console.error('Error initializing side-by-side editor:', error);
+            
         }
     }
     // Setup side-by-side editor actions
@@ -2821,7 +2794,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         saveSetting('minimap', newValue);
                     }
                     catch (error) {
-                        console.error('Error toggling side-by-side minimap:', error);
+                        
                         // Fallback approach
                         const currentMinimap = window.sideBySideEditor.getOption('minimap');
                         const newValue = !currentMinimap.enabled;
@@ -3193,13 +3166,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         // Debug logging for status changes
         const tabData = getCurrentTabData();
-        console.log('Console status updated for tab:', {
-            tabPath: activeFilePath,
-            tabStatus: getTabStatus(),
-            tabExecuting: tabData?.isExecuting,
-            tabErrors: tabData?.consoleStats?.errors,
-            status: consoleStatusBadge?.textContent
-        });
+        
     }
     function copyConsoleOutput() {
         if (!outputConsole)
@@ -3244,7 +3211,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 runnerWorker.terminate();
             }
             catch (e) {
-                console.error(e);
+                
             }
             runnerWorker = null;
         }
@@ -3281,7 +3248,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 runnerWorker.terminate();
             }
             catch (e) {
-                console.error(e);
+                
             }
             runnerWorker = null;
         }
@@ -3294,7 +3261,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 runnerWorker.postMessage({ type: 'stop' });
             }
             catch (e) {
-                console.error('Error sending stop message to worker:', e);
+                
             }
             // Force cleanup after a short delay
             setTimeout(() => {
@@ -3327,7 +3294,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 stopButton.title = 'Force Stop Stuck Execution (Click immediately)';
                 break;
         }
-        console.log(`Stop button state updated to: ${state}`);
+        
     }
     // Monitor execution time and update stop button state
     function startExecutionMonitoring() {
@@ -3342,20 +3309,20 @@ document.addEventListener('DOMContentLoaded', () => {
             clearTimeout(criticalTimeout);
             criticalTimeout = null;
         }
-        console.log('Starting execution monitoring...');
+        
         // Set timeout for long running detection (5 seconds)
         longRunningTimeout = window.setTimeout(() => {
             if (isExecuting && !longRunningDetected) {
                 longRunningDetected = true;
                 updateStopButtonState('long-running');
-                console.log('Long running execution detected - stop button updated to warning state');
+                
             }
         }, 5000);
         // Set timeout for critical state (15 seconds)
         criticalTimeout = window.setTimeout(() => {
             if (isExecuting) {
                 updateStopButtonState('critical');
-                console.log('Critical execution state - stop button updated to critical state');
+                
             }
         }, 15000);
     }
@@ -3439,7 +3406,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     }
                     catch (e) {
-                        console.warn('Failed to update error decorations', e);
+                        
                     }
                 }
             });
@@ -3524,12 +3491,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
                 catch (e) {
-                    console.warn('Failed to update error decorations', e);
+                    
                 }
             }
         }
         catch (e) {
-            console.error('Error handling error:', e);
+            
             out(`Error: ${String(err)}`, 'error');
         }
     }
@@ -3624,7 +3591,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         updateConsoleUI();
                     }
                     else {
-                        console.warn('unknown message', m);
+                        
                     }
                 }
                 catch (err) {
@@ -3786,7 +3753,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         catch (e) {
-            console.error('Error saving editor state:', e);
+            
         }
     }
     // Function to refresh editor content for the current tab
@@ -3800,7 +3767,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         const file = openFiles.get(activeFilePath);
         if (!file) {
-            console.warn('No file data found for:', activeFilePath);
+            
             return;
         }
         try {
@@ -3828,7 +3795,7 @@ document.addEventListener('DOMContentLoaded', () => {
             window.editor.focus();
         }
         catch (e) {
-            console.error('Error refreshing editor:', e);
+            
         }
     }
     // Function to open a file in a new tab
@@ -3850,7 +3817,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.title = `${filePath.split('/').pop()} - iPseudo IDE`;
         }
         catch (error) {
-            console.error('Error opening file:', error);
+            
             handleError({ message: `Failed to open file: ${error.message}` });
         }
     }
@@ -3858,7 +3825,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function createOrSwitchToTab(filePath, initialContent = '') {
         const tabBar = document.getElementById('tabsTrack');
         if (!tabBar) {
-            console.error('Tab track not found');
+            
             return;
         }
         // Check if tab already exists
@@ -3999,7 +3966,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         catch (error) {
-            console.error('Error saving file:', error);
+            
             throw error;
         }
     }
@@ -4045,7 +4012,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return false;
         }
         catch (error) {
-            console.error('Error showing save dialog:', error);
+            
             return false;
         }
     }
@@ -4108,7 +4075,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             performTabClose(tabElement);
                         }
                         catch (error) {
-                            console.error('Error saving file:', error);
+                            
                             // Still close the tab even if save fails
                             performTabClose(tabElement);
                         }
@@ -4537,7 +4504,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             catch (error) {
-                console.error('Error saving file:', error);
+                
                 out(`Error saving file: ${error.message}`, 'error');
             }
         });
@@ -4603,7 +4570,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     else {
-        console.error('New tab button not found');
+        
     }
     // Add event listeners for new action buttons
     const formatButton = document.getElementById('btnFormat');
@@ -4632,7 +4599,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     saveSetting('minimap', newValue);
                 }
                 catch (error) {
-                    console.error('Error toggling minimap:', error);
+                    
                     // Fallback approach
                     const currentValue = window.editor.getOption('minimap');
                     const newValue = !currentValue.enabled;
@@ -4688,24 +4655,24 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 if (window.editor.layout) {
                     window.editor.layout();
-                    console.log('Main editor layout refreshed');
+                    
                 } else {
-                    console.log('Editor layout method not available');
+                    
                 }
             } catch (error) {
-                console.warn('Error calling editor layout:', error);
+                
             }
         }
         else {
-            console.warn('Main editor not found - this might cause issues with tab layout');
+            
         }
         // Debug tab layout visibility
         const editorContent = document.getElementById('editorContent');
         const consoleContent = document.getElementById('consoleContent');
-        console.log('Editor content element:', editorContent);
-        console.log('Console content element:', consoleContent);
-        console.log('Editor content classes:', editorContent?.className);
-        console.log('Console content classes:', consoleContent?.className);
+        
+        
+        
+        
         // Console content is tab-specific
     }, 500);
     if (layoutToggleButton && layoutIcon && tabLayout && sideBySideLayout) {
@@ -4737,7 +4704,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 window.editor.layout();
                             }
                         } catch (error) {
-                            console.warn('Error calling editor layout:', error);
+                            
                         }
                     }, 100);
                 }
@@ -4816,7 +4783,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             catch (error) {
-                console.error('Error in file open dialog:', error);
+                
                 handleError({ message: `Failed to open file dialog: ${error.message}` });
             }
         });
@@ -4911,17 +4878,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to toggle auto-scroll (for debugging)
     function toggleAutoScroll() {
         autoScrollEnabled = !autoScrollEnabled;
-        console.log('Auto-scroll', autoScrollEnabled ? 'enabled' : 'disabled');
+        
     }
     // Test function to add multiple lines and verify auto-scroll
     function testAutoScroll() {
-        console.log('Testing auto-scroll with console content:', consoleContent);
-        console.log('Console element details:', {
-            id: consoleContent?.className,
-            className: consoleContent?.className,
-            scrollHeight: consoleContent?.scrollHeight,
-            clientHeight: consoleContent?.clientHeight
-        });
+        
+        
         for (let i = 1; i <= 10; i++) {
             setTimeout(() => {
                 out(`Test line ${i} - This should auto-scroll to show the latest content`, 'info');
@@ -4930,7 +4892,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // Test function for very long content
     function testLongContentScroll() {
-        console.log('Testing auto-scroll with very long content');
+        
         // Create a very long string
         let longContent = 'This is a very long line of content that should test the auto-scroll functionality. ';
         for (let i = 0; i < 50; i++) {
@@ -4948,7 +4910,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // Test function for loop-like content (simulating a big loop)
     function testLoopScroll() {
-        console.log('Testing auto-scroll with loop-like content (simulating for i = 1 to 100)');
+        
         // Simulate a loop that prints numbers 1 to 100
         for (let i = 1; i <= 100; i++) {
             setTimeout(() => {
@@ -4962,7 +4924,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // Test function for immediate live scrolling during loop execution
     function testLiveLoopScroll() {
-        console.log('Testing LIVE auto-scroll during loop execution (simulating for i = 1 to 50)');
+        
         // Simulate a faster loop that prints numbers 1 to 50 with immediate scrolling
         for (let i = 1; i <= 50; i++) {
             setTimeout(() => {
@@ -4976,35 +4938,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // Test function for stop button states
     function testStopButtonStates() {
-        console.log('Testing stop button states...');
+        
         // Test hidden state
         updateStopButtonState('hidden');
         setTimeout(() => {
-            console.log('Testing normal state...');
+            
             updateStopButtonState('normal');
         }, 1000);
         setTimeout(() => {
-            console.log('Testing long-running state...');
+            
             updateStopButtonState('long-running');
         }, 2000);
         setTimeout(() => {
-            console.log('Testing critical state...');
+            
             updateStopButtonState('critical');
         }, 3000);
         setTimeout(() => {
-            console.log('Resetting to hidden state...');
+            
             updateStopButtonState('hidden');
         }, 4000);
     }
     // Test function for long running execution simulation
     function testLongRunningExecution() {
-        console.log('Testing long running execution detection...');
+        
         // Simulate execution start
         isExecuting = true;
         startExecutionMonitoring();
         // Simulate a long running operation
         setTimeout(() => {
-            console.log('Simulating execution completion...');
+            
             isExecuting = false;
             stopExecutionMonitoring();
             updateStopButtonState('hidden');
@@ -5012,7 +4974,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // Debug function to analyze scrollable elements
     function debugScrollElements() {
-        console.log('=== SCROLL DEBUG ANALYSIS ===');
+        
         // Check all potential scrollable elements
         const elements = [
             { name: 'outputConsole (output)', element: outputConsole },
@@ -5028,34 +4990,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 const clientHeight = element.clientHeight;
                 const scrollTop = element.scrollTop;
                 const maxScroll = scrollHeight - clientHeight;
-                console.log(`\n--- ${name} ---`);
-                console.log('Element:', element);
-                console.log('scrollHeight:', scrollHeight);
-                console.log('clientHeight:', clientHeight);
-                console.log('scrollTop:', scrollTop);
-                console.log('maxScroll:', maxScroll);
-                console.log('overflow-y:', computedStyle.overflowY);
-                console.log('overflow-x:', computedStyle.overflowX);
-                console.log('position:', computedStyle.position);
-                console.log('Can scroll:', scrollHeight > clientHeight);
-                console.log('Is at bottom:', Math.abs(scrollTop - maxScroll) <= 1);
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
             }
             else {
-                console.log(`\n--- ${name} ---`);
-                console.log('Element not found!');
+                
+                
             }
         });
         // Check which element actually has scrollable content
-        console.log('\n=== SCROLLABLE ELEMENT ANALYSIS ===');
+        
         const scrollableElements = elements.filter(({ element }) => {
             if (!element)
                 return false;
             return element.scrollHeight > element.clientHeight;
         });
-        console.log('Scrollable elements found:', scrollableElements.length);
+        
         scrollableElements.forEach(({ name, element }) => {
             if (element) {
-                console.log(`- ${name}: scrollHeight=${element.scrollHeight}, clientHeight=${element.clientHeight}`);
+                
             }
         });
         // Find the element with the most content
@@ -5066,9 +5028,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 return current;
             return current.element.scrollHeight > max.element.scrollHeight ? current : max;
         }, { name: 'none', element: null });
-        console.log('\nElement with most content:', elementWithMostContent.name);
+        
         if (elementWithMostContent.element) {
-            console.log('This should be our scroll target!');
+            
         }
     }
     // Make functions globally available for debugging
@@ -5097,21 +5059,21 @@ document.addEventListener('DOMContentLoaded', () => {
     window.formatPseudocode = formatPseudocode;
     // Test function for UI visibility settings
     window.testUIVisibility = function () {
-        console.log('=== TESTING UI VISIBILITY ===');
+        
         const settings = loadSettings();
-        console.log('Current settings:', settings);
+        
         // Test hiding run button
         settings.showRunButton = false;
-        console.log('Setting showRunButton to false');
+        
         applyUIVisibilitySettings(settings);
         // Test hiding file actions
         settings.showFileActions = false;
-        console.log('Setting showFileActions to false');
+        
         applyUIVisibilitySettings(settings);
     };
     // Test function to show all UI elements
     window.showAllUI = function () {
-        console.log('=== SHOWING ALL UI ELEMENTS ===');
+        
         const settings = loadSettings();
         settings.showFileActions = true;
         settings.showRunButton = true;
@@ -5131,125 +5093,109 @@ document.addEventListener('DOMContentLoaded', () => {
     window.debugCSS = function (elementId) {
         const element = document.getElementById(elementId);
         if (!element) {
-            console.log(`Element ${elementId} not found`);
+            
             return;
         }
-        console.log(`=== CSS DEBUG FOR ${elementId} ===`);
-        console.log('Element:', element);
-        console.log('Inline styles:', element.style.cssText);
-        console.log('Computed styles:', window.getComputedStyle(element));
-        console.log('Display:', window.getComputedStyle(element).display);
-        console.log('Visibility:', window.getComputedStyle(element).visibility);
-        console.log('Opacity:', window.getComputedStyle(element).opacity);
-        console.log('Position:', window.getComputedStyle(element).position);
-        console.log('Z-index:', window.getComputedStyle(element).zIndex);
-        console.log('Transform:', window.getComputedStyle(element).transform);
-        console.log('Is visible:', element.offsetParent !== null);
-        console.log('Dimensions:', {
-            width: element.offsetWidth,
-            height: element.offsetHeight,
-            clientWidth: element.clientWidth,
-            clientHeight: element.clientHeight
-        });
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     };
     // Debug function to check current UI state
     window.checkUIState = function () {
-        console.log('=== CURRENT UI STATE ===');
+        
         const runButton = document.getElementById('btnRun');
         const fileActions = document.querySelector('.file-actions');
-        console.log('Run button:');
-        console.log('- Element found:', !!runButton);
+        
+        
         if (runButton) {
-            console.log('- Display:', runButton.style.display);
-            console.log('- Computed display:', window.getComputedStyle(runButton).display);
-            console.log('- Visible:', runButton.offsetParent !== null);
+            
+            
+            
         }
-        console.log('File actions:');
-        console.log('- Element found:', !!fileActions);
+        
+        
         if (fileActions) {
-            console.log('- Display:', fileActions.style.display);
-            console.log('- Computed display:', window.getComputedStyle(fileActions).display);
-            console.log('- Visible:', fileActions.offsetParent !== null);
+            
+            
+            
         }
-        console.log('Current settings:', loadSettings());
+        
     };
     // Function to apply console font size immediately
     function applyConsoleFontSizeImmediately(fontSize) {
-        console.log('=== APPLYING CONSOLE FONT SIZE IMMEDIATELY ===');
-        console.log('Font size to apply:', fontSize);
+        
+        
         // Method 1: Update CSS custom property
         document.documentElement.style.setProperty('--console-font-size', `${fontSize}px`);
-        console.log('Set CSS custom property to:', `${fontSize}px`);
+        
         // Method 2: Update or create style element
         let consoleStyleElement = document.getElementById('console-custom-styles');
         if (!consoleStyleElement) {
             consoleStyleElement = document.createElement('style');
             consoleStyleElement.id = 'console-custom-styles';
             document.head.appendChild(consoleStyleElement);
-            console.log('Created new style element');
+            
         }
         const css = `.console-output { font-size: ${fontSize}px !important; }`;
         consoleStyleElement.textContent = css;
-        console.log('Updated style element with:', css);
+        
         // Method 3: Apply to all existing console output elements
         const consoleOutputs = document.querySelectorAll('.console-output');
-        console.log('Found console output elements:', consoleOutputs.length);
+        
         consoleOutputs.forEach((element, index) => {
             const htmlElement = element;
             htmlElement.style.setProperty('font-size', `${fontSize}px`, 'important');
-            console.log(`Applied to element ${index}:`, {
-                element: htmlElement,
-                inlineStyle: htmlElement.style.fontSize,
-                computedStyle: window.getComputedStyle(htmlElement).fontSize
-            });
+            
         });
         // Method 3b: Apply to all existing console messages
         const consoleMessages = document.querySelectorAll('.console-message');
-        console.log('Found console message elements:', consoleMessages.length);
+        
         consoleMessages.forEach((element, index) => {
             const htmlElement = element;
             htmlElement.style.setProperty('font-size', `${fontSize}px`, 'important');
-            console.log(`Applied to message ${index}:`, {
-                element: htmlElement,
-                inlineStyle: htmlElement.style.fontSize,
-                computedStyle: window.getComputedStyle(htmlElement).fontSize
-            });
+            
         });
         // Method 4: Apply to console content as well
         const consoleContent = document.querySelector('.console-container');
         if (consoleContent) {
             consoleContent.style.setProperty('font-size', `${fontSize}px`, 'important');
-            console.log('Applied to console content:', {
-                inlineStyle: consoleContent.style.fontSize,
-                computedStyle: window.getComputedStyle(consoleContent).fontSize
-            });
+            
         }
         // Method 5: Force a reflow to ensure styles are applied
         document.body.offsetHeight; // Force reflow
-        console.log('Font size application completed');
+        
     }
     // Debug function to test console settings
     window.testConsoleSettings = function () {
-        console.log('=== TESTING CONSOLE SETTINGS ===');
+        
         const consoleOutput = document.querySelector('.console-output');
         const consoleContent = document.querySelector('.console-container');
-        console.log('Console output element:', consoleOutput);
-        console.log('Console content element:', consoleContent);
+        
+        
         if (consoleOutput) {
-            console.log('Current font size:', window.getComputedStyle(consoleOutput).fontSize);
-            console.log('Current font family:', window.getComputedStyle(consoleOutput).fontFamily);
-            console.log('Inline font size:', consoleOutput.style.fontSize);
-            console.log('Inline font family:', consoleOutput.style.fontFamily);
+            
+            
+            
+            
             // Test setting font size
             consoleOutput.style.setProperty('font-size', '20px', 'important');
-            console.log('Set font size to 20px, computed:', window.getComputedStyle(consoleOutput).fontSize);
+            
         }
-        console.log('Auto scroll enabled:', autoScrollEnabled);
-        console.log('Global auto scroll enabled:', window.autoScrollEnabled);
+        
+        
     };
     // Test function to manually apply font size
     window.testFontSize = function (size) {
-        console.log(`Testing font size: ${size}px`);
+        
         applyConsoleFontSizeImmediately(size);
     };
     // Set up observer to watch for new console elements
@@ -5262,7 +5208,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             const element = node;
                             if (element.classList.contains('console-output') ||
                                 element.querySelector('.console-output')) {
-                                console.log('New console element detected, applying font size');
+                                
                                 const settings = loadSettings();
                                 if (settings.consoleFontSize) {
                                     applyConsoleFontSizeImmediately(settings.consoleFontSize);
@@ -5279,7 +5225,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 childList: true,
                 subtree: true
             });
-            console.log('Console font observer set up');
+            
         }
     }
     // Initialize the observer
@@ -5294,15 +5240,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function setupThemeToggleButton() {
         const themeToggle = document.getElementById('btnThemeToggle');
         if (!themeToggle) {
-            console.log('Theme toggle button not found');
+            
             return;
         }
-        console.log('Setting up theme toggle button');
+        
         themeToggle.addEventListener('click', () => {
             // Get current settings
             const currentSettings = loadSettings();
             const currentTheme = currentSettings.theme;
-            console.log('Theme toggle clicked. Current theme:', currentTheme);
+            
             // Determine next theme based on current theme
             let nextTheme;
             if (currentTheme === 'system') {
@@ -5322,17 +5268,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 const isDark = document.body.classList.contains('theme-dark');
                 nextTheme = isDark ? 'light' : 'dark';
             }
-            console.log('Switching to theme:', nextTheme);
+            
             // Apply the new theme
             applyTheme(nextTheme);
             // Save the setting
             const updatedSettings = saveSetting('theme', nextTheme);
-            console.log('Theme setting saved:', updatedSettings.theme);
+            
             // Update the theme select in settings if it exists
             const themeSelect = document.getElementById('themeSelect');
             if (themeSelect) {
                 themeSelect.value = nextTheme;
-                console.log('Theme select updated to:', nextTheme);
+                
             }
             // Update theme info
             const themeInfo = document.getElementById('themeInfo');
@@ -5344,7 +5290,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Update theme toggle button appearance
             updateThemeToggleButtonFromSettings();
         });
-        console.log('Theme toggle button setup complete');
+        
     }
     // Initialize settings manager immediately when DOM is ready
     document.addEventListener('DOMContentLoaded', () => {

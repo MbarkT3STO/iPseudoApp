@@ -1,7 +1,0 @@
-constant pi1 = 3.14
-Constant pi2 = 3.14
-CONSTANT pi3 = 3.14
-
-print pi1
-print pi2  
-print pi3

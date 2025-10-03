@@ -1158,7 +1158,7 @@ class ModernSettingsManager {
             mainSettings.theme = theme; // Keep the original theme setting (including 'system')
             localStorage.setItem('iPseudoSettings', JSON.stringify(mainSettings));
         } catch (e) {
-            console.error('Failed to update main app settings:', e);
+            
         }
         
         // Show notification
@@ -1304,9 +1304,9 @@ class ModernSettingsManager {
                     fontSize: parseInt(size)
                 });
                 window.editor.layout(); // Force layout update
-                console.log('Applied font size:', size);
+                
             } catch (error) {
-                console.error('Error applying font size:', error);
+                
             }
         }
     }
@@ -1319,9 +1319,9 @@ class ModernSettingsManager {
                     fontFamily: family
                 });
                 window.editor.layout(); // Force layout update
-                console.log('Applied font family:', family);
+                
             } catch (error) {
-                console.error('Error applying font family:', error);
+                
             }
         }
     }
@@ -1334,9 +1334,9 @@ class ModernSettingsManager {
                     lineHeight: parseFloat(height)
                 });
                 window.editor.layout(); // Force layout update
-                console.log('Applied line height:', height);
+                
             } catch (error) {
-                console.error('Error applying line height:', error);
+                
             }
         }
     }
@@ -1637,7 +1637,7 @@ class ModernSettingsManager {
                         this.updateUI();
                     }
                 } catch (error) {
-                    console.error('Error syncing settings from storage:', error);
+                    
                 }
             }
         });
@@ -1759,7 +1759,7 @@ class ModernSettingsManager {
             
             return settings;
         } catch (error) {
-            console.error('Error loading settings:', error);
+            
             return this.getDefaultSettings();
         }
     }
@@ -1779,7 +1779,7 @@ class ModernSettingsManager {
                 storageArea: localStorage
             }));
         } catch (error) {
-            console.error('Error saving settings:', error);
+            
         }
     }
 

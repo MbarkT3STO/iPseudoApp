@@ -1,6 +1,0 @@
-Algorithm DebugTest
-Variable test = 42
-Set 100 To test
-Print test
-Endalgorithm
-

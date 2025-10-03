@@ -86,7 +86,7 @@
                     this._decorations = editor.deltaDecorations([], dec);
             }
             catch (e) {
-                console.error('applyEditorMarkers failed', e);
+                
             }
         }
     }

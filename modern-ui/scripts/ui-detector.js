@@ -14,7 +14,7 @@ class UIDetector {
             const stored = localStorage.getItem('preferredUI');
             return stored || 'modern'; // Default to modern UI
         } catch (error) {
-            console.warn('Error reading UI preference:', error);
+            
             return 'modern';
         }
     }
@@ -24,46 +24,46 @@ class UIDetector {
         const path = window.location.pathname;
         const href = window.location.href;
         
-        console.log('Detecting current UI from path:', path);
-        console.log('Full href:', href);
+        
+        
         
         // Check for modern UI
         if (path.includes('modern-ui') || href.includes('modern-ui')) {
-            console.log('Detected Modern UI');
+            
             return 'modern';
         }
         
         // Check for classic UI
         if (path.includes('src/renderer') || path.includes('dist/renderer') || href.includes('src/renderer') || href.includes('dist/renderer')) {
-            console.log('Detected Classic UI');
+            
             return 'classic';
         }
         
-        console.log('UI detection unknown');
+        
         return 'unknown';
     }
 
     // Initialize UI detection and redirection
     init() {
-        console.log('UI Detector initialized');
-        console.log('Preferred UI:', this.preferredUI);
-        console.log('Current UI:', this.currentUI);
+        
+        
+        
         
         // Add a small delay to ensure the page is fully loaded
         setTimeout(() => {
             // Only redirect if we're not already in the preferred UI
             if (this.preferredUI !== this.currentUI && this.currentUI !== 'unknown') {
-                console.log('UI mismatch detected, redirecting...');
+                
                 this.redirectToPreferredUI();
             } else {
-                console.log('UI matches preference or unknown, no redirect needed');
+                
             }
         }, 100);
     }
 
     // Redirect to the preferred UI
     redirectToPreferredUI() {
-        console.log(`Redirecting from ${this.currentUI} UI to ${this.preferredUI} UI`);
+        
         
         // Show a brief loading message
         this.showLoadingMessage();
@@ -93,10 +93,10 @@ class UIDetector {
                     }
                 }
                 
-                console.log('Redirecting to:', redirectUrl);
+                
                 window.location.href = redirectUrl;
             } catch (error) {
-                console.error('Error during redirect:', error);
+                
                 // Fallback: try to reload the page
                 window.location.reload();
             }
@@ -403,9 +403,9 @@ class UIDetector {
         try {
             localStorage.setItem('preferredUI', ui);
             this.preferredUI = ui;
-            console.log(`UI preference changed to: ${ui}`);
+            
         } catch (error) {
-            console.error('Error saving UI preference:', error);
+            
         }
     }
 

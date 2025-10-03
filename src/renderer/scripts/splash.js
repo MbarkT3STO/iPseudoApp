@@ -40,7 +40,7 @@ class ModernEditorSplashScreen {
     }
 
     detectAndApplyTheme() {
-        if (this.debug) console.log('🎨 Detecting theme for splash screen...');
+        if (this.debug) 
         
         // Default to dark mode for splash screen
         let theme = 'dark';
@@ -50,11 +50,11 @@ class ModernEditorSplashScreen {
                 const savedTheme = localStorage.getItem('theme');
                 if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
                     theme = savedTheme;
-                    if (this.debug) console.log(`✅ Found theme in localStorage: ${theme}`);
+                    if (this.debug) 
                 }
             }
         } catch (error) {
-            if (this.debug) console.log('⚠️ Error reading localStorage:', error);
+            if (this.debug) 
         }
         
         this.applyTheme(theme);
@@ -74,11 +74,11 @@ class ModernEditorSplashScreen {
                 const appTheme = await Promise.race([themePromise, timeoutPromise]);
                 if (appTheme && appTheme !== document.documentElement.className.replace('theme-', '')) {
                     this.applyTheme(appTheme);
-                    if (this.debug) console.log(`🔄 Updated theme to: ${appTheme}`);
+                    if (this.debug) 
                 }
             }
         } catch (error) {
-            if (this.debug) console.log('ℹ️ Theme request failed, keeping current theme');
+            if (this.debug) 
         }
     }
 
@@ -87,7 +87,7 @@ class ModernEditorSplashScreen {
         html.classList.remove('theme-light', 'theme-dark');
         html.classList.add(`theme-${theme}`);
         
-        if (this.debug) console.log(`🎨 Applied theme: ${theme}`);
+        if (this.debug) 
     }
 
     getPreferredUI() {
@@ -99,7 +99,7 @@ class ModernEditorSplashScreen {
                 }
             }
         } catch (error) {
-            console.warn('⚠️ Could not access localStorage for UI preference:', error);
+            
         }
         
         // Default to classic UI
@@ -107,7 +107,7 @@ class ModernEditorSplashScreen {
     }
 
     setupUISelection() {
-        if (this.debug) console.log('🎨 Setting up UI selection...');
+        if (this.debug) 
         
         // Add UI selection buttons to the splash screen
         this.addUISelectionButtons();
@@ -168,7 +168,7 @@ class ModernEditorSplashScreen {
     }
 
     selectUI(ui) {
-        if (this.debug) console.log(`🎨 UI selected: ${ui}`);
+        if (this.debug) 
         
         this.preferredUI = ui;
         
@@ -187,7 +187,7 @@ class ModernEditorSplashScreen {
                 localStorage.setItem('preferredUI', ui);
             }
         } catch (error) {
-            console.warn('⚠️ Could not save UI preference:', error);
+            
         }
 
         // Update progress status
@@ -431,11 +431,11 @@ class ModernEditorSplashScreen {
     setupKeyboardShortcuts() {
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                console.log('⌨️ Escape pressed - skipping splash screen');
+                
                 this.completeLoading();
             }
             if (e.key === 'Enter' || e.key === ' ') {
-                console.log('⌨️ Enter/Space pressed - completing splash screen');
+                
                 this.completeLoading();
             }
         });
@@ -597,7 +597,7 @@ class ModernEditorSplashScreen {
     }
 
     completeLoading() {
-        if (this.debug) console.log('🎉 Completing splash screen loading...');
+        if (this.debug) 
         
         this.isComplete = true;
         
@@ -766,8 +766,8 @@ class ModernEditorSplashScreen {
     }
 
     async notifyMainProcess() {
-        console.log('📡 Notifying main process of splash completion...');
-        console.log(`🎨 Preferred UI: ${this.preferredUI}`);
+        
+        
         
         try {
             if (window.electron?.ipcRenderer) {
@@ -777,25 +777,25 @@ class ModernEditorSplashScreen {
                 );
                 
                 await Promise.race([notifyPromise, timeoutPromise]);
-                console.log('✅ Splash completion notified to main process');
+                
             } else if (window.require) {
                 const { ipcRenderer } = window.require('electron');
                 await ipcRenderer.invoke('splash-complete', { preferredUI: this.preferredUI });
-                console.log('✅ Splash screen completed, main window should be showing');
+                
             } else {
-                console.log('ℹ️ No IPC available, redirecting to preferred UI...');
+                
                 this.redirectToPreferredUI();
             }
         } catch (error) {
-            console.error('❌ Error notifying main process:', error);
-            console.log('🔄 Attempting to redirect to preferred UI...');
+            
+            
             this.redirectToPreferredUI();
         }
     }
 
     redirectToPreferredUI() {
         const uiPath = this.preferredUI === 'modern' ? '../../modern-ui/index.html' : '../index.html';
-        console.log(`🔄 Redirecting to ${this.preferredUI} UI: ${uiPath}`);
+        
         window.location.href = uiPath;
     }
 }
@@ -846,9 +846,9 @@ document.head.appendChild(style);
 
 // Initialize splash screen when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🚀 Editor splash screen DOM loaded, initializing...');
+    
     window.splashInstance = new ModernEditorSplashScreen();
-    console.log('✅ Editor splash screen initialized');
+    
 });
 
 // Handle window close

@@ -208,7 +208,7 @@ window.require(['vs/editor/editor.main'], function () {
     // Ensure editor container exists
     const editorContainer = document.getElementById('editor');
     if (!editorContainer) {
-        console.error('Editor container not found');
+        
         return;
     }
     // Register custom language
@@ -248,7 +248,7 @@ window.require(['vs/editor/editor.main'], function () {
         }
     }
     catch (error) {
-        console.error('Error loading minimap setting:', error);
+        
     }
     // Create editor instance
     const editor = window.monaco.editor.create(document.getElementById('editor'), {
@@ -426,7 +426,7 @@ window.require(['vs/editor/editor.main'], function () {
             window.onEditorReady(editor);
         }
         catch (e) {
-            console.error('onEditorReady hook failed', e);
+            
         }
     }
     // Auto indentation on Enter: copy previous line's leading whitespace when available
@@ -595,7 +595,7 @@ function handleClipboardAction(action) {
         }
     }
     catch (error) {
-        console.error('Clipboard action failed:', action, error);
+        
     }
 }
 // Monaco Editor custom context menu
@@ -700,7 +700,7 @@ function showMonacoContextMenu(e) {
                 }
             }
             catch (error) {
-                console.error('Context menu action failed:', action, error);
+                
                 // Fallback to manual implementation for clipboard operations
                 if (action === 'cut' || action === 'copy' || action === 'paste') {
                     handleClipboardAction(action);

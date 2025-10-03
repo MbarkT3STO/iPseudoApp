@@ -44,7 +44,7 @@ class ErrorManager {
             this.errors = this.errors.slice(-this.maxErrors);
         }
         
-        console.error(`[ErrorManager] ${context}:`, errorInfo);
+        
         this.notifyError(errorInfo);
     }
 
@@ -94,7 +94,7 @@ class StorageManager {
             this.storage.setItem(key, serialized);
             return true;
         } catch (error) {
-            console.error('Storage set error:', error);
+            
             return false;
         }
     }
@@ -104,7 +104,7 @@ class StorageManager {
             const item = this.storage.getItem(key);
             return item ? JSON.parse(item) : defaultValue;
         } catch (error) {
-            console.error('Storage get error:', error);
+            
             return defaultValue;
         }
     }
@@ -114,7 +114,7 @@ class StorageManager {
             this.storage.removeItem(key);
             return true;
         } catch (error) {
-            console.error('Storage remove error:', error);
+            
             return false;
         }
     }
@@ -124,7 +124,7 @@ class StorageManager {
             this.storage.clear();
             return true;
         } catch (error) {
-            console.error('Storage clear error:', error);
+            
             return false;
         }
     }
@@ -156,7 +156,7 @@ class ThemeManager {
                 themeToggle.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`);
             }
         } catch (error) {
-            console.error('Theme application error:', error);
+            
         }
     }
 
@@ -217,7 +217,7 @@ class SettingsManager {
             this.storage.set(CONFIG.SETTINGS_STORAGE_KEY, this.settings);
             return true;
         } catch (error) {
-            console.error('Settings save error:', error);
+            
             return false;
         }
     }
@@ -265,7 +265,7 @@ class FileManager {
             this.createTab(filePath);
             return true;
         } catch (error) {
-            console.error('File open error:', error);
+            
             return false;
         }
     }
@@ -287,7 +287,7 @@ class FileManager {
             }
             return false;
         } catch (error) {
-            console.error('File close error:', error);
+            
             return false;
         }
     }
@@ -299,7 +299,7 @@ class FileManager {
             this.updateEditorContent();
             return true;
         } catch (error) {
-            console.error('Set active file error:', error);
+            
             return false;
         }
     }
@@ -316,7 +316,7 @@ class FileManager {
             }
             return false;
         } catch (error) {
-            console.error('Update file content error:', error);
+            
             return false;
         }
     }
@@ -328,27 +328,27 @@ class FileManager {
 
     createTab(filePath) {
         // Implementation for creating tab UI
-        console.log('Creating tab for:', filePath);
+        
     }
 
     removeTab(filePath) {
         // Implementation for removing tab UI
-        console.log('Removing tab for:', filePath);
+        
     }
 
     updateActiveTab() {
         // Implementation for updating active tab UI
-        console.log('Updating active tab to:', this.activeFilePath);
+        
     }
 
     updateEditorContent() {
         // Implementation for updating editor content
-        console.log('Updating editor content for:', this.activeFilePath);
+        
     }
 
     showNotification(message, type) {
         // Implementation for showing notifications
-        console.log(`[${type.toUpperCase()}] ${message}`);
+        
     }
 }
 
@@ -396,7 +396,7 @@ class ConsoleManager {
                 this.scrollToBottom();
             }
         } catch (error) {
-            console.error('Console log error:', error);
+            
         }
     }
 
@@ -423,7 +423,7 @@ class ConsoleManager {
                 this.messageCount = 0;
             }
         } catch (error) {
-            console.error('Console clear error:', error);
+            
         }
     }
 
@@ -438,7 +438,7 @@ class ConsoleManager {
                 });
             }
         } catch (error) {
-            console.error('Console copy error:', error);
+            
         }
     }
 
@@ -667,12 +667,12 @@ class ModernApp {
 
     toggleSettings() {
         // Implementation for toggling settings modal
-        console.log('Toggle settings');
+        
     }
 
     closeModals() {
         // Implementation for closing all modals
-        console.log('Close modals');
+        
     }
 }
 
@@ -686,7 +686,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.modernApp = app;
         
     } catch (error) {
-        console.error('Failed to initialize Modern App:', error);
+        
     }
 });
 

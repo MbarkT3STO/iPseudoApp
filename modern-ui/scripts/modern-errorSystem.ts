@@ -97,7 +97,7 @@
                 if (this._decorations) this._decorations = editor.deltaDecorations(this._decorations, dec);
                 else this._decorations = editor.deltaDecorations([], dec);
             } catch(e) { 
-                console.error('applyEditorMarkers failed', e); 
+                 
             }
         }
     }

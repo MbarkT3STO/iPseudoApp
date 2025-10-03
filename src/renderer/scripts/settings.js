@@ -1225,9 +1225,9 @@ class SettingsManager {
                     fontSize: parseInt(size)
                 });
                 window.editor.layout(); // Force layout update
-                console.log('Applied font size:', size);
+                
             } catch (error) {
-                console.error('Error applying font size:', error);
+                
             }
         }
     }
@@ -1240,9 +1240,9 @@ class SettingsManager {
                     fontFamily: family
                 });
                 window.editor.layout(); // Force layout update
-                console.log('Applied font family:', family);
+                
             } catch (error) {
-                console.error('Error applying font family:', error);
+                
             }
         }
     }
@@ -1255,9 +1255,9 @@ class SettingsManager {
                     lineHeight: parseFloat(height)
                 });
                 window.editor.layout(); // Force layout update
-                console.log('Applied line height:', height);
+                
             } catch (error) {
-                console.error('Error applying line height:', error);
+                
             }
         }
     }
@@ -1617,7 +1617,7 @@ class SettingsManager {
                 return { ...this.getDefaultSettings(), ...parsed };
             }
         } catch (error) {
-            console.error('Error loading settings:', error);
+            
         }
         return this.getDefaultSettings();
     }
@@ -1634,7 +1634,7 @@ class SettingsManager {
                 storageArea: localStorage
             }));
         } catch (error) {
-            console.error('Error saving settings:', error);
+            
         }
     }
 

@@ -1,6 +1,0 @@
-Algorithm TranslationTest
-Variable x = 10
-Set 20 To x
-Print x
-Endalgorithm
-
