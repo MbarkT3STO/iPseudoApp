@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="iPseudo IDE Design System - Glass morphism and modern UI">
+    <title>Design System - iPseudo IDE</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/docs.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="background-container">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-pattern"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <div class="brand-icon">
+                    <i class="ri-code-s-slash-line"></i>
+                </div>
+                <span class="brand-name">iPseudo IDE</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html#features" class="nav-link">Features</a></li>
+                <li><a href="index.html#download" class="nav-link">Download</a></li>
+                <li><a href="index.html#documentation" class="nav-link">Documentation</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="index.html#download" class="btn btn-primary">
+                    <i class="ri-download-line"></i>
+                    <span>Download</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main style="padding-top: calc(80px + 3rem); padding-bottom: 4rem;">
+        <div class="container" style="max-width: 1000px;">
+            <div class="breadcrumb" style="margin-bottom: 2rem; display: flex; align-items: center; gap: 0.5rem; color: var(--text-tertiary);">
+                <a href="index.html" style="color: var(--text-secondary); text-decoration: none;">Home</a>
+                <i class="ri-arrow-right-s-line"></i>
+                <span>Design System</span>
+            </div>
+
+            <!-- Page Header -->
+            <div class="section-header">
+                <h1 class="section-title">🎨 Design System</h1>
+                <p class="section-subtitle">Glass morphism design with purple/blue gradients</p>
+            </div>
+
+            <!-- Design Content -->
+            <div class="doc-article" style="margin-top: 2rem;">
+                <section class="doc-section">
+                    <h2>🎯 Design Principles</h2>
+                    <ul class="doc-list">
+                        <li><strong>Glass Morphism:</strong> Soft UI with depth and backdrop blur</li>
+                        <li><strong>Modern Aesthetics:</strong> Clean typography with Inter font family</li>
+                        <li><strong>Performance First:</strong> Hardware-accelerated animations</li>
+                        <li><strong>Accessibility:</strong> High contrast ratios in both themes</li>
+                        <li><strong>Responsive Design:</strong> Adaptive layouts for all screen sizes</li>
+                    </ul>
+                </section>
+
+                <section class="doc-section">
+                    <h2>🎨 Color Palette</h2>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+                        <div style="padding: 1.5rem; background: rgba(147, 51, 234, 0.2); border: 1px solid rgba(147, 51, 234, 0.4); border-radius: 12px;">
+                            <div style="width: 60px; height: 60px; background: rgb(147, 51, 234); border-radius: 8px; margin-bottom: 1rem; box-shadow: 0 8px 24px rgba(147, 51, 234, 0.4);"></div>
+                            <h4 style="color: var(--text-primary); margin-bottom: 0.5rem;">Purple 500</h4>
+                            <code class="inline-code">rgb(147, 51, 234)</code>
+                        </div>
+                        
+                        <div style="padding: 1.5rem; background: rgba(139, 92, 246, 0.2); border: 1px solid rgba(139, 92, 246, 0.4); border-radius: 12px;">
+                            <div style="width: 60px; height: 60px; background: rgb(139, 92, 246); border-radius: 8px; margin-bottom: 1rem; box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);"></div>
+                            <h4 style="color: var(--text-primary); margin-bottom: 0.5rem;">Purple 600</h4>
+                            <code class="inline-code">rgb(139, 92, 246)</code>
+                        </div>
+                        
+                        <div style="padding: 1.5rem; background: rgba(59, 130, 246, 0.2); border: 1px solid rgba(59, 130, 246, 0.4); border-radius: 12px;">
+                            <div style="width: 60px; height: 60px; background: rgb(59, 130, 246); border-radius: 8px; margin-bottom: 1rem; box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);"></div>
+                            <h4 style="color: var(--text-primary); margin-bottom: 0.5rem;">Blue 500</h4>
+                            <code class="inline-code">rgb(59, 130, 246)</code>
+                        </div>
+                        
+                        <div style="padding: 1.5rem; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 12px;">
+                            <div style="width: 60px; height: 60px; background: rgb(16, 185, 129); border-radius: 8px; margin-bottom: 1rem; box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);"></div>
+                            <h4 style="color: var(--text-primary); margin-bottom: 0.5rem;">Success</h4>
+                            <code class="inline-code">rgb(16, 185, 129)</code>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="doc-section">
+                    <h2>🔤 Typography</h2>
+                    <ul class="doc-list">
+                        <li><strong>Primary Font:</strong> Inter (UI and content)</li>
+                        <li><strong>Code Font:</strong> JetBrains Mono (code blocks)</li>
+                        <li><strong>Font Sizes:</strong> 12px, 14px, 16px, 18px, 20px, 24px, 30px, 36px</li>
+                        <li><strong>Font Weights:</strong> 400 (regular), 500 (medium), 600 (semibold), 700 (bold), 800 (extrabold)</li>
+                    </ul>
+                </section>
+
+                <section class="doc-section">
+                    <h2>✨ Glass Morphism</h2>
+                    <p>Our signature design feature:</p>
+                    
+                    <div class="code-block" style="margin-top: 1rem;">
+                        <div class="code-header">
+                            <span class="code-lang">css</span>
+                        </div>
+                        <pre class="code-content">background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.08) 100%);
+border: 1px solid rgba(255, 255, 255, 0.2);
+border-radius: 24px;
+backdrop-filter: blur(24px) saturate(200%);
+box-shadow:
+    0 25px 50px rgba(0, 0, 0, 0.3),
+    0 0 100px rgba(147, 51, 234, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);</pre>
+                    </div>
+                </section>
+
+                <section class="doc-section">
+                    <h2>🎭 Components</h2>
+                    
+                    <h3>Buttons</h3>
+                    <div style="display: flex; gap: 1rem; margin: 1rem 0; flex-wrap: wrap;">
+                        <button class="btn btn-primary">
+                            <i class="ri-star-fill"></i>
+                            <span>Primary Button</span>
+                        </button>
+                        <button class="btn btn-secondary">
+                            <i class="ri-settings-line"></i>
+                            <span>Secondary Button</span>
+                        </button>
+                        <button class="btn btn-large btn-primary">
+                            <i class="ri-rocket-line"></i>
+                            <span>Large Button</span>
+                        </button>
+                    </div>
+
+                    <h3 style="margin-top: 2rem;">Cards</h3>
+                    <div class="feature-card" style="max-width: 400px; margin-top: 1rem;">
+                        <div class="feature-icon">
+                            <i class="ri-palette-line"></i>
+                        </div>
+                        <h3 class="feature-title">Example Card</h3>
+                        <p class="feature-description">
+                            This is how our glass morphism cards look with purple glow on hover.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="doc-section">
+                    <h2>📏 Spacing Scale</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Variable</th>
+                                <th>Size</th>
+                                <th>Usage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code class="inline-code">--space-xs</code></td>
+                                <td>0.5rem (8px)</td>
+                                <td>Tiny gaps</td>
+                            </tr>
+                            <tr>
+                                <td><code class="inline-code">--space-sm</code></td>
+                                <td>1rem (16px)</td>
+                                <td>Small spacing</td>
+                            </tr>
+                            <tr>
+                                <td><code class="inline-code">--space-md</code></td>
+                                <td>1.5rem (24px)</td>
+                                <td>Medium spacing</td>
+                            </tr>
+                            <tr>
+                                <td><code class="inline-code">--space-lg</code></td>
+                                <td>2rem (32px)</td>
+                                <td>Large spacing</td>
+                            </tr>
+                            <tr>
+                                <td><code class="inline-code">--space-xl</code></td>
+                                <td>3rem (48px)</td>
+                                <td>Extra large spacing</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="doc-section">
+                    <h2>🌟 Border Radius</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Variable</th>
+                                <th>Size</th>
+                                <th>Usage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code class="inline-code">--radius-sm</code></td>
+                                <td>8px</td>
+                                <td>Small elements</td>
+                            </tr>
+                            <tr>
+                                <td><code class="inline-code">--radius-md</code></td>
+                                <td>12px</td>
+                                <td>Buttons, badges</td>
+                            </tr>
+                            <tr>
+                                <td><code class="inline-code">--radius-lg</code></td>
+                                <td>16px</td>
+                                <td>Cards</td>
+                            </tr>
+                            <tr>
+                                <td><code class="inline-code">--radius-xl</code></td>
+                                <td>24px</td>
+                                <td>Large containers, modals</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="doc-section">
+                    <h2>🎯 Key Features</h2>
+                    <ul class="doc-list">
+                        <li><strong>24-32px backdrop blur</strong> for glass morphism effect</li>
+                        <li><strong>Purple/blue gradient accents</strong> throughout the UI</li>
+                        <li><strong>Layered shadows</strong> with purple glow for depth</li>
+                        <li><strong>Smooth transitions</strong> with cubic-bezier easing</li>
+                        <li><strong>Responsive design</strong> from mobile to desktop</li>
+                        <li><strong>Dark theme optimized</strong> for comfortable viewing</li>
+                    </ul>
+                </section>
+
+                <section class="doc-section">
+                    <h2>📦 Download Design Assets</h2>
+                    <p>Want to use our design system in your project? Check out the full documentation:</p>
+                    <a href="https://github.com/MbarkT3sto/iPseudoApp/blob/main/DESIGN_SYSTEM.md" class="btn btn-primary" target="_blank" style="margin-top: 1rem;">
+                        <i class="ri-github-line"></i>
+                        <span>View Full Design System on GitHub</span>
+                    </a>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="brand-icon">
+                        <i class="ri-code-s-slash-line"></i>
+                    </div>
+                    <span class="brand-name">iPseudo IDE</span>
+                    <p class="footer-tagline">Making pseudocode beautiful</p>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Product</h4>
+                        <ul>
+                            <li><a href="index.html#features">Features</a></li>
+                            <li><a href="index.html#download">Download</a></li>
+                            <li><a href="index.html#documentation">Documentation</a></li>
+                            <li><a href="https://github.com/MbarkT3sto/iPseudoApp">GitHub</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="docs/getting-started.html">Docs</a></li>
+                            <li><a href="examples.html">Examples</a></li>
+                            <li><a href="design-system.html">Design System</a></li>
+                            <li><a href="license.html">License</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Support</h4>
+                        <ul>
+                            <li><a href="https://github.com/MbarkT3sto/iPseudoApp/issues">Report Bug</a></li>
+                            <li><a href="https://github.com/MbarkT3sto/iPseudoApp/issues">Request Feature</a></li>
+                            <li><a href="mailto:me@MBVRK.onmicrosoft.com">Email Support</a></li>
+                            <li><a href="https://hashnode.com/@MbarkT3sto">Blog</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 iPseudo IDE by <strong>M'BARK</strong>. Dual Licensed - Free for personal & educational use.</p>
+                <div class="social-links">
+                    <a href="https://github.com/MbarkT3sto/iPseudoApp" class="social-link" title="GitHub">
+                        <i class="ri-github-fill"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/MbarkT3sto" class="social-link" title="LinkedIn">
+                        <i class="ri-linkedin-fill"></i>
+                    </a>
+                    <a href="https://hashnode.com/@MbarkT3sto" class="social-link" title="Hashnode">
+                        <i class="ri-article-line"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/script.js"></script>
+</body>
+</html>
+

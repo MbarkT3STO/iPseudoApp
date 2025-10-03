@@ -56,7 +56,7 @@ python3 -m http.server 8000
 1. Push the website folder to your GitHub repository
 2. Go to repository Settings → Pages
 3. Select source branch and `/website` folder
-4. Your site will be live at `https://yourusername.github.io/iPseudoApp/`
+4. Your site will be live at `https://MbarkT3sto.github.io/iPseudoApp/`
 
 ### Netlify
 
@@ -90,11 +90,11 @@ Edit `index.html` and replace the `#` in download buttons:
 2. Save them in `assets/images/`
 3. Update the hero section in `index.html`
 
-### Update GitHub Links
+### GitHub Links
 
-Replace `yourusername` with your actual GitHub username in:
-- Documentation links
-- Footer links
+All GitHub links point to:
+- **Username:** MbarkT3sto
+- **Repository:** iPseudoApp
 - Social links
 
 ### Modify Colors
@@ -149,7 +149,7 @@ Matches the main project's dual license - free for personal/educational use, pai
 
 **M'BARK** - Full Stack Developer
 
-- 🐙 GitHub: [@mbvrk](https://github.com/mbvrk)
+- 🐙 GitHub: [@mbvrk](https://github.com/MbarkT3sto)
 - 💼 LinkedIn: [mbvrk](https://linkedin.com/in/mbvrk)
 - 📝 Hashnode: [@mbvrk](https://hashnode.com/@mbvrk)
 

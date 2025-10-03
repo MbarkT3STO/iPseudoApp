@@ -336,7 +336,7 @@ For commercial use, including but not limited to:
 
 ---
 
-**Questions about licensing?** See the full [LICENSE](LICENSE) file or contact us at [your-email@example.com]
+**Questions about licensing?** See the full [LICENSE](LICENSE) file or contact us at [me@MBVRK.onmicrosoft.com](mailto:me@MBVRK.onmicrosoft.com)
 
 ---
 
@@ -353,11 +353,11 @@ For commercial use, including but not limited to:
 
 ### Need Help?
 - 📖 Read the [Documentation](documentation/)
-- 💬 Open an [Issue](https://github.com/yourusername/iPseudoApp/issues)
-- 📧 Contact the maintainers
+- 💬 Open an [Issue](https://github.com/MbarkT3sto/iPseudoApp/issues)
+- 📧 Contact us at [me@MBVRK.onmicrosoft.com](mailto:me@MBVRK.onmicrosoft.com)
 
 ### Found a Bug?
-Please [open an issue](https://github.com/yourusername/iPseudoApp/issues/new) with:
+Please [open an issue](https://github.com/MbarkT3sto/iPseudoApp/issues/new) with:
 - Description of the bug
 - Steps to reproduce
 - Expected behavior

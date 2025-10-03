@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="iPseudo IDE Examples - Learn from real pseudocode examples">
+    <title>Examples - iPseudo IDE</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/docs.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="background-container">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-pattern"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <div class="brand-icon">
+                    <i class="ri-code-s-slash-line"></i>
+                </div>
+                <span class="brand-name">iPseudo IDE</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html#features" class="nav-link">Features</a></li>
+                <li><a href="index.html#download" class="nav-link">Download</a></li>
+                <li><a href="index.html#documentation" class="nav-link">Documentation</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="index.html#download" class="btn btn-primary">
+                    <i class="ri-download-line"></i>
+                    <span>Download</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main style="padding-top: calc(80px + 3rem); padding-bottom: 4rem;">
+        <div class="container">
+            <div class="breadcrumb" style="margin-bottom: 2rem; display: flex; align-items: center; gap: 0.5rem; color: var(--text-tertiary);">
+                <a href="index.html" style="color: var(--text-secondary); text-decoration: none;">Home</a>
+                <i class="ri-arrow-right-s-line"></i>
+                <span>Examples</span>
+            </div>
+
+            <!-- Page Header -->
+            <div class="section-header">
+                <h1 class="section-title">💡 Code Examples</h1>
+                <p class="section-subtitle">Learn from real-world pseudocode examples</p>
+            </div>
+
+            <!-- Examples Grid -->
+            <div class="features-grid" style="margin-top: 3rem;">
+                <!-- Example 1: Factorial -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="ri-calculator-line"></i>
+                    </div>
+                    <h3 class="feature-title">Factorial Calculator</h3>
+                    <div class="code-block" style="margin-top: 1rem;">
+                        <pre class="code-content" style="font-size: 0.85rem;"><span class="keyword">Algorithm</span> Factorial
+
+<span class="keyword">var</span> n = <span class="number">5</span>
+<span class="keyword">var</span> fact = <span class="number">1</span>
+
+<span class="keyword">For</span> i = <span class="number">1</span> <span class="keyword">To</span> n
+    fact = fact * i
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Print</span> <span class="string">"Factorial:"</span>, fact
+
+<span class="keyword">Endalgorithm</span></pre>
+                    </div>
+                </div>
+
+                <!-- Example 2: Fibonacci -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="ri-number-1"></i>
+                    </div>
+                    <h3 class="feature-title">Fibonacci Sequence</h3>
+                    <div class="code-block" style="margin-top: 1rem;">
+                        <pre class="code-content" style="font-size: 0.85rem;"><span class="keyword">Algorithm</span> Fibonacci
+
+<span class="keyword">var</span> count = <span class="number">10</span>
+<span class="keyword">var</span> a = <span class="number">0</span>, b = <span class="number">1</span>
+
+<span class="keyword">For</span> i = <span class="number">1</span> <span class="keyword">To</span> count
+    <span class="keyword">Print</span> a
+    <span class="keyword">var</span> next = a + b
+    a = b
+    b = next
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Endalgorithm</span></pre>
+                    </div>
+                </div>
+
+                <!-- Example 3: Prime Checker -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="ri-check-double-line"></i>
+                    </div>
+                    <h3 class="feature-title">Prime Number Checker</h3>
+                    <div class="code-block" style="margin-top: 1rem;">
+                        <pre class="code-content" style="font-size: 0.85rem;"><span class="keyword">Algorithm</span> PrimeChecker
+
+<span class="keyword">var</span> num = <span class="keyword">Input</span> <span class="string">"Enter number:"</span>
+<span class="keyword">var</span> isPrime = <span class="keyword">true</span>
+
+<span class="keyword">For</span> i = <span class="number">2</span> <span class="keyword">To</span> num - <span class="number">1</span>
+    <span class="keyword">If</span> num <span class="keyword">mod</span> i == <span class="number">0</span> <span class="keyword">Then</span>
+        isPrime = <span class="keyword">false</span>
+    <span class="keyword">Endif</span>
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Print</span> <span class="string">"Is Prime:"</span>, isPrime
+
+<span class="keyword">Endalgorithm</span></pre>
+                    </div>
+                </div>
+
+                <!-- Example 4: Array Operations -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="ri-database-2-line"></i>
+                    </div>
+                    <h3 class="feature-title">Array Operations</h3>
+                    <div class="code-block" style="margin-top: 1rem;">
+                        <pre class="code-content" style="font-size: 0.85rem;"><span class="keyword">Algorithm</span> ArrayDemo
+
+<span class="keyword">var</span> numbers[<span class="number">5</span>]
+
+<span class="keyword">For</span> i = <span class="number">0</span> <span class="keyword">To</span> <span class="number">4</span>
+    numbers[i] = i * <span class="number">10</span>
+<span class="keyword">Endfor</span>
+
+<span class="keyword">For</span> i = <span class="number">0</span> <span class="keyword">To</span> <span class="function">Size</span>(numbers) - <span class="number">1</span>
+    <span class="keyword">Print</span> numbers[i]
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Endalgorithm</span></pre>
+                    </div>
+                </div>
+
+                <!-- Example 5: Grade Calculator -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="ri-trophy-line"></i>
+                    </div>
+                    <h3 class="feature-title">Grade Calculator</h3>
+                    <div class="code-block" style="margin-top: 1rem;">
+                        <pre class="code-content" style="font-size: 0.85rem;"><span class="keyword">Algorithm</span> GradeCalc
+
+<span class="keyword">var</span> score = <span class="keyword">Input</span> <span class="string">"Score:"</span>
+
+<span class="keyword">If</span> score >= <span class="number">90</span> <span class="keyword">Then</span>
+    <span class="keyword">Print</span> <span class="string">"Grade: A"</span>
+<span class="keyword">Elseif</span> score >= <span class="number">80</span> <span class="keyword">Then</span>
+    <span class="keyword">Print</span> <span class="string">"Grade: B"</span>
+<span class="keyword">Elseif</span> score >= <span class="number">70</span> <span class="keyword">Then</span>
+    <span class="keyword">Print</span> <span class="string">"Grade: C"</span>
+<span class="keyword">Else</span>
+    <span class="keyword">Print</span> <span class="string">"Grade: F"</span>
+<span class="keyword">Endif</span>
+
+<span class="keyword">Endalgorithm</span></pre>
+                    </div>
+                </div>
+
+                <!-- Example 6: Functions -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="ri-function-line"></i>
+                    </div>
+                    <h3 class="feature-title">Functions</h3>
+                    <div class="code-block" style="margin-top: 1rem;">
+                        <pre class="code-content" style="font-size: 0.85rem;"><span class="keyword">Algorithm</span> FunctionDemo
+
+<span class="keyword">Function</span> <span class="function">add</span>(a, b)
+    <span class="keyword">Return</span> a + b
+<span class="keyword">Endfunction</span>
+
+<span class="keyword">var</span> x = <span class="number">5</span>, y = <span class="number">10</span>
+<span class="keyword">var</span> sum = <span class="function">add</span>(x, y)
+
+<span class="keyword">Print</span> <span class="string">"Sum:"</span>, sum
+
+<span class="keyword">Endalgorithm</span></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Download Examples -->
+            <div class="cta-box" style="margin-top: 4rem;">
+                <h2 class="cta-title">Want More Examples?</h2>
+                <p class="cta-description">Download iPseudo IDE to access comprehensive example files included with the app</p>
+                <a href="index.html#download" class="btn btn-large btn-primary">
+                    <i class="ri-download-cloud-line"></i>
+                    <span>Download iPseudo IDE</span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="brand-icon">
+                        <i class="ri-code-s-slash-line"></i>
+                    </div>
+                    <span class="brand-name">iPseudo IDE</span>
+                    <p class="footer-tagline">Making pseudocode beautiful</p>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Product</h4>
+                        <ul>
+                            <li><a href="index.html#features">Features</a></li>
+                            <li><a href="index.html#download">Download</a></li>
+                            <li><a href="index.html#documentation">Documentation</a></li>
+                            <li><a href="https://github.com/MbarkT3sto/iPseudoApp">GitHub</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="docs/getting-started.html">Docs</a></li>
+                            <li><a href="examples.html">Examples</a></li>
+                            <li><a href="design-system.html">Design System</a></li>
+                            <li><a href="license.html">License</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Support</h4>
+                        <ul>
+                            <li><a href="https://github.com/MbarkT3sto/iPseudoApp/issues">Report Bug</a></li>
+                            <li><a href="https://github.com/MbarkT3sto/iPseudoApp/issues">Request Feature</a></li>
+                            <li><a href="mailto:me@MBVRK.onmicrosoft.com">Email Support</a></li>
+                            <li><a href="https://hashnode.com/@MbarkT3sto">Blog</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 iPseudo IDE by <strong>M'BARK</strong>. Dual Licensed - Free for personal & educational use.</p>
+                <div class="social-links">
+                    <a href="https://github.com/MbarkT3sto/iPseudoApp" class="social-link" title="GitHub">
+                        <i class="ri-github-fill"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/MbarkT3sto" class="social-link" title="LinkedIn">
+                        <i class="ri-linkedin-fill"></i>
+                    </a>
+                    <a href="https://hashnode.com/@MbarkT3sto" class="social-link" title="Hashnode">
+                        <i class="ri-article-line"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/script.js"></script>
+</body>
+</html>
+
