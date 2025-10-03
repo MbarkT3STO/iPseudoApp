@@ -357,6 +357,23 @@ function translatePseudoToJs(src) {
     const out = [];
     const mapping = [];
     const functionStack = []; // Track function names for return statements
+    
+    // Helper function for safe array access with bounds checking
+    const arraySafeAccessHelper = `
+function __arrayGet__(arr, index, name) {
+    if (arr.__arraySize__ !== undefined && (index < 0 || index >= arr.__arraySize__)) {
+        throw new Error("Array index out of bounds: index " + index + " for array '" + name + "' with size " + arr.__arraySize__);
+    }
+    return arr[index];
+}`.trim();
+    out.push(arraySafeAccessHelper);
+    out.push('');
+    
+    // Helper to replace array accesses with safe access function
+    function replaceArrayAccess(expr) {
+        // Replace array[index] with __arrayGet__(array, index, 'array')
+        return expr.replace(/\b([a-zA-Z_$][\w$]*)\[([^\]]+)\]/g, '__arrayGet__($1, $2, \'$1\')');
+    }
     for (let i = 0; i < lines.length; i++) {
         const raw = lines[i];
         const srcLineNum = i + 1;
@@ -391,8 +408,24 @@ function translatePseudoToJs(src) {
             const keyword = m[1].toLowerCase();
             const varName = m[2];
             const size = m[3].trim();
-            // Create array with specified size, initialized with undefined
+            // Create array with specified size and store size for bounds checking
             out.push(`${keyword} ${varName} = new Array(${size});`);
+            out.push(`${varName}.__arraySize__ = ${size};`);
+            mapping.push({ srcLine: srcLineNum, srcText: raw });
+            continue;
+        }
+        // Array element assignment with input: arrayName[index] = Input "prompt"
+        m = line.match(/^([a-zA-Z_$][\w$]*)\[([^\]]+)\]\s*=\s*(input|Input)\s+(.+)$/i);
+        if (m) {
+            const arrayName = m[1];
+            const index = m[2];
+            let prompt = m[4].trim();
+            // Remove quotes if present from both ends
+            if ((prompt.startsWith('"') && prompt.endsWith('"')) ||
+                (prompt.startsWith("'") && prompt.endsWith("'"))) {
+                prompt = prompt.slice(1, -1).trim();
+            }
+            out.push(`${arrayName}[${index}] = await input("${prompt}");`);
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
@@ -475,7 +508,8 @@ function translatePseudoToJs(src) {
         // Print statements: print arg1, arg2 (both cases)
         m = line.match(/^(print|Print)\s+(.+)$/i);
         if (m) {
-            out.push(`print(${m[2]});`);
+            const printArgs = replaceArrayAccess(m[2]);
+            out.push(`print(${printArgs});`);
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
@@ -500,7 +534,8 @@ function translatePseudoToJs(src) {
         // While loops: while condition [then] (both cases)
         m = line.match(/^(while|While)\s+(.+?)(?:\s+(then|Then))?\s*$/i);
         if (m) {
-            out.push(`while (${m[2]}) {`);
+            const condition = replaceArrayAccess(m[2]);
+            out.push(`while (${condition}) {`);
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
@@ -513,7 +548,8 @@ function translatePseudoToJs(src) {
         // Until statements: until condition (both cases)
         m = line.match(/^(until|Until)\s+(.+)\s*$/i);
         if (m) {
-            out.push(`} while (!(${m[2]}));`);
+            const condition = replaceArrayAccess(m[2]);
+            out.push(`} while (!(${condition}));`);
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
@@ -529,14 +565,16 @@ function translatePseudoToJs(src) {
         // If statements: if condition [then] (both cases)
         m = line.match(/^(if|If)\s+(.+?)(?:\s+(then|Then))?\s*$/i);
         if (m) {
-            out.push(`if (${m[2]}) {`);
+            const condition = replaceArrayAccess(m[2]);
+            out.push(`if (${condition}) {`);
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
         // Elseif statements: elseif condition [then] (both cases)
         m = line.match(/^(elseif|Elseif)\s+(.+?)(?:\s+(then|Then))?\s*$/i);
         if (m) {
-            out.push(`} else if (${m[2]}) {`);
+            const condition = replaceArrayAccess(m[2]);
+            out.push(`} else if (${condition}) {`);
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
@@ -559,7 +597,8 @@ function translatePseudoToJs(src) {
         // Return statements: return expression (both cases)
         m = line.match(/^(return|Return)\s+(.+)$/i);
         if (m) {
-            out.push(`return ${m[2]};`);
+            const returnExpr = replaceArrayAccess(m[2]);
+            out.push(`return ${returnExpr};`);
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
@@ -591,7 +630,21 @@ function translatePseudoToJs(src) {
         // Assignment statements: variable = expression or arrayName[index] = expression
         m = line.match(/^([a-zA-Z_$][\w$]*(?:\[[^\]]+\])?)\s*=\s*(.+)$/);
         if (m) {
-            out.push(`${m[1]} = ${m[2]};`);
+            const target = m[1];
+            const value = m[2];
+            // Check if this is an array element assignment
+            const arrayMatch = target.match(/^([a-zA-Z_$][\w$]*)\[([^\]]+)\]$/);
+            if (arrayMatch) {
+                const arrayName = arrayMatch[1];
+                const index = arrayMatch[2];
+                // Add bounds checking
+                out.push(`if (${arrayName}.__arraySize__ !== undefined && (${index} < 0 || ${index} >= ${arrayName}.__arraySize__)) {`);
+                out.push(`  throw new Error("Array index out of bounds: index " + ${index} + " for array '${arrayName}' with size " + ${arrayName}.__arraySize__);`);
+                out.push(`}`);
+                out.push(`${target} = ${value};`);
+            } else {
+                out.push(`${target} = ${value};`);
+            }
             mapping.push({ srcLine: srcLineNum, srcText: raw });
             continue;
         }
