@@ -187,20 +187,17 @@ window.addEventListener('mousemove', (e) => {
     });
 });
 
-// Download button handlers
-document.querySelectorAll('.btn-download').forEach(btn => {
+// Download button handlers (only for direct download links, not dropdown toggles)
+document.querySelectorAll('.btn-download:not(.btn-dropdown-toggle)').forEach(btn => {
     btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        
         // Add visual feedback
         btn.style.transform = 'scale(0.95)';
         setTimeout(() => {
             btn.style.transform = '';
         }, 200);
         
-        // Here you would trigger actual download
-        console.log('Download button clicked');
-        alert('Download functionality will be added here. Coming soon!');
+        // Log download attempt
+        console.log('Direct download button clicked:', btn.href);
     });
 });
 
@@ -387,4 +384,67 @@ document.addEventListener('keydown', (e) => {
         }
     }
 });
+
+// ===== DOWNLOAD DROPDOWN FUNCTIONALITY =====
+function initDownloadDropdowns() {
+    // Find all dropdown cards
+    const dropdownCards = document.querySelectorAll('.download-card-dropdown');
+    
+    dropdownCards.forEach(card => {
+        const toggleButton = card.querySelector('.btn-dropdown-toggle');
+        const dropdownMenu = card.querySelector('.dropdown-menu');
+        
+        if (toggleButton && dropdownMenu) {
+            // Add click event to toggle button
+            toggleButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Close all other dropdowns
+                dropdownCards.forEach(otherCard => {
+                    if (otherCard !== card) {
+                        otherCard.classList.remove('active');
+                    }
+                });
+                
+                // Toggle current dropdown
+                card.classList.toggle('active');
+            });
+            
+            // Add click events to dropdown items
+            const dropdownItems = dropdownMenu.querySelectorAll('.dropdown-item');
+            dropdownItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Close dropdown after selection
+                    card.classList.remove('active');
+                });
+            });
+        }
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.download-card-dropdown')) {
+            dropdownCards.forEach(card => {
+                card.classList.remove('active');
+            });
+        }
+    });
+    
+    // Close dropdowns with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            dropdownCards.forEach(card => {
+                card.classList.remove('active');
+            });
+        }
+    });
+}
+
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initDownloadDropdowns);
+} else {
+    initDownloadDropdowns();
+}
 

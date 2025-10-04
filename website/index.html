@@ -267,38 +267,76 @@
                                 <h3>Windows</h3>
                                 <p>Windows 10/11 (64-bit)</p>
                             </div>
-                            <a href="#" class="btn btn-download">
+                            <a href="release/iPseudo-IDE-Setup-1.0.0.exe" class="btn btn-download">
                                 <i class="ri-download-line"></i>
                                 <span>Download</span>
                             </a>
                         </div>
                         
-                        <div class="download-card">
+                        <div class="download-card download-card-dropdown" data-platform="mac">
                             <div class="download-icon">
                                 <i class="ri-apple-fill"></i>
                             </div>
                             <div class="download-details">
                                 <h3>macOS</h3>
-                                <p>macOS 10.15+ (Intel & Apple Silicon)</p>
+                                <p>macOS 10.15+</p>
                             </div>
-                            <a href="#" class="btn btn-download">
-                                <i class="ri-download-line"></i>
-                                <span>Download</span>
-                            </a>
+                            <div class="download-dropdown">
+                                <div class="btn btn-download btn-dropdown-toggle" role="button" tabindex="0">
+                                    <i class="ri-download-line"></i>
+                                    <span>Choose Version</span>
+                                    <i class="ri-arrow-down-s-line dropdown-icon"></i>
+                                </div>
+                                <div class="dropdown-menu">
+                                    <a href="release/iPseudo-IDE-1.0.0.dmg" class="dropdown-item">
+                                        <i class="ri-cpu-line"></i>
+                                        <div class="dropdown-item-content">
+                                            <span class="dropdown-item-title">Intel Chip</span>
+                                            <span class="dropdown-item-desc">For Intel-based Macs</span>
+                                        </div>
+                                    </a>
+                                    <a href="release/iPseudo-IDE-1.0.0-arm64.dmg" class="dropdown-item">
+                                        <i class="ri-smartphone-line"></i>
+                                        <div class="dropdown-item-content">
+                                            <span class="dropdown-item-title">Apple Silicon</span>
+                                            <span class="dropdown-item-desc">For M1/M2/M3 Macs</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                         
-                        <div class="download-card">
+                        <div class="download-card download-card-dropdown" data-platform="linux">
                             <div class="download-icon">
                                 <i class="ri-ubuntu-fill"></i>
                             </div>
                             <div class="download-details">
                                 <h3>Linux</h3>
-                                <p>Ubuntu, Debian, Fedora (64-bit)</p>
+                                <p>Ubuntu, Debian, Fedora</p>
                             </div>
-                            <a href="#" class="btn btn-download">
-                                <i class="ri-download-line"></i>
-                                <span>Download</span>
-                            </a>
+                            <div class="download-dropdown">
+                                <div class="btn btn-download btn-dropdown-toggle" role="button" tabindex="0">
+                                    <i class="ri-download-line"></i>
+                                    <span>Choose Format</span>
+                                    <i class="ri-arrow-down-s-line dropdown-icon"></i>
+                                </div>
+                                <div class="dropdown-menu">
+                                    <a href="release/iPseudo-IDE-1.0.0.AppImage" class="dropdown-item">
+                                        <i class="ri-image-line"></i>
+                                        <div class="dropdown-item-content">
+                                            <span class="dropdown-item-title">AppImage</span>
+                                            <span class="dropdown-item-desc">Universal Linux package</span>
+                                        </div>
+                                    </a>
+                                    <a href="release/iPseudo-IDE_1.0.0_amd64.deb" class="dropdown-item">
+                                        <i class="ri-ubuntu-fill"></i>
+                                        <div class="dropdown-item-content">
+                                            <span class="dropdown-item-title">DEB Package</span>
+                                            <span class="dropdown-item-desc">For Ubuntu/Debian</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
@@ -306,6 +344,49 @@
                         <div class="license-badge">
                             <i class="ri-information-line"></i>
                             <span><strong>Free</strong> for personal & educational use • <strong>Paid</strong> for commercial use</span>
+                        </div>
+                        <div class="download-stats">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="ri-download-cloud-2-line"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <span class="stat-number">1,000+</span>
+                                    <span class="stat-label">Downloads</span>
+                                </div>
+                                <div class="stat-progress">
+                                    <div class="progress-bar" data-progress="85"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="ri-computer-line"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <span class="stat-number">3</span>
+                                    <span class="stat-label">Platforms</span>
+                                </div>
+                                <div class="stat-badges">
+                                    <span class="platform-badge">Windows</span>
+                                    <span class="platform-badge">macOS</span>
+                                    <span class="platform-badge">Linux</span>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="ri-customer-service-2-line"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <span class="stat-number">24/7</span>
+                                    <span class="stat-label">Support</span>
+                                </div>
+                                <div class="support-indicators">
+                                    <div class="support-dot active"></div>
+                                    <span class="support-text">Always Online</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
