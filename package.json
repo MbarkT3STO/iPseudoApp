@@ -1,6 +1,6 @@
 {
   "name": "ipseudo-app",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "A modern Pseudocode IDE built with Electron",
   "main": "dist/main/main.js",
   "scripts": {
@@ -8,18 +8,169 @@
     "dev": "tsc && npm run copy-files && electron .",
     "build": "tsc && npm run copy-files",
     "watch": "tsc -w",
-    "copy-files": "mkdir -p dist/renderer && cp -r src/renderer/* dist/renderer/ && mkdir -p dist/renderer/monaco && cp -r node_modules/monaco-editor/min/* dist/renderer/monaco/"
+    "copy-files": "mkdir -p dist/renderer && cp -r src/renderer/* dist/renderer/ && mkdir -p dist/renderer/monaco && cp -r node_modules/monaco-editor/min/* dist/renderer/monaco/ && mkdir -p dist/renderer/fonts && mkdir -p dist/renderer/icons",
+    "dist": "npm run build && electron-builder",
+    "dist:mac": "npm run build && electron-builder --mac",
+    "dist:dmg": "npm run build && electron-builder --mac dmg",
+    "dist:win": "npm run build && electron-builder --win",
+    "dist:win32": "npm run build && electron-builder --win --ia32",
+    "dist:win64": "npm run build && electron-builder --win --x64",
+    "dist:linux": "npm run build && electron-builder --linux",
+    "dist:appimage": "npm run build && electron-builder --linux AppImage",
+    "dist:deb": "npm run build && electron-builder --linux deb"
   },
-  "author": "",
+  "author": {
+    "name": "MbarkT3sto",
+    "email": "me@MBVRK.onmicrosoft.com"
+  },
   "license": "SEE LICENSE IN LICENSE",
   "devDependencies": {
     "@types/electron": "^1.6.10",
     "@types/node": "^20.8.0",
     "electron": "^38.1.2",
     "electron-builder": "^24.6.4",
+    "electron-icon-builder": "^2.0.1",
+    "png-to-ico": "^3.0.1",
+    "sharp": "^0.34.4",
     "typescript": "^5.9.2"
   },
   "dependencies": {
     "monaco-editor": "^0.43.0"
+  },
+  "build": {
+    "appId": "com.mbvrk.ipseudo-ide",
+    "productName": "iPseudo IDE",
+    "directories": {
+      "output": "dist-build"
+    },
+    "files": [
+      "dist/**/*",
+      "node_modules/**/*",
+      "!node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
+      "!node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
+      "!node_modules/*.d.ts",
+      "!node_modules/.bin",
+      "!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}",
+      "!.editorconfig",
+      "!**/._*",
+      "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}",
+      "!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}",
+      "!**/{appveyor.yml,.travis.yml,circle.yml}",
+      "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}"
+    ],
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ],
+      "icon": "dist/assets/app-icon.icns",
+      "artifactName": "${productName}-${version}-${arch}.${ext}",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist"
+    },
+    "dmg": {
+      "title": "iPseudo IDE ${version}",
+      "icon": "dist/assets/app-icon.icns",
+      "background": "dist/assets/dmg-background.png",
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ],
+      "window": {
+        "width": 540,
+        "height": 380
+      }
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "dist/assets/app-icon-256.png",
+      "artifactName": "${productName}-${version}-${arch}.${ext}",
+      "requestedExecutionLevel": "asInvoker"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "iPseudo IDE",
+      "displayLanguageSelector": false,
+      "installerLanguages": [
+        "en_US"
+      ],
+      "language": "1033",
+      "multiLanguageInstaller": false
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "deb",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "dist/assets/app-icon-256.png",
+      "artifactName": "${productName}-${version}-${arch}.${ext}",
+      "category": "Development",
+      "synopsis": "A modern Pseudocode IDE built with Electron",
+      "description": "iPseudo IDE is a beautiful, modern pseudocode development environment with real-time execution, syntax highlighting, and comprehensive documentation.",
+      "desktop": {
+        "Name": "iPseudo IDE",
+        "Comment": "A modern Pseudocode IDE",
+        "Keywords": "pseudocode;ide;development;programming;",
+        "StartupWMClass": "iPseudo IDE"
+      }
+    },
+    "appImage": {
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
+    },
+    "deb": {
+      "artifactName": "${productName}-${version}-${arch}.${ext}",
+      "depends": [
+        "libgtk-3-0",
+        "libnotify4",
+        "libnss3",
+        "libxss1",
+        "libxtst6",
+        "xdg-utils",
+        "libatspi2.0-0",
+        "libdrm2",
+        "libxcomposite1",
+        "libxdamage1",
+        "libxrandr2",
+        "libgbm1",
+        "libxss1",
+        "libasound2"
+      ]
+    }
   }
 }

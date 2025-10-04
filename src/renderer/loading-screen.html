@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPseudo IDE - Loading</title>
+    <link rel="stylesheet" href="styles/modern-base.css">
+    <link rel="stylesheet" href="styles/modern-components.css">
+    <link rel="stylesheet" href="styles/modern-theme.css">
+    <link rel="stylesheet" href="styles/modern-layout.css">
+    <link rel="stylesheet" href="styles/performance.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
+    <style>
+        /* ===== ENHANCED LOADING SCREEN ===== */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, 
+                var(--gradient-primary) 0%, 
+                var(--gradient-secondary) 50%, 
+                var(--gradient-tertiary) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            overflow: hidden;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            transform: scale(1.1);
+            pointer-events: none;
+        }
+
+        .loading-container {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .loading-logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 2px solid var(--glass-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--glass-shadow);
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        .loading-logo i {
+            font-size: 3rem;
+            color: var(--accent-primary);
+            filter: drop-shadow(0 4px 8px rgba(59, 130, 246, 0.3));
+        }
+
+        .loading-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, 
+                var(--accent-primary) 0%, 
+                var(--accent-secondary) 50%, 
+                var(--accent-tertiary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            animation: titleGlow 2s ease-in-out infinite alternate;
+        }
+
+        .loading-subtitle {
+            font-size: 1.1rem;
+            color: var(--editor-text-secondary);
+            margin-bottom: 3rem;
+            opacity: 0.8;
+        }
+
+        .loading-progress {
+            width: 300px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 0 auto 1.5rem;
+            position: relative;
+        }
+
+        .loading-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, 
+                var(--accent-primary) 0%, 
+                var(--accent-secondary) 50%, 
+                var(--accent-tertiary) 100%);
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.3s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loading-progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.4) 50%, 
+                transparent 100%);
+            animation: progressShimmer 2s ease-in-out infinite;
+        }
+
+        .loading-percentage {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+        }
+
+        .loading-status {
+            font-size: 0.9rem;
+            color: var(--editor-text-secondary);
+            margin-bottom: 2rem;
+            min-height: 1.2rem;
+        }
+
+        .loading-steps {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .loading-step {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .loading-step.active {
+            background: var(--accent-primary);
+            transform: scale(1.2);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+        }
+
+        .loading-step.completed {
+            background: var(--accent-secondary);
+            transform: scale(1.1);
+        }
+
+        .loading-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-code {
+            position: absolute;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.1);
+            animation: floatCode 8s ease-in-out infinite;
+        }
+
+        .floating-code:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-code:nth-child(2) {
+            top: 30%;
+            right: 15%;
+            animation-delay: 1s;
+        }
+
+        .floating-code:nth-child(3) {
+            top: 60%;
+            left: 20%;
+            animation-delay: 2s;
+        }
+
+        .floating-code:nth-child(4) {
+            top: 70%;
+            right: 10%;
+            animation-delay: 3s;
+        }
+
+        .floating-code:nth-child(5) {
+            top: 40%;
+            left: 50%;
+            animation-delay: 4s;
+        }
+
+        /* Animations */
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+
+        @keyframes titleGlow {
+            0% { filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.3)); }
+            100% { filter: drop-shadow(0 0 40px rgba(59, 130, 246, 0.6)); }
+        }
+
+        @keyframes progressShimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        @keyframes floatCode {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.1;
+            }
+            50% { 
+                transform: translateY(-20px) rotate(5deg);
+                opacity: 0.3;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .loading-container > * {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .loading-container > *:nth-child(1) { animation-delay: 0.1s; }
+        .loading-container > *:nth-child(2) { animation-delay: 0.2s; }
+        .loading-container > *:nth-child(3) { animation-delay: 0.3s; }
+        .loading-container > *:nth-child(4) { animation-delay: 0.4s; }
+        .loading-container > *:nth-child(5) { animation-delay: 0.5s; }
+        .loading-container > *:nth-child(6) { animation-delay: 0.6s; }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .loading-logo {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .loading-logo i {
+                font-size: 2.5rem;
+            }
+            
+            .loading-title {
+                font-size: 2rem;
+            }
+            
+            .loading-progress {
+                width: 250px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .loading-logo {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .loading-logo i {
+                font-size: 2rem;
+            }
+            
+            .loading-title {
+                font-size: 1.5rem;
+            }
+            
+            .loading-progress {
+                width: 200px;
+            }
+            
+            .loading-steps {
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-animation">
+            <div class="floating-code">BEGIN</div>
+            <div class="floating-code">IF condition THEN</div>
+            <div class="floating-code">FOR i = 1 TO n</div>
+            <div class="floating-code">END IF</div>
+            <div class="floating-code">PRINT result</div>
+        </div>
+        
+        <div class="loading-container">
+            <div class="loading-logo">
+                <i class="ri-code-s-slash-line"></i>
+            </div>
+            
+            <h1 class="loading-title">iPseudo IDE</h1>
+            <p class="loading-subtitle">Modern Pseudocode Development Environment</p>
+            
+            <div class="loading-progress">
+                <div class="loading-progress-fill" id="progressFill"></div>
+            </div>
+            
+            <div class="loading-percentage" id="progressPercentage">0%</div>
+            <div class="loading-status" id="loadingStatus">Initializing...</div>
+            
+            <div class="loading-steps">
+                <div class="loading-step" id="step1"></div>
+                <div class="loading-step" id="step2"></div>
+                <div class="loading-step" id="step3"></div>
+                <div class="loading-step" id="step4"></div>
+                <div class="loading-step" id="step5"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class ModernLoadingScreen {
+            constructor() {
+                this.progressFill = document.getElementById('progressFill');
+                this.progressPercentage = document.getElementById('progressPercentage');
+                this.loadingStatus = document.getElementById('loadingStatus');
+                this.loadingScreen = document.getElementById('loadingScreen');
+                this.steps = document.querySelectorAll('.loading-step');
+                
+                this.progress = 0;
+                this.currentStep = 0;
+                this.isComplete = false;
+                
+                this.loadingSteps = [
+                    { progress: 10, status: 'Initializing core systems...', step: 0, delay: 800 },
+                    { progress: 25, status: 'Loading Monaco Editor...', step: 0, delay: 1000 },
+                    { progress: 40, status: 'Setting up syntax highlighting...', step: 1, delay: 800 },
+                    { progress: 55, status: 'Initializing pseudocode parser...', step: 1, delay: 900 },
+                    { progress: 70, status: 'Loading theme system...', step: 2, delay: 700 },
+                    { progress: 80, status: 'Preparing UI components...', step: 2, delay: 800 },
+                    { progress: 90, status: 'Finalizing setup...', step: 3, delay: 600 },
+                    { progress: 95, status: 'Almost ready...', step: 4, delay: 500 },
+                    { progress: 100, status: 'Ready to code!', step: 4, delay: 1000 }
+                ];
+                
+                this.init();
+            }
+            
+            init() {
+                this.setupKeyboardShortcuts();
+                this.startLoadingSequence();
+                this.setupMouseEffects();
+            }
+            
+            setupKeyboardShortcuts() {
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.completeLoading();
+                    }
+                });
+            }
+            
+            setupMouseEffects() {
+                this.loadingScreen.addEventListener('click', () => {
+                    this.completeLoading();
+                });
+            }
+            
+            startLoadingSequence() {
+                let currentIndex = 0;
+                
+                const updateProgress = () => {
+                    if (currentIndex < this.loadingSteps.length && !this.isComplete) {
+                        const step = this.loadingSteps[currentIndex];
+                        
+                        this.updateProgress(step.progress);
+                        this.updateStatus(step.status);
+                        this.updateStep(step.step);
+                        
+                        currentIndex++;
+                        setTimeout(updateProgress, step.delay);
+                    } else if (!this.isComplete) {
+                        setTimeout(() => {
+                            this.completeLoading();
+                        }, 1000);
+                    }
+                };
+                
+                // Start after initial delay
+                setTimeout(updateProgress, 1000);
+            }
+            
+            updateProgress(progress) {
+                this.progress = progress;
+                
+                if (this.progressFill) {
+                    this.progressFill.style.width = `${progress}%`;
+                }
+                
+                if (this.progressPercentage) {
+                    this.progressPercentage.textContent = `${progress}%`;
+                }
+            }
+            
+            updateStatus(status) {
+                if (this.loadingStatus) {
+                    this.loadingStatus.textContent = status;
+                }
+            }
+            
+            updateStep(stepIndex) {
+                // Mark previous steps as completed
+                for (let i = 0; i < stepIndex; i++) {
+                    if (this.steps[i]) {
+                        this.steps[i].classList.remove('active');
+                        this.steps[i].classList.add('completed');
+                    }
+                }
+                
+                // Mark current step as active
+                if (this.steps[stepIndex]) {
+                    this.steps[stepIndex].classList.add('active');
+                }
+                
+                this.currentStep = stepIndex;
+            }
+            
+            completeLoading() {
+                if (this.isComplete) return;
+                
+                this.isComplete = true;
+                
+                // Mark all steps as completed
+                this.steps.forEach(step => {
+                    step.classList.remove('active');
+                    step.classList.add('completed');
+                });
+                
+                // Update final status
+                this.updateProgress(100);
+                this.updateStatus('Ready to code!');
+                
+                // Add completion effects
+                this.addCompletionEffects();
+                
+                // Hide loading screen after delay
+                setTimeout(() => {
+                    this.hideLoadingScreen();
+                }, 1500);
+            }
+            
+            addCompletionEffects() {
+                // Add pulse effect to logo
+                const logo = document.querySelector('.loading-logo');
+                if (logo) {
+                    logo.style.animation = 'logoFloat 0.5s ease-in-out infinite, titleGlow 1s ease-in-out infinite';
+                }
+                
+                // Add celebration effect
+                this.createCelebrationEffect();
+            }
+            
+            createCelebrationEffect() {
+                const celebrationEmojis = ['🎉', '✨', '🌟', '💫', '🎊', '⭐', '💖', '🚀', '💻', '⚡'];
+                
+                for (let i = 0; i < 15; i++) {
+                    setTimeout(() => {
+                        const emoji = document.createElement('div');
+                        emoji.textContent = celebrationEmojis[Math.floor(Math.random() * celebrationEmojis.length)];
+                        emoji.style.cssText = `
+                            position: absolute;
+                            font-size: 20px;
+                            pointer-events: none;
+                            z-index: 1000;
+                            left: 50%;
+                            top: 50%;
+                            transform: translate(-50%, -50%);
+                            animation: celebrationBurst 2s ease-out forwards;
+                        `;
+                        
+                        // Random direction for burst effect
+                        const angle = (i / 15) * 360;
+                        const distance = 100 + Math.random() * 50;
+                        const x = Math.cos(angle * Math.PI / 180) * distance;
+                        const y = Math.sin(angle * Math.PI / 180) * distance;
+                        
+                        emoji.style.setProperty('--burst-x', `${x}px`);
+                        emoji.style.setProperty('--burst-y', `${y}px`);
+                        
+                        this.loadingScreen.appendChild(emoji);
+                        
+                        // Remove after animation
+                        setTimeout(() => {
+                            if (emoji.parentNode) {
+                                emoji.parentNode.removeChild(emoji);
+                            }
+                        }, 2000);
+                    }, i * 100);
+                }
+            }
+            
+            hideLoadingScreen() {
+                this.loadingScreen.classList.add('hidden');
+                
+                // Remove from DOM after animation
+                setTimeout(() => {
+                    if (this.loadingScreen.parentNode) {
+                        this.loadingScreen.parentNode.removeChild(this.loadingScreen);
+                    }
+                }, 800);
+            }
+        }
+        
+        // Add celebration animation CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes celebrationBurst {
+                0% {
+                    opacity: 1;
+                    transform: translate(-50%, -50%) scale(0.5) rotate(0deg);
+                }
+                50% {
+                    opacity: 1;
+                    transform: translate(calc(-50% + var(--burst-x)), calc(-50% + var(--burst-y))) scale(1.2) rotate(180deg);
+                }
+                100% {
+                    opacity: 0;
+                    transform: translate(calc(-50% + var(--burst-x)), calc(-50% + var(--burst-y))) scale(0.5) rotate(360deg);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Initialize loading screen when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            window.loadingScreen = new ModernLoadingScreen();
+        });
+    </script>
+</body>
+</html>

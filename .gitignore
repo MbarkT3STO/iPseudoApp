@@ -13,7 +13,6 @@
 
 # Electron
 /dist_electron
-/release
 /*.dmg
 /*.dmg.zip
 /*.zip

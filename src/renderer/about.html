@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-transition">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - iPseudo IDE</title>
+    
+    <!-- Modern Fonts -->
+    
+    
+    <link rel="stylesheet" href="fonts/google/inter.css">
+    <link rel="stylesheet" href="fonts/google/jetbrains-mono.css">
+    <link rel="stylesheet" href="fonts/google/poppins.css">
+    
+    <!-- Modern Icons -->
+    <link rel="stylesheet" href="fonts/remixicon/remixicon.css">
+    
+    <!-- Modern Styles -->
+    <link rel="stylesheet" href="styles/modern-base.css">
+    <link rel="stylesheet" href="styles/modern-components.css">
+    <link rel="stylesheet" href="styles/modern-layout.css">
+    <link rel="stylesheet" href="styles/modern-theme.css">
+    <link rel="stylesheet" href="styles/modern-design-tokens.css">
+    <link rel="stylesheet" href="styles/modern-tab-system.css">
+    
+    <!-- Settings Specific Styles -->
+    <link rel="stylesheet" href="styles/settings.css">
+    
+    <!-- Theme Initialization Script -->
+    <script>
+        // Initialize about page theme system
+        function initializeAboutTheme() {
+            try {
+                const settings = JSON.parse(localStorage.getItem('iPseudoSettings') || '{}');
+                const theme = settings.theme || 'dark';
+                
+                // Handle system theme
+                let actualTheme = theme;
+                if (theme === 'system') {
+                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    actualTheme = prefersDark ? 'dark' : 'light';
+                }
+                
+                // Apply about page theme classes
+                document.documentElement.classList.add(`settings-theme-${actualTheme}`);
+                document.documentElement.setAttribute('data-settings-theme', actualTheme);
+                
+                // Only apply to body if it exists
+                if (document.body) {
+                    document.body.classList.add(`settings-theme-${actualTheme}`);
+                }
+            } catch (e) {
+                // Fallback to dark theme
+                document.documentElement.classList.add('settings-theme-dark');
+                document.documentElement.setAttribute('data-settings-theme', 'dark');
+                
+                if (document.body) {
+                    document.body.classList.add('settings-theme-dark');
+                }
+            }
+        }
+        
+        // Initialize immediately if body exists, otherwise wait for DOM ready
+        if (document.body) {
+            initializeAboutTheme();
+        } else {
+            document.addEventListener('DOMContentLoaded', initializeAboutTheme);
+        }
+    </script>
+    
+    <!-- About Page Specific Styles -->
+    <style>
+        /* Override settings styles for about page */
+        .settings-main {
+            background: linear-gradient(135deg,
+                rgba(147, 51, 234, 0.15) 0%,
+                rgba(79, 70, 229, 0.15) 50%,
+                rgba(6, 182, 212, 0.1) 100%),
+                #0f172a;
+        }
+        
+        /* Hero section with Flow Chart modal design */
+        .about-hero {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.15) 0%,
+                rgba(255, 255, 255, 0.08) 30%,
+                rgba(255, 255, 255, 0.12) 70%,
+                rgba(255, 255, 255, 0.10) 100%),
+                radial-gradient(circle at 50% 0%, rgba(147, 51, 234, 0.08) 0%, transparent 60%);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(32px) saturate(200%);
+            -webkit-backdrop-filter: blur(32px) saturate(200%);
+            box-shadow: 
+                0 35px 70px rgba(0, 0, 0, 0.35),
+                0 0 150px rgba(147, 51, 234, 0.4),
+                0 0 60px rgba(79, 70, 229, 0.3),
+                inset 0 2px 0 rgba(255, 255, 255, 0.5);
+        }
+        
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.12) 0%,
+                rgba(255, 255, 255, 0.05) 50%,
+                rgba(255, 255, 255, 0.08) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            backdrop-filter: blur(24px) saturate(200%);
+            -webkit-backdrop-filter: blur(24px) saturate(200%);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.25),
+                0 0 40px rgba(147, 51, 234, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .feature-card {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.12) 0%,
+                rgba(255, 255, 255, 0.05) 50%,
+                rgba(255, 255, 255, 0.08) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(24px) saturate(200%);
+            -webkit-backdrop-filter: blur(24px) saturate(200%);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.25),
+                0 0 40px rgba(147, 51, 234, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+        
+        .feature-card.primary {
+            background: linear-gradient(135deg,
+                rgba(147, 51, 234, 0.2) 0%,
+                rgba(79, 70, 229, 0.15) 50%,
+                rgba(6, 182, 212, 0.2) 100%);
+            border-color: rgba(147, 51, 234, 0.4);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: white;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 24px rgba(147, 51, 234, 0.4);
+        }
+        
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.75rem;
+        }
+        
+        .feature-description {
+            font-size: 0.9375rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+        
+        .developer-showcase {
+            margin-bottom: 2rem;
+        }
+        
+        .developer-card {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.15) 0%,
+                rgba(255, 255, 255, 0.08) 30%,
+                rgba(255, 255, 255, 0.12) 70%,
+                rgba(255, 255, 255, 0.10) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 24px;
+            padding: 2.5rem;
+            backdrop-filter: blur(32px) saturate(200%);
+            -webkit-backdrop-filter: blur(32px) saturate(200%);
+            box-shadow: 
+                0 35px 70px rgba(0, 0, 0, 0.35),
+                0 0 150px rgba(147, 51, 234, 0.4),
+                inset 0 2px 0 rgba(255, 255, 255, 0.5);
+        }
+        
+        .developer-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: white;
+            box-shadow: 0 12px 40px rgba(147, 51, 234, 0.5);
+        }
+        
+        .social-link-modern {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.12) 0%,
+                rgba(255, 255, 255, 0.05) 50%,
+                rgba(255, 255, 255, 0.08) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            backdrop-filter: blur(24px) saturate(200%);
+            -webkit-backdrop-filter: blur(24px) saturate(200%);
+            box-shadow: 
+                0 4px 16px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .social-link-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 8px 24px rgba(0, 0, 0, 0.25),
+                0 0 30px rgba(147, 51, 234, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+        
+        .tech-stack {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.12) 0%,
+                rgba(255, 255, 255, 0.05) 50%,
+                rgba(255, 255, 255, 0.08) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            padding: 2.5rem;
+            backdrop-filter: blur(32px) saturate(200%);
+            -webkit-backdrop-filter: blur(32px) saturate(200%);
+            box-shadow: 
+                0 35px 70px rgba(0, 0, 0, 0.35),
+                0 0 150px rgba(147, 51, 234, 0.4),
+                inset 0 2px 0 rgba(255, 255, 255, 0.5);
+        }
+        
+        .tech-badge {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.12) 0%,
+                rgba(255, 255, 255, 0.05) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 0.75rem 1.5rem;
+            backdrop-filter: blur(24px) saturate(200%);
+            -webkit-backdrop-filter: blur(24px) saturate(200%);
+            box-shadow: 
+                0 4px 16px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .tech-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 8px 24px rgba(0, 0, 0, 0.25),
+                0 0 30px rgba(147, 51, 234, 0.3);
+        }
+        
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .cute-float { animation: float 3s ease-in-out infinite; }
+        .cute-pulse { animation: pulse 2s ease-in-out infinite; }
+        .cute-bounce { animation: bounce 1s ease-in-out; }
+        
+        /* Light theme support */
+        .settings-theme-light .about-hero,
+        .settings-theme-light .developer-card,
+        .settings-theme-light .tech-stack {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.95) 0%,
+                rgba(255, 255, 255, 0.88) 30%,
+                rgba(255, 255, 255, 0.92) 70%,
+                rgba(255, 255, 255, 0.95) 100%);
+            border-color: rgba(147, 51, 234, 0.2);
+            box-shadow: 
+                0 35px 70px rgba(0, 0, 0, 0.12),
+                0 0 150px rgba(147, 51, 234, 0.15);
+        }
+        
+        .settings-theme-light .stat-card,
+        .settings-theme-light .feature-card,
+        .settings-theme-light .social-link-modern,
+        .settings-theme-light .tech-badge {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.95) 0%,
+                rgba(255, 255, 255, 0.88) 100%);
+            border-color: rgba(147, 51, 234, 0.2);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+        
+        .settings-theme-light .stat-number {
+            background: linear-gradient(135deg, #1e293b 0%, #9333ea 50%, #1e293b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .settings-theme-light .stat-label,
+        .settings-theme-light .feature-description {
+            color: #64748b;
+        }
+        
+        .settings-theme-light .feature-title {
+            color: #1e293b;
+        }
+    </style>
+</head>
+<body>
+    <div class="settings-main">
+        <!-- About Header -->
+        <header class="settings-header">
+            <div class="header-left">
+                <button class="modern-btn modern-btn-icon cute-bounce" id="btnBack" aria-label="Back to Editor">
+                    <i class="ri-arrow-left-line"></i>
+                </button>
+                
+                <div class="header-title">
+                    <div class="title-text">
+                        <h1>About iPseudo IDE</h1>
+                        <p class="header-subtitle">Modern development environment for pseudocode ✨</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="header-right">
+                <div class="header-actions">
+                    <button class="modern-btn modern-btn-icon cute-pulse" id="btnThemeToggle" aria-label="Toggle Theme">
+                        <i class="ri-contrast-2-line"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- About Content -->
+        <div class="settings-layout">
+            <div class="settings-content">
+                <!-- About Panel -->
+                <div class="settings-panel active" id="about">
+                    <div class="panel-header">
+                        <div class="header-content">
+                            <div class="header-icon cute-float">
+                                <i class="ri-information-line"></i>
+                                <div class="icon-sparkle"></div>
+                            </div>
+                            <div class="header-text">
+                                <h2>About iPseudo IDE</h2>
+                                <p>Modern development environment for pseudocode ✨</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Modern About Content -->
+                    <div class="about-redesign">
+                        <!-- Hero Section -->
+                        <div class="about-hero">
+                            <div class="hero-content">
+                                <div class="hero-icon">
+                                    <div class="app-icon-enhanced">
+                                        <i class="ri-code-s-slash-line"></i>
+                                    </div>
+                                </div>
+                                <div class="hero-text">
+                                    <h1 class="hero-title">iPseudo IDE</h1>
+                                    <p class="hero-subtitle">Version 1.0.0 • Modern Pseudocode IDE</p>
+                                    <p class="hero-description">Empowering algorithm development with an intuitive, beautiful interface designed for learning and collaboration.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stats Section -->
+                        <div class="about-stats">
+                            <div class="stat-card">
+                                <div class="stat-number">1.0.0</div>
+                                <div class="stat-label">Current Version</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">Modern</div>
+                                <div class="stat-label">Design UI</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">100%</div>
+                                <div class="stat-label">Open Source</div>
+                            </div>
+                        </div>
+
+                        <!-- Features Grid -->
+                        <div class="features-grid">
+                            <div class="feature-card primary">
+                                <div class="feature-icon">
+                                    <i class="ri-brush-fill"></i>
+                                </div>
+                                <h3 class="feature-title">Modern UI</h3>
+                                <p class="feature-description">Glass morphism design with smooth animations and beautiful gradients</p>
+                            </div>
+
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="ri-code-s-slash-line"></i>
+                                </div>
+                                <h3 class="feature-title">Syntax Highlight</h3>
+                                <p class="feature-description">Advanced syntax highlighting with error detection and smart suggestions</p>
+                            </div>
+
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="ri-play-circle-line"></i>
+                                </div>
+                                <h3 class="feature-title">Real-time Execution</h3>
+                                <p class="feature-description">Execute pseudocode instantly with live output and error reporting</p>
+                            </div>
+
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="ri-layout-grid-line"></i>
+                                </div>
+                                <h3 class="feature-title">Multiple Tabs</h3>
+                                <p class="feature-description">Work with multiple files simultaneously in organized tab interface</p>
+                            </div>
+
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="ri-palette-line"></i>
+                                </div>
+                                <h3 class="feature-title">Custom Themes</h3>
+                                <p class="feature-description">Personalize your experience with light and dark themes</p>
+                            </div>
+
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="ri-flashlight-line"></i>
+                                </div>
+                                <h3 class="feature-title">Performance</h3>
+                                <p class="feature-description">Optimized for speed with hardware acceleration and smart caching</p>
+                            </div>
+                        </div>
+
+                        <!-- Developer Info -->
+                        <div class="developer-showcase">
+                            <div class="developer-card">
+                                <div class="developer-header">
+                                    <div class="developer-avatar">
+                                        <i class="ri-user-3-fill"></i>
+                                    </div>
+                                    <div class="developer-info">
+                                        <h3>MBARK</h3>
+                                        <p>Software Engineer & UI Designer</p>
+                                        <div class="developer-contact">
+                                            <span class="email">me@MBVRK.onmicrosoft.com</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="developer-description">
+                                    <p>Passionate developer creating modern, accessible tools for education and software development. Focus on clean code, beautiful design, and exceptional user experience.</p>
+                                </div>
+
+                                <div class="social-networks">
+                                    <h4>Connect with me</h4>
+                                    <div class="social-links-modern">
+                                        <a href="https://github.com/mbarkt3sto" target="_blank" class="social-link-modern github">
+                                            <i class="ri-github-fill"></i>
+                                            <span>GitHub</span>
+                                        </a>
+                                        <a href="https://hashnode.com/@mbarkt3sto" target="_blank" class="social-link-modern hashnode">
+                                            <i class="ri-hashtag"></i>
+                                            <span>Hashnode</span>
+                                        </a>
+                                        <a href="https://linkedin.com/in/mbarkt3sto" target="_blank" class="social-link-modern linkedin">
+                                            <i class="ri-linkedin-fill"></i>
+                                            <span>LinkedIn</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tech Stack -->
+                        <div class="tech-stack">
+                            <h3>Built with modern technologies</h3>
+                            <div class="tech-badges">
+                                <span class="tech-badge electron">Electron</span>
+                                <span class="tech-badge typescript">TypeScript</span>
+                                <span class="tech-badge html">HTML5</span>
+                                <span class="tech-badge css">CSS3</span>
+                                <span class="tech-badge js">JavaScript</span>
+                                <span class="tech-badge monaco">Monaco Editor</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Scroll to Top Button -->
+        <button id="scrollToTop" class="scroll-to-top cute-float" title="Scroll to top">
+            <i class="ri-arrow-up-line"></i>
+        </button>
+    </div>
+
+    <script>
+        // Initialize about page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Theme toggle functionality
+            const themeToggle = document.getElementById('btnThemeToggle');
+            const body = document.body;
+            const html = document.documentElement;
+            
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    // Toggle between about page themes
+                    const isDark = body.classList.contains('settings-theme-dark');
+                    
+                    // Remove existing theme classes
+                    body.classList.remove('settings-theme-dark', 'settings-theme-light');
+                    html.classList.remove('settings-theme-dark', 'settings-theme-light');
+                    
+                    if (isDark) {
+                        // Switch to light theme
+                        body.classList.add('settings-theme-light');
+                        html.classList.add('settings-theme-light');
+                        html.setAttribute('data-settings-theme', 'light');
+                    } else {
+                        // Switch to dark theme
+                        body.classList.add('settings-theme-dark');
+                        html.classList.add('settings-theme-dark');
+                        html.setAttribute('data-settings-theme', 'dark');
+                    }
+                    
+                    // Update main app settings
+                    try {
+                        const mainSettings = JSON.parse(localStorage.getItem('iPseudoSettings') || '{}');
+                        mainSettings.theme = isDark ? 'light' : 'dark';
+                        localStorage.setItem('iPseudoSettings', JSON.stringify(mainSettings));
+                    } catch (e) {
+                        console.error('Failed to update main app settings:', e);
+                    }
+                });
+            }
+            
+            // Back button functionality
+            const backButton = document.getElementById('btnBack');
+            if (backButton) {
+                backButton.addEventListener('click', () => {
+                    // Check if we have stored state from main app
+                    const storedState = localStorage.getItem('appStateBeforeAbout');
+                    if (storedState) {
+                        try {
+                            const state = JSON.parse(storedState);
+                            // Clear the stored state
+                            localStorage.removeItem('appStateBeforeAbout');
+                            
+                            // Navigate back to main page
+                            window.location.href = 'index.html';
+                        } catch (e) {
+                            console.error('Error parsing stored state:', e);
+                            window.location.href = 'index.html';
+                        }
+                    } else {
+                        // Fallback: navigate to main page
+                        window.location.href = 'index.html';
+                    }
+                });
+            }
+            
+            // Scroll to top functionality
+            const scrollToTopBtn = document.getElementById('scrollToTop');
+            if (scrollToTopBtn) {
+                window.addEventListener('scroll', () => {
+                    if (window.pageYOffset > 300) {
+                        scrollToTopBtn.classList.add('visible');
+                    } else {
+                        scrollToTopBtn.classList.remove('visible');
+                    }
+                });
+                
+                scrollToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

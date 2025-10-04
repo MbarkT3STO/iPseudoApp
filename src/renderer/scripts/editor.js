@@ -1,3 +1,4 @@
+"use strict";
 // Configure Monaco Editor loader
 // Use an absolute URL for the 'vs' path so AMD loader finds files correctly under file:// in Electron
 (() => {
@@ -137,48 +138,6 @@ function getKeywordHoverInfo(keyword) {
             description: 'Prompts the user for input and stores the value in a variable.',
             usage: 'input prompt',
             example: 'var name = input "Enter your name: "'
-        },
-        'variable': {
-            label: 'variable',
-            category: 'Variable Declaration',
-            description: 'Declares a new variable that can be modified throughout the program (alternative to var).',
-            usage: 'variable variableName = value',
-            example: 'variable age = 25'
-        },
-        'set': {
-            label: 'set',
-            category: 'Assignment Statement',
-            description: 'Assigns a value to a variable using natural language syntax.',
-            usage: 'set <value> to <variableName>',
-            example: 'set 5 to age'
-        },
-        'declare': {
-            label: 'declare',
-            category: 'Variable Declaration',
-            description: 'Declares a variable with explicit type specification.',
-            usage: 'declare variableName as type',
-            example: 'declare age as number'
-        },
-        'number': {
-            label: 'number',
-            category: 'Primitive Type',
-            description: 'Primitive type for numeric values.',
-            usage: 'declare variableName as number',
-            example: 'declare age as number'
-        },
-        'string': {
-            label: 'string',
-            category: 'Primitive Type',
-            description: 'Primitive type for text values.',
-            usage: 'declare variableName as string',
-            example: 'declare name as string'
-        },
-        'boolean': {
-            label: 'boolean',
-            category: 'Primitive Type',
-            description: 'Primitive type for true/false values.',
-            usage: 'declare variableName as boolean',
-            example: 'declare isActive as boolean'
         }
     };
     return hoverData[keyword] || null;
@@ -189,7 +148,7 @@ const pseudocodeLanguage = {
     tokenizer: {
         root: [
             // Keywords - All reserved words from the pseudocode specification
-            [/\b(var|const|if|else|elseif|endif|for|to|endfor|while|endwhile|function|endfunction|return|break|continue|print|input|variable|set|declare|number|string|boolean|integer|float|char)\b/, 'keyword'],
+            [/\b(var|const|if|else|elseif|endif|for|to|endfor|while|endwhile|function|endfunction|return|break|continue|print|input)\b/, 'keyword'],
             // Strings
             [/".*?"/, 'string'],
             [/'.*?'/, 'string'],
@@ -331,22 +290,18 @@ window.require(['vs/editor/editor.main'], function () {
                 startColumn: word.startColumn,
                 endColumn: word.endColumn
             };
-            // Scan model for current var, const, variable, and declare declarations
+            // Scan model for current var, const, and function declarations
             const text = model.getValue();
+            const varRe = /\b(?:var|const)\s+([a-zA-Z_]\w*)/gi;
+            const funcRe = /^\s*function\s+([a-zA-Z_]\w*)/gim;
             const vars = new Set();
             const funcs = new Set();
-            // Use matchAll to avoid regex state issues
-            const varMatches = text.matchAll(/\b(?:var|const|variable|Variable)\s+([a-zA-Z_]\w*)/gi);
-            for (const match of varMatches) {
-                vars.add(match[1]);
+            let m;
+            while ((m = varRe.exec(text))) {
+                vars.add(m[1]);
             }
-            const declareMatches = text.matchAll(/\b(?:declare|Declare)\s+([a-zA-Z_]\w*)\s+(?:as|As)\s+/gi);
-            for (const match of declareMatches) {
-                vars.add(match[1]);
-            }
-            const funcMatches = text.matchAll(/^\s*function\s+([a-zA-Z_]\w*)/gim);
-            for (const match of funcMatches) {
-                funcs.add(match[1]);
+            while ((m = funcRe.exec(text))) {
+                funcs.add(m[1]);
             }
             const suggestions = [];
             // Define keyword suggestions with descriptions
@@ -409,16 +364,16 @@ window.require(['vs/editor/editor.main'], function () {
             return { suggestions };
         }
     });
-    // Initialize Run button state and set up content change listeners
+    // Add content change listener to handle run button state
     const runButton = document.getElementById('btnRun');
     if (runButton) {
-        // Set initial state using our comprehensive updateRunButtonState function
-        setTimeout(() => {
-            if (window.updateRunButtonState) {
-                window.updateRunButtonState();
-            }
-        }, 10);
-        // Note: The detailed content change logic is handled in setupEditorListeners
+        // Initial state
+        runButton.disabled = !editor.getValue().trim();
+        // Listen for content changes
+        editor.onDidChangeModelContent(() => {
+            const content = editor.getValue().trim();
+            runButton.disabled = !content;
+        });
     }
     // Notify other scripts that editor is ready (if a global hook exists)
     if (window.onEditorReady && typeof window.onEditorReady === 'function') {
@@ -478,8 +433,6 @@ window.require(['vs/editor/editor.main'], function () {
 function setupEditorListeners() {
     if (!window.editor)
         return;
-    // Initialize Run button state
-    updateRunButtonState();
     // Track cursor position changes
     window.editor.onDidChangeCursorPosition((e) => {
         if (window.activeFilePath && window.openFiles && window.openFiles.has(window.activeFilePath)) {
@@ -515,46 +468,8 @@ function setupEditorListeners() {
                 }
             }
         }
-        // Update Run button state based on editor content
-        updateRunButtonState();
     });
 }
-/**
- * Updates the Run button disabled state based on editor content.
- * Disables the Run button if the editor is empty or contains only
- * whitespace/comments, enables it otherwise.
- */
-function updateRunButtonState() {
-    const runButton = document.getElementById('btnRun');
-    if (!runButton || !window.editor)
-        return;
-    // Get current editor content
-    const content = window.editor.getValue();
-    // Check if content is empty or contains only whitespace/newlines/comments
-    const trimmedContent = content.trim();
-    const isEmpty = !trimmedContent || trimmedContent === '' || trimOnlyWhitespaceAndComments(trimmedContent);
-    // Disable/enable Run button accordingly
-    runButton.disabled = isEmpty;
-}
-/**
- * Helper function to check if content contains only whitespace and comments.
- * Returns true if all lines are empty or start with '#' (comments).
- */
-function trimOnlyWhitespaceAndComments(content) {
-    if (!content)
-        return true;
-    // Split content into lines and check if all lines are empty or comments
-    const lines = content.split('\n');
-    for (const line of lines) {
-        const trimmedLine = line.trim();
-        if (trimmedLine && !trimmedLine.startsWith('#')) {
-            return false; // Found non-empty, non-comment line
-        }
-    }
-    return true; // All lines are empty or comments
-}
-// Make functions globally available
-window.updateRunButtonState = updateRunButtonState;
 // Fallback clipboard actions when Monaco commands fail
 function handleClipboardAction(action) {
     if (!window.editor)
@@ -655,8 +570,7 @@ function showMonacoContextMenu(e) {
     document.body.appendChild(menu);
     // Handle menu actions
     menu.addEventListener('click', (e) => {
-        var _a;
-        const action = (_a = e.target.closest('.context-menu-item')) === null || _a === void 0 ? void 0 : _a.getAttribute('data-action');
+        const action = e.target.closest('.context-menu-item')?.getAttribute('data-action');
         if (action && window.editor) {
             try {
                 switch (action) {
@@ -718,3 +632,4 @@ function showMonacoContextMenu(e) {
 }
 // Make this function globally available
 window.setupEditorListeners = setupEditorListeners;
+//# sourceMappingURL=editor.js.map

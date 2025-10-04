@@ -110,8 +110,8 @@ function createMainWindow() {
     show: true
   });
 
-  // Load the main app
-  mainWindow.loadFile(path.join(__dirname, '../renderer/index.html'));
+  // Load the modern UI as default
+  mainWindow.loadFile(path.join(__dirname, '../renderer/index-modern.html'));
 
   // Focus main window when ready
   mainWindow.once('ready-to-show', () => {

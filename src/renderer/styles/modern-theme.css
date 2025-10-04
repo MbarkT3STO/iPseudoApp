@@ -1,0 +1,412 @@
+/* ===== MODERN THEME SYSTEM ===== */
+/* Theme management with splash screen-inspired modern design */
+
+/* ===== THEME TRANSITIONS ===== */
+.theme-transition * {
+    transition: 
+        background-color var(--duration-normal) var(--ease-in-out),
+        border-color var(--duration-normal) var(--ease-in-out),
+        color var(--duration-normal) var(--ease-in-out),
+        box-shadow var(--duration-normal) var(--ease-in-out),
+        opacity var(--duration-normal) var(--ease-in-out),
+        transform var(--duration-normal) var(--ease-in-out);
+}
+
+/* Disable transitions for instant theme changes */
+.no-transitions * {
+    transition: none !important;
+}
+
+/* ===== DARK THEME (DEFAULT) ===== */
+.theme-dark {
+    --editor-bg: #0d1117;
+    --editor-bg-secondary: #161b22;
+    --editor-bg-tertiary: #21262d;
+    --editor-bg-quaternary: #30363d;
+    --editor-border: #30363d;
+    --editor-border-light: #484f58;
+    --editor-text: #f0f6fc;
+    --editor-text-secondary: #8b949e;
+    --editor-text-tertiary: #6e7681;
+    --editor-text-muted: #484f58;
+    
+    /* Enhanced Glass effects inspired by About Modal */
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-bg-hover: rgba(255, 255, 255, 0.08);
+    --glass-bg-active: rgba(255, 255, 255, 0.12);
+    --glass-bg-header: rgba(255, 255, 255, 0.08);
+    --glass-bg-footer: rgba(255, 255, 255, 0.04);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-border-hover: rgba(255, 255, 255, 0.15);
+    --glass-border-light: rgba(255, 255, 255, 0.2);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --glass-shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.4);
+    --glass-shadow-enhanced: 
+        0 25px 50px rgba(0, 0, 0, 0.25),
+        0 0 100px rgba(147, 51, 234, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    
+    /* Enhanced Gradients inspired by About Modal */
+    --gradient-secondary: linear-gradient(135deg, var(--editor-bg) 0%, var(--editor-bg-secondary) 50%, var(--editor-bg) 100%);
+    --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    --gradient-glass-header: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+    --gradient-glass-footer: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
+    --gradient-enhanced-accent: linear-gradient(135deg, #9333ea 0%, #4f46e5 100%);
+}
+
+/* ===== LIGHT THEME ===== */
+.theme-light {
+    --editor-bg: #ffffff;
+    --editor-bg-secondary: #f8fafc;
+    --editor-bg-tertiary: #f1f5f9;
+    --editor-bg-quaternary: #e2e8f0;
+    --editor-border: #e2e8f0;
+    --editor-border-light: #cbd5e1;
+    --editor-text: #1e293b;
+    --editor-text-secondary: #64748b;
+    --editor-text-tertiary: #94a3b8;
+    --editor-text-muted: #cbd5e1;
+    
+    /* Enhanced Glass effects inspired by About Modal */
+    --glass-bg: rgba(0, 0, 0, 0.03);
+    --glass-bg-hover: rgba(0, 0, 0, 0.05);
+    --glass-bg-active: rgba(0, 0, 0, 0.08);
+    --glass-bg-header: rgba(0, 0, 0, 0.04);
+    --glass-bg-footer: rgba(0, 0, 0, 0.02);
+    --glass-border: rgba(0, 0, 0, 0.08);
+    --glass-border-hover: rgba(0, 0, 0, 0.12);
+    --glass-border-light: rgba(0, 0, 0, 0.1);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    --glass-shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.15);
+    --glass-shadow-enhanced: 
+        0 25px 50px rgba(0, 0, 0, 0.15),
+        0 0 100px rgba(147, 51, 234, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    
+    /* Enhanced Gradients inspired by About Modal */
+    --gradient-secondary: linear-gradient(135deg, var(--editor-bg) 0%, var(--editor-bg-secondary) 50%, var(--editor-bg) 100%);
+    --gradient-glass: linear-gradient(135deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.02) 100%);
+    --gradient-glass-header: linear-gradient(135deg, rgba(0, 0, 0, 0.03) 0%, rgba(0, 0, 0, 0.01) 100%);
+    --gradient-glass-footer: linear-gradient(135deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.005) 100%);
+    --gradient-enhanced-accent: linear-gradient(135deg, #9333ea 0%, #4f46e5 100%);
+}
+
+/* ===== THEME-SPECIFIC COMPONENT OVERRIDES ===== */
+
+/* Dark theme specific styles */
+.theme-dark .modern-app-container::before {
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(6, 182, 212, 0.05) 0%, transparent 50%);
+}
+
+.theme-dark .modern-top-nav {
+    background: var(--glass-bg);
+    border-bottom-color: var(--glass-border);
+    box-shadow: var(--shadow-glass);
+}
+
+.theme-dark .modern-panel,
+.theme-dark .modern-console-container,
+.theme-dark .modern-editor-container {
+    background: var(--editor-bg-secondary);
+    border-color: var(--editor-border);
+    box-shadow: var(--shadow-glass);
+}
+
+.theme-dark .modern-btn-secondary {
+    background: var(--glass-bg);
+    color: var(--editor-text);
+    border-color: var(--glass-border);
+}
+
+.theme-dark .modern-btn-secondary:hover:not(:disabled) {
+    background: var(--glass-bg-hover);
+    border-color: var(--glass-border-hover);
+}
+
+.theme-dark .tab,
+.theme-dark .content-tab {
+    color: var(--editor-text-secondary);
+}
+
+.theme-dark .tab:hover,
+.theme-dark .content-tab:hover {
+    background: var(--glass-bg);
+    color: var(--editor-text);
+    border-color: var(--glass-border);
+}
+
+.theme-dark .tab.active,
+.theme-dark .content-tab.active {
+    background: var(--glass-bg-active);
+    color: var(--editor-text);
+    border-color: var(--accent-primary);
+    box-shadow: var(--shadow-glow-primary);
+}
+
+/* Light theme specific styles */
+.theme-light .modern-app-container::before {
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(6, 182, 212, 0.03) 0%, transparent 50%);
+}
+
+.theme-light .modern-top-nav {
+    background: var(--glass-bg);
+    border-bottom-color: var(--glass-border);
+    box-shadow: var(--shadow-glass);
+}
+
+.theme-light .modern-panel,
+.theme-light .modern-console-container,
+.theme-light .modern-editor-container {
+    background: var(--editor-bg-secondary);
+    border-color: var(--editor-border);
+    box-shadow: var(--shadow-glass);
+}
+
+.theme-light .modern-btn-secondary {
+    background: var(--glass-bg);
+    color: var(--editor-text);
+    border-color: var(--glass-border);
+}
+
+.theme-light .modern-btn-secondary:hover:not(:disabled) {
+    background: var(--glass-bg-hover);
+    border-color: var(--glass-border-hover);
+}
+
+.theme-light .tab,
+.theme-light .content-tab {
+    color: var(--editor-text-secondary);
+}
+
+.theme-light .tab:hover,
+.theme-light .content-tab:hover {
+    background: var(--glass-bg);
+    color: var(--editor-text);
+    border-color: var(--glass-border);
+}
+
+.theme-light .tab.active,
+.theme-light .content-tab.active {
+    background: var(--glass-bg-active);
+    color: var(--editor-text);
+    border-color: var(--accent-primary);
+    box-shadow: var(--shadow-glow-primary);
+}
+
+/* ===== MONACO EDITOR THEME INTEGRATION ===== */
+.theme-dark .monaco-editor {
+    background-color: var(--editor-bg) !important;
+}
+
+.theme-light .monaco-editor {
+    background-color: var(--editor-bg) !important;
+}
+
+/* ===== MONACO EDITOR FULL SPACE ===== */
+/* Monaco editor takes full space in panel content */
+.monaco-editor {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    outline: none !important;
+}
+
+/* ===== THEME TOGGLE ANIMATIONS ===== */
+.theme-transition .modern-app-container {
+    transition: background var(--duration-slow) var(--ease-in-out);
+}
+
+.theme-transition .modern-top-nav {
+    transition: 
+        background-color var(--duration-normal) var(--ease-in-out),
+        border-color var(--duration-normal) var(--ease-in-out),
+        box-shadow var(--duration-normal) var(--ease-in-out);
+}
+
+.theme-transition .modern-panel,
+.theme-transition .modern-console-container,
+.theme-transition .modern-editor-container {
+    transition: 
+        background-color var(--duration-normal) var(--ease-in-out),
+        border-color var(--duration-normal) var(--ease-in-out),
+        box-shadow var(--duration-normal) var(--ease-in-out);
+}
+
+.theme-transition .modern-btn {
+    transition: 
+        background-color var(--duration-normal) var(--ease-in-out),
+        border-color var(--duration-normal) var(--ease-in-out),
+        color var(--duration-normal) var(--ease-in-out),
+        box-shadow var(--duration-normal) var(--ease-in-out);
+}
+
+.theme-transition .tab,
+.theme-transition .content-tab {
+    transition: 
+        background-color var(--duration-normal) var(--ease-in-out),
+        border-color var(--duration-normal) var(--ease-in-out),
+        color var(--duration-normal) var(--ease-in-out),
+        box-shadow var(--duration-normal) var(--ease-in-out);
+}
+
+/* ===== SYSTEM THEME DETECTION ===== */
+@media (prefers-color-scheme: dark) {
+    .theme-system {
+        --editor-bg: #0d1117;
+        --editor-bg-secondary: #161b22;
+        --editor-bg-tertiary: #21262d;
+        --editor-bg-quaternary: #30363d;
+        --editor-border: #30363d;
+        --editor-border-light: #484f58;
+        --editor-text: #f0f6fc;
+        --editor-text-secondary: #8b949e;
+        --editor-text-tertiary: #6e7681;
+        --editor-text-muted: #484f58;
+        
+        --glass-bg: rgba(255, 255, 255, 0.05);
+        --glass-bg-hover: rgba(255, 255, 255, 0.08);
+        --glass-bg-active: rgba(255, 255, 255, 0.12);
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --glass-border-hover: rgba(255, 255, 255, 0.15);
+        --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        --glass-shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.4);
+        
+        --gradient-secondary: linear-gradient(135deg, var(--editor-bg) 0%, var(--editor-bg-secondary) 50%, var(--editor-bg) 100%);
+        --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    .theme-system {
+        --editor-bg: #ffffff;
+        --editor-bg-secondary: #f8fafc;
+        --editor-bg-tertiary: #f1f5f9;
+        --editor-bg-quaternary: #e2e8f0;
+        --editor-border: #e2e8f0;
+        --editor-border-light: #cbd5e1;
+        --editor-text: #1e293b;
+        --editor-text-secondary: #64748b;
+        --editor-text-tertiary: #94a3b8;
+        --editor-text-muted: #cbd5e1;
+        
+        --glass-bg: rgba(0, 0, 0, 0.03);
+        --glass-bg-hover: rgba(0, 0, 0, 0.05);
+        --glass-bg-active: rgba(0, 0, 0, 0.08);
+        --glass-border: rgba(0, 0, 0, 0.08);
+        --glass-border-hover: rgba(0, 0, 0, 0.12);
+        --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        --glass-shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.15);
+        
+        --gradient-secondary: linear-gradient(135deg, var(--editor-bg) 0%, var(--editor-bg-secondary) 50%, var(--editor-bg) 100%);
+        --gradient-glass: linear-gradient(135deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.02) 100%);
+    }
+}
+
+/* ===== HIGH CONTRAST MODE ===== */
+@media (prefers-contrast: high) {
+    .theme-dark,
+    .theme-light,
+    .theme-system {
+        --editor-border: var(--accent-primary);
+        --glass-border: var(--accent-primary);
+        --focus-ring-width: 3px;
+    }
+    
+    .modern-btn {
+        border-width: 2px;
+    }
+    
+    .modern-panel,
+    .modern-console-container,
+    .modern-editor-container {
+        border-width: 2px;
+    }
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+    .theme-transition * {
+        transition: none !important;
+        animation: none !important;
+    }
+    
+    .theme-transition .modern-app-container {
+        transition: none !important;
+    }
+    
+    .theme-transition .modern-top-nav {
+        transition: none !important;
+    }
+    
+    .theme-transition .modern-panel,
+    .theme-transition .modern-console-container,
+    .theme-transition .modern-editor-container {
+        transition: none !important;
+    }
+    
+    .theme-transition .modern-btn {
+        transition: none !important;
+    }
+    
+    .theme-transition .tab,
+    .theme-transition .content-tab {
+        transition: none !important;
+    }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+    .theme-dark,
+    .theme-light,
+    .theme-system {
+        --editor-bg: white;
+        --editor-bg-secondary: #f8f9fa;
+        --editor-bg-tertiary: #e9ecef;
+        --editor-bg-quaternary: #dee2e6;
+        --editor-border: #dee2e6;
+        --editor-border-light: #ced4da;
+        --editor-text: black;
+        --editor-text-secondary: #6c757d;
+        --editor-text-tertiary: #868e96;
+        --editor-text-muted: #adb5bd;
+        
+        --glass-bg: transparent;
+        --glass-bg-hover: transparent;
+        --glass-bg-active: transparent;
+        --glass-border: #dee2e6;
+        --glass-border-hover: #ced4da;
+        --glass-shadow: none;
+        --glass-shadow-hover: none;
+        
+        --gradient-secondary: none;
+        --gradient-glass: none;
+    }
+    
+    .modern-app-container::before {
+        display: none;
+    }
+    
+    .modern-top-nav {
+        background: white !important;
+        border-bottom: 1px solid #dee2e6 !important;
+        box-shadow: none !important;
+    }
+    
+    .modern-panel,
+    .modern-console-container,
+    .modern-editor-container {
+        background: white !important;
+        border: 1px solid #dee2e6 !important;
+        box-shadow: none !important;
+    }
+}

@@ -1,7 +1,7 @@
-// ===== SETTINGS MANAGER =====
-// Modern settings management with neumorphic UI
+// ===== MODERN SETTINGS MANAGER =====
+// Modern settings management with glass morphism UI
 
-class SettingsManager {
+class ModernSettingsManager {
     constructor() {
         this.settings = this.loadSettings();
         this.currentSection = 'appearance';
@@ -16,6 +16,7 @@ class SettingsManager {
         this.setupSearch();
         this.applySettings();
         this.updateUI();
+        this.setupStorageListener();
         
         // Apply UI visibility settings immediately
         this.forceApplyUIVisibility();
@@ -103,6 +104,15 @@ class SettingsManager {
                 sectionId: 'appearance',
                 icon: 'ri-sparkling-line',
                 keywords: ['particle', 'effect', 'background', 'visual', 'animation']
+            },
+            {
+                id: 'floatingSystem',
+                title: 'Floating System',
+                description: 'Enable floating navigation, tabs, and editor areas',
+                section: 'Appearance',
+                sectionId: 'appearance',
+                icon: 'ri-layout-3-line',
+                keywords: ['floating', 'system', 'layout', 'navigation', 'tabs', 'editor', 'ui']
             },
             
             // Editor Settings
@@ -222,7 +232,7 @@ class SettingsManager {
                 description: 'Adjust the height of the console panel',
                 section: 'Console',
                 sectionId: 'console',
-                icon: 'ri-arrows-vertical',
+                icon: 'ri-line-height',
                 keywords: ['console', 'height', 'size', 'panel', 'output']
             },
             {
@@ -533,24 +543,35 @@ class SettingsManager {
 
     // Navigate to a specific setting
     navigateToSetting(section, settingId) {
-        // Switch to the section
+        // Switch to the section first
         this.switchSection(section);
         
         // Hide search results
         this.hideSearchResults();
         this.clearSearch();
         
-        // Scroll to and highlight the setting
+        // Wait for the section to be visible, then scroll to and highlight the setting
         setTimeout(() => {
             const settingElement = document.getElementById(settingId);
             if (settingElement) {
+                // Ensure the setting element is visible
                 settingElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                // Add a highlight effect
                 settingElement.style.animation = 'pulse 1s ease-in-out';
+                settingElement.style.backgroundColor = 'rgba(59, 130, 246, 0.1)';
+                settingElement.style.borderRadius = 'var(--radius-lg)';
+                settingElement.style.padding = 'var(--space-2)';
+                
+                // Remove the highlight after animation
                 setTimeout(() => {
                     settingElement.style.animation = '';
-                }, 1000);
+                    settingElement.style.backgroundColor = '';
+                    settingElement.style.borderRadius = '';
+                    settingElement.style.padding = '';
+                }, 2000);
             }
-        }, 100);
+        }, 200);
     }
 
     // Clear search
@@ -588,6 +609,13 @@ class SettingsManager {
         const navItem = document.querySelector(`[data-section="${section}"]`);
         if (navItem) {
             navItem.classList.add('active');
+            // Add a visual feedback for the active tab
+            navItem.style.transform = 'translateX(4px)';
+            navItem.style.backgroundColor = 'rgba(59, 130, 246, 0.15)';
+            setTimeout(() => {
+                navItem.style.transform = '';
+                navItem.style.backgroundColor = '';
+            }, 300);
         }
 
         // Update panels
@@ -597,6 +625,14 @@ class SettingsManager {
         const panel = document.getElementById(section);
         if (panel) {
             panel.classList.add('active');
+            // Add a fade-in effect for the panel
+            panel.style.opacity = '0';
+            panel.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                panel.style.transition = 'all 0.3s ease';
+                panel.style.opacity = '1';
+                panel.style.transform = 'translateY(0)';
+            }, 50);
         }
 
         this.currentSection = section;
@@ -607,7 +643,7 @@ class SettingsManager {
         // UI Design selector
         const uiDesignSelect = document.getElementById('uiDesign');
         if (uiDesignSelect) {
-            uiDesignSelect.value = this.settings.uiDesign || 'classic';
+            uiDesignSelect.value = this.settings.uiDesign || 'modern';
             uiDesignSelect.addEventListener('change', (e) => {
                 this.updateSetting('uiDesign', e.target.value);
                 this.applyUIDesign(e.target.value);
@@ -617,10 +653,12 @@ class SettingsManager {
         // Theme selector
         const themeSelect = document.getElementById('themeSelect');
         if (themeSelect) {
-            themeSelect.value = this.settings.theme || 'light';
+            themeSelect.value = this.settings.theme || 'dark';
             themeSelect.addEventListener('change', (e) => {
                 this.updateSetting('theme', e.target.value);
                 this.applyTheme(e.target.value);
+                // Notify main app of theme change
+                this.notifyMainAppThemeChange(e.target.value);
             });
         }
 
@@ -873,10 +911,10 @@ class SettingsManager {
     }
 
     // Apply a specific setting
-    applySetting(key, value) {
+    applySetting(key, value, showConfirmation = true) {
         switch (key) {
             case 'uiDesign':
-                this.applyUIDesign(value);
+                this.applyUIDesign(value, showConfirmation);
                 break;
             case 'animationsEnabled':
                 this.toggleAnimations(value);
@@ -886,6 +924,9 @@ class SettingsManager {
                 break;
             case 'particleEffects':
                 this.toggleParticleEffects(value);
+                break;
+            case 'floatingSystem':
+                this.toggleFloatingSystem(value);
                 break;
             case 'wordWrap':
                 this.applyWordWrap(value);
@@ -989,10 +1030,10 @@ class SettingsManager {
         // Apply accent color
         this.applyAccentColor(this.settings.accentColor || '#0ea5e9');
         
-        // Apply all other settings
+        // Apply all other settings (without confirmation during initialization)
         Object.keys(this.settings).forEach(key => {
             if (key !== 'theme' && key !== 'accentColor') {
-                this.applySetting(key, this.settings[key]);
+                this.applySetting(key, this.settings[key], false);
             }
         });
     }
@@ -1053,51 +1094,75 @@ class SettingsManager {
                window.location.pathname.endsWith('dist/renderer/index.html');
     }
 
-    // Apply theme
-    applyTheme(theme) {
-        const body = document.body;
-        body.classList.remove('theme-light', 'theme-dark');
-        
-        if (theme === 'auto') {
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            body.classList.add(prefersDark ? 'theme-dark' : 'theme-light');
-        } else {
-            body.classList.add(`theme-${theme}`);
-        }
-    }
-
     // Apply UI Design
-    applyUIDesign(uiDesign) {
+    applyUIDesign(uiDesign, showConfirmation = true) {
         // Store the UI preference
         localStorage.setItem('preferredUI', uiDesign);
         
-        // Show notification
-        this.showNotification(`UI switched to ${uiDesign === 'modern' ? 'Modern' : 'Classic'} UI. Please restart the application to see changes.`, 'info');
-        
-        // If we're in the settings page, we can show a preview or redirect
-        if (window.location.pathname.includes('settings.html')) {
-            // Show a confirmation dialog
-            if (confirm(`Switch to ${uiDesign === 'modern' ? 'Modern' : 'Classic'} UI? The application will restart to apply changes.`)) {
-                // Redirect to the appropriate UI
-                if (uiDesign === 'modern') {
-                    // If we're in classic settings, go to modern UI
-                    if (window.location.pathname.includes('src/renderer/settings.html')) {
-                        window.location.href = '../../modern-ui/index.html';
+        // Only show notification and confirmation if this is a user-initiated change
+        if (showConfirmation) {
+            // Show notification
+            this.showNotification(`UI switched to ${uiDesign === 'modern' ? 'Modern' : 'Classic'} UI. Please restart the application to see changes.`, 'info');
+            
+            // If we're in the settings page, we can show a preview or redirect
+            if (window.location.pathname.includes('settings.html')) {
+                // Show a confirmation dialog
+                if (confirm(`Switch to ${uiDesign === 'modern' ? 'Modern' : 'Classic'} UI? The application will restart to apply changes.`)) {
+                    // Redirect to the appropriate UI
+                    if (uiDesign === 'modern') {
+                        // If we're in classic settings, go to modern UI
+                        if (window.location.pathname.includes('src/renderer/settings.html')) {
+                            window.location.href = 'index-modern.html';
+                        } else {
+                            // We're in modern settings, go to modern UI
+                            window.location.href = 'index.html';
+                        }
                     } else {
-                        // We're in modern settings, go to modern UI
-                        window.location.href = 'index.html';
-                    }
-                } else {
-                    // If we're in modern settings, go to classic UI
-                    if (window.location.pathname.includes('modern-ui/settings.html')) {
-                        window.location.href = '../src/renderer/index.html';
-                    } else {
-                        // We're in classic settings, go to classic UI
-                        window.location.href = 'index.html';
+                        // If we're in modern settings, go to classic UI
+                        if (window.location.pathname.includes('modern-ui/settings.html')) {
+                            window.location.href = '../src/renderer/index.html';
+                        } else {
+                            // We're in classic settings, go to classic UI
+                            window.location.href = 'index.html';
+                        }
                     }
                 }
             }
         }
+    }
+
+    // Apply theme - Updated to use main app's settings system
+    applyTheme(theme) {
+        const body = document.body;
+        const html = document.documentElement;
+        
+        // Remove existing theme classes
+        body.classList.remove('settings-theme-light', 'settings-theme-dark');
+        html.classList.remove('settings-theme-light', 'settings-theme-dark');
+        
+        // Determine the actual theme to apply
+        let actualTheme = theme;
+        if (theme === 'auto' || theme === 'system') {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            actualTheme = prefersDark ? 'dark' : 'light';
+        }
+        
+        // Apply settings page theme classes and data attribute
+        body.classList.add(`settings-theme-${actualTheme}`);
+        html.classList.add(`settings-theme-${actualTheme}`);
+        html.setAttribute('data-settings-theme', actualTheme);
+        
+        // Update main app's settings instead of separate theme storage
+        try {
+            const mainSettings = JSON.parse(localStorage.getItem('iPseudoSettings') || '{}');
+            mainSettings.theme = theme; // Keep the original theme setting (including 'system')
+            localStorage.setItem('iPseudoSettings', JSON.stringify(mainSettings));
+        } catch (e) {
+            
+        }
+        
+        // Show notification
+        this.showNotification(`Theme switched to ${actualTheme} mode`, 'success');
     }
 
     // Apply accent color
@@ -1163,6 +1228,20 @@ class SettingsManager {
                     el.classList.add('no-particles');
                 }
             });
+        }
+    }
+
+    // Toggle floating system
+    toggleFloatingSystem(enabled) {
+        if (this.isOnMainPage()) {
+            const body = document.body;
+            if (enabled) {
+                body.classList.add('floating-system');
+                body.classList.remove('static-system');
+            } else {
+                body.classList.add('static-system');
+                body.classList.remove('floating-system');
+            }
         }
     }
 
@@ -1460,18 +1539,41 @@ class SettingsManager {
         });
     }
 
-    // Toggle theme
+    // Toggle theme - Updated to work with main app's theme system
     toggleTheme() {
         const body = document.body;
-        const isDark = body.classList.contains('theme-dark');
-        const newTheme = isDark ? 'light' : 'dark';
+        const html = document.documentElement;
+        
+        // Check current theme from data attribute or class
+        const currentTheme = html.getAttribute('data-theme') || 
+                           (body.classList.contains('theme-dark') ? 'dark' : 'light');
+        
+        // Toggle between light and dark (skip system for direct toggle)
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        // Update settings
         this.updateSetting('theme', newTheme);
+        
+        // Apply theme immediately
         this.applyTheme(newTheme);
+        
+        // Notify main app of theme change
+        this.notifyMainAppThemeChange(newTheme);
         
         // Update theme selector
         const themeSelect = document.getElementById('themeSelect');
         if (themeSelect) {
             themeSelect.value = newTheme;
+        }
+        
+        // Add visual feedback to the toggle button
+        const themeToggle = document.getElementById('btnThemeToggle');
+        if (themeToggle) {
+            themeToggle.style.transform = 'scale(0.95)';
+            themeToggle.style.transition = 'transform 0.1s ease';
+            setTimeout(() => {
+                themeToggle.style.transform = 'scale(1)';
+            }, 100);
         }
     }
 
@@ -1522,6 +1624,39 @@ class SettingsManager {
         }
     }
 
+    // Setup storage listener to sync with main app
+    setupStorageListener() {
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'iPseudoSettings' && e.newValue) {
+                try {
+                    const newSettings = JSON.parse(e.newValue);
+                    // Update theme if it changed
+                    if (newSettings.theme && newSettings.theme !== this.settings.theme) {
+                        this.settings.theme = newSettings.theme;
+                        this.applyTheme(newSettings.theme);
+                        this.updateUI();
+                    }
+                } catch (error) {
+                    
+                }
+            }
+        });
+    }
+
+    // Notify main app of theme change
+    notifyMainAppThemeChange(theme) {
+        // Dispatch a custom event that the main app can listen to
+        window.dispatchEvent(new CustomEvent('themeChanged', {
+            detail: { theme: theme }
+        }));
+        
+        // Also trigger a storage event for cross-tab sync
+        window.dispatchEvent(new StorageEvent('storage', {
+            key: 'iPseudoSettings',
+            newValue: JSON.stringify(this.settings)
+        }));
+    }
+
     // Go back to main app
     goBack() {
         window.history.back();
@@ -1560,12 +1695,13 @@ class SettingsManager {
     // Get default settings
     getDefaultSettings() {
         return {
-            uiDesign: 'classic',
-            theme: 'light',
+            uiDesign: 'modern',
+            theme: 'dark',
             accentColor: '#0ea5e9',
             animationsEnabled: true,
             glassEffects: true,
             particleEffects: true,
+            floatingSystem: true,
             wordWrap: false,
             minimap: true,
             autoSave: true,
@@ -1612,20 +1748,29 @@ class SettingsManager {
     loadSettings() {
         try {
             const saved = localStorage.getItem('iPseudoSettings');
+            let settings = this.getDefaultSettings();
+            
             if (saved) {
                 const parsed = JSON.parse(saved);
-                return { ...this.getDefaultSettings(), ...parsed };
+                settings = { ...settings, ...parsed };
             }
+            
+            // Use main app's theme setting directly
+            
+            return settings;
         } catch (error) {
             
+            return this.getDefaultSettings();
         }
-        return this.getDefaultSettings();
     }
 
     // Save settings to localStorage
     saveSettings() {
         try {
             localStorage.setItem('iPseudoSettings', JSON.stringify(this.settings));
+            
+            // Theme is now saved as part of main settings
+            
             // Trigger storage event to notify other windows/tabs
             window.dispatchEvent(new StorageEvent('storage', {
                 key: 'iPseudoSettings',
@@ -1651,10 +1796,12 @@ class SettingsManager {
     }
 }
 
-// Create SettingsManager class (will be instantiated by HTML)
-window.SettingsManager = SettingsManager;
+// Initialize settings manager when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    window.SettingsManager = new ModernSettingsManager();
+});
 
 // Export for use in other modules
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = SettingsManager;
+    module.exports = ModernSettingsManager;
 }

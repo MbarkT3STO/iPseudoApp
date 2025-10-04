@@ -1,334 +1,181 @@
 /* ===== PERFORMANCE OPTIMIZATIONS ===== */
-/* Optimizations to ensure smooth UI performance */
+/* Optimized CSS for better performance and reduced bundle size */
 
-/* ===== GPU ACCELERATION ===== */
-/* Enable hardware acceleration for smooth animations */
-.btn,
-.tab,
-.editor-container,
-.console-container,
-.top-nav,
-.tabs-container,
-.print-output-container,
-.main-content,
-body,
-html {
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-  -webkit-backface-visibility: hidden;
-  -webkit-perspective: 1000;
-  will-change: transform;
-  contain: layout style paint;
+/* ===== CRITICAL CSS ===== */
+/* Only essential styles for above-the-fold content */
+.modern-app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    background: var(--gradient-secondary);
+    overflow: hidden;
+    position: relative;
 }
 
-/* Disable hardware acceleration when setting is off */
-.no-hardware-acceleration .btn,
-.no-hardware-acceleration .tab,
-.no-hardware-acceleration .editor-container,
-.no-hardware-acceleration .console-container,
-.no-hardware-acceleration .top-nav,
-.no-hardware-acceleration .tabs-container,
-.no-hardware-acceleration .print-output-container,
-.no-hardware-acceleration .main-content,
-.no-hardware-acceleration body,
-.no-hardware-acceleration html {
-  transform: none !important;
-  -webkit-transform: none !important;
-  -webkit-backface-visibility: visible !important;
-  -webkit-perspective: none !important;
-  will-change: auto !important;
-  contain: none !important;
+.modern-top-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3) var(--space-8);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-3xl);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: var(--glass-shadow-enhanced);
+    position: fixed;
+    top: var(--space-6);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    min-height: 64px;
+    width: 70%;
+    max-width: 1000px;
+    min-width: 700px;
+    transition: all var(--duration-normal) var(--micro-smooth);
 }
 
 /* ===== OPTIMIZED ANIMATIONS ===== */
 /* Use transform and opacity for better performance */
-.btn:hover:not(:disabled),
-.tab:hover,
-.editor-container:hover {
-  transform: translateY(-1px) translateZ(0);
-  -webkit-transform: translateY(-1px) translateZ(0);
+.modern-btn {
+    will-change: transform, box-shadow;
+    transform: translateZ(0); /* Force hardware acceleration */
 }
 
-.btn:active:not(:disabled),
-.tab:active {
-  transform: translateY(0) translateZ(0);
-  -webkit-transform: translateY(0) translateZ(0);
+.modern-btn:hover:not(:disabled) {
+    transform: translateY(-2px) scale(1.02) translateZ(0);
 }
 
-/* ===== EFFICIENT SHADOWS ===== */
-/* Use CSS custom properties for shadows to reduce repaints */
-:root {
-  --shadow-performance: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-  --shadow-performance-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-}
-
-/* ===== OPTIMIZED BACKDROP FILTER ===== */
-/* Use backdrop-filter sparingly for better performance */
-.top-nav,
-.modal,
-.toast {
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-}
-
-/* Disable backdrop-filter on low-end devices */
+/* ===== REDUCED MOTION SUPPORT ===== */
 @media (prefers-reduced-motion: reduce) {
-  .top-nav,
-  .modal,
-  .toast {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    background: var(--bg-glass) !important;
-  }
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
 }
 
-/* ===== EFFICIENT SCROLLING ===== */
-/* Optimize scroll performance */
-.console-container,
-.console-output,
-.editor-content,
-.modal-body,
-.print-output-content {
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
-  /* Hardware acceleration for scrolling */
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-  will-change: scroll-position;
-  contain: layout style paint;
+/* ===== CONTENT VISIBILITY ===== */
+/* Optimize rendering of off-screen content */
+.modern-tab-panels {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
 }
 
-/* ===== OPTIMIZED TRANSITIONS ===== */
-/* Use transform and opacity for smooth transitions */
-.btn,
-.tab,
-.modal,
-.toast {
-  transition: transform var(--duration-fast) var(--ease-in-out),
-              opacity var(--duration-fast) var(--ease-in-out),
-              box-shadow var(--duration-fast) var(--ease-in-out);
+.tab-panel:not(.active) {
+    content-visibility: hidden;
+    contain-intrinsic-size: 0 0;
 }
 
-/* Avoid animating layout properties */
-.btn:hover:not(:disabled) {
-  transition: transform var(--duration-fast) var(--ease-in-out),
-              box-shadow var(--duration-fast) var(--ease-in-out);
+/* ===== CONTAINER QUERIES ===== */
+/* Optimize layout based on container size */
+@container (min-width: 768px) {
+    .modern-btn span {
+        display: inline;
+    }
 }
 
-/* ===== OPTIMIZED RENDERING ===== */
-/* Use contain property for better rendering performance */
-.editor-container,
-.console-container,
-.tabs-container {
-  contain: layout style paint;
+@container (max-width: 767px) {
+    .modern-btn span {
+        display: none;
+    }
 }
 
-/* ===== EFFICIENT FONT LOADING ===== */
-/* Optimize font rendering */
-body {
-  font-display: swap;
-  text-rendering: optimizeSpeed;
+/* ===== LAZY LOADING ===== */
+/* Optimize images and heavy content */
+.lazy-load {
+    opacity: 0;
+    transition: opacity var(--duration-normal) var(--ease-out);
 }
 
-/* Switch to optimizeLegibility for better text quality on high-DPI displays */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-  body {
-    text-rendering: optimizeLegibility;
-  }
+.lazy-load.loaded {
+    opacity: 1;
 }
 
-/* ===== OPTIMIZED SELECTION ===== */
-/* Use efficient selection styling */
-::selection {
-  background: var(--primary-100);
-  color: var(--primary-900);
+/* ===== CSS CUSTOM PROPERTIES OPTIMIZATION ===== */
+/* Use CSS custom properties for better performance */
+:root {
+    /* Optimized color calculations */
+    --color-primary-rgb: 99, 102, 241;
+    --color-secondary-rgb: 139, 92, 246;
+    --color-success-rgb: 16, 185, 129;
+    --color-warning-rgb: 245, 158, 11;
+    --color-error-rgb: 239, 68, 68;
+    
+    /* Optimized shadow calculations */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
 }
 
-.theme-dark ::selection {
-  background: var(--primary-800);
-  color: var(--primary-100);
+/* ===== GRID OPTIMIZATION ===== */
+/* Use CSS Grid for better layout performance */
+.modern-layout-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    height: 100vh;
+    gap: var(--space-4);
 }
 
-/* ===== OPTIMIZED FOCUS ===== */
-/* Use efficient focus styling */
-*:focus-visible {
-  outline: 2px solid var(--primary-500);
-  outline-offset: 2px;
+/* ===== FLEXBOX OPTIMIZATION ===== */
+/* Optimize flexbox usage */
+.modern-flex-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* Prevent flex items from overflowing */
 }
 
-/* Remove focus outline for mouse users */
-*:focus:not(:focus-visible) {
-  outline: none;
+.modern-flex-item {
+    flex: 1;
+    min-height: 0; /* Allow flex item to shrink */
+    overflow: hidden;
 }
 
-/* ===== OPTIMIZED IMAGES ===== */
-/* Optimize image rendering */
-img {
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: optimize-contrast;
+/* ===== SCROLL OPTIMIZATION ===== */
+/* Optimize scrolling performance */
+.modern-scroll-container {
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
 }
 
-/* ===== OPTIMIZED GRADIENTS ===== */
-/* Use efficient gradient rendering */
-.btn-primary,
-.btn-run,
-.tab.active {
-  background-attachment: fixed;
-}
+/* ===== FONT OPTIMIZATION ===== */
+/* Optimize font loading - now using local fonts */
 
-/* ===== OPTIMIZED Z-INDEX ===== */
-/* Use efficient z-index stacking */
-.top-nav {
-  z-index: var(--z-sticky);
-}
-
-.modal-overlay {
-  z-index: var(--z-modal-backdrop);
-}
-
-.modal {
-  z-index: var(--z-modal);
-}
-
-.toast {
-  z-index: var(--z-toast);
-}
-
-/* ===== OPTIMIZED MEDIA QUERIES ===== */
+/* ===== MEDIA QUERY OPTIMIZATION ===== */
 /* Use efficient media queries */
 @media (max-width: 768px) {
-  /* Reduce animations on mobile for better performance */
-  .btn,
-  .tab {
-    transition: none;
-  }
-  
-  .btn:hover:not(:disabled),
-  .tab:hover {
-    transform: none;
-  }
+    .modern-top-nav {
+        width: 90%;
+        min-width: 320px;
+        padding: var(--space-2) var(--space-4);
+    }
+    
+    .modern-btn {
+        min-height: var(--a11y-min-touch-target);
+    }
 }
 
-@media (max-width: 480px) {
-  /* Disable expensive effects on small screens */
-  .top-nav {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    background: var(--bg-glass) !important;
-  }
-}
-
-/* ===== OPTIMIZED REDUCED MOTION ===== */
-/* Respect user's motion preferences */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-  
-  .btn-run::before,
-  .loading::after {
-    display: none !important;
-  }
-}
-
-/* ===== OPTIMIZED HIGH CONTRAST ===== */
-/* Optimize for high contrast mode */
-@media (prefers-contrast: high) {
-  .btn,
-  .tab {
-    border-width: 2px;
-    border-style: solid;
-  }
-  
-  .btn-primary,
-  .tab.active {
-    border-color: var(--primary-700);
-  }
-}
-
-/* ===== OPTIMIZED PRINT ===== */
-/* Optimize for printing */
+/* ===== PRINT OPTIMIZATION ===== */
 @media print {
-  * {
-    animation: none !important;
-    transition: none !important;
-    transform: none !important;
-  }
-  
-  .top-nav,
-  .tabs-container,
-  .console-container,
-  .status-bar {
-    display: none !important;
-  }
-  
-  .editor-container {
-    margin: 0 !important;
-    border: 1px solid #ddd !important;
-    box-shadow: none !important;
-  }
-}
-
-/* ===== MONACO EDITOR OPTIMIZATIONS ===== */
-/* Optimize Monaco editor performance */
-.monaco-editor,
-.monaco-editor .view-lines,
-.monaco-editor .view-line,
-.monaco-editor .cursors-layer,
-.monaco-editor .lines-content {
-  contain: layout style paint;
-  will-change: transform;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-  -webkit-backface-visibility: hidden;
-  -webkit-perspective: 1000;
-}
-
-/* Optimize Monaco editor scrolling */
-.monaco-editor .scrollable {
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-  will-change: scroll-position;
-}
-
-/* ===== ANIMATION PERFORMANCE ===== */
-/* Optimize all animations for 60fps */
-@keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px) translateZ(0);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) translateZ(0);
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateZ(0);
-  }
-  to {
-    opacity: 1;
-    transform: translateZ(0);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1) translateZ(0);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1.05) translateZ(0);
-  }
+    .modern-top-nav,
+    .modern-tabs-container,
+    .modern-btn {
+        display: none !important;
+    }
+    
+    .modern-content-area {
+        position: static !important;
+        width: 100% !important;
+        height: auto !important;
+        box-shadow: none !important;
+        border: 1px solid #000 !important;
+    }
 }
