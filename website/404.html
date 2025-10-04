@@ -3,9 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Page not found - iPseudo IDE">
+    <meta name="description" content="Oops! The page you're looking for doesn't exist. Let's get you back on track with iPseudo IDE.">
     <meta name="author" content="M'BARK">
     <title>404 - Page Not Found | iPseudo IDE</title>
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://MbarkT3sto.github.io/iPseudoApp/404.html">
+    <meta property="og:title" content="404 - Page Not Found | iPseudo IDE">
+    <meta property="og:description" content="Oops! The page you're looking for doesn't exist. Let's get you back on track with iPseudo IDE.">
+    <meta property="og:image" content="https://MbarkT3sto.github.io/iPseudoApp/assets/preview.png">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://MbarkT3sto.github.io/iPseudoApp/404.html">
+    <meta name="twitter:title" content="404 - Page Not Found | iPseudo IDE">
+    <meta name="twitter:description" content="Oops! The page you're looking for doesn't exist. Let's get you back on track with iPseudo IDE.">
+    <meta name="twitter:image" content="https://MbarkT3sto.github.io/iPseudoApp/assets/preview.png">
+    
+    <!-- Additional SEO -->
+    <meta name="robots" content="noindex, follow">
+    <link rel="canonical" href="https://MbarkT3sto.github.io/iPseudoApp/404.html">
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="assets/app-icon.svg">
@@ -16,201 +34,237 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     
     <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* ===== 404 PAGE SPECIFIC STYLES ===== */
         
-        :root {
-            --color-purple-500: rgb(147, 51, 234);
-            --color-purple-600: rgb(139, 92, 246);
-            --color-blue-500: rgb(59, 130, 246);
-            --bg-primary: #0a0a0f;
-            --text-primary: rgba(255, 255, 255, 0.95);
-            --text-secondary: rgba(255, 255, 255, 0.7);
-        }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg,
-                #0a0a0f 0%,
-                #0d1117 25%,
-                #0f1419 50%,
-                #0d1117 75%,
-                #0a0a0f 100%);
-            color: var(--text-primary);
+        /* Override body for 404 page */
+        .error-page {
             min-height: 100vh;
+            min-height: 100dvh;
+            max-height: 100vh;
+            max-height: 100dvh;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
+            flex-direction: column;
             overflow: hidden;
         }
         
-        /* Animated Background */
-        .background {
-            position: fixed;
+        /* Error Hero Section */
+        .error-hero {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-3xl) 0;
+            position: relative;
+            min-height: 0;
+        }
+        
+        .error-hero .container {
+            max-width: 600px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: var(--space-lg);
+        }
+        
+        /* Beautiful 404 Icon Container */
+        .error-icon-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: var(--space-lg);
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .error-icon-main {
+            font-size: clamp(4rem, 10vw, 8rem);
+            color: var(--color-purple-500);
+            position: relative;
+            z-index: 2;
+            filter: drop-shadow(0 0 20px rgba(147, 51, 234, 0.4));
+        }
+        
+        .error-icon-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle, rgba(147, 51, 234, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+            z-index: 1;
+        }
+        
+        .error-icon-particles {
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            z-index: 0;
+            z-index: 3;
         }
         
-        .gradient-orb {
+        .particle {
             position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--color-cyan-500);
             border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.4;
-            animation: floatOrb 20s ease-in-out infinite;
+            animation: particleFloat 3s ease-in-out infinite;
         }
         
-        .orb-1 {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, var(--color-purple-500), transparent);
-            top: -200px;
-            left: -200px;
+        .particle:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
         }
         
-        .orb-2 {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, var(--color-blue-500), transparent);
-            bottom: -150px;
-            right: -150px;
-            animation-delay: -10s;
+        .particle:nth-child(2) {
+            top: 30%;
+            right: 15%;
+            animation-delay: 0.5s;
         }
         
-        .orb-3 {
-            width: 350px;
-            height: 350px;
-            background: radial-gradient(circle, var(--color-purple-600), transparent);
+        .particle:nth-child(3) {
+            bottom: 25%;
+            left: 20%;
+            animation-delay: 1s;
+        }
+        
+        .particle:nth-child(4) {
+            bottom: 15%;
+            right: 10%;
+            animation-delay: 1.5s;
+        }
+        
+        .particle:nth-child(5) {
             top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation-delay: -5s;
+            left: 5%;
+            animation-delay: 2s;
         }
         
-        @keyframes floatOrb {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(30px, -30px) scale(1.1); }
-            50% { transform: translate(-20px, 20px) scale(0.9); }
-            75% { transform: translate(20px, 30px) scale(1.05); }
+        .particle:nth-child(6) {
+            top: 60%;
+            right: 5%;
+            animation-delay: 2.5s;
         }
         
-        /* 404 Container */
-        .container {
-            position: relative;
-            z-index: 1;
-            text-align: center;
-            padding: 3rem;
-            max-width: 600px;
-        }
-        
-        .error-card {
-            background: linear-gradient(
-                135deg,
-                rgba(255, 255, 255, 0.05) 0%,
-                rgba(255, 255, 255, 0.08) 100%
-            );
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 24px;
-            padding: 4rem 3rem;
-            backdrop-filter: blur(32px) saturate(200%);
-            -webkit-backdrop-filter: blur(32px) saturate(200%);
-            box-shadow:
-                0 25px 50px rgba(0, 0, 0, 0.3),
-                0 0 100px rgba(147, 51, 234, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
-            animation: fadeInUp 0.8s ease-out;
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
+        @keyframes particleFloat {
+            0%, 100% {
+                transform: translateY(0px) scale(1);
+                opacity: 0.7;
             }
-            to {
+            50% {
+                transform: translateY(-20px) scale(1.2);
                 opacity: 1;
-                transform: translateY(0);
             }
         }
         
-        .error-icon {
-            font-size: 6rem;
+        @keyframes pulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 0.6;
+            }
+        }
+        
+        /* 404 Number Display */
+        .error-number {
+            font-size: clamp(4rem, 10vw, 8rem);
+            font-weight: 900;
+            line-height: 0.8;
             background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 2rem;
-            animation: bounce 2s ease-in-out infinite;
+            margin-bottom: var(--space-lg);
+            text-shadow: 0 0 60px rgba(147, 51, 234, 0.3);
+            animation: errorGlow 3s ease-in-out infinite alternate;
+            position: relative;
         }
         
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        .error-code {
-            font-size: 8rem;
-            font-weight: 800;
-            line-height: 1;
+        .error-number::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 80px rgba(147, 51, 234, 0.5);
+            filter: blur(2px);
+            opacity: 0.3;
+            z-index: -1;
         }
         
-        .error-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
+        @keyframes errorGlow {
+            0% { 
+                filter: brightness(1) drop-shadow(0 0 20px rgba(147, 51, 234, 0.3));
+            }
+            100% { 
+                filter: brightness(1.2) drop-shadow(0 0 40px rgba(147, 51, 234, 0.5));
+            }
         }
         
-        .error-message {
-            font-size: 1.125rem;
+        
+        /* Error Content */
+        .error-content {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        
+        .error-description {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
             color: var(--text-secondary);
-            margin-bottom: 2rem;
+            margin-bottom: var(--space-xl);
             line-height: 1.6;
         }
         
+        /* Error Actions */
         .error-actions {
             display: flex;
-            gap: 1rem;
+            gap: var(--space-md);
             justify-content: center;
             flex-wrap: wrap;
+            margin-bottom: var(--space-2xl);
         }
         
-        .btn {
+        .error-actions .btn {
+            padding: 0.875rem 1.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border-radius: var(--radius-lg);
+            text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1rem;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: none;
-            font-family: 'Inter', sans-serif;
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
         }
         
         .btn-primary {
             background: linear-gradient(135deg, var(--color-purple-500), var(--color-purple-600));
             color: white;
+            border: none;
             box-shadow: 0 8px 24px rgba(147, 51, 234, 0.4);
         }
         
@@ -220,146 +274,471 @@
         }
         
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass-bg);
             color: var(--text-primary);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
         }
         
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.1);
             transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
         }
         
-        .helpful-links {
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        /* Quick Links Section */
+        .quick-links {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
         }
         
-        .helpful-links h3 {
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
+        .quick-links h3 {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            font-weight: 600;
             color: var(--text-primary);
+            margin-bottom: var(--space-lg);
+            text-align: center;
         }
         
         .links-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-sm);
+            max-width: 400px;
+            margin: 0 auto;
         }
         
-        .link-item {
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
+        .link-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: var(--space-sm);
             text-decoration: none;
             color: var(--text-secondary);
-            transition: all 0.3s ease;
+            transition: all var(--transition-base);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
         
-        .link-item:hover {
-            background: rgba(147, 51, 234, 0.2);
-            border-color: rgba(147, 51, 234, 0.4);
+        .link-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .link-card:hover {
+            background: rgba(147, 51, 234, 0.1);
+            border-color: var(--color-purple-500);
             color: var(--text-primary);
-            transform: translateY(-2px);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(147, 51, 234, 0.2);
         }
         
-        .link-item i {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
+        .link-card:hover::before {
+            left: 100%;
+        }
+        
+        .link-icon {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
             color: var(--color-purple-500);
+            margin-bottom: var(--space-xs);
         }
         
-        /* Responsive */
+        .link-text {
+            font-size: clamp(0.75rem, 1.5vw, 0.85rem);
+            font-weight: 500;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .error-hero .container {
+                padding: var(--space-md);
+                max-width: 500px;
+            }
+            
+            .error-icon-main {
+                font-size: clamp(3rem, 8vw, 6rem);
+            }
+            
+            .error-number {
+                font-size: clamp(3.5rem, 9vw, 7rem);
+            }
+        }
+        
         @media (max-width: 768px) {
-            .container {
-                padding: 1.5rem;
+            .error-hero {
+                padding: var(--space-xl) 0;
             }
             
-            .error-card {
-                padding: 3rem 2rem;
-            }
-            
-            .error-code {
-                font-size: 5rem;
-            }
-            
-            .error-title {
-                font-size: 1.5rem;
-            }
-            
-            .error-message {
-                font-size: 1rem;
+            .error-hero .container {
+                padding: var(--space-sm);
+                max-width: 450px;
             }
             
             .error-actions {
                 flex-direction: column;
+                gap: var(--space-sm);
+                align-items: stretch;
             }
             
-            .btn {
+            .error-actions .btn {
                 width: 100%;
                 justify-content: center;
             }
+            
+            .links-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: var(--space-xs);
+                max-width: 350px;
+            }
+            
+            .link-card {
+                padding: var(--space-xs);
+            }
+            
+            .quick-links h3 {
+                font-size: clamp(0.9rem, 2vw, 1rem);
+                margin-bottom: var(--space-md);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .error-hero {
+                padding: var(--space-md) 0;
+            }
+            
+            .error-hero .container {
+                padding: var(--space-xs);
+                max-width: 100%;
+            }
+            
+            .error-icon-main {
+                font-size: clamp(2.5rem, 6vw, 4rem);
+            }
+            
+            .error-number {
+                font-size: clamp(2.5rem, 6vw, 4rem);
+                margin-bottom: var(--space-md);
+            }
+            
+            .error-description {
+                font-size: clamp(0.9rem, 2vw, 1rem);
+                margin-bottom: var(--space-lg);
+            }
+            
+            .error-actions {
+                margin-bottom: var(--space-lg);
+            }
+            
+            .links-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: var(--space-xs);
+                max-width: 280px;
+            }
+            
+            .link-card {
+                flex-direction: column;
+                text-align: center;
+                padding: var(--space-xs);
+            }
+            
+            .link-icon {
+                margin-bottom: 0.25rem;
+                margin-right: 0;
+                font-size: 1rem;
+            }
+            
+            .quick-links {
+                margin-top: var(--space-md);
+            }
+        }
+        
+        @media (max-height: 600px) {
+            .error-hero {
+                padding: var(--space-md) 0;
+            }
+            
+            .error-number {
+                font-size: clamp(3rem, 8vw, 5rem);
+                margin-bottom: var(--space-md);
+            }
+            
+            .error-icon {
+                font-size: clamp(2rem, 5vw, 3rem);
+                margin-bottom: var(--space-md);
+            }
+            
+            .error-title {
+                font-size: clamp(1.25rem, 3vw, 1.75rem);
+                margin-bottom: var(--space-sm);
+            }
+            
+            .error-description {
+                font-size: clamp(0.9rem, 2vw, 1.125rem);
+                margin-bottom: var(--space-lg);
+            }
+            
+            .error-actions {
+                margin-bottom: var(--space-lg);
+            }
+            
+            .quick-links h3 {
+                font-size: 1rem;
+                margin-bottom: var(--space-md);
+            }
+        }
+        
+        @media (max-height: 400px) {
+            .error-hero {
+                padding: var(--space-sm) 0;
+            }
+            
+            .error-number {
+                font-size: 2.5rem;
+                margin-bottom: var(--space-sm);
+            }
+            
+            .error-icon-main {
+                font-size: 1.25rem;
+            }
+            
+            
+            .error-description {
+                font-size: 0.875rem;
+                margin-bottom: var(--space-md);
+            }
+            
+            .error-actions {
+                margin-bottom: var(--space-md);
+                flex-direction: row;
+                gap: var(--space-sm);
+            }
+            
+            .error-actions .btn {
+                padding: 0.625rem 1rem;
+                font-size: 0.8rem;
+            }
+            
+            .quick-links h3 {
+                font-size: 0.875rem;
+                margin-bottom: var(--space-sm);
+            }
+            
+            .links-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.125rem;
+                max-width: 250px;
+            }
+            
+            .link-card {
+                padding: 0.25rem;
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .link-icon {
+                font-size: 0.75rem;
+                margin-right: 0;
+                margin-bottom: 0.125rem;
+            }
+            
+            .link-text {
+                font-size: 0.65rem;
+            }
+        }
+        
+        /* Additional responsive breakpoints */
+        @media (max-width: 360px) {
+            .error-hero .container {
+                padding: 0.5rem;
+            }
+            
+            .error-icon-main {
+                font-size: clamp(2rem, 5vw, 3rem);
+            }
+            
+            .error-number {
+                font-size: clamp(2rem, 5vw, 3rem);
+            }
+            
+            .error-description {
+                font-size: 0.85rem;
+            }
+            
+            .links-grid {
+                max-width: 250px;
+            }
+        }
+        
+        @media (max-width: 320px) {
+            .error-actions .btn {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.75rem;
+            }
+            
+            .links-grid {
+                max-width: 220px;
+            }
+            
+            .link-card {
+                padding: 0.375rem;
+            }
+        }
+        
+        /* Landscape orientation optimizations */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .error-hero {
+                padding: 0.5rem 0;
+            }
+            
+            .error-icon-main {
+                font-size: clamp(2rem, 4vw, 3rem);
+            }
+            
+            .error-number {
+                font-size: clamp(2rem, 4vw, 3rem);
+                margin-bottom: 0.5rem;
+            }
+            
+            .error-description {
+                font-size: 0.8rem;
+                margin-bottom: 0.75rem;
+            }
+            
+            .error-actions {
+                margin-bottom: 0.75rem;
+            }
+            
+            .quick-links {
+                margin-top: 0.5rem;
+            }
+        }
+        
+        /* Light Theme Adjustments */
+        [data-theme="light"] .error-number {
+            text-shadow: 0 0 40px rgba(147, 51, 234, 0.2);
+        }
+        
+        [data-theme="light"] .error-icon-main {
+            color: var(--color-purple-600);
+            filter: drop-shadow(0 0 15px rgba(147, 51, 234, 0.3));
+        }
+        
+        [data-theme="light"] .error-icon-glow {
+            background: radial-gradient(circle, rgba(147, 51, 234, 0.2) 0%, transparent 70%);
+        }
+        
+        [data-theme="light"] .particle {
+            background: var(--color-blue-500);
+        }
+        
+        [data-theme="light"] .btn-secondary {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.95) 100%);
+            border-color: rgba(147, 51, 234, 0.25);
+        }
+        
+        [data-theme="light"] .link-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.95) 100%);
+            border-color: rgba(147, 51, 234, 0.15);
+        }
+        
+        [data-theme="light"] .link-card:hover {
+            background: rgba(147, 51, 234, 0.08);
+            border-color: var(--color-purple-500);
         }
     </style>
 </head>
-<body>
-    <!-- Animated Background -->
-    <div class="background">
+<body class="error-page">
+    <!-- Animated Background (Same as main website) -->
+    <div class="background-container">
         <div class="gradient-orb orb-1"></div>
         <div class="gradient-orb orb-2"></div>
         <div class="gradient-orb orb-3"></div>
+        <div class="grid-pattern"></div>
     </div>
 
-    <!-- 404 Container -->
-    <div class="container">
-        <div class="error-card">
-            <div class="error-icon">
-                <i class="ri-error-warning-line"></i>
+
+    <!-- Error Hero Section -->
+    <section class="error-hero">
+        <div class="container">
+            <!-- Beautiful 404 Icon -->
+            <div class="error-icon-container">
+                <div class="error-icon-glow"></div>
+                <div class="error-icon-main">
+                    <i class="ri-error-warning-line"></i>
+                </div>
+                <div class="error-icon-particles">
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                </div>
             </div>
             
-            <h1 class="error-code">404</h1>
-            <h2 class="error-title">Page Not Found</h2>
-            <p class="error-message">
-                Oops! The page you're looking for doesn't exist. 
-                It might have been moved or deleted.
-            </p>
+            <!-- 404 Number -->
+            <div class="error-number">404</div>
             
+            <!-- Error Content -->
+            <div class="error-content">
+                <p class="error-description">
+                    The page you're looking for doesn't exist.
+                </p>
+            </div>
+            
+            <!-- Error Actions -->
             <div class="error-actions">
                 <a href="index.html" class="btn btn-primary">
                     <i class="ri-home-line"></i>
                     <span>Go Home</span>
                 </a>
-                <button onclick="history.back()" class="btn btn-secondary">
+                <a href="javascript:history.back()" class="btn btn-secondary">
                     <i class="ri-arrow-left-line"></i>
                     <span>Go Back</span>
-                </button>
+                </a>
             </div>
             
-            <div class="helpful-links">
-                <h3>Quick Links</h3>
+            <!-- Quick Links -->
+            <div class="quick-links">
+                <h3>Quick Navigation</h3>
                 <div class="links-grid">
-                    <a href="docs/getting-started.html" class="link-item">
-                        <i class="ri-book-open-line"></i>
-                        <div>Documentation</div>
+                    <a href="index.html" class="link-card">
+                        <i class="ri-home-line link-icon"></i>
+                        <span class="link-text">Home</span>
                     </a>
-                    <a href="examples.html" class="link-item">
-                        <i class="ri-code-s-slash-line"></i>
-                        <div>Examples</div>
+                    <a href="examples.html" class="link-card">
+                        <i class="ri-code-s-slash-line link-icon"></i>
+                        <span class="link-text">Examples</span>
                     </a>
-                    <a href="index.html#download" class="link-item">
-                        <i class="ri-download-line"></i>
-                        <div>Download</div>
-                    </a>
-                    <a href="https://github.com/MbarkT3sto/iPseudoApp" target="_blank" class="link-item">
-                        <i class="ri-github-fill"></i>
-                        <div>GitHub</div>
+                    <a href="docs/getting-started.html" class="link-card">
+                        <i class="ri-book-open-line link-icon"></i>
+                        <span class="link-text">Documentation</span>
                     </a>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script src="js/theme-toggle.js"></script>
 </body>
 </html>
-

@@ -451,3 +451,34 @@ if (document.readyState === 'loading') {
     initDownloadDropdowns();
 }
 
+// ===== SCROLL TO TOP FUNCTIONALITY =====
+document.addEventListener('DOMContentLoaded', function() {
+    const scrollToTopBtn = document.getElementById('scrollToTop');
+    
+    if (scrollToTopBtn) {
+        // Show/hide button based on scroll position
+        function toggleScrollToTop() {
+            if (window.scrollY > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        }
+        
+        // Scroll to top function
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+        
+        // Add event listeners
+        window.addEventListener('scroll', toggleScrollToTop);
+        scrollToTopBtn.addEventListener('click', scrollToTop);
+        
+        // Initialize button state
+        toggleScrollToTop();
+    }
+});
+
