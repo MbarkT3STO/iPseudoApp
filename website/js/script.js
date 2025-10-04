@@ -35,15 +35,18 @@ if (themeToggle) {
         const currentTheme = document.documentElement.getAttribute('data-theme');
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
         
+        // Add rotation animation class
+        themeToggle.classList.add('theme-changing');
+        
+        // Update theme
         document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
         updateThemeIcons(newTheme);
         
-        // Add click animation
-        themeToggle.style.transform = 'scale(0.9) rotate(180deg)';
+        // Remove animation class after animation completes
         setTimeout(() => {
-            themeToggle.style.transform = '';
-        }, 300);
+            themeToggle.classList.remove('theme-changing');
+        }, 600);
     });
 }
 

@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quick Reference - iPseudo IDE Documentation</title>
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="../assets/app-icon.svg">
+    <link rel="alternate icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="shortcut icon" type="image/svg+xml" href="../assets/app-icon.svg">
+    
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,23 +34,87 @@
 
     <!-- Navigation -->
     <nav class="navbar">
-        <div class="nav-container">
-            <a href="../index.html" class="nav-brand">
-                <div class="brand-icon">
-                    <i class="ri-code-s-slash-line"></i>
-                </div>
-                <span class="brand-name">iPseudo IDE</span>
+        <div class="navbar-container">
+            <!-- Brand Section -->
+            <div class="navbar-brand">
+                <a href="../index.html" class="brand-link">
+                    <div class="brand-icon">
+                        <i class="ri-code-s-slash-line"></i>
+                    </div>
+                    <span class="brand-text">iPseudo IDE</span>
+                </a>
                 <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-                    <i class="ri-sun-line theme-toggle-icon" id="lightIcon"></i>
-                    <i class="ri-moon-line theme-toggle-icon hidden" id="darkIcon"></i>
+                    <i class="ri-sun-line theme-icon" id="lightIcon"></i>
+                    <i class="ri-moon-line theme-icon hidden" id="darkIcon"></i>
                 </button>
-            </a>
-            <ul class="nav-menu">
-                <li><a href="../index.html#features" class="nav-link">Features</a></li>
-                <li><a href="../index.html#download" class="nav-link">Download</a></li>
-                <li><a href="../index.html#documentation" class="nav-link">Documentation</a></li>
-                <li><a href="../index.html#about" class="nav-link">About</a></li>
-            </ul>
+            </div>
+
+            <!-- Navigation Menu -->
+            <nav class="navbar-nav">
+                <ul class="nav-list">
+                    <li class="nav-list-item">
+                        <a href="../index.html#features" class="nav-link">Features</a>
+                    </li>
+                    <li class="nav-list-item">
+                        <a href="../index.html#screenshots" class="nav-link">Screenshots</a>
+                    </li>
+                    <li class="nav-list-item">
+                        <a href="../index.html#documentation" class="nav-link">Documentation</a>
+                    </li>
+                    <li class="nav-list-item dropdown">
+                        <span class="nav-link dropdown-trigger">
+                            Resources
+                            <i class="ri-arrow-down-s-line dropdown-icon"></i>
+                        </span>
+                        <div class="dropdown-menu">
+                            <a href="getting-started.html" class="dropdown-item">
+                                <i class="ri-book-open-line"></i>
+                                <span>Getting Started</span>
+                            </a>
+                            <a href="../examples.html" class="dropdown-item">
+                                <i class="ri-code-s-slash-line"></i>
+                                <span>Examples</span>
+                            </a>
+                            <a href="../keyboard-shortcuts.html" class="dropdown-item">
+                                <i class="ri-keyboard-line"></i>
+                                <span>Keyboard Shortcuts</span>
+                            </a>
+                            <a href="../changelog.html" class="dropdown-item">
+                                <i class="ri-history-line"></i>
+                                <span>Changelog</span>
+                            </a>
+                            <a href="../design-system.html" class="dropdown-item">
+                                <i class="ri-palette-line"></i>
+                                <span>Design System</span>
+                            </a>
+                            <a href="../license.html" class="dropdown-item">
+                                <i class="ri-file-text-line"></i>
+                                <span>License</span>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-list-item">
+                        <a href="../index.html#about" class="nav-link">About</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Action Buttons -->
+            <div class="navbar-actions">
+                <a href="https://ipseudoeditor.netlify.app/" target="_blank" class="action-btn demo-btn">
+                    <i class="ri-play-circle-line"></i>
+                    <span>Try Live</span>
+                </a>
+                <a href="../index.html#download" class="action-btn download-btn">
+                    <i class="ri-download-line"></i>
+                    <span>Download</span>
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-toggle" id="mobileMenuBtn">
+                <i class="ri-menu-line"></i>
+            </button>
         </div>
     </nav>
 
