@@ -13,6 +13,9 @@
 
 # Electron
 /dist_electron
+/dist-build/
+dist-build/
+**/dist-build/
 /*.dmg
 /*.dmg.zip
 /*.zip
