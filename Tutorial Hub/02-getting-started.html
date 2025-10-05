@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 2: Getting Started with iPseudo | iPseudo Tutorial</title>
+    <link rel="icon" type="image/svg+xml" href="../website/assets/app-icon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../website/css/style.css">
+    <link rel="stylesheet" href="css/tutorial.css">
+    <link rel="stylesheet" href="css/reading-controls.css">
+</head>
+<body>
+    <div class="background-container">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-pattern"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <a href="index.html" style="display: flex; align-items: center; text-decoration: none; gap: 0.75rem;">
+                    <div class="brand-icon" style="background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); padding: 0.5rem; border-radius: 10px;">
+                        <i class="ri-book-open-line" style="color: white; font-size: 1.5rem;"></i>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.1rem;">
+                        <span class="brand-text" style="font-size: 1.25rem; font-weight: 700; background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">iPseudo</span>
+                        <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; letter-spacing: 0.05em;">TUTORIAL HUB</span>
+                    </div>
+                </a>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="ri-sun-line theme-icon" id="lightIcon"></i>
+                    <i class="ri-moon-line theme-icon hidden" id="darkIcon"></i>
+                </button>
+            </div>
+
+            <div class="navbar-actions">
+                <a href="index.html" class="action-btn demo-btn">
+                    <i class="ri-book-open-line"></i>
+                    <span>All Lessons</span>
+                </a>
+                <a href="https://ipseudoeditor.netlify.app/" target="_blank" class="action-btn demo-btn">
+                    <i class="ri-play-circle-line"></i>
+                    <span>Try Live</span>
+                </a>
+                <a href="https://ipseudo.netlify.app/#download" target="_blank" class="action-btn download-btn">
+                    <i class="ri-download-cloud-line"></i>
+                    <span>Download</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="tutorial-content">
+        <div class="tutorial-container">
+            <div class="tutorial-header">
+                <div class="tutorial-badge">
+                    <i class="ri-seedling-line"></i>
+                    <span>Lesson 2 • Beginner</span>
+                </div>
+                <h1 class="tutorial-title">Getting Started with iPseudo</h1>
+                <div class="tutorial-meta">
+                    <div class="tutorial-meta-item">
+                        <i class="ri-time-line"></i>
+                        <span>15 minutes</span>
+                    </div>
+                    <div class="tutorial-meta-item">
+                        <i class="ri-book-open-line"></i>
+                        <span>Foundation</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-body">
+                <h2>🚀 Your First iPseudo Program</h2>
+                
+                <p>
+                    Welcome to your first hands-on lesson! In this tutorial, you'll write and run your very first 
+                    iPseudo program. By the end, you'll understand the basic structure of iPseudo code and how to 
+                    use the IDE.
+                </p>
+
+                <h2>💻 The iPseudo IDE Interface</h2>
+
+                <p>When you open iPseudo IDE, you'll see several key areas:</p>
+
+                <h3>1. Top Navigation Bar</h3>
+                <ul>
+                    <li><strong>New</strong> - Create a new empty file</li>
+                    <li><strong>Open</strong> - Open an existing .pseudo file</li>
+                    <li><strong>Save</strong> - Save your current work</li>
+                    <li><strong>Run</strong> - Execute your pseudocode (⏯️ button)</li>
+                    <li><strong>Flow</strong> - Generate flowchart diagram</li>
+                    <li><strong>Settings</strong> - Customize your environment</li>
+                </ul>
+
+                <h3>2. Editor Panel</h3>
+                <p>
+                    The main area where you write your code. It features syntax highlighting, line numbers, 
+                    and auto-completion to help you code faster.
+                </p>
+
+                <h3>3. Console Panel</h3>
+                <p>
+                    Below the editor, this is where you see:
+                </p>
+                <ul>
+                    <li>Program output (Print statements)</li>
+                    <li>Input prompts (when using Input)</li>
+                    <li>Error messages (if something goes wrong)</li>
+                </ul>
+
+                <h3>4. Theme Toggle</h3>
+                <p>
+                    Switch between dark and light themes to suit your preference and environment.
+                </p>
+
+                <h2>📝 Basic Program Structure</h2>
+
+                <p>
+                    Every iPseudo program follows a consistent structure. Here's the anatomy of a basic program:
+                </p>
+
+                <pre><code><span class="keyword">Algorithm</span> <span class="function">ProgramName</span>
+
+    <span class="comment"># Your code goes here</span>
+    <span class="comment"># Write statements between Algorithm and Endalgorithm</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+
+                <div class="note-box info">
+                    <div class="note-box-title">
+                        <i class="ri-information-line"></i>
+                        Structure Components
+                    </div>
+                    <div class="note-box-content">
+                        <ul>
+                            <li><strong>Algorithm</strong> - Marks the beginning of your program (required)</li>
+                            <li><strong>ProgramName</strong> - A descriptive name for your algorithm (no spaces, use CamelCase)</li>
+                            <li><strong>Endalgorithm</strong> - Marks the end of your program (required)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h2>🌟 Hello World - Your First Program</h2>
+
+                <p>
+                    Let's start with the traditional "Hello World" program. This simple program demonstrates 
+                    the basic structure and how to display output.
+                </p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-code-line"></i>
+                        Example 1: Hello World
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">HelloWorld</span>
+
+<span class="keyword">Print</span> <span class="string">"Hello, World!"</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <div class="output-box">
+                    <div class="output-title">
+                        <i class="ri-terminal-line"></i>
+                        Output
+                    </div>
+                    <div class="output-content">Hello, World!</div>
+                </div>
+
+                <h3>Let's Break It Down:</h3>
+                <ul>
+                    <li><code class="keyword">Algorithm HelloWorld</code> - Declares a program named "HelloWorld"</li>
+                    <li><code class="keyword">Print "Hello, World!"</code> - Displays text to the console</li>
+                    <li><code class="keyword">Endalgorithm</code> - Ends the program</li>
+                </ul>
+
+                <div class="note-box tip">
+                    <div class="note-box-title">
+                        <i class="ri-lightbulb-flash-line"></i>
+                        Try It Yourself!
+                    </div>
+                    <div class="note-box-content">
+                        <ol>
+                            <li>Open iPseudo IDE</li>
+                            <li>Type the code exactly as shown above</li>
+                            <li>Click the <strong>Run</strong> button (▶️)</li>
+                            <li>See "Hello, World!" appear in the console!</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <h2>💬 Adding Comments</h2>
+
+                <p>
+                    Comments are notes in your code that help explain what's happening. They're ignored during execution 
+                    and are just for humans reading the code.
+                </p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-message-line"></i>
+                        Example 2: Using Comments
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">HelloWithComments</span>
+
+<span class="comment"># This is a comment - it explains what the code does</span>
+<span class="comment"># Comments start with the # symbol</span>
+
+<span class="keyword">Print</span> <span class="string">"Hello, World!"</span>  <span class="comment"># You can also comment after code</span>
+
+<span class="comment"># This line won't display because it's just a comment</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <div class="output-box">
+                    <div class="output-title">
+                        <i class="ri-terminal-line"></i>
+                        Output
+                    </div>
+                    <div class="output-content">Hello, World!</div>
+                </div>
+
+                <p>Notice that only the Print statement produces output. All comments are completely ignored.</p>
+
+                <h2>📤 Displaying Multiple Lines</h2>
+
+                <p>
+                    You can have multiple Print statements to display several lines of output.
+                </p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-file-list-line"></i>
+                        Example 3: Multiple Outputs
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">WelcomeMessage</span>
+
+<span class="keyword">Print</span> <span class="string">"================================"</span>
+<span class="keyword">Print</span> <span class="string">"   Welcome to iPseudo IDE!"</span>
+<span class="keyword">Print</span> <span class="string">"   Learn Pseudocode Easily"</span>
+<span class="keyword">Print</span> <span class="string">"================================"</span>
+<span class="keyword">Print</span> <span class="string">""</span>  <span class="comment"># Empty line</span>
+<span class="keyword">Print</span> <span class="string">"Let's start coding!"</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <div class="output-box">
+                    <div class="output-title">
+                        <i class="ri-terminal-line"></i>
+                        Output
+                    </div>
+                    <div class="output-content">================================
+   Welcome to iPseudo IDE!
+   Learn Pseudocode Easily
+================================
+
+Let's start coding!</div>
+                </div>
+
+                <h2>🔤 Program Naming Rules</h2>
+
+                <p>When naming your algorithms, follow these rules:</p>
+
+                <h3>✅ Valid Names:</h3>
+                <ul>
+                    <li><code>HelloWorld</code> - CamelCase (recommended)</li>
+                    <li><code>CalculateSum</code> - Descriptive and clear</li>
+                    <li><code>Program1</code> - Can include numbers</li>
+                    <li><code>MyFirstProgram</code> - Multiple words combined</li>
+                </ul>
+
+                <h3>❌ Invalid Names:</h3>
+                <ul>
+                    <li><code>Hello World</code> - No spaces allowed</li>
+                    <li><code>123Program</code> - Can't start with a number</li>
+                    <li><code>My-Program</code> - No hyphens</li>
+                    <li><code>Calculate!Sum</code> - No special characters</li>
+                </ul>
+
+                <div class="note-box tip">
+                    <div class="note-box-title">
+                        <i class="ri-star-line"></i>
+                        Best Practice
+                    </div>
+                    <div class="note-box-content">
+                        Use descriptive names that explain what your program does. <code>CalculateAverage</code> 
+                        is much better than <code>Program1</code> because it tells you the purpose immediately.
+                    </div>
+                </div>
+
+                <h2>⚡ Running Your Code</h2>
+
+                <p>To execute your program in iPseudo IDE:</p>
+
+                <ol>
+                    <li><strong>Write your code</strong> in the editor</li>
+                    <li><strong>Click the Run button</strong> (▶️) in the top navigation</li>
+                    <li><strong>Watch the console</strong> for output or errors</li>
+                    <li><strong>Interact if needed</strong> (for Input statements, which we'll learn later)</li>
+                </ol>
+
+                <h3>Keyboard Shortcut</h3>
+                <p>
+                    You can also run your code using the keyboard shortcut: <strong>Ctrl+Enter</strong> (Windows/Linux) 
+                    or <strong>Cmd+Enter</strong> (Mac).
+                </p>
+
+                <h2>🐛 Understanding Errors</h2>
+
+                <p>
+                    If there's a problem with your code, iPseudo will show an error message in the console. 
+                    Let's look at common mistakes:
+                </p>
+
+                <h3>Error 1: Missing Endalgorithm</h3>
+                <pre><code><span class="comment"># ❌ Wrong - Missing Endalgorithm</span>
+<span class="keyword">Algorithm</span> <span class="function">BrokenProgram</span>
+
+<span class="keyword">Print</span> <span class="string">"Hello"</span>
+
+<span class="comment"># Missing Endalgorithm here!</span></code></pre>
+
+                <h3>Error 2: Misspelled Keywords</h3>
+                <pre><code><span class="comment"># ❌ Wrong - "Algoritm" is misspelled</span>
+Algoritm <span class="function">MisspelledKeyword</span>
+
+<span class="keyword">Print</span> <span class="string">"Hello"</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+
+                <h3>Error 3: Missing Quotes</h3>
+                <pre><code><span class="comment"># ❌ Wrong - Text needs quotes</span>
+<span class="keyword">Algorithm</span> <span class="function">NoQuotes</span>
+
+<span class="keyword">Print</span> Hello World  <span class="comment"># Missing quotes around text!</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+
+                <div class="note-box warning">
+                    <div class="note-box-title">
+                        <i class="ri-alert-line"></i>
+                        Common Mistakes
+                    </div>
+                    <div class="note-box-content">
+                        <ul>
+                            <li>Forgetting <code>Endalgorithm</code></li>
+                            <li>Misspelling keywords (Algorithm, Print, etc.)</li>
+                            <li>Forgetting quotes around text strings</li>
+                            <li>Not matching opening and closing quotes</li>
+                        </ul>
+                        Always read error messages carefully – they tell you what went wrong!
+                    </div>
+                </div>
+
+                <h2>🎨 Customizing Your IDE</h2>
+
+                <p>iPseudo IDE offers several customization options:</p>
+
+                <h3>Themes</h3>
+                <ul>
+                    <li><strong>Dark Theme</strong> - Easy on the eyes, great for extended coding sessions</li>
+                    <li><strong>Light Theme</strong> - Bright and clear, good for daytime use</li>
+                </ul>
+
+                <h3>Font Options</h3>
+                <ul>
+                    <li><strong>JetBrains Mono</strong> - Coding font with ligatures</li>
+                    <li><strong>Fira Code</strong> - Popular monospace font</li>
+                    <li><strong>Inter</strong> - Clean modern font</li>
+                </ul>
+
+                <h3>Font Size</h3>
+                <p>Adjust the editor font size to your comfort level (12px - 20px).</p>
+
+                <h2>💾 Saving Your Work</h2>
+
+                <p>Don't lose your hard work! Save your programs regularly:</p>
+
+                <ol>
+                    <li>Click the <strong>Save</strong> button in the top navigation</li>
+                    <li>Choose a location on your computer</li>
+                    <li>Give your file a descriptive name (e.g., <code>hello-world.pseudo</code>)</li>
+                    <li>Click Save</li>
+                </ol>
+
+                <p>
+                    Your files are saved with the <code>.pseudo</code> extension, making them easy to identify 
+                    and open later.
+                </p>
+
+                <h2>📂 Opening Existing Files</h2>
+
+                <p>To open a saved program:</p>
+
+                <ol>
+                    <li>Click the <strong>Open</strong> button</li>
+                    <li>Navigate to your <code>.pseudo</code> file</li>
+                    <li>Select it and click Open</li>
+                    <li>Your code appears in the editor, ready to run or edit</li>
+                </ol>
+
+                <h2>🎯 Complete Example Program</h2>
+
+                <p>Let's put everything together in a more complete program:</p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-star-line"></i>
+                        Complete Example: My First Program
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">MyFirstProgram</span>
+
+<span class="comment"># =====================================</span>
+<span class="comment"># My First iPseudo Program</span>
+<span class="comment"># Author: [Your Name]</span>
+<span class="comment"># Description: A welcome message program</span>
+<span class="comment"># =====================================</span>
+
+<span class="comment"># Display header</span>
+<span class="keyword">Print</span> <span class="string">"****************************"</span>
+<span class="keyword">Print</span> <span class="string">"*  MY FIRST iPSEUDO APP   *"</span>
+<span class="keyword">Print</span> <span class="string">"****************************"</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="comment"># Display welcome message</span>
+<span class="keyword">Print</span> <span class="string">"Hello! I just wrote my first program."</span>
+<span class="keyword">Print</span> <span class="string">"This is exciting!"</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="comment"># Display closing message</span>
+<span class="keyword">Print</span> <span class="string">"iPseudo makes coding fun and easy."</span>
+<span class="keyword">Print</span> <span class="string">"Let's learn more!"</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <div class="output-box">
+                    <div class="output-title">
+                        <i class="ri-terminal-line"></i>
+                        Output
+                    </div>
+                    <div class="output-content">****************************
+*  MY FIRST iPSEUDO APP   *
+****************************
+
+Hello! I just wrote my first program.
+This is exciting!
+
+iPseudo makes coding fun and easy.
+Let's learn more!</div>
+                </div>
+
+                <h2>📋 Quick Reference</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Syntax</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Algorithm Declaration</td>
+                            <td><code>Algorithm Name</code></td>
+                            <td>Start your program</td>
+                        </tr>
+                        <tr>
+                            <td>End Algorithm</td>
+                            <td><code>Endalgorithm</code></td>
+                            <td>End your program</td>
+                        </tr>
+                        <tr>
+                            <td>Output Text</td>
+                            <td><code>Print "text"</code></td>
+                            <td>Display text</td>
+                        </tr>
+                        <tr>
+                            <td>Comment</td>
+                            <td><code># comment</code></td>
+                            <td>Add notes/explanations</td>
+                        </tr>
+                        <tr>
+                            <td>Empty Line</td>
+                            <td><code>Print ""</code></td>
+                            <td>Create blank line</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>📝 Key Takeaways</h2>
+
+                <ul>
+                    <li>✅ Every program starts with <code>Algorithm</code> and ends with <code>Endalgorithm</code></li>
+                    <li>✅ Use <code>Print</code> to display text (text must be in quotes)</li>
+                    <li>✅ Comments start with <code>#</code> and are for documentation</li>
+                    <li>✅ Program names should be descriptive and use CamelCase</li>
+                    <li>✅ The Run button (▶️) executes your code</li>
+                    <li>✅ Always save your work with the .pseudo extension</li>
+                    <li>✅ Read error messages carefully to fix problems</li>
+                </ul>
+
+                <h2>💪 Practice Exercises</h2>
+
+                <div class="exercise-section">
+                    <div class="exercise-header">
+                        <div class="exercise-icon">
+                            <i class="ri-pencil-line"></i>
+                        </div>
+                        <h3 class="exercise-title">Try These Exercises</h3>
+                    </div>
+                    <div class="exercise-list">
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 1: Personal Introduction</div>
+                            <div class="exercise-item-description">
+                                Create a program called <code>IntroduceMyself</code> that displays your name, age, and favorite hobby using separate Print statements.
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 2: ASCII Art</div>
+                            <div class="exercise-item-description">
+                                Create a program that displays simple ASCII art (like a smiley face or your initials) using Print statements.
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 3: Quote Display</div>
+                            <div class="exercise-item-description">
+                                Write a program that displays your favorite quote with proper formatting (author credit, decorative borders, etc.).
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 4: Program Documentation</div>
+                            <div class="exercise-item-description">
+                                Take any of your previous programs and add comprehensive comments explaining what each section does.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="note-box tip">
+                    <div class="note-box-title">
+                        <i class="ri-trophy-line"></i>
+                        Congratulations!
+                    </div>
+                    <div class="note-box-content">
+                        You've written your first iPseudo programs! You now understand the basic structure and how to use 
+                        the IDE. In the next lesson, we'll learn about variables and how to store data in your programs.
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-navigation">
+                <a href="01-introduction-to-pseudocode.html" class="nav-btn prev">
+                    <i class="ri-arrow-left-line"></i>
+                    <div class="nav-btn-content">
+                        <div class="nav-btn-label">Previous</div>
+                        <div class="nav-btn-title">Introduction to Pseudocode</div>
+                    </div>
+                </a>
+                <a href="03-variables-and-data-types.html" class="nav-btn next">
+                    <div class="nav-btn-content">
+                        <div class="nav-btn-label">Next Lesson</div>
+                        <div class="nav-btn-title">Variables and Data Types</div>
+                    </div>
+                    <i class="ri-arrow-right-line"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 iPseudo IDE by <strong>M'BARK</strong>. Free for personal & educational use.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+
+    
+    <!-- Reading Controls -->
+    <script src="js/reading-controls.js"></script>
+    
+    <script src="../website/js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 1: Introduction to Pseudocode | iPseudo Tutorial</title>
+    <link rel="icon" type="image/svg+xml" href="../website/assets/app-icon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../website/css/style.css">
+    <link rel="stylesheet" href="css/tutorial.css">
+    <link rel="stylesheet" href="css/reading-controls.css">
+</head>
+<body>
+    <div class="background-container">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-pattern"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <a href="index.html" style="display: flex; align-items: center; text-decoration: none; gap: 0.75rem;">
+                    <div class="brand-icon" style="background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); padding: 0.5rem; border-radius: 10px;">
+                        <i class="ri-book-open-line" style="color: white; font-size: 1.5rem;"></i>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.1rem;">
+                        <span class="brand-text" style="font-size: 1.25rem; font-weight: 700; background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">iPseudo</span>
+                        <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; letter-spacing: 0.05em;">TUTORIAL HUB</span>
+                    </div>
+                </a>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="ri-sun-line theme-icon" id="lightIcon"></i>
+                    <i class="ri-moon-line theme-icon hidden" id="darkIcon"></i>
+                </button>
+            </div>
+
+            <div class="navbar-actions">
+                <a href="index.html" class="action-btn demo-btn">
+                    <i class="ri-book-open-line"></i>
+                    <span>All Lessons</span>
+                </a>
+                <a href="https://ipseudoeditor.netlify.app/" target="_blank" class="action-btn demo-btn">
+                    <i class="ri-play-circle-line"></i>
+                    <span>Try Live</span>
+                </a>
+                <a href="https://ipseudo.netlify.app/#download" target="_blank" class="action-btn download-btn">
+                    <i class="ri-download-cloud-line"></i>
+                    <span>Download</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="tutorial-content">
+        <div class="tutorial-container">
+            <div class="tutorial-header">
+                <div class="tutorial-badge">
+                    <i class="ri-seedling-line"></i>
+                    <span>Lesson 1 • Beginner</span>
+                </div>
+                <h1 class="tutorial-title">Introduction to Pseudocode</h1>
+                <div class="tutorial-meta">
+                    <div class="tutorial-meta-item">
+                        <i class="ri-time-line"></i>
+                        <span>10 minutes</span>
+                    </div>
+                    <div class="tutorial-meta-item">
+                        <i class="ri-book-open-line"></i>
+                        <span>Foundation</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-body">
+                <h2>📝 What is Pseudocode?</h2>
+                
+                <p>
+                    <strong>Pseudocode</strong> is a method of writing algorithms using a combination of natural language 
+                    and programming-like structures. It's a way to plan and communicate your logic before writing actual code 
+                    in a programming language.
+                </p>
+
+                <p>
+                    Think of pseudocode as the "blueprint" for your program. Just like an architect creates blueprints 
+                    before constructing a building, programmers write pseudocode to plan their algorithms before coding.
+                </p>
+
+                <div class="note-box info">
+                    <div class="note-box-title">
+                        <i class="ri-information-line"></i>
+                        Did You Know?
+                    </div>
+                    <div class="note-box-content">
+                        The word "pseudo" means "fake" or "false" in Greek. So pseudocode literally means "fake code" 
+                        – it looks like code but isn't tied to any specific programming language!
+                    </div>
+                </div>
+
+                <h2>🎯 Why Use Pseudocode?</h2>
+
+                <p>Pseudocode offers several important benefits:</p>
+
+                <h3>1. Language Independent</h3>
+                <p>
+                    You can design algorithms without worrying about the syntax of Python, Java, C++, or any other language. 
+                    Focus on <strong>what</strong> to do, not <strong>how</strong> to write it in a specific language.
+                </p>
+
+                <h3>2. Easy to Understand</h3>
+                <p>
+                    Pseudocode reads like English, making it accessible to everyone – from beginners to experienced developers, 
+                    and even non-programmers who need to understand your logic.
+                </p>
+
+                <h3>3. Focus on Logic</h3>
+                <p>
+                    Without worrying about semicolons, brackets, or syntax errors, you can concentrate entirely on 
+                    solving the problem and designing the algorithm.
+                </p>
+
+                <h3>4. Easy to Modify</h3>
+                <p>
+                    Changing pseudocode is much faster than rewriting actual code. You can quickly test different 
+                    approaches and refine your logic before implementation.
+                </p>
+
+                <h3>5. Great Communication Tool</h3>
+                <p>
+                    Teams can discuss algorithms using pseudocode, making collaboration easier. It's perfect for 
+                    documentation, presentations, and teaching.
+                </p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-lightbulb-line"></i>
+                        Real-World Analogy
+                    </div>
+                    <p>
+                        Imagine you're giving directions to a friend:
+                    </p>
+                    <ul>
+                        <li><strong>Pseudocode approach:</strong> "Go straight, turn left at the bank, then right at the coffee shop."</li>
+                        <li><strong>Programming language approach:</strong> Would be like specifying exact distances, angles, and coordinates in a robot's language!</li>
+                    </ul>
+                    <p>
+                        Pseudocode is the human-friendly version that captures the essence without overwhelming details.
+                    </p>
+                </div>
+
+                <h2>🔄 Pseudocode vs. Real Code</h2>
+
+                <p>Let's compare pseudocode with actual programming code:</p>
+
+                <h3>Pseudocode Example:</h3>
+                <pre><code><span class="keyword">Algorithm</span> <span class="function">CalculateAverage</span>
+
+<span class="keyword">Var</span> num1 = <span class="keyword">Input</span> <span class="string">"Enter first number:"</span>
+<span class="keyword">Var</span> num2 = <span class="keyword">Input</span> <span class="string">"Enter second number:"</span>
+<span class="keyword">Var</span> average = (num1 + num2) / 2
+
+<span class="keyword">Print</span> <span class="string">"The average is:"</span>, average
+
+<span class="keyword">Endalgorithm</span></code></pre>
+
+                <h3>Same Logic in Python:</h3>
+                <pre><code>num1 = float(input("Enter first number: "))
+num2 = float(input("Enter second number: "))
+average = (num1 + num2) / 2
+print(f"The average is: {average}")</code></pre>
+
+                <h3>Same Logic in Java:</h3>
+                <pre><code>import java.util.Scanner;
+
+public class AverageCalculator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.print("Enter first number: ");
+        double num1 = scanner.nextDouble();
+        
+        System.out.print("Enter second number: ");
+        double num2 = scanner.nextDouble();
+        
+        double average = (num1 + num2) / 2;
+        System.out.println("The average is: " + average);
+    }
+}</code></pre>
+
+                <div class="note-box tip">
+                    <div class="note-box-title">
+                        <i class="ri-lightbulb-flash-line"></i>
+                        Key Insight
+                    </div>
+                    <div class="note-box-content">
+                        Notice how the pseudocode is much simpler and more readable than either Python or Java, 
+                        yet it clearly expresses the same algorithm! The pseudocode version can easily be converted 
+                        to <em>any</em> programming language.
+                    </div>
+                </div>
+
+                <h2>🌟 Characteristics of Good Pseudocode</h2>
+
+                <p>Effective pseudocode should have these qualities:</p>
+
+                <h3>✅ 1. Clear and Simple</h3>
+                <ul>
+                    <li>Use plain language that anyone can understand</li>
+                    <li>Avoid unnecessary technical jargon</li>
+                    <li>Each line should have a clear purpose</li>
+                </ul>
+
+                <h3>✅ 2. Structured</h3>
+                <ul>
+                    <li>Follow a logical flow from start to finish</li>
+                    <li>Use proper indentation to show code blocks</li>
+                    <li>Group related operations together</li>
+                </ul>
+
+                <h3>✅ 3. Precise</h3>
+                <ul>
+                    <li>Be specific about what each step does</li>
+                    <li>Avoid ambiguous statements</li>
+                    <li>Include necessary details, omit unnecessary ones</li>
+                </ul>
+
+                <h3>✅ 4. Complete</h3>
+                <ul>
+                    <li>Include all steps needed to solve the problem</li>
+                    <li>Don't skip important logic</li>
+                    <li>Consider edge cases and error handling</li>
+                </ul>
+
+                <h2>🎨 Common Pseudocode Conventions</h2>
+
+                <p>While pseudocode doesn't have strict rules, here are common conventions:</p>
+
+                <h3>Keywords (Usually Capitalized)</h3>
+                <ul>
+                    <li><code>ALGORITHM</code>, <code>BEGIN</code>, <code>END</code></li>
+                    <li><code>IF</code>, <code>THEN</code>, <code>ELSE</code>, <code>ENDIF</code></li>
+                    <li><code>FOR</code>, <code>WHILE</code>, <code>REPEAT</code>, <code>UNTIL</code></li>
+                    <li><code>INPUT</code>, <code>OUTPUT</code>, <code>PRINT</code></li>
+                    <li><code>FUNCTION</code>, <code>PROCEDURE</code>, <code>RETURN</code></li>
+                </ul>
+
+                <h3>Variables (Descriptive Names)</h3>
+                <ul>
+                    <li>Use meaningful names like <code>studentAge</code> instead of <code>x</code></li>
+                    <li>CamelCase or snake_case are common</li>
+                    <li>Names should describe what the variable represents</li>
+                </ul>
+
+                <h3>Operators</h3>
+                <ul>
+                    <li>Arithmetic: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>MOD</code></li>
+                    <li>Comparison: <code>=</code>, <code>≠</code>, <code>&lt;</code>, <code>&gt;</code>, <code>≤</code>, <code>≥</code></li>
+                    <li>Logical: <code>AND</code>, <code>OR</code>, <code>NOT</code></li>
+                </ul>
+
+                <h3>Indentation</h3>
+                <ul>
+                    <li>Indent code blocks to show structure</li>
+                    <li>Makes nested logic easier to follow</li>
+                    <li>Visually groups related statements</li>
+                </ul>
+
+                <h2>📚 Where is Pseudocode Used?</h2>
+
+                <h3>1. Algorithm Design</h3>
+                <p>
+                    Computer scientists use pseudocode to design and document algorithms before implementing them.
+                </p>
+
+                <h3>2. Education</h3>
+                <p>
+                    Students learn programming concepts through pseudocode without the barrier of complex syntax.
+                </p>
+
+                <h3>3. Technical Interviews</h3>
+                <p>
+                    Candidates often solve problems using pseudocode on whiteboards during coding interviews.
+                </p>
+
+                <h3>4. Documentation</h3>
+                <p>
+                    Software documentation uses pseudocode to explain algorithms in a language-neutral way.
+                </p>
+
+                <h3>5. Team Collaboration</h3>
+                <p>
+                    Teams discuss and plan solutions using pseudocode before dividing implementation work.
+                </p>
+
+                <h2>🎯 Your First Pseudocode</h2>
+
+                <p>Let's write simple pseudocode for a common task: making a cup of tea.</p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-cup-line"></i>
+                        Example: Making Tea (Everyday Algorithm)
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">MakeTea</span>
+
+<span class="comment"># Get materials ready</span>
+<span class="keyword">Get</span> teabag
+<span class="keyword">Get</span> cup
+<span class="keyword">Get</span> kettle
+
+<span class="comment"># Prepare hot water</span>
+<span class="keyword">Fill</span> kettle with water
+<span class="keyword">Turn on</span> kettle
+<span class="keyword">Wait</span> until water boils
+
+<span class="comment"># Make tea</span>
+<span class="keyword">Place</span> teabag in cup
+<span class="keyword">Pour</span> hot water into cup
+<span class="keyword">Wait</span> 3 minutes
+
+<span class="comment"># Optional additions</span>
+<span class="keyword">If</span> you want milk <span class="keyword">Then</span>
+    <span class="keyword">Add</span> milk
+<span class="keyword">Endif</span>
+
+<span class="keyword">If</span> you want sugar <span class="keyword">Then</span>
+    <span class="keyword">Add</span> sugar
+    <span class="keyword">Stir</span>
+<span class="keyword">Endif</span>
+
+<span class="comment"># Finish</span>
+<span class="keyword">Remove</span> teabag
+<span class="keyword">Output</span> <span class="string">"Tea is ready!"</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <p>
+                    Notice how this pseudocode breaks down the tea-making process into clear, logical steps. 
+                    Anyone can understand it, and it could be adapted for any "programming language" (or robot!) 
+                    that needs to make tea.
+                </p>
+
+                <h2>🚀 iPseudo: Your Pseudocode Environment</h2>
+
+                <p>
+                    <strong>iPseudo IDE</strong> takes pseudocode to the next level by allowing you to 
+                    <em>actually execute</em> your pseudocode! You get the benefits of both worlds:
+                </p>
+
+                <ul>
+                    <li>✅ Simple, readable pseudocode syntax</li>
+                    <li>✅ Real execution with immediate results</li>
+                    <li>✅ Interactive input/output</li>
+                    <li>✅ Beautiful modern IDE</li>
+                    <li>✅ Perfect for learning and prototyping</li>
+                </ul>
+
+                <div class="note-box tip">
+                    <div class="note-box-title">
+                        <i class="ri-rocket-line"></i>
+                        Ready to Start?
+                    </div>
+                    <div class="note-box-content">
+                        In the next lesson, you'll write and run your first iPseudo program! You'll learn 
+                        the basic structure and see your code come to life.
+                    </div>
+                </div>
+
+                <h2>📝 Key Takeaways</h2>
+
+                <ul>
+                    <li>✅ Pseudocode is a language-independent way to express algorithms</li>
+                    <li>✅ It focuses on logic rather than syntax</li>
+                    <li>✅ Good pseudocode is clear, structured, precise, and complete</li>
+                    <li>✅ Pseudocode is used in education, interviews, and professional development</li>
+                    <li>✅ iPseudo lets you execute pseudocode like real programs</li>
+                </ul>
+
+                <h2>💡 Think About It</h2>
+
+                <div class="exercise-section">
+                    <div class="exercise-header">
+                        <div class="exercise-icon">
+                            <i class="ri-question-line"></i>
+                        </div>
+                        <h3 class="exercise-title">Reflection Questions</h3>
+                    </div>
+                    <div class="exercise-list">
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Question 1</div>
+                            <div class="exercise-item-description">
+                                Think of a daily routine you do (like brushing teeth, making breakfast, or 
+                                getting ready for school). How would you break it down into pseudocode steps?
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Question 2</div>
+                            <div class="exercise-item-description">
+                                Why might a company want to document their algorithms in pseudocode rather 
+                                than in a specific programming language?
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Question 3</div>
+                            <div class="exercise-item-description">
+                                Can you think of a situation where pseudocode alone (without execution) 
+                                would be more useful than working code?
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-navigation">
+                <a href="index.html" class="nav-btn prev">
+                    <i class="ri-arrow-left-line"></i>
+                    <div class="nav-btn-content">
+                        <div class="nav-btn-label">Previous</div>
+                        <div class="nav-btn-title">All Lessons</div>
+                    </div>
+                </a>
+                <a href="02-getting-started.html" class="nav-btn next">
+                    <div class="nav-btn-content">
+                        <div class="nav-btn-label">Next Lesson</div>
+                        <div class="nav-btn-title">Getting Started with iPseudo</div>
+                    </div>
+                    <i class="ri-arrow-right-line"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 iPseudo IDE by <strong>M'BARK</strong>. Free for personal & educational use.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+
+    <!-- Reading Controls -->
+    <script src="js/reading-controls.js"></script>
+    
+    <script src="../website/js/script.js"></script>
+</body>
+</html>

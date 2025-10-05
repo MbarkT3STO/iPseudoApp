@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 6: Comments and Documentation | iPseudo Tutorial</title>
+    <link rel="icon" type="image/svg+xml" href="../website/assets/app-icon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../website/css/style.css">
+    <link rel="stylesheet" href="css/tutorial.css">
+    <link rel="stylesheet" href="css/reading-controls.css">
+</head>
+<body>
+    <div class="background-container">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-pattern"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <a href="index.html" style="display: flex; align-items: center; text-decoration: none; gap: 0.75rem;">
+                    <div class="brand-icon" style="background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); padding: 0.5rem; border-radius: 10px;">
+                        <i class="ri-book-open-line" style="color: white; font-size: 1.5rem;"></i>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.1rem;">
+                        <span class="brand-text" style="font-size: 1.25rem; font-weight: 700; background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">iPseudo</span>
+                        <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; letter-spacing: 0.05em;">TUTORIAL HUB</span>
+                    </div>
+                </a>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="ri-sun-line theme-icon" id="lightIcon"></i>
+                    <i class="ri-moon-line theme-icon hidden" id="darkIcon"></i>
+                </button>
+            </div>
+
+            <div class="navbar-actions">
+                <a href="index.html" class="action-btn demo-btn">
+                    <i class="ri-book-open-line"></i>
+                    <span>All Lessons</span>
+                </a>
+                <a href="https://ipseudoeditor.netlify.app/" target="_blank" class="action-btn demo-btn">
+                    <i class="ri-play-circle-line"></i>
+                    <span>Try Live</span>
+                </a>
+                <a href="https://ipseudo.netlify.app/#download" target="_blank" class="action-btn download-btn">
+                    <i class="ri-download-cloud-line"></i>
+                    <span>Download</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="tutorial-content">
+        <div class="tutorial-container">
+            <div class="tutorial-header">
+                <div class="tutorial-badge">
+                    <i class="ri-seedling-line"></i>
+                    <span>Lesson 6 • Beginner</span>
+                </div>
+                <h1 class="tutorial-title">Comments and Documentation</h1>
+                <div class="tutorial-meta">
+                    <div class="tutorial-meta-item">
+                        <i class="ri-time-line"></i>
+                        <span>10 minutes</span>
+                    </div>
+                    <div class="tutorial-meta-item">
+                        <i class="ri-book-open-line"></i>
+                        <span>Foundation</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-body">
+                <h2>💬 What are Comments?</h2>
+                
+                <p>
+                    <strong>Comments</strong> are notes you add to your code to explain what it does. They're completely ignored 
+                    by the computer when your program runs – they exist only for humans reading the code.
+                </p>
+
+                <div class="note-box info">
+                    <div class="note-box-title">
+                        <i class="ri-information-line"></i>
+                        Why Comments Matter
+                    </div>
+                    <div class="note-box-content">
+                        <ul>
+                            <li>Help others understand your code</li>
+                            <li>Help YOU understand your own code when you return to it later</li>
+                            <li>Explain complex logic and decisions</li>
+                            <li>Document assumptions and requirements</li>
+                            <li>Make teamwork easier</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h2>📝 Comment Syntax</h2>
+
+                <p>In iPseudo, comments start with the <code>#</code> symbol:</p>
+
+                <pre><code><span class="comment"># This is a comment</span></code></pre>
+
+                <p>Everything after <code>#</code> on that line is a comment and will be ignored.</p>
+
+                <h3>Single-Line Comments</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-message-line"></i>
+                        Example: Single-Line Comments
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">CommentExample</span>
+
+<span class="comment"># This is a full-line comment</span>
+
+<span class="keyword">var</span> age = <span class="number">25</span>  <span class="comment"># This is an inline comment</span>
+
+<span class="keyword">Print</span> <span class="string">"Hello"</span>  <span class="comment"># Comments can appear after code</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>📖 Types of Comments</h2>
+
+                <h3>1. Explanatory Comments</h3>
+                <p>Explain <em>what</em> the code does:</p>
+
+                <pre><code><span class="comment"># Calculate the area of a circle</span>
+<span class="keyword">var</span> area = <span class="number">3.14159</span> * radius * radius</code></pre>
+
+                <h3>2. Clarification Comments</h3>
+                <p>Explain <em>why</em> the code does something:</p>
+
+                <pre><code><span class="comment"># Using 0.08 because state tax rate is 8%</span>
+<span class="keyword">var</span> taxRate = <span class="number">0.08</span></code></pre>
+
+                <h3>3. TODO Comments</h3>
+                <p>Mark things to do later:</p>
+
+                <pre><code><span class="comment"># TODO: Add input validation</span>
+<span class="keyword">var</span> age = <span class="keyword">Input</span> <span class="string">"Enter age:"</span></code></pre>
+
+                <h3>4. Section Headers</h3>
+                <p>Divide code into logical sections:</p>
+
+                <pre><code><span class="comment"># ===== GET USER INPUT =====</span>
+<span class="keyword">var</span> name = <span class="keyword">Input</span> <span class="string">"Name:"</span>
+<span class="keyword">var</span> age = <span class="keyword">Input</span> <span class="string">"Age:"</span>
+
+<span class="comment"># ===== PROCESS DATA =====</span>
+<span class="keyword">var</span> isAdult = age >= <span class="number">18</span>
+
+<span class="comment"># ===== DISPLAY RESULTS =====</span>
+<span class="keyword">Print</span> name, <span class="string">"is an adult:"</span>, isAdult</code></pre>
+
+                <h2>✅ Good Commenting Practices</h2>
+
+                <h3>1. Explain the WHY, Not the WHAT</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-close-circle-line"></i>
+                        Bad Example: States the Obvious
+                    </div>
+                    <pre><code><span class="comment"># Add 1 to x</span>
+x = x + <span class="number">1</span>
+
+<span class="comment"># Print the result</span>
+<span class="keyword">Print</span> result</code></pre>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-checkbox-circle-line"></i>
+                        Good Example: Explains Purpose
+                    </div>
+                    <pre><code><span class="comment"># Increment attempt counter for retry logic</span>
+x = x + <span class="number">1</span>
+
+<span class="comment"># Display final calculated value to user</span>
+<span class="keyword">Print</span> result</code></pre>
+                </div>
+
+                <h3>2. Keep Comments Up-to-Date</h3>
+
+                <div class="note-box warning">
+                    <div class="note-box-title">
+                        <i class="ri-alert-line"></i>
+                        Warning: Outdated Comments
+                    </div>
+                    <div class="note-box-content">
+                        Wrong or outdated comments are WORSE than no comments! If you change your code, 
+                        update the comments too. Misleading comments waste time and cause bugs.
+                    </div>
+                </div>
+
+                <h3>3. Write for Your Audience</h3>
+
+                <p>Consider who will read your code:</p>
+                <ul>
+                    <li><strong>Beginners:</strong> Explain more, use simple language</li>
+                    <li><strong>Experienced programmers:</strong> Focus on complex logic and design decisions</li>
+                    <li><strong>Future you:</strong> Document your thought process and assumptions</li>
+                </ul>
+
+                <h3>4. Use Descriptive Variable Names</h3>
+
+                <p>Good variable names reduce the need for comments:</p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-close-circle-line"></i>
+                        Needs Comments
+                    </div>
+                    <pre><code><span class="comment"># t is total price</span>
+<span class="keyword">var</span> t = <span class="number">100</span>
+
+<span class="comment"># r is tax rate</span>
+<span class="keyword">var</span> r = <span class="number">0.08</span>
+
+<span class="comment"># Calculate final amount</span>
+<span class="keyword">var</span> f = t + (t * r)</code></pre>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-checkbox-circle-line"></i>
+                        Self-Documenting Code
+                    </div>
+                    <pre><code><span class="keyword">var</span> totalPrice = <span class="number">100</span>
+<span class="keyword">var</span> taxRate = <span class="number">0.08</span>
+<span class="keyword">var</span> finalAmount = totalPrice + (totalPrice * taxRate)</code></pre>
+                </div>
+
+                <h2>📋 Documentation Headers</h2>
+
+                <p>Start your programs with a documentation header:</p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-file-text-line"></i>
+                        Example: Program Header
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">StudentGradeCalculator</span>
+
+<span class="comment"># =============================================</span>
+<span class="comment"># Program: Student Grade Calculator</span>
+<span class="comment"># Author: Your Name</span>
+<span class="comment"># Date: October 5, 2025</span>
+<span class="comment"># Description: Calculates final grade from</span>
+<span class="comment">#              test scores and homework grades</span>
+<span class="comment"># =============================================</span>
+
+<span class="comment"># Program code starts here...</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>🎯 Complete Example</h2>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-code-box-line"></i>
+                        Well-Commented Program
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">TemperatureConverter</span>
+
+<span class="comment"># =============================================</span>
+<span class="comment"># Temperature Converter (Celsius to Fahrenheit)</span>
+<span class="comment"># Converts temperature using: F = C × 9/5 + 32</span>
+<span class="comment"># =============================================</span>
+
+<span class="comment"># Get temperature input from user</span>
+<span class="keyword">Print</span> <span class="string">"=== Temperature Converter ==="</span>
+<span class="keyword">var</span> celsius = <span class="keyword">Input</span> <span class="string">"Enter temperature in Celsius:"</span>
+
+<span class="comment"># Convert to Fahrenheit using standard formula</span>
+<span class="comment"># Formula: F = C × 9/5 + 32</span>
+<span class="keyword">var</span> fahrenheit = celsius * <span class="number">9</span> / <span class="number">5</span> + <span class="number">32</span>
+
+<span class="comment"># Display both temperatures for comparison</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"Temperature Conversion:"</span>
+<span class="keyword">Print</span> celsius, <span class="string">"°C ="</span>, fahrenheit, <span class="string">"°F"</span>
+
+<span class="comment"># Provide context for common temperatures</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"Reference: Water freezes at 0°C (32°F)"</span>
+<span class="keyword">Print</span> <span class="string">"Reference: Water boils at 100°C (212°F)"</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>❌ What NOT to Comment</h2>
+
+                <h3>1. Obvious Code</h3>
+                <pre><code><span class="comment"># Bad: This is obvious</span>
+x = <span class="number">5</span>  <span class="comment"># Set x to 5</span></code></pre>
+
+                <h3>2. Bad Code (Fix it instead!)</h3>
+                <pre><code><span class="comment"># Bad: This is a hack, needs fixing</span>
+result = value * <span class="number">1.0000001</span>  <span class="comment"># Don't ask why</span></code></pre>
+
+                <h3>3. Every Single Line</h3>
+                <p>Too many comments make code harder to read:</p>
+                <pre><code><span class="comment"># Bad: Over-commented</span>
+<span class="keyword">var</span> x = <span class="number">5</span>  <span class="comment"># declare x</span>
+<span class="keyword">var</span> y = <span class="number">10</span>  <span class="comment"># declare y</span>
+<span class="keyword">var</span> sum = x + y  <span class="comment"># add them</span>
+<span class="keyword">Print</span> sum  <span class="comment"># print result</span></code></pre>
+
+                <h2>💡 Professional Tips</h2>
+
+                <div class="note-box tip">
+                    <div class="note-box-title">
+                        <i class="ri-lightbulb-line"></i>
+                        The Golden Rule
+                    </div>
+                    <div class="note-box-content">
+                        <strong>"Code tells you HOW, comments tell you WHY."</strong>
+                        <p>Good code is self-explanatory for the "how". Use comments to explain:</p>
+                        <ul>
+                            <li>Why you chose this approach</li>
+                            <li>What problem you're solving</li>
+                            <li>Any non-obvious requirements or constraints</li>
+                            <li>Complex algorithms or business logic</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Comment Levels</h3>
+
+                <p>Use different comment styles for different purposes:</p>
+
+                <pre><code><span class="comment"># ===== MAJOR SECTION =====</span>
+
+<span class="comment"># Subsection description</span>
+
+<span class="keyword">var</span> x = <span class="number">5</span>  <span class="comment"># Inline note about this line</span></code></pre>
+
+                <h2>🎓 Real-World Example</h2>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-graduation-cap-line"></i>
+                        Example: Well-Documented Grade Calculator
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">FinalGradeCalculator</span>
+
+<span class="comment"># =============================================</span>
+<span class="comment"># Final Grade Calculator</span>
+<span class="comment"># Calculates weighted average from assignments</span>
+<span class="comment"># Weights: Tests 50%, Homework 30%, Final 20%</span>
+<span class="comment"># =============================================</span>
+
+<span class="keyword">Print</span> <span class="string">"=== Grade Calculator ==="</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="comment"># ===== GET SCORES =====</span>
+<span class="comment"># Get individual component scores from user</span>
+<span class="keyword">var</span> testAverage = <span class="keyword">Input</span> <span class="string">"Enter test average (0-100):"</span>
+<span class="keyword">var</span> homeworkAverage = <span class="keyword">Input</span> <span class="string">"Enter homework average (0-100):"</span>
+<span class="keyword">var</span> finalExam = <span class="keyword">Input</span> <span class="string">"Enter final exam score (0-100):"</span>
+
+<span class="comment"># ===== CALCULATE WEIGHTED GRADE =====</span>
+<span class="comment"># Using school's official weighting policy:</span>
+<span class="comment"># - Tests contribute 50% of final grade</span>
+<span class="comment"># - Homework contributes 30% of final grade</span>
+<span class="comment"># - Final exam contributes 20% of final grade</span>
+
+<span class="keyword">var</span> testWeight = <span class="number">0.50</span>
+<span class="keyword">var</span> homeworkWeight = <span class="number">0.30</span>
+<span class="keyword">var</span> finalWeight = <span class="number">0.20</span>
+
+<span class="comment"># Calculate weighted components</span>
+<span class="keyword">var</span> testContribution = testAverage * testWeight
+<span class="keyword">var</span> homeworkContribution = homeworkAverage * homeworkWeight
+<span class="keyword">var</span> finalContribution = finalExam * finalWeight
+
+<span class="comment"># Sum all weighted components for final grade</span>
+<span class="keyword">var</span> finalGrade = testContribution + homeworkContribution + finalContribution
+
+<span class="comment"># ===== DISPLAY RESULTS =====</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"=== GRADE BREAKDOWN ==="</span>
+<span class="keyword">Print</span> <span class="string">"Tests (50%):"</span>, testAverage
+<span class="keyword">Print</span> <span class="string">"Homework (30%):"</span>, homeworkAverage
+<span class="keyword">Print</span> <span class="string">"Final Exam (20%):"</span>, finalExam
+<span class="keyword">Print</span> <span class="string">"------------------------"</span>
+<span class="keyword">Print</span> <span class="string">"FINAL GRADE:"</span>, finalGrade
+
+<span class="comment"># Provide letter grade interpretation</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"Grade Scale: A(90+), B(80-89), C(70-79), D(60-69), F(&lt;60)"</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>📋 Quick Reference</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Comment Type</th>
+                            <th>When to Use</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Explanatory</td>
+                            <td>Explain what code does</td>
+                            <td><code># Calculate total price</code></td>
+                        </tr>
+                        <tr>
+                            <td>Clarification</td>
+                            <td>Explain why you did something</td>
+                            <td><code># Using 8% based on state law</code></td>
+                        </tr>
+                        <tr>
+                            <td>TODO</td>
+                            <td>Mark future improvements</td>
+                            <td><code># TODO: Add error handling</code></td>
+                        </tr>
+                        <tr>
+                            <td>Section Header</td>
+                            <td>Divide code into sections</td>
+                            <td><code># ===== CALCULATIONS =====</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>📝 Key Takeaways</h2>
+
+                <ul>
+                    <li>✅ Comments start with <code>#</code> and are ignored by the program</li>
+                    <li>✅ Explain WHY, not WHAT (code shows what)</li>
+                    <li>✅ Use comments to document complex logic and decisions</li>
+                    <li>✅ Keep comments up-to-date when code changes</li>
+                    <li>✅ Use descriptive names to reduce need for comments</li>
+                    <li>✅ Add program headers to describe overall purpose</li>
+                    <li>✅ Don't over-comment obvious code</li>
+                </ul>
+
+                <h2>💪 Practice Exercises</h2>
+
+                <div class="exercise-section">
+                    <div class="exercise-header">
+                        <div class="exercise-icon">
+                            <i class="ri-pencil-line"></i>
+                        </div>
+                        <h3 class="exercise-title">Try These Exercises</h3>
+                    </div>
+                    <div class="exercise-list">
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 1: Add Comments</div>
+                            <div class="exercise-item-description">
+                                Take one of your previous programs and add appropriate comments: header, sections, and explanations.
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 2: Improve Comments</div>
+                            <div class="exercise-item-description">
+                                Find code with bad comments (obvious or outdated) and rewrite them to be more useful.
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 3: Documentation Header</div>
+                            <div class="exercise-item-description">
+                                Create a new program with a complete documentation header including purpose, author, date, and description.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="note-box tip">
+                    <div class="note-box-title">
+                        <i class="ri-trophy-line"></i>
+                        Beginner Level Complete!
+                    </div>
+                    <div class="note-box-content">
+                        Congratulations! You've completed the beginner lessons and learned the foundations of iPseudo. 
+                        You're now ready for intermediate topics! In the next lesson, we'll learn about conditional statements 
+                        to make decisions in your programs.
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-navigation">
+                <a href="05-operators.html" class="nav-btn prev">
+                    <i class="ri-arrow-left-line"></i>
+                    <div class="nav-btn-content">
+                        <div class="nav-btn-label">Previous</div>
+                        <div class="nav-btn-title">Operators</div>
+                    </div>
+                </a>
+                <a href="07-conditional-statements.html" class="nav-btn next">
+                    <div class="nav-btn-content">
+                        <div class="nav-btn-label">Next Lesson</div>
+                        <div class="nav-btn-title">Conditional Statements</div>
+                    </div>
+                    <i class="ri-arrow-right-line"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 iPseudo IDE by <strong>M'BARK</strong>. Free for personal & educational use.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+
+    
+    <!-- Reading Controls -->
+    <script src="js/reading-controls.js"></script>
+    
+    <script src="../website/js/script.js"></script>
+</body>
+</html>

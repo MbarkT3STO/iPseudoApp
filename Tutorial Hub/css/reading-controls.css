@@ -1,0 +1,291 @@
+/**
+ * Reading Controls Styles
+ * Floating control panel for lesson customization
+ */
+
+.reading-controls {
+    position: fixed;
+    right: 2rem;
+    bottom: 6rem;
+    z-index: 999;
+}
+
+.control-toggle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500));
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(147, 51, 234, 0.3);
+    transition: all 0.3s ease;
+}
+
+.control-toggle:hover {
+    transform: scale(1.1) rotate(45deg);
+    box-shadow: 0 6px 30px rgba(147, 51, 234, 0.5);
+}
+
+.control-panel {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    width: 320px;
+    background: rgba(15, 15, 25, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 16px;
+    padding: 0;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(147, 51, 234, 0.1);
+    border: 1px solid rgba(147, 51, 234, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.9);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.control-panel.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.control-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, rgba(147, 51, 234, 0.15), rgba(59, 130, 246, 0.15));
+}
+
+.control-header span {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #ffffff;
+}
+
+.control-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.control-close:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+}
+
+.control-section {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.control-section:last-child {
+    border-bottom: none;
+}
+
+.control-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 0.75rem;
+}
+
+.control-label i {
+    font-size: 1.1rem;
+    color: #a78bfa;
+}
+
+.control-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.control-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e0e0e0;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+}
+
+.control-btn:hover {
+    background: rgba(147, 51, 234, 0.2);
+    border-color: rgba(147, 51, 234, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(147, 51, 234, 0.2);
+}
+
+.control-btn i {
+    font-size: 1rem;
+}
+
+.control-value {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    background: rgba(147, 51, 234, 0.1);
+    border: 1px solid rgba(147, 51, 234, 0.2);
+    color: var(--color-purple-300);
+    font-size: 0.875rem;
+    font-weight: 600;
+    min-width: 60px;
+    text-align: center;
+}
+
+.control-reset {
+    background: rgba(255, 152, 0, 0.1);
+    border-color: rgba(255, 152, 0, 0.2);
+    color: #ff9800;
+}
+
+.control-reset:hover {
+    background: rgba(255, 152, 0, 0.2);
+    border-color: #ff9800;
+}
+
+.width-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+}
+
+.width-btn {
+    justify-content: center;
+}
+
+.width-btn.active {
+    background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500));
+    border-color: var(--color-purple-400);
+    color: white;
+}
+
+.action-btn {
+    flex: 1;
+}
+
+.control-footer {
+    padding: 1rem 1.5rem;
+    background: rgba(147, 51, 234, 0.08);
+    border-radius: 0 0 16px 16px;
+}
+
+.reset-all {
+    width: 100%;
+    justify-content: center;
+    background: rgba(244, 67, 54, 0.1);
+    border-color: rgba(244, 67, 54, 0.2);
+    color: #f44336;
+    font-weight: 600;
+}
+
+.reset-all:hover {
+    background: rgba(244, 67, 54, 0.2);
+    border-color: #f44336;
+}
+
+/* Content width adjustments */
+.tutorial-container.width-narrow {
+    max-width: 700px;
+}
+
+.tutorial-container.width-medium {
+    max-width: 900px;
+}
+
+.tutorial-container.width-wide {
+    max-width: 1200px;
+}
+
+/* Focus mode styles */
+.hidden-focus {
+    display: none !important;
+}
+
+body.focus-mode-active {
+    padding-top: 2rem;
+}
+
+body.focus-mode-active .tutorial-content {
+    padding-top: 2rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .reading-controls {
+        right: 1rem;
+        bottom: 5rem;
+    }
+
+    .control-toggle {
+        width: 48px;
+        height: 48px;
+        font-size: 1.25rem;
+    }
+
+    .control-panel {
+        width: calc(100vw - 2rem);
+        right: -1rem;
+    }
+
+    .control-section {
+        padding: 1rem;
+    }
+
+    .control-header {
+        padding: 1rem;
+    }
+
+    .width-buttons {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Print styles */
+@media print {
+    .reading-controls {
+        display: none !important;
+    }
+    
+    .tutorial-body {
+        font-size: 12pt !important;
+        line-height: 1.6 !important;
+    }
+}
+
+/* Smooth transitions for content adjustments */
+.tutorial-body {
+    transition: font-size 0.3s ease, line-height 0.3s ease;
+}
+
+.tutorial-container {
+    transition: max-width 0.3s ease;
+    margin-left: auto;
+    margin-right: auto;
+}

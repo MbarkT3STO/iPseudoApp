@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 13: String Operations | iPseudo Tutorial</title>
+    <link rel="icon" type="image/svg+xml" href="../website/assets/app-icon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../website/css/style.css">
+    <link rel="stylesheet" href="css/tutorial.css">
+    <link rel="stylesheet" href="css/reading-controls.css">
+</head>
+<body>
+    <div class="background-container">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-pattern"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <a href="index.html" style="display: flex; align-items: center; text-decoration: none; gap: 0.75rem;">
+                    <div class="brand-icon" style="background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); padding: 0.5rem; border-radius: 10px;">
+                        <i class="ri-book-open-line" style="color: white; font-size: 1.5rem;"></i>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.1rem;">
+                        <span class="brand-text" style="font-size: 1.25rem; font-weight: 700; background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">iPseudo</span>
+                        <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; letter-spacing: 0.05em;">TUTORIAL HUB</span>
+                    </div>
+                </a>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="ri-sun-line theme-icon" id="lightIcon"></i>
+                    <i class="ri-moon-line theme-icon hidden" id="darkIcon"></i>
+                </button>
+            </div>
+
+            <div class="navbar-actions">
+                <a href="index.html" class="action-btn demo-btn">
+                    <i class="ri-book-open-line"></i>
+                    <span>All Lessons</span>
+                </a>
+                <a href="https://ipseudoeditor.netlify.app/" target="_blank" class="action-btn demo-btn">
+                    <i class="ri-play-circle-line"></i>
+                    <span>Try Live</span>
+                </a>
+                <a href="https://ipseudo.netlify.app/#download" target="_blank" class="action-btn download-btn">
+                    <i class="ri-download-cloud-line"></i>
+                    <span>Download</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="tutorial-content">
+        <div class="tutorial-container">
+            <div class="tutorial-header">
+                <div class="tutorial-badge">
+                    <i class="ri-plant-line"></i>
+                    <span>Lesson 13 • Intermediate</span>
+                </div>
+                <h1 class="tutorial-title">String Operations</h1>
+                <div class="tutorial-meta">
+                    <div class="tutorial-meta-item">
+                        <i class="ri-time-line"></i>
+                        <span>25 minutes</span>
+                    </div>
+                    <div class="tutorial-meta-item">
+                        <i class="ri-book-open-line"></i>
+                        <span>Data Manipulation</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-body">
+                <h2>📝 What are Strings?</h2>
+                
+                <p>
+                    <strong>Strings</strong> are sequences of characters - essentially text. While we've used strings for display, 
+                    this lesson covers how to manipulate, analyze, and transform text data.
+                </p>
+
+                <div class="note-box info">
+                    <div class="note-box-title">
+                        <i class="ri-information-line"></i>
+                        Why String Operations Matter
+                    </div>
+                    <div class="note-box-content">
+                        String manipulation is crucial for:
+                        <ul>
+                            <li>Processing user input</li>
+                            <li>Validating data (emails, passwords)</li>
+                            <li>Text formatting and display</li>
+                            <li>Searching and parsing text</li>
+                            <li>Building messages and reports</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h2>➕ String Concatenation</h2>
+
+                <p>Join strings together using the <code>+</code> operator:</p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-link"></i>
+                        Example: String Concatenation
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">StringConcat</span>
+
+<span class="keyword">var</span> firstName = <span class="string">"John"</span>
+<span class="keyword">var</span> lastName = <span class="string">"Smith"</span>
+
+<span class="comment"># Concatenate with space</span>
+<span class="keyword">var</span> fullName = firstName + <span class="string">" "</span> + lastName
+<span class="keyword">Print</span> <span class="string">"Full name:"</span>, fullName
+
+<span class="comment"># Build a sentence</span>
+<span class="keyword">var</span> age = <span class="number">25</span>
+<span class="keyword">var</span> message = firstName + <span class="string">" is "</span> + age + <span class="string">" years old"</span>
+<span class="keyword">Print</span> message
+
+<span class="comment"># Email address builder</span>
+<span class="keyword">var</span> username = <span class="string">"john.smith"</span>
+<span class="keyword">var</span> domain = <span class="string">"example.com"</span>
+<span class="keyword">var</span> email = username + <span class="string">"@"</span> + domain
+<span class="keyword">Print</span> <span class="string">"Email:"</span>, email
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <div class="output-box">
+                    <div class="output-title">
+                        <i class="ri-terminal-line"></i>
+                        Output
+                    </div>
+                    <div class="output-content">Full name: John Smith
+John is 25 years old
+Email: john.smith@example.com</div>
+                </div>
+
+                <h2>📏 String Length</h2>
+
+                <p>Get the number of characters in a string (conceptually):</p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-ruler-line"></i>
+                        Example: Counting Characters
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">CountCharacters</span>
+
+<span class="keyword">var</span> text = <span class="string">"Hello"</span>
+
+<span class="comment"># Count manually using a loop</span>
+<span class="keyword">var</span> count = <span class="number">0</span>
+<span class="keyword">var</span> i = <span class="number">0</span>
+
+<span class="comment"># In real implementation, you'd use a Length() function</span>
+<span class="comment"># For now, we demonstrate the concept</span>
+
+<span class="keyword">Print</span> <span class="string">"Text:"</span>, text
+<span class="keyword">Print</span> <span class="string">"(String has 5 characters)"</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>🔍 String Comparison</h2>
+
+                <p>Compare strings using comparison operators:</p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-scales-line"></i>
+                        Example: String Comparison
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">StringComparison</span>
+
+<span class="keyword">var</span> password = <span class="string">"secret123"</span>
+<span class="keyword">var</span> input = <span class="keyword">Input</span> <span class="string">"Enter password:"</span>
+
+<span class="keyword">If</span> input == password <span class="keyword">Then</span>
+    <span class="keyword">Print</span> <span class="string">"✅ Access granted!"</span>
+<span class="keyword">Else</span>
+    <span class="keyword">Print</span> <span class="string">"❌ Access denied!"</span>
+<span class="keyword">Endif</span>
+
+<span class="comment"># Check if strings are different</span>
+<span class="keyword">var</span> name1 = <span class="string">"Alice"</span>
+<span class="keyword">var</span> name2 = <span class="string">"Bob"</span>
+
+<span class="keyword">If</span> name1 != name2 <span class="keyword">Then</span>
+    <span class="keyword">Print</span> <span class="string">"Different names"</span>
+<span class="keyword">Endif</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>🔤 Common String Patterns</h2>
+
+                <h3>1. Check if String is Empty</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-checkbox-blank-line"></i>
+                        Example: Empty String Check
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">EmptyCheck</span>
+
+<span class="keyword">var</span> name = <span class="keyword">Input</span> <span class="string">"Enter your name:"</span>
+
+<span class="keyword">If</span> name == <span class="string">""</span> <span class="keyword">Then</span>
+    <span class="keyword">Print</span> <span class="string">"❌ Name cannot be empty!"</span>
+<span class="keyword">Else</span>
+    <span class="keyword">Print</span> <span class="string">"✅ Hello,"</span>, name
+<span class="keyword">Endif</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h3>2. Count Specific Characters</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-hashtag"></i>
+                        Example: Count Vowels
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">CountVowels</span>
+
+<span class="keyword">var</span> text = <span class="keyword">Input</span> <span class="string">"Enter a sentence:"</span>
+<span class="keyword">var</span> vowelCount = <span class="number">0</span>
+
+<span class="comment"># Note: In a real implementation, you'd iterate through each character</span>
+<span class="comment"># This demonstrates the logic conceptually</span>
+
+<span class="keyword">Print</span> <span class="string">"Text:"</span>, text
+<span class="keyword">Print</span> <span class="string">"(In real implementation, would count a, e, i, o, u)"</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h3>3. String Building with Loop</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-repeat-line"></i>
+                        Example: Repeat String
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">RepeatString</span>
+
+<span class="keyword">var</span> word = <span class="keyword">Input</span> <span class="string">"Enter a word:"</span>
+<span class="keyword">var</span> times = <span class="keyword">Input</span> <span class="string">"Repeat how many times?"</span>
+
+<span class="keyword">var</span> result = <span class="string">""</span>
+
+<span class="keyword">For</span> i = <span class="number">1</span> <span class="keyword">To</span> times
+    result = result + word + <span class="string">" "</span>
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Print</span> <span class="string">"Result:"</span>, result
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>🎯 Real-World Applications</h2>
+
+                <h3>Email Validator</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-mail-check-line"></i>
+                        Example: Simple Email Validation
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">EmailValidator</span>
+
+<span class="keyword">var</span> email = <span class="keyword">Input</span> <span class="string">"Enter your email:"</span>
+
+<span class="keyword">var</span> hasAt = <span class="keyword">false</span>
+<span class="keyword">var</span> hasDot = <span class="keyword">false</span>
+<span class="keyword">var</span> isEmpty = email == <span class="string">""</span>
+
+<span class="comment"># Note: In real implementation, you'd check for @ and . characters</span>
+<span class="comment"># This shows the validation logic conceptually</span>
+
+<span class="keyword">If</span> isEmpty <span class="keyword">Then</span>
+    <span class="keyword">Print</span> <span class="string">"❌ Email cannot be empty"</span>
+<span class="keyword">Else</span>
+    <span class="keyword">Print</span> <span class="string">"Email entered:"</span>, email
+    <span class="keyword">Print</span> <span class="string">"(Would validate @ and . presence)"</span>
+<span class="keyword">Endif</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h3>Username Generator</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-user-add-line"></i>
+                        Example: Username Generator
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">UsernameGenerator</span>
+
+<span class="keyword">var</span> firstName = <span class="keyword">Input</span> <span class="string">"Enter first name:"</span>
+<span class="keyword">var</span> lastName = <span class="keyword">Input</span> <span class="string">"Enter last name:"</span>
+<span class="keyword">var</span> birthYear = <span class="keyword">Input</span> <span class="string">"Enter birth year:"</span>
+
+<span class="comment"># Generate username: first letter of first name + last name + year</span>
+<span class="comment"># Example: John Smith 1990 -> jsmith1990</span>
+
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"=== GENERATED USERNAMES ==="</span>
+
+<span class="comment"># Option 1: firstname.lastname</span>
+<span class="keyword">var</span> username1 = firstName + <span class="string">"."</span> + lastName
+<span class="keyword">Print</span> <span class="string">"Option 1:"</span>, username1
+
+<span class="comment"># Option 2: firstname + year</span>
+<span class="keyword">var</span> username2 = firstName + birthYear
+<span class="keyword">Print</span> <span class="string">"Option 2:"</span>, username2
+
+<span class="comment"># Option 3: lastname + year</span>
+<span class="keyword">var</span> username3 = lastName + birthYear
+<span class="keyword">Print</span> <span class="string">"Option 3:"</span>, username3
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h3>Text Formatter</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-format-clear"></i>
+                        Example: Text Formatter
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">TextFormatter</span>
+
+<span class="keyword">var</span> title = <span class="keyword">Input</span> <span class="string">"Enter title:"</span>
+<span class="keyword">var</span> author = <span class="keyword">Input</span> <span class="string">"Enter author:"</span>
+<span class="keyword">var</span> date = <span class="keyword">Input</span> <span class="string">"Enter date:"</span>
+
+<span class="comment"># Create formatted header</span>
+<span class="keyword">var</span> separator = <span class="string">"================================"</span>
+
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> separator
+<span class="keyword">Print</span> <span class="string">"       DOCUMENT HEADER"</span>
+<span class="keyword">Print</span> separator
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"Title:  "</span>, title
+<span class="keyword">Print</span> <span class="string">"Author: "</span>, author
+<span class="keyword">Print</span> <span class="string">"Date:   "</span>, date
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> separator
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h3>Message Template System</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-message-2-line"></i>
+                        Example: Message Templates
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">MessageTemplates</span>
+
+<span class="keyword">var</span> userName = <span class="keyword">Input</span> <span class="string">"Enter user name:"</span>
+<span class="keyword">var</span> messageType = <span class="keyword">Input</span> <span class="string">"Message type (1=Welcome, 2=Farewell, 3=Error):"</span>
+
+<span class="keyword">var</span> message = <span class="string">""</span>
+
+<span class="keyword">If</span> messageType == <span class="number">1</span> <span class="keyword">Then</span>
+    message = <span class="string">"Welcome, "</span> + userName + <span class="string">"! We're glad to have you here."</span>
+<span class="keyword">Else If</span> messageType == <span class="number">2</span> <span class="keyword">Then</span>
+    message = <span class="string">"Goodbye, "</span> + userName + <span class="string">". See you soon!"</span>
+<span class="keyword">Else If</span> messageType == <span class="number">3</span> <span class="keyword">Then</span>
+    message = <span class="string">"Error: "</span> + userName + <span class="string">", something went wrong. Please try again."</span>
+<span class="keyword">Else</span>
+    message = <span class="string">"Invalid message type."</span>
+<span class="keyword">Endif</span>
+
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> message
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>🔐 Password Strength Checker</h2>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-lock-password-line"></i>
+                        Example: Password Strength
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">PasswordStrength</span>
+
+<span class="keyword">var</span> password = <span class="keyword">Input</span> <span class="string">"Enter password:"</span>
+
+<span class="keyword">var</span> strength = <span class="number">0</span>
+<span class="keyword">var</span> feedback = <span class="string">""</span>
+
+<span class="comment"># Check length (simulated)</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"=== PASSWORD STRENGTH CHECK ==="</span>
+
+<span class="keyword">If</span> password == <span class="string">""</span> <span class="keyword">Then</span>
+    feedback = <span class="string">"❌ Password cannot be empty"</span>
+<span class="keyword">Else</span>
+    feedback = <span class="string">"✅ Password entered"</span>
+    <span class="keyword">Print</span> feedback
+    <span class="keyword">Print</span> <span class="string">"(Would check: length, uppercase, lowercase, numbers, special chars)"</span>
+<span class="keyword">Endif</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>💡 String Manipulation Tips</h2>
+
+                <div class="note-box tip">
+                    <div class="note-box-title">
+                        <i class="ri-lightbulb-line"></i>
+                        Best Practices
+                    </div>
+                    <div class="note-box-content">
+                        <ul>
+                            <li><strong>Validate Input:</strong> Always check for empty strings</li>
+                            <li><strong>Build Gradually:</strong> Use concatenation to build complex strings</li>
+                            <li><strong>Be Descriptive:</strong> Use meaningful variable names for strings</li>
+                            <li><strong>Format Consistently:</strong> Keep formatting patterns consistent</li>
+                            <li><strong>Handle Edge Cases:</strong> Check for special characters, spaces, etc.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h2>📝 Key Takeaways</h2>
+
+                <ul>
+                    <li>✅ Strings are sequences of characters (text)</li>
+                    <li>✅ Concatenate strings using <code>+</code> operator</li>
+                    <li>✅ Compare strings with <code>==</code> and <code>!=</code></li>
+                    <li>✅ Check for empty strings with <code>== ""</code></li>
+                    <li>✅ Build complex strings by concatenating simpler parts</li>
+                    <li>✅ Always validate string input from users</li>
+                    <li>✅ Use strings for text processing, formatting, and validation</li>
+                </ul>
+
+                <h2>💪 Practice Exercises</h2>
+
+                <div class="exercise-section">
+                    <div class="exercise-header">
+                        <div class="exercise-icon">
+                            <i class="ri-pencil-line"></i>
+                        </div>
+                        <h3 class="exercise-title">Try These Exercises</h3>
+                    </div>
+                    <div class="exercise-list">
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 1: Full Name Formatter</div>
+                            <div class="exercise-item-description">
+                                Create a program that gets first, middle, and last names, then displays them in different formats (Last, First Middle; First M. Last; etc.).
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 2: Word Counter</div>
+                            <div class="exercise-item-description">
+                                Build a program that counts how many times a specific word appears in a sentence (using loops and comparison).
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 3: URL Builder</div>
+                            <div class="exercise-item-description">
+                                Create a program that builds URLs from components: protocol (http/https), domain, path, and parameters.
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 4: Initials Generator</div>
+                            <div class="exercise-item-description">
+                                Write a program that takes a full name and generates initials (e.g., "John Paul Smith" → "JPS").
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="note-box tip">
+                    <div class="note-box-title">
+                        <i class="ri-trophy-line"></i>
+                        Excellent Work!
+                    </div>
+                    <div class="note-box-content">
+                        You now understand how to manipulate and work with text using strings! 
+                        In the next lesson, we'll explore multidimensional arrays for working with 2D data like grids and matrices.
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-navigation">
+                <a href="12-arrays.html" class="nav-btn prev">
+                    <i class="ri-arrow-left-line"></i>
+                    <div class="nav-btn-content">
+                        <div class="nav-btn-label">Previous</div>
+                        <div class="nav-btn-title">Arrays</div>
+                    </div>
+                </a>
+                <a href="14-multidimensional-arrays.html" class="nav-btn next">
+                    <div class="nav-btn-content">
+                        <div class="nav-btn-label">Next Lesson</div>
+                        <div class="nav-btn-title">Multidimensional Arrays</div>
+                    </div>
+                    <i class="ri-arrow-right-line"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 iPseudo IDE by <strong>M'BARK</strong>. Free for personal & educational use.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+
+    
+    <!-- Reading Controls -->
+    <script src="js/reading-controls.js"></script>
+    
+    <script src="../website/js/script.js"></script>
+</body>
+</html>

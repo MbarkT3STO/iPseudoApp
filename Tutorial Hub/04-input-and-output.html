@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 4: Input and Output | iPseudo Tutorial</title>
+    <link rel="icon" type="image/svg+xml" href="../website/assets/app-icon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../website/css/style.css">
+    <link rel="stylesheet" href="css/tutorial.css">
+    <link rel="stylesheet" href="css/reading-controls.css">
+</head>
+<body>
+    <div class="background-container">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-pattern"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <a href="index.html" style="display: flex; align-items: center; text-decoration: none; gap: 0.75rem;">
+                    <div class="brand-icon" style="background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); padding: 0.5rem; border-radius: 10px;">
+                        <i class="ri-book-open-line" style="color: white; font-size: 1.5rem;"></i>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.1rem;">
+                        <span class="brand-text" style="font-size: 1.25rem; font-weight: 700; background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">iPseudo</span>
+                        <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; letter-spacing: 0.05em;">TUTORIAL HUB</span>
+                    </div>
+                </a>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="ri-sun-line theme-icon" id="lightIcon"></i>
+                    <i class="ri-moon-line theme-icon hidden" id="darkIcon"></i>
+                </button>
+            </div>
+
+            <div class="navbar-actions">
+                <a href="index.html" class="action-btn demo-btn">
+                    <i class="ri-book-open-line"></i>
+                    <span>All Lessons</span>
+                </a>
+                <a href="https://ipseudoeditor.netlify.app/" target="_blank" class="action-btn demo-btn">
+                    <i class="ri-play-circle-line"></i>
+                    <span>Try Live</span>
+                </a>
+                <a href="https://ipseudo.netlify.app/#download" target="_blank" class="action-btn download-btn">
+                    <i class="ri-download-cloud-line"></i>
+                    <span>Download</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="tutorial-content">
+        <div class="tutorial-container">
+            <div class="tutorial-header">
+                <div class="tutorial-badge">
+                    <i class="ri-seedling-line"></i>
+                    <span>Lesson 4 • Beginner</span>
+                </div>
+                <h1 class="tutorial-title">Input and Output</h1>
+                <div class="tutorial-meta">
+                    <div class="tutorial-meta-item">
+                        <i class="ri-time-line"></i>
+                        <span>15 minutes</span>
+                    </div>
+                    <div class="tutorial-meta-item">
+                        <i class="ri-book-open-line"></i>
+                        <span>Foundation</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-body">
+                <h2>🎤 Making Programs Interactive</h2>
+                
+                <p>
+                    So far, our programs have been static - they do the same thing every time. But real programs need to 
+                    interact with users! In this lesson, you'll learn how to get input from users and display customized output.
+                </p>
+
+                <div class="note-box info">
+                    <div class="note-box-title">
+                        <i class="ri-information-line"></i>
+                        Why Interactive Programs?
+                    </div>
+                    <div class="note-box-content">
+                        Interactive programs can adapt to different situations and users. They can ask questions, 
+                        receive answers, process data, and provide personalized results - making them much more useful!
+                    </div>
+                </div>
+
+                <h2>📥 Getting User Input</h2>
+
+                <p>The <code>Input</code> keyword lets your program ask questions and wait for the user to provide answers.</p>
+
+                <h3>Basic Input Syntax</h3>
+                <pre><code><span class="keyword">var</span> variableName = <span class="keyword">Input</span> <span class="string">"Your question here?"</span></code></pre>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-user-line"></i>
+                        Example: Simple Input
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">SimpleInput</span>
+
+<span class="keyword">var</span> userName = <span class="keyword">Input</span> <span class="string">"What is your name?"</span>
+<span class="keyword">Print</span> <span class="string">"Hello,"</span>, userName, <span class="string">"!"</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <div class="output-box">
+                    <div class="output-title">
+                        <i class="ri-terminal-line"></i>
+                        Example Session
+                    </div>
+                    <div class="output-content">What is your name? Alice
+Hello, Alice !</div>
+                </div>
+
+                <h3>How Input Works</h3>
+                <ol>
+                    <li>Program displays the prompt message</li>
+                    <li>Program pauses and waits for user input</li>
+                    <li>User types their response and presses Enter</li>
+                    <li>Value is stored in the variable</li>
+                    <li>Program continues execution</li>
+                </ol>
+
+                <h2>📤 Displaying Output</h2>
+
+                <p>You've been using <code>Print</code> already, but let's explore all its capabilities!</p>
+
+                <h3>Printing Text</h3>
+                <pre><code><span class="keyword">Print</span> <span class="string">"Hello, World!"</span></code></pre>
+
+                <h3>Printing Variables</h3>
+                <pre><code><span class="keyword">var</span> name = <span class="string">"Alice"</span>
+<span class="keyword">Print</span> name</code></pre>
+
+                <h3>Printing Multiple Items</h3>
+                <pre><code><span class="keyword">Print</span> <span class="string">"Name:"</span>, name, <span class="string">"-  Age:"</span>, age</code></pre>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-printer-line"></i>
+                        Example: Various Print Styles
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">PrintExamples</span>
+
+<span class="keyword">var</span> name = <span class="string">"Bob"</span>
+<span class="keyword">var</span> age = <span class="number">25</span>
+<span class="keyword">var</span> city = <span class="string">"Paris"</span>
+
+<span class="comment"># Different ways to print</span>
+<span class="keyword">Print</span> name
+<span class="keyword">Print</span> <span class="string">"Age:"</span>, age
+<span class="keyword">Print</span> name, <span class="string">"lives in"</span>, city
+<span class="keyword">Print</span> <span class="string">""</span>  <span class="comment"># Empty line</span>
+<span class="keyword">Print</span> name, <span class="string">"is"</span>, age, <span class="string">"years old"</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <div class="output-box">
+                    <div class="output-title">
+                        <i class="ri-terminal-line"></i>
+                        Output
+                    </div>
+                    <div class="output-content">Bob
+Age: 25
+Bob lives in Paris
+
+Bob is 25 years old</div>
+                </div>
+
+                <h2>🔄 Interactive Program Example</h2>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-chat-3-line"></i>
+                        Complete Example: Personal Greeting
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">PersonalGreeting</span>
+
+<span class="comment"># Get user information</span>
+<span class="keyword">var</span> name = <span class="keyword">Input</span> <span class="string">"What is your name?"</span>
+<span class="keyword">var</span> age = <span class="keyword">Input</span> <span class="string">"How old are you?"</span>
+<span class="keyword">var</span> hobby = <span class="keyword">Input</span> <span class="string">"What is your favorite hobby?"</span>
+
+<span class="comment"># Display personalized message</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"=============================="</span>
+<span class="keyword">Print</span> <span class="string">"    PERSONAL PROFILE"</span>
+<span class="keyword">Print</span> <span class="string">"=============================="</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"Hello,"</span>, name, <span class="string">"!"</span>
+<span class="keyword">Print</span> <span class="string">"You are"</span>, age, <span class="string">"years old."</span>
+<span class="keyword">Print</span> <span class="string">"You enjoy"</span>, hobby, <span class="string">"!"</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"Nice to meet you!"</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <div class="output-box">
+                    <div class="output-title">
+                        <i class="ri-terminal-line"></i>
+                        Example Session
+                    </div>
+                    <div class="output-content">What is your name? Alice
+How old are you? 22
+What is your favorite hobby? painting
+
+==============================
+    PERSONAL PROFILE
+==============================
+
+Hello, Alice !
+You are 22 years old.
+You enjoy painting !
+
+Nice to meet you!</div>
+                </div>
+
+                <h2>🧮 Working with Numbers</h2>
+
+                <p>When you get input, you can use it in calculations:</p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-calculator-line"></i>
+                        Example: Simple Calculator
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">SimpleCalculator</span>
+
+<span class="keyword">Print</span> <span class="string">"=== Simple Calculator ==="</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="comment"># Get numbers from user</span>
+<span class="keyword">var</span> num1 = <span class="keyword">Input</span> <span class="string">"Enter first number:"</span>
+<span class="keyword">var</span> num2 = <span class="keyword">Input</span> <span class="string">"Enter second number:"</span>
+
+<span class="comment"># Perform calculations</span>
+<span class="keyword">var</span> sum = num1 + num2
+<span class="keyword">var</span> difference = num1 - num2
+<span class="keyword">var</span> product = num1 * num2
+<span class="keyword">var</span> quotient = num1 / num2
+
+<span class="comment"># Display results</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"Results:"</span>
+<span class="keyword">Print</span> <span class="string">"---------"</span>
+<span class="keyword">Print</span> num1, <span class="string">"+"</span>, num2, <span class="string">"="</span>, sum
+<span class="keyword">Print</span> num1, <span class="string">"-"</span>, num2, <span class="string">"="</span>, difference
+<span class="keyword">Print</span> num1, <span class="string">"×"</span>, num2, <span class="string">"="</span>, product
+<span class="keyword">Print</span> num1, <span class="string">"÷"</span>, num2, <span class="string">"="</span>, quotient
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>💡 Tips for Good Input/Output</h2>
+
+                <h3>1. Clear Prompts</h3>
+                <div class="note-box tip">
+                    <div class="note-box-title">
+                        <i class="ri-lightbulb-line"></i>
+                        Use Descriptive Prompts
+                    </div>
+                    <div class="note-box-content">
+                        <p>❌ Bad: <code>Input "?"</code></p>
+                        <p>✅ Good: <code>Input "Enter your age in years:"</code></p>
+                        <p>Clear prompts help users understand what information you need.</p>
+                    </div>
+                </div>
+
+                <h3>2. Formatted Output</h3>
+                <p>Make your output easy to read with labels and spacing:</p>
+                <pre><code><span class="comment"># Add spacing and labels</span>
+<span class="keyword">Print</span> <span class="string">""</span>  <span class="comment"># Empty line for spacing</span>
+<span class="keyword">Print</span> <span class="string">"Name:"</span>, name  <span class="comment"># Label the data</span>
+<span class="keyword">Print</span> <span class="string">"---"</span>  <span class="comment"># Visual separators</span></code></pre>
+
+                <h3>3. User-Friendly Messages</h3>
+                <p>Make your program feel conversational and helpful:</p>
+                <pre><code><span class="keyword">Print</span> <span class="string">"Welcome to the program!"</span>
+<span class="keyword">Print</span> <span class="string">"Please enter your information:"</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="comment"># ... get input ...</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"Thank you!"</span></code></pre>
+
+                <h2>🎯 Real-World Examples</h2>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-shopping-bag-line"></i>
+                        Example: Shopping Total Calculator
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">ShoppingCalculator</span>
+
+<span class="keyword">Print</span> <span class="string">"=== SHOPPING CALCULATOR ==="</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="comment"># Get product information</span>
+<span class="keyword">var</span> productName = <span class="keyword">Input</span> <span class="string">"Product name:"</span>
+<span class="keyword">var</span> price = <span class="keyword">Input</span> <span class="string">"Price per item:"</span>
+<span class="keyword">var</span> quantity = <span class="keyword">Input</span> <span class="string">"Quantity:"</span>
+
+<span class="comment"># Calculate total</span>
+<span class="keyword">var</span> subtotal = price * quantity
+<span class="keyword">var</span> tax = subtotal * <span class="number">0.08</span>  <span class="comment"># 8% tax</span>
+<span class="keyword">var</span> total = subtotal + tax
+
+<span class="comment"># Display receipt</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"==============================="</span>
+<span class="keyword">Print</span> <span class="string">"         RECEIPT"</span>
+<span class="keyword">Print</span> <span class="string">"==============================="</span>
+<span class="keyword">Print</span> <span class="string">"Product:"</span>, productName
+<span class="keyword">Print</span> <span class="string">"Price:"</span>, price
+<span class="keyword">Print</span> <span class="string">"Quantity:"</span>, quantity
+<span class="keyword">Print</span> <span class="string">"-------------------------------"</span>
+<span class="keyword">Print</span> <span class="string">"Subtotal: $"</span>, subtotal
+<span class="keyword">Print</span> <span class="string">"Tax (8%): $"</span>, tax
+<span class="keyword">Print</span> <span class="string">"==============================="</span>
+<span class="keyword">Print</span> <span class="string">"TOTAL: $"</span>, total
+<span class="keyword">Print</span> <span class="string">"==============================="</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-temp-hot-line"></i>
+                        Example: Temperature Converter
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">TempConverter</span>
+
+<span class="keyword">Print</span> <span class="string">"=== Temperature Converter ==="</span>
+<span class="keyword">Print</span> <span class="string">"(Celsius to Fahrenheit)"</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="comment"># Get temperature from user</span>
+<span class="keyword">var</span> celsius = <span class="keyword">Input</span> <span class="string">"Enter temperature in Celsius:"</span>
+
+<span class="comment"># Convert: F = C × 9/5 + 32</span>
+<span class="keyword">var</span> fahrenheit = celsius * <span class="number">9</span> / <span class="number">5</span> + <span class="number">32</span>
+
+<span class="comment"># Display result</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> celsius, <span class="string">"°C ="</span>, fahrenheit, <span class="string">"°F"</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>📋 Quick Reference</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Operation</th>
+                            <th>Syntax</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Get Input</td>
+                            <td><code>var x = Input "prompt"</code></td>
+                            <td><code>var name = Input "Name?"</code></td>
+                        </tr>
+                        <tr>
+                            <td>Print Text</td>
+                            <td><code>Print "text"</code></td>
+                            <td><code>Print "Hello"</code></td>
+                        </tr>
+                        <tr>
+                            <td>Print Variable</td>
+                            <td><code>Print variable</code></td>
+                            <td><code>Print name</code></td>
+                        </tr>
+                        <tr>
+                            <td>Print Multiple</td>
+                            <td><code>Print item1, item2</code></td>
+                            <td><code>Print "Age:", age</code></td>
+                        </tr>
+                        <tr>
+                            <td>Empty Line</td>
+                            <td><code>Print ""</code></td>
+                            <td><code>Print ""</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>📝 Key Takeaways</h2>
+
+                <ul>
+                    <li>✅ Use <code>Input</code> to get data from users</li>
+                    <li>✅ Use <code>Print</code> to display text and variables</li>
+                    <li>✅ You can print multiple items separated by commas</li>
+                    <li>✅ Input values can be used in calculations</li>
+                    <li>✅ Clear prompts and formatted output make programs user-friendly</li>
+                    <li>✅ Use empty lines (<code>Print ""</code>) to improve readability</li>
+                </ul>
+
+                <h2>💪 Practice Exercises</h2>
+
+                <div class="exercise-section">
+                    <div class="exercise-header">
+                        <div class="exercise-icon">
+                            <i class="ri-pencil-line"></i>
+                        </div>
+                        <h3 class="exercise-title">Try These Exercises</h3>
+                    </div>
+                    <div class="exercise-list">
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 1: Personal Info Card</div>
+                            <div class="exercise-item-description">
+                                Create a program that asks for name, age, email, and phone number, then displays them in a nicely formatted card.
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 2: Distance Converter</div>
+                            <div class="exercise-item-description">
+                                Get a distance in kilometers from the user and convert it to miles (1 km = 0.621371 miles). Display both values.
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 3: Circle Calculator</div>
+                            <div class="exercise-item-description">
+                                Ask for a circle's radius, then calculate and display both the area (π × r²) and circumference (2 × π × r).
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 4: Tip Calculator</div>
+                            <div class="exercise-item-description">
+                                Get a restaurant bill amount, calculate 15% tip and 20% tip, then display both options with the total for each.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="note-box tip">
+                    <div class="note-box-title">
+                        <i class="ri-trophy-line"></i>
+                        Excellent Work!
+                    </div>
+                    <div class="note-box-content">
+                        You can now create interactive programs that communicate with users! In the next lesson, 
+                        we'll explore operators to perform more complex calculations and comparisons.
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-navigation">
+                <a href="03-variables-and-data-types.html" class="nav-btn prev">
+                    <i class="ri-arrow-left-line"></i>
+                    <div class="nav-btn-content">
+                        <div class="nav-btn-label">Previous</div>
+                        <div class="nav-btn-title">Variables and Data Types</div>
+                    </div>
+                </a>
+                <a href="05-operators.html" class="nav-btn next">
+                    <div class="nav-btn-content">
+                        <div class="nav-btn-label">Next Lesson</div>
+                        <div class="nav-btn-title">Operators</div>
+                    </div>
+                    <i class="ri-arrow-right-line"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 iPseudo IDE by <strong>M'BARK</strong>. Free for personal & educational use.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+
+    
+    <!-- Reading Controls -->
+    <script src="js/reading-controls.js"></script>
+    
+    <script src="../website/js/script.js"></script>
+</body>
+</html>

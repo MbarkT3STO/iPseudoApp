@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 19: Algorithm Design Patterns | iPseudo Tutorial</title>
+    <link rel="icon" type="image/svg+xml" href="../website/assets/app-icon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../website/css/style.css">
+    <link rel="stylesheet" href="css/tutorial.css">
+    <link rel="stylesheet" href="css/reading-controls.css">
+</head>
+<body>
+    <div class="background-container">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-pattern"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <a href="index.html" style="display: flex; align-items: center; text-decoration: none; gap: 0.75rem;">
+                    <div class="brand-icon" style="background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); padding: 0.5rem; border-radius: 10px;">
+                        <i class="ri-book-open-line" style="color: white; font-size: 1.5rem;"></i>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.1rem;">
+                        <span class="brand-text" style="font-size: 1.25rem; font-weight: 700; background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">iPseudo</span>
+                        <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; letter-spacing: 0.05em;">TUTORIAL HUB</span>
+                    </div>
+                </a>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="ri-sun-line theme-icon" id="lightIcon"></i>
+                    <i class="ri-moon-line theme-icon hidden" id="darkIcon"></i>
+                </button>
+            </div>
+
+            <div class="navbar-actions">
+                <a href="index.html" class="action-btn demo-btn">
+                    <i class="ri-book-open-line"></i>
+                    <span>All Lessons</span>
+                </a>
+                <a href="https://ipseudoeditor.netlify.app/" target="_blank" class="action-btn demo-btn">
+                    <i class="ri-play-circle-line"></i>
+                    <span>Try Live</span>
+                </a>
+                <a href="https://ipseudo.netlify.app/#download" target="_blank" class="action-btn download-btn">
+                    <i class="ri-download-cloud-line"></i>
+                    <span>Download</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="tutorial-content">
+        <div class="tutorial-container">
+            <div class="tutorial-header">
+                <div class="tutorial-badge">
+                    <i class="ri-rocket-line"></i>
+                    <span>Lesson 19 • Advanced</span>
+                </div>
+                <h1 class="tutorial-title">Algorithm Design Patterns</h1>
+                <div class="tutorial-meta">
+                    <div class="tutorial-meta-item">
+                        <i class="ri-time-line"></i>
+                        <span>35 minutes</span>
+                    </div>
+                    <div class="tutorial-meta-item">
+                        <i class="ri-book-open-line"></i>
+                        <span>Problem Solving</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-body">
+                <h2>🎯 What are Algorithm Design Patterns?</h2>
+                
+                <p>
+                    <strong>Algorithm design patterns</strong> are general, reusable approaches to solving common programming problems. 
+                    They're like problem-solving templates that you can adapt to different situations.
+                </p>
+
+                <div class="note-box info">
+                    <div class="note-box-title">
+                        <i class="ri-information-line"></i>
+                        Why Learn Patterns?
+                    </div>
+                    <div class="note-box-content">
+                        <ul>
+                            <li><strong>Faster problem solving:</strong> Recognize patterns and apply known solutions</li>
+                            <li><strong>Better efficiency:</strong> Proven approaches that work well</li>
+                            <li><strong>Communication:</strong> Share solutions using common vocabulary</li>
+                            <li><strong>Interview success:</strong> Pattern recognition is key in technical interviews</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h2>🎲 1. Two Pointer Technique</h2>
+
+                <p>
+                    Use two pointers (indices) to traverse an array from different positions. Common in array problems.
+                </p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-arrow-left-right-line"></i>
+                        Example: Two Pointer - Palindrome Check
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">PalindromeCheck</span>
+
+<span class="keyword">Function</span> <span class="function">IsPalindrome</span>(arr, size)
+    <span class="keyword">var</span> left = <span class="number">0</span>
+    <span class="keyword">var</span> right = size - <span class="number">1</span>
+    
+    <span class="keyword">While</span> left < right <span class="keyword">Do</span>
+        <span class="keyword">If</span> arr[left] != arr[right] <span class="keyword">Then</span>
+            <span class="keyword">Return</span> <span class="keyword">false</span>
+        <span class="keyword">Endif</span>
+        
+        left = left + <span class="number">1</span>
+        right = right - <span class="number">1</span>
+    <span class="keyword">Endwhile</span>
+    
+    <span class="keyword">Return</span> <span class="keyword">true</span>
+<span class="keyword">Endfunction</span>
+
+<span class="keyword">var</span> test1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>]
+<span class="keyword">var</span> test2 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]
+
+<span class="keyword">Print</span> <span class="string">"[1,2,3,2,1] is palindrome:"</span>, <span class="function">IsPalindrome</span>(test1, <span class="number">5</span>)
+<span class="keyword">Print</span> <span class="string">"[1,2,3,4,5] is palindrome:"</span>, <span class="function">IsPalindrome</span>(test2, <span class="number">5</span>)
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>📦 2. Sliding Window</h2>
+
+                <p>
+                    Maintain a "window" of elements and slide it through the array. Great for finding subarrays or sequences.
+                </p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-window-line"></i>
+                        Example: Maximum Sum Subarray (Fixed Size)
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">MaxSumWindow</span>
+
+<span class="keyword">var</span> arr = [<span class="number">2</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">2</span>]
+<span class="keyword">var</span> windowSize = <span class="number">3</span>
+<span class="keyword">var</span> n = <span class="number">6</span>
+
+<span class="comment"># Calculate first window sum</span>
+<span class="keyword">var</span> windowSum = <span class="number">0</span>
+<span class="keyword">For</span> i = <span class="number">0</span> <span class="keyword">To</span> windowSize - <span class="number">1</span>
+    windowSum = windowSum + arr[i]
+<span class="keyword">Endfor</span>
+
+<span class="keyword">var</span> maxSum = windowSum
+
+<span class="comment"># Slide window through array</span>
+<span class="keyword">For</span> i = windowSize <span class="keyword">To</span> n - <span class="number">1</span>
+    <span class="comment"># Remove leftmost element, add new element</span>
+    windowSum = windowSum - arr[i - windowSize] + arr[i]
+    
+    <span class="keyword">If</span> windowSum > maxSum <span class="keyword">Then</span>
+        maxSum = windowSum
+    <span class="keyword">Endif</span>
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Print</span> <span class="string">"Maximum sum of 3 consecutive elements:"</span>, maxSum
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>🎲 3. Greedy Algorithm</h2>
+
+                <p>
+                    Make the locally optimal choice at each step, hoping to find a global optimum. Works well for certain problems.
+                </p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-coin-line"></i>
+                        Example: Coin Change (Greedy)
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">CoinChange</span>
+
+<span class="keyword">var</span> amount = <span class="keyword">Input</span> <span class="string">"Enter amount (cents):"</span>
+
+<span class="keyword">var</span> coins = [<span class="number">25</span>, <span class="number">10</span>, <span class="number">5</span>, <span class="number">1</span>]  <span class="comment"># Quarters, dimes, nickels, pennies</span>
+<span class="keyword">var</span> coinNames = [<span class="string">"quarters"</span>, <span class="string">"dimes"</span>, <span class="string">"nickels"</span>, <span class="string">"pennies"</span>]
+<span class="keyword">var</span> coinCount[<span class="number">4</span>]
+
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"=== MAKING CHANGE ==="</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="keyword">For</span> i = <span class="number">0</span> <span class="keyword">To</span> <span class="number">3</span>
+    coinCount[i] = amount / coins[i]  <span class="comment"># Integer division</span>
+    amount = amount <span class="keyword">mod</span> coins[i]  <span class="comment"># Remaining amount</span>
+    
+    <span class="keyword">If</span> coinCount[i] > <span class="number">0</span> <span class="keyword">Then</span>
+        <span class="keyword">Print</span> coinCount[i], coinNames[i]
+    <span class="keyword">Endif</span>
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>🔄 4. Divide and Conquer</h2>
+
+                <p>
+                    Break a problem into smaller sub-problems, solve them independently, then combine the results.
+                </p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-scissors-line"></i>
+                        Example: Find Maximum (Divide & Conquer)
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">DivideConquerMax</span>
+
+<span class="keyword">Function</span> <span class="function">FindMax</span>(arr, left, right)
+    <span class="comment"># BASE CASE: single element</span>
+    <span class="keyword">If</span> left == right <span class="keyword">Then</span>
+        <span class="keyword">Return</span> arr[left]
+    <span class="keyword">Endif</span>
+    
+    <span class="comment"># DIVIDE: split into two halves</span>
+    <span class="keyword">var</span> mid = (left + right) / <span class="number">2</span>
+    
+    <span class="comment"># CONQUER: find max in each half</span>
+    <span class="keyword">var</span> leftMax = <span class="function">FindMax</span>(arr, left, mid)
+    <span class="keyword">var</span> rightMax = <span class="function">FindMax</span>(arr, mid + <span class="number">1</span>, right)
+    
+    <span class="comment"># COMBINE: return the greater of two maxes</span>
+    <span class="keyword">If</span> leftMax > rightMax <span class="keyword">Then</span>
+        <span class="keyword">Return</span> leftMax
+    <span class="keyword">Else</span>
+        <span class="keyword">Return</span> rightMax
+    <span class="keyword">Endif</span>
+<span class="keyword">Endfunction</span>
+
+<span class="keyword">var</span> numbers = [<span class="number">3</span>, <span class="number">41</span>, <span class="number">52</span>, <span class="number">26</span>, <span class="number">38</span>, <span class="number">57</span>, <span class="number">9</span>, <span class="number">49</span>]
+<span class="keyword">var</span> max = <span class="function">FindMax</span>(numbers, <span class="number">0</span>, <span class="number">7</span>)
+
+<span class="keyword">Print</span> <span class="string">"Maximum value:"</span>, max
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>🎯 5. Dynamic Programming (Introduction)</h2>
+
+                <p>
+                    <strong>Dynamic Programming</strong> solves complex problems by breaking them down and storing solutions 
+                    to sub-problems to avoid redundant calculations.
+                </p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-save-line"></i>
+                        Example: Fibonacci with Memoization
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">FibonacciDP</span>
+
+<span class="keyword">var</span> memo[<span class="number">100</span>]  <span class="comment"># Store calculated values</span>
+
+<span class="comment"># Initialize memo array</span>
+<span class="keyword">For</span> i = <span class="number">0</span> <span class="keyword">To</span> <span class="number">99</span>
+    memo[i] = <span class="number">-1</span>  <span class="comment"># -1 means not calculated yet</span>
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Function</span> <span class="function">Fib</span>(n)
+    <span class="comment"># BASE CASES</span>
+    <span class="keyword">If</span> n == <span class="number">0</span> <span class="keyword">Then</span>
+        <span class="keyword">Return</span> <span class="number">0</span>
+    <span class="keyword">Else If</span> n == <span class="number">1</span> <span class="keyword">Then</span>
+        <span class="keyword">Return</span> <span class="number">1</span>
+    <span class="keyword">Endif</span>
+    
+    <span class="comment"># Check if already calculated</span>
+    <span class="keyword">If</span> memo[n] != <span class="number">-1</span> <span class="keyword">Then</span>
+        <span class="keyword">Return</span> memo[n]  <span class="comment"># Return stored value</span>
+    <span class="keyword">Endif</span>
+    
+    <span class="comment"># Calculate and store</span>
+    memo[n] = <span class="function">Fib</span>(n - <span class="number">1</span>) + <span class="function">Fib</span>(n - <span class="number">2</span>)
+    <span class="keyword">Return</span> memo[n]
+<span class="keyword">Endfunction</span>
+
+<span class="keyword">Print</span> <span class="string">"Fibonacci numbers:"</span>
+<span class="keyword">For</span> i = <span class="number">0</span> <span class="keyword">To</span> <span class="number">10</span>
+    <span class="keyword">Print</span> <span class="string">"F("</span>, i, <span class="string">") ="</span>, <span class="function">Fib</span>(i)
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>🔢 6. Counting Pattern</h2>
+
+                <p>Track occurrences or frequencies of elements using counters or frequency arrays.</p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-bar-chart-line"></i>
+                        Example: Frequency Counter
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">FrequencyCounter</span>
+
+<span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">1</span>]
+<span class="keyword">var</span> frequency[<span class="number">6</span>]  <span class="comment"># For numbers 0-5</span>
+
+<span class="comment"># Initialize frequency array</span>
+<span class="keyword">For</span> i = <span class="number">0</span> <span class="keyword">To</span> <span class="number">5</span>
+    frequency[i] = <span class="number">0</span>
+<span class="keyword">Endfor</span>
+
+<span class="comment"># Count occurrences</span>
+<span class="keyword">For</span> i = <span class="number">0</span> <span class="keyword">To</span> <span class="function">Size</span>(arr) - <span class="number">1</span>
+    <span class="keyword">var</span> value = arr[i]
+    frequency[value] = frequency[value] + <span class="number">1</span>
+<span class="keyword">Endfor</span>
+
+<span class="comment"># Display frequencies</span>
+<span class="keyword">Print</span> <span class="string">"=== FREQUENCY TABLE ==="</span>
+<span class="keyword">For</span> i = <span class="number">1</span> <span class="keyword">To</span> <span class="number">5</span>
+    <span class="keyword">If</span> frequency[i] > <span class="number">0</span> <span class="keyword">Then</span>
+        <span class="keyword">Print</span> <span class="string">"Number"</span>, i, <span class="string">"appears"</span>, frequency[i], <span class="string">"times"</span>
+    <span class="keyword">Endif</span>
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>🎨 7. Pattern Matching</h2>
+
+                <p>Search for patterns or subsequences within data.</p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-search-eye-line"></i>
+                        Example: Find Pattern in Array
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">PatternSearch</span>
+
+<span class="keyword">var</span> data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">2</span>, <span class="number">3</span>]
+<span class="keyword">var</span> pattern = [<span class="number">2</span>, <span class="number">3</span>]
+
+<span class="keyword">var</span> dataSize = <span class="number">10</span>
+<span class="keyword">var</span> patternSize = <span class="number">2</span>
+
+<span class="keyword">Print</span> <span class="string">"Searching for pattern [2,3]..."</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="keyword">var</span> foundCount = <span class="number">0</span>
+
+<span class="keyword">For</span> i = <span class="number">0</span> <span class="keyword">To</span> dataSize - patternSize
+    <span class="keyword">var</span> match = <span class="keyword">true</span>
+    
+    <span class="comment"># Check if pattern matches at position i</span>
+    <span class="keyword">For</span> j = <span class="number">0</span> <span class="keyword">To</span> patternSize - <span class="number">1</span>
+        <span class="keyword">If</span> data[i + j] != pattern[j] <span class="keyword">Then</span>
+            match = <span class="keyword">false</span>
+        <span class="keyword">Endif</span>
+    <span class="keyword">Endfor</span>
+    
+    <span class="keyword">If</span> match == <span class="keyword">true</span> <span class="keyword">Then</span>
+        <span class="keyword">Print</span> <span class="string">"✅ Pattern found at index"</span>, i
+        foundCount = foundCount + <span class="number">1</span>
+    <span class="keyword">Endif</span>
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"Total matches:"</span>, foundCount
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>📊 Pattern Selection Guide</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Pattern</th>
+                            <th>When to Use</th>
+                            <th>Example Problems</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Two Pointer</strong></td>
+                            <td>Array traversal from both ends</td>
+                            <td>Palindrome, pair sum</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sliding Window</strong></td>
+                            <td>Contiguous subarray problems</td>
+                            <td>Max sum, substring search</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Greedy</strong></td>
+                            <td>Local optimal leads to global</td>
+                            <td>Coin change, scheduling</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Divide & Conquer</strong></td>
+                            <td>Break into independent parts</td>
+                            <td>Merge sort, binary search</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dynamic Programming</strong></td>
+                            <td>Overlapping sub-problems</td>
+                            <td>Fibonacci, shortest path</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>📝 Key Takeaways</h2>
+
+                <ul>
+                    <li>✅ Design patterns are reusable problem-solving approaches</li>
+                    <li>✅ <strong>Two Pointer:</strong> Traverse from both ends</li>
+                    <li>✅ <strong>Sliding Window:</strong> Process contiguous subarrays</li>
+                    <li>✅ <strong>Greedy:</strong> Make optimal choice at each step</li>
+                    <li>✅ <strong>Divide & Conquer:</strong> Break into smaller problems</li>
+                    <li>✅ <strong>Dynamic Programming:</strong> Store solutions to avoid recalculation</li>
+                    <li>✅ Recognize patterns to solve problems faster</li>
+                </ul>
+
+                <h2>💪 Practice Exercises</h2>
+
+                <div class="exercise-section">
+                    <div class="exercise-header">
+                        <div class="exercise-icon">
+                            <i class="ri-pencil-line"></i>
+                        </div>
+                        <h3 class="exercise-title">Try These Exercises</h3>
+                    </div>
+                    <div class="exercise-list">
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 1: Two Sum Problem</div>
+                            <div class="exercise-item-description">
+                                Use two pointers to find two numbers in a sorted array that add up to a target sum.
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 2: Maximum Average Subarray</div>
+                            <div class="exercise-item-description">
+                                Use sliding window to find the contiguous subarray of size K with the maximum average.
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 3: Activity Selection</div>
+                            <div class="exercise-item-description">
+                                Use greedy algorithm to select maximum number of non-overlapping activities.
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 4: Climbing Stairs</div>
+                            <div class="exercise-item-description">
+                                Use dynamic programming: ways to climb N stairs if you can take 1 or 2 steps at a time.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="note-box tip">
+                    <div class="note-box-title">
+                        <i class="ri-trophy-line"></i>
+                        Outstanding Work!
+                    </div>
+                    <div class="note-box-content">
+                        You now understand powerful algorithm design patterns! 
+                        In the final lesson, we'll cover best practices and optimization techniques to write professional-quality code.
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-navigation">
+                <a href="18-data-structures.html" class="nav-btn prev">
+                    <i class="ri-arrow-left-line"></i>
+                    <div class="nav-btn-content">
+                        <div class="nav-btn-label">Previous</div>
+                        <div class="nav-btn-title">Data Structures</div>
+                    </div>
+                </a>
+                <a href="20-best-practices.html" class="nav-btn next">
+                    <div class="nav-btn-content">
+                        <div class="nav-btn-label">Final Lesson</div>
+                        <div class="nav-btn-title">Best Practices & Optimization</div>
+                    </div>
+                    <i class="ri-arrow-right-line"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 iPseudo IDE by <strong>M'BARK</strong>. Free for personal & educational use.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+
+    
+    <!-- Reading Controls -->
+    <script src="js/reading-controls.js"></script>
+    
+    <script src="../website/js/script.js"></script>
+</body>
+</html>

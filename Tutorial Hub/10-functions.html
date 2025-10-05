@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 10: Functions | iPseudo Tutorial</title>
+    <link rel="icon" type="image/svg+xml" href="../website/assets/app-icon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../website/css/style.css">
+    <link rel="stylesheet" href="css/tutorial.css">
+    <link rel="stylesheet" href="css/reading-controls.css">
+</head>
+<body>
+    <div class="background-container">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-pattern"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <a href="index.html" style="display: flex; align-items: center; text-decoration: none; gap: 0.75rem;">
+                    <div class="brand-icon" style="background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); padding: 0.5rem; border-radius: 10px;">
+                        <i class="ri-book-open-line" style="color: white; font-size: 1.5rem;"></i>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.1rem;">
+                        <span class="brand-text" style="font-size: 1.25rem; font-weight: 700; background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">iPseudo</span>
+                        <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; letter-spacing: 0.05em;">TUTORIAL HUB</span>
+                    </div>
+                </a>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="ri-sun-line theme-icon" id="lightIcon"></i>
+                    <i class="ri-moon-line theme-icon hidden" id="darkIcon"></i>
+                </button>
+            </div>
+
+            <div class="navbar-actions">
+                <a href="index.html" class="action-btn demo-btn">
+                    <i class="ri-book-open-line"></i>
+                    <span>All Lessons</span>
+                </a>
+                <a href="https://ipseudoeditor.netlify.app/" target="_blank" class="action-btn demo-btn">
+                    <i class="ri-play-circle-line"></i>
+                    <span>Try Live</span>
+                </a>
+                <a href="https://ipseudo.netlify.app/#download" target="_blank" class="action-btn download-btn">
+                    <i class="ri-download-cloud-line"></i>
+                    <span>Download</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="tutorial-content">
+        <div class="tutorial-container">
+            <div class="tutorial-header">
+                <div class="tutorial-badge">
+                    <i class="ri-plant-line"></i>
+                    <span>Lesson 10 • Intermediate</span>
+                </div>
+                <h1 class="tutorial-title">Functions</h1>
+                <div class="tutorial-meta">
+                    <div class="tutorial-meta-item">
+                        <i class="ri-time-line"></i>
+                        <span>25 minutes</span>
+                    </div>
+                    <div class="tutorial-meta-item">
+                        <i class="ri-book-open-line"></i>
+                        <span>Reusability</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-body">
+                <h2>🔧 What are Functions?</h2>
+                
+                <p>
+                    <strong>Functions</strong> are reusable blocks of code that perform a specific task and <strong>return a value</strong>. 
+                    They help you avoid repeating code and make your programs more organized and easier to maintain.
+                </p>
+
+                <div class="note-box info">
+                    <div class="note-box-title">
+                        <i class="ri-information-line"></i>
+                        Why Use Functions?
+                    </div>
+                    <div class="note-box-content">
+                        <ul>
+                            <li><strong>DRY Principle:</strong> Don't Repeat Yourself - write once, use many times</li>
+                            <li><strong>Organization:</strong> Break complex problems into smaller pieces</li>
+                            <li><strong>Reusability:</strong> Use the same code in multiple places</li>
+                            <li><strong>Testing:</strong> Easier to test small functions than large programs</li>
+                            <li><strong>Collaboration:</strong> Team members can work on different functions</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h2>📐 Function Syntax</h2>
+
+                <pre><code><span class="keyword">Function</span> <span class="function">FunctionName</span>(parameters)
+    <span class="comment"># Function code</span>
+    <span class="keyword">Return</span> result
+<span class="keyword">Endfunction</span></code></pre>
+
+                <h3>Calling a Function</h3>
+                <pre><code><span class="keyword">var</span> result = <span class="function">FunctionName</span>(arguments)</code></pre>
+
+                <h2>🎯 Simple Function Example</h2>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-function-line"></i>
+                        Example: Basic Function
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">FunctionDemo</span>
+
+<span class="comment"># Define the function</span>
+<span class="keyword">Function</span> <span class="function">AddNumbers</span>(a, b)
+    <span class="keyword">var</span> sum = a + b
+    <span class="keyword">Return</span> sum
+<span class="keyword">Endfunction</span>
+
+<span class="comment"># Use the function</span>
+<span class="keyword">var</span> result1 = <span class="function">AddNumbers</span>(<span class="number">5</span>, <span class="number">3</span>)
+<span class="keyword">var</span> result2 = <span class="function">AddNumbers</span>(<span class="number">10</span>, <span class="number">20</span>)
+
+<span class="keyword">Print</span> <span class="string">"5 + 3 ="</span>, result1
+<span class="keyword">Print</span> <span class="string">"10 + 20 ="</span>, result2
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <div class="output-box">
+                    <div class="output-title">
+                        <i class="ri-terminal-line"></i>
+                        Output
+                    </div>
+                    <div class="output-content">5 + 3 = 8
+10 + 20 = 30</div>
+                </div>
+
+                <h2>📊 Functions with Parameters</h2>
+
+                <p><strong>Parameters</strong> are variables that receive values when the function is called.</p>
+
+                <h3>No Parameters</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-message-line"></i>
+                        Example: Function with No Parameters
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">NoParamsExample</span>
+
+<span class="keyword">Function</span> <span class="function">GetGreeting</span>()
+    <span class="keyword">Return</span> <span class="string">"Hello, World!"</span>
+<span class="keyword">Endfunction</span>
+
+<span class="keyword">var</span> message = <span class="function">GetGreeting</span>()
+<span class="keyword">Print</span> message
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h3>One Parameter</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-box-line"></i>
+                        Example: Function with One Parameter
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">OneParamExample</span>
+
+<span class="keyword">Function</span> <span class="function">Square</span>(number)
+    <span class="keyword">Return</span> number * number
+<span class="keyword">Endfunction</span>
+
+<span class="keyword">Print</span> <span class="string">"Square of 5:"</span>, <span class="function">Square</span>(<span class="number">5</span>)
+<span class="keyword">Print</span> <span class="string">"Square of 12:"</span>, <span class="function">Square</span>(<span class="number">12</span>)
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h3>Multiple Parameters</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-stack-line"></i>
+                        Example: Function with Multiple Parameters
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">MultipleParams</span>
+
+<span class="keyword">Function</span> <span class="function">CalculateArea</span>(length, width)
+    <span class="keyword">Return</span> length * width
+<span class="keyword">Endfunction</span>
+
+<span class="keyword">Function</span> <span class="function">CalculateVolume</span>(length, width, height)
+    <span class="keyword">Return</span> length * width * height
+<span class="keyword">Endfunction</span>
+
+<span class="keyword">var</span> area = <span class="function">CalculateArea</span>(<span class="number">5</span>, <span class="number">10</span>)
+<span class="keyword">var</span> volume = <span class="function">CalculateVolume</span>(<span class="number">5</span>, <span class="number">10</span>, <span class="number">3</span>)
+
+<span class="keyword">Print</span> <span class="string">"Area:"</span>, area
+<span class="keyword">Print</span> <span class="string">"Volume:"</span>, volume
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>🔄 Return Values</h2>
+
+                <p>Functions can return different types of values:</p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-arrow-go-back-line"></i>
+                        Example: Different Return Types
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">ReturnTypes</span>
+
+<span class="comment"># Returns a number</span>
+<span class="keyword">Function</span> <span class="function">GetAge</span>()
+    <span class="keyword">Return</span> <span class="number">25</span>
+<span class="keyword">Endfunction</span>
+
+<span class="comment"># Returns a string</span>
+<span class="keyword">Function</span> <span class="function">GetName</span>()
+    <span class="keyword">Return</span> <span class="string">"Alice"</span>
+<span class="keyword">Endfunction</span>
+
+<span class="comment"># Returns a boolean</span>
+<span class="keyword">Function</span> <span class="function">IsAdult</span>(age)
+    <span class="keyword">Return</span> age >= <span class="number">18</span>
+<span class="keyword">Endfunction</span>
+
+<span class="keyword">Print</span> <span class="string">"Name:"</span>, <span class="function">GetName</span>()
+<span class="keyword">Print</span> <span class="string">"Age:"</span>, <span class="function">GetAge</span>()
+<span class="keyword">Print</span> <span class="string">"Is adult:"</span>, <span class="function">IsAdult</span>(<span class="function">GetAge</span>())
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>🎯 Real-World Examples</h2>
+
+                <h3>Temperature Converter</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-temp-hot-line"></i>
+                        Example: Temperature Functions
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">TemperatureConverter</span>
+
+<span class="comment"># Convert Celsius to Fahrenheit</span>
+<span class="keyword">Function</span> <span class="function">CelsiusToFahrenheit</span>(celsius)
+    <span class="keyword">Return</span> celsius * <span class="number">9</span> / <span class="number">5</span> + <span class="number">32</span>
+<span class="keyword">Endfunction</span>
+
+<span class="comment"># Convert Fahrenheit to Celsius</span>
+<span class="keyword">Function</span> <span class="function">FahrenheitToCelsius</span>(fahrenheit)
+    <span class="keyword">Return</span> (fahrenheit - <span class="number">32</span>) * <span class="number">5</span> / <span class="number">9</span>
+<span class="keyword">Endfunction</span>
+
+<span class="keyword">Print</span> <span class="string">"=== Temperature Converter ==="</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="keyword">var</span> tempC = <span class="keyword">Input</span> <span class="string">"Enter temperature in Celsius:"</span>
+<span class="keyword">var</span> tempF = <span class="function">CelsiusToFahrenheit</span>(tempC)
+
+<span class="keyword">Print</span> tempC, <span class="string">"°C ="</span>, tempF, <span class="string">"°F"</span>
+
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">var</span> tempF2 = <span class="keyword">Input</span> <span class="string">"Enter temperature in Fahrenheit:"</span>
+<span class="keyword">var</span> tempC2 = <span class="function">FahrenheitToCelsius</span>(tempF2)
+
+<span class="keyword">Print</span> tempF2, <span class="string">"°F ="</span>, tempC2, <span class="string">"°C"</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h3>Grade Calculator</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-medal-line"></i>
+                        Example: Grade Functions
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">GradeCalculator</span>
+
+<span class="comment"># Calculate average of three scores</span>
+<span class="keyword">Function</span> <span class="function">CalculateAverage</span>(score1, score2, score3)
+    <span class="keyword">var</span> total = score1 + score2 + score3
+    <span class="keyword">Return</span> total / <span class="number">3</span>
+<span class="keyword">Endfunction</span>
+
+<span class="comment"># Get letter grade from numeric score</span>
+<span class="keyword">Function</span> <span class="function">GetLetterGrade</span>(score)
+    <span class="keyword">If</span> score >= <span class="number">90</span> <span class="keyword">Then</span>
+        <span class="keyword">Return</span> <span class="string">"A"</span>
+    <span class="keyword">Else If</span> score >= <span class="number">80</span> <span class="keyword">Then</span>
+        <span class="keyword">Return</span> <span class="string">"B"</span>
+    <span class="keyword">Else If</span> score >= <span class="number">70</span> <span class="keyword">Then</span>
+        <span class="keyword">Return</span> <span class="string">"C"</span>
+    <span class="keyword">Else If</span> score >= <span class="number">60</span> <span class="keyword">Then</span>
+        <span class="keyword">Return</span> <span class="string">"D"</span>
+    <span class="keyword">Else</span>
+        <span class="keyword">Return</span> <span class="string">"F"</span>
+    <span class="keyword">Endif</span>
+<span class="keyword">Endfunction</span>
+
+<span class="comment"># Check if passing</span>
+<span class="keyword">Function</span> <span class="function">IsPassing</span>(score)
+    <span class="keyword">Return</span> score >= <span class="number">60</span>
+<span class="keyword">Endfunction</span>
+
+<span class="comment"># Main program</span>
+<span class="keyword">Print</span> <span class="string">"=== Grade Calculator ==="</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="keyword">var</span> test1 = <span class="keyword">Input</span> <span class="string">"Test 1 score:"</span>
+<span class="keyword">var</span> test2 = <span class="keyword">Input</span> <span class="string">"Test 2 score:"</span>
+<span class="keyword">var</span> test3 = <span class="keyword">Input</span> <span class="string">"Test 3 score:"</span>
+
+<span class="keyword">var</span> average = <span class="function">CalculateAverage</span>(test1, test2, test3)
+<span class="keyword">var</span> grade = <span class="function">GetLetterGrade</span>(average)
+<span class="keyword">var</span> passing = <span class="function">IsPassing</span>(average)
+
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"=== RESULTS ==="</span>
+<span class="keyword">Print</span> <span class="string">"Average score:"</span>, average
+<span class="keyword">Print</span> <span class="string">"Letter grade:"</span>, grade
+<span class="keyword">Print</span> <span class="string">"Passing:"</span>, passing
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h3>Math Utilities</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-calculator-line"></i>
+                        Example: Math Functions
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">MathUtilities</span>
+
+<span class="comment"># Check if number is even</span>
+<span class="keyword">Function</span> <span class="function">IsEven</span>(number)
+    <span class="keyword">Return</span> number <span class="keyword">mod</span> <span class="number">2</span> == <span class="number">0</span>
+<span class="keyword">Endfunction</span>
+
+<span class="comment"># Get absolute value</span>
+<span class="keyword">Function</span> <span class="function">Abs</span>(number)
+    <span class="keyword">If</span> number < <span class="number">0</span> <span class="keyword">Then</span>
+        <span class="keyword">Return</span> -number
+    <span class="keyword">Else</span>
+        <span class="keyword">Return</span> number
+    <span class="keyword">Endif</span>
+<span class="keyword">Endfunction</span>
+
+<span class="comment"># Get maximum of two numbers</span>
+<span class="keyword">Function</span> <span class="function">Max</span>(a, b)
+    <span class="keyword">If</span> a > b <span class="keyword">Then</span>
+        <span class="keyword">Return</span> a
+    <span class="keyword">Else</span>
+        <span class="keyword">Return</span> b
+    <span class="keyword">Endif</span>
+<span class="keyword">Endfunction</span>
+
+<span class="comment"># Calculate factorial</span>
+<span class="keyword">Function</span> <span class="function">Factorial</span>(n)
+    <span class="keyword">var</span> result = <span class="number">1</span>
+    <span class="keyword">For</span> i = <span class="number">1</span> <span class="keyword">To</span> n
+        result = result * i
+    <span class="keyword">Endfor</span>
+    <span class="keyword">Return</span> result
+<span class="keyword">Endfunction</span>
+
+<span class="comment"># Test the functions</span>
+<span class="keyword">Print</span> <span class="string">"Is 10 even?"</span>, <span class="function">IsEven</span>(<span class="number">10</span>)
+<span class="keyword">Print</span> <span class="string">"Abs(-5):"</span>, <span class="function">Abs</span>(<span class="number">-5</span>)
+<span class="keyword">Print</span> <span class="string">"Max(15, 23):"</span>, <span class="function">Max</span>(<span class="number">15</span>, <span class="number">23</span>)
+<span class="keyword">Print</span> <span class="string">"5! ="</span>, <span class="function">Factorial</span>(<span class="number">5</span>)
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>🎨 Functions Calling Functions</h2>
+
+                <p>Functions can call other functions!</p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-links-line"></i>
+                        Example: Nested Function Calls
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">NestedFunctions</span>
+
+<span class="keyword">Function</span> <span class="function">Add</span>(a, b)
+    <span class="keyword">Return</span> a + b
+<span class="keyword">Endfunction</span>
+
+<span class="keyword">Function</span> <span class="function">Multiply</span>(a, b)
+    <span class="keyword">Return</span> a * b
+<span class="keyword">Endfunction</span>
+
+<span class="comment"># This function uses other functions</span>
+<span class="keyword">Function</span> <span class="function">CalculateTotal</span>(price, quantity, taxRate)
+    <span class="keyword">var</span> subtotal = <span class="function">Multiply</span>(price, quantity)
+    <span class="keyword">var</span> tax = <span class="function">Multiply</span>(subtotal, taxRate)
+    <span class="keyword">var</span> total = <span class="function">Add</span>(subtotal, tax)
+    <span class="keyword">Return</span> total
+<span class="keyword">Endfunction</span>
+
+<span class="keyword">var</span> finalPrice = <span class="function">CalculateTotal</span>(<span class="number">19.99</span>, <span class="number">3</span>, <span class="number">0.08</span>)
+<span class="keyword">Print</span> <span class="string">"Total price:"</span>, finalPrice
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>📋 Function Best Practices</h2>
+
+                <div class="note-box tip">
+                    <div class="note-box-title">
+                        <i class="ri-lightbulb-line"></i>
+                        Writing Good Functions
+                    </div>
+                    <div class="note-box-content">
+                        <ul>
+                            <li><strong>Single Purpose:</strong> Each function should do ONE thing well</li>
+                            <li><strong>Descriptive Names:</strong> Name should describe what the function does (CalculateArea, not DoStuff)</li>
+                            <li><strong>Keep it Short:</strong> If a function is too long, break it into smaller functions</li>
+                            <li><strong>Document:</strong> Add comments explaining what the function does</li>
+                            <li><strong>Consistent Returns:</strong> Always return the same type of value</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h2>⚠️ Common Mistakes</h2>
+
+                <div class="note-box warning">
+                    <div class="note-box-title">
+                        <i class="ri-alert-line"></i>
+                        Mistake 1: Forgetting Return
+                    </div>
+                    <div class="note-box-content">
+                        <p>❌ Wrong:</p>
+                        <pre><code><span class="keyword">Function</span> <span class="function">Add</span>(a, b)
+    <span class="keyword">var</span> sum = a + b
+    <span class="comment"># Forgot to return!</span>
+<span class="keyword">Endfunction</span></code></pre>
+                        <p>✅ Correct:</p>
+                        <pre><code><span class="keyword">Function</span> <span class="function">Add</span>(a, b)
+    <span class="keyword">var</span> sum = a + b
+    <span class="keyword">Return</span> sum
+<span class="keyword">Endfunction</span></code></pre>
+                    </div>
+                </div>
+
+                <h2>📝 Key Takeaways</h2>
+
+                <ul>
+                    <li>✅ Functions are reusable blocks of code that return values</li>
+                    <li>✅ Define with <code>Function</code>, close with <code>Endfunction</code></li>
+                    <li>✅ Use <code>Return</code> to send a value back to the caller</li>
+                    <li>✅ Parameters let you pass data into functions</li>
+                    <li>✅ Functions can call other functions</li>
+                    <li>✅ Good functions do ONE thing well</li>
+                    <li>✅ Use descriptive names and add comments</li>
+                </ul>
+
+                <h2>💪 Practice Exercises</h2>
+
+                <div class="exercise-section">
+                    <div class="exercise-header">
+                        <div class="exercise-icon">
+                            <i class="ri-pencil-line"></i>
+                        </div>
+                        <h3 class="exercise-title">Try These Exercises</h3>
+                    </div>
+                    <div class="exercise-list">
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 1: Circle Functions</div>
+                            <div class="exercise-item-description">
+                                Create functions to calculate circle area and circumference given radius. Use them in a program.
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 2: Prime Checker</div>
+                            <div class="exercise-item-description">
+                                Write a function IsPrime(n) that returns true if n is prime, false otherwise. Test with multiple numbers.
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 3: String Functions</div>
+                            <div class="exercise-item-description">
+                                Create functions: CountVowels(text), ReverseString(text), and IsPalindrome(text).
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 4: BMI Calculator Functions</div>
+                            <div class="exercise-item-description">
+                                Create CalculateBMI(weight, height) and GetBMICategory(bmi) functions. Build a complete BMI program.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="note-box tip">
+                    <div class="note-box-title">
+                        <i class="ri-trophy-line"></i>
+                        Fantastic Work!
+                    </div>
+                    <div class="note-box-content">
+                        You now understand how to create and use functions to make your code reusable! 
+                        In the next lesson, we'll learn about procedures - functions that don't return values.
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-navigation">
+                <a href="09-nested-loops.html" class="nav-btn prev">
+                    <i class="ri-arrow-left-line"></i>
+                    <div class="nav-btn-content">
+                        <div class="nav-btn-label">Previous</div>
+                        <div class="nav-btn-title">Nested Loops</div>
+                    </div>
+                </a>
+                <a href="11-procedures.html" class="nav-btn next">
+                    <div class="nav-btn-content">
+                        <div class="nav-btn-label">Next Lesson</div>
+                        <div class="nav-btn-title">Procedures</div>
+                    </div>
+                    <i class="ri-arrow-right-line"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 iPseudo IDE by <strong>M'BARK</strong>. Free for personal & educational use.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+
+    
+    <!-- Reading Controls -->
+    <script src="js/reading-controls.js"></script>
+    
+    <script src="../website/js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 5: Operators | iPseudo Tutorial</title>
+    <link rel="icon" type="image/svg+xml" href="../website/assets/app-icon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../website/css/style.css">
+    <link rel="stylesheet" href="css/tutorial.css">
+    <link rel="stylesheet" href="css/reading-controls.css">
+</head>
+<body>
+    <div class="background-container">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-pattern"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <a href="index.html" style="display: flex; align-items: center; text-decoration: none; gap: 0.75rem;">
+                    <div class="brand-icon" style="background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); padding: 0.5rem; border-radius: 10px;">
+                        <i class="ri-book-open-line" style="color: white; font-size: 1.5rem;"></i>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.1rem;">
+                        <span class="brand-text" style="font-size: 1.25rem; font-weight: 700; background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">iPseudo</span>
+                        <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; letter-spacing: 0.05em;">TUTORIAL HUB</span>
+                    </div>
+                </a>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="ri-sun-line theme-icon" id="lightIcon"></i>
+                    <i class="ri-moon-line theme-icon hidden" id="darkIcon"></i>
+                </button>
+            </div>
+
+            <div class="navbar-actions">
+                <a href="index.html" class="action-btn demo-btn">
+                    <i class="ri-book-open-line"></i>
+                    <span>All Lessons</span>
+                </a>
+                <a href="https://ipseudoeditor.netlify.app/" target="_blank" class="action-btn demo-btn">
+                    <i class="ri-play-circle-line"></i>
+                    <span>Try Live</span>
+                </a>
+                <a href="https://ipseudo.netlify.app/#download" target="_blank" class="action-btn download-btn">
+                    <i class="ri-download-cloud-line"></i>
+                    <span>Download</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="tutorial-content">
+        <div class="tutorial-container">
+            <div class="tutorial-header">
+                <div class="tutorial-badge">
+                    <i class="ri-seedling-line"></i>
+                    <span>Lesson 5 • Beginner</span>
+                </div>
+                <h1 class="tutorial-title">Operators</h1>
+                <div class="tutorial-meta">
+                    <div class="tutorial-meta-item">
+                        <i class="ri-time-line"></i>
+                        <span>20 minutes</span>
+                    </div>
+                    <div class="tutorial-meta-item">
+                        <i class="ri-book-open-line"></i>
+                        <span>Foundation</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-body">
+                <h2>🔢 What are Operators?</h2>
+                
+                <p>
+                    <strong>Operators</strong> are special symbols that perform operations on values and variables. They're the building 
+                    blocks for calculations, comparisons, and logical decisions in your programs.
+                </p>
+
+                <p>There are three main categories of operators:</p>
+                <ul>
+                    <li><strong>Arithmetic Operators</strong> - Perform mathematical calculations</li>
+                    <li><strong>Comparison Operators</strong> - Compare values and return true/false</li>
+                    <li><strong>Logical Operators</strong> - Combine conditions and boolean values</li>
+                </ul>
+
+                <h2>➕ Arithmetic Operators</h2>
+
+                <p>Use these operators to perform mathematical calculations:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Operator</th>
+                            <th>Name</th>
+                            <th>Example</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>+</code></td>
+                            <td>Addition</td>
+                            <td><code>5 + 3</code></td>
+                            <td><code>8</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>-</code></td>
+                            <td>Subtraction</td>
+                            <td><code>10 - 4</code></td>
+                            <td><code>6</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>*</code></td>
+                            <td>Multiplication</td>
+                            <td><code>6 * 7</code></td>
+                            <td><code>42</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>/</code></td>
+                            <td>Division</td>
+                            <td><code>20 / 4</code></td>
+                            <td><code>5</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>mod</code></td>
+                            <td>Modulus (Remainder)</td>
+                            <td><code>17 mod 5</code></td>
+                            <td><code>2</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-calculator-line"></i>
+                        Example: Basic Arithmetic
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">ArithmeticOperators</span>
+
+<span class="keyword">var</span> a = <span class="number">10</span>
+<span class="keyword">var</span> b = <span class="number">3</span>
+
+<span class="keyword">Print</span> <span class="string">"a ="</span>, a
+<span class="keyword">Print</span> <span class="string">"b ="</span>, b
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="keyword">Print</span> <span class="string">"Addition: a + b ="</span>, a + b
+<span class="keyword">Print</span> <span class="string">"Subtraction: a - b ="</span>, a - b
+<span class="keyword">Print</span> <span class="string">"Multiplication: a * b ="</span>, a * b
+<span class="keyword">Print</span> <span class="string">"Division: a / b ="</span>, a / b
+<span class="keyword">Print</span> <span class="string">"Modulus: a mod b ="</span>, a <span class="keyword">mod</span> b
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <div class="output-box">
+                    <div class="output-title">
+                        <i class="ri-terminal-line"></i>
+                        Output
+                    </div>
+                    <div class="output-content">a = 10
+b = 3
+
+Addition: a + b = 13
+Subtraction: a - b = 7
+Multiplication: a * b = 30
+Division: a / b = 3.333333
+Modulus: a mod b = 1</div>
+                </div>
+
+                <h3>Understanding Modulus (mod)</h3>
+                <p>
+                    The modulus operator returns the <strong>remainder</strong> after division. It's incredibly useful for:
+                </p>
+                <ul>
+                    <li>Checking if a number is even or odd (n mod 2)</li>
+                    <li>Cycling through ranges (array indices, days of week)</li>
+                    <li>Finding patterns in numbers</li>
+                </ul>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-percent-line"></i>
+                        Example: Even or Odd Checker
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">EvenOddChecker</span>
+
+<span class="keyword">var</span> number = <span class="keyword">Input</span> <span class="string">"Enter a number:"</span>
+<span class="keyword">var</span> remainder = number <span class="keyword">mod</span> <span class="number">2</span>
+
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"Number:"</span>, number
+<span class="keyword">Print</span> <span class="string">"Remainder when divided by 2:"</span>, remainder
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>⚖️ Comparison Operators</h2>
+
+                <p>Comparison operators compare two values and return <code>true</code> or <code>false</code>:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Operator</th>
+                            <th>Name</th>
+                            <th>Example</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>==</code></td>
+                            <td>Equal to</td>
+                            <td><code>5 == 5</code></td>
+                            <td><code>true</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>!=</code></td>
+                            <td>Not equal to</td>
+                            <td><code>5 != 3</code></td>
+                            <td><code>true</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>&gt;</code></td>
+                            <td>Greater than</td>
+                            <td><code>10 &gt; 5</code></td>
+                            <td><code>true</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;</code></td>
+                            <td>Less than</td>
+                            <td><code>3 &lt; 8</code></td>
+                            <td><code>true</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>&gt;=</code></td>
+                            <td>Greater than or equal</td>
+                            <td><code>5 &gt;= 5</code></td>
+                            <td><code>true</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;=</code></td>
+                            <td>Less than or equal</td>
+                            <td><code>4 &lt;= 7</code></td>
+                            <td><code>true</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-scales-line"></i>
+                        Example: Comparison Operations
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">ComparisonExample</span>
+
+<span class="keyword">var</span> age = <span class="number">18</span>
+<span class="keyword">var</span> votingAge = <span class="number">18</span>
+
+<span class="keyword">Print</span> <span class="string">"Age:"</span>, age
+<span class="keyword">Print</span> <span class="string">"Voting age:"</span>, votingAge
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="keyword">Print</span> <span class="string">"age == votingAge:"</span>, age == votingAge
+<span class="keyword">Print</span> <span class="string">"age &gt;= votingAge:"</span>, age >= votingAge
+<span class="keyword">Print</span> <span class="string">"age &lt; votingAge:"</span>, age &lt; votingAge
+<span class="keyword">Print</span> <span class="string">"age != 21:"</span>, age != <span class="number">21</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <div class="output-box">
+                    <div class="output-title">
+                        <i class="ri-terminal-line"></i>
+                        Output
+                    </div>
+                    <div class="output-content">Age: 18
+Voting age: 18
+
+age == votingAge: true
+age >= votingAge: true
+age < votingAge: false
+age != 21: true</div>
+                </div>
+
+                <h2>🔗 Logical Operators</h2>
+
+                <p>Logical operators combine multiple conditions:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Operator</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>and</code></td>
+                            <td>AND</td>
+                            <td>True if BOTH conditions are true</td>
+                            <td><code>true and true → true</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>or</code></td>
+                            <td>OR</td>
+                            <td>True if AT LEAST ONE condition is true</td>
+                            <td><code>true or false → true</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>not</code></td>
+                            <td>NOT</td>
+                            <td>Reverses the boolean value</td>
+                            <td><code>not true → false</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>AND Operator</h3>
+                <p>Both conditions must be true:</p>
+                <pre><code><span class="keyword">var</span> hasTicket = <span class="keyword">true</span>
+<span class="keyword">var</span> isOldEnough = <span class="keyword">true</span>
+<span class="keyword">var</span> canEnter = hasTicket <span class="keyword">and</span> isOldEnough  <span class="comment"># true</span></code></pre>
+
+                <h3>OR Operator</h3>
+                <p>At least one condition must be true:</p>
+                <pre><code><span class="keyword">var</span> isWeekend = <span class="keyword">true</span>
+<span class="keyword">var</span> isHoliday = <span class="keyword">false</span>
+<span class="keyword">var</span> canRelax = isWeekend <span class="keyword">or</span> isHoliday  <span class="comment"># true</span></code></pre>
+
+                <h3>NOT Operator</h3>
+                <p>Reverses true/false:</p>
+                <pre><code><span class="keyword">var</span> isRaining = <span class="keyword">true</span>
+<span class="keyword">var</span> isSunny = <span class="keyword">not</span> isRaining  <span class="comment"># false</span></code></pre>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-link"></i>
+                        Example: Logical Operators
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">LogicalOperators</span>
+
+<span class="keyword">var</span> age = <span class="number">20</span>
+<span class="keyword">var</span> hasLicense = <span class="keyword">true</span>
+<span class="keyword">var</span> hasInsurance = <span class="keyword">true</span>
+
+<span class="keyword">Print</span> <span class="string">"Age:"</span>, age
+<span class="keyword">Print</span> <span class="string">"Has license:"</span>, hasLicense
+<span class="keyword">Print</span> <span class="string">"Has insurance:"</span>, hasInsurance
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="comment"># AND: Both conditions must be true</span>
+<span class="keyword">var</span> canDriveLegally = age >= <span class="number">18</span> <span class="keyword">and</span> hasLicense
+<span class="keyword">Print</span> <span class="string">"Can drive legally:"</span>, canDriveLegally
+
+<span class="comment"># Multiple AND conditions</span>
+<span class="keyword">var</span> canRentCar = age >= <span class="number">21</span> <span class="keyword">and</span> hasLicense <span class="keyword">and</span> hasInsurance
+<span class="keyword">Print</span> <span class="string">"Can rent car:"</span>, canRentCar
+
+<span class="comment"># OR: At least one condition must be true</span>
+<span class="keyword">var</span> qualifiesForDiscount = age &lt; <span class="number">18</span> <span class="keyword">or</span> age >= <span class="number">65</span>
+<span class="keyword">Print</span> <span class="string">"Qualifies for discount:"</span>, qualifiesForDiscount
+
+<span class="comment"># NOT: Reverse boolean</span>
+<span class="keyword">var</span> needsTraining = <span class="keyword">not</span> hasLicense
+<span class="keyword">Print</span> <span class="string">"Needs training:"</span>, needsTraining
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>📊 Operator Precedence</h2>
+
+                <p>When multiple operators appear in an expression, they're evaluated in this order:</p>
+
+                <ol>
+                    <li><strong>Parentheses</strong> - <code>()</code></li>
+                    <li><strong>NOT</strong> - <code>not</code></li>
+                    <li><strong>Multiplication, Division, Modulus</strong> - <code>*</code>, <code>/</code>, <code>mod</code></li>
+                    <li><strong>Addition, Subtraction</strong> - <code>+</code>, <code>-</code></li>
+                    <li><strong>Comparison</strong> - <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code></li>
+                    <li><strong>AND</strong> - <code>and</code></li>
+                    <li><strong>OR</strong> - <code>or</code></li>
+                </ol>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-parentheses-line"></i>
+                        Example: Operator Precedence
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">Precedence</span>
+
+<span class="comment"># Without parentheses</span>
+<span class="keyword">var</span> result1 = <span class="number">2</span> + <span class="number">3</span> * <span class="number">4</span>  <span class="comment"># 2 + 12 = 14</span>
+<span class="keyword">Print</span> <span class="string">"2 + 3 * 4 ="</span>, result1
+
+<span class="comment"># With parentheses</span>
+<span class="keyword">var</span> result2 = (<span class="number">2</span> + <span class="number">3</span>) * <span class="number">4</span>  <span class="comment"># 5 * 4 = 20</span>
+<span class="keyword">Print</span> <span class="string">"(2 + 3) * 4 ="</span>, result2
+
+<span class="comment"># Complex expression</span>
+<span class="keyword">var</span> a = <span class="number">10</span>
+<span class="keyword">var</span> b = <span class="number">5</span>
+<span class="keyword">var</span> c = <span class="number">2</span>
+
+<span class="keyword">var</span> result3 = a + b * c  <span class="comment"># 10 + (5 * 2) = 20</span>
+<span class="keyword">Print</span> <span class="string">"a + b * c ="</span>, result3
+
+<span class="keyword">var</span> result4 = (a + b) * c  <span class="comment"># (10 + 5) * 2 = 30</span>
+<span class="keyword">Print</span> <span class="string">"(a + b) * c ="</span>, result4
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <div class="note-box tip">
+                    <div class="note-box-title">
+                        <i class="ri-lightbulb-line"></i>
+                        Best Practice
+                    </div>
+                    <div class="note-box-content">
+                        When in doubt, use parentheses! They make your code clearer and prevent mistakes. 
+                        <code>(a + b) * c</code> is easier to understand than <code>a + b * c</code> even if they give different results.
+                    </div>
+                </div>
+
+                <h2>🎯 Real-World Examples</h2>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-money-dollar-circle-line"></i>
+                        Example: Sales Tax Calculator
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">SalesTaxCalculator</span>
+
+<span class="keyword">Print</span> <span class="string">"=== Sales Tax Calculator ==="</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="keyword">var</span> price = <span class="keyword">Input</span> <span class="string">"Enter item price:"</span>
+<span class="keyword">var</span> taxRate = <span class="number">0.08</span>  <span class="comment"># 8% tax</span>
+
+<span class="comment"># Calculate tax and total</span>
+<span class="keyword">var</span> taxAmount = price * taxRate
+<span class="keyword">var</span> total = price + taxAmount
+
+<span class="comment"># Calculate savings with discount</span>
+<span class="keyword">var</span> discount = <span class="number">0.10</span>  <span class="comment"># 10% discount</span>
+<span class="keyword">var</span> discountAmount = price * discount
+<span class="keyword">var</span> discountedPrice = price - discountAmount
+<span class="keyword">var</span> discountedTax = discountedPrice * taxRate
+<span class="keyword">var</span> discountedTotal = discountedPrice + discountedTax
+
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"Regular Price: $"</span>, price
+<span class="keyword">Print</span> <span class="string">"Tax (8%): $"</span>, taxAmount
+<span class="keyword">Print</span> <span class="string">"Total: $"</span>, total
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"With 10% Discount:"</span>
+<span class="keyword">Print</span> <span class="string">"Discounted Price: $"</span>, discountedPrice
+<span class="keyword">Print</span> <span class="string">"Tax: $"</span>, discountedTax
+<span class="keyword">Print</span> <span class="string">"Total: $"</span>, discountedTotal
+<span class="keyword">Print</span> <span class="string">"You save: $"</span>, total - discountedTotal
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-user-star-line"></i>
+                        Example: Grade Eligibility Checker
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">GradeEligibility</span>
+
+<span class="keyword">var</span> score = <span class="keyword">Input</span> <span class="string">"Enter your test score (0-100):"</span>
+<span class="keyword">var</span> attendance = <span class="keyword">Input</span> <span class="string">"Enter attendance percentage:"</span>
+
+<span class="comment"># Check pass/fail</span>
+<span class="keyword">var</span> isPassing = score >= <span class="number">60</span>
+<span class="keyword">var</span> hasGoodAttendance = attendance >= <span class="number">75</span>
+
+<span class="comment"># Check eligibility for honors</span>
+<span class="keyword">var</span> qualifiesForHonors = score >= <span class="number">90</span> <span class="keyword">and</span> attendance >= <span class="number">90</span>
+
+<span class="comment"># Check if needs extra help</span>
+<span class="keyword">var</span> needsHelp = score &lt; <span class="number">70</span> <span class="keyword">or</span> attendance &lt; <span class="number">75</span>
+
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"=== GRADE REPORT ==="</span>
+<span class="keyword">Print</span> <span class="string">"Score:"</span>, score
+<span class="keyword">Print</span> <span class="string">"Attendance:"</span>, attendance, <span class="string">"%"</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"Passing:"</span>, isPassing
+<span class="keyword">Print</span> <span class="string">"Good attendance:"</span>, hasGoodAttendance
+<span class="keyword">Print</span> <span class="string">"Qualifies for honors:"</span>, qualifiesForHonors
+<span class="keyword">Print</span> <span class="string">"Needs extra help:"</span>, needsHelp
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>📋 Quick Reference</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Operators</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Arithmetic</td>
+                            <td><code>+ - * / mod</code></td>
+                            <td><code>10 + 5</code></td>
+                        </tr>
+                        <tr>
+                            <td>Comparison</td>
+                            <td><code>== != &lt; &gt; &lt;= &gt;=</code></td>
+                            <td><code>age &gt;= 18</code></td>
+                        </tr>
+                        <tr>
+                            <td>Logical</td>
+                            <td><code>and or not</code></td>
+                            <td><code>a and b</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>📝 Key Takeaways</h2>
+
+                <ul>
+                    <li>✅ Arithmetic operators perform math: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>mod</code></li>
+                    <li>✅ Comparison operators compare values and return true/false</li>
+                    <li>✅ Logical operators combine conditions: <code>and</code>, <code>or</code>, <code>not</code></li>
+                    <li>✅ <code>mod</code> returns the remainder (useful for even/odd checks)</li>
+                    <li>✅ Use parentheses to control order of operations</li>
+                    <li>✅ Operators are essential for calculations and decision-making</li>
+                </ul>
+
+                <h2>💪 Practice Exercises</h2>
+
+                <div class="exercise-section">
+                    <div class="exercise-header">
+                        <div class="exercise-icon">
+                            <i class="ri-pencil-line"></i>
+                        </div>
+                        <h3 class="exercise-title">Try These Exercises</h3>
+                    </div>
+                    <div class="exercise-list">
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 1: BMI Calculator</div>
+                            <div class="exercise-item-description">
+                                Calculate Body Mass Index using the formula: BMI = weight (kg) / (height (m) × height (m)). Get weight and height from user.
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 2: Leap Year Checker</div>
+                            <div class="exercise-item-description">
+                                A year is a leap year if it's divisible by 4. Use mod operator to check if a year is a leap year.
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 3: Movie Ticket Pricer</div>
+                            <div class="exercise-item-description">
+                                Calculate ticket price: Children (&lt;12) pay $8, Adults pay $12, Seniors (>=65) pay $9. Use comparison operators.
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 4: Password Strength</div>
+                            <div class="exercise-item-description">
+                                Check if a password is strong: length &gt;= 8 AND has numbers. Use logical operators to combine conditions.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="note-box tip">
+                    <div class="note-box-title">
+                        <i class="ri-trophy-line"></i>
+                        Well Done!
+                    </div>
+                    <div class="note-box-content">
+                        You now know how to perform calculations and make comparisons! In the next lesson, 
+                        we'll learn about comments and documentation to make your code easier to understand.
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-navigation">
+                <a href="04-input-and-output.html" class="nav-btn prev">
+                    <i class="ri-arrow-left-line"></i>
+                    <div class="nav-btn-content">
+                        <div class="nav-btn-label">Previous</div>
+                        <div class="nav-btn-title">Input and Output</div>
+                    </div>
+                </a>
+                <a href="06-comments-and-documentation.html" class="nav-btn next">
+                    <div class="nav-btn-content">
+                        <div class="nav-btn-label">Next Lesson</div>
+                        <div class="nav-btn-title">Comments and Documentation</div>
+                    </div>
+                    <i class="ri-arrow-right-line"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 iPseudo IDE by <strong>M'BARK</strong>. Free for personal & educational use.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+
+    
+    <!-- Reading Controls -->
+    <script src="js/reading-controls.js"></script>
+    
+    <script src="../website/js/script.js"></script>
+</body>
+</html>

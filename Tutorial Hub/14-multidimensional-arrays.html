@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 14: Multidimensional Arrays | iPseudo Tutorial</title>
+    <link rel="icon" type="image/svg+xml" href="../website/assets/app-icon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../website/css/style.css">
+    <link rel="stylesheet" href="css/tutorial.css">
+    <link rel="stylesheet" href="css/reading-controls.css">
+</head>
+<body>
+    <div class="background-container">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-pattern"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <a href="index.html" style="display: flex; align-items: center; text-decoration: none; gap: 0.75rem;">
+                    <div class="brand-icon" style="background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); padding: 0.5rem; border-radius: 10px;">
+                        <i class="ri-book-open-line" style="color: white; font-size: 1.5rem;"></i>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.1rem;">
+                        <span class="brand-text" style="font-size: 1.25rem; font-weight: 700; background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">iPseudo</span>
+                        <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; letter-spacing: 0.05em;">TUTORIAL HUB</span>
+                    </div>
+                </a>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="ri-sun-line theme-icon" id="lightIcon"></i>
+                    <i class="ri-moon-line theme-icon hidden" id="darkIcon"></i>
+                </button>
+            </div>
+
+            <div class="navbar-actions">
+                <a href="index.html" class="action-btn demo-btn">
+                    <i class="ri-book-open-line"></i>
+                    <span>All Lessons</span>
+                </a>
+                <a href="https://ipseudoeditor.netlify.app/" target="_blank" class="action-btn demo-btn">
+                    <i class="ri-play-circle-line"></i>
+                    <span>Try Live</span>
+                </a>
+                <a href="https://ipseudo.netlify.app/#download" target="_blank" class="action-btn download-btn">
+                    <i class="ri-download-cloud-line"></i>
+                    <span>Download</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="tutorial-content">
+        <div class="tutorial-container">
+            <div class="tutorial-header">
+                <div class="tutorial-badge">
+                    <i class="ri-rocket-line"></i>
+                    <span>Lesson 14 • Advanced</span>
+                </div>
+                <h1 class="tutorial-title">Multidimensional Arrays</h1>
+                <div class="tutorial-meta">
+                    <div class="tutorial-meta-item">
+                        <i class="ri-time-line"></i>
+                        <span>30 minutes</span>
+                    </div>
+                    <div class="tutorial-meta-item">
+                        <i class="ri-book-open-line"></i>
+                        <span>Advanced Data Structures</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-body">
+                <h2>📊 What are Multidimensional Arrays?</h2>
+                
+                <p>
+                    <strong>Multidimensional arrays</strong> are arrays of arrays - they store data in a grid or table format. 
+                    The most common are <strong>2D arrays</strong>, which have rows and columns like a spreadsheet.
+                </p>
+
+                <div class="note-box info">
+                    <div class="note-box-title">
+                        <i class="ri-information-line"></i>
+                        Understanding 2D Arrays
+                    </div>
+                    <div class="note-box-content">
+                        Think of a 2D array like:
+                        <ul>
+                            <li><strong>Spreadsheet:</strong> Rows and columns of data</li>
+                            <li><strong>Chessboard:</strong> 8×8 grid of squares</li>
+                            <li><strong>Seating Chart:</strong> Rows and columns of seats</li>
+                            <li><strong>Image:</strong> Grid of pixels</li>
+                        </ul>
+                        Instead of one index <code>array[i]</code>, you use two: <code>array[row][col]</code>
+                    </div>
+                </div>
+
+                <h2>📐 2D Array Declaration</h2>
+
+                <pre><code><span class="comment"># Declare 2D array</span>
+<span class="keyword">var</span> grid[rows][columns]
+
+<span class="comment"># Example: 3×4 array (3 rows, 4 columns)</span>
+<span class="keyword">var</span> matrix[<span class="number">3</span>][<span class="number">4</span>]</code></pre>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-grid-line"></i>
+                        Example: Basic 2D Array
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">TwoDArrayBasics</span>
+
+<span class="comment"># Create 3×3 grid</span>
+<span class="keyword">var</span> grid[<span class="number">3</span>][<span class="number">3</span>]
+
+<span class="comment"># Fill with values</span>
+grid[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">1</span>
+grid[<span class="number">0</span>][<span class="number">1</span>] = <span class="number">2</span>
+grid[<span class="number">0</span>][<span class="number">2</span>] = <span class="number">3</span>
+
+grid[<span class="number">1</span>][<span class="number">0</span>] = <span class="number">4</span>
+grid[<span class="number">1</span>][<span class="number">1</span>] = <span class="number">5</span>
+grid[<span class="number">1</span>][<span class="number">2</span>] = <span class="number">6</span>
+
+grid[<span class="number">2</span>][<span class="number">0</span>] = <span class="number">7</span>
+grid[<span class="number">2</span>][<span class="number">1</span>] = <span class="number">8</span>
+grid[<span class="number">2</span>][<span class="number">2</span>] = <span class="number">9</span>
+
+<span class="comment"># Display grid</span>
+<span class="keyword">Print</span> <span class="string">"3×3 Grid:"</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="keyword">For</span> row = <span class="number">0</span> <span class="keyword">To</span> <span class="number">2</span>
+    <span class="keyword">For</span> col = <span class="number">0</span> <span class="keyword">To</span> <span class="number">2</span>
+        <span class="keyword">Print</span> grid[row][col], <span class="string">" "</span>
+    <span class="keyword">Endfor</span>
+    <span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <div class="output-box">
+                    <div class="output-title">
+                        <i class="ri-terminal-line"></i>
+                        Output
+                    </div>
+                    <div class="output-content">3×3 Grid:
+
+1 2 3 
+4 5 6 
+7 8 9</div>
+                </div>
+
+                <h2>🎯 Matrix Operations</h2>
+
+                <h3>Fill Matrix with Pattern</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-file-list-2-line"></i>
+                        Example: Fill Matrix
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">FillMatrix</span>
+
+<span class="keyword">var</span> rows = <span class="number">4</span>
+<span class="keyword">var</span> cols = <span class="number">5</span>
+<span class="keyword">var</span> matrix[rows][cols]
+
+<span class="comment"># Fill with sequential numbers</span>
+<span class="keyword">var</span> value = <span class="number">1</span>
+
+<span class="keyword">For</span> row = <span class="number">0</span> <span class="keyword">To</span> rows - <span class="number">1</span>
+    <span class="keyword">For</span> col = <span class="number">0</span> <span class="keyword">To</span> cols - <span class="number">1</span>
+        matrix[row][col] = value
+        value = value + <span class="number">1</span>
+    <span class="keyword">Endfor</span>
+<span class="keyword">Endfor</span>
+
+<span class="comment"># Display matrix</span>
+<span class="keyword">Print</span> <span class="string">"Matrix (4×5):"</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="keyword">For</span> row = <span class="number">0</span> <span class="keyword">To</span> rows - <span class="number">1</span>
+    <span class="keyword">For</span> col = <span class="number">0</span> <span class="keyword">To</span> cols - <span class="number">1</span>
+        <span class="keyword">Print</span> matrix[row][col], <span class="string">" "</span>
+    <span class="keyword">Endfor</span>
+    <span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h3>Matrix Sum</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-add-box-line"></i>
+                        Example: Sum All Elements
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">MatrixSum</span>
+
+<span class="keyword">var</span> matrix[<span class="number">3</span>][<span class="number">3</span>]
+
+<span class="comment"># Fill matrix with input</span>
+<span class="keyword">Print</span> <span class="string">"Enter 9 numbers for 3×3 matrix:"</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="keyword">For</span> row = <span class="number">0</span> <span class="keyword">To</span> <span class="number">2</span>
+    <span class="keyword">For</span> col = <span class="number">0</span> <span class="keyword">To</span> <span class="number">2</span>
+        matrix[row][col] = <span class="keyword">Input</span> <span class="string">"Row "</span> + row + <span class="string">", Col "</span> + col + <span class="string">":"</span>
+    <span class="keyword">Endfor</span>
+<span class="keyword">Endfor</span>
+
+<span class="comment"># Calculate sum</span>
+<span class="keyword">var</span> total = <span class="number">0</span>
+
+<span class="keyword">For</span> row = <span class="number">0</span> <span class="keyword">To</span> <span class="number">2</span>
+    <span class="keyword">For</span> col = <span class="number">0</span> <span class="keyword">To</span> <span class="number">2</span>
+        total = total + matrix[row][col]
+    <span class="keyword">Endfor</span>
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"Sum of all elements:"</span>, total
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>🎮 Real-World Examples</h2>
+
+                <h3>Seating Chart</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-layout-row-line"></i>
+                        Example: Theater Seating
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">TheaterSeating</span>
+
+<span class="keyword">var</span> rows = <span class="number">5</span>
+<span class="keyword">var</span> cols = <span class="number">8</span>
+<span class="keyword">var</span> seats[rows][cols]
+
+<span class="comment"># Initialize all seats as available (0 = available, 1 = taken)</span>
+<span class="keyword">For</span> row = <span class="number">0</span> <span class="keyword">To</span> rows - <span class="number">1</span>
+    <span class="keyword">For</span> col = <span class="number">0</span> <span class="keyword">To</span> cols - <span class="number">1</span>
+        seats[row][col] = <span class="number">0</span>
+    <span class="keyword">Endfor</span>
+<span class="keyword">Endfor</span>
+
+<span class="comment"># Mark some seats as taken</span>
+seats[<span class="number">0</span>][<span class="number">3</span>] = <span class="number">1</span>
+seats[<span class="number">1</span>][<span class="number">2</span>] = <span class="number">1</span>
+seats[<span class="number">2</span>][<span class="number">5</span>] = <span class="number">1</span>
+
+<span class="comment"># Display seating chart</span>
+<span class="keyword">Print</span> <span class="string">"=== THEATER SEATING CHART ==="</span>
+<span class="keyword">Print</span> <span class="string">"[O] = Available  [X] = Taken"</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="keyword">For</span> row = <span class="number">0</span> <span class="keyword">To</span> rows - <span class="number">1</span>
+    <span class="keyword">Print</span> <span class="string">"Row "</span>, row + <span class="number">1</span>, <span class="string">": "</span>
+    
+    <span class="keyword">For</span> col = <span class="number">0</span> <span class="keyword">To</span> cols - <span class="number">1</span>
+        <span class="keyword">If</span> seats[row][col] == <span class="number">0</span> <span class="keyword">Then</span>
+            <span class="keyword">Print</span> <span class="string">"[O] "</span>
+        <span class="keyword">Else</span>
+            <span class="keyword">Print</span> <span class="string">"[X] "</span>
+        <span class="keyword">Endif</span>
+    <span class="keyword">Endfor</span>
+    <span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Endfor</span>
+
+<span class="comment"># Count available seats</span>
+<span class="keyword">var</span> available = <span class="number">0</span>
+<span class="keyword">For</span> row = <span class="number">0</span> <span class="keyword">To</span> rows - <span class="number">1</span>
+    <span class="keyword">For</span> col = <span class="number">0</span> <span class="keyword">To</span> cols - <span class="number">1</span>
+        <span class="keyword">If</span> seats[row][col] == <span class="number">0</span> <span class="keyword">Then</span>
+            available = available + <span class="number">1</span>
+        <span class="keyword">Endif</span>
+    <span class="keyword">Endfor</span>
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"Available seats:"</span>, available
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h3>Grade Book System</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-book-open-line"></i>
+                        Example: Student Grade Book
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">GradeBook</span>
+
+<span class="keyword">var</span> students = <span class="number">3</span>
+<span class="keyword">var</span> tests = <span class="number">4</span>
+<span class="keyword">var</span> grades[students][tests]
+
+<span class="keyword">var</span> names = [<span class="string">"Alice"</span>, <span class="string">"Bob"</span>, <span class="string">"Charlie"</span>]
+
+<span class="keyword">Print</span> <span class="string">"=== GRADE INPUT ==="</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="comment"># Input grades</span>
+<span class="keyword">For</span> s = <span class="number">0</span> <span class="keyword">To</span> students - <span class="number">1</span>
+    <span class="keyword">Print</span> <span class="string">"Grades for"</span>, names[s], <span class="string">":"</span>
+    <span class="keyword">For</span> t = <span class="number">0</span> <span class="keyword">To</span> tests - <span class="number">1</span>
+        grades[s][t] = <span class="keyword">Input</span> <span class="string">"  Test "</span> + (t + <span class="number">1</span>) + <span class="string">":"</span>
+    <span class="keyword">Endfor</span>
+    <span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Endfor</span>
+
+<span class="comment"># Calculate and display averages</span>
+<span class="keyword">Print</span> <span class="string">"=== STUDENT AVERAGES ==="</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="keyword">For</span> s = <span class="number">0</span> <span class="keyword">To</span> students - <span class="number">1</span>
+    <span class="keyword">var</span> sum = <span class="number">0</span>
+    
+    <span class="keyword">For</span> t = <span class="number">0</span> <span class="keyword">To</span> tests - <span class="number">1</span>
+        sum = sum + grades[s][t]
+    <span class="keyword">Endfor</span>
+    
+    <span class="keyword">var</span> average = sum / tests
+    <span class="keyword">Print</span> names[s], <span class="string">":"</span>, average
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h3>Tic-Tac-Toe Board</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-game-line"></i>
+                        Example: Tic-Tac-Toe
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">TicTacToe</span>
+
+<span class="keyword">var</span> board[<span class="number">3</span>][<span class="number">3</span>]
+
+<span class="comment"># Initialize empty board</span>
+<span class="keyword">For</span> row = <span class="number">0</span> <span class="keyword">To</span> <span class="number">2</span>
+    <span class="keyword">For</span> col = <span class="number">0</span> <span class="keyword">To</span> <span class="number">2</span>
+        board[row][col] = <span class="string">"-"</span>
+    <span class="keyword">Endfor</span>
+<span class="keyword">Endfor</span>
+
+<span class="comment"># Make some moves</span>
+board[<span class="number">0</span>][<span class="number">0</span>] = <span class="string">"X"</span>  <span class="comment"># Player X</span>
+board[<span class="number">1</span>][<span class="number">1</span>] = <span class="string">"O"</span>  <span class="comment"># Player O</span>
+board[<span class="number">0</span>][<span class="number">2</span>] = <span class="string">"X"</span>
+board[<span class="number">2</span>][<span class="number">1</span>] = <span class="string">"O"</span>
+board[<span class="number">1</span>][<span class="number">0</span>] = <span class="string">"X"</span>
+
+<span class="comment"># Display board</span>
+<span class="keyword">Print</span> <span class="string">"=== TIC-TAC-TOE ==="</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="keyword">For</span> row = <span class="number">0</span> <span class="keyword">To</span> <span class="number">2</span>
+    <span class="keyword">For</span> col = <span class="number">0</span> <span class="keyword">To</span> <span class="number">2</span>
+        <span class="keyword">Print</span> board[row][col], <span class="string">" "</span>
+    <span class="keyword">Endfor</span>
+    <span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <div class="output-box">
+                    <div class="output-title">
+                        <i class="ri-terminal-line"></i>
+                        Output
+                    </div>
+                    <div class="output-content">=== TIC-TAC-TOE ===
+
+X - X 
+X O - 
+- O -</div>
+                </div>
+
+                <h2>📝 Key Takeaways</h2>
+
+                <ul>
+                    <li>✅ 2D arrays store data in rows and columns</li>
+                    <li>✅ Access elements with <code>array[row][col]</code></li>
+                    <li>✅ Use nested loops to traverse 2D arrays</li>
+                    <li>✅ Perfect for grids, matrices, tables, and boards</li>
+                    <li>✅ Both row and column indices start at 0</li>
+                    <li>✅ Can represent spreadsheets, game boards, images, and more</li>
+                </ul>
+
+                <h2>💪 Practice Exercises</h2>
+
+                <div class="exercise-section">
+                    <div class="exercise-header">
+                        <div class="exercise-icon">
+                            <i class="ri-pencil-line"></i>
+                        </div>
+                        <h3 class="exercise-title">Try These Exercises</h3>
+                    </div>
+                    <div class="exercise-list">
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 1: Matrix Transpose</div>
+                            <div class="exercise-item-description">
+                                Write a program that transposes a matrix (swap rows and columns). Example: [1,2,3][4,5,6] becomes [1,4][2,5][3,6].
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 2: Battleship Grid</div>
+                            <div class="exercise-item-description">
+                                Create a 10×10 battleship board. Place ships and implement a guessing system.
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 3: Matrix Multiplication</div>
+                            <div class="exercise-item-description">
+                                Implement matrix multiplication for two 2×2 matrices (advanced math operation).
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 4: Sudoku Grid</div>
+                            <div class="exercise-item-description">
+                                Create a 9×9 Sudoku grid, fill it with numbers, and display it with proper formatting.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="note-box tip">
+                    <div class="note-box-title">
+                        <i class="ri-trophy-line"></i>
+                        Fantastic Progress!
+                    </div>
+                    <div class="note-box-content">
+                        You now understand how to work with multidimensional data! 
+                        In the next lesson, we'll explore recursion - functions that call themselves!
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-navigation">
+                <a href="13-string-operations.html" class="nav-btn prev">
+                    <i class="ri-arrow-left-line"></i>
+                    <div class="nav-btn-content">
+                        <div class="nav-btn-label">Previous</div>
+                        <div class="nav-btn-title">String Operations</div>
+                    </div>
+                </a>
+                <a href="15-recursion.html" class="nav-btn next">
+                    <div class="nav-btn-content">
+                        <div class="nav-btn-label">Next Lesson</div>
+                        <div class="nav-btn-title">Recursion</div>
+                    </div>
+                    <i class="ri-arrow-right-line"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 iPseudo IDE by <strong>M'BARK</strong>. Free for personal & educational use.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+
+    
+    <!-- Reading Controls -->
+    <script src="js/reading-controls.js"></script>
+    
+    <script src="../website/js/script.js"></script>
+</body>
+</html>

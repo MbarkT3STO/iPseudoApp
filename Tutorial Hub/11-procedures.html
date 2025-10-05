@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 11: Procedures | iPseudo Tutorial</title>
+    <link rel="icon" type="image/svg+xml" href="../website/assets/app-icon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../website/css/style.css">
+    <link rel="stylesheet" href="css/tutorial.css">
+    <link rel="stylesheet" href="css/reading-controls.css">
+</head>
+<body>
+    <div class="background-container">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-pattern"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <a href="index.html" style="display: flex; align-items: center; text-decoration: none; gap: 0.75rem;">
+                    <div class="brand-icon" style="background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); padding: 0.5rem; border-radius: 10px;">
+                        <i class="ri-book-open-line" style="color: white; font-size: 1.5rem;"></i>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.1rem;">
+                        <span class="brand-text" style="font-size: 1.25rem; font-weight: 700; background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">iPseudo</span>
+                        <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; letter-spacing: 0.05em;">TUTORIAL HUB</span>
+                    </div>
+                </a>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="ri-sun-line theme-icon" id="lightIcon"></i>
+                    <i class="ri-moon-line theme-icon hidden" id="darkIcon"></i>
+                </button>
+            </div>
+
+            <div class="navbar-actions">
+                <a href="index.html" class="action-btn demo-btn">
+                    <i class="ri-book-open-line"></i>
+                    <span>All Lessons</span>
+                </a>
+                <a href="https://ipseudoeditor.netlify.app/" target="_blank" class="action-btn demo-btn">
+                    <i class="ri-play-circle-line"></i>
+                    <span>Try Live</span>
+                </a>
+                <a href="https://ipseudo.netlify.app/#download" target="_blank" class="action-btn download-btn">
+                    <i class="ri-download-cloud-line"></i>
+                    <span>Download</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="tutorial-content">
+        <div class="tutorial-container">
+            <div class="tutorial-header">
+                <div class="tutorial-badge">
+                    <i class="ri-plant-line"></i>
+                    <span>Lesson 11 • Intermediate</span>
+                </div>
+                <h1 class="tutorial-title">Procedures</h1>
+                <div class="tutorial-meta">
+                    <div class="tutorial-meta-item">
+                        <i class="ri-time-line"></i>
+                        <span>20 minutes</span>
+                    </div>
+                    <div class="tutorial-meta-item">
+                        <i class="ri-book-open-line"></i>
+                        <span>Reusability</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-body">
+                <h2>🔧 What are Procedures?</h2>
+                
+                <p>
+                    <strong>Procedures</strong> are reusable blocks of code that perform actions but <strong>don't return a value</strong>. 
+                    They're perfect for tasks like printing reports, updating displays, or performing operations that don't need to give back a result.
+                </p>
+
+                <div class="note-box info">
+                    <div class="note-box-title">
+                        <i class="ri-information-line"></i>
+                        Functions vs. Procedures
+                    </div>
+                    <div class="note-box-content">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Functions</th>
+                                    <th>Procedures</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Return a value</td>
+                                    <td>Don't return a value</td>
+                                </tr>
+                                <tr>
+                                    <td>Use <code>Return</code></td>
+                                    <td>No <code>Return</code> needed</td>
+                                </tr>
+                                <tr>
+                                    <td>Calculate and give back results</td>
+                                    <td>Perform actions (print, update, etc.)</td>
+                                </tr>
+                                <tr>
+                                    <td>Example: CalculateArea()</td>
+                                    <td>Example: PrintReport()</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <h2>📐 Procedure Syntax</h2>
+
+                <pre><code><span class="keyword">Procedure</span> <span class="function">ProcedureName</span>(parameters)
+    <span class="comment"># Procedure code</span>
+    <span class="comment"># No return statement</span>
+<span class="keyword">Endprocedure</span></code></pre>
+
+                <h3>Calling a Procedure</h3>
+                <pre><code><span class="function">ProcedureName</span>(arguments)</code></pre>
+
+                <h2>🎯 Simple Procedure Example</h2>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-printer-line"></i>
+                        Example: Basic Procedure
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">ProcedureDemo</span>
+
+<span class="comment"># Define the procedure</span>
+<span class="keyword">Procedure</span> <span class="function">SayHello</span>()
+    <span class="keyword">Print</span> <span class="string">"Hello, World!"</span>
+    <span class="keyword">Print</span> <span class="string">"Welcome to iPseudo!"</span>
+<span class="keyword">Endprocedure</span>
+
+<span class="comment"># Call the procedure</span>
+<span class="function">SayHello</span>()
+<span class="function">SayHello</span>()
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <div class="output-box">
+                    <div class="output-title">
+                        <i class="ri-terminal-line"></i>
+                        Output
+                    </div>
+                    <div class="output-content">Hello, World!
+Welcome to iPseudo!
+Hello, World!
+Welcome to iPseudo!</div>
+                </div>
+
+                <h2>📊 Procedures with Parameters</h2>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-user-line"></i>
+                        Example: Procedure with Parameters
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">ParameterProcedure</span>
+
+<span class="keyword">Procedure</span> <span class="function">GreetUser</span>(name)
+    <span class="keyword">Print</span> <span class="string">"Hello,"</span>, name, <span class="string">"!"</span>
+    <span class="keyword">Print</span> <span class="string">"Nice to meet you!"</span>
+<span class="keyword">Endprocedure</span>
+
+<span class="keyword">Procedure</span> <span class="function">GreetWithTime</span>(name, timeOfDay)
+    <span class="keyword">Print</span> <span class="string">"Good"</span>, timeOfDay, <span class="string">","</span>, name, <span class="string">"!"</span>
+<span class="keyword">Endprocedure</span>
+
+<span class="comment"># Call the procedures</span>
+<span class="function">GreetUser</span>(<span class="string">"Alice"</span>)
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="function">GreetUser</span>(<span class="string">"Bob"</span>)
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="function">GreetWithTime</span>(<span class="string">"Charlie"</span>, <span class="string">"morning"</span>)
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <div class="output-box">
+                    <div class="output-title">
+                        <i class="ri-terminal-line"></i>
+                        Output
+                    </div>
+                    <div class="output-content">Hello, Alice !
+Nice to meet you!
+
+Hello, Bob !
+Nice to meet you!
+
+Good morning , Charlie !</div>
+                </div>
+
+                <h2>🎯 When to Use Procedures</h2>
+
+                <div class="note-box tip">
+                    <div class="note-box-title">
+                        <i class="ri-lightbulb-line"></i>
+                        Use Procedures When:
+                    </div>
+                    <div class="note-box-content">
+                        <ul>
+                            <li>Printing formatted output</li>
+                            <li>Displaying menus</li>
+                            <li>Drawing patterns or graphics</li>
+                            <li>Updating displays</li>
+                            <li>Performing actions that don't need to return a value</li>
+                            <li>Organizing repetitive display code</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h2>📋 Real-World Examples</h2>
+
+                <h3>Menu Display</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-menu-line"></i>
+                        Example: Menu Procedures
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">MenuSystem</span>
+
+<span class="keyword">Procedure</span> <span class="function">ShowMainMenu</span>()
+    <span class="keyword">Print</span> <span class="string">""</span>
+    <span class="keyword">Print</span> <span class="string">"================================"</span>
+    <span class="keyword">Print</span> <span class="string">"        MAIN MENU"</span>
+    <span class="keyword">Print</span> <span class="string">"================================"</span>
+    <span class="keyword">Print</span> <span class="string">"1. Start Game"</span>
+    <span class="keyword">Print</span> <span class="string">"2. View High Scores"</span>
+    <span class="keyword">Print</span> <span class="string">"3. Settings"</span>
+    <span class="keyword">Print</span> <span class="string">"4. Exit"</span>
+    <span class="keyword">Print</span> <span class="string">"================================"</span>
+<span class="keyword">Endprocedure</span>
+
+<span class="keyword">Procedure</span> <span class="function">ShowGameStarted</span>()
+    <span class="keyword">Print</span> <span class="string">""</span>
+    <span class="keyword">Print</span> <span class="string">"🎮 Game Starting..."</span>
+    <span class="keyword">Print</span> <span class="string">"Good luck!"</span>
+<span class="keyword">Endprocedure</span>
+
+<span class="keyword">Procedure</span> <span class="function">ShowGoodbye</span>()
+    <span class="keyword">Print</span> <span class="string">""</span>
+    <span class="keyword">Print</span> <span class="string">"Thanks for playing!"</span>
+    <span class="keyword">Print</span> <span class="string">"👋 Goodbye!"</span>
+<span class="keyword">Endprocedure</span>
+
+<span class="comment"># Main program</span>
+<span class="function">ShowMainMenu</span>()
+<span class="keyword">var</span> choice = <span class="keyword">Input</span> <span class="string">"Enter choice:"</span>
+
+<span class="keyword">If</span> choice == <span class="number">1</span> <span class="keyword">Then</span>
+    <span class="function">ShowGameStarted</span>()
+<span class="keyword">Else If</span> choice == <span class="number">4</span> <span class="keyword">Then</span>
+    <span class="function">ShowGoodbye</span>()
+<span class="keyword">Endif</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h3>Report Printing</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-file-text-line"></i>
+                        Example: Report Procedures
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">ReportGenerator</span>
+
+<span class="keyword">Procedure</span> <span class="function">PrintHeader</span>()
+    <span class="keyword">Print</span> <span class="string">"================================"</span>
+    <span class="keyword">Print</span> <span class="string">"      SALES REPORT"</span>
+    <span class="keyword">Print</span> <span class="string">"      October 2025"</span>
+    <span class="keyword">Print</span> <span class="string">"================================"</span>
+    <span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Endprocedure</span>
+
+<span class="keyword">Procedure</span> <span class="function">PrintSalesLine</span>(product, quantity, price)
+    <span class="keyword">var</span> total = quantity * price
+    <span class="keyword">Print</span> product, <span class="string">":"</span>
+    <span class="keyword">Print</span> <span class="string">"  Quantity:"</span>, quantity
+    <span class="keyword">Print</span> <span class="string">"  Price: $"</span>, price
+    <span class="keyword">Print</span> <span class="string">"  Total: $"</span>, total
+    <span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Endprocedure</span>
+
+<span class="keyword">Procedure</span> <span class="function">PrintFooter</span>(grandTotal)
+    <span class="keyword">Print</span> <span class="string">"--------------------------------"</span>
+    <span class="keyword">Print</span> <span class="string">"GRAND TOTAL: $"</span>, grandTotal
+    <span class="keyword">Print</span> <span class="string">"================================"</span>
+<span class="keyword">Endprocedure</span>
+
+<span class="comment"># Generate report</span>
+<span class="function">PrintHeader</span>()
+<span class="function">PrintSalesLine</span>(<span class="string">"Laptop"</span>, <span class="number">5</span>, <span class="number">999.99</span>)
+<span class="function">PrintSalesLine</span>(<span class="string">"Mouse"</span>, <span class="number">20</span>, <span class="number">29.99</span>)
+<span class="function">PrintSalesLine</span>(<span class="string">"Keyboard"</span>, <span class="number">15</span>, <span class="number">79.99</span>)
+
+<span class="keyword">var</span> total = (<span class="number">5</span> * <span class="number">999.99</span>) + (<span class="number">20</span> * <span class="number">29.99</span>) + (<span class="number">15</span> * <span class="number">79.99</span>)
+<span class="function">PrintFooter</span>(total)
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h3>Pattern Drawing</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-star-line"></i>
+                        Example: Pattern Procedures
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">PatternDrawer</span>
+
+<span class="keyword">Procedure</span> <span class="function">DrawLine</span>(length, character)
+    <span class="keyword">For</span> i = <span class="number">1</span> <span class="keyword">To</span> length
+        <span class="keyword">Print</span> character
+    <span class="keyword">Endfor</span>
+    <span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Endprocedure</span>
+
+<span class="keyword">Procedure</span> <span class="function">DrawBox</span>(width, height, character)
+    <span class="keyword">For</span> row = <span class="number">1</span> <span class="keyword">To</span> height
+        <span class="function">DrawLine</span>(width, character)
+    <span class="keyword">Endfor</span>
+<span class="keyword">Endprocedure</span>
+
+<span class="keyword">Procedure</span> <span class="function">DrawSeparator</span>()
+    <span class="keyword">Print</span> <span class="string">""</span>
+    <span class="function">DrawLine</span>(<span class="number">40</span>, <span class="string">"-"</span>)
+    <span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Endprocedure</span>
+
+<span class="comment"># Draw patterns</span>
+<span class="keyword">Print</span> <span class="string">"Pattern 1:"</span>
+<span class="function">DrawBox</span>(<span class="number">5</span>, <span class="number">3</span>, <span class="string">"* "</span>)
+
+<span class="function">DrawSeparator</span>()
+
+<span class="keyword">Print</span> <span class="string">"Pattern 2:"</span>
+<span class="function">DrawBox</span>(<span class="number">8</span>, <span class="number">2</span>, <span class="string">"# "</span>)
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>🔄 Combining Functions and Procedures</h2>
+
+                <p>You can use functions and procedures together in your programs:</p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-links-line"></i>
+                        Example: Functions + Procedures
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">CalculatorApp</span>
+
+<span class="comment"># Function to calculate (returns value)</span>
+<span class="keyword">Function</span> <span class="function">Add</span>(a, b)
+    <span class="keyword">Return</span> a + b
+<span class="keyword">Endfunction</span>
+
+<span class="keyword">Function</span> <span class="function">Multiply</span>(a, b)
+    <span class="keyword">Return</span> a * b
+<span class="keyword">Endfunction</span>
+
+<span class="comment"># Procedure to display (no return)</span>
+<span class="keyword">Procedure</span> <span class="function">DisplayResult</span>(operation, num1, num2, result)
+    <span class="keyword">Print</span> <span class="string">""</span>
+    <span class="keyword">Print</span> <span class="string">"=== CALCULATION ==="</span>
+    <span class="keyword">Print</span> num1, operation, num2, <span class="string">"="</span>, result
+    <span class="keyword">Print</span> <span class="string">"==================="</span>
+<span class="keyword">Endprocedure</span>
+
+<span class="comment"># Main program</span>
+<span class="keyword">var</span> x = <span class="number">10</span>
+<span class="keyword">var</span> y = <span class="number">5</span>
+
+<span class="comment"># Calculate using functions</span>
+<span class="keyword">var</span> sum = <span class="function">Add</span>(x, y)
+<span class="keyword">var</span> product = <span class="function">Multiply</span>(x, y)
+
+<span class="comment"># Display using procedures</span>
+<span class="function">DisplayResult</span>(<span class="string">"+"</span>, x, y, sum)
+<span class="function">DisplayResult</span>(<span class="string">"*"</span>, x, y, product)
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>📊 Procedure Organization</h2>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-organization-chart"></i>
+                        Example: Well-Organized Program
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">StudentGradeSystem</span>
+
+<span class="comment"># ===== DISPLAY PROCEDURES =====</span>
+
+<span class="keyword">Procedure</span> <span class="function">ShowWelcome</span>()
+    <span class="keyword">Print</span> <span class="string">"================================"</span>
+    <span class="keyword">Print</span> <span class="string">"   STUDENT GRADE SYSTEM"</span>
+    <span class="keyword">Print</span> <span class="string">"================================"</span>
+    <span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Endprocedure</span>
+
+<span class="keyword">Procedure</span> <span class="function">ShowStudentInfo</span>(name, id, grade)
+    <span class="keyword">Print</span> <span class="string">"Student Name:"</span>, name
+    <span class="keyword">Print</span> <span class="string">"Student ID:"</span>, id
+    <span class="keyword">Print</span> <span class="string">"Final Grade:"</span>, grade
+<span class="keyword">Endprocedure</span>
+
+<span class="keyword">Procedure</span> <span class="function">ShowPassFail</span>(grade)
+    <span class="keyword">If</span> grade >= <span class="number">60</span> <span class="keyword">Then</span>
+        <span class="keyword">Print</span> <span class="string">"Status: ✅ PASSED"</span>
+    <span class="keyword">Else</span>
+        <span class="keyword">Print</span> <span class="string">"Status: ❌ FAILED"</span>
+    <span class="keyword">Endif</span>
+<span class="keyword">Endprocedure</span>
+
+<span class="comment"># ===== CALCULATION FUNCTIONS =====</span>
+
+<span class="keyword">Function</span> <span class="function">CalculateGrade</span>(test1, test2, test3)
+    <span class="keyword">Return</span> (test1 + test2 + test3) / <span class="number">3</span>
+<span class="keyword">Endfunction</span>
+
+<span class="comment"># ===== MAIN PROGRAM =====</span>
+
+<span class="function">ShowWelcome</span>()
+
+<span class="keyword">var</span> name = <span class="keyword">Input</span> <span class="string">"Enter student name:"</span>
+<span class="keyword">var</span> id = <span class="keyword">Input</span> <span class="string">"Enter student ID:"</span>
+<span class="keyword">var</span> t1 = <span class="keyword">Input</span> <span class="string">"Test 1 score:"</span>
+<span class="keyword">var</span> t2 = <span class="keyword">Input</span> <span class="string">"Test 2 score:"</span>
+<span class="keyword">var</span> t3 = <span class="keyword">Input</span> <span class="string">"Test 3 score:"</span>
+
+<span class="keyword">var</span> finalGrade = <span class="function">CalculateGrade</span>(t1, t2, t3)
+
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"=== STUDENT REPORT ==="</span>
+<span class="function">ShowStudentInfo</span>(name, id, finalGrade)
+<span class="function">ShowPassFail</span>(finalGrade)
+<span class="keyword">Print</span> <span class="string">"======================="</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>💡 Best Practices</h2>
+
+                <div class="note-box tip">
+                    <div class="note-box-title">
+                        <i class="ri-star-line"></i>
+                        Writing Good Procedures
+                    </div>
+                    <div class="note-box-content">
+                        <ul>
+                            <li><strong>Action Names:</strong> Use verb names (ShowMenu, PrintReport, DrawBox)</li>
+                            <li><strong>Single Purpose:</strong> Each procedure should do ONE thing</li>
+                            <li><strong>Consistency:</strong> Similar procedures should follow similar patterns</li>
+                            <li><strong>Group Related:</strong> Keep related procedures together</li>
+                            <li><strong>Document:</strong> Add comments explaining what the procedure does</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h2>📝 Key Takeaways</h2>
+
+                <ul>
+                    <li>✅ Procedures perform actions but don't return values</li>
+                    <li>✅ Perfect for display, printing, and UI tasks</li>
+                    <li>✅ Define with <code>Procedure</code>, close with <code>Endprocedure</code></li>
+                    <li>✅ No <code>Return</code> statement needed</li>
+                    <li>✅ Can have parameters like functions</li>
+                    <li>✅ Use functions for calculations, procedures for actions</li>
+                    <li>✅ Combine both for well-organized programs</li>
+                </ul>
+
+                <h2>💪 Practice Exercises</h2>
+
+                <div class="exercise-section">
+                    <div class="exercise-header">
+                        <div class="exercise-icon">
+                            <i class="ri-pencil-line"></i>
+                        </div>
+                        <h3 class="exercise-title">Try These Exercises</h3>
+                    </div>
+                    <div class="exercise-list">
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 1: Receipt Printer</div>
+                            <div class="exercise-item-description">
+                                Create procedures to print a receipt header, item lines, and footer. Build a shopping receipt system.
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 2: Menu System</div>
+                            <div class="exercise-item-description">
+                                Create procedures for different menus (main, settings, help) and build an interactive menu system.
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 3: Calendar Display</div>
+                            <div class="exercise-item-description">
+                                Create procedures to display calendar headers, day names, and month grids. Build a calendar viewer.
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 4: Game Stats Display</div>
+                            <div class="exercise-item-description">
+                                Create procedures to show player stats, inventory, and game status. Combine with functions for calculations.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="note-box tip">
+                    <div class="note-box-title">
+                        <i class="ri-trophy-line"></i>
+                        Well Done!
+                    </div>
+                    <div class="note-box-content">
+                        You now understand the difference between functions and procedures, and when to use each! 
+                        In the next lesson, we'll learn about arrays to work with collections of data.
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-navigation">
+                <a href="10-functions.html" class="nav-btn prev">
+                    <i class="ri-arrow-left-line"></i>
+                    <div class="nav-btn-content">
+                        <div class="nav-btn-label">Previous</div>
+                        <div class="nav-btn-title">Functions</div>
+                    </div>
+                </a>
+                <a href="12-arrays.html" class="nav-btn next">
+                    <div class="nav-btn-content">
+                        <div class="nav-btn-label">Next Lesson</div>
+                        <div class="nav-btn-title">Arrays</div>
+                    </div>
+                    <i class="ri-arrow-right-line"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 iPseudo IDE by <strong>M'BARK</strong>. Free for personal & educational use.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+
+    
+    <!-- Reading Controls -->
+    <script src="js/reading-controls.js"></script>
+    
+    <script src="../website/js/script.js"></script>
+</body>
+</html>

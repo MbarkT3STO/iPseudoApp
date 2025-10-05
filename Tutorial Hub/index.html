@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Complete iPseudo IDE Tutorial - Learn pseudocode from zero to hero with comprehensive tutorials and examples.">
+    <title>iPseudo Tutorial - Learn Pseudocode from Zero to Hero</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="../website/assets/app-icon.svg">
+    
+    <!-- Fonts  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../website/css/style.css">
+    <link rel="stylesheet" href="css/tutorial.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="background-container">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-pattern"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <a href="index.html" style="display: flex; align-items: center; text-decoration: none; gap: 0.75rem;">
+                    <div class="brand-icon" style="background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); padding: 0.5rem; border-radius: 10px;">
+                        <i class="ri-book-open-line" style="color: white; font-size: 1.5rem;"></i>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.1rem;">
+                        <span class="brand-text" style="font-size: 1.25rem; font-weight: 700; background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">iPseudo</span>
+                        <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; letter-spacing: 0.05em;">TUTORIAL HUB</span>
+                    </div>
+                </a>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="ri-sun-line theme-icon" id="lightIcon"></i>
+                    <i class="ri-moon-line theme-icon hidden" id="darkIcon"></i>
+                </button>
+            </div>
+
+            <!-- Navigation Menu -->
+            <nav class="navbar-nav" style="flex: 1; display: flex; justify-content: center;">
+                <ul class="nav-list" style="display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0;">
+                    <li class="nav-list-item">
+                        <a href="#lessons" class="nav-link">All Lessons</a>
+                    </li>
+                    <li class="nav-list-item">
+                        <a href="#beginner" class="nav-link">Beginner</a>
+                    </li>
+                    <li class="nav-list-item">
+                        <a href="#intermediate" class="nav-link">Intermediate</a>
+                    </li>
+                    <li class="nav-list-item">
+                        <a href="#advanced" class="nav-link">Advanced</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="navbar-actions">
+                <a href="../website/index.html" class="action-btn demo-btn">
+                    <i class="ri-home-line"></i>
+                    <span>Home</span>
+                </a>
+                <a href="https://ipseudoeditor.netlify.app/" target="_blank" class="action-btn demo-btn">
+                    <i class="ri-play-circle-line"></i>
+                    <span>Try Live</span>
+                </a>
+                <a href="https://ipseudo.netlify.app/#download" target="_blank" class="action-btn download-btn">
+                    <i class="ri-download-cloud-line"></i>
+                    <span>Download</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="tutorial-hero">
+        <div class="container">
+            <div class="tutorial-hero-content">
+                <div class="hero-badge">
+                    <i class="ri-book-open-line"></i>
+                    <span>Complete Tutorial Series</span>
+                </div>
+                
+                <h1 class="hero-title">
+                    <span class="title-gradient">Learn iPseudo</span>
+                    <br>
+                    <span class="title-secondary">From Zero to Hero</span>
+                </h1>
+                
+                <p class="hero-description" style="text-align: center; max-width: 700px; margin: 0 auto 2rem;">
+                    Master pseudocode programming with our comprehensive, step-by-step tutorial series. 
+                    Each lesson includes detailed explanations, practical examples, and exercises.
+                </p>
+
+                <!-- Quick Start Actions -->
+                <div class="hero-actions" style="display: flex; gap: 1rem; justify-content: center; margin: 2rem 0; flex-wrap: wrap;">
+                    <a href="#beginner" class="btn btn-large btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 1.5rem; background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(16, 185, 129, 0.2)); border: 1px solid rgba(34, 197, 94, 0.4); border-radius: 12px; color: rgb(34, 197, 94); text-decoration: none; font-weight: 600; transition: all 0.3s;">
+                        <i class="ri-seedling-line"></i>
+                        <span>Start Beginner</span>
+                    </a>
+                    <a href="#intermediate" class="btn btn-large btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 1.5rem; background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.2)); border: 1px solid rgba(59, 130, 246, 0.4); border-radius: 12px; color: rgb(59, 130, 246); text-decoration: none; font-weight: 600; transition: all 0.3s;">
+                        <i class="ri-plant-line"></i>
+                        <span>Intermediate Path</span>
+                    </a>
+                    <a href="#advanced" class="btn btn-large btn-accent" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 1.5rem; background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(126, 34, 206, 0.2)); border: 1px solid rgba(147, 51, 234, 0.4); border-radius: 12px; color: rgb(147, 51, 234); text-decoration: none; font-weight: 600; transition: all 0.3s;">
+                        <i class="ri-rocket-line"></i>
+                        <span>Advanced Topics</span>
+                    </a>
+                </div>
+
+                <!-- Learning Path Visual -->
+                <div style="background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 1.5rem; backdrop-filter: blur(10px); margin: 2rem auto; max-width: 700px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+                        <div style="flex: 1; text-align: center;">
+                            <div style="width: 60px; height: 60px; margin: 0 auto 0.5rem; background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(16, 185, 129, 0.2)); border: 2px solid rgba(34, 197, 94, 0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="ri-seedling-line" style="font-size: 1.5rem; color: rgb(34, 197, 94);"></i>
+                            </div>
+                            <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem;">Beginner</div>
+                            <div style="font-size: 0.875rem; color: var(--text-tertiary);">6 Lessons</div>
+                        </div>
+                        <div style="flex: 0 0 auto; color: var(--text-tertiary);">
+                            <i class="ri-arrow-right-line"></i>
+                        </div>
+                        <div style="flex: 1; text-align: center;">
+                            <div style="width: 60px; height: 60px; margin: 0 auto 0.5rem; background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.2)); border: 2px solid rgba(59, 130, 246, 0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="ri-plant-line" style="font-size: 1.5rem; color: rgb(59, 130, 246);"></i>
+                            </div>
+                            <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem;">Intermediate</div>
+                            <div style="font-size: 0.875rem; color: var(--text-tertiary);">7 Lessons</div>
+                        </div>
+                        <div style="flex: 0 0 auto; color: var(--text-tertiary);">
+                            <i class="ri-arrow-right-line"></i>
+                        </div>
+                        <div style="flex: 1; text-align: center;">
+                            <div style="width: 60px; height: 60px; margin: 0 auto 0.5rem; background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(126, 34, 206, 0.2)); border: 2px solid rgba(147, 51, 234, 0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="ri-rocket-line" style="font-size: 1.5rem; color: rgb(147, 51, 234);"></i>
+                            </div>
+                            <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem;">Advanced</div>
+                            <div style="font-size: 0.875rem; color: var(--text-tertiary);">7 Lessons</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Features Grid -->
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin: 2rem 0; max-width: 900px; margin-left: auto; margin-right: auto;">
+                    <div style="background: rgba(34, 197, 94, 0.05); border: 1px solid rgba(34, 197, 94, 0.2); border-radius: 12px; padding: 1.25rem; text-align: center;">
+                        <i class="ri-bookmark-line" style="font-size: 2rem; color: rgb(34, 197, 94); margin-bottom: 0.5rem;"></i>
+                        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem;">Zero to Hero</div>
+                        <div style="font-size: 0.875rem; color: var(--text-secondary);">Complete learning path</div>
+                    </div>
+                    <div style="background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 12px; padding: 1.25rem; text-align: center;">
+                        <i class="ri-time-line" style="font-size: 2rem; color: rgb(59, 130, 246); margin-bottom: 0.5rem;"></i>
+                        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem;">8.5 Hours</div>
+                        <div style="font-size: 0.875rem; color: var(--text-secondary);">Total study time</div>
+                    </div>
+                    <div style="background: rgba(147, 51, 234, 0.05); border: 1px solid rgba(147, 51, 234, 0.2); border-radius: 12px; padding: 1.25rem; text-align: center;">
+                        <i class="ri-lightbulb-flash-line" style="font-size: 2rem; color: rgb(147, 51, 234); margin-bottom: 0.5rem;"></i>
+                        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem;">Interactive</div>
+                        <div style="font-size: 0.875rem; color: var(--text-secondary);">Try code examples</div>
+                    </div>
+                    <div style="background: rgba(234, 88, 12, 0.05); border: 1px solid rgba(234, 88, 12, 0.2); border-radius: 12px; padding: 1.25rem; text-align: center;">
+                        <i class="ri-trophy-line" style="font-size: 2rem; color: rgb(234, 88, 12); margin-bottom: 0.5rem;"></i>
+                        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem;">80+ Exercises</div>
+                        <div style="font-size: 0.875rem; color: var(--text-secondary);">Hands-on practice</div>
+                    </div>
+                </div>
+                
+                <!-- What You'll Learn -->
+                <div style="background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 2rem; backdrop-filter: blur(10px); margin: 2rem auto; max-width: 800px;">
+                    <h3 style="text-align: center; font-size: 1.5rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1.5rem;">
+                        <i class="ri-lightbulb-line" style="color: var(--color-purple-500);"></i>
+                        What You'll Master
+                    </h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                        <div style="display: flex; gap: 0.75rem;">
+                            <i class="ri-check-line" style="color: var(--color-success); font-size: 1.25rem; flex-shrink: 0;"></i>
+                            <div>
+                                <strong style="color: var(--text-primary);">Variables & Data Types</strong>
+                                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0.25rem 0 0;">Store and manage data effectively</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 0.75rem;">
+                            <i class="ri-check-line" style="color: var(--color-success); font-size: 1.25rem; flex-shrink: 0;"></i>
+                            <div>
+                                <strong style="color: var(--text-primary);">Control Flow</strong>
+                                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0.25rem 0 0;">Make decisions and repeat actions</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 0.75rem;">
+                            <i class="ri-check-line" style="color: var(--color-success); font-size: 1.25rem; flex-shrink: 0;"></i>
+                            <div>
+                                <strong style="color: var(--text-primary);">Functions & Procedures</strong>
+                                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0.25rem 0 0;">Write reusable code blocks</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 0.75rem;">
+                            <i class="ri-check-line" style="color: var(--color-success); font-size: 1.25rem; flex-shrink: 0;"></i>
+                            <div>
+                                <strong style="color: var(--text-primary);">Data Structures</strong>
+                                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0.25rem 0 0;">Arrays, stacks, queues, and more</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 0.75rem;">
+                            <i class="ri-check-line" style="color: var(--color-success); font-size: 1.25rem; flex-shrink: 0;"></i>
+                            <div>
+                                <strong style="color: var(--text-primary);">Algorithms</strong>
+                                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0.25rem 0 0;">Sorting, searching, recursion</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 0.75rem;">
+                            <i class="ri-check-line" style="color: var(--color-success); font-size: 1.25rem; flex-shrink: 0;"></i>
+                            <div>
+                                <strong style="color: var(--text-primary);">Best Practices</strong>
+                                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0.25rem 0 0;">Professional coding standards</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-stats" style="display: flex; justify-content: center; gap: 3rem; margin-top: 2rem; flex-wrap: wrap;">
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="ri-book-2-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value">20</div>
+                            <div class="stat-label">Lessons</div>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="ri-code-box-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value">100+</div>
+                            <div class="stat-label">Examples</div>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="ri-trophy-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value">80+</div>
+                            <div class="stat-label">Exercises</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Learning Path Section -->
+    <section class="learning-path" id="lessons">
+        <div class="container">
+            <!-- Recommendation Bar -->
+            <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1)); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 12px; padding: 1.5rem; margin-bottom: 3rem; text-align: center;">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+                    <i class="ri-information-line" style="font-size: 1.5rem; color: var(--color-blue-500);"></i>
+                    <div style="text-align: left;">
+                        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem;">
+                            🎯 Not sure where to start?
+                        </div>
+                        <div style="font-size: 0.875rem; color: var(--text-secondary);">
+                            <strong>New to programming?</strong> Start with Beginner • 
+                            <strong>Know basics?</strong> Jump to Intermediate • 
+                            <strong>Advanced user?</strong> Explore Advanced topics
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2 class="section-title">Your Learning Path</h2>
+                <p class="section-subtitle">Follow this structured path to master iPseudo pseudocode</p>
+            </div>
+
+            <!-- Beginner Level -->
+            <div class="level-section" id="beginner">
+                <div class="level-header">
+                    <div class="level-badge beginner">
+                        <i class="ri-seedling-line"></i>
+                        <span>Beginner</span>
+                    </div>
+                    <h3 class="level-title">Foundation Concepts</h3>
+                    <p class="level-description">Start your journey with the basics of pseudocode programming</p>
+                </div>
+                
+                <div class="lessons-grid">
+                    <a href="01-introduction-to-pseudocode.html" class="lesson-card">
+                        <div class="lesson-number">01</div>
+                        <div class="lesson-content">
+                            <h4 class="lesson-title">Introduction to Pseudocode</h4>
+                            <p class="lesson-description">What is pseudocode and why use it?</p>
+                            <div class="lesson-meta">
+                                <span class="lesson-duration"><i class="ri-time-line"></i> 10 min</span>
+                                <span class="lesson-level">Beginner</span>
+                            </div>
+                        </div>
+                        <div class="lesson-arrow">
+                            <i class="ri-arrow-right-line"></i>
+                        </div>
+                    </a>
+
+                    <a href="02-getting-started.html" class="lesson-card">
+                        <div class="lesson-number">02</div>
+                        <div class="lesson-content">
+                            <h4 class="lesson-title">Getting Started with iPseudo</h4>
+                            <p class="lesson-description">Your first iPseudo program</p>
+                            <div class="lesson-meta">
+                                <span class="lesson-duration"><i class="ri-time-line"></i> 15 min</span>
+                                <span class="lesson-level">Beginner</span>
+                            </div>
+                        </div>
+                        <div class="lesson-arrow">
+                            <i class="ri-arrow-right-line"></i>
+                        </div>
+                    </a>
+
+                    <a href="03-variables-and-data-types.html" class="lesson-card">
+                        <div class="lesson-number">03</div>
+                        <div class="lesson-content">
+                            <h4 class="lesson-title">Variables and Data Types</h4>
+                            <p class="lesson-description">Storing and managing data in your programs</p>
+                            <div class="lesson-meta">
+                                <span class="lesson-duration"><i class="ri-time-line"></i> 20 min</span>
+                                <span class="lesson-level">Beginner</span>
+                            </div>
+                        </div>
+                        <div class="lesson-arrow">
+                            <i class="ri-arrow-right-line"></i>
+                        </div>
+                    </a>
+
+                    <a href="04-input-and-output.html" class="lesson-card">
+                        <div class="lesson-number">04</div>
+                        <div class="lesson-content">
+                            <h4 class="lesson-title">Input and Output</h4>
+                            <p class="lesson-description">Interacting with users</p>
+                            <div class="lesson-meta">
+                                <span class="lesson-duration"><i class="ri-time-line"></i> 15 min</span>
+                                <span class="lesson-level">Beginner</span>
+                            </div>
+                        </div>
+                        <div class="lesson-arrow">
+                            <i class="ri-arrow-right-line"></i>
+                        </div>
+                    </a>
+
+                    <a href="05-operators.html" class="lesson-card">
+                        <div class="lesson-number">05</div>
+                        <div class="lesson-content">
+                            <h4 class="lesson-title">Operators</h4>
+                            <p class="lesson-description">Arithmetic, comparison, and logical operations</p>
+                            <div class="lesson-meta">
+                                <span class="lesson-duration"><i class="ri-time-line"></i> 20 min</span>
+                                <span class="lesson-level">Beginner</span>
+                            </div>
+                        </div>
+                        <div class="lesson-arrow">
+                            <i class="ri-arrow-right-line"></i>
+                        </div>
+                    </a>
+
+                    <a href="06-comments-and-documentation.html" class="lesson-card">
+                        <div class="lesson-number">06</div>
+                        <div class="lesson-content">
+                            <h4 class="lesson-title">Comments and Documentation</h4>
+                            <p class="lesson-description">Writing clear and maintainable code</p>
+                            <div class="lesson-meta">
+                                <span class="lesson-duration"><i class="ri-time-line"></i> 10 min</span>
+                                <span class="lesson-level">Beginner</span>
+                            </div>
+                        </div>
+                        <div class="lesson-arrow">
+                            <i class="ri-arrow-right-line"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Intermediate Level -->
+            <div class="level-section" id="intermediate">
+                <div class="level-header">
+                    <div class="level-badge intermediate">
+                        <i class="ri-plant-line"></i>
+                        <span>Intermediate</span>
+                    </div>
+                    <h3 class="level-title">Control Flow & Functions</h3>
+                    <p class="level-description">Master decision-making, loops, and reusable code</p>
+                </div>
+                
+                <div class="lessons-grid">
+                    <a href="07-conditional-statements.html" class="lesson-card">
+                        <div class="lesson-number">07</div>
+                        <div class="lesson-content">
+                            <h4 class="lesson-title">Conditional Statements</h4>
+                            <p class="lesson-description">If, Else, and decision making</p>
+                            <div class="lesson-meta">
+                                <span class="lesson-duration"><i class="ri-time-line"></i> 25 min</span>
+                                <span class="lesson-level">Intermediate</span>
+                            </div>
+                        </div>
+                        <div class="lesson-arrow">
+                            <i class="ri-arrow-right-line"></i>
+                        </div>
+                    </a>
+
+                    <a href="08-loops.html" class="lesson-card">
+                        <div class="lesson-number">08</div>
+                        <div class="lesson-content">
+                            <h4 class="lesson-title">Loops</h4>
+                            <p class="lesson-description">For, While, and Repeat loops</p>
+                            <div class="lesson-meta">
+                                <span class="lesson-duration"><i class="ri-time-line"></i> 30 min</span>
+                                <span class="lesson-level">Intermediate</span>
+                            </div>
+                        </div>
+                        <div class="lesson-arrow">
+                            <i class="ri-arrow-right-line"></i>
+                        </div>
+                    </a>
+
+                    <a href="09-nested-loops.html" class="lesson-card">
+                        <div class="lesson-number">09</div>
+                        <div class="lesson-content">
+                            <h4 class="lesson-title">Nested Loops</h4>
+                            <p class="lesson-description">Loops within loops for complex patterns</p>
+                            <div class="lesson-meta">
+                                <span class="lesson-duration"><i class="ri-time-line"></i> 20 min</span>
+                                <span class="lesson-level">Intermediate</span>
+                            </div>
+                        </div>
+                        <div class="lesson-arrow">
+                            <i class="ri-arrow-right-line"></i>
+                        </div>
+                    </a>
+
+                    <a href="10-functions.html" class="lesson-card">
+                        <div class="lesson-number">10</div>
+                        <div class="lesson-content">
+                            <h4 class="lesson-title">Functions</h4>
+                            <p class="lesson-description">Creating reusable code blocks</p>
+                            <div class="lesson-meta">
+                                <span class="lesson-duration"><i class="ri-time-line"></i> 25 min</span>
+                                <span class="lesson-level">Intermediate</span>
+                            </div>
+                        </div>
+                        <div class="lesson-arrow">
+                            <i class="ri-arrow-right-line"></i>
+                        </div>
+                    </a>
+
+                    <a href="11-procedures.html" class="lesson-card">
+                        <div class="lesson-number">11</div>
+                        <div class="lesson-content">
+                            <h4 class="lesson-title">Procedures</h4>
+                            <p class="lesson-description">Functions without return values</p>
+                            <div class="lesson-meta">
+                                <span class="lesson-duration"><i class="ri-time-line"></i> 20 min</span>
+                                <span class="lesson-level">Intermediate</span>
+                            </div>
+                        </div>
+                        <div class="lesson-arrow">
+                            <i class="ri-arrow-right-line"></i>
+                        </div>
+                    </a>
+
+                    <a href="12-arrays.html" class="lesson-card">
+                        <div class="lesson-number">12</div>
+                        <div class="lesson-content">
+                            <h4 class="lesson-title">Arrays</h4>
+                            <p class="lesson-description">Working with collections of data</p>
+                            <div class="lesson-meta">
+                                <span class="lesson-duration"><i class="ri-time-line"></i> 30 min</span>
+                                <span class="lesson-level">Intermediate</span>
+                            </div>
+                        </div>
+                        <div class="lesson-arrow">
+                            <i class="ri-arrow-right-line"></i>
+                        </div>
+                    </a>
+
+                    <a href="13-string-operations.html" class="lesson-card">
+                        <div class="lesson-number">13</div>
+                        <div class="lesson-content">
+                            <h4 class="lesson-title">String Operations</h4>
+                            <p class="lesson-description">Manipulating text and strings</p>
+                            <div class="lesson-meta">
+                                <span class="lesson-duration"><i class="ri-time-line"></i> 25 min</span>
+                                <span class="lesson-level">Intermediate</span>
+                            </div>
+                        </div>
+                        <div class="lesson-arrow">
+                            <i class="ri-arrow-right-line"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Advanced Level -->
+            <div class="level-section" id="advanced">
+                <div class="level-header">
+                    <div class="level-badge advanced">
+                        <i class="ri-rocket-line"></i>
+                        <span>Advanced</span>
+                    </div>
+                    <h3 class="level-title">Advanced Concepts & Algorithms</h3>
+                    <p class="level-description">Master complex topics and real-world algorithms</p>
+                </div>
+                
+                <div class="lessons-grid">
+                    <a href="14-multidimensional-arrays.html" class="lesson-card">
+                        <div class="lesson-number">14</div>
+                        <div class="lesson-content">
+                            <h4 class="lesson-title">Multidimensional Arrays</h4>
+                            <p class="lesson-description">2D arrays, matrices, and tables</p>
+                            <div class="lesson-meta">
+                                <span class="lesson-duration"><i class="ri-time-line"></i> 30 min</span>
+                                <span class="lesson-level">Advanced</span>
+                            </div>
+                        </div>
+                        <div class="lesson-arrow">
+                            <i class="ri-arrow-right-line"></i>
+                        </div>
+                    </a>
+
+                    <a href="15-recursion.html" class="lesson-card">
+                        <div class="lesson-number">15</div>
+                        <div class="lesson-content">
+                            <h4 class="lesson-title">Recursion</h4>
+                            <p class="lesson-description">Functions calling themselves</p>
+                            <div class="lesson-meta">
+                                <span class="lesson-duration"><i class="ri-time-line"></i> 35 min</span>
+                                <span class="lesson-level">Advanced</span>
+                            </div>
+                        </div>
+                        <div class="lesson-arrow">
+                            <i class="ri-arrow-right-line"></i>
+                        </div>
+                    </a>
+
+                    <a href="16-sorting-algorithms.html" class="lesson-card">
+                        <div class="lesson-number">16</div>
+                        <div class="lesson-content">
+                            <h4 class="lesson-title">Sorting Algorithms</h4>
+                            <p class="lesson-description">Bubble sort, selection sort, and more</p>
+                            <div class="lesson-meta">
+                                <span class="lesson-duration"><i class="ri-time-line"></i> 40 min</span>
+                                <span class="lesson-level">Advanced</span>
+                            </div>
+                        </div>
+                        <div class="lesson-arrow">
+                            <i class="ri-arrow-right-line"></i>
+                        </div>
+                    </a>
+
+                    <a href="17-searching-algorithms.html" class="lesson-card">
+                        <div class="lesson-number">17</div>
+                        <div class="lesson-content">
+                            <h4 class="lesson-title">Searching Algorithms</h4>
+                            <p class="lesson-description">Linear and binary search</p>
+                            <div class="lesson-meta">
+                                <span class="lesson-duration"><i class="ri-time-line"></i> 30 min</span>
+                                <span class="lesson-level">Advanced</span>
+                            </div>
+                        </div>
+                        <div class="lesson-arrow">
+                            <i class="ri-arrow-right-line"></i>
+                        </div>
+                    </a>
+
+                    <a href="18-data-structures.html" class="lesson-card">
+                        <div class="lesson-number">18</div>
+                        <div class="lesson-content">
+                            <h4 class="lesson-title">Data Structures</h4>
+                            <p class="lesson-description">Stacks, queues, and linked lists</p>
+                            <div class="lesson-meta">
+                                <span class="lesson-duration"><i class="ri-time-line"></i> 45 min</span>
+                                <span class="lesson-level">Advanced</span>
+                            </div>
+                        </div>
+                        <div class="lesson-arrow">
+                            <i class="ri-arrow-right-line"></i>
+                        </div>
+                    </a>
+
+                    <a href="19-algorithm-design-patterns.html" class="lesson-card">
+                        <div class="lesson-number">19</div>
+                        <div class="lesson-content">
+                            <h4 class="lesson-title">Algorithm Design Patterns</h4>
+                            <p class="lesson-description">Common problem-solving approaches</p>
+                            <div class="lesson-meta">
+                                <span class="lesson-duration"><i class="ri-time-line"></i> 35 min</span>
+                                <span class="lesson-level">Advanced</span>
+                            </div>
+                        </div>
+                        <div class="lesson-arrow">
+                            <i class="ri-arrow-right-line"></i>
+                        </div>
+                    </a>
+
+                    <a href="20-best-practices.html" class="lesson-card">
+                        <div class="lesson-number">20</div>
+                        <div class="lesson-content">
+                            <h4 class="lesson-title">Best Practices & Optimization</h4>
+                            <p class="lesson-description">Writing efficient, maintainable code</p>
+                            <div class="lesson-meta">
+                                <span class="lesson-duration"><i class="ri-time-line"></i> 30 min</span>
+                                <span class="lesson-level">Advanced</span>
+                            </div>
+                        </div>
+                        <div class="lesson-arrow">
+                            <i class="ri-arrow-right-line"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-box">
+                <h2 class="cta-title">Ready to Start Learning?</h2>
+                <p class="cta-description">Begin your journey with Lesson 1: Introduction to Pseudocode</p>
+                <a href="01-introduction-to-pseudocode.html" class="btn btn-large btn-primary">
+                    <i class="ri-book-open-line"></i>
+                    <span>Start Learning Now</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="brand-icon">
+                        <i class="ri-code-s-slash-line"></i>
+                    </div>
+                    <span class="brand-name">iPseudo IDE</span>
+                    <p class="footer-tagline">Making pseudocode beautiful</p>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Tutorial</h4>
+                        <ul>
+                            <li><a href="#beginner">Beginner</a></li>
+                            <li><a href="#intermediate">Intermediate</a></li>
+                            <li><a href="#advanced">Advanced</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="../index.html">Home</a></li>
+                            <li><a href="../examples.html">Examples</a></li>
+                            <li><a href="../docs/getting-started.html">Quick Start</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Support</h4>
+                        <ul>
+                            <li><a href="https://github.com/MbarkT3sto/iPseudoApp/issues">Report Issue</a></li>
+                            <li><a href="mailto:me@MBVRK.onmicrosoft.com">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 iPseudo IDE by <strong>M'BARK</strong>. Free for personal & educational use.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="../website/js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 3: Variables and Data Types | iPseudo Tutorial</title>
+    <link rel="icon" type="image/svg+xml" href="../website/assets/app-icon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../website/css/style.css">
+    <link rel="stylesheet" href="css/tutorial.css">
+    <link rel="stylesheet" href="css/reading-controls.css">
+</head>
+<body>
+    <div class="background-container">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-pattern"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <a href="index.html" style="display: flex; align-items: center; text-decoration: none; gap: 0.75rem;">
+                    <div class="brand-icon" style="background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); padding: 0.5rem; border-radius: 10px;">
+                        <i class="ri-book-open-line" style="color: white; font-size: 1.5rem;"></i>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.1rem;">
+                        <span class="brand-text" style="font-size: 1.25rem; font-weight: 700; background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">iPseudo</span>
+                        <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; letter-spacing: 0.05em;">TUTORIAL HUB</span>
+                    </div>
+                </a>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="ri-sun-line theme-icon" id="lightIcon"></i>
+                    <i class="ri-moon-line theme-icon hidden" id="darkIcon"></i>
+                </button>
+            </div>
+
+            <div class="navbar-actions">
+                <a href="index.html" class="action-btn demo-btn">
+                    <i class="ri-book-open-line"></i>
+                    <span>All Lessons</span>
+                </a>
+                <a href="https://ipseudoeditor.netlify.app/" target="_blank" class="action-btn demo-btn">
+                    <i class="ri-play-circle-line"></i>
+                    <span>Try Live</span>
+                </a>
+                <a href="https://ipseudo.netlify.app/#download" target="_blank" class="action-btn download-btn">
+                    <i class="ri-download-cloud-line"></i>
+                    <span>Download</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="tutorial-content">
+        <div class="tutorial-container">
+            <div class="tutorial-header">
+                <div class="tutorial-badge">
+                    <i class="ri-seedling-line"></i>
+                    <span>Lesson 3 • Beginner</span>
+                </div>
+                <h1 class="tutorial-title">Variables and Data Types</h1>
+                <div class="tutorial-meta">
+                    <div class="tutorial-meta-item">
+                        <i class="ri-time-line"></i>
+                        <span>20 minutes</span>
+                    </div>
+                    <div class="tutorial-meta-item">
+                        <i class="ri-book-open-line"></i>
+                        <span>Foundation</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-body">
+                <h2>📦 What are Variables?</h2>
+                
+                <p>
+                    <strong>Variables</strong> are containers that store data in your programs. Think of them as labeled boxes 
+                    where you can put values and retrieve them later. Variables are fundamental to programming because they 
+                    allow your programs to work with data dynamically.
+                </p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-box-line"></i>
+                        Real-World Analogy
+                    </div>
+                    <p>
+                        Imagine you have a box labeled "age". You can put the number 25 inside it. Later, you can:
+                    </p>
+                    <ul>
+                        <li>Look at what's in the box (read the value)</li>
+                        <li>Change what's in the box (update the value)</li>
+                        <li>Use what's in the box for calculations</li>
+                    </ul>
+                    <p>That's exactly how variables work in programming!</p>
+                </div>
+
+                <h2>🔤 Declaring Variables</h2>
+
+                <p>iPseudo offers three flexible ways to declare variables:</p>
+
+                <h3>Style 1: Using <code>var</code> Keyword (Recommended)</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-code-line"></i>
+                        Example: Traditional var Style
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">VarExample</span>
+
+<span class="keyword">var</span> studentName = <span class="string">"Alice"</span>
+<span class="keyword">var</span> studentAge = <span class="number">20</span>
+<span class="keyword">var</span> studentGPA = <span class="number">3.75</span>
+<span class="keyword">var</span> isEnrolled = <span class="keyword">true</span>
+
+<span class="keyword">Print</span> <span class="string">"Name:"</span>, studentName
+<span class="keyword">Print</span> <span class="string">"Age:"</span>, studentAge
+<span class="keyword">Print</span> <span class="string">"GPA:"</span>, studentGPA
+<span class="keyword">Print</span> <span class="string">"Enrolled:"</span>, isEnrolled
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <div class="output-box">
+                    <div class="output-title">
+                        <i class="ri-terminal-line"></i>
+                        Output
+                    </div>
+                    <div class="output-content">Name: Alice
+Age: 20
+GPA: 3.75
+Enrolled: true</div>
+                </div>
+
+                <h3>Style 2: Using <code>Variable</code> Keyword</h3>
+
+                <pre><code><span class="keyword">Algorithm</span> <span class="function">VariableKeywordExample</span>
+
+<span class="keyword">Variable</span> productName = <span class="string">"Laptop"</span>
+<span class="keyword">Variable</span> productPrice = <span class="number">999.99</span>
+<span class="keyword">Variable</span> inStock = <span class="keyword">true</span>
+
+<span class="keyword">Print</span> productName, <span class="string">"costs $"</span>, productPrice
+
+<span class="keyword">Endalgorithm</span></code></pre>
+
+                <h3>Style 3: Using <code>Declare As</code> (Typed)</h3>
+
+                <pre><code><span class="keyword">Algorithm</span> <span class="function">TypedVariables</span>
+
+<span class="keyword">Declare</span> name <span class="keyword">As String</span>
+<span class="keyword">Declare</span> age <span class="keyword">As Integer</span>
+<span class="keyword">Declare</span> salary <span class="keyword">As Float</span>
+
+<span class="keyword">Set</span> <span class="string">"Bob"</span> <span class="keyword">To</span> name
+<span class="keyword">Set</span> <span class="number">30</span> <span class="keyword">To</span> age
+<span class="keyword">Set</span> <span class="number">50000.50</span> <span class="keyword">To</span> salary
+
+<span class="keyword">Print</span> name, <span class="string">"is"</span>, age, <span class="string">"years old"</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+
+                <div class="note-box info">
+                    <div class="note-box-title">
+                        <i class="ri-information-line"></i>
+                        Which Style to Use?
+                    </div>
+                    <div class="note-box-content">
+                        <ul>
+                            <li><strong>var</strong> - Quick and simple, great for most cases</li>
+                            <li><strong>Variable</strong> - More readable, self-documenting</li>
+                            <li><strong>Declare As</strong> - Explicit types, professional style</li>
+                        </ul>
+                        All three styles work perfectly. Choose what feels most comfortable to you!
+                    </div>
+                </div>
+
+                <h2>🎯 Data Types</h2>
+
+                <p>Data types define what kind of data a variable can hold. iPseudo supports several fundamental types:</p>
+
+                <h3>1. Integer (Whole Numbers)</h3>
+
+                <p>Integers are whole numbers without decimal points.</p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-hashtag"></i>
+                        Integer Examples
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">IntegerExample</span>
+
+<span class="keyword">var</span> age = <span class="number">25</span>
+<span class="keyword">var</span> temperature = <span class="number">-5</span>
+<span class="keyword">var</span> studentCount = <span class="number">150</span>
+<span class="keyword">var</span> year = <span class="number">2025</span>
+
+<span class="keyword">Print</span> <span class="string">"Age:"</span>, age
+<span class="keyword">Print</span> <span class="string">"Temperature:"</span>, temperature, <span class="string">"°C"</span>
+<span class="keyword">Print</span> <span class="string">"Students:"</span>, studentCount
+<span class="keyword">Print</span> <span class="string">"Year:"</span>, year
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <p><strong>Use integers for:</strong></p>
+                <ul>
+                    <li>Counting items</li>
+                    <li>Age, year, day numbers</li>
+                    <li>Array indices</li>
+                    <li>Loop counters</li>
+                </ul>
+
+                <h3>2. Float (Decimal Numbers)</h3>
+
+                <p>Floats are numbers with decimal points, used for precise calculations.</p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-percent-line"></i>
+                        Float Examples
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">FloatExample</span>
+
+<span class="keyword">var</span> price = <span class="number">19.99</span>
+<span class="keyword">var</span> temperature = <span class="number">98.6</span>
+<span class="keyword">var</span> pi = <span class="number">3.14159</span>
+<span class="keyword">var</span> percentage = <span class="number">87.5</span>
+
+<span class="keyword">Print</span> <span class="string">"Price: $"</span>, price
+<span class="keyword">Print</span> <span class="string">"Body temp:"</span>, temperature, <span class="string">"°F"</span>
+<span class="keyword">Print</span> <span class="string">"Pi ≈"</span>, pi
+<span class="keyword">Print</span> <span class="string">"Score:"</span>, percentage, <span class="string">"%"</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <p><strong>Use floats for:</strong></p>
+                <ul>
+                    <li>Money and prices</li>
+                    <li>Measurements and distances</li>
+                    <li>Scientific calculations</li>
+                    <li>Percentages and ratios</li>
+                </ul>
+
+                <h3>3. String (Text)</h3>
+
+                <p>Strings are sequences of characters enclosed in quotes.</p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-text"></i>
+                        String Examples
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">StringExample</span>
+
+<span class="keyword">var</span> firstName = <span class="string">"John"</span>
+<span class="keyword">var</span> lastName = <span class="string">"Smith"</span>
+<span class="keyword">var</span> email = <span class="string">"john@example.com"</span>
+<span class="keyword">var</span> message = <span class="string">"Hello, World!"</span>
+
+<span class="comment"># String concatenation</span>
+<span class="keyword">var</span> fullName = firstName + <span class="string">" "</span> + lastName
+
+<span class="keyword">Print</span> <span class="string">"Full Name:"</span>, fullName
+<span class="keyword">Print</span> <span class="string">"Email:"</span>, email
+<span class="keyword">Print</span> message
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <div class="output-box">
+                    <div class="output-title">
+                        <i class="ri-terminal-line"></i>
+                        Output
+                    </div>
+                    <div class="output-content">Full Name: John Smith
+Email: john@example.com
+Hello, World!</div>
+                </div>
+
+                <p><strong>Use strings for:</strong></p>
+                <ul>
+                    <li>Names and text</li>
+                    <li>Messages and descriptions</li>
+                    <li>Email addresses and URLs</li>
+                    <li>Any textual data</li>
+                </ul>
+
+                <h3>4. Boolean (True/False)</h3>
+
+                <p>Booleans have only two possible values: <code>true</code> or <code>false</code>.</p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-toggle-line"></i>
+                        Boolean Examples
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">BooleanExample</span>
+
+<span class="keyword">var</span> isStudent = <span class="keyword">true</span>
+<span class="keyword">var</span> hasLicense = <span class="keyword">false</span>
+<span class="keyword">var</span> isAdult = <span class="keyword">true</span>
+
+<span class="keyword">Print</span> <span class="string">"Is student:"</span>, isStudent
+<span class="keyword">Print</span> <span class="string">"Has license:"</span>, hasLicense
+<span class="keyword">Print</span> <span class="string">"Is adult:"</span>, isAdult
+
+<span class="comment"># Booleans from comparisons</span>
+<span class="keyword">var</span> age = <span class="number">20</span>
+<span class="keyword">var</span> canVote = age >= <span class="number">18</span>
+<span class="keyword">Print</span> <span class="string">"Can vote:"</span>, canVote
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <p><strong>Use booleans for:</strong></p>
+                <ul>
+                    <li>Yes/No questions</li>
+                    <li>On/Off states</li>
+                    <li>Condition results</li>
+                    <li>Flags and switches</li>
+                </ul>
+
+                <h2>🔄 Updating Variables</h2>
+
+                <p>Once created, you can change a variable's value:</p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-refresh-line"></i>
+                        Updating Variables
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">UpdateVariables</span>
+
+<span class="comment"># Create variable</span>
+<span class="keyword">var</span> score = <span class="number">0</span>
+<span class="keyword">Print</span> <span class="string">"Initial score:"</span>, score
+
+<span class="comment"># Update variable</span>
+score = <span class="number">10</span>
+<span class="keyword">Print</span> <span class="string">"After first update:"</span>, score
+
+<span class="comment"># Update again</span>
+score = <span class="number">25</span>
+<span class="keyword">Print</span> <span class="string">"After second update:"</span>, score
+
+<span class="comment"># Increment variable</span>
+score = score + <span class="number">5</span>
+<span class="keyword">Print</span> <span class="string">"After increment:"</span>, score
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <div class="output-box">
+                    <div class="output-title">
+                        <i class="ri-terminal-line"></i>
+                        Output
+                    </div>
+                    <div class="output-content">Initial score: 0
+After first update: 10
+After second update: 25
+After increment: 30</div>
+                </div>
+
+                <h2>📝 Variable Naming Rules</h2>
+
+                <h3>✅ Valid Variable Names:</h3>
+                <ul>
+                    <li><code>age</code> - Simple lowercase</li>
+                    <li><code>studentName</code> - camelCase (recommended)</li>
+                    <li><code>first_name</code> - snake_case</li>
+                    <li><code>age2</code> - Can include numbers</li>
+                    <li><code>totalScore</code> - Descriptive</li>
+                </ul>
+
+                <h3>❌ Invalid Variable Names:</h3>
+                <ul>
+                    <li><code>2age</code> - Can't start with number</li>
+                    <li><code>student-name</code> - No hyphens</li>
+                    <li><code>first name</code> - No spaces</li>
+                    <li><code>total$</code> - No special characters</li>
+                </ul>
+
+                <div class="note-box tip">
+                    <div class="note-box-title">
+                        <i class="ri-lightbulb-line"></i>
+                        Best Practice: Descriptive Names
+                    </div>
+                    <div class="note-box-content">
+                        Use meaningful names that describe what the variable represents:
+                        <ul>
+                            <li>✅ <code>studentAge</code> is better than <code>a</code></li>
+                            <li>✅ <code>totalPrice</code> is better than <code>tp</code></li>
+                            <li>✅ <code>isActive</code> is better than <code>flag</code></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h2>🎯 Real-World Example</h2>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-shopping-cart-line"></i>
+                        Complete Example: Shopping Cart
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">ShoppingCart</span>
+
+<span class="comment"># Product details</span>
+<span class="keyword">var</span> productName = <span class="string">"Laptop"</span>
+<span class="keyword">var</span> productPrice = <span class="number">999.99</span>
+<span class="keyword">var</span> quantity = <span class="number">2</span>
+<span class="keyword">var</span> taxRate = <span class="number">0.08</span>
+
+<span class="comment"># Calculate totals</span>
+<span class="keyword">var</span> subtotal = productPrice * quantity
+<span class="keyword">var</span> tax = subtotal * taxRate
+<span class="keyword">var</span> total = subtotal + tax
+
+<span class="comment"># Display receipt</span>
+<span class="keyword">Print</span> <span class="string">"================================"</span>
+<span class="keyword">Print</span> <span class="string">"       SHOPPING RECEIPT"</span>
+<span class="keyword">Print</span> <span class="string">"================================"</span>
+<span class="keyword">Print</span> <span class="string">"Product:"</span>, productName
+<span class="keyword">Print</span> <span class="string">"Price:"</span>, productPrice
+<span class="keyword">Print</span> <span class="string">"Quantity:"</span>, quantity
+<span class="keyword">Print</span> <span class="string">"--------------------------------"</span>
+<span class="keyword">Print</span> <span class="string">"Subtotal: $"</span>, subtotal
+<span class="keyword">Print</span> <span class="string">"Tax: $"</span>, tax
+<span class="keyword">Print</span> <span class="string">"================================"</span>
+<span class="keyword">Print</span> <span class="string">"TOTAL: $"</span>, total
+<span class="keyword">Print</span> <span class="string">"================================"</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <div class="output-box">
+                    <div class="output-title">
+                        <i class="ri-terminal-line"></i>
+                        Output
+                    </div>
+                    <div class="output-content">================================
+       SHOPPING RECEIPT
+================================
+Product: Laptop
+Price: 999.99
+Quantity: 2
+--------------------------------
+Subtotal: $1999.98
+Tax: $159.9984
+================================
+TOTAL: $2159.9784
+================================</div>
+                </div>
+
+                <h2>📋 Quick Reference</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Data Type</th>
+                            <th>Example Values</th>
+                            <th>Use Cases</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Integer</td>
+                            <td><code>42</code>, <code>-10</code>, <code>0</code></td>
+                            <td>Counting, age, years</td>
+                        </tr>
+                        <tr>
+                            <td>Float</td>
+                            <td><code>3.14</code>, <code>99.99</code>, <code>-2.5</code></td>
+                            <td>Prices, measurements</td>
+                        </tr>
+                        <tr>
+                            <td>String</td>
+                            <td><code>"Hello"</code>, <code>"John"</code></td>
+                            <td>Names, text, messages</td>
+                        </tr>
+                        <tr>
+                            <td>Boolean</td>
+                            <td><code>true</code>, <code>false</code></td>
+                            <td>Yes/no, on/off states</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>📝 Key Takeaways</h2>
+
+                <ul>
+                    <li>✅ Variables store data that your program can use and modify</li>
+                    <li>✅ Use <code>var</code>, <code>Variable</code>, or <code>Declare As</code> to create variables</li>
+                    <li>✅ Choose the right data type for your data (Integer, Float, String, Boolean)</li>
+                    <li>✅ Use descriptive names that explain what the variable represents</li>
+                    <li>✅ Variables can be updated throughout your program</li>
+                    <li>✅ Follow naming rules (no spaces, no special characters, can't start with numbers)</li>
+                </ul>
+
+                <h2>💪 Practice Exercises</h2>
+
+                <div class="exercise-section">
+                    <div class="exercise-header">
+                        <div class="exercise-icon">
+                            <i class="ri-pencil-line"></i>
+                        </div>
+                        <h3 class="exercise-title">Try These Exercises</h3>
+                    </div>
+                    <div class="exercise-list">
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 1: Personal Profile</div>
+                            <div class="exercise-item-description">
+                                Create variables for your name, age, city, and favorite hobby. Display them in a formatted profile.
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 2: Temperature Converter</div>
+                            <div class="exercise-item-description">
+                                Create a variable for temperature in Celsius. Convert it to Fahrenheit using the formula: F = C × 9/5 + 32. Display both values.
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 3: Circle Calculator</div>
+                            <div class="exercise-item-description">
+                                Use a variable for radius. Calculate and display the circle's area (π × r²) and circumference (2 × π × r). Use 3.14159 for pi.
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 4: Restaurant Bill</div>
+                            <div class="exercise-item-description">
+                                Create variables for meal price, tip percentage (15%), and tax rate (8%). Calculate and display the subtotal, tip, tax, and final total.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="note-box tip">
+                    <div class="note-box-title">
+                        <i class="ri-trophy-line"></i>
+                        Great Progress!
+                    </div>
+                    <div class="note-box-content">
+                        You now understand how to store and work with data using variables! In the next lesson, 
+                        we'll learn how to get input from users and make your programs interactive.
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-navigation">
+                <a href="02-getting-started.html" class="nav-btn prev">
+                    <i class="ri-arrow-left-line"></i>
+                    <div class="nav-btn-content">
+                        <div class="nav-btn-label">Previous</div>
+                        <div class="nav-btn-title">Getting Started with iPseudo</div>
+                    </div>
+                </a>
+                <a href="04-input-and-output.html" class="nav-btn next">
+                    <div class="nav-btn-content">
+                        <div class="nav-btn-label">Next Lesson</div>
+                        <div class="nav-btn-title">Input and Output</div>
+                    </div>
+                    <i class="ri-arrow-right-line"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 iPseudo IDE by <strong>M'BARK</strong>. Free for personal & educational use.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+
+    
+    <!-- Reading Controls -->
+    <script src="js/reading-controls.js"></script>
+    
+    <script src="../website/js/script.js"></script>
+</body>
+</html>

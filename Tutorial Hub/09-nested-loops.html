@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 9: Nested Loops | iPseudo Tutorial</title>
+    <link rel="icon" type="image/svg+xml" href="../website/assets/app-icon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../website/css/style.css">
+    <link rel="stylesheet" href="css/tutorial.css">
+    <link rel="stylesheet" href="css/reading-controls.css">
+</head>
+<body>
+    <div class="background-container">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-pattern"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <a href="index.html" style="display: flex; align-items: center; text-decoration: none; gap: 0.75rem;">
+                    <div class="brand-icon" style="background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); padding: 0.5rem; border-radius: 10px;">
+                        <i class="ri-book-open-line" style="color: white; font-size: 1.5rem;"></i>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.1rem;">
+                        <span class="brand-text" style="font-size: 1.25rem; font-weight: 700; background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">iPseudo</span>
+                        <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; letter-spacing: 0.05em;">TUTORIAL HUB</span>
+                    </div>
+                </a>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="ri-sun-line theme-icon" id="lightIcon"></i>
+                    <i class="ri-moon-line theme-icon hidden" id="darkIcon"></i>
+                </button>
+            </div>
+
+            <div class="navbar-actions">
+                <a href="index.html" class="action-btn demo-btn">
+                    <i class="ri-book-open-line"></i>
+                    <span>All Lessons</span>
+                </a>
+                <a href="https://ipseudoeditor.netlify.app/" target="_blank" class="action-btn demo-btn">
+                    <i class="ri-play-circle-line"></i>
+                    <span>Try Live</span>
+                </a>
+                <a href="https://ipseudo.netlify.app/#download" target="_blank" class="action-btn download-btn">
+                    <i class="ri-download-cloud-line"></i>
+                    <span>Download</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="tutorial-content">
+        <div class="tutorial-container">
+            <div class="tutorial-header">
+                <div class="tutorial-badge">
+                    <i class="ri-plant-line"></i>
+                    <span>Lesson 9 • Intermediate</span>
+                </div>
+                <h1 class="tutorial-title">Nested Loops</h1>
+                <div class="tutorial-meta">
+                    <div class="tutorial-meta-item">
+                        <i class="ri-time-line"></i>
+                        <span>20 minutes</span>
+                    </div>
+                    <div class="tutorial-meta-item">
+                        <i class="ri-book-open-line"></i>
+                        <span>Control Flow</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-body">
+                <h2>🔄 What are Nested Loops?</h2>
+                
+                <p>
+                    <strong>Nested loops</strong> are loops inside other loops. The inner loop runs completely for each iteration 
+                    of the outer loop, creating a powerful way to process 2D data, create patterns, and solve complex problems.
+                </p>
+
+                <div class="note-box info">
+                    <div class="note-box-title">
+                        <i class="ri-information-line"></i>
+                        Understanding Nested Loops
+                    </div>
+                    <div class="note-box-content">
+                        Think of nested loops like a clock:
+                        <ul>
+                            <li>The outer loop is like the <strong>hour hand</strong> - it moves slowly</li>
+                            <li>The inner loop is like the <strong>minute hand</strong> - it completes 60 cycles for each hour</li>
+                        </ul>
+                        For each iteration of the outer loop, the inner loop runs completely!
+                    </div>
+                </div>
+
+                <h2>📐 Basic Nested Loop Structure</h2>
+
+                <pre><code><span class="keyword">For</span> outer = start1 <span class="keyword">To</span> end1
+    <span class="comment"># Outer loop code</span>
+    
+    <span class="keyword">For</span> inner = start2 <span class="keyword">To</span> end2
+        <span class="comment"># Inner loop code (runs many times!)</span>
+    <span class="keyword">Endfor</span>
+    
+    <span class="comment"># More outer loop code</span>
+<span class="keyword">Endfor</span></code></pre>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-grid-line"></i>
+                        Example: Simple Nested Loop
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">SimpleNested</span>
+
+<span class="keyword">Print</span> <span class="string">"Nested loop demonstration:"</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="keyword">For</span> row = <span class="number">1</span> <span class="keyword">To</span> <span class="number">3</span>
+    <span class="keyword">Print</span> <span class="string">"Outer loop - Row"</span>, row
+    
+    <span class="keyword">For</span> col = <span class="number">1</span> <span class="keyword">To</span> <span class="number">3</span>
+        <span class="keyword">Print</span> <span class="string">"  Inner loop - Column"</span>, col
+    <span class="keyword">Endfor</span>
+    
+    <span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <div class="output-box">
+                    <div class="output-title">
+                        <i class="ri-terminal-line"></i>
+                        Output
+                    </div>
+                    <div class="output-content">Nested loop demonstration:
+
+Outer loop - Row 1
+  Inner loop - Column 1
+  Inner loop - Column 2
+  Inner loop - Column 3
+
+Outer loop - Row 2
+  Inner loop - Column 1
+  Inner loop - Column 2
+  Inner loop - Column 3
+
+Outer loop - Row 3
+  Inner loop - Column 1
+  Inner loop - Column 2
+  Inner loop - Column 3</div>
+                </div>
+
+                <h2>⭐ Pattern Printing</h2>
+
+                <p>Nested loops are perfect for creating patterns:</p>
+
+                <h3>Pattern 1: Rectangle</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-layout-grid-line"></i>
+                        Example: Rectangle Pattern
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">RectanglePattern</span>
+
+<span class="keyword">var</span> rows = <span class="number">4</span>
+<span class="keyword">var</span> cols = <span class="number">6</span>
+
+<span class="keyword">Print</span> <span class="string">"Rectangle ("</span>, rows, <span class="string">"x"</span>, cols, <span class="string">"):"</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="keyword">For</span> row = <span class="number">1</span> <span class="keyword">To</span> rows
+    <span class="keyword">For</span> col = <span class="number">1</span> <span class="keyword">To</span> cols
+        <span class="keyword">Print</span> <span class="string">"* "</span>
+    <span class="keyword">Endfor</span>
+    <span class="keyword">Print</span> <span class="string">""</span>  <span class="comment"># New line after each row</span>
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <div class="output-box">
+                    <div class="output-title">
+                        <i class="ri-terminal-line"></i>
+                        Output
+                    </div>
+                    <div class="output-content">Rectangle (4 x 6):
+
+* * * * * * 
+* * * * * * 
+* * * * * * 
+* * * * * *</div>
+                </div>
+
+                <h3>Pattern 2: Right Triangle</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-shape-line"></i>
+                        Example: Triangle Pattern
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">TrianglePattern</span>
+
+<span class="keyword">var</span> height = <span class="number">5</span>
+
+<span class="keyword">Print</span> <span class="string">"Right Triangle:"</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="keyword">For</span> row = <span class="number">1</span> <span class="keyword">To</span> height
+    <span class="comment"># Inner loop runs 'row' times</span>
+    <span class="keyword">For</span> col = <span class="number">1</span> <span class="keyword">To</span> row
+        <span class="keyword">Print</span> <span class="string">"* "</span>
+    <span class="keyword">Endfor</span>
+    <span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <div class="output-box">
+                    <div class="output-title">
+                        <i class="ri-terminal-line"></i>
+                        Output
+                    </div>
+                    <div class="output-content">Right Triangle:
+
+* 
+* * 
+* * * 
+* * * * 
+* * * * *</div>
+                </div>
+
+                <h3>Pattern 3: Number Pyramid</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-arrow-up-line"></i>
+                        Example: Number Pyramid
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">NumberPyramid</span>
+
+<span class="keyword">var</span> height = <span class="number">5</span>
+
+<span class="keyword">Print</span> <span class="string">"Number Pyramid:"</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="keyword">For</span> row = <span class="number">1</span> <span class="keyword">To</span> height
+    <span class="comment"># Print row number, repeated 'row' times</span>
+    <span class="keyword">For</span> col = <span class="number">1</span> <span class="keyword">To</span> row
+        <span class="keyword">Print</span> row, <span class="string">" "</span>
+    <span class="keyword">Endfor</span>
+    <span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <div class="output-box">
+                    <div class="output-title">
+                        <i class="ri-terminal-line"></i>
+                        Output
+                    </div>
+                    <div class="output-content">Number Pyramid:
+
+1 
+2 2 
+3 3 3 
+4 4 4 4 
+5 5 5 5 5</div>
+                </div>
+
+                <h2>🔢 Multiplication Table</h2>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-calculator-line"></i>
+                        Example: Full Multiplication Table
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">MultiplicationTable</span>
+
+<span class="keyword">var</span> size = <span class="keyword">Input</span> <span class="string">"Enter table size (e.g., 10):"</span>
+
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"=== Multiplication Table ==="</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="keyword">For</span> row = <span class="number">1</span> <span class="keyword">To</span> size
+    <span class="keyword">For</span> col = <span class="number">1</span> <span class="keyword">To</span> size
+        <span class="keyword">var</span> product = row * col
+        <span class="keyword">Print</span> row, <span class="string">"×"</span>, col, <span class="string">"="</span>, product
+    <span class="keyword">Endfor</span>
+    <span class="keyword">Print</span> <span class="string">""</span>  <span class="comment"># Blank line between rows</span>
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>📊 Working with 2D Data</h2>
+
+                <p>Nested loops are essential for processing grid/table data:</p>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-table-2"></i>
+                        Example: Temperature Grid
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">TemperatureGrid</span>
+
+<span class="keyword">Print</span> <span class="string">"=== Weekly Temperature Data ==="</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="comment"># Simulate 7 days, 3 readings per day</span>
+<span class="keyword">var</span> days = <span class="number">7</span>
+<span class="keyword">var</span> readings = <span class="number">3</span>
+<span class="keyword">var</span> totalSum = <span class="number">0</span>
+<span class="keyword">var</span> totalCount = <span class="number">0</span>
+
+<span class="keyword">For</span> day = <span class="number">1</span> <span class="keyword">To</span> days
+    <span class="keyword">Print</span> <span class="string">"Day"</span>, day, <span class="string">":"</span>
+    <span class="keyword">var</span> daySum = <span class="number">0</span>
+    
+    <span class="keyword">For</span> reading = <span class="number">1</span> <span class="keyword">To</span> readings
+        <span class="keyword">var</span> temp = <span class="keyword">Input</span> <span class="string">"  Reading"</span> + reading + <span class="string">":"</span>
+        daySum = daySum + temp
+        totalSum = totalSum + temp
+        totalCount = totalCount + <span class="number">1</span>
+    <span class="keyword">Endfor</span>
+    
+    <span class="keyword">var</span> dayAverage = daySum / readings
+    <span class="keyword">Print</span> <span class="string">"  Day average:"</span>, dayAverage
+    <span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Endfor</span>
+
+<span class="keyword">var</span> weekAverage = totalSum / totalCount
+<span class="keyword">Print</span> <span class="string">"=== Weekly Average:"</span>, weekAverage, <span class="string">"°C ==="</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>🎯 Complex Patterns</h2>
+
+                <h3>Inverted Triangle</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-arrow-down-line"></i>
+                        Example: Inverted Triangle
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">InvertedTriangle</span>
+
+<span class="keyword">var</span> height = <span class="number">5</span>
+
+<span class="keyword">Print</span> <span class="string">"Inverted Triangle:"</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="keyword">For</span> row = height <span class="keyword">To</span> <span class="number">1</span> <span class="keyword">Step</span> <span class="number">-1</span>
+    <span class="keyword">For</span> col = <span class="number">1</span> <span class="keyword">To</span> row
+        <span class="keyword">Print</span> <span class="string">"* "</span>
+    <span class="keyword">Endfor</span>
+    <span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <div class="output-box">
+                    <div class="output-title">
+                        <i class="ri-terminal-line"></i>
+                        Output
+                    </div>
+                    <div class="output-content">Inverted Triangle:
+
+* * * * * 
+* * * * 
+* * * 
+* * 
+*</div>
+                </div>
+
+                <h3>Diamond Pattern</h3>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-checkbox-blank-circle-line"></i>
+                        Example: Diamond Pattern
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">DiamondPattern</span>
+
+<span class="keyword">var</span> size = <span class="number">5</span>
+
+<span class="keyword">Print</span> <span class="string">"Diamond Pattern:"</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+
+<span class="comment"># Upper half (including middle)</span>
+<span class="keyword">For</span> row = <span class="number">1</span> <span class="keyword">To</span> size
+    <span class="comment"># Print spaces</span>
+    <span class="keyword">For</span> space = <span class="number">1</span> <span class="keyword">To</span> size - row
+        <span class="keyword">Print</span> <span class="string">"  "</span>
+    <span class="keyword">Endfor</span>
+    
+    <span class="comment"># Print stars</span>
+    <span class="keyword">For</span> star = <span class="number">1</span> <span class="keyword">To</span> (<span class="number">2</span> * row - <span class="number">1</span>)
+        <span class="keyword">Print</span> <span class="string">"* "</span>
+    <span class="keyword">Endfor</span>
+    
+    <span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Endfor</span>
+
+<span class="comment"># Lower half</span>
+<span class="keyword">For</span> row = size - <span class="number">1</span> <span class="keyword">To</span> <span class="number">1</span> <span class="keyword">Step</span> <span class="number">-1</span>
+    <span class="comment"># Print spaces</span>
+    <span class="keyword">For</span> space = <span class="number">1</span> <span class="keyword">To</span> size - row
+        <span class="keyword">Print</span> <span class="string">"  "</span>
+    <span class="keyword">Endfor</span>
+    
+    <span class="comment"># Print stars</span>
+    <span class="keyword">For</span> star = <span class="number">1</span> <span class="keyword">To</span> (<span class="number">2</span> * row - <span class="number">1</span>)
+        <span class="keyword">Print</span> <span class="string">"* "</span>
+    <span class="keyword">Endfor</span>
+    
+    <span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>🎮 Real-World Application</h2>
+
+                <div class="example-box">
+                    <div class="example-title">
+                        <i class="ri-calendar-line"></i>
+                        Example: Monthly Calendar
+                    </div>
+                    <pre><code><span class="keyword">Algorithm</span> <span class="function">SimpleCalendar</span>
+
+<span class="keyword">var</span> daysInMonth = <span class="keyword">Input</span> <span class="string">"Enter days in month (28-31):"</span>
+<span class="keyword">var</span> startDay = <span class="keyword">Input</span> <span class="string">"Starting day of week (1=Mon, 7=Sun):"</span>
+
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"=== MONTHLY CALENDAR ==="</span>
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">" Mon Tue Wed Thu Fri Sat Sun"</span>
+<span class="keyword">Print</span> <span class="string">"-----------------------------"</span>
+
+<span class="comment"># Print leading spaces for first week</span>
+<span class="keyword">For</span> i = <span class="number">1</span> <span class="keyword">To</span> startDay - <span class="number">1</span>
+    <span class="keyword">Print</span> <span class="string">"    "</span>  <span class="comment"># 4 spaces per day</span>
+<span class="keyword">Endfor</span>
+
+<span class="keyword">var</span> currentDay = startDay
+
+<span class="keyword">For</span> day = <span class="number">1</span> <span class="keyword">To</span> daysInMonth
+    <span class="comment"># Print day number (padded)</span>
+    <span class="keyword">If</span> day < <span class="number">10</span> <span class="keyword">Then</span>
+        <span class="keyword">Print</span> <span class="string">"  "</span>, day, <span class="string">" "</span>
+    <span class="keyword">Else</span>
+        <span class="keyword">Print</span> <span class="string">" "</span>, day, <span class="string">" "</span>
+    <span class="keyword">Endif</span>
+    
+    <span class="comment"># New line after Sunday</span>
+    <span class="keyword">If</span> currentDay == <span class="number">7</span> <span class="keyword">Then</span>
+        <span class="keyword">Print</span> <span class="string">""</span>
+        currentDay = <span class="number">1</span>
+    <span class="keyword">Else</span>
+        currentDay = currentDay + <span class="number">1</span>
+    <span class="keyword">Endif</span>
+<span class="keyword">Endfor</span>
+
+<span class="keyword">Print</span> <span class="string">""</span>
+<span class="keyword">Print</span> <span class="string">"-----------------------------"</span>
+
+<span class="keyword">Endalgorithm</span></code></pre>
+                </div>
+
+                <h2>💡 Performance Tips</h2>
+
+                <div class="note-box warning">
+                    <div class="note-box-title">
+                        <i class="ri-alert-line"></i>
+                        Watch Out for Performance!
+                    </div>
+                    <div class="note-box-content">
+                        <p>Nested loops can get slow quickly! If the outer loop runs N times and inner loop runs M times, 
+                        the total is N × M iterations.</p>
+                        <p><strong>Example:</strong></p>
+                        <ul>
+                            <li>Outer: 100 iterations</li>
+                            <li>Inner: 100 iterations</li>
+                            <li><strong>Total: 10,000 iterations!</strong></li>
+                        </ul>
+                        <p>Be careful with large numbers!</p>
+                    </div>
+                </div>
+
+                <h2>📝 Key Takeaways</h2>
+
+                <ul>
+                    <li>✅ Nested loops run an inner loop completely for each outer loop iteration</li>
+                    <li>✅ Perfect for 2D data, grids, and patterns</li>
+                    <li>✅ Total iterations = outer × inner loop counts</li>
+                    <li>✅ Use descriptive variable names (row/col, not i/j)</li>
+                    <li>✅ Can nest any type of loop (FOR, WHILE, REPEAT)</li>
+                    <li>✅ Watch out for performance with large numbers</li>
+                    <li>✅ Great for creating visual patterns and processing tables</li>
+                </ul>
+
+                <h2>💪 Practice Exercises</h2>
+
+                <div class="exercise-section">
+                    <div class="exercise-header">
+                        <div class="exercise-icon">
+                            <i class="ri-pencil-line"></i>
+                        </div>
+                        <h3 class="exercise-title">Try These Exercises</h3>
+                    </div>
+                    <div class="exercise-list">
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 1: Hollow Square</div>
+                            <div class="exercise-item-description">
+                                Create a hollow square pattern where only the border has stars and the inside is empty.
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 2: Pascal's Triangle</div>
+                            <div class="exercise-item-description">
+                                Generate the first N rows of Pascal's Triangle using nested loops and calculations.
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 3: Checkerboard</div>
+                            <div class="exercise-item-description">
+                                Create an 8×8 checkerboard pattern alternating between * and # symbols.
+                            </div>
+                        </div>
+                        <div class="exercise-item">
+                            <div class="exercise-item-title">Exercise 4: Prime Number Grid</div>
+                            <div class="exercise-item-description">
+                                Display numbers 1-100 in a 10×10 grid and mark which ones are prime numbers.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="note-box tip">
+                    <div class="note-box-title">
+                        <i class="ri-trophy-line"></i>
+                        Excellent Work!
+                    </div>
+                    <div class="note-box-content">
+                        You now understand how to use nested loops for complex patterns and 2D data! 
+                        In the next lesson, we'll learn about functions to create reusable code blocks.
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-navigation">
+                <a href="08-loops.html" class="nav-btn prev">
+                    <i class="ri-arrow-left-line"></i>
+                    <div class="nav-btn-content">
+                        <div class="nav-btn-label">Previous</div>
+                        <div class="nav-btn-title">Loops</div>
+                    </div>
+                </a>
+                <a href="10-functions.html" class="nav-btn next">
+                    <div class="nav-btn-content">
+                        <div class="nav-btn-label">Next Lesson</div>
+                        <div class="nav-btn-title">Functions</div>
+                    </div>
+                    <i class="ri-arrow-right-line"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 iPseudo IDE by <strong>M'BARK</strong>. Free for personal & educational use.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+
+    
+    <!-- Reading Controls -->
+    <script src="js/reading-controls.js"></script>
+    
+    <script src="../website/js/script.js"></script>
+</body>
+</html>
