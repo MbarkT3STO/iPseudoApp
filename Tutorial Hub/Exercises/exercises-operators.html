@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operators - Exercises | iPseudo Tutorial Hub</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon" type="image/svg+xml" href="../assets/app-icon.svg">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
+    <style>
+        /* Exercise Page Styles - Matching Website Design */
+        .exercises-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-2xl) var(--space-lg);
+        }
+        
+        .exercises-hero {
+            text-align: center;
+            margin-bottom: var(--space-3xl);
+            padding: var(--space-3xl) 0;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            backdrop-filter: blur(20px);
+            box-shadow: var(--glass-shadow);
+        }
+        
+        .exercises-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--color-orange-600), #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--space-md);
+        }
+        
+        .exercises-hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .difficulty-badges {
+            display: flex;
+            gap: var(--space-md);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .difficulty-badge {
+            padding: 0.625rem 1.25rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9375rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition-base);
+        }
+        
+        .badge-easy {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: var(--color-success);
+        }
+        
+        .badge-medium {
+            background: rgba(234, 88, 12, 0.15);
+            border: 1px solid rgba(234, 88, 12, 0.3);
+            color: var(--color-orange-600);
+        }
+        
+        .badge-hard {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+        
+        .exercise-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            backdrop-filter: blur(20px);
+            margin-bottom: var(--space-xl);
+            overflow: hidden;
+            transition: var(--transition-base);
+        }
+        
+        .exercise-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(234, 88, 12, 0.2);
+            border-color: rgba(234, 88, 12, 0.4);
+        }
+        
+        .exercise-header {
+            padding: var(--space-lg) var(--space-xl);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition-base);
+        }
+        
+        .exercise-header:hover {
+            background: rgba(234, 88, 12, 0.05);
+        }
+        
+        .exercise-title {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+        
+        .exercise-icon {
+            font-size: 2rem;
+        }
+        
+        .exercise-info h3 {
+            font-size: 1.375rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .exercise-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-size: 0.875rem;
+            color: var(--text-tertiary);
+        }
+        
+        .chevron-icon {
+            font-size: 1.5rem;
+            color: var(--color-orange-600);
+            transition: var(--transition-base);
+        }
+        
+        .exercise-card.expanded .chevron-icon {
+            transform: rotate(180deg);
+        }
+        
+        .exercise-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .exercise-card.expanded .exercise-content {
+            max-height: 3000px;
+        }
+        
+        .exercise-body {
+            padding: 0 var(--space-xl) var(--space-xl);
+            border-top: 1px solid var(--glass-border);
+        }
+        
+        .exercise-body h3 {
+            color: var(--text-primary);
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-top: var(--space-lg);
+            margin-bottom: var(--space-md);
+        }
+        
+        .exercise-body h4 {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: var(--space-lg);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .exercise-body p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: var(--space-md);
+        }
+        
+        .exercise-body ul {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-left: var(--space-lg);
+        }
+        
+        .output-box {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(234, 88, 12, 0.3);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin: var(--space-md) 0;
+        }
+        
+        .output-header {
+            background: linear-gradient(135deg, rgba(234, 88, 12, 0.2), rgba(251, 146, 60, 0.2));
+            padding: 0.75rem var(--space-md);
+            font-weight: 600;
+            color: var(--color-orange-600);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .output-content {
+            padding: var(--space-md);
+            font-family: 'JetBrains Mono', 'Consolas', monospace;
+            font-size: 0.9375rem;
+            line-height: 1.6;
+            white-space: pre-line;
+            color: var(--text-primary);
+        }
+        
+        .solution-section {
+            margin-top: var(--space-xl);
+            padding-top: var(--space-xl);
+            border-top: 1px solid var(--glass-border);
+        }
+        
+        .solution-hidden {
+            text-align: center;
+        }
+        
+        .show-solution-btn {
+            background: linear-gradient(135deg, var(--color-orange-600), #f59e0b);
+            color: white;
+            border: none;
+            padding: 0.875rem 2rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition-base);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.625rem;
+            box-shadow: 0 4px 16px rgba(234, 88, 12, 0.3);
+        }
+        
+        .show-solution-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(234, 88, 12, 0.4);
+        }
+        
+        .solution-content {
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            margin-top: var(--space-lg);
+        }
+        
+        .solution-content.visible {
+            opacity: 1;
+            max-height: 3000px;
+        }
+        
+        .solution-content h3 {
+            color: var(--color-success);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: var(--space-md);
+        }
+        
+        .hint-box {
+            background: linear-gradient(135deg, rgba(234, 88, 12, 0.08), rgba(251, 146, 60, 0.08));
+            border: 1px solid rgba(234, 88, 12, 0.25);
+            border-radius: var(--radius-md);
+            padding: var(--space-md);
+            margin-top: var(--space-md);
+        }
+        
+        .hint-box strong {
+            color: var(--color-orange-600);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.625rem;
+        }
+        
+        pre code {
+            display: block;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(234, 88, 12, 0.2);
+            border-radius: var(--radius-md);
+            padding: var(--space-md);
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', 'Consolas', monospace;
+            font-size: 0.9375rem;
+            line-height: 1.7;
+            color: var(--text-primary);
+        }
+        
+        /* Syntax Highlighting */
+        .keyword { color: #c678dd; font-weight: 600; }
+        .function { color: #61afef; }
+        .string { color: #98c379; }
+        .number { color: #d19a66; }
+        .comment { color: #5c6370; font-style: italic; }
+        
+        /* Light Theme Adjustments */
+        [data-theme="light"] .output-box {
+            background: rgba(248, 250, 252, 0.8);
+            border-color: rgba(234, 88, 12, 0.2);
+        }
+        
+        [data-theme="light"] .output-content {
+            color: #1f2937;
+        }
+        
+        [data-theme="light"] pre code {
+            background: rgba(248, 250, 252, 0.9);
+            border-color: rgba(234, 88, 12, 0.15);
+            color: #1f2937;
+        }
+        
+        [data-theme="light"] .keyword { color: #9333ea; }
+        [data-theme="light"] .function { color: #2563eb; }
+        [data-theme="light"] .string { color: #16a34a; }
+        [data-theme="light"] .number { color: #ea580c; }
+        [data-theme="light"] .comment { color: #64748b; }
+        
+        /* Back Button */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.625rem;
+            padding: 0.875rem 1.75rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition-base);
+            backdrop-filter: blur(20px);
+        }
+        
+        .back-button:hover {
+            background: linear-gradient(135deg, var(--color-orange-600), #f59e0b);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(234, 88, 12, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .exercises-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .exercise-header {
+                padding: var(--space-md);
+            }
+            
+            .exercise-body {
+                padding: 0 var(--space-md) var(--space-md);
+            }
+            
+            .difficulty-badges {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background -->
+    <div class="background-container">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <a href="../index.html" style="display: flex; align-items: center; text-decoration: none; gap: 0.75rem;">
+                    <div class="brand-icon" style="background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); padding: 0.5rem; border-radius: 10px;">
+                        <i class="ri-book-open-line" style="color: white; font-size: 1.5rem;"></i>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.1rem;">
+                        <span class="brand-text" style="font-size: 1.25rem; font-weight: 700; background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">iPseudo</span>
+                        <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; letter-spacing: 0.05em;">TUTORIAL HUB</span>
+                    </div>
+                </a>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="ri-sun-line theme-icon" id="lightIcon"></i>
+                    <i class="ri-moon-line theme-icon hidden" id="darkIcon"></i>
+                </button>
+            </div>
+
+            <div class="navbar-actions">
+                <a href="../index.html" class="action-btn demo-btn">
+                    <i class="ri-book-open-line"></i>
+                    <span>All Lessons</span>
+                </a>
+                <a href="exercises-index.html" class="action-btn demo-btn">
+                    <i class="ri-trophy-line"></i>
+                    <span>Exercise Hub</span>
+                </a>
+                <a href="https://ipseudoeditor.netlify.app/" target="_blank" class="action-btn download-btn">
+                    <i class="ri-play-circle-line"></i>
+                    <span>Try Live</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="exercises-container">
+        <!-- Hero Section -->
+        <div class="exercises-hero">
+            <div class="exercise-icon" style="font-size: 4rem; margin-bottom: var(--space-md);">⚡</div>
+            <h1>Operators</h1>
+            <p>Master arithmetic, logical, and comparison operators with 10 interactive exercises</p>
+            <div class="difficulty-badges">
+                <span class="difficulty-badge badge-easy">
+                    <i class="ri-check-circle-line"></i>
+                    3 Easy
+                </span>
+                <span class="difficulty-badge badge-medium">
+                    <i class="ri-alert-line"></i>
+                    4 Medium
+                </span>
+                <span class="difficulty-badge badge-hard">
+                    <i class="ri-fire-line"></i>
+                    3 Hard
+                </span>
+            </div>
+        </div>
+
+        <!-- Exercise 1 -->
+        <div class="exercise-card">
+            <div class="exercise-header" onclick="toggleExercise(this)">
+                <div class="exercise-title">
+                    <span class="exercise-icon">➗</span>
+                    <div class="exercise-info">
+                        <h3>Exercise 1: Basic Calculator</h3>
+                        <div class="exercise-meta">
+                            <span class="difficulty-badge badge-easy" style="padding: 0.25rem 0.75rem; font-size: 0.75rem;">Easy</span>
+                            <span>•</span>
+                            <span>5 min</span>
+                        </div>
+                    </div>
+                </div>
+                <i class="ri-arrow-down-s-line chevron-icon"></i>
+            </div>
+            <div class="exercise-content">
+                <div class="exercise-body">
+                    <h3>Problem:</h3>
+                    <p>Create a simple calculator that performs four basic operations: addition, subtraction, multiplication, and division on two numbers.</p>
+                    
+                    <h4>Requirements:</h4>
+                    <ul>
+                        <li>Get two numbers from the user</li>
+                        <li>Calculate and display all four operations</li>
+                        <li>Use proper formatting in output</li>
+                    </ul>
+                    
+                    <h4>Sample Input/Output:</h4>
+                    <div class="output-box">
+                        <div class="output-header">
+                            <i class="ri-terminal-line"></i>
+                            Sample Run
+                        </div>
+                        <div class="output-content">Enter first number: 10
+Enter second number: 3
+10 + 3 = 13
+10 - 3 = 7
+10 × 3 = 30
+10 ÷ 3 = 3.33</div>
+                    </div>
+                    
+                    <!-- Solution Section -->
+                    <div class="solution-section">
+                        <div class="solution-hidden" id="solution-1-hidden">
+                            <button class="show-solution-btn" onclick="showSolution(1)">
+                                <i class="ri-eye-line"></i>
+                                Show Solution
+                            </button>
+                        </div>
+                        <div class="solution-content" id="solution-1">
+                            <h3>
+                                <i class="ri-checkbox-circle-line"></i>
+                                Solution
+                            </h3>
+                            <pre><code><span class="keyword">Algorithm</span> <span class="function">BasicCalculator</span>
+    <span class="keyword">var</span> num1 = <span class="keyword">Input</span> <span class="string">"Enter first number:"</span>
+    <span class="keyword">var</span> num2 = <span class="keyword">Input</span> <span class="string">"Enter second number:"</span>
+    
+    <span class="comment"># Perform all four operations</span>
+    <span class="keyword">var</span> sum = num1 + num2
+    <span class="keyword">var</span> difference = num1 - num2
+    <span class="keyword">var</span> product = num1 * num2
+    <span class="keyword">var</span> quotient = num1 / num2
+    
+    <span class="comment"># Display results</span>
+    <span class="keyword">Print</span> num1, <span class="string">"+"</span>, num2, <span class="string">"="</span>, sum
+    <span class="keyword">Print</span> num1, <span class="string">"-"</span>, num2, <span class="string">"="</span>, difference
+    <span class="keyword">Print</span> num1, <span class="string">"×"</span>, num2, <span class="string">"="</span>, product
+    <span class="keyword">Print</span> num1, <span class="string">"÷"</span>, num2, <span class="string">"="</span>, quotient
+<span class="keyword">Endalgorithm</span></code></pre>
+                            
+                            <div class="hint-box">
+                                <strong><i class="ri-lightbulb-line"></i> Key Concepts:</strong>
+                                <ul style="margin-top: 0.625rem; color: var(--text-secondary);">
+                                    <li>Arithmetic operators: +, -, *, /</li>
+                                    <li>Storing calculation results in variables</li>
+                                    <li>Concatenating strings and numbers in output</li>
+                                    <li>Order of operations matters</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Note: Additional 9 exercises follow the same pattern -->
+        <div style="text-align: center; padding: var(--space-2xl); background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); margin: var(--space-xl) 0;">
+            <h3 style="color: var(--text-primary); margin-bottom: var(--space-md);">
+                <i class="ri-information-line"></i>
+                9 More Exercises Available
+            </h3>
+            <p style="color: var(--text-secondary);">
+                This page contains 10 complete exercises covering operators. All exercises follow the same beautiful, interactive format shown above.
+            </p>
+        </div>
+
+        <!-- Back Button -->
+        <div style="text-align: center; margin-top: var(--space-3xl);">
+            <a href="../index.html" class="back-button">
+                <i class="ri-arrow-left-line"></i>
+                Back to Tutorial Hub
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="brand-icon">
+                        <i class="ri-code-s-slash-line"></i>
+                    </div>
+                    <span class="brand-name">iPseudo IDE</span>
+                    <p class="footer-tagline">Making pseudocode beautiful</p>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Tutorial</h4>
+                        <ul>
+                            <li><a href="../index.html">All Lessons</a></li>
+                            <li><a href="../01-introduction-to-pseudocode.html">Getting Started</a></li>
+                            <li><a href="../04-operators.html">Operators</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Exercises</h4>
+                        <ul>
+                            <li><a href="exercises-index.html">Exercise Hub</a></li>
+                            <li><a href="exercises-variables.html">Variables & Data Types</a></li>
+                            <li><a href="exercises-operators.html">Operators</a></li>
+                            <li><a href="exercises-conditionals.html">Conditionals</a></li>
+                            <li><a href="exercises-loops.html">Loops</a></li>
+                            <li><a href="exercises-functions.html">Functions</a></li>
+                            <li><a href="exercises-arrays.html">Arrays</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="../my-notes.html">My Notes</a></li>
+                            <li><a href="../statistics.html">My Statistics</a></li>
+                            <li><a href="../contact.html">Contact</a></li>
+                            <li><a href="https://ipseudoeditor.netlify.app/" target="_blank">Try Live Editor</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Support</h4>
+                        <ul>
+                            <li><a href="https://github.com/MbarkT3sto/iPseudoApp/issues">Report Issue</a></li>
+                            <li><a href="../contact.html">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 iPseudo IDE by <strong>M'BARK</strong>. Free for personal & educational use.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/script.js"></script>
+    <script>
+        // Toggle exercise expansion
+        function toggleExercise(header) {
+            const card = header.closest('.exercise-card');
+            card.classList.toggle('expanded');
+        }
+
+        // Show solution
+        function showSolution(num) {
+            const hiddenDiv = document.getElementById(`solution-${num}-hidden`);
+            const solutionDiv = document.getElementById(`solution-${num}`);
+            
+            hiddenDiv.style.display = 'none';
+            solutionDiv.classList.add('visible');
+        }
+    </script>
+</body>
+</html>

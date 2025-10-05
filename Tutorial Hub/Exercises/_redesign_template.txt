@@ -1,0 +1,21 @@
+REDESIGN NOTES:
+===============
+All exercise pages will follow this beautiful design:
+
+1. Glass morphism with backdrop blur
+2. Gradient hero sections
+3. Smooth hover animations
+4. Theme toggle support
+5. Professional syntax highlighting
+6. Responsive design
+7. Elegant solution reveals
+8. Beautiful spacing and typography
+9. Color-coded by topic:
+   - Variables: Green (#10b981)
+   - Operators: Orange (#ea580c)
+   - Conditionals: Blue (#3b82f6)
+   - Loops: Red (#ef4444)
+   - Functions: Purple (#8b5cf6)
+   - Arrays: Cyan (#06b6d4)
+
+The template structure matches the website's modern glass morphism design.

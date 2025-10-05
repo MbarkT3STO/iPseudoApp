@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise Hub - iPseudo Tutorial</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon" type="image/svg+xml" href="../assets/app-icon.svg">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
+    <style>
+        /* Exercise Hub Index Styles - Matching Website Design */
+        .exercises-hub-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-2xl) var(--space-lg);
+        }
+        
+        .hub-hero {
+            text-align: center;
+            margin-bottom: var(--space-3xl);
+            padding: var(--space-3xl) 0;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            backdrop-filter: blur(20px);
+            box-shadow: var(--glass-shadow);
+        }
+        
+        .hub-hero h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500), var(--color-cyan-500));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--space-md);
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .hub-hero p {
+            font-size: 1.375rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-lg);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-lg);
+            margin-bottom: var(--space-3xl);
+        }
+        
+        .stat-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            text-align: center;
+            backdrop-filter: blur(20px);
+            transition: var(--transition-base);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(139, 92, 246, 0.2);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--space-sm);
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.875rem;
+        }
+        
+        .exercises-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--space-xl);
+            margin-bottom: var(--space-3xl);
+        }
+        
+        .exercise-topic-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: var(--transition-base);
+            backdrop-filter: blur(20px);
+        }
+        
+        .exercise-topic-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+        }
+        
+        .topic-header {
+            padding: var(--space-xl);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .topic-icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-md);
+            display: block;
+        }
+        
+        .topic-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .topic-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: var(--space-lg);
+        }
+        
+        .difficulty-breakdown {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .difficulty-badge {
+            padding: 0.375rem 0.75rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+        }
+        
+        .badge-easy {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: var(--color-success);
+        }
+        
+        .badge-medium {
+            background: rgba(234, 88, 12, 0.15);
+            border: 1px solid rgba(234, 88, 12, 0.3);
+            color: var(--color-orange-600);
+        }
+        
+        .badge-hard {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+        
+        .topic-footer {
+            padding: var(--space-lg) var(--space-xl);
+            border-top: 1px solid var(--glass-border);
+            background: rgba(0, 0, 0, 0.02);
+        }
+        
+        .start-exercises-btn {
+            width: 100%;
+            padding: 0.875rem 1.5rem;
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition-base);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .btn-variables {
+            background: linear-gradient(135deg, var(--color-success), var(--color-green-600));
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+        }
+        
+        .btn-operators {
+            background: linear-gradient(135deg, var(--color-orange-600), #f59e0b);
+            box-shadow: 0 4px 16px rgba(234, 88, 12, 0.3);
+        }
+        
+        .btn-conditionals {
+            background: linear-gradient(135deg, var(--color-blue-500), var(--color-cyan-500));
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+        }
+        
+        .btn-loops {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
+        }
+        
+        .btn-functions {
+            background: linear-gradient(135deg, var(--color-purple-500), #7c3aed);
+            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+        }
+        
+        .btn-arrays {
+            background: linear-gradient(135deg, var(--color-cyan-500), #0891b2);
+            box-shadow: 0 4px 16px rgba(6, 182, 212, 0.3);
+        }
+        
+        .start-exercises-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn-variables:hover {
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+        }
+        
+        .btn-operators:hover {
+            box-shadow: 0 8px 24px rgba(234, 88, 12, 0.4);
+        }
+        
+        .btn-conditionals:hover {
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+        }
+        
+        .btn-loops:hover {
+            box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
+        }
+        
+        .btn-functions:hover {
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+        }
+        
+        .btn-arrays:hover {
+            box-shadow: 0 8px 24px rgba(6, 182, 212, 0.4);
+        }
+        
+        .progress-section {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            margin-bottom: var(--space-3xl);
+            backdrop-filter: blur(20px);
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-lg);
+        }
+        
+        .progress-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .progress-bar-container {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 50px;
+            height: 12px;
+            overflow: hidden;
+            margin-bottom: var(--space-md);
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(135deg, var(--color-success), var(--color-green-600));
+            border-radius: 50px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+        
+        .progress-text {
+            text-align: center;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.625rem;
+            padding: 0.875rem 1.75rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition-base);
+            backdrop-filter: blur(20px);
+            margin: 0 auto;
+        }
+        
+        .back-button:hover {
+            background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500));
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .hub-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .exercises-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* Light Theme Adjustments */
+        [data-theme="light"] .topic-footer {
+            background: rgba(248, 250, 252, 0.5);
+        }
+        
+        [data-theme="light"] .progress-bar-container {
+            background: rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background -->
+    <div class="background-container">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <a href="../index.html">
+                    <i class="ri-code-s-slash-line"></i>
+                    iPseudo
+                </a>
+            </div>
+            <nav class="nav">
+                <a href="../index.html">Home</a>
+                <a href="../my-notes.html">My Notes</a>
+                <a href="../statistics.html">Statistics</a>
+                <a href="../contact.html">Contact</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                <i class="ri-moon-line"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="exercises-hub-container">
+        <!-- Hero Section -->
+        <div class="hub-hero">
+            <div style="font-size: 4rem; margin-bottom: var(--space-md);">💪</div>
+            <h1>Exercise Hub</h1>
+            <p>Master pseudocode through hands-on practice with 60 interactive exercises across 6 core topics</p>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">60</div>
+                <div class="stat-label">Total Exercises</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">6</div>
+                <div class="stat-label">Topics Covered</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Difficulty Levels</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">∞</div>
+                <div class="stat-label">Learning Potential</div>
+            </div>
+        </div>
+
+        <!-- Progress Section -->
+        <div class="progress-section">
+            <div class="progress-header">
+                <h3 class="progress-title">Your Progress</h3>
+                <span style="color: var(--text-secondary); font-weight: 600;">0% Complete</span>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="overall-progress-bar"></div>
+            </div>
+            <div class="progress-text">
+                Complete exercises to track your progress and unlock achievements!
+            </div>
+        </div>
+
+        <!-- Exercises Grid -->
+        <div class="exercises-grid">
+            <!-- Variables & Data Types -->
+            <div class="exercise-topic-card">
+                <div class="topic-header">
+                    <span class="topic-icon">💡</span>
+                    <h3 class="topic-title">Variables & Data Types</h3>
+                    <p class="topic-description">Learn to store and manipulate different types of data with variables, constants, and type conversions.</p>
+                    <div class="difficulty-breakdown">
+                        <span class="difficulty-badge badge-easy">3 Easy</span>
+                        <span class="difficulty-badge badge-medium">4 Medium</span>
+                        <span class="difficulty-badge badge-hard">3 Hard</span>
+                    </div>
+                </div>
+                <div class="topic-footer">
+                    <a href="exercises-variables.html" class="start-exercises-btn btn-variables">
+                        <i class="ri-play-circle-line"></i>
+                        Start Exercises
+                    </a>
+                </div>
+            </div>
+
+            <!-- Operators -->
+            <div class="exercise-topic-card">
+                <div class="topic-header">
+                    <span class="topic-icon">⚡</span>
+                    <h3 class="topic-title">Operators</h3>
+                    <p class="topic-description">Master arithmetic, logical, comparison, and assignment operators to perform calculations and make decisions.</p>
+                    <div class="difficulty-breakdown">
+                        <span class="difficulty-badge badge-easy">3 Easy</span>
+                        <span class="difficulty-badge badge-medium">4 Medium</span>
+                        <span class="difficulty-badge badge-hard">3 Hard</span>
+                    </div>
+                </div>
+                <div class="topic-footer">
+                    <a href="exercises-operators.html" class="start-exercises-btn btn-operators">
+                        <i class="ri-play-circle-line"></i>
+                        Start Exercises
+                    </a>
+                </div>
+            </div>
+
+            <!-- Conditional Statements -->
+            <div class="exercise-topic-card">
+                <div class="topic-header">
+                    <span class="topic-icon">🌊</span>
+                    <h3 class="topic-title">Conditional Statements</h3>
+                    <p class="topic-description">Make your programs smart with IF, ELSE, and nested conditions to handle different scenarios.</p>
+                    <div class="difficulty-breakdown">
+                        <span class="difficulty-badge badge-easy">4 Easy</span>
+                        <span class="difficulty-badge badge-medium">4 Medium</span>
+                        <span class="difficulty-badge badge-hard">2 Hard</span>
+                    </div>
+                </div>
+                <div class="topic-footer">
+                    <a href="exercises-conditionals.html" class="start-exercises-btn btn-conditionals">
+                        <i class="ri-play-circle-line"></i>
+                        Start Exercises
+                    </a>
+                </div>
+            </div>
+
+            <!-- Loops -->
+            <div class="exercise-topic-card">
+                <div class="topic-header">
+                    <span class="topic-icon">🔄</span>
+                    <h3 class="topic-title">Loops</h3>
+                    <p class="topic-description">Efficiently repeat code with FOR, WHILE, and nested loops to automate repetitive tasks.</p>
+                    <div class="difficulty-breakdown">
+                        <span class="difficulty-badge badge-easy">3 Easy</span>
+                        <span class="difficulty-badge badge-medium">4 Medium</span>
+                        <span class="difficulty-badge badge-hard">3 Hard</span>
+                    </div>
+                </div>
+                <div class="topic-footer">
+                    <a href="exercises-loops.html" class="start-exercises-btn btn-loops">
+                        <i class="ri-play-circle-line"></i>
+                        Start Exercises
+                    </a>
+                </div>
+            </div>
+
+            <!-- Functions -->
+            <div class="exercise-topic-card">
+                <div class="topic-header">
+                    <span class="topic-icon">🎯</span>
+                    <h3 class="topic-title">Functions</h3>
+                    <p class="topic-description">Organize your code into reusable modules with functions, parameters, and return values.</p>
+                    <div class="difficulty-breakdown">
+                        <span class="difficulty-badge badge-easy">2 Easy</span>
+                        <span class="difficulty-badge badge-medium">5 Medium</span>
+                        <span class="difficulty-badge badge-hard">3 Hard</span>
+                    </div>
+                </div>
+                <div class="topic-footer">
+                    <a href="exercises-functions.html" class="start-exercises-btn btn-functions">
+                        <i class="ri-play-circle-line"></i>
+                        Start Exercises
+                    </a>
+                </div>
+            </div>
+
+            <!-- Arrays -->
+            <div class="exercise-topic-card">
+                <div class="topic-header">
+                    <span class="topic-icon">📦</span>
+                    <h3 class="topic-title">Arrays</h3>
+                    <p class="topic-description">Store and manipulate collections of data with arrays, indexing, searching, and sorting algorithms.</p>
+                    <div class="difficulty-breakdown">
+                        <span class="difficulty-badge badge-easy">2 Easy</span>
+                        <span class="difficulty-badge badge-medium">5 Medium</span>
+                        <span class="difficulty-badge badge-hard">3 Hard</span>
+                    </div>
+                </div>
+                <div class="topic-footer">
+                    <a href="exercises-arrays.html" class="start-exercises-btn btn-arrays">
+                        <i class="ri-play-circle-line"></i>
+                        Start Exercises
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <div style="text-align: center; margin-top: var(--space-3xl);">
+            <a href="../index.html" class="back-button">
+                <i class="ri-arrow-left-line"></i>
+                Back to Tutorial Hub
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>iPseudo Tutorial Hub</h3>
+                <p>Master pseudocode with interactive tutorials and exercises.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="../index.html">Home</a>
+                <a href="../my-notes.html">My Notes</a>
+                <a href="../statistics.html">Statistics</a>
+            </div>
+            <div class="footer-section">
+                <h4>Exercises</h4>
+                <a href="exercises-variables.html">Variables & Data Types</a>
+                <a href="exercises-operators.html">Operators</a>
+                <a href="exercises-conditionals.html">Conditionals</a>
+                <a href="exercises-loops.html">Loops</a>
+                <a href="exercises-functions.html">Functions</a>
+                <a href="exercises-arrays.html">Arrays</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 iPseudo. Learn. Practice. Master.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/script.js"></script>
+    <script>
+        // Initialize progress tracking
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simulate progress (in real app, this would come from localStorage)
+            const progressBar = document.getElementById('overall-progress-bar');
+            const completedExercises = parseInt(localStorage.getItem('completedExercises') || '0');
+            const totalExercises = 60;
+            const progressPercentage = (completedExercises / totalExercises) * 100;
+            
+            progressBar.style.width = progressPercentage + '%';
+            
+            // Update progress text
+            const progressText = document.querySelector('.progress-text');
+            if (completedExercises > 0) {
+                progressText.textContent = `${completedExercises}/${totalExercises} exercises completed (${Math.round(progressPercentage)}%)`;
+            }
+        });
+    </script>
+</body>
+</html>
