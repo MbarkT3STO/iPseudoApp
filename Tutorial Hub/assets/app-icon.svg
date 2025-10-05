@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#9333ea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e0e7ff;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background with rounded corners -->
+  <rect width="200" height="200" rx="40" fill="url(#bgGradient)"/>
+  
+  <!-- Subtle inner glow -->
+  <rect x="10" y="10" width="180" height="180" rx="35" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+  
+  <!-- Code bracket left -->
+  <path d="M 70 60 L 50 100 L 70 140" 
+        fill="none" 
+        stroke="url(#iconGradient)" 
+        stroke-width="12" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"
+        filter="url(#glow)"/>
+  
+  <!-- Code bracket right -->
+  <path d="M 130 60 L 150 100 L 130 140" 
+        fill="none" 
+        stroke="url(#iconGradient)" 
+        stroke-width="12" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"
+        filter="url(#glow)"/>
+  
+  <!-- Forward slash in the middle -->
+  <line x1="110" y1="65" x2="90" y2="135" 
+        stroke="url(#iconGradient)" 
+        stroke-width="12" 
+        stroke-linecap="round"
+        filter="url(#glow)"/>
+  
+  <!-- Decorative dots -->
+  <circle cx="100" cy="160" r="4" fill="rgba(255,255,255,0.6)"/>
+  <circle cx="85" cy="160" r="3" fill="rgba(255,255,255,0.4)"/>
+  <circle cx="115" cy="160" r="3" fill="rgba(255,255,255,0.4)"/>
+</svg>
+

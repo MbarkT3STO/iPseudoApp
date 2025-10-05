@@ -289,3 +289,90 @@ body.focus-mode-active .tutorial-content {
     margin-left: auto;
     margin-right: auto;
 }
+
+/* Light Theme Adjustments */
+[data-theme="light"] .control-panel {
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(147, 51, 234, 0.1);
+    border: 1px solid rgba(147, 51, 234, 0.2);
+}
+
+[data-theme="light"] .control-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, rgba(147, 51, 234, 0.08), rgba(59, 130, 246, 0.08));
+}
+
+[data-theme="light"] .control-header span {
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .control-close {
+    color: var(--text-secondary);
+}
+
+[data-theme="light"] .control-close:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .control-section {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .control-label {
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .control-label i {
+    color: var(--color-purple-500);
+}
+
+[data-theme="light"] .control-btn {
+    background: rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .control-btn:hover {
+    background: rgba(147, 51, 234, 0.1);
+    border-color: rgba(147, 51, 234, 0.3);
+    box-shadow: 0 4px 12px rgba(147, 51, 234, 0.15);
+}
+
+[data-theme="light"] .control-value {
+    background: rgba(147, 51, 234, 0.08);
+    border: 1px solid rgba(147, 51, 234, 0.15);
+    color: var(--color-purple-600);
+}
+
+[data-theme="light"] .control-reset {
+    background: rgba(255, 152, 0, 0.08);
+    border-color: rgba(255, 152, 0, 0.2);
+    color: var(--color-orange-600);
+}
+
+[data-theme="light"] .control-reset:hover {
+    background: rgba(255, 152, 0, 0.15);
+    border-color: var(--color-orange-600);
+}
+
+[data-theme="light"] .width-btn.active {
+    background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500));
+    border-color: var(--color-purple-400);
+    color: white;
+}
+
+[data-theme="light"] .control-footer {
+    background: rgba(147, 51, 234, 0.05);
+}
+
+[data-theme="light"] .reset-all {
+    background: rgba(244, 67, 54, 0.08);
+    border-color: rgba(244, 67, 54, 0.2);
+    color: #d32f2f;
+}
+
+[data-theme="light"] .reset-all:hover {
+    background: rgba(244, 67, 54, 0.15);
+    border-color: #d32f2f;
+}

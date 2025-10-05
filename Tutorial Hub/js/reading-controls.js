@@ -235,10 +235,61 @@ class ReadingControls {
     }
 
     applySettings() {
+        // Apply font size and line height to all content elements
         const content = document.querySelector('.tutorial-body');
         if (content) {
             content.style.fontSize = `${this.fontSize}px`;
             content.style.lineHeight = this.lineHeight;
+        }
+
+        // Apply to paragraphs
+        document.querySelectorAll('.tutorial-body p').forEach(p => {
+            p.style.fontSize = `${this.fontSize}px`;
+            p.style.lineHeight = this.lineHeight;
+        });
+
+        // Apply to list items
+        document.querySelectorAll('.tutorial-body li').forEach(li => {
+            li.style.fontSize = `${this.fontSize}px`;
+            li.style.lineHeight = this.lineHeight;
+        });
+
+        // Apply to headings with relative sizing
+        document.querySelectorAll('.tutorial-body h2').forEach(h => {
+            h.style.fontSize = `${this.fontSize * 1.875}px`; // 2rem equivalent
+        });
+
+        document.querySelectorAll('.tutorial-body h3').forEach(h => {
+            h.style.fontSize = `${this.fontSize * 1.5}px`; // 1.5rem equivalent
+        });
+
+        document.querySelectorAll('.tutorial-body h4').forEach(h => {
+            h.style.fontSize = `${this.fontSize * 1.25}px`; // 1.25rem equivalent
+        });
+
+        // Apply to note boxes
+        document.querySelectorAll('.note-box-content').forEach(note => {
+            note.style.fontSize = `${this.fontSize}px`;
+            note.style.lineHeight = this.lineHeight;
+        });
+
+        // Apply to example boxes
+        document.querySelectorAll('.example-box p, .example-box li').forEach(el => {
+            el.style.fontSize = `${this.fontSize}px`;
+            el.style.lineHeight = this.lineHeight;
+        });
+
+        // Apply to exercise items
+        document.querySelectorAll('.exercise-item-description').forEach(desc => {
+            desc.style.fontSize = `${this.fontSize}px`;
+            desc.style.lineHeight = this.lineHeight;
+        });
+
+        // Apply to tutorial meta description
+        const tutorialMeta = document.querySelector('.level-description');
+        if (tutorialMeta) {
+            tutorialMeta.style.fontSize = `${this.fontSize * 1.125}px`; // Slightly larger
+            tutorialMeta.style.lineHeight = this.lineHeight;
         }
 
         const container = document.querySelector('.tutorial-container');
