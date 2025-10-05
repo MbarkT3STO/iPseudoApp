@@ -12,6 +12,7 @@ class TutorialFeatures {
 
     init() {
         this.initProgressTracking();
+        this.initContinueButton();
         this.initBookmarks();
         this.initCodeCopyButtons();
         this.initShareButtons();
@@ -20,6 +21,7 @@ class TutorialFeatures {
         this.initTableOfContents();
         this.initAnimations();
         this.checkAchievements();
+        this.initPrerequisites();
     }
 
     // ========== LESSON DATA ==========
@@ -179,7 +181,15 @@ class TutorialFeatures {
                         <i class="ri-trophy-line" style="font-size: 1.5rem; color: var(--color-purple-500);"></i>
                         <span style="font-weight: 700; font-size: 1.125rem; color: var(--text-primary);">Your Learning Progress</span>
                     </div>
-                    <span style="font-weight: 700; font-size: 1.5rem; background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">${completed}/${total}</span>
+                    <a href="statistics.html" style="padding: 0.5rem 1rem; background: rgba(147, 51, 234, 0.1); border: 1px solid rgba(147, 51, 234, 0.2); border-radius: var(--radius-sm); color: var(--color-purple-500); text-decoration: none; font-size: 0.8125rem; font-weight: 600; display: flex; align-items: center; gap: 0.375rem; transition: all 0.2s;" title="View detailed statistics">
+                        <i class="ri-bar-chart-box-line"></i>
+                        <span>View Stats</span>
+                    </a>
+                </div>
+                <div style="display: flex; justify-content: center; align-items: center; gap: var(--space-md); margin-bottom: var(--space-md);">
+                    <span style="font-weight: 700; font-size: 2.5rem; background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">${completed}</span>
+                    <span style="font-size: 1.125rem; color: var(--text-tertiary);">/</span>
+                    <span style="font-weight: 700; font-size: 1.5rem; color: var(--text-secondary);">${total}</span>
                 </div>
                 <div style="width: 100%; height: 14px; background: rgba(255, 255, 255, 0.1); border-radius: 100px; overflow: hidden; margin-bottom: var(--space-md); box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);">
                     <div style="width: ${percentage}%; height: 100%; background: linear-gradient(90deg, var(--color-purple-500), var(--color-blue-500)); border-radius: 100px; transition: width 0.5s ease; box-shadow: 0 2px 8px rgba(147, 51, 234, 0.4);"></div>
@@ -228,7 +238,13 @@ class TutorialFeatures {
                     <i class="ri-trophy-line" style="color: var(--color-purple-500); margin-right: 0.25rem;"></i>
                     Overall Progress
                 </span>
-                <span style="font-size: 0.875rem; font-weight: 700; color: var(--color-purple-500);">${completed}/${total} lessons</span>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-size: 0.875rem; font-weight: 700; color: var(--color-purple-500);">${completed}/${total}</span>
+                    <a href="statistics.html" style="padding: 0.375rem 0.75rem; background: rgba(147, 51, 234, 0.1); border: 1px solid rgba(147, 51, 234, 0.2); border-radius: var(--radius-sm); color: var(--color-purple-500); text-decoration: none; font-size: 0.75rem; font-weight: 600; display: flex; align-items: center; gap: 0.25rem; transition: all 0.2s; white-space: nowrap;" title="View detailed statistics">
+                        <i class="ri-bar-chart-box-line"></i>
+                        <span>Stats</span>
+                    </a>
+                </div>
             </div>
             <div style="width: 100%; height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 100px; overflow: hidden; margin-bottom: 0.5rem;">
                 <div style="width: ${percentage}%; height: 100%; background: linear-gradient(90deg, var(--color-purple-500), var(--color-blue-500)); border-radius: 100px; transition: width 0.5s ease;"></div>
@@ -998,6 +1014,172 @@ class TutorialFeatures {
             .lesson-card:nth-child(6) { animation-delay: 0.6s; }
         `;
         document.head.appendChild(style);
+    }
+
+    // ========== CONTINUE WHERE YOU LEFT OFF ==========
+    initContinueButton() {
+        const isIndexPage = window.location.pathname.includes('index.html') || 
+                           window.location.pathname.endsWith('/') || 
+                           window.location.pathname.endsWith('/Tutorial Hub');
+        
+        if (!isIndexPage) return;
+
+        const progress = this.getProgress();
+        const hasStarted = progress.completed.length > 0 || progress.inProgress.length > 0;
+        
+        if (!hasStarted) return;
+
+        // Find next lesson to complete
+        let nextLesson = null;
+        
+        // First, check for in-progress lessons
+        if (progress.inProgress.length > 0) {
+            const firstInProgress = progress.inProgress[0];
+            nextLesson = this.lessons.find(l => l.id === firstInProgress);
+        } 
+        // Otherwise, find first incomplete lesson
+        else {
+            for (let lesson of this.lessons) {
+                if (!progress.completed.includes(lesson.id)) {
+                    nextLesson = lesson;
+                    break;
+                }
+            }
+        }
+
+        if (!nextLesson) return;
+
+        const heroDescription = document.querySelector('.hero-description');
+        if (!heroDescription) return;
+
+        const continueBtn = document.createElement('a');
+        continueBtn.href = nextLesson.file;
+        continueBtn.className = 'continue-btn';
+        continueBtn.style.cssText = `
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2rem;
+            background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500));
+            border: none;
+            border-radius: var(--radius-lg);
+            color: white;
+            font-weight: 700;
+            font-size: 1.0625rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 8px 24px rgba(147, 51, 234, 0.4);
+            animation: pulse 2s infinite;
+            max-width: 700px;
+            margin: var(--space-xl) auto 0;
+            width: 100%;
+        `;
+        continueBtn.innerHTML = `
+            <i class="ri-play-circle-fill" style="font-size: 1.5rem;"></i>
+            <div style="text-align: left;">
+                <div style="font-size: 0.75rem; opacity: 0.9; font-weight: 500; margin-bottom: 0.125rem;">Continue Learning</div>
+                <div style="font-size: 0.9375rem;">Lesson ${nextLesson.id}: ${nextLesson.title}</div>
+            </div>
+        `;
+
+        continueBtn.addEventListener('mouseenter', () => {
+            continueBtn.style.transform = 'translateY(-4px) scale(1.05)';
+            continueBtn.style.boxShadow = '0 12px 32px rgba(147, 51, 234, 0.6)';
+        });
+
+        continueBtn.addEventListener('mouseleave', () => {
+            continueBtn.style.transform = 'translateY(0) scale(1)';
+            continueBtn.style.boxShadow = '0 8px 24px rgba(147, 51, 234, 0.4)';
+        });
+
+        // Insert after the hero description (same as progress bar)
+        heroDescription.after(continueBtn);
+
+        // Add pulse animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0%, 100% { box-shadow: 0 8px 24px rgba(147, 51, 234, 0.4); }
+                50% { box-shadow: 0 8px 32px rgba(147, 51, 234, 0.6); }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    // ========== LESSON PREREQUISITES ==========
+    initPrerequisites() {
+        if (!this.currentLesson) return;
+
+        const prerequisites = {
+            '07': ['01', '02', '03', '04', '05', '06'],
+            '08': ['07'],
+            '09': ['08'],
+            '10': ['07', '08'],
+            '11': ['10'],
+            '12': ['03', '08'],
+            '13': ['03', '12'],
+            '14': ['12'],
+            '15': ['10'],
+            '16': ['08', '12'],
+            '17': ['08', '12'],
+            '18': ['12'],
+            '19': ['15', '16', '17'],
+            '20': ['10', '12', '15', '16', '17', '18']
+        };
+
+        const requiredLessons = prerequisites[this.currentLesson];
+        if (!requiredLessons || requiredLessons.length === 0) return;
+
+        const progress = this.getProgress();
+        const uncompletedPrereqs = requiredLessons.filter(id => !progress.completed.includes(id));
+
+        const header = document.querySelector('.tutorial-header');
+        if (!header) return;
+
+        const prereqBox = document.createElement('div');
+        prereqBox.style.cssText = `
+            margin-top: var(--space-lg);
+            padding: var(--space-md);
+            background: ${uncompletedPrereqs.length === 0 ? 'rgba(34, 197, 94, 0.1)' : 'rgba(234, 88, 12, 0.1)'};
+            border: 1px solid ${uncompletedPrereqs.length === 0 ? 'rgba(34, 197, 94, 0.3)' : 'rgba(234, 88, 12, 0.3)'};
+            border-radius: var(--radius-md);
+            border-left: 4px solid ${uncompletedPrereqs.length === 0 ? 'var(--color-success)' : 'var(--color-orange-600)'};
+        `;
+
+        let prereqHTML = `
+            <div style="display: flex; align-items: start; gap: 0.75rem;">
+                <i class="${uncompletedPrereqs.length === 0 ? 'ri-checkbox-circle-fill' : 'ri-information-line'}" style="font-size: 1.25rem; color: ${uncompletedPrereqs.length === 0 ? 'var(--color-success)' : 'var(--color-orange-600)'}; flex-shrink: 0; margin-top: 0.125rem;"></i>
+                <div style="flex: 1;">
+                    <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">
+                        ${uncompletedPrereqs.length === 0 ? '✅ Prerequisites Completed!' : '📋 Recommended Prerequisites'}
+                    </div>
+        `;
+
+        if (uncompletedPrereqs.length === 0) {
+            prereqHTML += `<div style="font-size: 0.875rem; color: var(--text-secondary);">You've completed all recommended lessons. Ready to go!</div>`;
+        } else {
+            prereqHTML += `<div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.5rem;">We recommend completing these lessons first:</div>`;
+            prereqHTML += `<div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">`;
+            
+            requiredLessons.forEach(id => {
+                const lesson = this.lessons.find(l => l.id === id);
+                const isCompleted = progress.completed.includes(id);
+                prereqHTML += `
+                    <a href="${lesson.file}" style="display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.375rem 0.75rem; background: ${isCompleted ? 'rgba(34, 197, 94, 0.15)' : 'rgba(234, 88, 12, 0.15)'}; border: 1px solid ${isCompleted ? 'rgba(34, 197, 94, 0.3)' : 'rgba(234, 88, 12, 0.3)'}; border-radius: 50px; font-size: 0.8125rem; font-weight: 600; color: ${isCompleted ? 'var(--color-success)' : 'var(--color-orange-600)'}; text-decoration: none; transition: all 0.2s;">
+                        ${isCompleted ? '<i class="ri-check-line"></i>' : `<span>Lesson ${id}</span>`}
+                        ${isCompleted ? `<span>Lesson ${id}</span>` : ''}
+                    </a>
+                `;
+            });
+            
+            prereqHTML += `</div>`;
+        }
+
+        prereqHTML += `</div></div>`;
+        prereqBox.innerHTML = prereqHTML;
+
+        header.appendChild(prereqBox);
     }
 
     // ========== ACHIEVEMENTS ==========

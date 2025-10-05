@@ -376,3 +376,67 @@ body.focus-mode-active .tutorial-content {
     background: rgba(244, 67, 54, 0.15);
     border-color: #d32f2f;
 }
+
+/* ===== NIGHT READING MODE ===== */
+/* Extra dark theme for comfortable late-night reading */
+[data-reading-mode="night"] {
+    --bg-primary: #000000;
+    --bg-secondary: #0a0a0a;
+    --bg-tertiary: #0f0f0f;
+    
+    --text-primary: rgba(255, 255, 255, 0.95);
+    --text-secondary: rgba(255, 255, 255, 0.65);
+    --text-tertiary: rgba(255, 255, 255, 0.45);
+    
+    --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.04) 100%);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+[data-reading-mode="night"] .background-container {
+    background: #000000;
+}
+
+[data-reading-mode="night"] .gradient-orb {
+    opacity: 0.15;
+}
+
+[data-reading-mode="night"] .grid-pattern {
+    opacity: 0.05;
+}
+
+[data-reading-mode="night"] .navbar {
+    background: rgba(0, 0, 0, 0.98);
+    border-bottom-color: rgba(255, 255, 255, 0.05);
+}
+
+[data-reading-mode="night"] .tutorial-body pre {
+    background: rgba(0, 0, 0, 0.5);
+    border-color: rgba(147, 51, 234, 0.15);
+}
+
+[data-reading-mode="night"] .tutorial-body code {
+    background: rgba(147, 51, 234, 0.08);
+}
+
+[data-reading-mode="night"] .note-box {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+[data-reading-mode="night"] .example-box {
+    background: rgba(147, 51, 234, 0.03);
+    border-color: rgba(147, 51, 234, 0.15);
+}
+
+[data-reading-mode="night"] .output-box {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+[data-reading-mode="night"] .exercise-item {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+[data-reading-mode="night"] .control-panel {
+    background: rgba(0, 0, 0, 0.98);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(147, 51, 234, 0.1);
+}

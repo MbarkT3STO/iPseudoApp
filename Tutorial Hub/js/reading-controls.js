@@ -9,6 +9,7 @@ class ReadingControls {
         this.lineHeight = parseFloat(localStorage.getItem('lesson-line-height')) || 1.8;
         this.contentWidth = localStorage.getItem('lesson-content-width') || 'medium';
         this.focusMode = false;
+        this.nightMode = localStorage.getItem('night-reading-mode') === 'true';
         
         this.init();
     }
@@ -17,6 +18,7 @@ class ReadingControls {
         this.createControlPanel();
         this.applySettings();
         this.attachEventListeners();
+        this.applyNightMode();
     }
 
     createControlPanel() {
@@ -102,6 +104,10 @@ class ReadingControls {
                             <i class="ri-focus-3-line"></i>
                             Focus Mode
                         </button>
+                        <button class="control-btn action-btn" id="nightMode">
+                            <i class="ri-moon-clear-line"></i>
+                            Night Mode
+                        </button>
                         <button class="control-btn action-btn" id="printLesson">
                             <i class="ri-printer-line"></i>
                             Print
@@ -172,6 +178,11 @@ class ReadingControls {
         // Focus mode
         document.getElementById('focusMode').addEventListener('click', () => {
             this.toggleFocusMode();
+        });
+
+        // Night mode
+        document.getElementById('nightMode').addEventListener('click', () => {
+            this.toggleNightMode();
         });
 
         // Print
@@ -309,16 +320,51 @@ class ReadingControls {
         localStorage.setItem('lesson-content-width', this.contentWidth);
     }
 
+    toggleNightMode() {
+        this.nightMode = !this.nightMode;
+        localStorage.setItem('night-reading-mode', this.nightMode);
+        this.applyNightMode();
+        
+        const btn = document.getElementById('nightMode');
+        if (this.nightMode) {
+            btn.innerHTML = '<i class="ri-moon-clear-fill"></i> Night Mode';
+            btn.style.background = 'linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(147, 51, 234, 0.2))';
+            btn.style.borderColor = 'rgba(59, 130, 246, 0.4)';
+        } else {
+            btn.innerHTML = '<i class="ri-moon-clear-line"></i> Night Mode';
+            btn.style.background = '';
+            btn.style.borderColor = '';
+        }
+    }
+
+    applyNightMode() {
+        if (this.nightMode) {
+            document.documentElement.setAttribute('data-reading-mode', 'night');
+        } else {
+            document.documentElement.removeAttribute('data-reading-mode');
+        }
+    }
+
     resetAll() {
         this.fontSize = 16;
         this.lineHeight = 1.8;
         this.contentWidth = 'medium';
+        this.nightMode = false;
         this.applySettings();
+        this.applyNightMode();
         this.saveSettings();
+        localStorage.setItem('night-reading-mode', 'false');
         
         document.querySelectorAll('.width-btn').forEach(btn => {
             btn.classList.toggle('active', btn.dataset.width === 'medium');
         });
+        
+        const nightBtn = document.getElementById('nightMode');
+        if (nightBtn) {
+            nightBtn.innerHTML = '<i class="ri-moon-clear-line"></i> Night Mode';
+            nightBtn.style.background = '';
+            nightBtn.style.borderColor = '';
+        }
     }
 }
 
