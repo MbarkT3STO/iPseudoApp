@@ -86,6 +86,54 @@
                     allow your programs to work with data dynamically.
                 </p>
 
+                <!-- Visual Diagram: Variable Concept -->
+                <div style="margin: var(--space-xl) 0; padding: var(--space-xl); background: linear-gradient(135deg, rgba(147, 51, 234, 0.05), rgba(59, 130, 246, 0.05)); border: 1px solid rgba(147, 51, 234, 0.2); border-radius: var(--radius-lg);">
+                    <h4 style="text-align: center; color: var(--text-primary); margin-bottom: var(--space-lg); font-size: 1.125rem;">
+                        <i class="ri-eye-line" style="color: var(--color-purple-500);"></i>
+                        Visual: How Variables Work
+                    </h4>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-lg); max-width: 800px; margin: 0 auto;">
+                        <!-- Variable 1 -->
+                        <div style="text-align: center;">
+                            <div style="background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); border-radius: var(--radius-md); padding: var(--space-lg); margin-bottom: var(--space-sm); box-shadow: 0 4px 12px rgba(147, 51, 234, 0.3); position: relative; min-height: 100px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                                <div style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.7); margin-bottom: 0.25rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Variable Name</div>
+                                <div style="font-size: 1.125rem; color: white; font-weight: 700; font-family: 'JetBrains Mono', monospace;">age</div>
+                                <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: rgba(147, 51, 234, 0.9); padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.6875rem; color: white; font-weight: 600; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);">📦 Box</div>
+                            </div>
+                            <div style="margin-top: var(--space-sm);">
+                                <div style="display: inline-block; background: rgba(147, 51, 234, 0.15); border: 1px solid rgba(147, 51, 234, 0.3); border-radius: 50px; padding: 0.5rem 1rem; font-weight: 600; color: var(--color-purple-500); font-size: 1.25rem; font-family: 'JetBrains Mono', monospace;">25</div>
+                                <div style="font-size: 0.75rem; color: var(--text-tertiary); margin-top: 0.25rem;">Value Stored</div>
+                            </div>
+                        </div>
+
+                        <!-- Variable 2 -->
+                        <div style="text-align: center;">
+                            <div style="background: linear-gradient(135deg, var(--color-success), var(--color-green-600)); border-radius: var(--radius-md); padding: var(--space-lg); margin-bottom: var(--space-sm); box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3); position: relative; min-height: 100px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                                <div style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.7); margin-bottom: 0.25rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Variable Name</div>
+                                <div style="font-size: 1.125rem; color: white; font-weight: 700; font-family: 'JetBrains Mono', monospace;">name</div>
+                                <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: rgba(34, 197, 94, 0.9); padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.6875rem; color: white; font-weight: 600; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);">📦 Box</div>
+                            </div>
+                            <div style="margin-top: var(--space-sm);">
+                                <div style="display: inline-block; background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 50px; padding: 0.5rem 1rem; font-weight: 600; color: var(--color-success); font-size: 1rem; font-family: 'JetBrains Mono', monospace;">"Alice"</div>
+                                <div style="font-size: 0.75rem; color: var(--text-tertiary); margin-top: 0.25rem;">Value Stored</div>
+                            </div>
+                        </div>
+
+                        <!-- Variable 3 -->
+                        <div style="text-align: center;">
+                            <div style="background: linear-gradient(135deg, var(--color-orange-600), #f59e0b); border-radius: var(--radius-md); padding: var(--space-lg); margin-bottom: var(--space-sm); box-shadow: 0 4px 12px rgba(234, 88, 12, 0.3); position: relative; min-height: 100px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                                <div style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.7); margin-bottom: 0.25rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Variable Name</div>
+                                <div style="font-size: 1.125rem; color: white; font-weight: 700; font-family: 'JetBrains Mono', monospace;">isActive</div>
+                                <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: rgba(234, 88, 12, 0.9); padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.6875rem; color: white; font-weight: 600; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);">📦 Box</div>
+                            </div>
+                            <div style="margin-top: var(--space-sm);">
+                                <div style="display: inline-block; background: rgba(234, 88, 12, 0.15); border: 1px solid rgba(234, 88, 12, 0.3); border-radius: 50px; padding: 0.5rem 1rem; font-weight: 600; color: var(--color-orange-600); font-size: 1rem; font-family: 'JetBrains Mono', monospace;">true</div>
+                                <div style="font-size: 0.75rem; color: var(--text-tertiary); margin-top: 0.25rem;">Value Stored</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="example-box">
                     <div class="example-title">
                         <i class="ri-box-line"></i>
@@ -185,6 +233,75 @@ Enrolled: true</div>
                 <h2>🎯 Data Types</h2>
 
                 <p>Data types define what kind of data a variable can hold. iPseudo supports several fundamental types:</p>
+
+                <!-- Visual Diagram: Data Types Overview -->
+                <div style="margin: var(--space-xl) 0; padding: var(--space-xl); background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(147, 51, 234, 0.05)); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: var(--radius-lg);">
+                    <h4 style="text-align: center; color: var(--text-primary); margin-bottom: var(--space-xl); font-size: 1.125rem;">
+                        <i class="ri-database-line" style="color: var(--color-blue-500);"></i>
+                        Data Types at a Glance
+                    </h4>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-md); max-width: 900px; margin: 0 auto;">
+                        <!-- Integer -->
+                        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-md); padding: var(--space-lg); transition: all 0.3s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.borderColor='rgba(147, 51, 234, 0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255, 255, 255, 0.1)';">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: var(--space-sm);">
+                                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #3b82f6, #2563eb); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">🔢</div>
+                                <div>
+                                    <div style="font-weight: 700; color: var(--text-primary); font-size: 1rem;">Integer</div>
+                                    <div style="font-size: 0.75rem; color: var(--text-tertiary);">Whole Numbers</div>
+                                </div>
+                            </div>
+                            <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
+                                <span style="color: #d19a66;">42</span>, <span style="color: #d19a66;">-17</span>, <span style="color: #d19a66;">0</span>, <span style="color: #d19a66;">1000</span>
+                            </div>
+                            <div style="font-size: 0.8125rem; color: var(--text-tertiary);">✓ Counting, ages, years</div>
+                        </div>
+
+                        <!-- Float -->
+                        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-md); padding: var(--space-lg); transition: all 0.3s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.borderColor='rgba(147, 51, 234, 0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255, 255, 255, 0.1)';">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: var(--space-sm);">
+                                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #10b981, #059669); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">💰</div>
+                                <div>
+                                    <div style="font-weight: 700; color: var(--text-primary); font-size: 1rem;">Float</div>
+                                    <div style="font-size: 0.75rem; color: var(--text-tertiary);">Decimal Numbers</div>
+                                </div>
+                            </div>
+                            <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
+                                <span style="color: #d19a66;">3.14</span>, <span style="color: #d19a66;">19.99</span>, <span style="color: #d19a66;">-2.5</span>
+                            </div>
+                            <div style="font-size: 0.8125rem; color: var(--text-tertiary);">✓ Prices, measurements</div>
+                        </div>
+
+                        <!-- String -->
+                        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-md); padding: var(--space-lg); transition: all 0.3s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.borderColor='rgba(147, 51, 234, 0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255, 255, 255, 0.1)';">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: var(--space-sm);">
+                                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">📝</div>
+                                <div>
+                                    <div style="font-weight: 700; color: var(--text-primary); font-size: 1rem;">String</div>
+                                    <div style="font-size: 0.75rem; color: var(--text-tertiary);">Text Data</div>
+                                </div>
+                            </div>
+                            <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
+                                <span style="color: #98c379;">"Hello"</span>, <span style="color: #98c379;">"Alice"</span>
+                            </div>
+                            <div style="font-size: 0.8125rem; color: var(--text-tertiary);">✓ Names, messages, text</div>
+                        </div>
+
+                        <!-- Boolean -->
+                        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-md); padding: var(--space-lg); transition: all 0.3s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.borderColor='rgba(147, 51, 234, 0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255, 255, 255, 0.1)';">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: var(--space-sm);">
+                                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">🔘</div>
+                                <div>
+                                    <div style="font-weight: 700; color: var(--text-primary); font-size: 1rem;">Boolean</div>
+                                    <div style="font-size: 0.75rem; color: var(--text-tertiary);">True/False</div>
+                                </div>
+                            </div>
+                            <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
+                                <span style="color: #c678dd;">true</span>, <span style="color: #c678dd;">false</span>
+                            </div>
+                            <div style="font-size: 0.8125rem; color: var(--text-tertiary);">✓ Yes/no, on/off, flags</div>
+                        </div>
+                    </div>
+                </div>
 
                 <h3>1. Integer (Whole Numbers)</h3>
 
@@ -321,6 +438,34 @@ Hello, World!</div>
 <span class="keyword">Endalgorithm</span></code></pre>
                 </div>
 
+                <!-- Visual Diagram: Boolean States -->
+                <div style="margin: var(--space-xl) 0; padding: var(--space-lg); background: linear-gradient(135deg, rgba(234, 88, 12, 0.05), rgba(251, 146, 60, 0.05)); border: 1px solid rgba(234, 88, 12, 0.2); border-radius: var(--radius-lg);">
+                    <h4 style="text-align: center; color: var(--text-primary); margin-bottom: var(--space-lg); font-size: 1.125rem;">
+                        <i class="ri-toggle-line" style="color: var(--color-orange-600);"></i>
+                        Visual: Boolean States
+                    </h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xl); max-width: 600px; margin: 0 auto;">
+                        <!-- True State -->
+                        <div style="text-align: center;">
+                            <div style="width: 120px; height: 120px; margin: 0 auto var(--space-md); background: linear-gradient(135deg, var(--color-success), var(--color-green-600)); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(34, 197, 94, 0.4); position: relative;">
+                                <i class="ri-check-line" style="font-size: 4rem; color: white; font-weight: 700;"></i>
+                                <div style="position: absolute; top: -10px; right: -10px; width: 40px; height: 40px; background: rgba(34, 197, 94, 0.3); border-radius: 50%; animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;"></div>
+                            </div>
+                            <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--color-success); margin-bottom: 0.5rem;">true</div>
+                            <div style="font-size: 0.875rem; color: var(--text-secondary);">✅ Yes, On, Enabled, Active</div>
+                        </div>
+
+                        <!-- False State -->
+                        <div style="text-align: center;">
+                            <div style="width: 120px; height: 120px; margin: 0 auto var(--space-md); background: linear-gradient(135deg, #ef4444, #dc2626); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4); position: relative;">
+                                <i class="ri-close-line" style="font-size: 4rem; color: white; font-weight: 700;"></i>
+                            </div>
+                            <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 700; color: #ef4444; margin-bottom: 0.5rem;">false</div>
+                            <div style="font-size: 0.875rem; color: var(--text-secondary);">❌ No, Off, Disabled, Inactive</div>
+                        </div>
+                    </div>
+                </div>
+
                 <p><strong>Use booleans for:</strong></p>
                 <ul>
                     <li>Yes/No questions</li>
@@ -368,6 +513,51 @@ score = score + <span class="number">5</span>
 After first update: 10
 After second update: 25
 After increment: 30</div>
+                </div>
+
+                <!-- Visual Diagram: Variable Lifecycle -->
+                <div style="margin: var(--space-xl) 0; padding: var(--space-xl); background: linear-gradient(135deg, rgba(147, 51, 234, 0.05), rgba(59, 130, 246, 0.05)); border: 1px solid rgba(147, 51, 234, 0.2); border-radius: var(--radius-lg);">
+                    <h4 style="text-align: center; color: var(--text-primary); margin-bottom: var(--space-xl); font-size: 1.125rem;">
+                        <i class="ri-flow-chart" style="color: var(--color-purple-500);"></i>
+                        Visual: Variable Lifecycle
+                    </h4>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: var(--space-md); flex-wrap: wrap; max-width: 900px; margin: 0 auto;">
+                        <!-- Step 1: Create -->
+                        <div style="flex: 1; min-width: 200px; text-align: center;">
+                            <div style="background: rgba(59, 130, 246, 0.15); border: 2px solid var(--color-blue-500); border-radius: var(--radius-lg); padding: var(--space-lg); margin-bottom: var(--space-sm);">
+                                <div style="font-size: 2rem; margin-bottom: 0.5rem;">📦</div>
+                                <div style="font-weight: 700; color: var(--color-blue-500); margin-bottom: 0.5rem; font-size: 1rem;">1. CREATE</div>
+                                <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; color: var(--text-primary);">score = 0</div>
+                            </div>
+                            <div style="font-size: 0.75rem; color: var(--text-secondary);">Initialize variable</div>
+                        </div>
+
+                        <!-- Arrow -->
+                        <div style="color: var(--color-purple-500); font-size: 2rem;">→</div>
+
+                        <!-- Step 2: Update -->
+                        <div style="flex: 1; min-width: 200px; text-align: center;">
+                            <div style="background: rgba(234, 88, 12, 0.15); border: 2px solid var(--color-orange-600); border-radius: var(--radius-lg); padding: var(--space-lg); margin-bottom: var(--space-sm);">
+                                <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔄</div>
+                                <div style="font-weight: 700; color: var(--color-orange-600); margin-bottom: 0.5rem; font-size: 1rem;">2. UPDATE</div>
+                                <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; color: var(--text-primary);">score = 10</div>
+                            </div>
+                            <div style="font-size: 0.75rem; color: var(--text-secondary);">Change value</div>
+                        </div>
+
+                        <!-- Arrow -->
+                        <div style="color: var(--color-purple-500); font-size: 2rem;">→</div>
+
+                        <!-- Step 3: Use -->
+                        <div style="flex: 1; min-width: 200px; text-align: center;">
+                            <div style="background: rgba(34, 197, 94, 0.15); border: 2px solid var(--color-success); border-radius: var(--radius-lg); padding: var(--space-lg); margin-bottom: var(--space-sm);">
+                                <div style="font-size: 2rem; margin-bottom: 0.5rem;">✨</div>
+                                <div style="font-weight: 700; color: var(--color-success); margin-bottom: 0.5rem; font-size: 1rem;">3. USE</div>
+                                <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; color: var(--text-primary);">Print score</div>
+                            </div>
+                            <div style="font-size: 0.75rem; color: var(--text-secondary);">Read & display</div>
+                        </div>
+                    </div>
                 </div>
 
                 <h2>📝 Variable Naming Rules</h2>
@@ -493,6 +683,71 @@ TOTAL: $2159.9784
                         </tr>
                     </tbody>
                 </table>
+
+                <!-- Visual Diagram: Memory Representation -->
+                <div style="margin: var(--space-2xl) 0; padding: var(--space-xl); background: linear-gradient(135deg, rgba(34, 197, 94, 0.05), rgba(16, 185, 129, 0.05)); border: 1px solid rgba(34, 197, 94, 0.2); border-radius: var(--radius-lg);">
+                    <h4 style="text-align: center; color: var(--text-primary); margin-bottom: var(--space-xl); font-size: 1.125rem;">
+                        <i class="ri-cpu-line" style="color: var(--color-success);"></i>
+                        Visual: How Variables Are Stored in Memory
+                    </h4>
+                    <div style="max-width: 700px; margin: 0 auto;">
+                        <!-- Memory Table -->
+                        <div style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: var(--radius-md); overflow: hidden;">
+                            <div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(16, 185, 129, 0.2)); padding: var(--space-sm); border-bottom: 1px solid rgba(34, 197, 94, 0.3); text-align: center; font-weight: 700; color: var(--color-success); font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                                💾 Computer Memory
+                            </div>
+                            
+                            <!-- Memory Slots -->
+                            <div style="padding: var(--space-md);">
+                                <!-- Variable 1 -->
+                                <div style="display: grid; grid-template-columns: 140px 1fr 120px; gap: var(--space-md); align-items: center; padding: var(--space-md); background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: var(--radius-sm); margin-bottom: var(--space-sm);">
+                                    <div style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--color-blue-500); font-size: 0.875rem;">studentName</div>
+                                    <div style="text-align: center;">
+                                        <div style="display: inline-block; padding: 0.5rem 1rem; background: rgba(152, 195, 121, 0.15); border: 1px solid rgba(152, 195, 121, 0.3); border-radius: 50px; font-family: 'JetBrains Mono', monospace; color: #98c379; font-weight: 600;">"Alice"</div>
+                                    </div>
+                                    <div style="text-align: right; font-size: 0.75rem; color: var(--text-tertiary);">String</div>
+                                </div>
+
+                                <!-- Variable 2 -->
+                                <div style="display: grid; grid-template-columns: 140px 1fr 120px; gap: var(--space-md); align-items: center; padding: var(--space-md); background: rgba(234, 88, 12, 0.1); border: 1px solid rgba(234, 88, 12, 0.2); border-radius: var(--radius-sm); margin-bottom: var(--space-sm);">
+                                    <div style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--color-orange-600); font-size: 0.875rem;">studentAge</div>
+                                    <div style="text-align: center;">
+                                        <div style="display: inline-block; padding: 0.5rem 1rem; background: rgba(209, 154, 102, 0.15); border: 1px solid rgba(209, 154, 102, 0.3); border-radius: 50px; font-family: 'JetBrains Mono', monospace; color: #d19a66; font-weight: 600;">20</div>
+                                    </div>
+                                    <div style="text-align: right; font-size: 0.75rem; color: var(--text-tertiary);">Integer</div>
+                                </div>
+
+                                <!-- Variable 3 -->
+                                <div style="display: grid; grid-template-columns: 140px 1fr 120px; gap: var(--space-md); align-items: center; padding: var(--space-md); background: rgba(147, 51, 234, 0.1); border: 1px solid rgba(147, 51, 234, 0.2); border-radius: var(--radius-sm); margin-bottom: var(--space-sm);">
+                                    <div style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--color-purple-500); font-size: 0.875rem;">studentGPA</div>
+                                    <div style="text-align: center;">
+                                        <div style="display: inline-block; padding: 0.5rem 1rem; background: rgba(209, 154, 102, 0.15); border: 1px solid rgba(209, 154, 102, 0.3); border-radius: 50px; font-family: 'JetBrains Mono', monospace; color: #d19a66; font-weight: 600;">3.75</div>
+                                    </div>
+                                    <div style="text-align: right; font-size: 0.75rem; color: var(--text-tertiary);">Float</div>
+                                </div>
+
+                                <!-- Variable 4 -->
+                                <div style="display: grid; grid-template-columns: 140px 1fr 120px; gap: var(--space-md); align-items: center; padding: var(--space-md); background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.2); border-radius: var(--radius-sm);">
+                                    <div style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--color-success); font-size: 0.875rem;">isEnrolled</div>
+                                    <div style="text-align: center;">
+                                        <div style="display: inline-block; padding: 0.5rem 1rem; background: rgba(198, 120, 221, 0.15); border: 1px solid rgba(198, 120, 221, 0.3); border-radius: 50px; font-family: 'JetBrains Mono', monospace; color: #c678dd; font-weight: 600;">true</div>
+                                    </div>
+                                    <div style="text-align: right; font-size: 0.75rem; color: var(--text-tertiary);">Boolean</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; margin-top: var(--space-lg); padding: var(--space-md); background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.2); border-radius: var(--radius-sm);">
+                            <div style="font-size: 0.8125rem; color: var(--text-secondary); margin-bottom: 0.375rem;">
+                                <i class="ri-information-line" style="color: var(--color-success);"></i>
+                                <strong style="color: var(--text-primary);">Memory Concept:</strong>
+                            </div>
+                            <div style="font-size: 0.875rem; color: var(--text-secondary);">
+                                Each variable gets its own space in memory with a name (address) and a value!
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <h2>📝 Key Takeaways</h2>
 

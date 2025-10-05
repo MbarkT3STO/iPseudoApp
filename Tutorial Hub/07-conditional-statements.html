@@ -148,6 +148,57 @@ Program complete.</div>
 Program complete.</div>
                 </div>
 
+                <!-- Visual: IF Decision Tree -->
+                <div style="margin: var(--space-xl) 0; padding: var(--space-xl); background: linear-gradient(135deg, rgba(147, 51, 234, 0.05), rgba(59, 130, 246, 0.05)); border: 1px solid rgba(147, 51, 234, 0.2); border-radius: var(--radius-lg);">
+                    <h4 style="text-align: center; color: var(--text-primary); margin-bottom: var(--space-xl); font-size: 1.125rem;">
+                        <i class="ri-git-branch-line" style="color: var(--color-purple-500);"></i>
+                        Visual: IF Statement Flow
+                    </h4>
+                    <div style="max-width: 600px; margin: 0 auto;">
+                        <!-- Condition -->
+                        <div style="text-align: center; margin-bottom: var(--space-lg);">
+                            <div style="display: inline-block; padding: var(--space-md) var(--space-lg); background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); border-radius: var(--radius-md); color: white; font-weight: 700; box-shadow: 0 4px 12px rgba(147, 51, 234, 0.4);">
+                                <i class="ri-question-line"></i> age >= 18 ?
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xl);">
+                            <!-- True Path -->
+                            <div style="text-align: center;">
+                                <div style="color: var(--color-success); font-weight: 700; margin-bottom: var(--space-md); font-size: 1.125rem;">
+                                    ✓ TRUE
+                                </div>
+                                <div style="padding: var(--space-md); background: rgba(34, 197, 94, 0.1); border: 2px solid var(--color-success); border-radius: var(--radius-md);">
+                                    <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Execute:</div>
+                                    <div style="font-size: 0.875rem; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace;">
+                                        Print "Adult"<br>
+                                        Print "Can vote"
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- False Path -->
+                            <div style="text-align: center;">
+                                <div style="color: var(--text-tertiary); font-weight: 700; margin-bottom: var(--space-md); font-size: 1.125rem;">
+                                    ✗ FALSE
+                                </div>
+                                <div style="padding: var(--space-md); background: rgba(255, 255, 255, 0.03); border: 2px dashed rgba(255, 255, 255, 0.2); border-radius: var(--radius-md);">
+                                    <div style="font-weight: 600; color: var(--text-tertiary); margin-bottom: 0.5rem;">Skip block</div>
+                                    <div style="font-size: 0.875rem; color: var(--text-tertiary); font-style: italic;">
+                                        (Continue to next)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; color: var(--color-purple-500); font-size: 1.5rem; margin: var(--space-md) 0;">↓</div>
+
+                        <div style="text-align: center; padding: var(--space-md); background: rgba(147, 51, 234, 0.1); border: 1px solid rgba(147, 51, 234, 0.2); border-radius: var(--radius-md);">
+                            <div style="font-weight: 600; color: var(--text-primary);">Continue Program</div>
+                        </div>
+                    </div>
+                </div>
+
                 <h2>🔄 IF-ELSE Statement</h2>
 
                 <p>IF-ELSE provides an alternative path when the condition is false:</p>

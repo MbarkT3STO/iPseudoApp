@@ -1273,3 +1273,15 @@ html {
     background: rgba(147, 51, 234, 0.08) !important;
     border-left-color: var(--color-purple-500) !important;
 }
+
+/* Ping animation for visual diagrams */
+@keyframes ping {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    75%, 100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}

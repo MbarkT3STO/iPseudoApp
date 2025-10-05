@@ -157,6 +157,57 @@
 
                 <p>Let's compare pseudocode with actual programming code:</p>
 
+                <!-- Visual Comparison Diagram -->
+                <div style="margin: var(--space-xl) 0; padding: var(--space-xl); background: linear-gradient(135deg, rgba(147, 51, 234, 0.05), rgba(59, 130, 246, 0.05)); border: 1px solid rgba(147, 51, 234, 0.2); border-radius: var(--radius-lg);">
+                    <h4 style="text-align: center; color: var(--text-primary); margin-bottom: var(--space-xl); font-size: 1.125rem;">
+                        <i class="ri-contrast-line" style="color: var(--color-purple-500);"></i>
+                        Visual: Pseudocode vs Programming Languages
+                    </h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--space-lg); max-width: 900px; margin: 0 auto;">
+                        <!-- Pseudocode -->
+                        <div style="text-align: center;">
+                            <div style="background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); border-radius: var(--radius-lg); padding: var(--space-lg); margin-bottom: var(--space-sm); box-shadow: 0 8px 24px rgba(147, 51, 234, 0.4); min-height: 140px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                                <div style="font-size: 3rem; margin-bottom: 0.5rem;">✨</div>
+                                <div style="font-weight: 700; color: white; font-size: 1.125rem; margin-bottom: 0.25rem;">Pseudocode</div>
+                                <div style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.8);">Human-Friendly</div>
+                            </div>
+                            <div style="background: rgba(147, 51, 234, 0.1); border: 1px solid rgba(147, 51, 234, 0.2); border-radius: var(--radius-sm); padding: var(--space-sm); font-size: 0.75rem; color: var(--text-secondary);">
+                                ✅ Easy to read<br>
+                                ✅ No syntax errors<br>
+                                ✅ Focus on logic
+                            </div>
+                        </div>
+
+                        <!-- Python -->
+                        <div style="text-align: center;">
+                            <div style="background: linear-gradient(135deg, #3776ab, #ffd43b); border-radius: var(--radius-lg); padding: var(--space-lg); margin-bottom: var(--space-sm); box-shadow: 0 8px 24px rgba(55, 118, 171, 0.3); min-height: 140px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                                <div style="font-size: 3rem; margin-bottom: 0.5rem;">🐍</div>
+                                <div style="font-weight: 700; color: white; font-size: 1.125rem; margin-bottom: 0.25rem;">Python</div>
+                                <div style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.8);">Real Language</div>
+                            </div>
+                            <div style="background: rgba(55, 118, 171, 0.1); border: 1px solid rgba(55, 118, 171, 0.2); border-radius: var(--radius-sm); padding: var(--space-sm); font-size: 0.75rem; color: var(--text-secondary);">
+                                🔤 Specific syntax<br>
+                                📚 Libraries needed<br>
+                                ⚡ Can execute
+                            </div>
+                        </div>
+
+                        <!-- Java -->
+                        <div style="text-align: center;">
+                            <div style="background: linear-gradient(135deg, #f89820, #5382a1); border-radius: var(--radius-lg); padding: var(--space-lg); margin-bottom: var(--space-sm); box-shadow: 0 8px 24px rgba(248, 152, 32, 0.3); min-height: 140px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                                <div style="font-size: 3rem; margin-bottom: 0.5rem;">☕</div>
+                                <div style="font-weight: 700; color: white; font-size: 1.125rem; margin-bottom: 0.25rem;">Java</div>
+                                <div style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.8);">Real Language</div>
+                            </div>
+                            <div style="background: rgba(248, 152, 32, 0.1); border: 1px solid rgba(248, 152, 32, 0.2); border-radius: var(--radius-sm); padding: var(--space-sm); font-size: 0.75rem; color: var(--text-secondary);">
+                                🔤 Verbose syntax<br>
+                                🏗️ Classes required<br>
+                                ⚡ Can execute
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <h3>Pseudocode Example:</h3>
                 <pre><code><span class="keyword">Algorithm</span> <span class="function">CalculateAverage</span>
 
@@ -345,6 +396,80 @@ public class AverageCalculator {
                     Anyone can understand it, and it could be adapted for any "programming language" (or robot!) 
                     that needs to make tea.
                 </p>
+
+                <!-- Visual Flowchart -->
+                <div style="margin: var(--space-xl) 0; padding: var(--space-xl); background: linear-gradient(135deg, rgba(234, 88, 12, 0.05), rgba(251, 146, 60, 0.05)); border: 1px solid rgba(234, 88, 12, 0.2); border-radius: var(--radius-lg);">
+                    <h4 style="text-align: center; color: var(--text-primary); margin-bottom: var(--space-xl); font-size: 1.125rem;">
+                        <i class="ri-flow-chart" style="color: var(--color-orange-600);"></i>
+                        Visual: Algorithm Flow
+                    </h4>
+                    <div style="max-width: 500px; margin: 0 auto;">
+                        <!-- Start -->
+                        <div style="text-align: center; margin-bottom: var(--space-md);">
+                            <div style="display: inline-block; padding: 0.75rem 2rem; background: linear-gradient(135deg, var(--color-success), var(--color-green-600)); border-radius: 50px; color: white; font-weight: 700; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);">
+                                🚀 START
+                            </div>
+                        </div>
+
+                        <!-- Arrow -->
+                        <div style="text-align: center; color: var(--color-orange-600); font-size: 1.5rem; margin: 0.5rem 0;">↓</div>
+
+                        <!-- Step 1 -->
+                        <div style="padding: var(--space-md); background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: var(--radius-md); margin-bottom: var(--space-sm);">
+                            <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <div style="width: 24px; height: 24px; background: var(--color-blue-500); border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700;">1</div>
+                                Get Materials
+                            </div>
+                            <div style="font-size: 0.8125rem; color: var(--text-secondary);">Teabag, cup, kettle</div>
+                        </div>
+
+                        <div style="text-align: center; color: var(--color-orange-600); font-size: 1.5rem; margin: 0.5rem 0;">↓</div>
+
+                        <!-- Step 2 -->
+                        <div style="padding: var(--space-md); background: rgba(147, 51, 234, 0.1); border: 1px solid rgba(147, 51, 234, 0.2); border-radius: var(--radius-md); margin-bottom: var(--space-sm);">
+                            <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <div style="width: 24px; height: 24px; background: var(--color-purple-500); border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700;">2</div>
+                                Boil Water
+                            </div>
+                            <div style="font-size: 0.8125rem; color: var(--text-secondary);">Fill kettle → Turn on → Wait</div>
+                        </div>
+
+                        <div style="text-align: center; color: var(--color-orange-600); font-size: 1.5rem; margin: 0.5rem 0;">↓</div>
+
+                        <!-- Step 3 -->
+                        <div style="padding: var(--space-md); background: rgba(234, 88, 12, 0.1); border: 1px solid rgba(234, 88, 12, 0.2); border-radius: var(--radius-md); margin-bottom: var(--space-sm);">
+                            <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <div style="width: 24px; height: 24px; background: var(--color-orange-600); border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700;">3</div>
+                                Make Tea
+                            </div>
+                            <div style="font-size: 0.8125rem; color: var(--text-secondary);">Place teabag → Pour water → Wait</div>
+                        </div>
+
+                        <div style="text-align: center; color: var(--color-orange-600); font-size: 1.5rem; margin: 0.5rem 0;">↓</div>
+
+                        <!-- Decision -->
+                        <div style="padding: var(--space-md); background: rgba(251, 146, 60, 0.1); border: 2px dashed rgba(251, 146, 60, 0.4); border-radius: var(--radius-md); margin-bottom: var(--space-sm);">
+                            <div style="text-align: center; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">
+                                <i class="ri-question-line" style="color: var(--color-orange-600);"></i>
+                                Want additions?
+                            </div>
+                            <div style="display: flex; justify-content: center; gap: var(--space-sm); font-size: 0.8125rem;">
+                                <span style="color: var(--color-success);">✓ Add milk/sugar</span>
+                                <span style="color: var(--text-tertiary);">or</span>
+                                <span style="color: var(--text-secondary);">✗ Skip</span>
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; color: var(--color-orange-600); font-size: 1.5rem; margin: 0.5rem 0;">↓</div>
+
+                        <!-- End -->
+                        <div style="text-align: center;">
+                            <div style="display: inline-block; padding: 0.75rem 2rem; background: linear-gradient(135deg, #ef4444, #dc2626); border-radius: 50px; color: white; font-weight: 700; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);">
+                                🏁 END
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <h2>🚀 iPseudo: Your Pseudocode Environment</h2>
 

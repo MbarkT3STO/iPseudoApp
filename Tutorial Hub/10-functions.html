@@ -85,6 +85,53 @@
                     They help you avoid repeating code and make your programs more organized and easier to maintain.
                 </p>
 
+                <!-- Visual: Function Call Flow -->
+                <div style="margin: var(--space-xl) 0; padding: var(--space-xl); background: linear-gradient(135deg, rgba(147, 51, 234, 0.05), rgba(59, 130, 246, 0.05)); border: 1px solid rgba(147, 51, 234, 0.2); border-radius: var(--radius-lg);">
+                    <h4 style="text-align: center; color: var(--text-primary); margin-bottom: var(--space-xl); font-size: 1.125rem;">
+                        <i class="ri-flow-chart" style="color: var(--color-purple-500);"></i>
+                        Visual: Function Call & Return Flow
+                    </h4>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: var(--space-lg); flex-wrap: wrap; max-width: 800px; margin: 0 auto;">
+                        <!-- Main Program -->
+                        <div style="flex: 1; min-width: 200px; text-align: center;">
+                            <div style="background: rgba(59, 130, 246, 0.15); border: 2px solid var(--color-blue-500); border-radius: var(--radius-lg); padding: var(--space-lg);">
+                                <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">📄</div>
+                                <div style="font-weight: 700; color: var(--color-blue-500); margin-bottom: 0.75rem;">Main Program</div>
+                                <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.8125rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
+                                    result = Add(5, 3)
+                                </div>
+                                <div style="font-size: 0.75rem; color: var(--color-blue-500); font-weight: 600;">↓ Call →</div>
+                            </div>
+                        </div>
+
+                        <!-- Function -->
+                        <div style="flex: 1; min-width: 220px; text-align: center;">
+                            <div style="background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); border-radius: var(--radius-lg); padding: var(--space-lg); box-shadow: 0 8px 24px rgba(147, 51, 234, 0.4);">
+                                <div style="font-size: 1.5rem; margin-bottom: 0.5rem; color: white;">⚙️</div>
+                                <div style="font-weight: 700; color: white; margin-bottom: 0.75rem;">Function: Add</div>
+                                <div style="background: rgba(255, 255, 255, 0.2); border-radius: var(--radius-sm); padding: 0.5rem; margin-bottom: 0.5rem;">
+                                    <div style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.8); margin-bottom: 0.25rem;">Parameters:</div>
+                                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; color: white;">a=5, b=3</div>
+                                </div>
+                                <div style="background: rgba(255, 255, 255, 0.2); border-radius: var(--radius-sm); padding: 0.5rem;">
+                                    <div style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.8); margin-bottom: 0.25rem;">Process:</div>
+                                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; color: white;">sum = a + b</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Return -->
+                        <div style="flex: 1; min-width: 200px; text-align: center;">
+                            <div style="background: rgba(34, 197, 94, 0.15); border: 2px solid var(--color-success); border-radius: var(--radius-lg); padding: var(--space-lg);">
+                                <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">↩️</div>
+                                <div style="font-weight: 700; color: var(--color-success); margin-bottom: 0.75rem;">Return Value</div>
+                                <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; color: var(--color-success); font-weight: 700; margin-bottom: 0.5rem;">8</div>
+                                <div style="font-size: 0.75rem; color: var(--color-success); font-weight: 600;">← Back to Main</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="note-box info">
                     <div class="note-box-title">
                         <i class="ri-information-line"></i>

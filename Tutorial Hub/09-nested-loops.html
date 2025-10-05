@@ -100,6 +100,72 @@
                     </div>
                 </div>
 
+                <!-- Visual: Nested Loop Grid -->
+                <div style="margin: var(--space-xl) 0; padding: var(--space-xl); background: linear-gradient(135deg, rgba(147, 51, 234, 0.05), rgba(59, 130, 246, 0.05)); border: 1px solid rgba(147, 51, 234, 0.2); border-radius: var(--radius-lg);">
+                    <h4 style="text-align: center; color: var(--text-primary); margin-bottom: var(--space-xl); font-size: 1.125rem;">
+                        <i class="ri-grid-line" style="color: var(--color-purple-500);"></i>
+                        Visual: How Nested Loops Iterate (3x3 Grid)
+                    </h4>
+                    <div style="max-width: 600px; margin: 0 auto;">
+                        <!-- Grid -->
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-sm); margin-bottom: var(--space-lg);">
+                            <!-- Row 1 -->
+                            <div style="background: rgba(59, 130, 246, 0.2); border: 2px solid var(--color-blue-500); border-radius: var(--radius-sm); padding: var(--space-md); text-align: center;">
+                                <div style="font-size: 0.75rem; color: var(--color-blue-500); font-weight: 600; margin-bottom: 0.25rem;">Row 1, Col 1</div>
+                                <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.125rem; color: white; font-weight: 700;">1</div>
+                            </div>
+                            <div style="background: rgba(59, 130, 246, 0.15); border: 2px solid rgba(59, 130, 246, 0.4); border-radius: var(--radius-sm); padding: var(--space-md); text-align: center;">
+                                <div style="font-size: 0.75rem; color: var(--color-blue-500); font-weight: 600; margin-bottom: 0.25rem;">Row 1, Col 2</div>
+                                <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.125rem; color: var(--color-blue-500); font-weight: 700;">2</div>
+                            </div>
+                            <div style="background: rgba(59, 130, 246, 0.1); border: 2px solid rgba(59, 130, 246, 0.3); border-radius: var(--radius-sm); padding: var(--space-md); text-align: center;">
+                                <div style="font-size: 0.75rem; color: var(--color-blue-500); font-weight: 600; margin-bottom: 0.25rem;">Row 1, Col 3</div>
+                                <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.125rem; color: var(--color-blue-500); font-weight: 700;">3</div>
+                            </div>
+
+                            <!-- Row 2 -->
+                            <div style="background: rgba(147, 51, 234, 0.1); border: 2px solid rgba(147, 51, 234, 0.3); border-radius: var(--radius-sm); padding: var(--space-md); text-align: center;">
+                                <div style="font-size: 0.75rem; color: var(--color-purple-500); font-weight: 600; margin-bottom: 0.25rem;">Row 2, Col 1</div>
+                                <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.125rem; color: var(--color-purple-500); font-weight: 700;">4</div>
+                            </div>
+                            <div style="background: rgba(147, 51, 234, 0.15); border: 2px solid rgba(147, 51, 234, 0.4); border-radius: var(--radius-sm); padding: var(--space-md); text-align: center;">
+                                <div style="font-size: 0.75rem; color: var(--color-purple-500); font-weight: 600; margin-bottom: 0.25rem;">Row 2, Col 2</div>
+                                <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.125rem; color: var(--color-purple-500); font-weight: 700;">5</div>
+                            </div>
+                            <div style="background: rgba(147, 51, 234, 0.2); border: 2px solid var(--color-purple-500); border-radius: var(--radius-sm); padding: var(--space-md); text-align: center;">
+                                <div style="font-size: 0.75rem; color: var(--color-purple-500); font-weight: 600; margin-bottom: 0.25rem;">Row 2, Col 3</div>
+                                <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.125rem; color: white; font-weight: 700;">6</div>
+                            </div>
+
+                            <!-- Row 3 -->
+                            <div style="background: rgba(234, 88, 12, 0.1); border: 2px solid rgba(234, 88, 12, 0.3); border-radius: var(--radius-sm); padding: var(--space-md); text-align: center;">
+                                <div style="font-size: 0.75rem; color: var(--color-orange-600); font-weight: 600; margin-bottom: 0.25rem;">Row 3, Col 1</div>
+                                <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.125rem; color: var(--color-orange-600); font-weight: 700;">7</div>
+                            </div>
+                            <div style="background: rgba(234, 88, 12, 0.15); border: 2px solid rgba(234, 88, 12, 0.4); border-radius: var(--radius-sm); padding: var(--space-md); text-align: center;">
+                                <div style="font-size: 0.75rem; color: var(--color-orange-600); font-weight: 600; margin-bottom: 0.25rem;">Row 3, Col 2</div>
+                                <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.125rem; color: var(--color-orange-600); font-weight: 700;">8</div>
+                            </div>
+                            <div style="background: rgba(234, 88, 12, 0.2); border: 2px solid var(--color-orange-600); border-radius: var(--radius-sm); padding: var(--space-md); text-align: center;">
+                                <div style="font-size: 0.75rem; color: var(--color-orange-600); font-weight: 600; margin-bottom: 0.25rem;">Row 3, Col 3</div>
+                                <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.125rem; color: white; font-weight: 700;">9</div>
+                            </div>
+                        </div>
+
+                        <!-- Explanation -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md);">
+                            <div style="padding: var(--space-sm); background: rgba(147, 51, 234, 0.1); border: 1px solid rgba(147, 51, 234, 0.2); border-radius: var(--radius-sm); text-align: center;">
+                                <div style="font-weight: 600; color: var(--color-purple-500); margin-bottom: 0.25rem;">Outer Loop (row)</div>
+                                <div style="font-size: 0.8125rem; color: var(--text-secondary);">Runs 3 times</div>
+                            </div>
+                            <div style="padding: var(--space-sm); background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: var(--radius-sm); text-align: center;">
+                                <div style="font-weight: 600; color: var(--color-blue-500); margin-bottom: 0.25rem;">Inner Loop (col)</div>
+                                <div style="font-size: 0.8125rem; color: var(--text-secondary);">Runs 3 × 3 = 9 total</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <h2>📐 Basic Nested Loop Structure</h2>
 
                 <pre><code><span class="keyword">For</span> outer = start1 <span class="keyword">To</span> end1
