@@ -35,6 +35,16 @@ class QuickJump {
     }
 
     init() {
+        // Only show quick jump on lesson pages, not on index, contact, statistics, or my-notes
+        const isIndexPage = window.location.pathname.includes('index.html') || 
+                           window.location.pathname.endsWith('/') || 
+                           window.location.pathname.endsWith('/Tutorial Hub');
+        const isSpecialPage = window.location.pathname.includes('contact.html') ||
+                             window.location.pathname.includes('statistics.html') ||
+                             window.location.pathname.includes('my-notes.html');
+        
+        if (isIndexPage || isSpecialPage) return;
+        
         this.createQuickJump();
     }
 
