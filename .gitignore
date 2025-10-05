@@ -11,17 +11,22 @@
 /build
 /out
 
-# Electron
+# Electron Build Outputs
 /dist_electron
 /dist-build/
 dist-build/
 **/dist-build/
+/release/
+release/
+**/release/
 /*.dmg
 /*.dmg.zip
 /*.zip
 /*.exe
 /*.exe.blockmap
 /*.snap
+*.AppImage
+*.deb
 
 # Debug logs
 npm-debug.log*
