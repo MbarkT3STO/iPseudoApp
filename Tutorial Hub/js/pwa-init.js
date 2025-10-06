@@ -208,8 +208,8 @@ function showUpdateNotification(newWorker) {
 }
 
 // Add CSS animations
-const style = document.createElement('style');
-style.textContent = `
+const pwaStyle = document.createElement('style');
+pwaStyle.textContent = `
     @keyframes slideUp {
         from {
             opacity: 0;
@@ -232,5 +232,5 @@ style.textContent = `
         }
     }
 `;
-document.head.appendChild(style);
+document.head.appendChild(pwaStyle);
 

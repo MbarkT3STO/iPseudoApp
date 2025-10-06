@@ -311,8 +311,8 @@ function createRipple(x, y) {
 }
 
 // Add ripple animation
-const style = document.createElement('style');
-style.textContent = `
+const rippleStyle = document.createElement('style');
+rippleStyle.textContent = `
     @keyframes rippleExpand {
         to {
             transform: translate(-50%, -50%) scale(20);
@@ -334,7 +334,7 @@ style.textContent = `
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
     }
 `;
-document.head.appendChild(style);
+document.head.appendChild(rippleStyle);
 
 // Console welcome message
 console.log('%c✨ Welcome to iPseudo IDE Website! ✨', 

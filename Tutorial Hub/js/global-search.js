@@ -17,34 +17,34 @@ class GlobalSearch {
 
     buildSearchIndex() {
         const lessons = [
-            { id: '01', title: 'Introduction to Pseudocode', file: '01-introduction-to-pseudocode.html', level: 'beginner', type: 'lesson', keywords: ['pseudocode', 'introduction', 'basics', 'algorithm', 'programming'] },
-            { id: '02', title: 'Getting Started with iPseudo', file: '02-getting-started.html', level: 'beginner', type: 'lesson', keywords: ['ipseudo', 'setup', 'installation', 'start', 'ide'] },
-            { id: '03', title: 'Variables and Data Types', file: '03-variables-and-data-types.html', level: 'beginner', type: 'lesson', keywords: ['variables', 'data types', 'integer', 'string', 'boolean', 'real', 'declaration'] },
-            { id: '04', title: 'Input and Output', file: '04-input-and-output.html', level: 'beginner', type: 'lesson', keywords: ['input', 'output', 'print', 'read', 'display', 'prompt'] },
-            { id: '05', title: 'Operators', file: '05-operators.html', level: 'beginner', type: 'lesson', keywords: ['operators', 'arithmetic', 'comparison', 'logical', 'modulo', 'division'] },
-            { id: '06', title: 'Comments and Documentation', file: '06-comments-and-documentation.html', level: 'beginner', type: 'lesson', keywords: ['comments', 'documentation', 'notes', 'description'] },
-            { id: '07', title: 'Conditional Statements', file: '07-conditional-statements.html', level: 'intermediate', type: 'lesson', keywords: ['if', 'else', 'elseif', 'conditional', 'decision', 'branching'] },
-            { id: '08', title: 'Loops', file: '08-loops.html', level: 'intermediate', type: 'lesson', keywords: ['loops', 'for', 'while', 'do', 'repeat', 'iteration'] },
-            { id: '09', title: 'Nested Loops', file: '09-nested-loops.html', level: 'intermediate', type: 'lesson', keywords: ['nested', 'loops', 'matrix', 'pattern', 'double loop'] },
-            { id: '10', title: 'Functions', file: '10-functions.html', level: 'intermediate', type: 'lesson', keywords: ['functions', 'return', 'parameters', 'arguments', 'modular'] },
-            { id: '11', title: 'Procedures', file: '11-procedures.html', level: 'intermediate', type: 'lesson', keywords: ['procedures', 'subroutines', 'void', 'call'] },
-            { id: '12', title: 'Arrays', file: '12-arrays.html', level: 'intermediate', type: 'lesson', keywords: ['arrays', 'list', 'index', 'collection', 'elements'] },
-            { id: '13', title: 'String Operations', file: '13-string-operations.html', level: 'intermediate', type: 'lesson', keywords: ['string', 'text', 'concatenation', 'substring', 'length'] },
-            { id: '14', title: 'Multidimensional Arrays', file: '14-multidimensional-arrays.html', level: 'advanced', type: 'lesson', keywords: ['multidimensional', 'arrays', 'matrix', '2d', 'grid'] },
-            { id: '15', title: 'Recursion', file: '15-recursion.html', level: 'advanced', type: 'lesson', keywords: ['recursion', 'recursive', 'base case', 'factorial', 'fibonacci'] },
-            { id: '16', title: 'Sorting Algorithms', file: '16-sorting-algorithms.html', level: 'advanced', type: 'lesson', keywords: ['sorting', 'bubble', 'selection', 'insertion', 'quicksort', 'mergesort'] },
-            { id: '17', title: 'Searching Algorithms', file: '17-searching-algorithms.html', level: 'advanced', type: 'lesson', keywords: ['searching', 'linear', 'binary', 'search', 'find'] },
-            { id: '18', title: 'Data Structures', file: '18-data-structures.html', level: 'advanced', type: 'lesson', keywords: ['data structures', 'stack', 'queue', 'linked list', 'tree'] },
-            { id: '19', title: 'Algorithm Design Patterns', file: '19-algorithm-design-patterns.html', level: 'advanced', type: 'lesson', keywords: ['algorithm', 'design', 'patterns', 'divide', 'conquer', 'dynamic'] },
-            { id: '20', title: 'Best Practices', file: '20-best-practices.html', level: 'advanced', type: 'lesson', keywords: ['best practices', 'optimization', 'clean code', 'efficiency'] },
+            { id: '01', title: 'Introduction to Pseudocode', file: '01-introduction-to-pseudocode.html', level: 'beginner', type: 'lesson', icon: 'ri-file-text-line', keywords: ['pseudocode', 'introduction', 'basics', 'algorithm', 'programming'] },
+            { id: '02', title: 'Getting Started with iPseudo', file: '02-getting-started.html', level: 'beginner', type: 'lesson', icon: 'ri-rocket-line', keywords: ['ipseudo', 'setup', 'installation', 'start', 'ide'] },
+            { id: '03', title: 'Variables and Data Types', file: '03-variables-and-data-types.html', level: 'beginner', type: 'lesson', icon: 'ri-database-2-line', keywords: ['variables', 'data types', 'integer', 'string', 'boolean', 'real', 'declaration'] },
+            { id: '04', title: 'Input and Output', file: '04-input-and-output.html', level: 'beginner', type: 'lesson', icon: 'ri-input-method-line', keywords: ['input', 'output', 'print', 'read', 'display', 'prompt'] },
+            { id: '05', title: 'Operators', file: '05-operators.html', level: 'beginner', type: 'lesson', icon: 'ri-calculator-line', keywords: ['operators', 'arithmetic', 'comparison', 'logical', 'modulo', 'division'] },
+            { id: '06', title: 'Comments and Documentation', file: '06-comments-and-documentation.html', level: 'beginner', type: 'lesson', icon: 'ri-chat-3-line', keywords: ['comments', 'documentation', 'notes', 'description'] },
+            { id: '07', title: 'Conditional Statements', file: '07-conditional-statements.html', level: 'intermediate', type: 'lesson', icon: 'ri-git-branch-line', keywords: ['if', 'else', 'elseif', 'conditional', 'decision', 'branching'] },
+            { id: '08', title: 'Loops', file: '08-loops.html', level: 'intermediate', type: 'lesson', icon: 'ri-loop-right-line', keywords: ['loops', 'for', 'while', 'do', 'repeat', 'iteration'] },
+            { id: '09', title: 'Nested Loops', file: '09-nested-loops.html', level: 'intermediate', type: 'lesson', icon: 'ri-grid-line', keywords: ['nested', 'loops', 'matrix', 'pattern', 'double loop'] },
+            { id: '10', title: 'Functions', file: '10-functions.html', level: 'intermediate', type: 'lesson', icon: 'ri-function-line', keywords: ['functions', 'return', 'parameters', 'arguments', 'modular'] },
+            { id: '11', title: 'Procedures', file: '11-procedures.html', level: 'intermediate', type: 'lesson', icon: 'ri-code-s-slash-line', keywords: ['procedures', 'subroutines', 'void', 'call'] },
+            { id: '12', title: 'Arrays', file: '12-arrays.html', level: 'intermediate', type: 'lesson', icon: 'ri-list-check', keywords: ['arrays', 'list', 'index', 'collection', 'elements'] },
+            { id: '13', title: 'String Operations', file: '13-string-operations.html', level: 'intermediate', type: 'lesson', icon: 'ri-text', keywords: ['string', 'text', 'concatenation', 'substring', 'length'] },
+            { id: '14', title: 'Multidimensional Arrays', file: '14-multidimensional-arrays.html', level: 'advanced', type: 'lesson', icon: 'ri-layout-grid-line', keywords: ['multidimensional', 'arrays', 'matrix', '2d', 'grid'] },
+            { id: '15', title: 'Recursion', file: '15-recursion.html', level: 'advanced', type: 'lesson', icon: 'ri-refresh-line', keywords: ['recursion', 'recursive', 'base case', 'factorial', 'fibonacci'] },
+            { id: '16', title: 'Sorting Algorithms', file: '16-sorting-algorithms.html', level: 'advanced', type: 'lesson', icon: 'ri-sort-asc', keywords: ['sorting', 'bubble', 'selection', 'insertion', 'quicksort', 'mergesort'] },
+            { id: '17', title: 'Searching Algorithms', file: '17-searching-algorithms.html', level: 'advanced', type: 'lesson', icon: 'ri-search-line', keywords: ['searching', 'linear', 'binary', 'search', 'find'] },
+            { id: '18', title: 'Data Structures', file: '18-data-structures.html', level: 'advanced', type: 'lesson', icon: 'ri-stack-line', keywords: ['data structures', 'stack', 'queue', 'linked list', 'tree'] },
+            { id: '19', title: 'Algorithm Design Patterns', file: '19-algorithm-design-patterns.html', level: 'advanced', type: 'lesson', icon: 'ri-puzzle-line', keywords: ['algorithm', 'design', 'patterns', 'divide', 'conquer', 'dynamic'] },
+            { id: '20', title: 'Best Practices', file: '20-best-practices.html', level: 'advanced', type: 'lesson', icon: 'ri-medal-line', keywords: ['best practices', 'optimization', 'clean code', 'efficiency'] },
             
             // Exercises
-            { id: 'ex-variables', title: 'Variables Exercises', file: 'Exercises/exercises-variables.html', level: 'beginner', type: 'exercise', keywords: ['variables', 'practice', 'exercises', 'problems'] },
-            { id: 'ex-operators', title: 'Operators Exercises', file: 'Exercises/exercises-operators.html', level: 'beginner', type: 'exercise', keywords: ['operators', 'practice', 'exercises', 'problems'] },
-            { id: 'ex-conditionals', title: 'Conditionals Exercises', file: 'Exercises/exercises-conditionals.html', level: 'intermediate', type: 'exercise', keywords: ['conditionals', 'if', 'else', 'practice', 'exercises'] },
-            { id: 'ex-loops', title: 'Loops Exercises', file: 'Exercises/exercises-loops.html', level: 'intermediate', type: 'exercise', keywords: ['loops', 'for', 'while', 'practice', 'exercises'] },
-            { id: 'ex-functions', title: 'Functions Exercises', file: 'Exercises/exercises-functions.html', level: 'intermediate', type: 'exercise', keywords: ['functions', 'return', 'practice', 'exercises'] },
-            { id: 'ex-arrays', title: 'Arrays Exercises', file: 'Exercises/exercises-arrays.html', level: 'intermediate', type: 'exercise', keywords: ['arrays', 'list', 'practice', 'exercises'] }
+            { id: 'ex-variables', title: 'Variables Exercises', file: 'Exercises/exercises-variables.html', level: 'beginner', type: 'exercise', icon: 'ri-database-2-fill', keywords: ['variables', 'practice', 'exercises', 'problems'] },
+            { id: 'ex-operators', title: 'Operators Exercises', file: 'Exercises/exercises-operators.html', level: 'beginner', type: 'exercise', icon: 'ri-calculator-fill', keywords: ['operators', 'practice', 'exercises', 'problems'] },
+            { id: 'ex-conditionals', title: 'Conditionals Exercises', file: 'Exercises/exercises-conditionals.html', level: 'intermediate', type: 'exercise', icon: 'ri-git-branch-fill', keywords: ['conditionals', 'if', 'else', 'practice', 'exercises'] },
+            { id: 'ex-loops', title: 'Loops Exercises', file: 'Exercises/exercises-loops.html', level: 'intermediate', type: 'exercise', icon: 'ri-loop-right-fill', keywords: ['loops', 'for', 'while', 'practice', 'exercises'] },
+            { id: 'ex-functions', title: 'Functions Exercises', file: 'Exercises/exercises-functions.html', level: 'intermediate', type: 'exercise', icon: 'ri-function-fill', keywords: ['functions', 'return', 'practice', 'exercises'] },
+            { id: 'ex-arrays', title: 'Arrays Exercises', file: 'Exercises/exercises-arrays.html', level: 'intermediate', type: 'exercise', icon: 'ri-list-check-2', keywords: ['arrays', 'list', 'practice', 'exercises'] }
         ];
 
         return lessons;
@@ -261,13 +261,14 @@ class GlobalSearch {
         let html = `<div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: var(--space-md);">${results.length} result${results.length !== 1 ? 's' : ''}</div>`;
         
         results.forEach(result => {
-            const icon = result.type === 'lesson' ? 'ri-book-open-line' : 'ri-code-box-line';
+            const icon = result.icon || 'ri-book-open-line';
             const levelColor = result.level === 'beginner' ? 'var(--color-success)' : result.level === 'intermediate' ? 'var(--color-blue-500)' : 'var(--color-purple-500)';
             
             html += `
                 <a href="${result.file}" style="display: flex; align-items: center; gap: var(--space-md); padding: var(--space-md); margin-bottom: 0.5rem; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-md); text-decoration: none; transition: all 0.2s;" onmouseover="this.style.transform='translateX(8px)'; this.style.borderColor='var(--color-purple-500)'; this.style.background='rgba(147, 51, 234, 0.1)'" onmouseout="this.style.transform='translateX(0)'; this.style.borderColor='var(--glass-border)'; this.style.background='var(--glass-bg)'">
-                    <div style="width: 48px; height: 48px; background: linear-gradient(135deg, ${levelColor}, ${levelColor}); opacity: 0.2; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                        <i class="${icon}" style="font-size: 1.5rem; color: ${levelColor};"></i>
+                    <div style="width: 56px; height: 56px; background: linear-gradient(135deg, ${levelColor}22, ${levelColor}11); border: 2px solid ${levelColor}44; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; overflow: hidden;">
+                        <div style="position: absolute; inset: 0; background: radial-gradient(circle at 30% 30%, ${levelColor}33, transparent); opacity: 0.5;"></div>
+                        <i class="${icon}" style="font-size: 1.75rem; color: ${levelColor}; position: relative; z-index: 1;"></i>
                     </div>
                     <div style="flex: 1; min-width: 0;">
                         <div style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem;">${result.title}</div>

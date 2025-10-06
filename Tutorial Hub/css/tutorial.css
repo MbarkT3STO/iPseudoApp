@@ -606,6 +606,8 @@
     justify-content: space-between;
     gap: var(--space-md);
     margin-top: var(--space-2xl);
+    margin-bottom: var(--space-2xl);
+    padding-bottom: var(--space-lg);
 }
 
 .nav-btn {
@@ -620,6 +622,8 @@
     backdrop-filter: blur(10px);
     text-decoration: none;
     transition: all var(--transition-base);
+    position: relative;
+    z-index: 100;
 }
 
 .nav-btn:hover {
@@ -923,6 +927,14 @@ html {
 }
 
 /* Stack buttons vertically on mobile if reading controls exist */
+@media (max-width: 768px) {
+    .toc-toggle-btn {
+        width: 48px !important;
+        height: 48px !important;
+        font-size: 1.25rem !important;
+    }
+}
+
 @media (max-width: 480px) {
     .toc-toggle-btn {
         width: 48px !important;

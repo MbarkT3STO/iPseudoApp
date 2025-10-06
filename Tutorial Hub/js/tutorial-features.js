@@ -13,7 +13,6 @@ class TutorialFeatures {
     init() {
         this.initProgressTracking();
         this.initContinueButton();
-        this.initBookmarks();
         this.initCodeCopyButtons();
         this.initShareButtons();
         this.initNotes();
@@ -309,67 +308,6 @@ class TutorialFeatures {
         setTimeout(() => celebration.remove(), 5000);
     }
 
-    // ========== BOOKMARKS ==========
-    initBookmarks() {
-        if (!this.currentLesson) return;
-
-        const header = document.querySelector('.tutorial-header');
-        if (!header) return;
-
-        const bookmarkBtn = document.createElement('button');
-        bookmarkBtn.className = 'bookmark-btn';
-        bookmarkBtn.innerHTML = `<i class="ri-bookmark-line"></i>`;
-        bookmarkBtn.style.cssText = `
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            width: 48px;
-            height: 48px;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: var(--text-primary);
-            cursor: pointer;
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
-        `;
-
-        const bookmarks = this.getBookmarks();
-        if (bookmarks.includes(this.currentLesson)) {
-            bookmarkBtn.innerHTML = `<i class="ri-bookmark-fill"></i>`;
-            bookmarkBtn.style.color = 'var(--color-purple-500)';
-        }
-
-        bookmarkBtn.addEventListener('click', () => {
-            this.toggleBookmark(this.currentLesson);
-            const isBookmarked = this.getBookmarks().includes(this.currentLesson);
-            bookmarkBtn.innerHTML = isBookmarked ? `<i class="ri-bookmark-fill"></i>` : `<i class="ri-bookmark-line"></i>`;
-            bookmarkBtn.style.color = isBookmarked ? 'var(--color-purple-500)' : 'var(--text-primary)';
-        });
-
-        header.style.position = 'relative';
-        header.appendChild(bookmarkBtn);
-    }
-
-    getBookmarks() {
-        const stored = localStorage.getItem('tutorial-bookmarks');
-        return stored ? JSON.parse(stored) : [];
-    }
-
-    toggleBookmark(lessonId) {
-        let bookmarks = this.getBookmarks();
-        if (bookmarks.includes(lessonId)) {
-            bookmarks = bookmarks.filter(id => id !== lessonId);
-        } else {
-            bookmarks.push(lessonId);
-        }
-        localStorage.setItem('tutorial-bookmarks', JSON.stringify(bookmarks));
-    }
-
     // ========== CODE COPY BUTTONS ==========
     initCodeCopyButtons() {
         document.querySelectorAll('pre code').forEach(codeBlock => {
@@ -424,13 +362,18 @@ class TutorialFeatures {
         const header = document.querySelector('.tutorial-header');
         if (!header) return;
 
+        const shareContainer = document.createElement('div');
+        shareContainer.className = 'share-container';
+        shareContainer.style.cssText = `
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+        `;
+
         const shareBtn = document.createElement('button');
         shareBtn.className = 'share-btn';
         shareBtn.innerHTML = `<i class="ri-share-line"></i>`;
         shareBtn.style.cssText = `
-            position: absolute;
-            top: 1rem;
-            right: 5rem;
             width: 48px;
             height: 48px;
             background: var(--glass-bg);
@@ -446,24 +389,183 @@ class TutorialFeatures {
             backdrop-filter: blur(10px);
         `;
 
-        shareBtn.addEventListener('click', () => {
-            const url = window.location.href;
-            const title = document.querySelector('.tutorial-title').textContent;
+        const shareMenu = document.createElement('div');
+        shareMenu.className = 'share-menu';
+        
+        // Function to update menu theme
+        const updateMenuTheme = () => {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark' || !document.documentElement.hasAttribute('data-theme');
+            shareMenu.style.background = isDark ? 'rgba(15, 15, 25, 0.95)' : 'rgba(255, 255, 255, 0.95)';
+            shareMenu.style.border = isDark ? '1px solid rgba(147, 51, 234, 0.3)' : '1px solid rgba(147, 51, 234, 0.25)';
+            shareMenu.style.boxShadow = isDark ? '0 16px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05)' : '0 16px 48px rgba(147, 51, 234, 0.2), 0 0 0 1px rgba(147, 51, 234, 0.1)';
+        };
+        
+        shareMenu.style.cssText = `
+            position: absolute;
+            top: calc(100% + 0.75rem);
+            right: 0;
+            border-radius: var(--radius-xl);
+            backdrop-filter: blur(24px);
+            padding: var(--space-md);
+            display: none;
+            flex-direction: column;
+            gap: 0.5rem;
+            min-width: 240px;
+            z-index: 1000;
+            animation: shareMenuSlide 0.3s ease;
+        `;
+        
+        updateMenuTheme();
+        
+        // Add animation styles
+        if (!document.getElementById('shareMenuStyles')) {
+            const shareStyles = document.createElement('style');
+            shareStyles.id = 'shareMenuStyles';
+            shareStyles.textContent = `
+                @keyframes shareMenuSlide {
+                    from {
+                        opacity: 0;
+                        transform: translateY(-10px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+            `;
+            document.head.appendChild(shareStyles);
+        }
 
-            if (navigator.share) {
-                navigator.share({ title, url });
-            } else {
-                navigator.clipboard.writeText(url);
-                shareBtn.innerHTML = `<i class="ri-check-line"></i>`;
-                shareBtn.style.color = 'var(--color-success)';
+        const url = encodeURIComponent(window.location.href);
+        const title = encodeURIComponent(document.querySelector('.tutorial-title')?.textContent || 'iPseudo Tutorial');
+        
+        // Add header to menu
+        const menuHeader = document.createElement('div');
+        menuHeader.style.cssText = `
+            padding-bottom: var(--space-sm);
+            margin-bottom: var(--space-sm);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        `;
+        menuHeader.innerHTML = `
+            <div style="font-size: 0.875rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.5rem;">
+                <i class="ri-share-forward-line" style="font-size: 1rem;"></i>
+                Share This Lesson
+            </div>
+        `;
+        shareMenu.appendChild(menuHeader);
+
+        const shareOptions = [
+            { name: 'Facebook', icon: 'ri-facebook-circle-fill', color: '#1877F2', gradient: 'linear-gradient(135deg, #1877F2, #166FE5)', url: `https://www.facebook.com/sharer/sharer.php?u=${url}` },
+            { name: 'X (Twitter)', icon: 'ri-twitter-x-fill', color: '#000000', gradient: 'linear-gradient(135deg, #1a1a1a, #000000)', url: `https://twitter.com/intent/tweet?url=${url}&text=${title}` },
+            { name: 'LinkedIn', icon: 'ri-linkedin-box-fill', color: '#0A66C2', gradient: 'linear-gradient(135deg, #0A66C2, #004182)', url: `https://www.linkedin.com/sharing/share-offsite/?url=${url}` },
+            { name: 'WhatsApp', icon: 'ri-whatsapp-fill', color: '#25D366', gradient: 'linear-gradient(135deg, #25D366, #128C7E)', url: `https://wa.me/?text=${title}%20${url}` },
+            { name: 'Copy Link', icon: 'ri-file-copy-line', color: 'var(--color-purple-500)', gradient: 'linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500))', action: 'copy' }
+        ];
+
+        shareOptions.forEach(option => {
+            const shareItem = document.createElement('a');
+            if (option.action === 'copy') {
+                shareItem.href = '#';
+                shareItem.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    navigator.clipboard.writeText(window.location.href);
+                    const originalContent = shareItem.innerHTML;
+                    shareItem.innerHTML = `
+                        <div style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--color-success), rgb(16, 185, 129)); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <i class="ri-check-line" style="font-size: 1.25rem; color: white;"></i>
+                        </div>
+                        <span style="color: var(--color-success); font-weight: 600;">Copied!</span>
+                    `;
                 setTimeout(() => {
-                    shareBtn.innerHTML = `<i class="ri-share-line"></i>`;
-                    shareBtn.style.color = 'var(--text-primary)';
+                        shareItem.innerHTML = originalContent;
                 }, 2000);
+                });
+            } else {
+                shareItem.href = option.url;
+                shareItem.target = '_blank';
+                shareItem.addEventListener('click', () => {
+                    shareMenu.style.display = 'none';
+                    shareBtn.style.background = 'var(--glass-bg)';
+                    shareBtn.style.color = 'var(--text-primary)';
+                });
+            }
+            
+            shareItem.style.cssText = `
+                display: flex;
+                align-items: center;
+                gap: 0.875rem;
+                padding: 0.875rem 1rem;
+                background: rgba(255, 255, 255, 0.03);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                border-radius: var(--radius-md);
+                text-decoration: none;
+                color: var(--text-primary);
+                font-weight: 500;
+                font-size: 0.9375rem;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                cursor: pointer;
+                position: relative;
+                overflow: hidden;
+            `;
+            
+            shareItem.innerHTML = `
+                <div style="width: 40px; height: 40px; background: ${option.gradient}; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 12px ${option.color}33;">
+                    <i class="${option.icon}" style="font-size: 1.25rem; color: white;"></i>
+                </div>
+                <span style="flex: 1;">${option.name}</span>
+                <i class="ri-arrow-right-up-line" style="font-size: 1rem; color: var(--text-tertiary); transition: all 0.3s;"></i>
+            `;
+            
+            shareItem.addEventListener('mouseenter', () => {
+                shareItem.style.background = `${option.color}11`;
+                shareItem.style.borderColor = `${option.color}44`;
+                shareItem.style.transform = 'translateX(4px)';
+                shareItem.querySelector('.ri-arrow-right-up-line').style.color = option.color;
+                shareItem.querySelector('.ri-arrow-right-up-line').style.transform = 'translate(2px, -2px)';
+            });
+            
+            shareItem.addEventListener('mouseleave', () => {
+                shareItem.style.background = 'rgba(255, 255, 255, 0.03)';
+                shareItem.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+                shareItem.style.transform = 'translateX(0)';
+                shareItem.querySelector('.ri-arrow-right-up-line').style.color = 'var(--text-tertiary)';
+                shareItem.querySelector('.ri-arrow-right-up-line').style.transform = 'translate(0, 0)';
+            });
+            
+            shareMenu.appendChild(shareItem);
+        });
+
+        shareBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            shareMenu.style.display = shareMenu.style.display === 'flex' ? 'none' : 'flex';
+            shareBtn.style.background = shareMenu.style.display === 'flex' ? 'linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500))' : 'var(--glass-bg)';
+            shareBtn.style.color = shareMenu.style.display === 'flex' ? 'white' : 'var(--text-primary)';
+            if (shareMenu.style.display === 'flex') {
+                updateMenuTheme();
             }
         });
 
-        header.appendChild(shareBtn);
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!shareContainer.contains(e.target)) {
+                shareMenu.style.display = 'none';
+                shareBtn.style.background = 'var(--glass-bg)';
+                shareBtn.style.color = 'var(--text-primary)';
+            }
+        });
+        
+        // Update theme when theme changes
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                setTimeout(updateMenuTheme, 50);
+            });
+        }
+
+        shareContainer.appendChild(shareBtn);
+        shareContainer.appendChild(shareMenu);
+        header.style.position = 'relative';
+        header.appendChild(shareContainer);
     }
 
     // ========== NOTES ==========
@@ -872,10 +974,10 @@ class TutorialFeatures {
             
             if (readingControls) {
                 // If reading controls exist, position above them
-                tocToggleBtn.style.bottom = 'calc(6rem + 70px)'; // Above reading controls
+                tocToggleBtn.style.bottom = 'calc(6rem + 72px)'; // Above reading controls with consistent spacing
             } else if (scrollTopBtn) {
                 // Otherwise position above scroll to top
-                tocToggleBtn.style.bottom = 'calc(2rem + 70px)';
+                tocToggleBtn.style.bottom = 'calc(2rem + 72px)';
             }
             
             document.body.appendChild(tocToggleBtn);
