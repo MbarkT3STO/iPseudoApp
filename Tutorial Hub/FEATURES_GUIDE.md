@@ -313,6 +313,66 @@ Welcome to the comprehensive features guide for the iPseudo Tutorial Hub! This d
 
 ---
 
+## 🎯 2. Interactive Quiz System
+
+**What it does:**
+- Test your knowledge with interactive quizzes for each lesson
+- Multiple choice, True/False, and code completion questions
+- Instant feedback with detailed explanations
+- Track scores and quiz completion
+- Review wrong answers with explanations
+
+**How to use:**
+- Navigate to Quizzes from the main menu
+- Choose a quiz from Beginner, Intermediate, or Advanced levels
+- Answer all questions in the quiz
+- Submit to see your score and review
+- Retake quizzes to improve your score
+
+**Features:**
+- **Question Types:**
+  - Multiple choice questions
+  - True/False questions
+  - Code completion challenges
+  - Code analysis questions
+- **Instant Feedback:**
+  - Immediate answer validation
+  - Detailed explanations for each question
+  - Shows correct answer when wrong
+- **Progress Tracking:**
+  - Quiz completion status
+  - Scores saved in browser
+  - Overall quiz statistics
+  - Time tracking per quiz
+- **Smart Filtering:**
+  - Filter by difficulty level
+  - Filter by completion status
+  - See all quizzes at once
+- **Results & Review:**
+  - Percentage score with grade (A-F)
+  - Performance message
+  - Detailed answer review
+  - Confetti celebration for high scores (80%+)
+- **Retake System:**
+  - Improve your score anytime
+  - Track your progress over time
+  - Compare attempts
+
+**Why it's useful:**
+- Reinforces learning through active recall
+- Immediate feedback helps identify weak areas
+- Gamification motivates continued learning
+- Track mastery of each topic
+- Build confidence before exams
+
+**Quiz Coverage:**
+- 10 comprehensive quizzes available
+- 5 questions per quiz (minimum)
+- All difficulty levels covered
+- More quizzes being added regularly
+
+---
+
 ## 🗺️ 17. Interactive Learning Path Graph
 
 **What it does:**
@@ -372,6 +432,6 @@ We've built these features with love to make your learning experience as smooth 
 ---
 
 **Last Updated:** October 2025  
-**Version:** 2.1  
-**Total Features:** 12 major systems + countless enhancements
+**Version:** 2.2  
+**Total Features:** 13 major systems + countless enhancements
 
