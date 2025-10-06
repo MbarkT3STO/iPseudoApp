@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard | iPseudo Tutorial Hub</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/app-icon.svg">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/tutorial.css">
+    <link rel="stylesheet" href="dashboard-styles.css">
+    
+    <!-- Chart.js for visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="background-container">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-pattern"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <a href="../index.html" style="display: flex; align-items: center; text-decoration: none; gap: 0.75rem;">
+                    <div class="brand-icon" style="background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); padding: 0.5rem; border-radius: 10px;">
+                        <i class="ri-book-open-line" style="color: white; font-size: 1.5rem;"></i>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.1rem;">
+                        <span class="brand-text" style="font-size: 1.25rem; font-weight: 700; background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">iPseudo</span>
+                        <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; letter-spacing: 0.05em;">TUTORIAL HUB</span>
+                    </div>
+                </a>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="ri-sun-line theme-icon" id="lightIcon"></i>
+                    <i class="ri-moon-line theme-icon hidden" id="darkIcon"></i>
+                </button>
+            </div>
+
+            <div class="navbar-actions">
+                <a href="../index.html" class="action-btn demo-btn">
+                    <i class="ri-arrow-left-line"></i>
+                    <span>Back to Hub</span>
+                </a>
+                <a href="https://ipseudoeditor.netlify.app/" target="_blank" class="action-btn download-btn">
+                    <i class="ri-play-circle-line"></i>
+                    <span>Try Live</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section style="padding: 6rem 0 2rem; text-align: center; position: relative; z-index: 1;">
+        <div class="container">
+            <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1.25rem; background: linear-gradient(135deg, rgba(147, 51, 234, 0.15), rgba(59, 130, 246, 0.15)); border: 1px solid rgba(147, 51, 234, 0.3); border-radius: 50px; font-size: 0.875rem; font-weight: 600; color: var(--color-purple-500); margin-bottom: 1.5rem;">
+                <i class="ri-dashboard-line"></i>
+                <span>Personal Dashboard</span>
+            </div>
+            
+            <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem; background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                <span id="greetingText">Welcome Back!</span>
+            </h1>
+            
+            <p id="dashboardSubtitle" style="font-size: 1.25rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto; line-height: 1.6;">
+                Track your progress, review your achievements, and plan your next steps.
+            </p>
+        </div>
+    </section>
+
+    <!-- Dashboard Content -->
+    <section style="padding: 0 0 4rem; position: relative; z-index: 1;">
+        <div class="container">
+            <!-- Quick Stats Row -->
+            <div id="quickStats" class="quick-stats-grid">
+                <!-- Stats will be populated by JavaScript -->
+            </div>
+
+            <!-- Main Dashboard Grid -->
+            <div class="dashboard-grid">
+                <!-- Left Column -->
+                <div class="dashboard-column">
+                    <!-- Progress Overview -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="ri-line-chart-line"></i>
+                                Overall Progress
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <div style="position: relative; height: 280px;">
+                                <canvas id="progressChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="ri-time-line"></i>
+                                Recent Activity
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="recentActivity">
+                                <!-- Activity timeline will be populated -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="dashboard-column">
+                    <!-- Recommended Next Steps -->
+                    <div class="dashboard-card highlight">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="ri-compass-line"></i>
+                                Recommended Next Steps
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="recommendations">
+                                <!-- Recommendations will be populated -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Achievements Showcase -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="ri-trophy-line"></i>
+                                Your Achievements
+                            </h3>
+                            <a href="../certificates/index.html" class="card-link">View All</a>
+                        </div>
+                        <div class="card-body">
+                            <div id="achievementsShowcase">
+                                <!-- Achievements will be populated -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Study Stats -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="ri-bar-chart-line"></i>
+                                Study Distribution
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <div style="position: relative; height: 250px;">
+                                <canvas id="studyChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Strengths & Weaknesses -->
+            <div class="dashboard-card full-width">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="ri-flashlight-line"></i>
+                        Your Strengths & Areas to Improve
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div id="strengthsWeaknesses" class="strengths-grid">
+                        <!-- Will be populated -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="dashboard-card full-width">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="ri-rocket-line"></i>
+                        Quick Actions
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="quick-actions-grid">
+                        <a href="../index.html#lessons" class="quick-action-btn">
+                            <i class="ri-book-open-line"></i>
+                            <span>Continue Learning</span>
+                        </a>
+                        <a href="../quizzes/index.html" class="quick-action-btn">
+                            <i class="ri-question-answer-line"></i>
+                            <span>Take a Quiz</span>
+                        </a>
+                        <a href="../certificates/index.html" class="quick-action-btn">
+                            <i class="ri-award-line"></i>
+                            <span>View Certificates</span>
+                        </a>
+                        <a href="../Exercises/exercises-index.html" class="quick-action-btn">
+                            <i class="ri-pencil-line"></i>
+                            <span>Practice Exercises</span>
+                        </a>
+                        <a href="../statistics.html" class="quick-action-btn">
+                            <i class="ri-bar-chart-line"></i>
+                            <span>View Statistics</span>
+                        </a>
+                        <a href="../learning-path.html" class="quick-action-btn">
+                            <i class="ri-git-branch-line"></i>
+                            <span>Learning Path</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 iPseudo IDE by <strong>M'BARK</strong>. Free for personal & educational use.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="../js/script.js"></script>
+    <script src="dashboard-data.js"></script>
+    <script src="dashboard-app.js"></script>
+</body>
+</html>
+

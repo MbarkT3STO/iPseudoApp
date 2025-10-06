@@ -26,10 +26,33 @@ document.addEventListener('DOMContentLoaded', function() {
         { id: 20, label: 'Best Practices\n& Optimization', level: 'advanced', file: '20-best-practices.html', group: 3, prereqs: [16, 17, 18] }
     ];
 
-    // Get progress from localStorage
+    // Get progress from localStorage (synchronized with tutorial-features.js)
     function getLessonProgress() {
-        const progress = JSON.parse(localStorage.getItem('lessonProgress')) || {};
-        return progress;
+        // Read from the same localStorage key that tutorial-features.js uses
+        const tutorialProgress = localStorage.getItem('tutorial-progress');
+        if (!tutorialProgress) return {};
+        
+        const parsed = JSON.parse(tutorialProgress);
+        // Convert tutorial-progress format to graph format
+        // Tutorial format: { completed: ['01', '02'], inProgress: ['03'] }
+        // Graph format: { 'lesson-1': 'completed', 'lesson-2': 'completed', 'lesson-3': 'in-progress' }
+        const converted = {};
+        
+        if (parsed.completed) {
+            parsed.completed.forEach(id => {
+                const lessonNum = parseInt(id);
+                converted[`lesson-${lessonNum}`] = 'completed';
+            });
+        }
+        
+        if (parsed.inProgress) {
+            parsed.inProgress.forEach(id => {
+                const lessonNum = parseInt(id);
+                converted[`lesson-${lessonNum}`] = 'in-progress';
+            });
+        }
+        
+        return converted;
     }
 
     // Get node color based on progress and level
@@ -198,6 +221,58 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Fullscreen toggle
+    let isFullscreen = false;
+    const graphContainer = document.querySelector('.graph-container');
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    
+    document.getElementById('fullscreenBtn').addEventListener('click', function() {
+        isFullscreen = !isFullscreen;
+        const icon = this.querySelector('i');
+        const text = this.querySelector('span');
+        
+        if (isFullscreen) {
+            graphContainer.classList.add('fullscreen');
+            document.body.classList.add('fullscreen-active');
+            icon.className = 'ri-fullscreen-exit-line';
+            text.textContent = 'Exit Full Screen';
+            this.classList.add('active');
+            
+            // Fit view after entering fullscreen
+            setTimeout(() => {
+                network.fit({
+                    animation: {
+                        duration: 300,
+                        easingFunction: 'easeInOutQuad'
+                    }
+                });
+            }, 100);
+        } else {
+            graphContainer.classList.remove('fullscreen');
+            document.body.classList.remove('fullscreen-active');
+            icon.className = 'ri-fullscreen-line';
+            text.textContent = 'Full Screen';
+            this.classList.remove('active');
+            
+            // Fit view after exiting fullscreen
+            setTimeout(() => {
+                network.fit({
+                    animation: {
+                        duration: 300,
+                        easingFunction: 'easeInOutQuad'
+                    }
+                });
+            }, 100);
+        }
+    });
+
+    // Exit fullscreen on Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && isFullscreen) {
+            fullscreenBtn.click();
+        }
+    });
+
     // View toggle
     const viewButtons = document.querySelectorAll('.view-btn');
     viewButtons.forEach(btn => {
@@ -258,9 +333,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, 500);
 
-    // Update graph when progress changes
+    // Update graph when progress changes (synchronized with tutorial-features.js)
     window.addEventListener('storage', function(e) {
-        if (e.key === 'lessonProgress') {
+        if (e.key === 'tutorial-progress') {
             const newProgress = getLessonProgress();
             nodes.forEach((node, index) => {
                 const lesson = lessons.find(l => l.id === node.id);

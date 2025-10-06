@@ -220,6 +220,60 @@
             color: white;
         }
 
+        /* Fullscreen Styles */
+        body.fullscreen-active .navbar {
+            display: none;
+        }
+
+        body.fullscreen-active {
+            overflow: hidden;
+        }
+
+        .graph-container.fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            max-width: none;
+            margin: 0;
+            z-index: 9999;
+            border-radius: 0;
+            padding: 0.5rem;
+        }
+
+        .graph-container.fullscreen #network {
+            height: calc(100vh - 100px) !important;
+        }
+
+        .graph-container.fullscreen .controls {
+            display: flex !important;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            padding: 0.5rem;
+            background: var(--glass-bg);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .graph-container.fullscreen .info-box {
+            display: none;
+        }
+
+        .graph-container.fullscreen .legend {
+            display: none;
+        }
+
+        .graph-container.fullscreen .control-btn {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.875rem;
+        }
+
+        .graph-container.fullscreen .view-options {
+            display: flex !important;
+        }
+
         @media (max-width: 768px) {
             #network {
                 height: 500px;
@@ -338,6 +392,11 @@
                     <button class="control-btn" id="togglePhysics">
                         <i class="ri-play-line"></i>
                         Toggle Physics
+                    </button>
+                    
+                    <button class="control-btn" id="fullscreenBtn">
+                        <i class="ri-fullscreen-line"></i>
+                        <span>Full Screen</span>
                     </button>
                 </div>
 

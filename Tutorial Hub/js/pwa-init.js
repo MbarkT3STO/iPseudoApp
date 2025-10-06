@@ -3,8 +3,8 @@
  * Registers service worker and handles PWA installation
  */
 
-// Register service worker
-if ('serviceWorker' in navigator) {
+// Register service worker (only when served via HTTP/HTTPS)
+if ('serviceWorker' in navigator && window.location.protocol !== 'file:') {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
             .then(registration => {
@@ -31,6 +31,8 @@ if ('serviceWorker' in navigator) {
                 console.log('❌ Service Worker registration failed:', error);
             });
     });
+} else if (window.location.protocol === 'file:') {
+    console.log('ℹ️ Service Worker skipped: file:// protocol detected (serve via HTTP/HTTPS for PWA features)');
 }
 
 // Handle install prompt
