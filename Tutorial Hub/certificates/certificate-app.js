@@ -371,8 +371,51 @@ async function showCertificatePreview(certType, studentName) {
     preview.style.alignItems = 'center';
     preview.style.padding = '2rem';
     
+    // Display certificate ID
+    const certIdText = document.getElementById('certIdText');
+    certIdText.textContent = generator.certificateId;
+    
     const modal = document.getElementById('previewModal');
     modal.style.display = 'flex';
+}
+
+// Copy certificate ID to clipboard
+function copyCertificateId() {
+    if (!certificateGenerator) return;
+    
+    const certId = certificateGenerator.certificateId;
+    const certIdText = document.getElementById('certIdText');
+    const copyBtn = document.getElementById('copyCertIdBtn');
+    
+    // Copy to clipboard
+    navigator.clipboard.writeText(certId).then(() => {
+        // Update button to show success
+        const originalHTML = copyBtn.innerHTML;
+        copyBtn.innerHTML = '<i class="ri-check-line"></i><span>Copied!</span>';
+        copyBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+        
+        // Flash the ID text
+        certIdText.style.background = 'linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500))';
+        certIdText.style.webkitBackgroundClip = 'text';
+        certIdText.style.webkitTextFillColor = 'transparent';
+        certIdText.style.backgroundClip = 'text';
+        certIdText.style.transition = 'all 0.3s';
+        
+        // Reset after 2 seconds
+        setTimeout(() => {
+            copyBtn.innerHTML = originalHTML;
+            copyBtn.style.background = 'linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500))';
+            
+            certIdText.style.background = 'none';
+            certIdText.style.webkitBackgroundClip = 'unset';
+            certIdText.style.webkitTextFillColor = 'unset';
+            certIdText.style.backgroundClip = 'unset';
+            certIdText.style.color = 'var(--text-primary)';
+        }, 2000);
+    }).catch(err => {
+        console.error('Failed to copy:', err);
+        alert('Failed to copy certificate ID. Please copy it manually.');
+    });
 }
 
 // Close preview modal

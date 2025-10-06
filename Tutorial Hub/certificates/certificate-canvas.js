@@ -3,12 +3,35 @@ class CertificateCanvas {
     constructor(certificateType, studentName) {
         this.certType = certificateTypes[certificateType];
         this.studentName = studentName;
-        this.certificateId = CertificateHelpers.generateCertificateId();
-        this.issueDate = new Date();
+        
+        // Get existing certificate ID or generate new one (persistent per certificate type)
+        const existingCert = this.getExistingCertificate(certificateType);
+        if (existingCert) {
+            this.certificateId = existingCert.certificateId;
+            this.issueDate = new Date(existingCert.issuedAt);
+        } else {
+            this.certificateId = CertificateHelpers.generateCertificateId();
+            this.issueDate = new Date();
+        }
+        
         this.canvas = null;
         this.ctx = null;
         this.width = 1200;
         this.height = 800;
+    }
+    
+    // Get existing certificate for this type (if already issued)
+    getExistingCertificate(certificateType) {
+        const issuedCertificates = JSON.parse(localStorage.getItem('issuedCertificates')) || {};
+        
+        // Find certificate matching this type and student name
+        for (const [id, cert] of Object.entries(issuedCertificates)) {
+            if (cert.certificateType === certificateType && cert.studentName === this.studentName) {
+                return cert;
+            }
+        }
+        
+        return null;
     }
     
     // Create canvas and get context
@@ -649,6 +672,10 @@ class CertificateCanvas {
         // Small delay to show message
         await new Promise(resolve => setTimeout(resolve, 100));
         
+        // Save certificate info for verification
+        const status = CertificateHelpers.checkRequirements(this.certType.id);
+        this.saveCertificateRecord(status.avgScore);
+        
         // Convert to blob and download
         this.canvas.toBlob((blob) => {
             const url = URL.createObjectURL(blob);
@@ -668,6 +695,38 @@ class CertificateCanvas {
         }, 'image/png', 1.0);
     }
     
+    // Save certificate record for verification
+    saveCertificateRecord(avgScore) {
+        const issuedCertificates = JSON.parse(localStorage.getItem('issuedCertificates')) || {};
+        
+        // Only save if this certificate doesn't already exist
+        // This preserves the original issue date and ID
+        if (!issuedCertificates[this.certificateId]) {
+            issuedCertificates[this.certificateId] = {
+                certificateId: this.certificateId,
+                studentName: this.studentName,
+                certificateTitle: this.certType.title,
+                certificateSubtitle: this.certType.subtitle,
+                certificateType: this.certType.id,
+                issuedAt: this.issueDate.getTime(),
+                averageScore: avgScore || null,
+                downloadCount: 1
+            };
+        } else {
+            // Update download count and score if re-downloading
+            issuedCertificates[this.certificateId].downloadCount = 
+                (issuedCertificates[this.certificateId].downloadCount || 1) + 1;
+            issuedCertificates[this.certificateId].lastDownloaded = Date.now();
+            
+            // Update average score if it changed
+            if (avgScore) {
+                issuedCertificates[this.certificateId].averageScore = avgScore;
+            }
+        }
+        
+        localStorage.setItem('issuedCertificates', JSON.stringify(issuedCertificates));
+    }
+    
     // Show success notification
     showSuccessMessage() {
         const notification = document.createElement('div');
@@ -677,19 +736,26 @@ class CertificateCanvas {
             right: 2rem;
             background: linear-gradient(135deg, #10b981, #059669);
             color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 10px;
+            padding: 1.25rem 1.75rem;
+            border-radius: 12px;
             box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
             font-weight: 600;
             z-index: 10001;
             animation: slideInRight 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            max-width: 400px;
         `;
         notification.innerHTML = `
-            <span style="font-size: 1.25rem;">✓</span>
-            <span>Certificate downloaded successfully!</span>
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                <span style="font-size: 1.5rem;">✓</span>
+                <span style="font-size: 1rem;">Certificate Downloaded!</span>
+            </div>
+            <div style="font-size: 0.875rem; font-weight: 500; opacity: 0.95; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 0.75rem; margin-top: 0.5rem;">
+                <div style="margin-bottom: 0.25rem;">Certificate ID: <code style="background: rgba(0,0,0,0.2); padding: 0.125rem 0.5rem; border-radius: 4px; font-family: monospace; font-size: 0.75rem;">${this.certificateId}</code></div>
+                <div style="opacity: 0.85; font-size: 0.8125rem;">
+                    <i class="ri-shield-check-line"></i> Can be verified at 
+                    <a href="verify.html" style="color: white; text-decoration: underline;">verify page</a>
+                </div>
+            </div>
         `;
         
         document.body.appendChild(notification);
@@ -697,7 +763,7 @@ class CertificateCanvas {
         setTimeout(() => {
             notification.style.animation = 'slideOutRight 0.3s ease';
             setTimeout(() => notification.remove(), 300);
-        }, 3000);
+        }, 5000); // Show for 5 seconds
     }
 }
 

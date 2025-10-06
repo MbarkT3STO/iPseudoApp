@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Certificate | iPseudo Tutorial Hub</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/app-icon.svg">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/tutorial.css">
+    <link rel="stylesheet" href="certificate-styles.css">
+    
+    <style>
+        .verify-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .verify-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        .verify-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 2rem;
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(59, 130, 246, 0.2));
+            border: 2px solid rgba(147, 51, 234, 0.4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .verify-icon i {
+            background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .verify-input-group {
+            margin: 2rem 0;
+        }
+
+        .verify-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 2px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            text-align: center;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .verify-input:focus {
+            outline: none;
+            border-color: var(--color-purple-500);
+            box-shadow: 0 0 0 4px rgba(147, 51, 234, 0.1);
+        }
+
+        .verify-btn {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .verify-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(147, 51, 234, 0.4);
+        }
+
+        .verify-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-box {
+            margin-top: 2rem;
+            padding: 2rem;
+            border-radius: 12px;
+            display: none;
+        }
+
+        .result-box.valid {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid rgba(16, 185, 129, 0.4);
+            display: block;
+        }
+
+        .result-box.invalid {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid rgba(239, 68, 68, 0.4);
+            display: block;
+        }
+
+        .result-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .result-box.valid .result-icon {
+            color: #10b981;
+        }
+
+        .result-box.invalid .result-icon {
+            color: #ef4444;
+        }
+
+        .result-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .result-box.valid .result-title {
+            color: #10b981;
+        }
+
+        .result-box.invalid .result-title {
+            color: #ef4444;
+        }
+
+        .cert-details {
+            text-align: left;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .cert-detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .cert-detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .cert-detail-label {
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .cert-detail-value {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .example-id {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="background-container">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-pattern"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <a href="../index.html" style="display: flex; align-items: center; text-decoration: none; gap: 0.75rem;">
+                    <div class="brand-icon" style="background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); padding: 0.5rem; border-radius: 10px;">
+                        <i class="ri-book-open-line" style="color: white; font-size: 1.5rem;"></i>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.1rem;">
+                        <span class="brand-text" style="font-size: 1.25rem; font-weight: 700; background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">iPseudo</span>
+                        <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; letter-spacing: 0.05em;">TUTORIAL HUB</span>
+                    </div>
+                </a>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="ri-sun-line theme-icon" id="lightIcon"></i>
+                    <i class="ri-moon-line theme-icon hidden" id="darkIcon"></i>
+                </button>
+            </div>
+
+            <div class="navbar-actions">
+                <a href="index.html" class="action-btn demo-btn">
+                    <i class="ri-arrow-left-line"></i>
+                    <span>Back to Certificates</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <section style="padding: 6rem 0 4rem; position: relative; z-index: 1;">
+        <div class="verify-container">
+            <div class="verify-card">
+                <div class="verify-icon">
+                    <i class="ri-shield-check-line"></i>
+                </div>
+                
+                <h1 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-primary);">
+                    Verify Certificate
+                </h1>
+                
+                <p style="font-size: 1.125rem; color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.6;">
+                    Enter the certificate ID to verify its authenticity and view details.
+                </p>
+                
+                <div class="verify-input-group">
+                    <label for="certificateId" style="display: block; text-align: left; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-secondary); font-size: 0.875rem;">
+                        Certificate ID
+                    </label>
+                    <input 
+                        type="text" 
+                        id="certificateId" 
+                        class="verify-input" 
+                        placeholder="CERT-1234567890-ABCDEF123"
+                        maxlength="50"
+                    >
+                    
+                    <div class="example-id">
+                        <i class="ri-information-line"></i>
+                        <strong>Format:</strong> CERT-[timestamp]-[random code]<br>
+                        <strong>Example:</strong> CERT-1696890123456-A7B9C2DEF
+                    </div>
+                </div>
+                
+                <button class="verify-btn" onclick="verifyCertificate()">
+                    <i class="ri-search-line"></i>
+                    Verify Certificate
+                </button>
+                
+                <!-- Result Box -->
+                <div id="resultBox" class="result-box">
+                    <!-- Results will be displayed here -->
+                </div>
+            </div>
+            
+            <!-- Info Section -->
+            <div style="margin-top: 3rem; padding: 2rem; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; backdrop-filter: blur(10px);">
+                <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="ri-question-line"></i>
+                    How Verification Works
+                </h3>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="display: flex; align-items: start; gap: 0.75rem; margin-bottom: 1rem; color: var(--text-secondary);">
+                        <i class="ri-check-line" style="color: var(--color-purple-500); margin-top: 0.25rem;"></i>
+                        <span>Every certificate has a unique ID generated when issued</span>
+                    </li>
+                    <li style="display: flex; align-items: start; gap: 0.75rem; margin-bottom: 1rem; color: var(--text-secondary);">
+                        <i class="ri-check-line" style="color: var(--color-purple-500); margin-top: 0.25rem;"></i>
+                        <span>Certificate IDs are stored securely in the system</span>
+                    </li>
+                    <li style="display: flex; align-items: start; gap: 0.75rem; margin-bottom: 1rem; color: var(--text-secondary);">
+                        <i class="ri-check-line" style="color: var(--color-purple-500); margin-top: 0.25rem;"></i>
+                        <span>Verification shows recipient name, issue date, and achievement type</span>
+                    </li>
+                    <li style="display: flex; align-items: start; gap: 0.75rem; color: var(--text-secondary);">
+                        <i class="ri-check-line" style="color: var(--color-purple-500); margin-top: 0.25rem;"></i>
+                        <span>Only certificates generated through this system can be verified</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 iPseudo IDE by <strong>M'BARK</strong>. Free for personal & educational use.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="../js/script.js"></script>
+    <script src="certificate-data.js"></script>
+    <script src="verify-app.js"></script>
+</body>
+</html>
+
