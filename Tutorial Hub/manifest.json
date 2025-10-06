@@ -1,0 +1,100 @@
+{
+  "name": "iPseudo Tutorial Hub",
+  "short_name": "iPseudo",
+  "description": "Learn pseudocode programming with interactive lessons and exercises",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0f0f19",
+  "theme_color": "#9333ea",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "assets/app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["education", "programming", "learning"],
+  "lang": "en-US",
+  "dir": "ltr",
+  "scope": "./",
+  "screenshots": [
+    {
+      "src": "assets/screenshot-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "assets/screenshot-narrow.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "All Lessons",
+      "short_name": "Lessons",
+      "description": "View all tutorial lessons",
+      "url": "./index.html",
+      "icons": [
+        {
+          "src": "assets/app-icon.svg",
+          "sizes": "any"
+        }
+      ]
+    },
+    {
+      "name": "Exercises",
+      "short_name": "Exercises",
+      "description": "Practice with exercises",
+      "url": "./Exercises/exercises-index.html",
+      "icons": [
+        {
+          "src": "assets/app-icon.svg",
+          "sizes": "any"
+        }
+      ]
+    },
+    {
+      "name": "My Statistics",
+      "short_name": "Stats",
+      "description": "View your learning progress",
+      "url": "./statistics.html",
+      "icons": [
+        {
+          "src": "assets/app-icon.svg",
+          "sizes": "any"
+        }
+      ]
+    },
+    {
+      "name": "My Notes",
+      "short_name": "Notes",
+      "description": "Access your saved notes",
+      "url": "./my-notes.html",
+      "icons": [
+        {
+          "src": "assets/app-icon.svg",
+          "sizes": "any"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false
+}
+

@@ -95,6 +95,12 @@ class TutorialFeatures {
         if (!progress.completed.includes(lessonId)) {
             progress.completed.push(lessonId);
             this.saveProgress(progress);
+            
+            // Track timestamp for statistics
+            const timestamps = JSON.parse(localStorage.getItem('lesson-timestamps') || '{}');
+            timestamps[lessonId] = Date.now();
+            localStorage.setItem('lesson-timestamps', JSON.stringify(timestamps));
+            
             this.showCompletionCelebration(lessonId);
             this.checkAchievements();
         }
@@ -1187,7 +1193,32 @@ class TutorialFeatures {
         const progress = this.getProgress();
         const completed = progress.completed.length;
         const achievements = this.getAchievements();
+        const timestamps = JSON.parse(localStorage.getItem('lesson-timestamps') || '{}');
 
+        // ===== MILESTONE ACHIEVEMENTS =====
+        
+        // First Lesson
+        if (completed >= 1 && !achievements.includes('first-steps')) {
+            this.unlockAchievement('first-steps', 'First Steps', '🎯', 'Completed your first lesson!');
+        }
+        
+        // Complete 5 Lessons
+        if (completed >= 5 && !achievements.includes('quick-learner')) {
+            this.unlockAchievement('quick-learner', 'Quick Learner', '⚡', 'Completed 5 lessons!');
+        }
+        
+        // Complete 10 Lessons
+        if (completed >= 10 && !achievements.includes('dedicated-student')) {
+            this.unlockAchievement('dedicated-student', 'Dedicated Student', '📚', 'Completed 10 lessons!');
+        }
+        
+        // Complete 15 Lessons
+        if (completed >= 15 && !achievements.includes('knowledge-seeker')) {
+            this.unlockAchievement('knowledge-seeker', 'Knowledge Seeker', '🔍', 'Completed 15 lessons!');
+        }
+
+        // ===== LEVEL-BASED ACHIEVEMENTS =====
+        
         const levels = {
             beginner: this.lessons.filter(l => l.level === 'beginner').length,
             intermediate: this.lessons.filter(l => l.level === 'intermediate').length,
@@ -1209,7 +1240,6 @@ class TutorialFeatures {
             }).length
         };
 
-        // Check for new achievements
         if (completedByLevel.beginner === levels.beginner && !achievements.includes('beginner-master')) {
             this.unlockAchievement('beginner-master', 'Beginner Master', '🌱', 'Completed all beginner lessons!');
         }
@@ -1222,6 +1252,117 @@ class TutorialFeatures {
         if (completed === this.lessons.length && !achievements.includes('complete-master')) {
             this.unlockAchievement('complete-master', 'iPseudo Master', '👑', 'Completed ALL lessons! You are a master!');
         }
+
+        // ===== TIME-BASED ACHIEVEMENTS =====
+        
+        // Check for 3 lessons in one day
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const todayStr = today.toLocaleDateString();
+        
+        const completedToday = progress.completed.filter(id => {
+            const ts = timestamps[id];
+            if (ts) {
+                const date = new Date(ts);
+                date.setHours(0, 0, 0, 0);
+                return date.toLocaleDateString() === todayStr;
+            }
+            return false;
+        }).length;
+        
+        if (completedToday >= 3 && !achievements.includes('productive-day')) {
+            this.unlockAchievement('productive-day', 'Productive Day', '🔥', 'Completed 3 lessons in one day!');
+        }
+        
+        // Check for early bird (6am - 9am)
+        const lastCompletedId = progress.completed[progress.completed.length - 1];
+        if (lastCompletedId && timestamps[lastCompletedId]) {
+            const lastTime = new Date(timestamps[lastCompletedId]);
+            const hour = lastTime.getHours();
+            
+            if (hour >= 6 && hour < 9 && !achievements.includes('early-bird')) {
+                this.unlockAchievement('early-bird', 'Early Bird', '🌅', 'Completed a lesson in the morning!');
+            }
+            
+            if (hour >= 22 || hour < 2 && !achievements.includes('night-owl')) {
+                this.unlockAchievement('night-owl', 'Night Owl', '🦉', 'Completed a lesson late at night!');
+            }
+        }
+        
+        // Check for 7-day streak
+        const streak = this.calculateStreak();
+        if (streak >= 7 && !achievements.includes('week-warrior')) {
+            this.unlockAchievement('week-warrior', 'Week Warrior', '⚔️', '7-day study streak!');
+        }
+        
+        // Check for 5 lessons in one week
+        const oneWeekAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
+        const completedThisWeek = progress.completed.filter(id => {
+            const ts = timestamps[id];
+            return ts && ts >= oneWeekAgo;
+        }).length;
+        
+        if (completedThisWeek >= 5 && !achievements.includes('speed-learner')) {
+            this.unlockAchievement('speed-learner', 'Speed Learner', '💨', 'Completed 5 lessons in one week!');
+        }
+        
+        // ===== ENGAGEMENT ACHIEVEMENTS =====
+        
+        // Note Taker
+        let notesCount = 0;
+        for (let i = 1; i <= 20; i++) {
+            const lessonId = String(i).padStart(2, '0');
+            const note = localStorage.getItem(`lesson-note-${lessonId}`);
+            if (note && note.trim().length > 10) notesCount++;
+        }
+        
+        if (notesCount >= 5 && !achievements.includes('note-taker')) {
+            this.unlockAchievement('note-taker', 'Note Taker', '📝', 'Saved notes on 5 lessons!');
+        }
+        
+        // Bookworm (visited all lesson pages)
+        const visitedLessons = JSON.parse(localStorage.getItem('visited-lessons') || '[]');
+        if (visitedLessons.length >= this.lessons.length && !achievements.includes('curious-mind')) {
+            this.unlockAchievement('curious-mind', 'Curious Mind', '🧠', 'Explored all lesson pages!');
+        }
+        
+        // Track visited lesson
+        if (this.currentLesson && !visitedLessons.includes(this.currentLesson)) {
+            visitedLessons.push(this.currentLesson);
+            localStorage.setItem('visited-lessons', JSON.stringify(visitedLessons));
+        }
+    }
+    
+    calculateStreak() {
+        const progress = this.getProgress();
+        const timestamps = JSON.parse(localStorage.getItem('lesson-timestamps') || '{}');
+        
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        let checkDate = new Date(today);
+        let streak = 0;
+        
+        while (true) {
+            const dateStr = checkDate.toLocaleDateString();
+            const hasActivity = progress.completed.some(id => {
+                const ts = timestamps[id];
+                if (ts) {
+                    const lessonDate = new Date(ts);
+                    lessonDate.setHours(0, 0, 0, 0);
+                    return lessonDate.toLocaleDateString() === dateStr;
+                }
+                return false;
+            });
+            
+            if (hasActivity) {
+                streak++;
+                checkDate.setDate(checkDate.getDate() - 1);
+            } else {
+                break;
+            }
+        }
+        
+        return streak;
     }
 
     getAchievements() {

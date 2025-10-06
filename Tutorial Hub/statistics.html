@@ -5,12 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Statistics | iPseudo Tutorial Hub</title>
     <link rel="icon" type="image/svg+xml" href="assets/app-icon.svg">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#9333ea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="iPseudo">
+    <link rel="apple-touch-icon" href="assets/app-icon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/tutorial.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
     <div class="background-container">
@@ -79,6 +88,54 @@
                 <div id="achievementsCount" class="stat-card"></div>
             </div>
 
+            <!-- Detailed Progress Charts -->
+            <div style="margin-bottom: var(--space-2xl);">
+                <h2 style="font-size: 1.75rem; font-weight: 700; color: var(--text-primary); margin-bottom: var(--space-lg); text-align: center;">
+                    <i class="ri-line-chart-line" style="color: var(--color-purple-500);"></i>
+                    Progress Analytics
+                </h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: var(--space-lg); margin-bottom: var(--space-lg);">
+                    <!-- Completion Progress Over Time -->
+                    <div style="background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-xl); padding: var(--space-xl); backdrop-filter: blur(10px);">
+                        <h3 style="font-size: 1.25rem; font-weight: 600; color: var(--text-primary); margin-bottom: var(--space-lg); display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="ri-line-chart-line" style="color: var(--color-purple-500);"></i>
+                            Completion Progress
+                        </h3>
+                        <canvas id="progressChart" style="max-height: 300px;"></canvas>
+                    </div>
+
+                    <!-- Category Breakdown -->
+                    <div style="background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-xl); padding: var(--space-xl); backdrop-filter: blur(10px);">
+                        <h3 style="font-size: 1.25rem; font-weight: 600; color: var(--text-primary); margin-bottom: var(--space-lg); display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="ri-pie-chart-line" style="color: var(--color-blue-500);"></i>
+                            Category Breakdown
+                        </h3>
+                        <canvas id="categoryChart" style="max-height: 300px;"></canvas>
+                    </div>
+                </div>
+
+                <!-- Weekly Activity & Study Time -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: var(--space-lg);">
+                    <!-- Weekly Activity -->
+                    <div style="background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-xl); padding: var(--space-xl); backdrop-filter: blur(10px);">
+                        <h3 style="font-size: 1.25rem; font-weight: 600; color: var(--text-primary); margin-bottom: var(--space-lg); display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="ri-calendar-line" style="color: var(--color-success);"></i>
+                            Weekly Activity
+                        </h3>
+                        <canvas id="weeklyChart" style="max-height: 300px;"></canvas>
+                    </div>
+
+                    <!-- Estimated Time to Completion -->
+                    <div style="background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-xl); padding: var(--space-xl); backdrop-filter: blur(10px);">
+                        <h3 style="font-size: 1.25rem; font-weight: 600; color: var(--text-primary); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="ri-time-line" style="color: var(--color-orange-600);"></i>
+                            Study Insights
+                        </h3>
+                        <div id="studyInsights" style="display: flex; flex-direction: column; gap: var(--space-lg);"></div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Level Breakdown -->
             <div style="margin-bottom: var(--space-2xl);">
                 <h2 style="font-size: 1.75rem; font-weight: 700; color: var(--text-primary); margin-bottom: var(--space-lg); text-align: center;">
@@ -112,6 +169,9 @@
     </button>
 
     <script src="js/quick-jump.js"></script>
+    <script src="js/global-search.js"></script>
+    <script src="js/performance.js"></script>
+    <script src="js/pwa-init.js"></script>
     <script src="js/script.js"></script>
     <script>
         const lessons = [
@@ -204,12 +264,13 @@
             `;
 
             // Achievements
-            const achievementColor = achievements.length === 4 ? 'rgb(255, 215, 0)' : 'var(--color-purple-500)';
+            const totalAchievements = 15; // Total number of possible achievements
+            const achievementColor = achievements.length === totalAchievements ? 'rgb(255, 215, 0)' : 'var(--color-purple-500)';
             document.getElementById('achievementsCount').innerHTML = `
                 <div style="background: linear-gradient(135deg, rgba(147, 51, 234, 0.1), rgba(59, 130, 246, 0.1)); border: 1px solid rgba(147, 51, 234, 0.25); border-radius: var(--radius-lg); padding: var(--space-xl); backdrop-filter: blur(10px); text-align: center; transition: all 0.3s; position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 24px rgba(147, 51, 234, 0.25)'; this.style.borderColor='rgba(147, 51, 234, 0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'; this.style.borderColor='rgba(147, 51, 234, 0.25)';">
                     <div style="position: absolute; top: -20px; right: -20px; width: 80px; height: 80px; background: radial-gradient(circle, rgba(147, 51, 234, 0.15), transparent); border-radius: 50%;"></div>
-                    <i class="ri-trophy-fill" style="font-size: 2.5rem; color: ${achievementColor}; margin-bottom: var(--space-sm); position: relative; z-index: 1; ${achievements.length === 4 ? 'filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.5));' : ''}"></i>
-                    <div style="font-size: 3rem; font-weight: 800; color: ${achievementColor}; margin-bottom: 0.375rem; position: relative; z-index: 1;">${achievements.length}/4</div>
+                    <i class="ri-trophy-fill" style="font-size: 2.5rem; color: ${achievementColor}; margin-bottom: var(--space-sm); position: relative; z-index: 1; ${achievements.length === totalAchievements ? 'filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.5));' : ''}"></i>
+                    <div style="font-size: 3rem; font-weight: 800; color: ${achievementColor}; margin-bottom: 0.375rem; position: relative; z-index: 1;">${achievements.length}/${totalAchievements}</div>
                     <div style="font-size: 0.875rem; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; position: relative; z-index: 1;">Achievements</div>
                 </div>
             `;
@@ -263,32 +324,76 @@
 
         function displayAchievements(achievements) {
             const allAchievements = [
-                { id: 'beginner-master', title: 'Beginner Master', emoji: '🌱', description: 'Complete all beginner lessons', unlocked: achievements.includes('beginner-master') },
-                { id: 'intermediate-expert', title: 'Intermediate Expert', emoji: '🌿', description: 'Complete all intermediate lessons', unlocked: achievements.includes('intermediate-expert') },
-                { id: 'advanced-guru', title: 'Advanced Guru', emoji: '🚀', description: 'Complete all advanced lessons', unlocked: achievements.includes('advanced-guru') },
-                { id: 'complete-master', title: 'iPseudo Master', emoji: '👑', description: 'Complete all 20 lessons!', unlocked: achievements.includes('complete-master') }
+                // Milestone Achievements
+                { id: 'first-steps', title: 'First Steps', emoji: '🎯', description: 'Complete your first lesson', category: 'Milestone', unlocked: achievements.includes('first-steps') },
+                { id: 'quick-learner', title: 'Quick Learner', emoji: '⚡', description: 'Complete 5 lessons', category: 'Milestone', unlocked: achievements.includes('quick-learner') },
+                { id: 'dedicated-student', title: 'Dedicated Student', emoji: '📚', description: 'Complete 10 lessons', category: 'Milestone', unlocked: achievements.includes('dedicated-student') },
+                { id: 'knowledge-seeker', title: 'Knowledge Seeker', emoji: '🔍', description: 'Complete 15 lessons', category: 'Milestone', unlocked: achievements.includes('knowledge-seeker') },
+                
+                // Level-Based Achievements
+                { id: 'beginner-master', title: 'Beginner Master', emoji: '🌱', description: 'Complete all beginner lessons', category: 'Mastery', unlocked: achievements.includes('beginner-master') },
+                { id: 'intermediate-expert', title: 'Intermediate Expert', emoji: '🌿', description: 'Complete all intermediate lessons', category: 'Mastery', unlocked: achievements.includes('intermediate-expert') },
+                { id: 'advanced-guru', title: 'Advanced Guru', emoji: '🚀', description: 'Complete all advanced lessons', category: 'Mastery', unlocked: achievements.includes('advanced-guru') },
+                { id: 'complete-master', title: 'iPseudo Master', emoji: '👑', description: 'Complete ALL 20 lessons!', category: 'Mastery', unlocked: achievements.includes('complete-master') },
+                
+                // Time-Based Achievements
+                { id: 'productive-day', title: 'Productive Day', emoji: '🔥', description: 'Complete 3 lessons in one day', category: 'Activity', unlocked: achievements.includes('productive-day') },
+                { id: 'early-bird', title: 'Early Bird', emoji: '🌅', description: 'Complete a lesson in the morning', category: 'Activity', unlocked: achievements.includes('early-bird') },
+                { id: 'night-owl', title: 'Night Owl', emoji: '🦉', description: 'Complete a lesson late at night', category: 'Activity', unlocked: achievements.includes('night-owl') },
+                { id: 'week-warrior', title: 'Week Warrior', emoji: '⚔️', description: '7-day study streak!', category: 'Activity', unlocked: achievements.includes('week-warrior') },
+                { id: 'speed-learner', title: 'Speed Learner', emoji: '💨', description: 'Complete 5 lessons in one week', category: 'Activity', unlocked: achievements.includes('speed-learner') },
+                
+                // Engagement Achievements
+                { id: 'note-taker', title: 'Note Taker', emoji: '📝', description: 'Save notes on 5 lessons', category: 'Engagement', unlocked: achievements.includes('note-taker') },
+                { id: 'curious-mind', title: 'Curious Mind', emoji: '🧠', description: 'Explore all lesson pages', category: 'Engagement', unlocked: achievements.includes('curious-mind') }
             ];
 
+            const unlockedCount = allAchievements.filter(a => a.unlocked).length;
+            
             let achievementsHTML = `
                 <h2 style="font-size: 1.75rem; font-weight: 700; color: var(--text-primary); margin-bottom: var(--space-lg); text-align: center;">
                     <i class="ri-trophy-line" style="color: var(--color-purple-500);"></i>
-                    Achievements
+                    Achievements Gallery (${unlockedCount}/${allAchievements.length})
                 </h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--space-lg);">
             `;
-
-            allAchievements.forEach(achievement => {
+            
+            // Group by category
+            const categories = ['Milestone', 'Mastery', 'Activity', 'Engagement'];
+            const categoryIcons = {
+                'Milestone': 'ri-flag-line',
+                'Mastery': 'ri-medal-line',
+                'Activity': 'ri-flashlight-line',
+                'Engagement': 'ri-heart-line'
+            };
+            
+            categories.forEach(category => {
+                const categoryAchievements = allAchievements.filter(a => a.category === category);
+                const categoryUnlocked = categoryAchievements.filter(a => a.unlocked).length;
+                
                 achievementsHTML += `
-                    <div style="background: var(--glass-bg); border: 1px solid ${achievement.unlocked ? 'var(--color-success)' : 'var(--glass-border)'}; border-radius: var(--radius-lg); padding: var(--space-lg); backdrop-filter: blur(10px); text-align: center; ${achievement.unlocked ? '' : 'opacity: 0.5;'} transition: all 0.3s;" ${achievement.unlocked ? 'onmouseover="this.style.transform=\'translateY(-4px)\'; this.style.boxShadow=\'0 8px 24px rgba(34, 197, 94, 0.2)\';" onmouseout="this.style.transform=\'translateY(0)\'; this.style.boxShadow=\'none\';"' : ''}>
-                        <div style="font-size: 3rem; margin-bottom: var(--space-sm); ${achievement.unlocked ? '' : 'filter: grayscale(100%);'}">${achievement.emoji}</div>
-                        <div style="font-size: 1.125rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem;">${achievement.title}</div>
-                        <div style="font-size: 0.875rem; color: var(--text-secondary);">${achievement.description}</div>
-                        ${achievement.unlocked ? '<div style="margin-top: var(--space-sm); font-size: 0.8125rem; color: var(--color-success); font-weight: 600;"><i class="ri-check-line"></i> Unlocked!</div>' : '<div style="margin-top: var(--space-sm); font-size: 0.8125rem; color: var(--text-tertiary);">🔒 Locked</div>'}
-                    </div>
+                    <div style="margin-bottom: var(--space-xl);">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: var(--space-md);">
+                            <i class="${categoryIcons[category]}" style="color: var(--color-purple-500); font-size: 1.25rem;"></i>
+                            <h3 style="font-size: 1.25rem; font-weight: 600; color: var(--text-primary);">${category}</h3>
+                            <span style="font-size: 0.875rem; color: var(--text-secondary); margin-left: auto;">${categoryUnlocked}/${categoryAchievements.length}</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-md);">
                 `;
+                
+                categoryAchievements.forEach(achievement => {
+                    achievementsHTML += `
+                        <div style="background: var(--glass-bg); border: 1px solid ${achievement.unlocked ? 'var(--color-success)' : 'var(--glass-border)'}; border-radius: var(--radius-lg); padding: var(--space-lg); backdrop-filter: blur(10px); text-align: center; ${achievement.unlocked ? '' : 'opacity: 0.5;'} transition: all 0.3s;" ${achievement.unlocked ? 'onmouseover="this.style.transform=\'translateY(-4px)\'; this.style.boxShadow=\'0 8px 24px rgba(34, 197, 94, 0.2)\';" onmouseout="this.style.transform=\'translateY(0)\'; this.style.boxShadow=\'none\';"' : ''}>
+                            <div style="font-size: 2.5rem; margin-bottom: var(--space-sm); ${achievement.unlocked ? '' : 'filter: grayscale(100%);'}">${achievement.emoji}</div>
+                            <div style="font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem;">${achievement.title}</div>
+                            <div style="font-size: 0.8125rem; color: var(--text-secondary);">${achievement.description}</div>
+                            ${achievement.unlocked ? '<div style="margin-top: var(--space-sm); font-size: 0.75rem; color: var(--color-success); font-weight: 600;"><i class="ri-check-line"></i> Unlocked!</div>' : '<div style="margin-top: var(--space-sm); font-size: 0.75rem; color: var(--text-tertiary);">🔒 Locked</div>'}
+                        </div>
+                    `;
+                });
+                
+                achievementsHTML += '</div></div>';
             });
-
-            achievementsHTML += '</div>';
+            
             document.getElementById('achievementsSection').innerHTML = achievementsHTML;
         }
 
@@ -351,8 +456,356 @@
             document.getElementById('recentActivity').innerHTML = activityHTML;
         }
 
+        // Chart configuration for dark mode
+        function getChartColors() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark' || !document.documentElement.hasAttribute('data-theme');
+            return {
+                text: isDark ? '#e5e7eb' : '#1f2937',
+                grid: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+                purple: 'rgb(147, 51, 234)',
+                blue: 'rgb(59, 130, 246)',
+                green: 'rgb(34, 197, 94)',
+                orange: 'rgb(234, 88, 12)',
+                red: 'rgb(239, 68, 68)'
+            };
+        }
+
+        function createProgressChart() {
+            const progress = getProgress();
+            const timestamps = JSON.parse(localStorage.getItem('lesson-timestamps') || '{}');
+            
+            // Get completion dates
+            const completionDates = {};
+            progress.completed.forEach(lessonId => {
+                const timestamp = timestamps[lessonId] || Date.now();
+                const date = new Date(timestamp).toLocaleDateString();
+                completionDates[date] = (completionDates[date] || 0) + 1;
+            });
+
+            // Generate last 30 days
+            const dates = [];
+            const counts = [];
+            const today = new Date();
+            
+            for (let i = 29; i >= 0; i--) {
+                const date = new Date(today);
+                date.setDate(date.getDate() - i);
+                const dateStr = date.toLocaleDateString();
+                dates.push(date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }));
+                
+                let cumulative = 0;
+                Object.keys(completionDates).forEach(d => {
+                    if (new Date(d) <= date) {
+                        cumulative += completionDates[d];
+                    }
+                });
+                counts.push(cumulative);
+            }
+
+            const colors = getChartColors();
+            const ctx = document.getElementById('progressChart');
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: 'Lessons Completed',
+                        data: counts,
+                        borderColor: colors.purple,
+                        backgroundColor: `${colors.purple}33`,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: colors.purple,
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: colors.text,
+                                stepSize: 1
+                            },
+                            grid: {
+                                color: colors.grid
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: colors.text,
+                                maxRotation: 45,
+                                minRotation: 45
+                            },
+                            grid: {
+                                color: colors.grid
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createCategoryChart() {
+            const progress = getProgress();
+            const levelStats = {
+                beginner: { total: 6, completed: 0 },
+                intermediate: { total: 7, completed: 0 },
+                advanced: { total: 7, completed: 0 }
+            };
+
+            progress.completed.forEach(id => {
+                const lesson = lessons.find(l => l.id === id);
+                if (lesson) levelStats[lesson.level].completed++;
+            });
+
+            const colors = getChartColors();
+            const ctx = document.getElementById('categoryChart');
+            
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Beginner', 'Intermediate', 'Advanced'],
+                    datasets: [{
+                        data: [
+                            levelStats.beginner.completed,
+                            levelStats.intermediate.completed,
+                            levelStats.advanced.completed
+                        ],
+                        backgroundColor: [
+                            colors.green,
+                            colors.blue,
+                            colors.purple
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: colors.text,
+                                padding: 15,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createWeeklyChart() {
+            const progress = getProgress();
+            const timestamps = JSON.parse(localStorage.getItem('lesson-timestamps') || '{}');
+            
+            // Get last 7 days
+            const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const today = new Date();
+            const labels = [];
+            const data = [];
+            
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date(today);
+                date.setDate(date.getDate() - i);
+                labels.push(weekDays[date.getDay()]);
+                
+                const dateStr = date.toLocaleDateString();
+                let count = 0;
+                
+                progress.completed.forEach(lessonId => {
+                    const timestamp = timestamps[lessonId];
+                    if (timestamp) {
+                        const lessonDate = new Date(timestamp).toLocaleDateString();
+                        if (lessonDate === dateStr) count++;
+                    }
+                });
+                
+                data.push(count);
+            }
+
+            const colors = getChartColors();
+            const ctx = document.getElementById('weeklyChart');
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Lessons Completed',
+                        data: data,
+                        backgroundColor: colors.green,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: colors.text,
+                                stepSize: 1
+                            },
+                            grid: {
+                                color: colors.grid
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: colors.text
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function displayStudyInsights() {
+            const progress = getProgress();
+            const timestamps = JSON.parse(localStorage.getItem('lesson-timestamps') || '{}');
+            const completed = progress.completed.length;
+            const remaining = lessons.length - completed;
+            
+            // Calculate average lessons per week
+            const sortedTimestamps = progress.completed
+                .map(id => timestamps[id] || Date.now())
+                .sort((a, b) => a - b);
+            
+            let avgPerWeek = 0;
+            let studyStreak = 0;
+            let estimatedWeeks = 0;
+            
+            if (sortedTimestamps.length > 0) {
+                const firstDate = new Date(sortedTimestamps[0]);
+                const lastDate = new Date(sortedTimestamps[sortedTimestamps.length - 1]);
+                const weeksPassed = Math.max(1, (lastDate - firstDate) / (1000 * 60 * 60 * 24 * 7));
+                avgPerWeek = (completed / weeksPassed).toFixed(1);
+                
+                if (avgPerWeek > 0) {
+                    estimatedWeeks = Math.ceil(remaining / avgPerWeek);
+                }
+                
+                // Calculate streak
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                let checkDate = new Date(today);
+                
+                while (true) {
+                    const dateStr = checkDate.toLocaleDateString();
+                    const hasActivity = progress.completed.some(id => {
+                        const ts = timestamps[id];
+                        if (ts) {
+                            const lessonDate = new Date(ts);
+                            lessonDate.setHours(0, 0, 0, 0);
+                            return lessonDate.toLocaleDateString() === dateStr;
+                        }
+                        return false;
+                    });
+                    
+                    if (hasActivity) {
+                        studyStreak++;
+                        checkDate.setDate(checkDate.getDate() - 1);
+                    } else {
+                        break;
+                    }
+                }
+            }
+            
+            const colors = getChartColors();
+            const insightsHTML = `
+                <div style="display: flex; align-items: center; gap: var(--space-md); padding: var(--space-md); background: rgba(147, 51, 234, 0.1); border-radius: var(--radius-lg);">
+                    <div style="width: 48px; height: 48px; background: ${colors.purple}; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="ri-speed-line" style="font-size: 1.5rem; color: white;"></i>
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Average Pace</div>
+                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary);">${avgPerWeek || '—'} lessons/week</div>
+                    </div>
+                </div>
+                
+                <div style="display: flex; align-items: center; gap: var(--space-md); padding: var(--space-md); background: rgba(34, 197, 94, 0.1); border-radius: var(--radius-lg);">
+                    <div style="width: 48px; height: 48px; background: ${colors.green}; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="ri-fire-line" style="font-size: 1.5rem; color: white;"></i>
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Study Streak</div>
+                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary);">${studyStreak} day${studyStreak !== 1 ? 's' : ''}</div>
+                    </div>
+                </div>
+                
+                ${remaining > 0 && avgPerWeek > 0 ? `
+                <div style="display: flex; align-items: center; gap: var(--space-md); padding: var(--space-md); background: rgba(59, 130, 246, 0.1); border-radius: var(--radius-lg);">
+                    <div style="width: 48px; height: 48px; background: ${colors.blue}; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="ri-calendar-check-line" style="font-size: 1.5rem; color: white;"></i>
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Estimated Completion</div>
+                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary);">${estimatedWeeks} week${estimatedWeeks !== 1 ? 's' : ''}</div>
+                    </div>
+                </div>
+                ` : `
+                <div style="display: flex; align-items: center; gap: var(--space-md); padding: var(--space-md); background: rgba(255, 215, 0, 0.1); border-radius: var(--radius-lg);">
+                    <div style="width: 48px; height: 48px; background: rgb(255, 215, 0); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="ri-trophy-fill" style="font-size: 1.5rem; color: white;"></i>
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Status</div>
+                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary);">All Complete! 🎉</div>
+                    </div>
+                </div>
+                `}
+            `;
+            
+            document.getElementById('studyInsights').innerHTML = insightsHTML;
+        }
+
+        // Initialize timestamp tracking
+        function initTimestampTracking() {
+            const timestamps = JSON.parse(localStorage.getItem('lesson-timestamps') || '{}');
+            const progress = getProgress();
+            
+            // Add timestamps for lessons that don't have them
+            progress.completed.forEach(lessonId => {
+                if (!timestamps[lessonId]) {
+                    timestamps[lessonId] = Date.now();
+                }
+            });
+            
+            localStorage.setItem('lesson-timestamps', JSON.stringify(timestamps));
+        }
+
         // Display statistics on load
+        initTimestampTracking();
         displayStatistics();
+        createProgressChart();
+        createCategoryChart();
+        createWeeklyChart();
+        displayStudyInsights();
     </script>
 </body>
 </html>
