@@ -3,22 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Variables & Data Types - Exercises | iPseudo Tutorial Hub</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <title>Variables & Data Types - Practice Exercises | iPseudo Tutorial Hub</title>
     <link rel="icon" type="image/svg+xml" href="../assets/app-icon.svg">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/tutorial.css">
+    
     <style>
-        /* Exercise Page Styles - Matching Website Design */
-        .exercises-container {
+        /* Exercise Page Enhanced Styles */
+        .exercise-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: var(--space-2xl) var(--space-lg);
+            padding: calc(var(--space-3xl) + 60px) var(--space-lg) var(--space-3xl);
         }
         
-        .exercises-hero {
+        /* Breadcrumb Navigation */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: var(--space-xl);
+            padding: var(--space-md);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            backdrop-filter: blur(20px);
+        }
+        
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .breadcrumb a:hover {
+            color: var(--color-success);
+        }
+        
+        .breadcrumb-separator {
+            color: var(--text-tertiary);
+        }
+        
+        .breadcrumb-current {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        
+        /* Exercise Hero */
+        .exercise-hero {
             text-align: center;
             margin-bottom: var(--space-3xl);
-            padding: var(--space-3xl) 0;
+            padding: var(--space-3xl) var(--space-xl);
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             border-radius: var(--radius-xl);
@@ -26,58 +71,79 @@
             box-shadow: var(--glass-shadow);
         }
         
-        .exercises-hero h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500));
+        .exercise-hero-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto var(--space-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--color-success), var(--color-green-600));
+            border-radius: var(--radius-lg);
+            font-size: 2.5rem;
+            color: white;
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+            animation: float 3s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .exercise-hero-icon::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: inherit;
+            opacity: 0.2;
+            filter: blur(20px);
+        }
+        
+        .exercise-hero-icon i {
+            position: relative;
+            z-index: 1;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .exercise-hero h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--color-success), var(--color-green-600));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin-bottom: var(--space-md);
         }
         
-        .exercises-hero p {
+        .exercise-hero-subtitle {
             font-size: 1.25rem;
             color: var(--text-secondary);
             margin-bottom: var(--space-lg);
         }
         
-        .difficulty-badges {
+        .exercise-meta {
             display: flex;
-            gap: var(--space-md);
             justify-content: center;
+            gap: var(--space-lg);
             flex-wrap: wrap;
+            margin-bottom: var(--space-lg);
         }
         
-        .difficulty-badge {
-            padding: 0.625rem 1.25rem;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.9375rem;
+        .meta-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            transition: var(--transition-base);
-        }
-        
-        .badge-easy {
-            background: rgba(16, 185, 129, 0.15);
+            padding: 0.625rem 1.25rem;
+            background: rgba(16, 185, 129, 0.1);
             border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 50px;
             color: var(--color-success);
+            font-weight: 600;
         }
         
-        .badge-medium {
-            background: rgba(234, 88, 12, 0.15);
-            border: 1px solid rgba(234, 88, 12, 0.3);
-            color: var(--color-orange-600);
-        }
-        
-        .badge-hard {
-            background: rgba(239, 68, 68, 0.15);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            color: #ef4444;
-        }
-        
+        /* Exercise Cards */
         .exercise-card {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
@@ -85,13 +151,18 @@
             backdrop-filter: blur(20px);
             margin-bottom: var(--space-xl);
             overflow: hidden;
-            transition: var(--transition-base);
+            transition: all 0.3s ease;
         }
         
         .exercise-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(147, 51, 234, 0.2);
-            border-color: rgba(147, 51, 234, 0.4);
+            box-shadow: 0 16px 48px rgba(16, 185, 129, 0.2);
+            border-color: rgba(16, 185, 129, 0.4);
+        }
+        
+        .exercise-card.completed {
+            border-color: rgba(16, 185, 129, 0.6);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(16, 185, 129, 0.02));
         }
         
         .exercise-header {
@@ -100,56 +171,124 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: var(--transition-base);
+            transition: all 0.3s ease;
+            position: relative;
         }
         
-        .exercise-header:hover {
-            background: rgba(147, 51, 234, 0.05);
+        .exercise-header::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--color-success);
+            opacity: 0;
+            transition: opacity 0.3s;
         }
         
-        .exercise-title {
+        .exercise-card.expanded .exercise-header::before {
+            opacity: 1;
+        }
+        
+        .exercise-title-section {
             display: flex;
             align-items: center;
             gap: var(--space-md);
+            flex: 1;
         }
         
-        .exercise-icon {
-            font-size: 2rem;
+        .exercise-number {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--color-success), var(--color-green-600));
+            color: white;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 1.125rem;
         }
         
-        .exercise-info h3 {
+        .exercise-card.completed .exercise-number {
+            background: linear-gradient(135deg, var(--color-success), var(--color-green-600));
+        }
+        
+        .exercise-card.completed .exercise-number::before {
+            content: '✓';
+            position: absolute;
+        }
+        
+        .exercise-info {
+            flex: 1;
+        }
+        
+        .exercise-title {
             font-size: 1.375rem;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.375rem;
         }
         
-        .exercise-meta {
+        .exercise-badges {
             display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .difficulty-badge, .time-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-weight: 600;
+            display: inline-flex;
             align-items: center;
-            gap: var(--space-sm);
-            font-size: 0.875rem;
-            color: var(--text-tertiary);
+            gap: 0.375rem;
         }
         
-        .chevron-icon {
+        .difficulty-easy {
+            background: rgba(34, 197, 94, 0.15);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: var(--color-success);
+        }
+        
+        .difficulty-medium {
+            background: rgba(234, 88, 12, 0.15);
+            border: 1px solid rgba(234, 88, 12, 0.3);
+            color: var(--color-orange-600);
+        }
+        
+        .difficulty-hard {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+        
+        .time-badge {
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: var(--color-blue-500);
+        }
+        
+        .expand-icon {
             font-size: 1.5rem;
-            color: var(--color-purple-500);
-            transition: var(--transition-base);
+            color: var(--color-success);
+            transition: transform 0.3s ease;
         }
         
-        .exercise-card.expanded .chevron-icon {
+        .exercise-card.expanded .expand-icon {
             transform: rotate(180deg);
         }
         
         .exercise-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .exercise-card.expanded .exercise-content {
-            max-height: 3000px;
+            max-height: 5000px;
         }
         
         .exercise-body {
@@ -157,47 +296,46 @@
             border-top: 1px solid var(--glass-border);
         }
         
-        .exercise-body h3 {
-            color: var(--text-primary);
-            font-size: 1.125rem;
-            font-weight: 700;
-            margin-top: var(--space-lg);
-            margin-bottom: var(--space-md);
+        /* Related Lesson Link */
+        .related-lesson {
+            margin: var(--space-lg) 0;
+            padding: var(--space-md);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(52, 211, 153, 0.05));
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
         }
         
-        .exercise-body h4 {
-            color: var(--text-secondary);
-            font-size: 1rem;
+        .related-lesson a {
+            color: var(--color-success);
+            text-decoration: none;
             font-weight: 600;
-            margin-top: var(--space-lg);
-            margin-bottom: var(--space-sm);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
         }
         
-        .exercise-body p {
-            color: var(--text-secondary);
-            line-height: 1.7;
-            margin-bottom: var(--space-md);
+        .related-lesson a:hover {
+            gap: 0.75rem;
         }
         
-        .exercise-body ul {
-            color: var(--text-secondary);
-            line-height: 1.8;
-            margin-left: var(--space-lg);
-        }
-        
-        .output-box {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(147, 51, 234, 0.3);
+        /* Output and Code Boxes */
+        .output-box, pre code {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(16, 185, 129, 0.2);
             border-radius: var(--radius-md);
             overflow: hidden;
             margin: var(--space-md) 0;
         }
         
         .output-header {
-            background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(59, 130, 246, 0.2));
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(52, 211, 153, 0.2));
             padding: 0.75rem var(--space-md);
             font-weight: 600;
-            color: var(--color-purple-500);
+            color: var(--color-success);
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -206,149 +344,103 @@
         
         .output-content {
             padding: var(--space-md);
-            font-family: 'JetBrains Mono', 'Consolas', monospace;
-            font-size: 0.9375rem;
-            line-height: 1.6;
-            white-space: pre-line;
+            font-family: 'JetBrains Mono', monospace;
             color: var(--text-primary);
+            line-height: 1.8;
+            white-space: pre-line;
         }
         
+        /* Solution Section */
         .solution-section {
             margin-top: var(--space-xl);
             padding-top: var(--space-xl);
-            border-top: 1px solid var(--glass-border);
-        }
-        
-        .solution-hidden {
-            text-align: center;
+            border-top: 2px dashed var(--glass-border);
         }
         
         .show-solution-btn {
-            background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500));
+            background: linear-gradient(135deg, var(--color-success), var(--color-green-600));
             color: white;
             border: none;
-            padding: 0.875rem 2rem;
+            padding: 1rem 2rem;
             border-radius: var(--radius-md);
             font-weight: 600;
             font-size: 1rem;
             cursor: pointer;
-            transition: var(--transition-base);
+            transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
-            gap: 0.625rem;
-            box-shadow: 0 4px 16px rgba(147, 51, 234, 0.3);
+            gap: 0.75rem;
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
         }
         
         .show-solution-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(147, 51, 234, 0.4);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
         }
         
         .solution-content {
             opacity: 0;
             max-height: 0;
             overflow: hidden;
-            transition: all 0.4s ease;
-            margin-top: var(--space-lg);
+            transition: all 0.5s ease;
         }
         
         .solution-content.visible {
             opacity: 1;
             max-height: 3000px;
+            margin-top: var(--space-lg);
         }
         
-        .solution-content h3 {
-            color: var(--color-success);
-            display: flex;
+        /* Scroll to Top Button */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--color-success), var(--color-green-600));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
             align-items: center;
-            gap: 0.5rem;
-            margin-bottom: var(--space-md);
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+            transition: all 0.3s ease;
+            z-index: 100;
         }
         
-        .hint-box {
-            background: linear-gradient(135deg, rgba(147, 51, 234, 0.08), rgba(59, 130, 246, 0.08));
-            border: 1px solid rgba(147, 51, 234, 0.25);
-            border-radius: var(--radius-md);
-            padding: var(--space-md);
-            margin-top: var(--space-md);
-        }
-        
-        .hint-box strong {
-            color: var(--color-purple-500);
+        .scroll-to-top.visible {
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.625rem;
         }
         
-        pre code {
-            display: block;
-            background: rgba(15, 23, 42, 0.7);
-            border: 1px solid rgba(147, 51, 234, 0.2);
-            border-radius: var(--radius-md);
-            padding: var(--space-md);
-            overflow-x: auto;
-            font-family: 'JetBrains Mono', 'Consolas', monospace;
-            font-size: 0.9375rem;
-            line-height: 1.7;
-            color: var(--text-primary);
+        .scroll-to-top:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
         }
-        
-        /* Syntax Highlighting */
-        .keyword { color: #c678dd; font-weight: 600; }
-        .function { color: #61afef; }
-        .string { color: #98c379; }
-        .number { color: #d19a66; }
-        .comment { color: #5c6370; font-style: italic; }
         
         /* Light Theme Adjustments */
-        [data-theme="light"] .output-box {
-            background: rgba(248, 250, 252, 0.8);
-            border-color: rgba(147, 51, 234, 0.2);
+        [data-theme="light"] .output-box,
+        [data-theme="light"] pre code {
+            background: rgba(248, 250, 252, 0.9);
+            border-color: rgba(16, 185, 129, 0.2);
         }
         
         [data-theme="light"] .output-content {
             color: #1f2937;
         }
         
-        [data-theme="light"] pre code {
-            background: rgba(248, 250, 252, 0.9);
-            border-color: rgba(147, 51, 234, 0.15);
-            color: #1f2937;
-        }
-        
-        [data-theme="light"] .keyword { color: #9333ea; }
-        [data-theme="light"] .function { color: #2563eb; }
-        [data-theme="light"] .string { color: #16a34a; }
-        [data-theme="light"] .number { color: #ea580c; }
-        [data-theme="light"] .comment { color: #64748b; }
-        
-        /* Back Button */
-        .back-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.625rem;
-            padding: 0.875rem 1.75rem;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-md);
-            color: var(--text-primary);
-            text-decoration: none;
-            font-weight: 600;
-            transition: var(--transition-base);
-            backdrop-filter: blur(20px);
-        }
-        
-        .back-button:hover {
-            background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500));
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(147, 51, 234, 0.3);
-        }
-        
+        /* Mobile Responsive */
         @media (max-width: 768px) {
-            .exercises-hero h1 {
-                font-size: 2.5rem;
+            .exercise-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .exercise-meta {
+                flex-direction: column;
+                gap: var(--space-sm);
             }
             
             .exercise-header {
@@ -356,22 +448,25 @@
             }
             
             .exercise-body {
-                padding: 0 var(--space-md) var(--space-md);
+                padding: var(--space-md);
             }
             
-            .difficulty-badges {
-                flex-direction: column;
-                align-items: center;
+            .scroll-to-top {
+                bottom: 1rem;
+                right: 1rem;
+                width: 45px;
+                height: 45px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Background -->
+    <!-- Animated Background -->
     <div class="background-container">
         <div class="gradient-orb orb-1"></div>
         <div class="gradient-orb orb-2"></div>
         <div class="gradient-orb orb-3"></div>
+        <div class="grid-pattern"></div>
     </div>
 
     <!-- Navigation -->
@@ -411,108 +506,791 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="exercises-container">
-            <!-- Hero Section -->
-            <div class="exercises-hero">
-            <div class="exercise-icon" style="font-size: 4rem; margin-bottom: var(--space-md);">📊</div>
+    <main class="exercise-container">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb">
+            <a href="../index.html"><i class="ri-home-line"></i> Home</a>
+            <span class="breadcrumb-separator">/</span>
+            <a href="exercises-index.html">Exercise Hub</a>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-current">Variables & Data Types</span>
+        </nav>
+
+        <!-- Hero Section -->
+        <div class="exercise-hero">
+            <div class="exercise-hero-icon">
+                <i class="ri-database-2-line"></i>
+            </div>
             <h1>Variables & Data Types</h1>
-            <p>Master the fundamentals with 10 interactive exercises</p>
-            <div class="difficulty-badges">
-                <span class="difficulty-badge badge-easy">
+            <p class="exercise-hero-subtitle">Master the fundamentals with 10 hands-on exercises</p>
+            
+            <div class="exercise-meta">
+                <span class="meta-badge">
                     <i class="ri-check-circle-line"></i>
                     3 Easy
                 </span>
-                <span class="difficulty-badge badge-medium">
+                <span class="meta-badge">
                     <i class="ri-alert-line"></i>
                     4 Medium
                 </span>
-                <span class="difficulty-badge badge-hard">
+                <span class="meta-badge">
                     <i class="ri-fire-line"></i>
                     3 Hard
                 </span>
+                <span class="meta-badge">
+                    <i class="ri-time-line"></i>
+                    ~60 min total
+                </span>
+            </div>
+            
+            <div class="related-lesson">
+                <i class="ri-book-open-line" style="color: var(--color-success); font-size: 1.25rem;"></i>
+                <div style="flex: 1; text-align: left;">
+                    <div style="font-size: 0.75rem; color: var(--text-tertiary); margin-bottom: 0.25rem;">RELATED LESSON</div>
+                    <a href="../03-variables-and-data-types.html">
+                        Variables & Data Types Theory
+                        <i class="ri-arrow-right-line"></i>
+                    </a>
                 </div>
             </div>
+        </div>
 
-            <!-- Exercise 1 -->
-            <div class="exercise-card">
-                <div class="exercise-header" onclick="toggleExercise(this)">
-                    <div class="exercise-title">
-                    <span class="exercise-icon">💡</span>
+        <!-- Exercise 1 -->
+        <div class="exercise-card" id="exercise-1">
+            <div class="exercise-header" onclick="toggleExercise(this)">
+                <div class="exercise-title-section">
+                    <div class="exercise-number">1</div>
                     <div class="exercise-info">
-                        <h3>Exercise 1: Age Calculator</h3>
-                        <div class="exercise-meta">
-                            <span class="difficulty-badge badge-easy" style="padding: 0.25rem 0.75rem; font-size: 0.75rem;">Easy</span>
-                            <span>•</span>
-                            <span>5 min</span>
-                    </div>
+                        <h3 class="exercise-title">Age Calculator</h3>
+                        <div class="exercise-badges">
+                            <span class="difficulty-badge difficulty-easy">
+                                <i class="ri-seedling-line"></i>
+                                Easy
+                            </span>
+                            <span class="time-badge">
+                                <i class="ri-time-line"></i>
+                                5 min
+                            </span>
+                        </div>
                     </div>
                 </div>
-                <i class="ri-arrow-down-s-line chevron-icon"></i>
-                </div>
-                <div class="exercise-content">
-                    <div class="exercise-body">
-                        <h3>Problem:</h3>
-                    <p>Write a pseudocode algorithm that asks the user for their birth year and calculates their current age.</p>
+                <i class="ri-arrow-down-s-line expand-icon"></i>
+            </div>
+            <div class="exercise-content">
+                <div class="exercise-body">
+                    <h3 style="color: var(--text-primary); margin-bottom: var(--space-md);"><i class="ri-file-text-line" style="color: var(--color-purple-500); margin-right: 0.5rem;"></i>Problem:</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.7;">Write a pseudocode algorithm that asks the user for their birth year and calculates their current age.</p>
                     
-                    <h4>Requirements:</h4>
-                    <ul>
+                    <h4 style="color: var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">Requirements:</h4>
+                    <ul style="color: var(--text-secondary); line-height: 1.8; margin-left: var(--space-lg);">
                         <li>Prompt the user to enter their birth year</li>
-                        <li>Calculate the age assuming the current year is 2024</li>
-                        <li>Display the calculated age to the user</li>
-                        </ul>
-                        
-                    <h4>Sample Input/Output:</h4>
-                        <div class="output-box">
+                        <li>Calculate age using current year (2024)</li>
+                        <li>Display the calculated age</li>
+                    </ul>
+                    
+                    <h4 style="color: var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">Example Output:</h4>
+                    <div class="output-box">
                         <div class="output-header">
-                                <i class="ri-terminal-line"></i>
-                                Sample Run
-                            </div>
+                            <i class="ri-terminal-line"></i>
+                            Sample Run
+                        </div>
                         <div class="output-content">Enter your birth year: 1990
 Your age is: 34 years old.</div>
+                    </div>
+                    
+                    <!-- Solution Section -->
+                    <div class="solution-section">
+                        <div style="text-align: center;" id="solution-1-hidden">
+                            <button class="show-solution-btn" onclick="showSolution(1)">
+                                <i class="ri-eye-line"></i>
+                                Show Solution
+                            </button>
                         </div>
-                        
-                        <!-- Solution Section -->
-                        <div class="solution-section">
-                            <div class="solution-hidden" id="solution-1-hidden">
-                                <button class="show-solution-btn" onclick="showSolution(1)">
-                                    <i class="ri-eye-line"></i>
-                                    Show Solution
-                                </button>
+                        <div class="solution-content" id="solution-1">
+                            <h3 style="color: var(--color-success); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="ri-checkbox-circle-line"></i>
+                                Solution
+                            </h3>
+                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">AgeCalculator</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> currentYear = <span style="color: #d19a66;">2024</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> birthYear = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter your birth year:"</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> age = currentYear - birthYear
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Your age is:"</span>, age, <span style="color: #98c379;">"years old."</span>
+<span style="color: #c678dd; font-weight: 600;">Endalgorithm</span></code></pre>
+                            
+                            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.08)); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md);">
+                                <strong style="color: var(--color-success); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.625rem;">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Key Concepts:
+                                </strong>
+                                <ul style="color: var(--text-secondary); margin-top: 0.625rem; margin-left: var(--space-lg); line-height: 1.8;">
+                                    <li>Variables store data</li>
+                                    <li>Input keyword gets user data</li>
+                                    <li>Arithmetic operators perform calculations</li>
+                                    <li>Print keyword displays output</li>
+                                </ul>
                             </div>
-                            <div class="solution-content" id="solution-1">
-                            <h3>
-                                    <i class="ri-checkbox-circle-line"></i>
-                                    Solution
-                                </h3>
-                                <pre><code><span class="keyword">Algorithm</span> <span class="function">AgeCalculator</span>
-    <span class="keyword">var</span> currentYear = <span class="number">2024</span>
-<span class="keyword">var</span> birthYear = <span class="keyword">Input</span> <span class="string">"Enter your birth year:"</span>
-<span class="keyword">var</span> age = currentYear - birthYear
-    <span class="keyword">Print</span> <span class="string">"Your age is:"</span>, age, <span class="string">"years old."</span>
-<span class="keyword">Endalgorithm</span></code></pre>
-                                
-                                <div class="hint-box">
-                                    <strong><i class="ri-lightbulb-line"></i> Key Concepts:</strong>
-                                <ul style="margin-top: 0.625rem; color: var(--text-secondary);">
-                                    <li>Variable declaration with <code>var</code> keyword</li>
-                                    <li>Getting user input with <code>Input</code></li>
-                                    <li>Basic arithmetic operations (subtraction)</li>
-                                    <li>Output formatting with <code>Print</code></li>
-                                    </ul>
-                                </div>
+                            
+                            <div style="text-align: center; margin-top: var(--space-lg);">
+                                <button class="show-solution-btn" onclick="markAsCompleted(1)" style="background: linear-gradient(135deg, var(--color-blue-500), var(--color-cyan-500)); box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);">
+                                    <i class="ri-check-double-line"></i>
+                                    Mark as Completed
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- Exercise 2 -->
+        <div class="exercise-card" id="exercise-2">
+            <div class="exercise-header" onclick="toggleExercise(this)">
+                <div class="exercise-title-section">
+                    <div class="exercise-number">2</div>
+                    <div class="exercise-info">
+                        <h3 class="exercise-title">Rectangle Area</h3>
+                        <div class="exercise-badges">
+                            <span class="difficulty-badge difficulty-easy">
+                                <i class="ri-seedling-line"></i>
+                                Easy
+                            </span>
+                            <span class="time-badge">
+                                <i class="ri-time-line"></i>
+                                5 min
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <i class="ri-arrow-down-s-line expand-icon"></i>
+            </div>
+            <div class="exercise-content">
+                <div class="exercise-body">
+                    <h3 style="color: var(--text-primary); margin-bottom: var(--space-md);"><i class="ri-file-text-line" style="color: var(--color-purple-500); margin-right: 0.5rem;"></i>Problem:</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.7;">Write a pseudocode algorithm to calculate the area of a rectangle given its length and width.</p>
+                    
+                    <h4 style="color: var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">Requirements:</h4>
+                    <ul style="color: var(--text-secondary); line-height: 1.8; margin-left: var(--space-lg);">
+                        <li>Prompt the user to enter the length</li>
+                        <li>Prompt the user to enter the width</li>
+                        <li>Calculate the area (length × width)</li>
+                        <li>Display the calculated area</li>
+                    </ul>
+                    
+                    <h4 style="color: var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">Example Output:</h4>
+                    <div class="output-box">
+                        <div class="output-header">
+                            <i class="ri-terminal-line"></i>
+                            Sample Run
+                        </div>
+                        <div class="output-content">Enter length: 10
+Enter width: 5
+The area of the rectangle is: 50</div>
+                    </div>
+                    
+                    <div class="solution-section">
+                        <div style="text-align: center;" id="solution-2-hidden">
+                            <button class="show-solution-btn" onclick="showSolution(2)">
+                                <i class="ri-eye-line"></i>
+                                Show Solution
+                            </button>
+                        </div>
+                        <div class="solution-content" id="solution-2">
+                            <h3 style="color: var(--color-success); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="ri-checkbox-circle-line"></i>
+                                Solution
+                            </h3>
+                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">RectangleAreaCalculator</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> length = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter length:"</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> width = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter width:"</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> area = length * width
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"The area of the rectangle is:"</span>, area
+<span style="color: #c678dd; font-weight: 600;">Endalgorithm</span></code></pre>
+                            
+                            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.08)); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md);">
+                                <strong style="color: var(--color-success); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.625rem;">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Key Concepts:
+                                </strong>
+                                <ul style="color: var(--text-secondary); margin-top: 0.625rem; margin-left: var(--space-lg); line-height: 1.8;">
+                                    <li>Variables store numerical values</li>
+                                    <li>Multiplication operator (*) for area calculation</li>
+                                    <li>Input and Output operations are fundamental</li>
+                                </ul>
+                            </div>
+                            
+                            <div style="text-align: center; margin-top: var(--space-lg);">
+                                <button class="show-solution-btn" onclick="markAsCompleted(2)" style="background: linear-gradient(135deg, var(--color-blue-500), var(--color-cyan-500)); box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);">
+                                    <i class="ri-check-double-line"></i>
+                                    Mark as Completed
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercise 3 -->
+        <div class="exercise-card" id="exercise-3">
+            <div class="exercise-header" onclick="toggleExercise(this)">
+                <div class="exercise-title-section">
+                    <div class="exercise-number">3</div>
+                    <div class="exercise-info">
+                        <h3 class="exercise-title">String Concatenation</h3>
+                        <div class="exercise-badges">
+                            <span class="difficulty-badge difficulty-easy">
+                                <i class="ri-seedling-line"></i>
+                                Easy
+                            </span>
+                            <span class="time-badge">
+                                <i class="ri-time-line"></i>
+                                5 min
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <i class="ri-arrow-down-s-line expand-icon"></i>
+            </div>
+            <div class="exercise-content">
+                <div class="exercise-body">
+                    <h3 style="color: var(--text-primary); margin-bottom: var(--space-md);"><i class="ri-file-text-line" style="color: var(--color-purple-500); margin-right: 0.5rem;"></i>Problem:</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.7;">Ask the user for their first name and last name, then combine them to display their full name.</p>
+                    
+                    <h4 style="color: var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">Requirements:</h4>
+                    <ul style="color: var(--text-secondary); line-height: 1.8; margin-left: var(--space-lg);">
+                        <li>Get first name from user</li>
+                        <li>Get last name from user</li>
+                        <li>Combine them with a space in between</li>
+                        <li>Display the full name</li>
+                    </ul>
+                    
+                    <h4 style="color: var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">Example Output:</h4>
+                    <div class="output-box">
+                        <div class="output-header">
+                            <i class="ri-terminal-line"></i>
+                            Sample Run
+                        </div>
+                        <div class="output-content">Enter first name: John
+Enter last name: Doe
+Your full name is: John Doe</div>
+                    </div>
+                    
+                    <div class="solution-section">
+                        <div style="text-align: center;" id="solution-3-hidden">
+                            <button class="show-solution-btn" onclick="showSolution(3)">
+                                <i class="ri-eye-line"></i>
+                                Show Solution
+                            </button>
+                        </div>
+                        <div class="solution-content" id="solution-3">
+                            <h3 style="color: var(--color-success); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="ri-checkbox-circle-line"></i>
+                                Solution
+                            </h3>
+                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">FullNameGenerator</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> firstName = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter first name:"</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> lastName = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter last name:"</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> fullName = firstName + <span style="color: #98c379;">" "</span> + lastName
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Your full name is:"</span>, fullName
+<span style="color: #c678dd; font-weight: 600;">Endalgorithm</span></code></pre>
+                            
+                            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.08)); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md);">
+                                <strong style="color: var(--color-success); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.625rem;">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Key Concepts:
+                                </strong>
+                                <ul style="color: var(--text-secondary); margin-top: 0.625rem; margin-left: var(--space-lg); line-height: 1.8;">
+                                    <li>String variables store text</li>
+                                    <li>The + operator can concatenate (join) strings</li>
+                                    <li>Literal strings (like " ") are used for fixed text</li>
+                                </ul>
+                            </div>
+                            
+                            <div style="text-align: center; margin-top: var(--space-lg);">
+                                <button class="show-solution-btn" onclick="markAsCompleted(3)" style="background: linear-gradient(135deg, var(--color-blue-500), var(--color-cyan-500)); box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);">
+                                    <i class="ri-check-double-line"></i>
+                                    Mark as Completed
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercise 4 -->
+        <div class="exercise-card" id="exercise-4">
+            <div class="exercise-header" onclick="toggleExercise(this)">
+                <div class="exercise-title-section">
+                    <div class="exercise-number">4</div>
+                    <div class="exercise-info">
+                        <h3 class="exercise-title">Temperature Converter</h3>
+                        <div class="exercise-badges">
+                            <span class="difficulty-badge difficulty-medium">
+                                <i class="ri-alert-line"></i>
+                                Medium
+                            </span>
+                            <span class="time-badge">
+                                <i class="ri-time-line"></i>
+                                7 min
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <i class="ri-arrow-down-s-line expand-icon"></i>
+            </div>
+            <div class="exercise-content">
+                <div class="exercise-body">
+                    <h3 style="color: var(--text-primary); margin-bottom: var(--space-md);"><i class="ri-file-text-line" style="color: var(--color-purple-500); margin-right: 0.5rem;"></i>Problem:</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.7;">Convert a temperature from Celsius to Fahrenheit using the formula: F = C × 9/5 + 32</p>
+                    
+                    <h4 style="color: var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">Example Output:</h4>
+                    <div class="output-box">
+                        <div class="output-header"><i class="ri-terminal-line"></i> Sample Run</div>
+                        <div class="output-content">Enter temperature in Celsius: 25
+25 Celsius is 77 Fahrenheit</div>
+                    </div>
+                    
+                    <div class="solution-section">
+                        <div style="text-align: center;" id="solution-4-hidden">
+                            <button class="show-solution-btn" onclick="showSolution(4)"><i class="ri-eye-line"></i> Show Solution</button>
+                        </div>
+                        <div class="solution-content" id="solution-4">
+                            <h3 style="color: var(--color-success); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;"><i class="ri-checkbox-circle-line"></i> Solution</h3>
+                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">CelsiusToFahrenheit</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> celsius = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter temperature in Celsius:"</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> fahrenheit = (celsius * <span style="color: #d19a66;">9</span> / <span style="color: #d19a66;">5</span>) + <span style="color: #d19a66;">32</span>
+    <span style="color: #c678dd; font-weight: 600;">Print</span> celsius, <span style="color: #98c379;">"Celsius is"</span>, fahrenheit, <span style="color: #98c379;">"Fahrenheit"</span>
+<span style="color: #c678dd; font-weight: 600;">Endalgorithm</span></code></pre>
+                            <div style="text-align: center; margin-top: var(--space-lg);">
+                                <button class="show-solution-btn" onclick="markAsCompleted(4)" style="background: linear-gradient(135deg, var(--color-blue-500), var(--color-cyan-500)); box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);"><i class="ri-check-double-line"></i> Mark as Completed</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercise 5 -->
+        <div class="exercise-card" id="exercise-5">
+            <div class="exercise-header" onclick="toggleExercise(this)">
+                <div class="exercise-title-section">
+                    <div class="exercise-number">5</div>
+                    <div class="exercise-info">
+                        <h3 class="exercise-title">Shopping Bill Calculator</h3>
+                        <div class="exercise-badges">
+                            <span class="difficulty-badge difficulty-medium">
+                                <i class="ri-alert-line"></i>
+                                Medium
+                            </span>
+                            <span class="time-badge">
+                                <i class="ri-time-line"></i>
+                                8 min
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <i class="ri-arrow-down-s-line expand-icon"></i>
+            </div>
+            <div class="exercise-content">
+                <div class="exercise-body">
+                    <h3 style="color: var(--text-primary); margin-bottom: var(--space-md);"><i class="ri-file-text-line" style="color: var(--color-purple-500); margin-right: 0.5rem;"></i>Problem:</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.7;">Calculate the total bill for two items, including a 10% sales tax.</p>
+                    
+                    <h4 style="color: var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">Example Output:</h4>
+                    <div class="output-box">
+                        <div class="output-header"><i class="ri-terminal-line"></i> Sample Run</div>
+                        <div class="output-content">Enter price of item 1: 20
+Enter price of item 2: 30
+Subtotal: 50.0
+Tax (10%): 5.0
+Total Bill: 55.0</div>
+                    </div>
+                    
+                    <div class="solution-section">
+                        <div style="text-align: center;" id="solution-5-hidden">
+                            <button class="show-solution-btn" onclick="showSolution(5)"><i class="ri-eye-line"></i> Show Solution</button>
+                        </div>
+                        <div class="solution-content" id="solution-5">
+                            <h3 style="color: var(--color-success); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;"><i class="ri-checkbox-circle-line"></i> Solution</h3>
+                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">ShoppingBill</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> price1 = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter price of item 1:"</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> price2 = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter price of item 2:"</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> subtotal = price1 + price2
+    <span style="color: #c678dd; font-weight: 600;">var</span> taxAmount = subtotal * <span style="color: #d19a66;">0.10</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> totalBill = subtotal + taxAmount
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Subtotal:"</span>, subtotal
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Tax (10%):"</span>, taxAmount
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Total Bill:"</span>, totalBill
+<span style="color: #c678dd; font-weight: 600;">Endalgorithm</span></code></pre>
+                            <div style="text-align: center; margin-top: var(--space-lg);">
+                                <button class="show-solution-btn" onclick="markAsCompleted(5)" style="background: linear-gradient(135deg, var(--color-blue-500), var(--color-cyan-500)); box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);"><i class="ri-check-double-line"></i> Mark as Completed</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercise 6 -->
+        <div class="exercise-card" id="exercise-6">
+            <div class="exercise-header" onclick="toggleExercise(this)">
+                <div class="exercise-title-section">
+                    <div class="exercise-number">6</div>
+                    <div class="exercise-info">
+                        <h3 class="exercise-title">Time Converter</h3>
+                        <div class="exercise-badges">
+                            <span class="difficulty-badge difficulty-medium"><i class="ri-alert-line"></i> Medium</span>
+                            <span class="time-badge"><i class="ri-time-line"></i> 8 min</span>
+                        </div>
+                    </div>
+                </div>
+                <i class="ri-arrow-down-s-line expand-icon"></i>
+            </div>
+            <div class="exercise-content">
+                <div class="exercise-body">
+                    <h3 style="color: var(--text-primary); margin-bottom: var(--space-md);"><i class="ri-file-text-line" style="color: var(--color-purple-500); margin-right: 0.5rem;"></i>Problem:</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.7;">Convert a given number of days into years, weeks, and remaining days (365 days/year, 7 days/week).</p>
+                    
+                    <h4 style="color: var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">Example Output:</h4>
+                    <div class="output-box">
+                        <div class="output-header"><i class="ri-terminal-line"></i> Sample Run</div>
+                        <div class="output-content">Enter total days: 400
+400 days is:
+1 Year
+5 Weeks
+0 Days</div>
+                    </div>
+                    
+                    <div class="solution-section">
+                        <div style="text-align: center;" id="solution-6-hidden">
+                            <button class="show-solution-btn" onclick="showSolution(6)"><i class="ri-eye-line"></i> Show Solution</button>
+                        </div>
+                        <div class="solution-content" id="solution-6">
+                            <h3 style="color: var(--color-success); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;"><i class="ri-checkbox-circle-line"></i> Solution</h3>
+                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">TimeBreakdown</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> totalDays = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter total days:"</span>
+    
+    <span style="color: #c678dd; font-weight: 600;">var</span> years = totalDays / <span style="color: #d19a66;">365</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> remainingDays = totalDays mod <span style="color: #d19a66;">365</span>
+    
+    <span style="color: #c678dd; font-weight: 600;">var</span> weeks = remainingDays / <span style="color: #d19a66;">7</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> finalDays = remainingDays mod <span style="color: #d19a66;">7</span>
+    
+    <span style="color: #c678dd; font-weight: 600;">Print</span> totalDays, <span style="color: #98c379;">"days is:"</span>
+    <span style="color: #c678dd; font-weight: 600;">Print</span> years, <span style="color: #98c379;">"Year"</span>
+    <span style="color: #c678dd; font-weight: 600;">Print</span> weeks, <span style="color: #98c379;">"Weeks"</span>
+    <span style="color: #c678dd; font-weight: 600;">Print</span> finalDays, <span style="color: #98c379;">"Days"</span>
+<span style="color: #c678dd; font-weight: 600;">Endalgorithm</span></code></pre>
+                            
+                            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.08)); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md);">
+                                <strong style="color: var(--color-success); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.625rem;">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Key Concepts:
+                                </strong>
+                                <ul style="color: var(--text-secondary); margin-top: 0.625rem; margin-left: var(--space-lg); line-height: 1.8;">
+                                    <li>Integer division (/) for whole units</li>
+                                    <li>Modulo operator (mod) for remainders</li>
+                                    <li>Sequential calculations</li>
+                                </ul>
+                            </div>
+                            
+                            <div style="text-align: center; margin-top: var(--space-lg);">
+                                <button class="show-solution-btn" onclick="markAsCompleted(6)" style="background: linear-gradient(135deg, var(--color-blue-500), var(--color-cyan-500)); box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);"><i class="ri-check-double-line"></i> Mark as Completed</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercise 7 -->
+        <div class="exercise-card" id="exercise-7">
+            <div class="exercise-header" onclick="toggleExercise(this)">
+                <div class="exercise-title-section">
+                    <div class="exercise-number">7</div>
+                    <div class="exercise-info">
+                        <h3 class="exercise-title">BMI Calculator</h3>
+                        <div class="exercise-badges">
+                            <span class="difficulty-badge difficulty-hard"><i class="ri-fire-line"></i> Hard</span>
+                            <span class="time-badge"><i class="ri-time-line"></i> 10 min</span>
+                        </div>
+                    </div>
+                </div>
+                <i class="ri-arrow-down-s-line expand-icon"></i>
+            </div>
+            <div class="exercise-content">
+                <div class="exercise-body">
+                    <h3 style="color: var(--text-primary); margin-bottom: var(--space-md);"><i class="ri-file-text-line" style="color: var(--color-purple-500); margin-right: 0.5rem;"></i>Problem:</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.7;">Calculate the Body Mass Index (BMI) given weight in kilograms and height in meters. Formula: BMI = weight / (height × height)</p>
+                    
+                    <h4 style="color: var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">Example Output:</h4>
+                    <div class="output-box">
+                        <div class="output-header"><i class="ri-terminal-line"></i> Sample Run</div>
+                        <div class="output-content">Enter weight in kg: 70
+Enter height in meters: 1.75
+Your BMI is: 22.86</div>
+                    </div>
+                    
+                    <div class="solution-section">
+                        <div style="text-align: center;" id="solution-7-hidden">
+                            <button class="show-solution-btn" onclick="showSolution(7)"><i class="ri-eye-line"></i> Show Solution</button>
+                        </div>
+                        <div class="solution-content" id="solution-7">
+                            <h3 style="color: var(--color-success); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;"><i class="ri-checkbox-circle-line"></i> Solution</h3>
+                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">BMICalculator</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> weightKg = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter weight in kg:"</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> heightMeters = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter height in meters:"</span>
+    
+    <span style="color: #c678dd; font-weight: 600;">var</span> bmi = weightKg / (heightMeters * heightMeters)
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Your BMI is:"</span>, bmi
+<span style="color: #c678dd; font-weight: 600;">Endalgorithm</span></code></pre>
+                            
+                            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.08)); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md);">
+                                <strong style="color: var(--color-success); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.625rem;">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Key Concepts:
+                                </strong>
+                                <ul style="color: var(--text-secondary); margin-top: 0.625rem; margin-left: var(--space-lg); line-height: 1.8;">
+                                    <li>Exponentiation (squaring) using multiplication</li>
+                                    <li>Float variables for precise calculations</li>
+                                    <li>Order of operations with parentheses</li>
+                                </ul>
+                            </div>
+                            
+                            <div style="text-align: center; margin-top: var(--space-lg);">
+                                <button class="show-solution-btn" onclick="markAsCompleted(7)" style="background: linear-gradient(135deg, var(--color-blue-500), var(--color-cyan-500)); box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);"><i class="ri-check-double-line"></i> Mark as Completed</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercise 8 -->
+        <div class="exercise-card" id="exercise-8">
+            <div class="exercise-header" onclick="toggleExercise(this)">
+                <div class="exercise-title-section">
+                    <div class="exercise-number">8</div>
+                    <div class="exercise-info">
+                        <h3 class="exercise-title">Circle Properties</h3>
+                        <div class="exercise-badges">
+                            <span class="difficulty-badge difficulty-medium"><i class="ri-alert-line"></i> Medium</span>
+                            <span class="time-badge"><i class="ri-time-line"></i> 7 min</span>
+                        </div>
+                    </div>
+                </div>
+                <i class="ri-arrow-down-s-line expand-icon"></i>
+            </div>
+            <div class="exercise-content">
+                <div class="exercise-body">
+                    <h3 style="color: var(--text-primary); margin-bottom: var(--space-md);"><i class="ri-file-text-line" style="color: var(--color-purple-500); margin-right: 0.5rem;"></i>Problem:</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.7;">Calculate both area and circumference of a circle given its radius (π = 3.14159).</p>
+                    
+                    <h4 style="color: var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">Example Output:</h4>
+                    <div class="output-box">
+                        <div class="output-header"><i class="ri-terminal-line"></i> Sample Run</div>
+                        <div class="output-content">Enter radius: 5
+Circle Area: 78.53975
+Circle Circumference: 31.4159</div>
+                    </div>
+                    
+                    <div class="solution-section">
+                        <div style="text-align: center;" id="solution-8-hidden">
+                            <button class="show-solution-btn" onclick="showSolution(8)"><i class="ri-eye-line"></i> Show Solution</button>
+                        </div>
+                        <div class="solution-content" id="solution-8">
+                            <h3 style="color: var(--color-success); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;"><i class="ri-checkbox-circle-line"></i> Solution</h3>
+                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">CircleProperties</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> pi = <span style="color: #d19a66;">3.14159</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> radius = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter radius:"</span>
+    
+    <span style="color: #c678dd; font-weight: 600;">var</span> area = pi * radius * radius
+    <span style="color: #c678dd; font-weight: 600;">var</span> circumference = <span style="color: #d19a66;">2</span> * pi * radius
+    
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Circle Area:"</span>, area
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Circle Circumference:"</span>, circumference
+<span style="color: #c678dd; font-weight: 600;">Endalgorithm</span></code></pre>
+                            
+                            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.08)); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md);">
+                                <strong style="color: var(--color-success); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.625rem;"><i class="ri-lightbulb-line"></i> Key Concepts:</strong>
+                                <ul style="color: var(--text-secondary); margin-top: 0.625rem; margin-left: var(--space-lg); line-height: 1.8;">
+                                    <li>Constants (like π) stored in variables</li>
+                                    <li>Mathematical formulas in pseudocode</li>
+                                    <li>Squaring by multiplying number by itself</li>
+                                </ul>
+                            </div>
+                            
+                            <div style="text-align: center; margin-top: var(--space-lg);">
+                                <button class="show-solution-btn" onclick="markAsCompleted(8)" style="background: linear-gradient(135deg, var(--color-blue-500), var(--color-cyan-500)); box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);"><i class="ri-check-double-line"></i> Mark as Completed</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercise 9 -->
+        <div class="exercise-card" id="exercise-9">
+            <div class="exercise-header" onclick="toggleExercise(this)">
+                <div class="exercise-title-section">
+                    <div class="exercise-number">9</div>
+                    <div class="exercise-info">
+                        <h3 class="exercise-title">Currency Exchange</h3>
+                        <div class="exercise-badges">
+                            <span class="difficulty-badge difficulty-hard"><i class="ri-fire-line"></i> Hard</span>
+                            <span class="time-badge"><i class="ri-time-line"></i> 10 min</span>
+                        </div>
+                    </div>
+                </div>
+                <i class="ri-arrow-down-s-line expand-icon"></i>
+            </div>
+            <div class="exercise-content">
+                <div class="exercise-body">
+                    <h3 style="color: var(--text-primary); margin-bottom: var(--space-md);"><i class="ri-file-text-line" style="color: var(--color-purple-500); margin-right: 0.5rem;"></i>Problem:</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.7;">Convert USD to EUR, GBP, and JPY with proper formatting (1 USD = 0.85 EUR, 0.73 GBP, 110.50 JPY).</p>
+                    
+                    <h4 style="color: var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">Example Output:</h4>
+                    <div class="output-box">
+                        <div class="output-header"><i class="ri-terminal-line"></i> Sample Run</div>
+                        <div class="output-content">Enter amount in USD: 100
+$100.00 USD equals:
+€85.00 EUR
+£73.00 GBP
+¥11050.00 JPY</div>
+                    </div>
+                    
+                    <div class="solution-section">
+                        <div style="text-align: center;" id="solution-9-hidden">
+                            <button class="show-solution-btn" onclick="showSolution(9)"><i class="ri-eye-line"></i> Show Solution</button>
+                        </div>
+                        <div class="solution-content" id="solution-9">
+                            <h3 style="color: var(--color-success); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;"><i class="ri-checkbox-circle-line"></i> Solution</h3>
+                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">CurrencyExchange</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> usdToEur = <span style="color: #d19a66;">0.85</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> usdToGbp = <span style="color: #d19a66;">0.73</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> usdToJpy = <span style="color: #d19a66;">110.50</span>
+    
+    <span style="color: #c678dd; font-weight: 600;">var</span> usdAmount = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter amount in USD:"</span>
+    
+    <span style="color: #c678dd; font-weight: 600;">var</span> eurAmount = usdAmount * usdToEur
+    <span style="color: #c678dd; font-weight: 600;">var</span> gbpAmount = usdAmount * usdToGbp
+    <span style="color: #c678dd; font-weight: 600;">var</span> jpyAmount = usdAmount * usdToJpy
+    
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"$"</span>, usdAmount, <span style="color: #98c379;">"USD equals:"</span>
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"€"</span>, eurAmount, <span style="color: #98c379;">"EUR"</span>
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"£"</span>, gbpAmount, <span style="color: #98c379;">"GBP"</span>
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"¥"</span>, jpyAmount, <span style="color: #98c379;">"JPY"</span>
+<span style="color: #c678dd; font-weight: 600;">Endalgorithm</span></code></pre>
+                            
+                            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.08)); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md);">
+                                <strong style="color: var(--color-success); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.625rem;"><i class="ri-lightbulb-line"></i> Key Concepts:</strong>
+                                <ul style="color: var(--text-secondary); margin-top: 0.625rem; margin-left: var(--space-lg); line-height: 1.8;">
+                                    <li>Multiple related constants</li>
+                                    <li>One input for multiple calculations</li>
+                                    <li>Currency symbols for user-friendly output</li>
+                                </ul>
+                            </div>
+                            
+                            <div style="text-align: center; margin-top: var(--space-lg);">
+                                <button class="show-solution-btn" onclick="markAsCompleted(9)" style="background: linear-gradient(135deg, var(--color-blue-500), var(--color-cyan-500)); box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);"><i class="ri-check-double-line"></i> Mark as Completed</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercise 10 -->
+        <div class="exercise-card" id="exercise-10">
+            <div class="exercise-header" onclick="toggleExercise(this)">
+                <div class="exercise-title-section">
+                    <div class="exercise-number">10</div>
+                    <div class="exercise-info">
+                        <h3 class="exercise-title">Student Grade Average</h3>
+                        <div class="exercise-badges">
+                            <span class="difficulty-badge difficulty-hard"><i class="ri-fire-line"></i> Hard</span>
+                            <span class="time-badge"><i class="ri-time-line"></i> 12 min</span>
+                        </div>
+                    </div>
+                </div>
+                <i class="ri-arrow-down-s-line expand-icon"></i>
+            </div>
+            <div class="exercise-content">
+                <div class="exercise-body">
+                    <h3 style="color: var(--text-primary); margin-bottom: var(--space-md);"><i class="ri-file-text-line" style="color: var(--color-purple-500); margin-right: 0.5rem;"></i>Problem:</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.7;">Calculate a student's final grade average from 5 test scores and determine pass/fail status (average >= 60).</p>
+                    
+                    <h4 style="color: var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">Example Output:</h4>
+                    <div class="output-box">
+                        <div class="output-header"><i class="ri-terminal-line"></i> Sample Run</div>
+                        <div class="output-content">Enter test 1 score: 85
+Enter test 2 score: 92
+Enter test 3 score: 78
+Enter test 4 score: 88
+Enter test 5 score: 95
+---Student Report---
+Test Scores: 85, 92, 78, 88, 95
+Total: 438
+Average: 87.6
+Status: Pass</div>
+                    </div>
+                    
+                    <div class="solution-section">
+                        <div style="text-align: center;" id="solution-10-hidden">
+                            <button class="show-solution-btn" onclick="showSolution(10)"><i class="ri-eye-line"></i> Show Solution</button>
+                        </div>
+                        <div class="solution-content" id="solution-10">
+                            <h3 style="color: var(--color-success); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;"><i class="ri-checkbox-circle-line"></i> Solution</h3>
+                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">StudentGradeAverage</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> test1 = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter test 1 score:"</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> test2 = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter test 2 score:"</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> test3 = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter test 3 score:"</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> test4 = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter test 4 score:"</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> test5 = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter test 5 score:"</span>
+    
+    <span style="color: #c678dd; font-weight: 600;">var</span> total = test1 + test2 + test3 + test4 + test5
+    <span style="color: #c678dd; font-weight: 600;">var</span> average = total / <span style="color: #d19a66;">5</span>
+    
+    <span style="color: #c678dd; font-weight: 600;">var</span> status = <span style="color: #98c379;">"Fail"</span>
+    <span style="color: #c678dd; font-weight: 600;">If</span> average >= <span style="color: #d19a66;">60</span> <span style="color: #c678dd; font-weight: 600;">Then</span>
+        status = <span style="color: #98c379;">"Pass"</span>
+    <span style="color: #c678dd; font-weight: 600;">Endif</span>
+    
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"---Student Report---"</span>
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Test Scores:"</span>, test1, <span style="color: #98c379;">","</span>, test2, <span style="color: #98c379;">","</span>, test3, <span style="color: #98c379;">","</span>, test4, <span style="color: #98c379;">","</span>, test5
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Total:"</span>, total
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Average:"</span>, average
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Status:"</span>, status
+<span style="color: #c678dd; font-weight: 600;">Endalgorithm</span></code></pre>
+                            
+                            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.08)); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md);">
+                                <strong style="color: var(--color-success); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.625rem;"><i class="ri-lightbulb-line"></i> Key Concepts:</strong>
+                                <ul style="color: var(--text-secondary); margin-top: 0.625rem; margin-left: var(--space-lg); line-height: 1.8;">
+                                    <li>Multiple related variables (test1, test2, etc.)</li>
+                                    <li>Accumulating values for totals</li>
+                                    <li>Average calculation: sum ÷ count</li>
+                                    <li>Comparison operators (>=) for conditions</li>
+                                </ul>
+                            </div>
+                            
+                            <div style="text-align: center; margin-top: var(--space-lg);">
+                                <button class="show-solution-btn" onclick="markAsCompleted(10)" style="background: linear-gradient(135deg, var(--color-blue-500), var(--color-cyan-500)); box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);"><i class="ri-check-double-line"></i> Mark as Completed</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Back Button -->
         <div style="text-align: center; margin-top: var(--space-3xl);">
-            <a href="../index.html" class="back-button">
+            <a href="exercises-index.html" style="display: inline-flex; align-items: center; gap: 0.625rem; padding: 1rem 2rem; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-md); color: var(--text-primary); text-decoration: none; font-weight: 600; transition: all 0.3s ease; backdrop-filter: blur(20px);">
                 <i class="ri-arrow-left-line"></i>
-                Back to Tutorial Hub
+                Back to Exercise Hub
             </a>
-                    </div>
+        </div>
     </main>
 
     <!-- Footer -->
@@ -522,11 +1300,11 @@ Your age is: 34 years old.</div>
                 <div class="footer-brand">
                     <div class="brand-icon">
                         <i class="ri-code-s-slash-line"></i>
-                            </div>
+                    </div>
                     <span class="brand-name">iPseudo IDE</span>
                     <p class="footer-tagline">Making pseudocode beautiful</p>
-                        </div>
-                        
+                </div>
+                
                 <div class="footer-links">
                     <div class="footer-column">
                         <h4>Tutorial</h4>
@@ -535,8 +1313,8 @@ Your age is: 34 years old.</div>
                             <li><a href="../01-introduction-to-pseudocode.html">Getting Started</a></li>
                             <li><a href="../03-variables-and-data-types.html">Variables</a></li>
                         </ul>
-                        </div>
-                        
+                    </div>
+                    
                     <div class="footer-column">
                         <h4>Exercises</h4>
                         <ul>
@@ -548,8 +1326,8 @@ Your age is: 34 years old.</div>
                             <li><a href="exercises-functions.html">Functions</a></li>
                             <li><a href="exercises-arrays.html">Arrays</a></li>
                         </ul>
-                        </div>
-                        
+                    </div>
+                    
                     <div class="footer-column">
                         <h4>Resources</h4>
                         <ul>
@@ -558,26 +1336,32 @@ Your age is: 34 years old.</div>
                             <li><a href="../contact.html">Contact</a></li>
                             <li><a href="https://ipseudoeditor.netlify.app/" target="_blank">Try Live Editor</a></li>
                         </ul>
-                        </div>
-                        
+                    </div>
+                    
                     <div class="footer-column">
                         <h4>Support</h4>
                         <ul>
                             <li><a href="https://github.com/MbarkT3sto/iPseudoApp/issues">Report Issue</a></li>
                             <li><a href="../contact.html">Contact</a></li>
                         </ul>
-                            </div>
-                        </div>
-                            </div>
+                    </div>
+                </div>
+            </div>
             
-        <div class="footer-bottom">
+            <div class="footer-bottom">
                 <p>&copy; 2025 iPseudo IDE by <strong>M'BARK</strong>. Free for personal & educational use.</p>
             </div>
         </div>
     </footer>
 
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+
     <!-- Scripts -->
     <script src="../js/script.js"></script>
+    <script src="exercise-enhancements.js"></script>
     <script>
         // Toggle exercise expansion
         function toggleExercise(header) {
@@ -593,6 +1377,60 @@ Your age is: 34 years old.</div>
             hiddenDiv.style.display = 'none';
             solutionDiv.classList.add('visible');
         }
+
+        // Mark as completed
+        function markAsCompleted(num) {
+            const card = document.getElementById(`exercise-${num}`);
+            card.classList.add('completed');
+            
+            // Save to localStorage
+            const completedExercises = JSON.parse(localStorage.getItem('completedExercises') || '{}');
+            completedExercises[`variables-${num}`] = true;
+            localStorage.setItem('completedExercises', JSON.stringify(completedExercises));
+            
+            // Show success message
+            const btn = event.target.closest('button');
+            btn.innerHTML = '<i class="ri-check-double-line"></i> Completed!';
+            btn.style.background = 'linear-gradient(135deg, var(--color-success), var(--color-green-600))';
+            
+            setTimeout(() => {
+                btn.disabled = true;
+                btn.style.opacity = '0.6';
+            }, 1000);
+        }
+
+        // Scroll to top functionality
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        });
+        
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Load completed exercises on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            const completedExercises = JSON.parse(localStorage.getItem('completedExercises') || '{}');
+            
+            Object.keys(completedExercises).forEach(key => {
+                if (key.startsWith('variables-')) {
+                    const num = key.split('-')[1];
+                    const card = document.getElementById(`exercise-${num}`);
+                    if (card) {
+                        card.classList.add('completed');
+                    }
+                }
+            });
+        });
     </script>
 </body>
 </html>
