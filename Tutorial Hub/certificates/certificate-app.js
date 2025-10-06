@@ -133,11 +133,11 @@ function displayProgressSummary() {
     
     const summaryHTML = `
         <div class="progress-summary">
-            <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary); text-align: center; margin-bottom: 1rem;">
+            <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary); text-align: center; margin-bottom: 1.5rem;">
                 <i class="ri-bar-chart-line"></i>
                 Your Learning Progress
             </h2>
-            <div class="summary-grid">
+            <div style="display: flex; justify-content: space-around; align-items: center; gap: 2rem; flex-wrap: wrap;">
                 <div class="summary-item">
                     <div class="summary-value">${earnedCerts.length}/${totalCerts}</div>
                     <div class="summary-label">Certificates Earned</div>
