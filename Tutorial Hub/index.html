@@ -65,6 +65,9 @@
                         <a href="#lessons" class="nav-link">All Lessons</a>
                     </li>
                     <li class="nav-list-item">
+                        <a href="learning-path.html" class="nav-link">Learning Path</a>
+                    </li>
+                    <li class="nav-list-item">
                         <a href="my-notes.html" class="nav-link">My Notes</a>
                     </li>
                     <li class="nav-list-item">
@@ -272,7 +275,7 @@
     <section class="learning-path" id="lessons">
         <div class="container">
             <!-- Recommendation Bar -->
-            <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1)); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 12px; padding: 1.5rem; margin-bottom: 3rem; text-align: center;">
+            <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1)); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; text-align: center;">
                 <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap;">
                     <i class="ri-information-line" style="font-size: 1.5rem; color: var(--color-blue-500);"></i>
                     <div style="text-align: left;">
@@ -287,6 +290,29 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Learning Path Graph Promo -->
+            <a href="learning-path.html" style="display: block; text-decoration: none; margin-bottom: 3rem;">
+                <div style="background: linear-gradient(135deg, rgba(147, 51, 234, 0.15), rgba(59, 130, 246, 0.15)); border: 2px solid rgba(147, 51, 234, 0.4); border-radius: 16px; padding: 2rem; text-align: center; transition: all 0.3s; backdrop-filter: blur(10px);" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='rgba(147, 51, 234, 0.6)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(147, 51, 234, 0.4)'">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 1.5rem; flex-wrap: wrap;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(147, 51, 234, 0.3);">
+                            <i class="ri-git-branch-line" style="font-size: 2rem; color: white;"></i>
+                        </div>
+                        <div style="text-align: left; flex: 1; min-width: 250px;">
+                            <div style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                                Visualize Your Learning Journey
+                                <i class="ri-arrow-right-line" style="color: var(--color-purple-500);"></i>
+                            </div>
+                            <div style="font-size: 1rem; color: var(--text-secondary);">
+                                Explore the interactive Learning Path Graph to see lesson dependencies, prerequisites, and plan your study route
+                            </div>
+                        </div>
+                        <div style="padding: 0.75rem 1.5rem; background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); border-radius: 10px; color: white; font-weight: 600; font-size: 1rem; box-shadow: 0 4px 12px rgba(147, 51, 234, 0.3);">
+                            View Graph
+                        </div>
+                    </div>
+                </div>
+            </a>
 
             <div class="section-header">
                 <h2 class="section-title">Your Learning Path</h2>

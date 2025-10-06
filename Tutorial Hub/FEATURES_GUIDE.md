@@ -311,6 +311,46 @@ Welcome to the comprehensive features guide for the iPseudo Tutorial Hub! This d
 
 ---
 
+---
+
+## 🗺️ 17. Interactive Learning Path Graph
+
+**What it does:**
+- Visual graph showing all 20 lessons and their dependencies
+- Interactive network diagram with clickable nodes
+- See prerequisites for each lesson
+- Understand the learning journey at a glance
+
+**How to use:**
+- Navigate to the Learning Path page from the main menu
+- Click and drag to pan around the graph
+- Scroll to zoom in/out
+- Click any lesson node to navigate directly to it
+- Switch between Hierarchical and Force layouts
+- Use Reset View to center the graph
+
+**Features:**
+- **Color-coded progress:** Green (completed), Orange (in-progress), Purple/Blue/Green (pending by level)
+- **Two layout modes:** 
+  - Hierarchical: Top-down organized view
+  - Force: Physics-based organic layout
+- **Interactive controls:**
+  - Reset Zoom
+  - Fit to Screen
+  - Toggle Physics
+- **Real-time updates:** Graph updates when you complete lessons
+- **Helpful legend:** Explains all colors and symbols
+- **Responsive design:** Works on desktop and mobile
+
+**Why it's useful:**
+- See the big picture of your learning journey
+- Understand which lessons build on others
+- Plan your study path efficiently
+- Identify prerequisites before diving into advanced topics
+- Visual learners can better grasp course structure
+
+---
+
 ## 🚀 What's Next?
 
 **Future enhancements could include:**
@@ -332,6 +372,6 @@ We've built these features with love to make your learning experience as smooth 
 ---
 
 **Last Updated:** October 2025  
-**Version:** 2.0  
-**Total Features:** 11 major systems + countless enhancements
+**Version:** 2.1  
+**Total Features:** 12 major systems + countless enhancements
 

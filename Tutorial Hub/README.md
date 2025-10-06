@@ -419,14 +419,29 @@ Each lesson follows this structure:
 - Beautiful glass morphism design matching the main website
 - Each lesson has detailed explanations, examples, and exercises
 - Full navigation between all lessons
+- **Interactive Learning Path Graph** - Visualize lesson dependencies and prerequisites
+- Progress tracking with achievements and statistics
+- Personal notes for each lesson
+- Search functionality
 - Responsive design for all devices
 - Dark/light theme support throughout
+- PWA support for offline learning
 
 ### 📍 Location:
 The Tutorial Hub is located at: `/Tutorial Hub/` (root level, separate from website)
 
 ### 🌐 Access:
 Open `Tutorial Hub/index.html` to start the learning journey!
+
+### 🗺️ New: Learning Path Graph
+The interactive Learning Path Graph (`learning-path.html`) shows:
+- Visual network of all 20 lessons
+- Arrows showing prerequisites and dependencies
+- Color-coded by progress (completed, in-progress, pending)
+- Color-coded by difficulty level (beginner, intermediate, advanced)
+- Clickable nodes to navigate directly to lessons
+- Two layout modes: Hierarchical and Force-directed
+- Interactive controls: zoom, pan, reset view
 
 ## 📱 Responsive Design
 
