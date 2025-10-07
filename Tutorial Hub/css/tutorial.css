@@ -598,6 +598,7 @@
 .output-content {
     color: rgba(255, 255, 255, 0.9);
     line-height: 1.6;
+    white-space: pre-line;
 }
 
 /* Navigation Buttons */
