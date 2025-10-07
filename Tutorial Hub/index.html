@@ -58,69 +58,86 @@
             }
         }
 
-        /* Enhanced Feature Card Styles */
+        /* Enhanced Feature Card Styles with Modern Design */
         .feature-promo-card {
             position: relative;
-            border-radius: 20px;
-            padding: 2rem;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 2.5rem;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(20px);
             height: 100%;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 2px solid;
         }
 
         .feature-promo-card::before {
             content: '';
             position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+        }
+        
+        .feature-promo-card::after {
+            content: '';
+            position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
+            height: 5px;
             opacity: 0;
             transition: opacity 0.3s;
         }
 
         .feature-promo-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: 0 24px 56px rgba(0, 0, 0, 0.25);
         }
 
         .feature-promo-card:hover::before {
             opacity: 1;
         }
+        
+        .feature-promo-card:hover::after {
+            opacity: 1;
+        }
 
         .feature-icon-container {
-            width: 64px;
-            height: 64px;
-            border-radius: 16px;
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.75rem;
             position: relative;
-            transition: all 0.4s;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
         }
 
         .feature-icon-container::after {
             content: '';
             position: absolute;
-            inset: -4px;
-            border-radius: 18px;
+            inset: -6px;
+            border-radius: 24px;
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: all 0.5s;
             z-index: -1;
+            filter: blur(12px);
         }
 
         .feature-promo-card:hover .feature-icon-container {
-            transform: scale(1.1) rotate(5deg);
+            transform: scale(1.15) rotate(8deg);
         }
 
         .feature-promo-card:hover .feature-icon-container::after {
-            opacity: 0.3;
-            animation: pulse-ring 1.5s infinite;
+            opacity: 0.6;
+            animation: pulse-ring 2s ease-in-out infinite;
         }
 
         @keyframes pulse-ring {
@@ -135,117 +152,127 @@
         }
 
         .feature-icon {
-            font-size: 2rem;
+            font-size: 2.25rem;
             color: white;
-            transition: transform 0.3s;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.2));
         }
 
         .feature-promo-card:hover .feature-icon {
-            transform: scale(1.1);
+            transform: scale(1.2) rotate(-8deg);
         }
 
         .feature-title {
-            font-size: 1.375rem;
-            font-weight: 800;
+            font-size: 1.5rem;
+            font-weight: 900;
             color: var(--text-primary);
-            margin-bottom: 0.75rem;
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
             transition: all 0.3s;
+            position: relative;
+            z-index: 1;
         }
 
         .feature-arrow {
-            transition: transform 0.3s;
-            opacity: 0.7;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0.6;
+            font-size: 1.5rem;
         }
 
         .feature-promo-card:hover .feature-arrow {
-            transform: translateX(4px);
+            transform: translateX(8px) scale(1.2);
             opacity: 1;
         }
 
         .feature-description {
-            font-size: 0.9375rem;
+            font-size: 1rem;
             color: var(--text-secondary);
-            line-height: 1.6;
+            line-height: 1.7;
             flex: 1;
+            position: relative;
+            z-index: 1;
         }
 
         .feature-badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.5rem 1rem;
             border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 700;
+            font-size: 0.8125rem;
+            font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
             opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.3s;
+            transform: translateY(15px);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 2px solid;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .feature-promo-card:hover .feature-badge {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1.05);
         }
 
-        /* Specific card colors */
+        /* Enhanced Specific Card Colors with Modern Gradients */
         .feature-card-orange {
-            background: linear-gradient(135deg, rgba(234, 88, 12, 0.12), rgba(249, 115, 22, 0.08));
-            border: 2px solid rgba(234, 88, 12, 0.3);
+            background: linear-gradient(135deg, rgba(234, 88, 12, 0.15), rgba(249, 115, 22, 0.1));
+            border-color: rgba(234, 88, 12, 0.4);
         }
 
-        .feature-card-orange::before {
+        .feature-card-orange::after {
             background: linear-gradient(90deg, rgb(234, 88, 12), rgb(249, 115, 22));
         }
 
         .feature-card-orange:hover {
-            border-color: rgba(234, 88, 12, 0.5);
-            background: linear-gradient(135deg, rgba(234, 88, 12, 0.18), rgba(249, 115, 22, 0.12));
+            border-color: rgba(234, 88, 12, 0.6);
+            background: linear-gradient(135deg, rgba(234, 88, 12, 0.22), rgba(249, 115, 22, 0.15));
         }
 
         .feature-card-gold {
-            background: linear-gradient(135deg, rgba(251, 191, 36, 0.12), rgba(245, 158, 11, 0.08));
-            border: 2px solid rgba(251, 191, 36, 0.3);
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(245, 158, 11, 0.1));
+            border-color: rgba(251, 191, 36, 0.4);
         }
 
-        .feature-card-gold::before {
+        .feature-card-gold::after {
             background: linear-gradient(90deg, rgb(251, 191, 36), rgb(245, 158, 11));
         }
 
         .feature-card-gold:hover {
-            border-color: rgba(251, 191, 36, 0.5);
-            background: linear-gradient(135deg, rgba(251, 191, 36, 0.18), rgba(245, 158, 11, 0.12));
+            border-color: rgba(251, 191, 36, 0.6);
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.22), rgba(245, 158, 11, 0.15));
         }
 
         .feature-card-purple {
-            background: linear-gradient(135deg, rgba(147, 51, 234, 0.12), rgba(59, 130, 246, 0.08));
-            border: 2px solid rgba(147, 51, 234, 0.3);
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.15), rgba(59, 130, 246, 0.1));
+            border-color: rgba(147, 51, 234, 0.4);
         }
 
-        .feature-card-purple::before {
+        .feature-card-purple::after {
             background: linear-gradient(90deg, var(--color-purple-500), var(--color-blue-500));
         }
 
         .feature-card-purple:hover {
-            border-color: rgba(147, 51, 234, 0.5);
-            background: linear-gradient(135deg, rgba(147, 51, 234, 0.18), rgba(59, 130, 246, 0.12));
+            border-color: rgba(147, 51, 234, 0.6);
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.22), rgba(59, 130, 246, 0.15));
         }
 
         .feature-card-cyan {
-            background: linear-gradient(135deg, rgba(6, 182, 212, 0.12), rgba(14, 165, 233, 0.08));
-            border: 2px solid rgba(6, 182, 212, 0.3);
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(14, 165, 233, 0.1));
+            border-color: rgba(6, 182, 212, 0.4);
         }
 
-        .feature-card-cyan::before {
+        .feature-card-cyan::after {
             background: linear-gradient(90deg, rgb(6, 182, 212), rgb(14, 165, 233));
         }
 
         .feature-card-cyan:hover {
-            border-color: rgba(6, 182, 212, 0.5);
-            background: linear-gradient(135deg, rgba(6, 182, 212, 0.18), rgba(14, 165, 233, 0.12));
+            border-color: rgba(6, 182, 212, 0.6);
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.22), rgba(14, 165, 233, 0.15));
         }
 
         /* Global Search Modal Override for Index Page */
@@ -354,95 +381,220 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="tutorial-hero">
-        <div class="container">
-            <div class="tutorial-hero-content">
-                <div class="hero-badge">
-                    <i class="ri-book-open-line"></i>
-                    <span>Complete Tutorial Series</span>
+    <section class="tutorial-hero" style="position: relative; padding: 8rem 0 6rem; overflow: hidden;">
+        <!-- Floating Elements -->
+        <div style="position: absolute; top: 10%; left: 5%; width: 80px; height: 80px; background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(59, 130, 246, 0.2)); border-radius: 20px; animation: float 6s ease-in-out infinite; transform: rotate(15deg);"></div>
+        <div style="position: absolute; top: 60%; right: 10%; width: 60px; height: 60px; background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(16, 185, 129, 0.2)); border-radius: 50%; animation: float 8s ease-in-out infinite 1s;"></div>
+        <div style="position: absolute; bottom: 20%; left: 15%; width: 40px; height: 40px; background: linear-gradient(135deg, rgba(234, 88, 12, 0.2), rgba(249, 115, 22, 0.2)); border-radius: 8px; animation: float 7s ease-in-out infinite 2s; transform: rotate(-20deg);"></div>
+        
+        <style>
+            @keyframes float {
+                0%, 100% { transform: translateY(0) rotate(15deg); }
+                50% { transform: translateY(-30px) rotate(30deg); }
+            }
+            
+            @keyframes pulse-glow {
+                0%, 100% { box-shadow: 0 0 20px rgba(147, 51, 234, 0.3); }
+                50% { box-shadow: 0 0 40px rgba(147, 51, 234, 0.6); }
+            }
+            
+            .hero-gradient-text {
+                background: linear-gradient(135deg, #9333ea 0%, #3b82f6 50%, #06b6d4 100%);
+                background-size: 200% auto;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                animation: shimmer 3s linear infinite;
+            }
+            
+            @keyframes shimmer {
+                to { background-position: 200% center; }
+            }
+        </style>
+        
+        <div class="container" style="position: relative; z-index: 1;">
+            <div class="tutorial-hero-content" style="max-width: 1000px; margin: 0 auto;">
+                <!-- Enhanced Badge -->
+                <div class="hero-badge" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, rgba(147, 51, 234, 0.15), rgba(59, 130, 246, 0.15)); border: 2px solid rgba(147, 51, 234, 0.3); border-radius: 50px; font-size: 0.9375rem; font-weight: 700; color: var(--text-primary); margin-bottom: 2rem; animation: pulse-glow 2s ease-in-out infinite; box-shadow: 0 4px 20px rgba(147, 51, 234, 0.2);">
+                    <i class="ri-book-open-line" style="font-size: 1.25rem; color: rgb(147, 51, 234);"></i>
+                    <span style="letter-spacing: 0.05em;">COMPLETE TUTORIAL SERIES</span>
+                    <div style="width: 8px; height: 8px; background: rgb(34, 197, 94); border-radius: 50%; animation: pulse 2s infinite;"></div>
                 </div>
                 
-                <h1 class="hero-title">
-                    <span class="title-gradient">Learn iPseudo</span>
-                    <br>
-                    <span class="title-secondary">From Zero to Hero</span>
+                <style>
+                    @keyframes pulse {
+                        0%, 100% { opacity: 1; }
+                        50% { opacity: 0.5; }
+                    }
+                </style>
+                
+                <!-- Enhanced Title -->
+                <h1 class="hero-title" style="font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 900; line-height: 1.1; margin-bottom: 1.5rem; text-align: center;">
+                    <span class="hero-gradient-text" style="display: block; margin-bottom: 0.25rem;">Master iPseudo</span>
+                    <span style="color: var(--text-primary); display: block;">
+                        From 
+                        <span style="position: relative; display: inline-block;">
+                            <span style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.25), rgba(16, 185, 129, 0.2)); padding: 0 0.5rem; border-radius: 12px; color: rgb(5, 150, 105); font-weight: 900; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">Zero</span>
+                        </span>
+                        to
+                        <span style="position: relative; display: inline-block;">
+                            <span style="background: linear-gradient(135deg, rgba(234, 88, 12, 0.25), rgba(249, 115, 22, 0.2)); padding: 0 0.5rem; border-radius: 12px; color: rgb(194, 65, 12); font-weight: 900; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">Hero</span>
+                        </span>
+                    </span>
                 </h1>
                 
-                <p class="hero-description" style="text-align: center; max-width: 700px; margin: 0 auto 2rem;">
-                    Master pseudocode programming with our comprehensive, step-by-step tutorial series. 
-                    Each lesson includes detailed explanations, practical examples, and exercises.
+                <!-- Enhanced Description -->
+                <p class="hero-description" style="text-align: center; max-width: 700px; margin: 0 auto 3rem; font-size: 1.25rem; line-height: 1.8; color: var(--text-secondary); font-weight: 500;">
+                    Master pseudocode programming with our 
+                    <span style="color: rgb(126, 34, 206); font-weight: 700;">comprehensive</span>, 
+                    step-by-step tutorial series featuring 
+                    <span style="color: rgb(37, 99, 235); font-weight: 700;">20 lessons</span>,
+                    <span style="color: rgb(194, 65, 12); font-weight: 700;">10 quizzes</span>, and
+                    <span style="color: rgb(5, 150, 105); font-weight: 700;">hands-on exercises</span>.
                 </p>
 
-                <!-- Quick Start Actions -->
-                <div class="hero-actions" style="display: flex; gap: 1rem; justify-content: center; margin: 2rem 0; flex-wrap: wrap;">
-                    <a href="#beginner" class="btn btn-large btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 1.5rem; background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(16, 185, 129, 0.2)); border: 1px solid rgba(34, 197, 94, 0.4); border-radius: 12px; color: rgb(34, 197, 94); text-decoration: none; font-weight: 600; transition: all 0.3s;">
-                        <i class="ri-seedling-line"></i>
-                        <span>Start Beginner</span>
+                <!-- Enhanced Quick Start Actions -->
+                <div class="hero-actions" style="display: flex; gap: 1rem; justify-content: center; margin: 3rem 0; flex-wrap: wrap;">
+                    <a href="#beginner" style="group; position: relative; display: inline-flex; align-items: center; gap: 0.75rem; padding: 1.25rem 2rem; background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(16, 185, 129, 0.15)); border: 2px solid rgba(34, 197, 94, 0.4); border-radius: 16px; color: rgb(34, 197, 94); text-decoration: none; font-weight: 700; font-size: 1.0625rem; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 16px rgba(34, 197, 94, 0.2); overflow: hidden;">
+                        <span style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(16, 185, 129, 0.1)); opacity: 0; transition: opacity 0.3s;"></span>
+                        <i class="ri-seedling-line" style="font-size: 1.5rem; position: relative; z-index: 1;"></i>
+                        <span style="position: relative; z-index: 1;">Start Beginner</span>
+                        <i class="ri-arrow-right-line" style="font-size: 1.25rem; position: relative; z-index: 1; transition: transform 0.3s;"></i>
                     </a>
-                    <a href="#intermediate" class="btn btn-large btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 1.5rem; background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.2)); border: 1px solid rgba(59, 130, 246, 0.4); border-radius: 12px; color: rgb(59, 130, 246); text-decoration: none; font-weight: 600; transition: all 0.3s;">
-                        <i class="ri-plant-line"></i>
-                        <span>Intermediate Path</span>
+                    <a href="#intermediate" style="group; position: relative; display: inline-flex; align-items: center; gap: 0.75rem; padding: 1.25rem 2rem; background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(37, 99, 235, 0.15)); border: 2px solid rgba(59, 130, 246, 0.4); border-radius: 16px; color: rgb(59, 130, 246); text-decoration: none; font-weight: 700; font-size: 1.0625rem; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 16px rgba(59, 130, 246, 0.2); overflow: hidden;">
+                        <span style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.1)); opacity: 0; transition: opacity 0.3s;"></span>
+                        <i class="ri-plant-line" style="font-size: 1.5rem; position: relative; z-index: 1;"></i>
+                        <span style="position: relative; z-index: 1;">Intermediate</span>
+                        <i class="ri-arrow-right-line" style="font-size: 1.25rem; position: relative; z-index: 1; transition: transform 0.3s;"></i>
                     </a>
-                    <a href="#advanced" class="btn btn-large btn-accent" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 1.5rem; background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(126, 34, 206, 0.2)); border: 1px solid rgba(147, 51, 234, 0.4); border-radius: 12px; color: rgb(147, 51, 234); text-decoration: none; font-weight: 600; transition: all 0.3s;">
-                        <i class="ri-rocket-line"></i>
-                        <span>Advanced Topics</span>
+                    <a href="#advanced" style="group; position: relative; display: inline-flex; align-items: center; gap: 0.75rem; padding: 1.25rem 2rem; background: linear-gradient(135deg, rgba(147, 51, 234, 0.15), rgba(126, 34, 206, 0.15)); border: 2px solid rgba(147, 51, 234, 0.4); border-radius: 16px; color: rgb(147, 51, 234); text-decoration: none; font-weight: 700; font-size: 1.0625rem; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 16px rgba(147, 51, 234, 0.2); overflow: hidden;">
+                        <span style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(147, 51, 234, 0.1), rgba(126, 34, 206, 0.1)); opacity: 0; transition: opacity 0.3s;"></span>
+                        <i class="ri-rocket-line" style="font-size: 1.5rem; position: relative; z-index: 1;"></i>
+                        <span style="position: relative; z-index: 1;">Advanced</span>
+                        <i class="ri-arrow-right-line" style="font-size: 1.25rem; position: relative; z-index: 1; transition: transform 0.3s;"></i>
                     </a>
                 </div>
+                
+                <style>
+                    .hero-actions a:hover {
+                        transform: translateY(-4px) scale(1.02);
+                        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15) !important;
+                    }
+                    .hero-actions a:hover span:first-child {
+                        opacity: 1;
+                    }
+                    .hero-actions a:hover i:last-child {
+                        transform: translateX(4px);
+                    }
+                </style>
 
-                <!-- Learning Path Visual -->
-                <div style="background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 1.5rem; backdrop-filter: blur(10px); margin: 2rem auto; max-width: 700px;">
-                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
-                        <div style="flex: 1; text-align: center;">
-                            <div style="width: 60px; height: 60px; margin: 0 auto 0.5rem; background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(16, 185, 129, 0.2)); border: 2px solid rgba(34, 197, 94, 0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                <i class="ri-seedling-line" style="font-size: 1.5rem; color: rgb(34, 197, 94);"></i>
+                <!-- Enhanced Learning Path Visual with Progress Bar -->
+                <div style="background: linear-gradient(135deg, rgba(147, 51, 234, 0.08), rgba(59, 130, 246, 0.08)); border: 2px solid rgba(147, 51, 234, 0.2); border-radius: 24px; padding: 2.5rem 2rem; backdrop-filter: blur(20px); margin: 3rem auto; max-width: 850px; box-shadow: 0 8px 32px rgba(147, 51, 234, 0.15); position: relative; overflow: hidden;">
+                    <!-- Decorative elements -->
+                    <div style="position: absolute; top: -20px; right: -20px; width: 100px; height: 100px; background: radial-gradient(circle, rgba(147, 51, 234, 0.15), transparent); border-radius: 50%;"></div>
+                    <div style="position: absolute; bottom: -20px; left: -20px; width: 80px; height: 80px; background: radial-gradient(circle, rgba(59, 130, 246, 0.15), transparent); border-radius: 50%;"></div>
+                    
+                    <div style="position: relative; z-index: 1;">
+                        <!-- Title -->
+                        <div style="text-align: center; margin-bottom: 2.5rem;">
+                            <h3 style="font-size: 1.5rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                                <i class="ri-roadmap-line" style="color: rgb(147, 51, 234);"></i>
+                                Your Learning Journey
+                            </h3>
+                            <p style="color: var(--text-secondary); font-size: 0.9375rem;">Complete structured path from fundamentals to mastery</p>
+                        </div>
+                        
+                        <!-- Progress Steps -->
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 2rem;">
+                            <!-- Step 1: Beginner -->
+                            <div style="position: relative; text-align: center;">
+                                <div style="position: relative; width: 80px; height: 80px; margin: 0 auto 1rem; background: linear-gradient(135deg, rgb(34, 197, 94), rgb(16, 185, 129)); border-radius: 20px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(34, 197, 94, 0.4); transition: all 0.3s; cursor: pointer;" onmouseover="this.style.transform='scale(1.1) rotate(5deg)'" onmouseout="this.style.transform='scale(1) rotate(0)'">
+                                    <i class="ri-seedling-line" style="font-size: 2.5rem; color: white;"></i>
+                                    <div style="position: absolute; top: -8px; right: -8px; width: 28px; height: 28px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.875rem; color: rgb(34, 197, 94); box-shadow: 0 2px 8px rgba(0,0,0,0.1);">1</div>
+                                </div>
+                                <h4 style="font-weight: 700; font-size: 1.125rem; color: var(--text-primary); margin-bottom: 0.5rem;">Beginner</h4>
+                                <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Foundation concepts</p>
+                                <div style="display: inline-flex; align-items: center; gap: 0.375rem; padding: 0.375rem 0.75rem; background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 50px; font-size: 0.8125rem; font-weight: 700; color: rgb(34, 197, 94);">
+                                    <i class="ri-book-line"></i>
+                                    6 Lessons
+                                </div>
                             </div>
-                            <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem;">Beginner</div>
-                            <div style="font-size: 0.875rem; color: var(--text-tertiary);">6 Lessons</div>
-                        </div>
-                        <div style="flex: 0 0 auto; color: var(--text-tertiary);">
-                            <i class="ri-arrow-right-line"></i>
-                        </div>
-                        <div style="flex: 1; text-align: center;">
-                            <div style="width: 60px; height: 60px; margin: 0 auto 0.5rem; background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.2)); border: 2px solid rgba(59, 130, 246, 0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                <i class="ri-plant-line" style="font-size: 1.5rem; color: rgb(59, 130, 246);"></i>
+                            
+                            <!-- Step 2: Intermediate -->
+                            <div style="position: relative; text-align: center;">
+                                <div style="position: relative; width: 80px; height: 80px; margin: 0 auto 1rem; background: linear-gradient(135deg, rgb(59, 130, 246), rgb(37, 99, 235)); border-radius: 20px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4); transition: all 0.3s; cursor: pointer;" onmouseover="this.style.transform='scale(1.1) rotate(5deg)'" onmouseout="this.style.transform='scale(1) rotate(0)'">
+                                    <i class="ri-plant-line" style="font-size: 2.5rem; color: white;"></i>
+                                    <div style="position: absolute; top: -8px; right: -8px; width: 28px; height: 28px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.875rem; color: rgb(59, 130, 246); box-shadow: 0 2px 8px rgba(0,0,0,0.1);">2</div>
+                                </div>
+                                <h4 style="font-weight: 700; font-size: 1.125rem; color: var(--text-primary); margin-bottom: 0.5rem;">Intermediate</h4>
+                                <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Control flow & functions</p>
+                                <div style="display: inline-flex; align-items: center; gap: 0.375rem; padding: 0.375rem 0.75rem; background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 50px; font-size: 0.8125rem; font-weight: 700; color: rgb(59, 130, 246);">
+                                    <i class="ri-book-line"></i>
+                                    7 Lessons
+                                </div>
                             </div>
-                            <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem;">Intermediate</div>
-                            <div style="font-size: 0.875rem; color: var(--text-tertiary);">7 Lessons</div>
-                        </div>
-                        <div style="flex: 0 0 auto; color: var(--text-tertiary);">
-                            <i class="ri-arrow-right-line"></i>
-                        </div>
-                        <div style="flex: 1; text-align: center;">
-                            <div style="width: 60px; height: 60px; margin: 0 auto 0.5rem; background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(126, 34, 206, 0.2)); border: 2px solid rgba(147, 51, 234, 0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                <i class="ri-rocket-line" style="font-size: 1.5rem; color: rgb(147, 51, 234);"></i>
+                            
+                            <!-- Step 3: Advanced -->
+                            <div style="position: relative; text-align: center;">
+                                <div style="position: relative; width: 80px; height: 80px; margin: 0 auto 1rem; background: linear-gradient(135deg, rgb(147, 51, 234), rgb(126, 34, 206)); border-radius: 20px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(147, 51, 234, 0.4); transition: all 0.3s; cursor: pointer;" onmouseover="this.style.transform='scale(1.1) rotate(5deg)'" onmouseout="this.style.transform='scale(1) rotate(0)'">
+                                    <i class="ri-rocket-line" style="font-size: 2.5rem; color: white;"></i>
+                                    <div style="position: absolute; top: -8px; right: -8px; width: 28px; height: 28px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.875rem; color: rgb(147, 51, 234); box-shadow: 0 2px 8px rgba(0,0,0,0.1);">3</div>
+                                </div>
+                                <h4 style="font-weight: 700; font-size: 1.125rem; color: var(--text-primary); margin-bottom: 0.5rem;">Advanced</h4>
+                                <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Algorithms & patterns</p>
+                                <div style="display: inline-flex; align-items: center; gap: 0.375rem; padding: 0.375rem 0.75rem; background: rgba(147, 51, 234, 0.15); border: 1px solid rgba(147, 51, 234, 0.3); border-radius: 50px; font-size: 0.8125rem; font-weight: 700; color: rgb(147, 51, 234);">
+                                    <i class="ri-book-line"></i>
+                                    7 Lessons
+                                </div>
                             </div>
-                            <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem;">Advanced</div>
-                            <div style="font-size: 0.875rem; color: var(--text-tertiary);">7 Lessons</div>
                         </div>
+                        
+                        <!-- Progress Bar -->
+                        <div style="position: relative; height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 50px; overflow: hidden;">
+                            <div style="position: absolute; left: 0; top: 0; height: 100%; width: 0%; background: linear-gradient(90deg, rgb(34, 197, 94), rgb(59, 130, 246), rgb(147, 51, 234)); border-radius: 50px; animation: progressAnimation 2s ease-out forwards;"></div>
+                        </div>
+                        
+                        <style>
+                            @keyframes progressAnimation {
+                                to { width: 100%; }
+                            }
+                        </style>
                     </div>
                 </div>
 
-                <!-- Key Features Grid -->
-                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin: 2rem 0; max-width: 900px; margin-left: auto; margin-right: auto;">
-                    <div style="background: rgba(34, 197, 94, 0.05); border: 1px solid rgba(34, 197, 94, 0.2); border-radius: 12px; padding: 1.25rem; text-align: center;">
-                        <i class="ri-bookmark-line" style="font-size: 2rem; color: rgb(34, 197, 94); margin-bottom: 0.5rem;"></i>
-                        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem;">Zero to Hero</div>
-                        <div style="font-size: 0.875rem; color: var(--text-secondary);">Complete learning path</div>
+                <!-- Enhanced Key Features Grid with Modern Cards -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin: 3rem auto; max-width: 950px;">
+                    <div style="group; position: relative; background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(16, 185, 129, 0.05)); border: 2px solid rgba(34, 197, 94, 0.3); border-radius: 20px; padding: 1.75rem 1.5rem; text-align: center; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; overflow: hidden;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 32px rgba(34, 197, 94, 0.25)'; this.style.borderColor='rgba(34, 197, 94, 0.5)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'; this.style.borderColor='rgba(34, 197, 94, 0.3)'">
+                        <div style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(34, 197, 94, 0.05), transparent); opacity: 0; transition: opacity 0.3s;"></div>
+                        <div style="position: relative; width: 56px; height: 56px; margin: 0 auto 1rem; background: linear-gradient(135deg, rgb(34, 197, 94), rgb(16, 185, 129)); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(34, 197, 94, 0.3);">
+                            <i class="ri-bookmark-line" style="font-size: 1.75rem; color: white;"></i>
+                        </div>
+                        <div style="font-weight: 800; font-size: 1.125rem; color: var(--text-primary); margin-bottom: 0.5rem;">Zero to Hero</div>
+                        <div style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5;">Complete structured learning path</div>
                     </div>
-                    <div style="background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 12px; padding: 1.25rem; text-align: center;">
-                        <i class="ri-time-line" style="font-size: 2rem; color: rgb(59, 130, 246); margin-bottom: 0.5rem;"></i>
-                        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem;">8.5 Hours</div>
-                        <div style="font-size: 0.875rem; color: var(--text-secondary);">Total study time</div>
+                    <div style="group; position: relative; background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); border: 2px solid rgba(59, 130, 246, 0.3); border-radius: 20px; padding: 1.75rem 1.5rem; text-align: center; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; overflow: hidden;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 32px rgba(59, 130, 246, 0.25)'; this.style.borderColor='rgba(59, 130, 246, 0.5)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'; this.style.borderColor='rgba(59, 130, 246, 0.3)'">
+                        <div style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), transparent); opacity: 0; transition: opacity 0.3s;"></div>
+                        <div style="position: relative; width: 56px; height: 56px; margin: 0 auto 1rem; background: linear-gradient(135deg, rgb(59, 130, 246), rgb(37, 99, 235)); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);">
+                            <i class="ri-time-line" style="font-size: 1.75rem; color: white;"></i>
+                        </div>
+                        <div style="font-weight: 800; font-size: 1.125rem; color: var(--text-primary); margin-bottom: 0.5rem;">8.5 Hours</div>
+                        <div style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5;">Total content duration</div>
                     </div>
-                    <div style="background: rgba(147, 51, 234, 0.05); border: 1px solid rgba(147, 51, 234, 0.2); border-radius: 12px; padding: 1.25rem; text-align: center;">
-                        <i class="ri-lightbulb-flash-line" style="font-size: 2rem; color: rgb(147, 51, 234); margin-bottom: 0.5rem;"></i>
-                        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem;">Interactive</div>
-                        <div style="font-size: 0.875rem; color: var(--text-secondary);">Try code examples</div>
+                    <div style="group; position: relative; background: linear-gradient(135deg, rgba(147, 51, 234, 0.1), rgba(126, 34, 206, 0.05)); border: 2px solid rgba(147, 51, 234, 0.3); border-radius: 20px; padding: 1.75rem 1.5rem; text-align: center; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; overflow: hidden;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 32px rgba(147, 51, 234, 0.25)'; this.style.borderColor='rgba(147, 51, 234, 0.5)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'; this.style.borderColor='rgba(147, 51, 234, 0.3)'">
+                        <div style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(147, 51, 234, 0.05), transparent); opacity: 0; transition: opacity 0.3s;"></div>
+                        <div style="position: relative; width: 56px; height: 56px; margin: 0 auto 1rem; background: linear-gradient(135deg, rgb(147, 51, 234), rgb(126, 34, 206)); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(147, 51, 234, 0.3);">
+                            <i class="ri-lightbulb-flash-line" style="font-size: 1.75rem; color: white;"></i>
+                        </div>
+                        <div style="font-weight: 800; font-size: 1.125rem; color: var(--text-primary); margin-bottom: 0.5rem;">Interactive</div>
+                        <div style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5;">Live code examples</div>
                     </div>
-                    <div style="background: rgba(234, 88, 12, 0.05); border: 1px solid rgba(234, 88, 12, 0.2); border-radius: 12px; padding: 1.25rem; text-align: center;">
-                        <i class="ri-trophy-line" style="font-size: 2rem; color: rgb(234, 88, 12); margin-bottom: 0.5rem;"></i>
-                        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem;">80+ Exercises</div>
-                        <div style="font-size: 0.875rem; color: var(--text-secondary);">Hands-on practice</div>
+                    <div style="group; position: relative; background: linear-gradient(135deg, rgba(234, 88, 12, 0.1), rgba(249, 115, 22, 0.05)); border: 2px solid rgba(234, 88, 12, 0.3); border-radius: 20px; padding: 1.75rem 1.5rem; text-align: center; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; overflow: hidden;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 32px rgba(234, 88, 12, 0.25)'; this.style.borderColor='rgba(234, 88, 12, 0.5)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'; this.style.borderColor='rgba(234, 88, 12, 0.3)'">
+                        <div style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(234, 88, 12, 0.05), transparent); opacity: 0; transition: opacity 0.3s;"></div>
+                        <div style="position: relative; width: 56px; height: 56px; margin: 0 auto 1rem; background: linear-gradient(135deg, rgb(234, 88, 12), rgb(249, 115, 22)); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(234, 88, 12, 0.3);">
+                            <i class="ri-trophy-line" style="font-size: 1.75rem; color: white;"></i>
+                        </div>
+                        <div style="font-weight: 800; font-size: 1.125rem; color: var(--text-primary); margin-bottom: 0.5rem;">80+ Exercises</div>
+                        <div style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5;">Hands-on practice</div>
                     </div>
                 </div>
                 
@@ -979,16 +1131,58 @@
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="cta">
-        <div class="container">
-            <div class="cta-box">
-                <h2 class="cta-title">Ready to Start Learning?</h2>
-                <p class="cta-description">Begin your journey with Lesson 1: Introduction to Pseudocode</p>
-                <a href="01-introduction-to-pseudocode.html" class="btn btn-large btn-primary">
-                    <i class="ri-book-open-line"></i>
-                    <span>Start Learning Now</span>
-                </a>
+    <!-- Enhanced CTA Section with Glassmorphism -->
+    <section class="cta" style="padding: 6rem 0; position: relative; overflow: hidden;">
+        <!-- Animated Background Elements -->
+        <div style="position: absolute; top: 20%; left: -5%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(147, 51, 234, 0.15), transparent); border-radius: 50%; filter: blur(40px); animation: float 10s ease-in-out infinite;"></div>
+        <div style="position: absolute; bottom: 20%; right: -5%; width: 250px; height: 250px; background: radial-gradient(circle, rgba(59, 130, 246, 0.15), transparent); border-radius: 50%; filter: blur(40px); animation: float 12s ease-in-out infinite 2s;"></div>
+        
+        <div class="container" style="position: relative; z-index: 1;">
+            <div class="cta-box" style="position: relative; background: linear-gradient(135deg, rgba(147, 51, 234, 0.12), rgba(59, 130, 246, 0.12)); border: 3px solid rgba(147, 51, 234, 0.3); border-radius: 32px; padding: 4rem 3rem; backdrop-filter: blur(20px); box-shadow: 0 16px 48px rgba(147, 51, 234, 0.2); overflow: hidden;">
+                <!-- Decorative Elements -->
+                <div style="position: absolute; top: -100px; right: -100px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(147, 51, 234, 0.3), transparent); border-radius: 50%; filter: blur(60px);"></div>
+                <div style="position: absolute; bottom: -80px; left: -80px; width: 180px; height: 180px; background: radial-gradient(circle, rgba(59, 130, 246, 0.3), transparent); border-radius: 50%; filter: blur(60px);"></div>
+                
+                <div style="position: relative; z-index: 1; text-align: center; max-width: 700px; margin: 0 auto;">
+                    <!-- Icon -->
+                    <div style="display: inline-flex; align-items: center; justify-content: center; width: 96px; height: 96px; background: linear-gradient(135deg, rgb(147, 51, 234), rgb(59, 130, 246)); border-radius: 24px; margin-bottom: 2rem; box-shadow: 0 12px 32px rgba(147, 51, 234, 0.4); animation: pulse-glow 2s ease-in-out infinite;">
+                        <i class="ri-rocket-2-line" style="font-size: 3rem; color: white;"></i>
+                    </div>
+                    
+                    <h2 class="cta-title" style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; margin-bottom: 1.5rem; background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Ready to Start Learning?</h2>
+                    
+                    <p class="cta-description" style="font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 2.5rem; line-height: 1.7;">Begin your journey with <strong style="color: var(--text-primary);">Lesson 1: Introduction to Pseudocode</strong><br>and master the fundamentals in just 10 minutes</p>
+                    
+                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                        <a href="01-introduction-to-pseudocode.html" style="position: relative; display: inline-flex; align-items: center; gap: 0.75rem; padding: 1.5rem 3rem; background: linear-gradient(135deg, rgb(147, 51, 234), rgb(126, 34, 206)); border: none; border-radius: 16px; color: white; font-weight: 800; font-size: 1.125rem; text-decoration: none; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 8px 24px rgba(147, 51, 234, 0.4); overflow: hidden;" onmouseover="this.style.transform='translateY(-4px) scale(1.05)'; this.style.boxShadow='0 16px 40px rgba(147, 51, 234, 0.5)'" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 24px rgba(147, 51, 234, 0.4)'">
+                            <span style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent); opacity: 0; transition: opacity 0.3s;"></span>
+                            <i class="ri-book-open-line" style="font-size: 1.5rem; position: relative; z-index: 1;"></i>
+                            <span style="position: relative; z-index: 1;">Start Learning Now</span>
+                            <i class="ri-arrow-right-line" style="font-size: 1.25rem; position: relative; z-index: 1; transition: transform 0.3s;"></i>
+                        </a>
+                        
+                        <a href="#lessons" style="display: inline-flex; align-items: center; gap: 0.75rem; padding: 1.5rem 3rem; background: rgba(255, 255, 255, 0.1); border: 2px solid rgba(147, 51, 234, 0.4); border-radius: 16px; color: var(--text-primary); font-weight: 700; font-size: 1.125rem; text-decoration: none; transition: all 0.3s; backdrop-filter: blur(10px);" onmouseover="this.style.background='rgba(147, 51, 234, 0.2)'; this.style.borderColor='rgba(147, 51, 234, 0.6)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.1)'; this.style.borderColor='rgba(147, 51, 234, 0.4)'; this.style.transform='translateY(0)'">
+                            <i class="ri-list-check" style="font-size: 1.5rem;"></i>
+                            <span>Browse All Lessons</span>
+                        </a>
+                    </div>
+                    
+                    <!-- Progress Stats -->
+                    <div style="display: flex; gap: 2rem; justify-content: center; margin-top: 3rem; flex-wrap: wrap;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; font-weight: 900; background: linear-gradient(135deg, rgb(34, 197, 94), rgb(16, 185, 129)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.5rem;">20</div>
+                            <div style="font-size: 0.875rem; color: var(--text-tertiary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Lessons</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; font-weight: 900; background: linear-gradient(135deg, rgb(234, 88, 12), rgb(249, 115, 22)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.5rem;">10</div>
+                            <div style="font-size: 0.875rem; color: var(--text-tertiary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Quizzes</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; font-weight: 900; background: linear-gradient(135deg, rgb(147, 51, 234), rgb(126, 34, 206)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.5rem;">80+</div>
+                            <div style="font-size: 0.875rem; color: var(--text-tertiary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Exercises</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
