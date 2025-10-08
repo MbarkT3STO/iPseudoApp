@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Variables & Data Types - Practice Exercises | iPseudo Tutorial Hub</title>
+    
+    <!-- Performance Optimization Meta Tags -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    
     <link rel="icon" type="image/svg+xml" href="../assets/app-icon.svg">
     
     <!-- PWA Manifest -->
@@ -14,11 +20,11 @@
     <meta name="apple-mobile-web-app-title" content="iPseudo">
     <link rel="apple-touch-icon" href="../assets/app-icon.svg">
     
-    <!-- Fonts -->
+    <!-- Fonts - Optimized Loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     
     <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
@@ -28,159 +34,494 @@
     <link rel="stylesheet" href="../css/tutorial.css">
     
     <style>
-        /* Exercise Page Enhanced Styles */
+        /* Exercise Page Enhanced Styles - Maximum Performance */
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+        }
+        
+        [data-theme="light"] body {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+        }
+        
         .exercise-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: calc(var(--space-3xl) + 60px) var(--space-lg) var(--space-3xl);
+            contain: layout style;
         }
         
-        /* Breadcrumb Navigation */
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--glass-bg);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--color-success), var(--color-green-600));
+            border-radius: 10px;
+            border: 2px solid var(--glass-bg);
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--color-green-600), var(--color-success));
+        }
+        
+        /* Selection Highlighting */
+        ::selection {
+            background: rgba(16, 185, 129, 0.3);
+            color: var(--text-primary);
+        }
+        
+        ::-moz-selection {
+            background: rgba(16, 185, 129, 0.3);
+            color: var(--text-primary);
+        }
+        
+        /* Performance: Reduced Motion Support */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* Navbar with Glassmorphism - Optimized */
+        .navbar {
+            backdrop-filter: blur(12px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+            background: rgba(15, 23, 42, 0.7) !important;
+            will-change: auto !important;
+            contain: layout style;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        [data-theme="light"] .navbar {
+            background: rgba(255, 255, 255, 0.7) !important;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-container {
+            will-change: auto !important;
+        }
+        
+        .navbar * {
+            will-change: auto !important;
+        }
+        
+        /* Redesigned Navbar Actions */
+        .navbar-actions {
+            display: flex !important;
+            align-items: center !important;
+            gap: 0.5rem !important;
+            flex-wrap: wrap !important;
+        }
+        
+        /* Primary Navigation Buttons */
+        .nav-btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1rem;
+            background: rgba(139, 92, 246, 0.12);
+            border: 1.5px solid rgba(139, 92, 246, 0.3);
+            border-radius: 10px;
+            color: var(--color-purple-500);
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-decoration: none;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .nav-btn-primary:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: rgba(139, 92, 246, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .nav-btn-primary i {
+            font-size: 1.125rem;
+        }
+        
+        /* Secondary Navigation Buttons (Tools) */
+        .nav-btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1rem;
+            background: rgba(59, 130, 246, 0.08);
+            border: 1.5px solid rgba(59, 130, 246, 0.2);
+            border-radius: 10px;
+            color: var(--color-blue-500);
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-decoration: none;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .nav-btn-secondary:hover {
+            background: rgba(59, 130, 246, 0.15);
+            border-color: rgba(59, 130, 246, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .nav-btn-secondary i {
+            font-size: 1.125rem;
+        }
+        
+        /* Action Button (Try Live) */
+        .nav-btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1.25rem;
+            background: linear-gradient(135deg, #10b981, #34d399);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 700;
+            font-size: 0.875rem;
+            text-decoration: none;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+        }
+        
+        .nav-btn-action:hover {
+            background: linear-gradient(135deg, #059669, #10b981);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
+        }
+        
+        .nav-btn-action i {
+            font-size: 1.125rem;
+        }
+        
+        /* Divider between groups */
+        .nav-divider {
+            width: 1px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 0 0.25rem;
+        }
+        
+        [data-theme="light"] .nav-divider {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Optimize navbar transitions */
+        .theme-toggle {
+            transition: transform 0.2s ease, background-color 0.2s ease !important;
+            will-change: auto !important;
+        }
+        
+        .theme-toggle:hover {
+            will-change: transform;
+        }
+        
+        /* Completely disable background animations for performance */
+        .background-container {
+            display: none !important;
+        }
+        
+        .gradient-orb,
+        .grid-pattern {
+            display: none !important;
+        }
+        
+        /* Optimize navbar brand gradients */
+        .brand-icon {
+            will-change: auto !important;
+        }
+        
+        .brand-text {
+            will-change: auto !important;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Reduce navbar link complexity */
+        .navbar a {
+            will-change: auto !important;
+        }
+        
+        .navbar a:hover {
+            will-change: transform;
+        }
+        
+        /* Force GPU acceleration for navbar only when needed */
+        .navbar.scrolled {
+            transform: translateZ(0);
+        }
+        
+        /* Breadcrumb Navigation - Redesigned */
         .breadcrumb {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
             margin-bottom: var(--space-xl);
-            padding: var(--space-md);
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-md);
-            backdrop-filter: blur(20px);
+            padding: 1rem 1.5rem;
+            background: rgba(15, 23, 42, 0.6);
+            border: 2px solid rgba(16, 185, 129, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        [data-theme="light"] .breadcrumb {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+        
+        .breadcrumb:hover {
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.12);
+            transform: translateY(-2px);
         }
         
         .breadcrumb a {
             color: var(--text-secondary);
             text-decoration: none;
-            transition: color 0.2s;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
         }
         
         .breadcrumb a:hover {
             color: var(--color-success);
+            background: rgba(16, 185, 129, 0.1);
+            transform: translateX(2px);
         }
         
         .breadcrumb-separator {
             color: var(--text-tertiary);
+            font-weight: 300;
+            font-size: 1.25rem;
         }
         
         .breadcrumb-current {
             color: var(--text-primary);
-            font-weight: 600;
+            font-weight: 700;
+            background: rgba(16, 185, 129, 0.12);
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
         }
         
-        /* Exercise Hero */
+        /* Exercise Hero - Optimized */
         .exercise-hero {
             text-align: center;
             margin-bottom: var(--space-3xl);
             padding: var(--space-3xl) var(--space-xl);
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-xl);
-            backdrop-filter: blur(20px);
-            box-shadow: var(--glass-shadow);
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.9));
+            border: 2px solid rgba(16, 185, 129, 0.3);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(16, 185, 129, 0.15), 0 0 100px rgba(16, 185, 129, 0.05);
+            position: relative;
+            overflow: hidden;
+            contain: layout style paint;
         }
         
+        [data-theme="light"] .exercise-hero {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.95));
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+        
+        /* Removed rotating background for performance */
+        
         .exercise-hero-icon {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             margin: 0 auto var(--space-lg);
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, var(--color-success), var(--color-green-600));
-            border-radius: var(--radius-lg);
-            font-size: 2.5rem;
+            background: linear-gradient(135deg, #10b981, #34d399, #6ee7b7);
+            border-radius: 24px;
+            font-size: 3rem;
             color: white;
-            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
-            animation: float 3s ease-in-out infinite;
+            box-shadow: 
+                0 12px 40px rgba(16, 185, 129, 0.4),
+                0 0 0 10px rgba(16, 185, 129, 0.1),
+                0 0 0 20px rgba(16, 185, 129, 0.05);
             position: relative;
-            overflow: hidden;
-        }
-        
-        .exercise-hero-icon::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: inherit;
-            opacity: 0.2;
-            filter: blur(20px);
+            z-index: 1;
+            contain: layout style paint;
         }
         
         .exercise-hero-icon i {
             position: relative;
-            z-index: 1;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            z-index: 2;
         }
         
         .exercise-hero h1 {
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 900;
-            background: linear-gradient(135deg, var(--color-success), var(--color-green-600));
+            background: linear-gradient(135deg, #10b981 0%, #34d399 50%, #6ee7b7 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin-bottom: var(--space-md);
+            position: relative;
+            z-index: 1;
+            letter-spacing: -0.02em;
+            text-shadow: 0 0 40px rgba(16, 185, 129, 0.3);
         }
         
         .exercise-hero-subtitle {
-            font-size: 1.25rem;
+            font-size: 1.375rem;
             color: var(--text-secondary);
             margin-bottom: var(--space-lg);
+            position: relative;
+            z-index: 1;
+            font-weight: 500;
         }
         
         .exercise-meta {
             display: flex;
             justify-content: center;
-            gap: var(--space-lg);
+            gap: var(--space-md);
             flex-wrap: wrap;
             margin-bottom: var(--space-lg);
+            position: relative;
+            z-index: 1;
         }
         
         .meta-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.625rem 1.25rem;
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 0.75rem 1.5rem;
+            background: rgba(16, 185, 129, 0.15);
+            border: 2px solid rgba(16, 185, 129, 0.35);
             border-radius: 50px;
             color: var(--color-success);
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 0.9375rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
         }
         
-        /* Exercise Cards */
+        [data-theme="light"] .meta-badge {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+        
+        .meta-badge:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+            border-color: rgba(16, 185, 129, 0.5);
+        }
+        
+        .meta-badge i {
+            font-size: 1.125rem;
+        }
+        
+        /* Exercise Cards - Optimized */
         .exercise-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-lg);
-            backdrop-filter: blur(20px);
+            background: rgba(15, 23, 42, 0.7);
+            border: 2px solid rgba(71, 85, 105, 0.4);
+            border-radius: 20px;
             margin-bottom: var(--space-xl);
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                        box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                        border-color 0.3s ease;
+            position: relative;
+            contain: layout style paint;
+            content-visibility: auto;
+            contain-intrinsic-size: auto 500px;
+        }
+        
+        [data-theme="light"] .exercise-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: rgba(226, 232, 240, 0.8);
         }
         
         .exercise-card:hover {
+            will-change: transform;
+        }
+        
+        .exercise-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-success), var(--color-green-600), var(--color-success));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .exercise-card:not(.expanded):hover {
             transform: translateY(-4px);
-            box-shadow: 0 16px 48px rgba(16, 185, 129, 0.2);
-            border-color: rgba(16, 185, 129, 0.4);
+            box-shadow: 
+                0 16px 48px rgba(16, 185, 129, 0.2),
+                0 0 0 1px rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.5);
+        }
+        
+        .exercise-card:not(.expanded):hover::before {
+            opacity: 1;
         }
         
         .exercise-card.completed {
-            border-color: rgba(16, 185, 129, 0.6);
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(16, 185, 129, 0.02));
+            border-color: rgba(16, 185, 129, 0.7);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(16, 185, 129, 0.03));
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.15);
+        }
+        
+        .exercise-card.completed::before {
+            opacity: 1;
+        }
+        
+        /* Completion Badge - Corner Position */
+        .exercise-card.completed .exercise-header::after {
+            content: '✓';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+            color: white;
+            border-radius: 20px 0 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1rem;
+            box-shadow: 
+                0 4px 12px rgba(16, 185, 129, 0.4),
+                0 0 0 3px rgba(16, 185, 129, 0.15),
+                inset 0 -1px 4px rgba(0, 0, 0, 0.2),
+                inset 0 1px 4px rgba(255, 255, 255, 0.3);
+            z-index: 10;
         }
         
         .exercise-header {
-            padding: var(--space-lg) var(--space-xl);
+            padding: 1.5rem 2rem;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
             transition: all 0.3s ease;
             position: relative;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.03), transparent);
+        }
+        
+        .exercise-header:hover {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(16, 185, 129, 0.02));
         }
         
         .exercise-header::before {
@@ -189,14 +530,24 @@
             left: 0;
             top: 0;
             height: 100%;
-            width: 4px;
-            background: var(--color-success);
+            width: 5px;
+            background: linear-gradient(180deg, #10b981, #34d399, #10b981);
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: all 0.3s ease;
+            border-radius: 0 4px 4px 0;
         }
         
         .exercise-card.expanded .exercise-header::before {
             opacity: 1;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+        }
+        
+        [data-theme="light"] .exercise-header {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.04), transparent);
+        }
+        
+        [data-theme="light"] .exercise-header:hover {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.03));
         }
         
         .exercise-title-section {
@@ -207,25 +558,48 @@
         }
         
         .exercise-number {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, var(--color-success), var(--color-green-600));
+            background: linear-gradient(135deg, #10b981, #34d399);
             color: white;
-            border-radius: 50%;
-            font-weight: 700;
-            font-size: 1.125rem;
+            border-radius: 16px;
+            font-weight: 800;
+            font-size: 1.25rem;
+            box-shadow: 
+                0 8px 20px rgba(16, 185, 129, 0.3),
+                inset 0 -2px 10px rgba(0, 0, 0, 0.2),
+                inset 0 2px 10px rgba(255, 255, 255, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        
+        .exercise-number::after {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.4), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .exercise-card:hover .exercise-number {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 
+                0 12px 30px rgba(16, 185, 129, 0.5),
+                inset 0 -2px 10px rgba(0, 0, 0, 0.2),
+                inset 0 2px 10px rgba(255, 255, 255, 0.3);
+        }
+        
+        .exercise-card:hover .exercise-number::after {
+            opacity: 1;
         }
         
         .exercise-card.completed .exercise-number {
-            background: linear-gradient(135deg, var(--color-success), var(--color-green-600));
-        }
-        
-        .exercise-card.completed .exercise-number::before {
-            content: '✓';
-            position: absolute;
+            background: linear-gradient(135deg, #10b981, #34d399, #6ee7b7);
         }
         
         .exercise-info {
@@ -233,10 +607,21 @@
         }
         
         .exercise-title {
-            font-size: 1.375rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 0.375rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #e5e7eb, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.01em;
+        }
+        
+        [data-theme="light"] .exercise-title {
+            background: linear-gradient(135deg, #1f2937, #059669) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
         }
         
         .exercise-badges {
@@ -246,47 +631,101 @@
         }
         
         .difficulty-badge, .time-badge {
-            font-size: 0.75rem;
-            padding: 0.25rem 0.75rem;
+            font-size: 0.8125rem;
+            padding: 0.375rem 1rem;
             border-radius: 50px;
-            font-weight: 600;
+            font-weight: 700;
             display: inline-flex;
             align-items: center;
-            gap: 0.375rem;
+            gap: 0.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .difficulty-easy {
-            background: rgba(34, 197, 94, 0.15);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            color: var(--color-success);
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(34, 197, 94, 0.1));
+            border: 2px solid rgba(34, 197, 94, 0.4);
+            color: #22c55e;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.15);
+        }
+        
+        .difficulty-easy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.25);
         }
         
         .difficulty-medium {
-            background: rgba(234, 88, 12, 0.15);
-            border: 1px solid rgba(234, 88, 12, 0.3);
-            color: var(--color-orange-600);
+            background: linear-gradient(135deg, rgba(234, 88, 12, 0.2), rgba(234, 88, 12, 0.1));
+            border: 2px solid rgba(234, 88, 12, 0.4);
+            color: #ea580c;
+            box-shadow: 0 4px 12px rgba(234, 88, 12, 0.15);
+        }
+        
+        .difficulty-medium:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(234, 88, 12, 0.25);
         }
         
         .difficulty-hard {
-            background: rgba(239, 68, 68, 0.15);
-            border: 1px solid rgba(239, 68, 68, 0.3);
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.1));
+            border: 2px solid rgba(239, 68, 68, 0.4);
             color: #ef4444;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
+        }
+        
+        .difficulty-hard:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.25);
         }
         
         .time-badge {
-            background: rgba(59, 130, 246, 0.15);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            color: var(--color-blue-500);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(59, 130, 246, 0.1));
+            border: 2px solid rgba(59, 130, 246, 0.4);
+            color: #3b82f6;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+        }
+        
+        .time-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+        }
+        
+        .difficulty-badge i, .time-badge i {
+            font-size: 1rem;
         }
         
         .expand-icon {
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             color: var(--color-success);
-            transition: transform 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 8px;
+            border: 1.5px solid rgba(16, 185, 129, 0.25);
+        }
+        
+        .expand-icon:hover {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: rgba(16, 185, 129, 0.4);
+            transform: scale(1.1);
         }
         
         .exercise-card.expanded .expand-icon {
             transform: rotate(180deg);
+            background: rgba(16, 185, 129, 0.15);
+            border-color: rgba(16, 185, 129, 0.4);
+        }
+        
+        [data-theme="light"] .expand-icon {
+            background: rgba(16, 185, 129, 0.08);
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+        
+        [data-theme="light"] .expand-icon:hover {
+            background: rgba(16, 185, 129, 0.15);
         }
         
         .exercise-content {
@@ -300,113 +739,669 @@
         }
         
         .exercise-body {
-            padding: 0 var(--space-xl) var(--space-xl);
-            border-top: 1px solid var(--glass-border);
+            padding: 2rem 2.5rem;
+            border-top: 1px solid rgba(71, 85, 105, 0.3);
+            background: linear-gradient(180deg, transparent, rgba(16, 185, 129, 0.02));
         }
         
-        /* Related Lesson Link */
+        [data-theme="light"] .exercise-body {
+            border-top-color: rgba(226, 232, 240, 0.6);
+            background: linear-gradient(180deg, transparent, rgba(16, 185, 129, 0.03));
+        }
+        
+        /* Exercise section headings */
+        .exercise-body h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.625rem;
+        }
+        
+        .exercise-body h3 i {
+            font-size: 1.375rem;
+            color: var(--color-purple-500);
+        }
+        
+        .exercise-body h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--color-success);
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .exercise-body h4::before {
+            content: '▸';
+            color: var(--color-success);
+            font-size: 1.25rem;
+        }
+        
+        .exercise-body p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+        
+        .exercise-body ul {
+            color: var(--text-secondary);
+            line-height: 2;
+            margin-left: 2rem;
+        }
+        
+        .exercise-body li {
+            position: relative;
+            padding-left: 0.5rem;
+        }
+        
+        .exercise-body li::marker {
+            color: var(--color-success);
+            font-weight: 700;
+        }
+        
+        /* Related Lesson Link - Redesigned */
         .related-lesson {
             margin: var(--space-lg) 0;
-            padding: var(--space-md);
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(52, 211, 153, 0.05));
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            border-radius: var(--radius-md);
+            padding: 1.25rem 1.5rem;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(16, 185, 129, 0.08));
+            border: 2px solid rgba(16, 185, 129, 0.3);
+            border-radius: 16px;
             display: flex;
             align-items: center;
             gap: var(--space-md);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.1);
+            position: relative;
+            overflow: hidden;
         }
         
-        .related-lesson a {
+        [data-theme="light"] .related-lesson {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.05));
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+        
+        .related-lesson::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        
+        .related-lesson:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 32px rgba(16, 185, 129, 0.2);
+        }
+        
+        .related-lesson:hover::before {
+            opacity: 1;
+        }
+        
+        .related-lesson > i {
+            font-size: 1.75rem;
             color: var(--color-success);
-            text-decoration: none;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.2s;
+            transition: transform 0.4s;
         }
         
-        .related-lesson a:hover {
-            gap: 0.75rem;
+        .related-lesson:hover > i {
+            transform: scale(1.2) rotate(10deg);
         }
         
-        /* Output and Code Boxes */
-        .output-box, pre code {
-            background: rgba(15, 23, 42, 0.7);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            border-radius: var(--radius-md);
+        .related-lesson .ri-arrow-right-line {
+            transition: transform 0.3s;
+        }
+        
+        .related-lesson:hover .ri-arrow-right-line {
+            transform: translateX(6px);
+        }
+        
+        /* Hide exercise search filter added by JS */
+        .exercise-search {
+            display: none !important;
+        }
+        
+        /* Beautiful Terminal-Style Output Box */
+        .output-box {
+            background: linear-gradient(145deg, #1a1f2e 0%, #0f1419 100%);
+            border: 2px solid rgba(16, 185, 129, 0.25);
+            border-radius: 16px;
             overflow: hidden;
             margin: var(--space-md) 0;
+            box-shadow: 
+                0 12px 32px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            position: relative;
+            transition: all 0.3s ease;
         }
         
+        .output-box:hover {
+            box-shadow: 
+                0 16px 40px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(16, 185, 129, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border-color: rgba(16, 185, 129, 0.4);
+        }
+        
+        [data-theme="light"] .output-box {
+            background: linear-gradient(145deg, #2d3748 0%, #1a202c 100%);
+            border-color: rgba(16, 185, 129, 0.3);
+            box-shadow: 
+                0 8px 24px rgba(0, 0, 0, 0.25),
+                0 0 0 1px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+        
+        [data-theme="light"] .output-box:hover {
+            box-shadow: 
+                0 12px 32px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(16, 185, 129, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border-color: rgba(16, 185, 129, 0.5);
+        }
+        
+        /* Terminal Header Bar - macOS Style */
         .output-header {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(52, 211, 153, 0.2));
-            padding: 0.75rem var(--space-md);
+            background: linear-gradient(180deg, #374151 0%, #2d3748 100%);
+            padding: 0.875rem 1.25rem;
             font-weight: 600;
-            color: var(--color-success);
+            color: #e2e8f0;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            font-size: 0.875rem;
+            gap: 1rem;
+            font-size: 0.75rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+            position: relative;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
         }
         
+        [data-theme="light"] .output-header {
+            background: linear-gradient(180deg, #4b5563 0%, #374151 100%);
+            color: #f3f4f6;
+        }
+        
+        /* macOS-style window control dots */
+        .output-header::before {
+            content: '';
+            display: flex;
+            width: 54px;
+            height: 12px;
+            background-image: 
+                radial-gradient(circle, #ff5f57 5px, transparent 5px),
+                radial-gradient(circle, #febc2e 5px, transparent 5px),
+                radial-gradient(circle, #28c840 5px, transparent 5px);
+            background-size: 12px 12px;
+            background-position: 0 0, 18px 0, 36px 0;
+            background-repeat: no-repeat;
+            margin-right: 0.25rem;
+        }
+        
+        .output-header i {
+            font-size: 1rem;
+            margin-left: auto;
+            opacity: 0.7;
+        }
+        
+        /* Terminal Content Area */
         .output-content {
-            padding: var(--space-md);
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--text-primary);
-            line-height: 1.8;
-            white-space: pre-line;
+            padding: 1.25rem 1.5rem;
+            font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
+            color: #10b981 !important;
+            line-height: 1.9;
+            white-space: pre-wrap;
+            font-size: 0.9375rem;
+            background: linear-gradient(180deg, #0d1117 0%, #0a0e13 100%);
+            position: relative;
+            min-height: 80px;
+        }
+        
+        [data-theme="light"] .output-content {
+            background: linear-gradient(180deg, #1a202c 0%, #161b22 100%) !important;
+            color: #10b981 !important;
+        }
+        
+        /* Removed terminal prompt indicator */
+        
+        /* Terminal cursor blink effect */
+        .output-content::after {
+            content: '▊';
+            color: #10b981;
+            animation: terminal-blink 1s step-end infinite;
+            margin-left: 0.125rem;
+            opacity: 0.8;
+        }
+        
+        @keyframes terminal-blink {
+            0%, 50% { opacity: 0.8; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        /* Terminal glow effect */
+        .output-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(16, 185, 129, 0.6) 20%, 
+                rgba(52, 211, 153, 0.8) 50%, 
+                rgba(16, 185, 129, 0.6) 80%, 
+                transparent 100%);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+        }
+        
+        /* Window dots hover effects */
+        .output-box:hover .output-header::before {
+            filter: brightness(1.2);
+        }
+        
+        /* Terminal text glow */
+        .output-content {
+            text-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
+        }
+        
+        [data-theme="light"] .output-content {
+            text-shadow: 0 0 8px rgba(16, 185, 129, 0.25);
         }
         
         /* Solution Section */
         .solution-section {
             margin-top: var(--space-xl);
             padding-top: var(--space-xl);
-            border-top: 2px dashed var(--glass-border);
+            border-top: 2px dashed rgba(71, 85, 105, 0.3);
+        }
+        
+        [data-theme="light"] .solution-section {
+            border-top-color: rgba(226, 232, 240, 0.6);
         }
         
         .show-solution-btn {
-            background: linear-gradient(135deg, var(--color-success), var(--color-green-600));
+            background: linear-gradient(135deg, #10b981, #34d399, #10b981);
+            background-size: 200% 100%;
             color: white;
             border: none;
-            padding: 1rem 2rem;
-            border-radius: var(--radius-md);
-            font-weight: 600;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            font-weight: 700;
             font-size: 1rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             display: inline-flex;
             align-items: center;
             gap: 0.75rem;
-            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+            box-shadow: 
+                0 8px 24px rgba(16, 185, 129, 0.35),
+                0 0 0 0 rgba(16, 185, 129, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .show-solution-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .show-solution-btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            transform: scale(0);
+            transition: transform 0.5s;
         }
         
         .show-solution-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 
+                0 16px 40px rgba(16, 185, 129, 0.45),
+                0 0 0 8px rgba(16, 185, 129, 0.1);
+            background-position: 100% 0;
+        }
+        
+        .show-solution-btn:hover::before {
+            opacity: 1;
+        }
+        
+        .show-solution-btn:active {
+            transform: translateY(-2px) scale(1.01);
+        }
+        
+        .show-solution-btn:active::after {
+            transform: scale(1);
+            opacity: 0;
+            transition: 0s;
+        }
+        
+        .show-solution-btn i {
+            font-size: 1.25rem;
+            transition: transform 0.3s;
+        }
+        
+        .show-solution-btn:hover i {
+            transform: scale(1.2) rotate(5deg);
         }
         
         .solution-content {
             opacity: 0;
             max-height: 0;
             overflow: hidden;
-            transition: all 0.5s ease;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .solution-content.visible {
             opacity: 1;
             max-height: 3000px;
             margin-top: var(--space-lg);
+            animation: slideDown 0.5s ease-out;
         }
         
-        /* Scroll to Top Button */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Solution heading */
+        .solution-content > h3 {
+            font-size: 1.375rem !important;
+            font-weight: 800 !important;
+            color: var(--color-success) !important;
+            margin-bottom: 1.5rem !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 0.75rem !important;
+            padding: 1rem 1.25rem !important;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(16, 185, 129, 0.05)) !important;
+            border-left: 4px solid var(--color-success) !important;
+            border-radius: 8px !important;
+        }
+        
+        .solution-content > h3 i {
+            font-size: 1.5rem !important;
+        }
+        
+        /* Key Concepts Box - Beautiful Design */
+        .solution-content > div[style*="background: linear-gradient"] {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(52, 211, 153, 0.08)) !important;
+            border: 2px solid rgba(16, 185, 129, 0.3) !important;
+            border-radius: 12px !important;
+            padding: 1.25rem 1.5rem !important;
+            margin-top: 1.5rem !important;
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .solution-content > div[style*="background: linear-gradient"]::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #10b981, #34d399);
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+        
+        [data-theme="light"] .solution-content > div[style*="background: linear-gradient"] {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.05)) !important;
+            border-color: rgba(16, 185, 129, 0.3) !important;
+        }
+        
+        .solution-content strong {
+            font-size: 1rem !important;
+            font-weight: 700 !important;
+            color: var(--color-success) !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 0.625rem !important;
+            margin-bottom: 1rem !important;
+        }
+        
+        .solution-content strong i {
+            font-size: 1.25rem !important;
+        }
+        
+        .solution-content ul {
+            color: var(--text-secondary) !important;
+            margin-top: 0.75rem !important;
+            margin-left: 2rem !important;
+            line-height: 2 !important;
+        }
+        
+        .solution-content li {
+            position: relative;
+            padding-left: 0.5rem;
+        }
+        
+        .solution-content li::marker {
+            color: var(--color-success);
+            font-weight: 700;
+        }
+        
+        /* Hints System - Beautiful Design */
+        .hints-container {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(147, 197, 253, 0.05));
+            border: 2px solid rgba(59, 130, 246, 0.25);
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.1);
+        }
+        
+        [data-theme="light"] .hints-container {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.06), rgba(147, 197, 253, 0.03));
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+        
+        .hints-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            color: var(--color-blue-500);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        
+        .hints-header i {
+            font-size: 1.5rem;
+        }
+        
+        .hint-buttons {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        
+        .hint-btn {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(59, 130, 246, 0.1));
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            color: var(--color-blue-500);
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hint-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .hint-btn:hover {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(59, 130, 246, 0.15));
+            border-color: rgba(59, 130, 246, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+        }
+        
+        .hint-btn:hover::before {
+            opacity: 1;
+        }
+        
+        .hint-btn i {
+            font-size: 1.125rem;
+        }
+        
+        .hint-btn.revealed {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(59, 130, 246, 0.15));
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+        
+        .hint-display {
+            display: none;
+            margin-top: 1rem;
+            padding: 1.25rem 1.5rem;
+            background: rgba(59, 130, 246, 0.08);
+            border-left: 4px solid var(--color-blue-500);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 0.9375rem;
+            animation: hintReveal 0.4s ease-out;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+        
+        [data-theme="light"] .hint-display {
+            background: rgba(59, 130, 246, 0.06);
+        }
+        
+        .hint-display.visible {
+            display: block;
+        }
+        
+        .hint-display strong {
+            color: var(--color-blue-500);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+        
+        .hint-display strong i {
+            font-size: 1.25rem;
+        }
+        
+        @keyframes hintReveal {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* Mark as Completed Button - Redesigned */
+        .mark-completed-btn {
+            background: linear-gradient(135deg, #3b82f6, #2563eb, #1d4ed8) !important;
+            background-size: 200% 100%;
+            color: white !important;
+            border: none !important;
+            padding: 1rem 2.5rem !important;
+            border-radius: 12px !important;
+            font-weight: 700 !important;
+            font-size: 1rem !important;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 
+                0 8px 24px rgba(59, 130, 246, 0.35),
+                0 0 0 0 rgba(59, 130, 246, 0.3) !important;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mark-completed-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .mark-completed-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 
+                0 16px 40px rgba(59, 130, 246, 0.45),
+                0 0 0 8px rgba(59, 130, 246, 0.1) !important;
+            background-position: 100% 0;
+        }
+        
+        .mark-completed-btn:hover::before {
+            opacity: 1;
+        }
+        
+        .mark-completed-btn i {
+            font-size: 1.25rem;
+            transition: transform 0.3s;
+        }
+        
+        .mark-completed-btn:hover i {
+            transform: rotate(360deg) scale(1.1);
+        }
+        
+        .mark-completed-btn:disabled {
+            opacity: 0.6 !important;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        /* Completed state */
+        .mark-completed-btn.completed {
+            background: linear-gradient(135deg, #10b981, #34d399, #10b981) !important;
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35) !important;
+        }
+        
+        .mark-completed-btn.completed:hover {
+            box-shadow: 0 12px 32px rgba(16, 185, 129, 0.45) !important;
+        }
+        
+        /* Scroll to Top Button - Performance Optimized */
         .scroll-to-top {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--color-success), var(--color-green-600));
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #10b981, #34d399);
             color: white;
             border: none;
             border-radius: 50%;
@@ -414,9 +1409,9 @@
             display: none;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
-            transition: all 0.3s ease;
+            font-size: 1.75rem;
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
             z-index: 100;
         }
         
@@ -425,45 +1420,302 @@
         }
         
         .scroll-to-top:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+            transform: translateY(-4px) scale(1.08);
+            box-shadow: 
+                0 12px 32px rgba(16, 185, 129, 0.45),
+                0 0 0 0 rgba(16, 185, 129, 0);
+        }
+        
+        .scroll-to-top:active {
+            transform: translateY(-2px) scale(1.05);
         }
         
         /* Light Theme Adjustments */
         [data-theme="light"] .output-box,
         [data-theme="light"] pre code {
-            background: rgba(248, 250, 252, 0.9);
-            border-color: rgba(16, 185, 129, 0.2);
+            background: rgba(248, 250, 252, 0.95) !important;
+            border-color: rgba(16, 185, 129, 0.3);
         }
         
         [data-theme="light"] .output-content {
             color: #1f2937;
         }
         
-        /* Mobile Responsive */
+        /* Solution Code Block Improvements */
+        .solution-content pre {
+            position: relative;
+            margin: var(--space-md) 0;
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+        }
+        
+        .solution-content pre code {
+            display: block !important;
+            padding: var(--space-lg) !important;
+            font-family: 'JetBrains Mono', monospace !important;
+            line-height: 1.7 !important;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.9)) !important;
+            border: 2px solid rgba(16, 185, 129, 0.3) !important;
+            border-radius: 12px !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        [data-theme="light"] .solution-content pre {
+            background: transparent !important;
+        }
+        
+        [data-theme="light"] .solution-content pre code {
+            background: linear-gradient(135deg, #ffffff, #f8fafc) !important;
+            border: 2px solid rgba(16, 185, 129, 0.3) !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        
+        /* Light theme syntax highlighting adjustments */
+        [data-theme="light"] .solution-content pre code span {
+            filter: brightness(0.65) saturate(1.3) contrast(1.1);
+        }
+        
+        /* Copy Code Button */
+        .copy-code-btn {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1.5px solid rgba(16, 185, 129, 0.3);
+            color: var(--color-success);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            z-index: 10;
+        }
+        
+        .copy-code-btn:hover {
+            background: rgba(16, 185, 129, 0.25);
+            border-color: rgba(16, 185, 129, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .copy-code-btn.copied {
+            background: rgba(16, 185, 129, 0.3);
+            border-color: rgba(16, 185, 129, 0.6);
+        }
+        
+        .copy-code-btn i {
+            font-size: 1rem;
+        }
+        
+        /* Back to Hub Button - Theme Support */
+        .back-to-hub-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.625rem;
+            padding: 1rem 2rem;
+            background: rgba(15, 23, 42, 0.7);
+            border: 2px solid rgba(71, 85, 105, 0.4);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        [data-theme="light"] .back-to-hub-btn {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: rgba(226, 232, 240, 0.8);
+        }
+        
+        .back-to-hub-btn:hover {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: rgba(16, 185, 129, 0.5);
+            transform: translateX(-4px);
+        }
+        
+        [data-theme="light"] .back-to-hub-btn:hover {
+            background: rgba(16, 185, 129, 0.1);
+        }
+        
+        /* Minimized Footer Styles */
+        .footer {
+            padding: 2rem 0 1.5rem !important;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem !important;
+        }
+        
+        .footer-brand {
+            text-align: center;
+            margin-bottom: 0 !important;
+        }
+        
+        .footer-brand .brand-icon {
+            width: 36px !important;
+            height: 36px !important;
+            font-size: 1.25rem !important;
+            margin: 0 auto 0.5rem !important;
+        }
+        
+        .footer-brand .brand-name {
+            font-size: 1rem !important;
+        }
+        
+        .footer-brand .footer-tagline {
+            font-size: 0.8125rem !important;
+            margin-top: 0.25rem !important;
+        }
+        
+        .footer-links {
+            display: none !important;
+        }
+        
+        .footer-bottom {
+            margin-top: 1rem !important;
+            padding-top: 0.75rem !important;
+        }
+        
+        .footer-bottom p {
+            font-size: 0.8125rem !important;
+        }
+        
+        /* Mobile Responsive - Enhanced */
         @media (max-width: 768px) {
+            .navbar-actions {
+                gap: 0.375rem !important;
+            }
+            
+            .nav-btn-primary,
+            .nav-btn-secondary,
+            .nav-btn-action {
+                padding: 0.5rem 0.75rem !important;
+                font-size: 0.8125rem !important;
+            }
+            
+            .nav-btn-primary span,
+            .nav-btn-secondary span {
+                display: none;
+            }
+            
+            .nav-btn-action span {
+                display: none;
+            }
+            
+            .nav-divider {
+                display: none;
+            }
+            
+            .exercise-container {
+                padding: calc(var(--space-2xl) + 60px) var(--space-md) var(--space-2xl);
+            }
+            
+            .breadcrumb {
+                padding: 0.75rem 1rem;
+                font-size: 0.875rem;
+                flex-wrap: wrap;
+            }
+            
+            .exercise-hero {
+                padding: var(--space-2xl) var(--space-md);
+            }
+            
+            .exercise-hero-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 2.5rem;
+            }
+            
             .exercise-hero h1 {
-                font-size: 2rem;
+                font-size: 2.25rem;
+            }
+            
+            .exercise-hero-subtitle {
+                font-size: 1.125rem;
+            }
+            
+            .exercise-meta {
+                gap: var(--space-sm);
+            }
+            
+            .meta-badge {
+                padding: 0.5rem 1rem;
+                font-size: 0.8125rem;
+            }
+            
+            .exercise-card {
+                margin-bottom: var(--space-lg);
+            }
+            
+            .exercise-header {
+                padding: 1rem 1.25rem;
+            }
+            
+            .exercise-number {
+                width: 45px;
+                height: 45px;
+                font-size: 1.125rem;
+            }
+            
+            .exercise-title {
+                font-size: 1.25rem;
+            }
+            
+            .exercise-body {
+                padding: 1.5rem;
+            }
+            
+            .exercise-body h3 {
+                font-size: 1.125rem;
+            }
+            
+            .exercise-body h4 {
+                font-size: 0.9375rem;
+            }
+            
+            .show-solution-btn {
+                padding: 0.875rem 1.75rem;
+                font-size: 0.9375rem;
+            }
+            
+            .scroll-to-top {
+                bottom: 1.5rem;
+                right: 1.5rem;
+                width: 52px;
+                height: 52px;
+                font-size: 1.5rem;
+            }
+            
+            .related-lesson {
+                flex-direction: column;
+                align-items: center;
+                padding: 1rem;
+            }
+            
+            .related-lesson > div {
+                text-align: center !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .exercise-hero h1 {
+                font-size: 1.875rem;
             }
             
             .exercise-meta {
                 flex-direction: column;
-                gap: var(--space-sm);
+                width: 100%;
             }
             
-            .exercise-header {
-                padding: var(--space-md);
-            }
-            
-            .exercise-body {
-                padding: var(--space-md);
-            }
-            
-            .scroll-to-top {
-                bottom: 1rem;
-                right: 1rem;
-                width: 45px;
-                height: 45px;
+            .meta-badge {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
@@ -497,17 +1749,40 @@
             </div>
 
             <div class="navbar-actions">
-                <a href="../index.html" class="action-btn demo-btn">
+                <!-- Learning Section -->
+                <a href="../index.html" class="nav-btn-primary">
                     <i class="ri-book-open-line"></i>
-                    <span>All Lessons</span>
+                    <span>Lessons</span>
                 </a>
-                <a href="exercises-index.html" class="action-btn demo-btn">
+                <a href="exercises-index.html" class="nav-btn-primary">
                     <i class="ri-trophy-line"></i>
-                    <span>Exercise Hub</span>
+                    <span>Exercises</span>
                 </a>
-                <a href="https://ipseudoeditor.netlify.app/" target="_blank" class="action-btn download-btn">
-                    <i class="ri-play-circle-line"></i>
-                    <span>Try Live</span>
+                
+                <!-- Divider -->
+                <div class="nav-divider"></div>
+                
+                <!-- Tools Section -->
+                <a href="../dashboard/index.html" class="nav-btn-secondary">
+                    <i class="ri-dashboard-line"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="../statistics.html" class="nav-btn-secondary">
+                    <i class="ri-bar-chart-line"></i>
+                    <span>Stats</span>
+                </a>
+                <a href="../my-notes.html" class="nav-btn-secondary">
+                    <i class="ri-sticky-note-line"></i>
+                    <span>Notes</span>
+                </a>
+                
+                <!-- Divider -->
+                <div class="nav-divider"></div>
+                
+                <!-- Action Button -->
+                <a href="https://ipseudoeditor.netlify.app/" target="_blank" class="nav-btn-action">
+                    <i class="ri-play-circle-fill"></i>
+                    <span>Try Live Editor</span>
                 </a>
             </div>
         </div>
@@ -551,16 +1826,16 @@
                 </span>
             </div>
             
-            <div class="related-lesson">
-                <i class="ri-book-open-line" style="color: var(--color-success); font-size: 1.25rem;"></i>
+            <a href="../03-variables-and-data-types.html" class="related-lesson" style="text-decoration: none;">
+                <i class="ri-book-open-line"></i>
                 <div style="flex: 1; text-align: left;">
-                    <div style="font-size: 0.75rem; color: var(--text-tertiary); margin-bottom: 0.25rem;">RELATED LESSON</div>
-                    <a href="../03-variables-and-data-types.html">
+                    <div style="font-size: 0.75rem; color: var(--text-tertiary); margin-bottom: 0.25rem; text-transform: uppercase; letter-spacing: 0.05em;">Related Lesson</div>
+                    <div style="color: var(--color-success); font-weight: 700; font-size: 1.0625rem; display: flex; align-items: center; gap: 0.625rem;">
                         Variables & Data Types Theory
                         <i class="ri-arrow-right-line"></i>
-                    </a>
                 </div>
             </div>
+            </a>
         </div>
 
         <!-- Exercise 1 -->
@@ -608,6 +1883,31 @@ Your age is: 34 years old.</div>
                     
                     <!-- Solution Section -->
                     <div class="solution-section">
+                        <!-- Hints System -->
+                        <div class="hints-container">
+                            <div class="hints-header">
+                                <i class="ri-lightbulb-flash-line"></i>
+                                <span>Need Help? Try These Hints First!</span>
+                            </div>
+                            <div class="hint-buttons">
+                                <button class="hint-btn" onclick="showHint(1, 1)">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Hint 1
+                                </button>
+                                <button class="hint-btn" onclick="showHint(1, 2)">
+                                    <i class="ri-lightbulb-flash-line"></i>
+                                    Hint 2
+                                </button>
+                                <button class="hint-btn" onclick="showHint(1, 3)">
+                                    <i class="ri-flashlight-line"></i>
+                                    Hint 3
+                                </button>
+                            </div>
+                            <div id="hint-1-1" class="hint-display"></div>
+                            <div id="hint-1-2" class="hint-display"></div>
+                            <div id="hint-1-3" class="hint-display"></div>
+                        </div>
+                        
                         <div style="text-align: center;" id="solution-1-hidden">
                             <button class="show-solution-btn" onclick="showSolution(1)">
                                 <i class="ri-eye-line"></i>
@@ -640,7 +1940,7 @@ Your age is: 34 years old.</div>
                             </div>
                             
                             <div style="text-align: center; margin-top: var(--space-lg);">
-                                <button class="show-solution-btn" onclick="markAsCompleted(1)" style="background: linear-gradient(135deg, var(--color-blue-500), var(--color-cyan-500)); box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);">
+                                <button class="mark-completed-btn" onclick="markAsCompleted(1)">
                                     <i class="ri-check-double-line"></i>
                                     Mark as Completed
                                 </button>
@@ -697,6 +1997,31 @@ The area of the rectangle is: 50</div>
                     </div>
                     
                     <div class="solution-section">
+                        <!-- Hints System -->
+                        <div class="hints-container">
+                            <div class="hints-header">
+                                <i class="ri-lightbulb-flash-line"></i>
+                                <span>Need Help? Try These Hints First!</span>
+                            </div>
+                            <div class="hint-buttons">
+                                <button class="hint-btn" onclick="showHint(2, 1)">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Hint 1
+                                </button>
+                                <button class="hint-btn" onclick="showHint(2, 2)">
+                                    <i class="ri-lightbulb-flash-line"></i>
+                                    Hint 2
+                                </button>
+                                <button class="hint-btn" onclick="showHint(2, 3)">
+                                    <i class="ri-flashlight-line"></i>
+                                    Hint 3
+                                </button>
+                            </div>
+                            <div id="hint-2-1" class="hint-display"></div>
+                            <div id="hint-2-2" class="hint-display"></div>
+                            <div id="hint-2-3" class="hint-display"></div>
+                        </div>
+                        
                         <div style="text-align: center;" id="solution-2-hidden">
                             <button class="show-solution-btn" onclick="showSolution(2)">
                                 <i class="ri-eye-line"></i>
@@ -728,7 +2053,7 @@ The area of the rectangle is: 50</div>
                             </div>
                             
                             <div style="text-align: center; margin-top: var(--space-lg);">
-                                <button class="show-solution-btn" onclick="markAsCompleted(2)" style="background: linear-gradient(135deg, var(--color-blue-500), var(--color-cyan-500)); box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);">
+                                <button class="mark-completed-btn" onclick="markAsCompleted(2)">
                                     <i class="ri-check-double-line"></i>
                                     Mark as Completed
                                 </button>
@@ -785,6 +2110,31 @@ Your full name is: John Doe</div>
                     </div>
                     
                     <div class="solution-section">
+                        <!-- Hints System -->
+                        <div class="hints-container">
+                            <div class="hints-header">
+                                <i class="ri-lightbulb-flash-line"></i>
+                                <span>Need Help? Try These Hints First!</span>
+                            </div>
+                            <div class="hint-buttons">
+                                <button class="hint-btn" onclick="showHint(3, 1)">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Hint 1
+                                </button>
+                                <button class="hint-btn" onclick="showHint(3, 2)">
+                                    <i class="ri-lightbulb-flash-line"></i>
+                                    Hint 2
+                                </button>
+                                <button class="hint-btn" onclick="showHint(3, 3)">
+                                    <i class="ri-flashlight-line"></i>
+                                    Hint 3
+                                </button>
+                            </div>
+                            <div id="hint-3-1" class="hint-display"></div>
+                            <div id="hint-3-2" class="hint-display"></div>
+                            <div id="hint-3-3" class="hint-display"></div>
+                        </div>
+                        
                         <div style="text-align: center;" id="solution-3-hidden">
                             <button class="show-solution-btn" onclick="showSolution(3)">
                                 <i class="ri-eye-line"></i>
@@ -816,7 +2166,7 @@ Your full name is: John Doe</div>
                             </div>
                             
                             <div style="text-align: center; margin-top: var(--space-lg);">
-                                <button class="show-solution-btn" onclick="markAsCompleted(3)" style="background: linear-gradient(135deg, var(--color-blue-500), var(--color-cyan-500)); box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);">
+                                <button class="mark-completed-btn" onclick="markAsCompleted(3)">
                                     <i class="ri-check-double-line"></i>
                                     Mark as Completed
                                 </button>
@@ -861,6 +2211,31 @@ Your full name is: John Doe</div>
                     </div>
                     
                     <div class="solution-section">
+                        <!-- Hints System -->
+                        <div class="hints-container">
+                            <div class="hints-header">
+                                <i class="ri-lightbulb-flash-line"></i>
+                                <span>Need Help? Try These Hints First!</span>
+                            </div>
+                            <div class="hint-buttons">
+                                <button class="hint-btn" onclick="showHint(4, 1)">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Hint 1
+                                </button>
+                                <button class="hint-btn" onclick="showHint(4, 2)">
+                                    <i class="ri-lightbulb-flash-line"></i>
+                                    Hint 2
+                                </button>
+                                <button class="hint-btn" onclick="showHint(4, 3)">
+                                    <i class="ri-flashlight-line"></i>
+                                    Hint 3
+                                </button>
+                            </div>
+                            <div id="hint-4-1" class="hint-display"></div>
+                            <div id="hint-4-2" class="hint-display"></div>
+                            <div id="hint-4-3" class="hint-display"></div>
+                        </div>
+                        
                         <div style="text-align: center;" id="solution-4-hidden">
                             <button class="show-solution-btn" onclick="showSolution(4)"><i class="ri-eye-line"></i> Show Solution</button>
                         </div>
@@ -872,7 +2247,10 @@ Your full name is: John Doe</div>
     <span style="color: #c678dd; font-weight: 600;">Print</span> celsius, <span style="color: #98c379;">"Celsius is"</span>, fahrenheit, <span style="color: #98c379;">"Fahrenheit"</span>
 <span style="color: #c678dd; font-weight: 600;">Endalgorithm</span></code></pre>
                             <div style="text-align: center; margin-top: var(--space-lg);">
-                                <button class="show-solution-btn" onclick="markAsCompleted(4)" style="background: linear-gradient(135deg, var(--color-blue-500), var(--color-cyan-500)); box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);"><i class="ri-check-double-line"></i> Mark as Completed</button>
+                                <button class="mark-completed-btn" onclick="markAsCompleted(4)">
+                                    <i class="ri-check-double-line"></i>
+                                    Mark as Completed
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -917,6 +2295,31 @@ Total Bill: 55.0</div>
                     </div>
                     
                     <div class="solution-section">
+                        <!-- Hints System -->
+                        <div class="hints-container">
+                            <div class="hints-header">
+                                <i class="ri-lightbulb-flash-line"></i>
+                                <span>Need Help? Try These Hints First!</span>
+                            </div>
+                            <div class="hint-buttons">
+                                <button class="hint-btn" onclick="showHint(5, 1)">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Hint 1
+                                </button>
+                                <button class="hint-btn" onclick="showHint(5, 2)">
+                                    <i class="ri-lightbulb-flash-line"></i>
+                                    Hint 2
+                                </button>
+                                <button class="hint-btn" onclick="showHint(5, 3)">
+                                    <i class="ri-flashlight-line"></i>
+                                    Hint 3
+                                </button>
+                            </div>
+                            <div id="hint-5-1" class="hint-display"></div>
+                            <div id="hint-5-2" class="hint-display"></div>
+                            <div id="hint-5-3" class="hint-display"></div>
+                        </div>
+                        
                         <div style="text-align: center;" id="solution-5-hidden">
                             <button class="show-solution-btn" onclick="showSolution(5)"><i class="ri-eye-line"></i> Show Solution</button>
                         </div>
@@ -933,7 +2336,10 @@ Total Bill: 55.0</div>
     <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Total Bill:"</span>, totalBill
 <span style="color: #c678dd; font-weight: 600;">Endalgorithm</span></code></pre>
                             <div style="text-align: center; margin-top: var(--space-lg);">
-                                <button class="show-solution-btn" onclick="markAsCompleted(5)" style="background: linear-gradient(135deg, var(--color-blue-500), var(--color-cyan-500)); box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);"><i class="ri-check-double-line"></i> Mark as Completed</button>
+                                <button class="mark-completed-btn" onclick="markAsCompleted(5)">
+                                    <i class="ri-check-double-line"></i>
+                                    Mark as Completed
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -972,6 +2378,31 @@ Total Bill: 55.0</div>
                     </div>
                     
                     <div class="solution-section">
+                        <!-- Hints System -->
+                        <div class="hints-container">
+                            <div class="hints-header">
+                                <i class="ri-lightbulb-flash-line"></i>
+                                <span>Need Help? Try These Hints First!</span>
+                            </div>
+                            <div class="hint-buttons">
+                                <button class="hint-btn" onclick="showHint(6, 1)">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Hint 1
+                                </button>
+                                <button class="hint-btn" onclick="showHint(6, 2)">
+                                    <i class="ri-lightbulb-flash-line"></i>
+                                    Hint 2
+                                </button>
+                                <button class="hint-btn" onclick="showHint(6, 3)">
+                                    <i class="ri-flashlight-line"></i>
+                                    Hint 3
+                                </button>
+                            </div>
+                            <div id="hint-6-1" class="hint-display"></div>
+                            <div id="hint-6-2" class="hint-display"></div>
+                            <div id="hint-6-3" class="hint-display"></div>
+                        </div>
+                        
                         <div style="text-align: center;" id="solution-6-hidden">
                             <button class="show-solution-btn" onclick="showSolution(6)"><i class="ri-eye-line"></i> Show Solution</button>
                         </div>
@@ -1005,7 +2436,10 @@ Total Bill: 55.0</div>
                             </div>
                             
                             <div style="text-align: center; margin-top: var(--space-lg);">
-                                <button class="show-solution-btn" onclick="markAsCompleted(6)" style="background: linear-gradient(135deg, var(--color-blue-500), var(--color-cyan-500)); box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);"><i class="ri-check-double-line"></i> Mark as Completed</button>
+                                <button class="mark-completed-btn" onclick="markAsCompleted(6)">
+                                    <i class="ri-check-double-line"></i>
+                                    Mark as Completed
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -1042,6 +2476,31 @@ Your BMI is: 22.86</div>
                     </div>
                     
                     <div class="solution-section">
+                        <!-- Hints System -->
+                        <div class="hints-container">
+                            <div class="hints-header">
+                                <i class="ri-lightbulb-flash-line"></i>
+                                <span>Need Help? Try These Hints First!</span>
+                            </div>
+                            <div class="hint-buttons">
+                                <button class="hint-btn" onclick="showHint(7, 1)">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Hint 1
+                                </button>
+                                <button class="hint-btn" onclick="showHint(7, 2)">
+                                    <i class="ri-lightbulb-flash-line"></i>
+                                    Hint 2
+                                </button>
+                                <button class="hint-btn" onclick="showHint(7, 3)">
+                                    <i class="ri-flashlight-line"></i>
+                                    Hint 3
+                                </button>
+                            </div>
+                            <div id="hint-7-1" class="hint-display"></div>
+                            <div id="hint-7-2" class="hint-display"></div>
+                            <div id="hint-7-3" class="hint-display"></div>
+                        </div>
+                        
                         <div style="text-align: center;" id="solution-7-hidden">
                             <button class="show-solution-btn" onclick="showSolution(7)"><i class="ri-eye-line"></i> Show Solution</button>
                         </div>
@@ -1068,7 +2527,10 @@ Your BMI is: 22.86</div>
                             </div>
                             
                             <div style="text-align: center; margin-top: var(--space-lg);">
-                                <button class="show-solution-btn" onclick="markAsCompleted(7)" style="background: linear-gradient(135deg, var(--color-blue-500), var(--color-cyan-500)); box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);"><i class="ri-check-double-line"></i> Mark as Completed</button>
+                                <button class="mark-completed-btn" onclick="markAsCompleted(7)">
+                                    <i class="ri-check-double-line"></i>
+                                    Mark as Completed
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -1105,6 +2567,31 @@ Circle Circumference: 31.4159</div>
                     </div>
                     
                     <div class="solution-section">
+                        <!-- Hints System -->
+                        <div class="hints-container">
+                            <div class="hints-header">
+                                <i class="ri-lightbulb-flash-line"></i>
+                                <span>Need Help? Try These Hints First!</span>
+                            </div>
+                            <div class="hint-buttons">
+                                <button class="hint-btn" onclick="showHint(8, 1)">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Hint 1
+                                </button>
+                                <button class="hint-btn" onclick="showHint(8, 2)">
+                                    <i class="ri-lightbulb-flash-line"></i>
+                                    Hint 2
+                                </button>
+                                <button class="hint-btn" onclick="showHint(8, 3)">
+                                    <i class="ri-flashlight-line"></i>
+                                    Hint 3
+                                </button>
+                            </div>
+                            <div id="hint-8-1" class="hint-display"></div>
+                            <div id="hint-8-2" class="hint-display"></div>
+                            <div id="hint-8-3" class="hint-display"></div>
+                        </div>
+                        
                         <div style="text-align: center;" id="solution-8-hidden">
                             <button class="show-solution-btn" onclick="showSolution(8)"><i class="ri-eye-line"></i> Show Solution</button>
                         </div>
@@ -1131,7 +2618,10 @@ Circle Circumference: 31.4159</div>
                             </div>
                             
                             <div style="text-align: center; margin-top: var(--space-lg);">
-                                <button class="show-solution-btn" onclick="markAsCompleted(8)" style="background: linear-gradient(135deg, var(--color-blue-500), var(--color-cyan-500)); box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);"><i class="ri-check-double-line"></i> Mark as Completed</button>
+                                <button class="mark-completed-btn" onclick="markAsCompleted(8)">
+                                    <i class="ri-check-double-line"></i>
+                                    Mark as Completed
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -1170,6 +2660,31 @@ $100.00 USD equals:
                     </div>
                     
                     <div class="solution-section">
+                        <!-- Hints System -->
+                        <div class="hints-container">
+                            <div class="hints-header">
+                                <i class="ri-lightbulb-flash-line"></i>
+                                <span>Need Help? Try These Hints First!</span>
+                            </div>
+                            <div class="hint-buttons">
+                                <button class="hint-btn" onclick="showHint(9, 1)">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Hint 1
+                                </button>
+                                <button class="hint-btn" onclick="showHint(9, 2)">
+                                    <i class="ri-lightbulb-flash-line"></i>
+                                    Hint 2
+                                </button>
+                                <button class="hint-btn" onclick="showHint(9, 3)">
+                                    <i class="ri-flashlight-line"></i>
+                                    Hint 3
+                                </button>
+                            </div>
+                            <div id="hint-9-1" class="hint-display"></div>
+                            <div id="hint-9-2" class="hint-display"></div>
+                            <div id="hint-9-3" class="hint-display"></div>
+                        </div>
+                        
                         <div style="text-align: center;" id="solution-9-hidden">
                             <button class="show-solution-btn" onclick="showSolution(9)"><i class="ri-eye-line"></i> Show Solution</button>
                         </div>
@@ -1202,7 +2717,10 @@ $100.00 USD equals:
                             </div>
                             
                             <div style="text-align: center; margin-top: var(--space-lg);">
-                                <button class="show-solution-btn" onclick="markAsCompleted(9)" style="background: linear-gradient(135deg, var(--color-blue-500), var(--color-cyan-500)); box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);"><i class="ri-check-double-line"></i> Mark as Completed</button>
+                                <button class="mark-completed-btn" onclick="markAsCompleted(9)">
+                                    <i class="ri-check-double-line"></i>
+                                    Mark as Completed
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -1246,6 +2764,31 @@ Status: Pass</div>
                     </div>
                     
                     <div class="solution-section">
+                        <!-- Hints System -->
+                        <div class="hints-container">
+                            <div class="hints-header">
+                                <i class="ri-lightbulb-flash-line"></i>
+                                <span>Need Help? Try These Hints First!</span>
+                            </div>
+                            <div class="hint-buttons">
+                                <button class="hint-btn" onclick="showHint(10, 1)">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Hint 1
+                                </button>
+                                <button class="hint-btn" onclick="showHint(10, 2)">
+                                    <i class="ri-lightbulb-flash-line"></i>
+                                    Hint 2
+                                </button>
+                                <button class="hint-btn" onclick="showHint(10, 3)">
+                                    <i class="ri-flashlight-line"></i>
+                                    Hint 3
+                                </button>
+                            </div>
+                            <div id="hint-10-1" class="hint-display"></div>
+                            <div id="hint-10-2" class="hint-display"></div>
+                            <div id="hint-10-3" class="hint-display"></div>
+                        </div>
+                        
                         <div style="text-align: center;" id="solution-10-hidden">
                             <button class="show-solution-btn" onclick="showSolution(10)"><i class="ri-eye-line"></i> Show Solution</button>
                         </div>
@@ -1284,7 +2827,10 @@ Status: Pass</div>
                             </div>
                             
                             <div style="text-align: center; margin-top: var(--space-lg);">
-                                <button class="show-solution-btn" onclick="markAsCompleted(10)" style="background: linear-gradient(135deg, var(--color-blue-500), var(--color-cyan-500)); box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);"><i class="ri-check-double-line"></i> Mark as Completed</button>
+                                <button class="mark-completed-btn" onclick="markAsCompleted(10)">
+                                    <i class="ri-check-double-line"></i>
+                                    Mark as Completed
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -1294,7 +2840,7 @@ Status: Pass</div>
 
         <!-- Back Button -->
         <div style="text-align: center; margin-top: var(--space-3xl);">
-            <a href="exercises-index.html" style="display: inline-flex; align-items: center; gap: 0.625rem; padding: 1rem 2rem; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-md); color: var(--text-primary); text-decoration: none; font-weight: 600; transition: all 0.3s ease; backdrop-filter: blur(20px);">
+            <a href="exercises-index.html" class="back-to-hub-btn">
                 <i class="ri-arrow-left-line"></i>
                 Back to Exercise Hub
             </a>
@@ -1368,11 +2914,12 @@ Status: Pass</div>
     </button>
 
     <!-- Scripts -->
-    <script src="../js/global-search.js"></script>
-    <script src="../js/performance.js"></script>
-    <script src="../js/pwa-init.js"></script>
     <script src="../js/script.js"></script>
-    <script src="exercise-enhancements.js"></script>
+    <script src="../js/global-search.js"></script>
+    <!-- Disabled for maximum performance -->
+    <!-- <script src="../js/performance.js"></script> -->
+    <!-- <script src="../js/pwa-init.js"></script> -->
+    <!-- <script src="exercise-enhancements.js"></script> -->
     <script>
         // Toggle exercise expansion
         function toggleExercise(header) {
@@ -1389,37 +2936,262 @@ Status: Pass</div>
             solutionDiv.classList.add('visible');
         }
 
-        // Mark as completed
+        // Hints System - Exercise-specific hints
+        const exerciseHints = {
+            1: [
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Variables</strong><p>You\'ll need to store two values: the current year (2024) and the birth year from user input.</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Calculation</strong><p>Age is calculated by subtracting birth year from current year. Use the subtraction operator (-).</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Steps</strong><p>1) Declare currentYear = 2024<br>2) Get birthYear from Input<br>3) Calculate: age = currentYear - birthYear<br>4) Print the result</p>'
+            ],
+            2: [
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Inputs</strong><p>You need two Input statements - one for length and one for width.</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Formula</strong><p>Rectangle area = length × width. Use the multiplication operator (*).</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Structure</strong><p>Get length → Get width → Calculate area = length * width → Print the result</p>'
+            ],
+            3: [
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: String Variables</strong><p>You\'ll work with string (text) variables, not numbers. Use Input to get both names.</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Concatenation</strong><p>Join strings using the + operator. Don\'t forget to add a space " " between first and last name!</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Example</strong><p>fullName = firstName + " " + lastName</p>'
+            ],
+            4: [
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Formula</strong><p>The formula is: F = C × 9/5 + 32. Follow the order of operations carefully!</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Parentheses</strong><p>Use parentheses to ensure multiplication happens before addition: (celsius * 9 / 5) + 32</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Variables</strong><p>Store celsius from input, then calculate fahrenheit, then print both values.</p>'
+            ],
+            5: [
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Multiple Values</strong><p>You need variables for: price1, price2, subtotal, taxAmount, and totalBill.</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Tax Calculation</strong><p>10% tax means multiply subtotal by 0.10 (or 0.1). Remember: 10% = 10/100 = 0.10</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Steps</strong><p>1) Add prices → subtotal<br>2) Calculate tax: subtotal * 0.10<br>3) Add subtotal + tax → total<br>4) Print all three values</p>'
+            ],
+            6: [
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Integer Division</strong><p>Use division (/) to get whole numbers and modulo (mod) to get remainders.</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Sequential</strong><p>First convert to years and get remaining days. Then convert remaining days to weeks and final days.</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Operations</strong><p>years = totalDays / 365<br>remainingDays = totalDays mod 365<br>weeks = remainingDays / 7<br>days = remainingDays mod 7</p>'
+            ],
+            7: [
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Formula</strong><p>BMI = weight / (height × height). Height must be multiplied by itself (squared).</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Parentheses</strong><p>Use parentheses for the height squared calculation: (heightMeters * heightMeters)</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Variables</strong><p>Get weight and height from input, calculate BMI using the formula, then print the result.</p>'
+            ],
+            8: [
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Pi Constant</strong><p>Store π (pi) as a variable: pi = 3.14159. You\'ll use it for both calculations.</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Formulas</strong><p>Area = π × radius × radius<br>Circumference = 2 × π × radius</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Squaring</strong><p>To square the radius, multiply it by itself: radius * radius</p>'
+            ],
+            9: [
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Exchange Rates</strong><p>Store all three exchange rates as constants at the beginning: usdToEur, usdToGbp, usdToJpy.</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Multiple Conversions</strong><p>Get USD amount once, then multiply by each exchange rate to get EUR, GBP, and JPY amounts.</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Output</strong><p>Print each currency with its symbol: $, €, £, ¥ for better formatting.</p>'
+            ],
+            10: [
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Five Inputs</strong><p>You need to get 5 test scores from the user. Use 5 separate Input statements.</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Calculate Total and Average</strong><p>Add all 5 scores to get total. Then divide total by 5 to get average.</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Pass/Fail</strong><p>Use an If statement to check: If average >= 60, status = "Pass", otherwise status = "Fail"</p>'
+            ]
+        };
+        
+        // Show hint function
+        function showHint(exerciseNum, hintNum) {
+            const hintDiv = document.getElementById(`hint-${exerciseNum}-${hintNum}`);
+            const hintBtn = event.target.closest('.hint-btn');
+            
+            if (hintDiv && exerciseHints[exerciseNum] && exerciseHints[exerciseNum][hintNum - 1]) {
+                if (hintDiv.classList.contains('visible')) {
+                    // Hide hint
+                    hintDiv.classList.remove('visible');
+                    hintBtn.classList.remove('revealed');
+                } else {
+                    // Show hint
+                    hintDiv.innerHTML = exerciseHints[exerciseNum][hintNum - 1];
+                    hintDiv.classList.add('visible');
+                    hintBtn.classList.add('revealed');
+                    
+                    // Scroll hint into view
+                    setTimeout(() => {
+                        hintDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }, 100);
+                }
+            }
+        }
+
+        // Mark as completed - Enhanced with Dashboard/Stats/Notes Sync
         function markAsCompleted(num) {
             const card = document.getElementById(`exercise-${num}`);
             card.classList.add('completed');
             
-            // Save to localStorage
+            const btn = event.target.closest('button');
+            
+            // Get exercise details
+            const exerciseTitle = card.querySelector('.exercise-title').textContent;
+            const difficulty = card.querySelector('[class*="difficulty-"]').textContent.trim();
+            const timeEstimate = card.querySelector('.time-badge').textContent.trim();
+            
+            // Save to completedExercises (existing structure)
             const completedExercises = JSON.parse(localStorage.getItem('completedExercises') || '{}');
             completedExercises[`variables-${num}`] = true;
             localStorage.setItem('completedExercises', JSON.stringify(completedExercises));
             
-            // Show success message
-            const btn = event.target.closest('button');
+            // Sync with Dashboard - Save detailed progress
+            const dashboardProgress = JSON.parse(localStorage.getItem('dashboardProgress') || '{}');
+            if (!dashboardProgress.exercises) dashboardProgress.exercises = {};
+            
+            dashboardProgress.exercises[`variables-${num}`] = {
+                title: exerciseTitle,
+                topic: 'Variables & Data Types',
+                difficulty: difficulty,
+                timeEstimate: timeEstimate,
+                completedAt: new Date().toISOString(),
+                completedDate: new Date().toLocaleDateString(),
+                category: 'exercises'
+            };
+            
+            // Update exercise stats
+            if (!dashboardProgress.stats) {
+                dashboardProgress.stats = {
+                    totalExercises: 0,
+                    completedExercises: 0,
+                    easyCompleted: 0,
+                    mediumCompleted: 0,
+                    hardCompleted: 0
+                };
+            }
+            
+            dashboardProgress.stats.completedExercises = Object.keys(dashboardProgress.exercises).length;
+            
+            if (difficulty.includes('Easy')) dashboardProgress.stats.easyCompleted++;
+            if (difficulty.includes('Medium')) dashboardProgress.stats.mediumCompleted++;
+            if (difficulty.includes('Hard')) dashboardProgress.stats.hardCompleted++;
+            
+            localStorage.setItem('dashboardProgress', JSON.stringify(dashboardProgress));
+            
+            // Sync with Statistics - Track activity
+            const userStats = JSON.parse(localStorage.getItem('userStatistics') || '{}');
+            if (!userStats.exerciseActivity) userStats.exerciseActivity = [];
+            
+            userStats.exerciseActivity.push({
+                type: 'exercise_completed',
+                exercise: exerciseTitle,
+                topic: 'Variables & Data Types',
+                difficulty: difficulty,
+                timestamp: new Date().toISOString(),
+                date: new Date().toLocaleDateString()
+            });
+            
+            // Update stats summary
+            if (!userStats.summary) {
+                userStats.summary = {
+                    totalExercisesCompleted: 0,
+                    totalTimeSpent: 0,
+                    currentStreak: 0,
+                    lastActivityDate: null
+                };
+            }
+            
+            userStats.summary.totalExercisesCompleted++;
+            userStats.summary.lastActivityDate = new Date().toISOString();
+            
+            localStorage.setItem('userStatistics', JSON.stringify(userStats));
+            
+            // Sync with Notes - Auto-create completion note
+            const exerciseNotes = JSON.parse(localStorage.getItem('exerciseNotes') || '{}');
+            if (!exerciseNotes[`variables-${num}`]) {
+                exerciseNotes[`variables-${num}`] = {
+                    title: exerciseTitle,
+                    topic: 'Variables & Data Types',
+                    completedAt: new Date().toISOString(),
+                    autoNote: `Completed ${exerciseTitle} (${difficulty}) on ${new Date().toLocaleDateString()}`
+                };
+            }
+            localStorage.setItem('exerciseNotes', JSON.stringify(exerciseNotes));
+            
+            // Trigger custom event for real-time sync
+            window.dispatchEvent(new CustomEvent('exerciseCompleted', {
+                detail: {
+                    exerciseId: `variables-${num}`,
+                    title: exerciseTitle,
+                    topic: 'Variables & Data Types',
+                    difficulty: difficulty
+                }
+            }));
+            
+            // Visual feedback
             btn.innerHTML = '<i class="ri-check-double-line"></i> Completed!';
-            btn.style.background = 'linear-gradient(135deg, var(--color-success), var(--color-green-600))';
+            btn.classList.add('completed');
+            
+            // Confetti effect (optional visual enhancement)
+            createConfetti(btn);
             
             setTimeout(() => {
                 btn.disabled = true;
-                btn.style.opacity = '0.6';
-            }, 1000);
+            }, 1500);
+        }
+        
+        // Confetti effect for completion
+        function createConfetti(button) {
+            const colors = ['#10b981', '#34d399', '#6ee7b7', '#3b82f6', '#60a5fa'];
+            const rect = button.getBoundingClientRect();
+            
+            for (let i = 0; i < 20; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.cssText = `
+                    position: fixed;
+                    width: 8px;
+                    height: 8px;
+                    background: ${colors[Math.floor(Math.random() * colors.length)]};
+                    border-radius: 50%;
+                    left: ${rect.left + rect.width / 2}px;
+                    top: ${rect.top + rect.height / 2}px;
+                    pointer-events: none;
+                    z-index: 10000;
+                `;
+                
+                document.body.appendChild(confetti);
+                
+                const angle = (Math.random() * 360) * Math.PI / 180;
+                const velocity = 2 + Math.random() * 4;
+                const lifetime = 1000 + Math.random() * 1000;
+                
+                let x = 0, y = 0;
+                const animation = setInterval(() => {
+                    x += Math.cos(angle) * velocity;
+                    y += Math.sin(angle) * velocity + 2;
+                    confetti.style.transform = `translate(${x}px, ${y}px) rotate(${x * 2}deg)`;
+                    confetti.style.opacity = 1 - (y / 200);
+                }, 16);
+                
+                setTimeout(() => {
+                    clearInterval(animation);
+                    confetti.remove();
+                }, lifetime);
+            }
         }
 
-        // Scroll to top functionality
+        // Optimized scroll to top functionality with debouncing
         const scrollToTopBtn = document.getElementById('scrollToTop');
         
-        window.addEventListener('scroll', () => {
+        // Debounce function for performance
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+        
+        // Use passive listener for better scroll performance
+        const handleScroll = debounce(() => {
             if (window.pageYOffset > 300) {
                 scrollToTopBtn.classList.add('visible');
             } else {
                 scrollToTopBtn.classList.remove('visible');
             }
-        });
+        }, 100);
+        
+        window.addEventListener('scroll', handleScroll, { passive: true });
         
         scrollToTopBtn.addEventListener('click', () => {
             window.scrollTo({
@@ -1428,9 +3200,10 @@ Status: Pass</div>
             });
         });
 
-        // Load completed exercises on page load
+        // Load completed exercises on page load - Enhanced
         window.addEventListener('DOMContentLoaded', () => {
             const completedExercises = JSON.parse(localStorage.getItem('completedExercises') || '{}');
+            const dashboardProgress = JSON.parse(localStorage.getItem('dashboardProgress') || '{}');
             
             Object.keys(completedExercises).forEach(key => {
                 if (key.startsWith('variables-')) {
@@ -1438,10 +3211,66 @@ Status: Pass</div>
                     const card = document.getElementById(`exercise-${num}`);
                     if (card) {
                         card.classList.add('completed');
+                        
+                        // Update the button if solution is visible
+                        const solutionDiv = document.getElementById(`solution-${num}`);
+                        if (solutionDiv) {
+                            const btn = solutionDiv.querySelector('.mark-completed-btn');
+                            if (btn) {
+                                btn.innerHTML = '<i class="ri-check-double-line"></i> Completed!';
+                                btn.classList.add('completed');
+                                btn.disabled = true;
+                            }
+                        }
                     }
                 }
             });
+            
+            // Add copy buttons to all code blocks in solutions
+            addCopyButtonsToCodeBlocks();
+            
+            // Log sync status
+            console.log('📊 Exercise sync initialized');
+            console.log('Dashboard Progress:', dashboardProgress);
+            console.log('Completed Exercises:', completedExercises);
         });
+        
+        // Function to add copy buttons to code blocks
+        function addCopyButtonsToCodeBlocks() {
+            document.querySelectorAll('.solution-content pre').forEach((pre) => {
+                // Create copy button
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'copy-code-btn';
+                copyBtn.innerHTML = '<i class="ri-file-copy-line"></i><span>Copy Code</span>';
+                
+                // Add click event
+                copyBtn.addEventListener('click', function() {
+                    const code = pre.querySelector('code');
+                    if (code) {
+                        // Get the text content without HTML tags
+                        const textToCopy = code.innerText;
+                        
+                        // Copy to clipboard
+                        navigator.clipboard.writeText(textToCopy).then(() => {
+                            // Change button appearance
+                            copyBtn.innerHTML = '<i class="ri-check-line"></i><span>Copied!</span>';
+                            copyBtn.classList.add('copied');
+                            
+                            // Reset after 2 seconds
+                            setTimeout(() => {
+                                copyBtn.innerHTML = '<i class="ri-file-copy-line"></i><span>Copy Code</span>';
+                                copyBtn.classList.remove('copied');
+                            }, 2000);
+                        }).catch(err => {
+                            console.error('Failed to copy:', err);
+                        });
+                    }
+                });
+                
+                // Add button to pre element
+                pre.appendChild(copyBtn);
+            });
+        }
     </script>
 </body>
 </html>

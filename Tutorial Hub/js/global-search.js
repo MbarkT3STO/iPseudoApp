@@ -335,8 +335,26 @@ class GlobalSearch {
         results.forEach(result => {
             const icon = result.icon || 'ri-book-open-line';
             
+            // Fix path based on current location
+            let filePath = result.file;
+            const currentPath = window.location.pathname;
+            
+            // If we're in the Exercises folder
+            if (currentPath.includes('/Exercises/')) {
+                // Remove 'Exercises/' prefix if present
+                if (filePath.startsWith('Exercises/')) {
+                    filePath = filePath.replace('Exercises/', '');
+                } else {
+                    // It's a lesson, go up one level
+                    filePath = '../' + filePath;
+                }
+            } else {
+                // We're in the root Tutorial Hub folder
+                // Paths are correct as-is
+            }
+            
             html += `
-                <a href="${result.file}" class="search-result-item">
+                <a href="${filePath}" class="search-result-item">
                     <div class="result-icon result-icon-${result.level}">
                         <i class="${icon}"></i>
                     </div>

@@ -28,6 +28,46 @@
     <link rel="stylesheet" href="../css/tutorial.css">
     
     <style>
+        /* MAXIMUM PERFORMANCE MODE - Optimized Styles */
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Selection highlight */
+        ::selection {
+            background: rgba(139, 92, 246, 0.3);
+            color: var(--text-primary);
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--color-purple-500), var(--color-blue-500));
+            border-radius: 6px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, var(--color-purple-600), var(--color-blue-600));
+        }
+        
+        /* Reduce motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
         /* Exercise Hub Index Styles */
         .hub-container {
             max-width: 1400px;
@@ -35,35 +75,26 @@
             padding: calc(var(--space-3xl) + 60px) var(--space-lg) var(--space-3xl);
         }
         
-        /* Hero Section */
+        /* Hero Section - No glassmorphism */
         .hub-hero {
             text-align: center;
             margin-bottom: var(--space-3xl);
             padding: var(--space-3xl) var(--space-xl);
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
+            background: rgba(139, 92, 246, 0.05);
+            border: 1px solid rgba(139, 92, 246, 0.1);
             border-radius: var(--radius-xl);
-            backdrop-filter: blur(20px);
-            box-shadow: var(--glass-shadow);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
             position: relative;
             overflow: hidden;
         }
         
-        .hub-hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
-            animation: pulse 4s ease-in-out infinite;
+        [data-theme="light"] .hub-hero {
+            background: rgba(139, 92, 246, 0.03);
+            border-color: rgba(139, 92, 246, 0.15);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
         }
         
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-        }
+        /* Removed animated background for performance */
         
         .hub-hero-content {
             position: relative;
@@ -79,12 +110,6 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin-bottom: var(--space-md);
-            animation: gradientMove 5s ease infinite;
-        }
-        
-        @keyframes gradientMove {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
         }
         
         .hub-subtitle {
@@ -105,13 +130,17 @@
         }
         
         .stat-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
+            background: rgba(139, 92, 246, 0.05);
+            border: 1px solid rgba(139, 92, 246, 0.1);
             border-radius: var(--radius-lg);
             padding: var(--space-xl);
             text-align: center;
-            backdrop-filter: blur(20px);
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        [data-theme="light"] .stat-card {
+            background: rgba(139, 92, 246, 0.03);
+            border-color: rgba(139, 92, 246, 0.15);
         }
         
         .stat-card:hover {
@@ -140,12 +169,16 @@
         
         /* Progress Section */
         .overall-progress {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
+            background: rgba(139, 92, 246, 0.05);
+            border: 1px solid rgba(139, 92, 246, 0.1);
             border-radius: var(--radius-lg);
             padding: var(--space-xl);
             margin-bottom: var(--space-3xl);
-            backdrop-filter: blur(20px);
+        }
+        
+        [data-theme="light"] .overall-progress {
+            background: rgba(139, 92, 246, 0.03);
+            border-color: rgba(139, 92, 246, 0.15);
         }
         
         .progress-header {
@@ -222,13 +255,17 @@
         }
         
         .topic-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
+            background: rgba(139, 92, 246, 0.05);
+            border: 1px solid rgba(139, 92, 246, 0.1);
             border-radius: var(--radius-lg);
             overflow: hidden;
-            transition: all 0.3s;
-            backdrop-filter: blur(20px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
+        }
+        
+        [data-theme="light"] .topic-card {
+            background: rgba(139, 92, 246, 0.03);
+            border-color: rgba(139, 92, 246, 0.15);
         }
         
         .topic-card:hover {
@@ -421,6 +458,112 @@
             box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
         }
         
+        /* Modern Navbar Styles */
+        .navbar {
+            backdrop-filter: blur(12px) saturate(180%);
+            background: rgba(15, 23, 42, 0.7) !important;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+        }
+        
+        [data-theme="light"] .navbar {
+            background: rgba(255, 255, 255, 0.7) !important;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.15);
+        }
+        
+        .navbar-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .action-btn {
+            padding: 0.625rem 1.25rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 0.9375rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap;
+        }
+        
+        .action-btn.demo-btn {
+            color: var(--text-primary);
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+        
+        .action-btn.demo-btn:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: rgba(139, 92, 246, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .action-btn.download-btn {
+            background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500));
+            color: white;
+            border: none;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+        
+        .action-btn.download-btn:hover {
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .action-divider {
+            width: 1px;
+            height: 24px;
+            background: rgba(139, 92, 246, 0.2);
+            margin: 0 0.25rem;
+        }
+        
+        /* Minimized Footer */
+        .footer {
+            padding: 2rem 0;
+            background: rgba(0, 0, 0, 0.03);
+            border-top: 1px solid rgba(139, 92, 246, 0.1);
+        }
+        
+        [data-theme="light"] .footer {
+            background: rgba(0, 0, 0, 0.02);
+        }
+        
+        .footer-content {
+            display: none !important;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        /* Background - Disabled for performance */
+        .background-container .gradient-orb,
+        .background-container .grid-pattern {
+            display: none !important;
+        }
+        
+        /* Back to Hub Button */
+        .back-to-hub-btn:hover {
+            background: rgba(139, 92, 246, 0.2) !important;
+            border-color: rgba(139, 92, 246, 0.4) !important;
+            transform: translateY(-2px);
+        }
+        
+        [data-theme="light"] .back-to-hub-btn {
+            background: rgba(139, 92, 246, 0.08) !important;
+            border-color: rgba(139, 92, 246, 0.25) !important;
+        }
+        
+        [data-theme="light"] .back-to-hub-btn:hover {
+            background: rgba(139, 92, 246, 0.15) !important;
+            border-color: rgba(139, 92, 246, 0.4) !important;
+        }
+        
         @media (max-width: 768px) {
             .hub-hero h1 {
                 font-size: 2.5rem;
@@ -432,6 +575,14 @@
             
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .navbar-actions .action-btn span {
+                display: none;
+            }
+            
+            .action-divider {
+                display: none;
             }
         }
     </style>
@@ -465,14 +616,28 @@
             </div>
 
             <div class="navbar-actions">
+                <a href="../dashboard/index.html" class="action-btn demo-btn">
+                    <i class="ri-dashboard-line"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="../statistics.html" class="action-btn demo-btn">
+                    <i class="ri-bar-chart-box-line"></i>
+                    <span>Statistics</span>
+                </a>
+                <a href="../my-notes.html" class="action-btn demo-btn">
+                    <i class="ri-sticky-note-line"></i>
+                    <span>My Notes</span>
+                </a>
+                <div class="action-divider"></div>
                 <a href="../index.html" class="action-btn demo-btn">
                     <i class="ri-book-open-line"></i>
                     <span>All Lessons</span>
                 </a>
                 <a href="exercises-index.html" class="action-btn demo-btn">
                     <i class="ri-trophy-line"></i>
-                    <span>Exercise Hub</span>
+                    <span>Exercises</span>
                 </a>
+                <div class="action-divider"></div>
                 <a href="https://ipseudoeditor.netlify.app/" target="_blank" class="action-btn download-btn">
                     <i class="ri-play-circle-line"></i>
                     <span>Try Live</span>
@@ -743,7 +908,7 @@
 
         <!-- Back Button -->
         <div style="text-align: center; margin-top: var(--space-3xl);">
-            <a href="../index.html" style="display: inline-flex; align-items: center; gap: 0.625rem; padding: 1rem 2rem; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-md); color: var(--text-primary); text-decoration: none; font-weight: 600; transition: all 0.3s; backdrop-filter: blur(20px);">
+            <a href="../index.html" class="back-to-hub-btn" style="display: inline-flex; align-items: center; gap: 0.625rem; padding: 1rem 2rem; background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: var(--radius-md); color: var(--text-primary); text-decoration: none; font-weight: 600; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);">
                     <i class="ri-arrow-left-line"></i>
                     Back to Tutorial Hub
                 </a>
@@ -817,10 +982,11 @@
     </button>
 
     <!-- Scripts -->
-    <script src="../js/global-search.js"></script>
-    <script src="../js/performance.js"></script>
-    <script src="../js/pwa-init.js"></script>
     <script src="../js/script.js"></script>
+    <script src="../js/global-search.js"></script>
+    <!-- Disabled for maximum performance -->
+    <!-- <script src="../js/performance.js"></script> -->
+    <!-- <script src="../js/pwa-init.js"></script> -->
     <script>
         // Calculate and display progress
         document.addEventListener('DOMContentLoaded', () => {
@@ -861,16 +1027,20 @@
             document.getElementById('timeSpent').textContent = estimatedMinutes;
         });
 
-        // Scroll to top
+        // Scroll to top with debouncing
         const scrollToTopBtn = document.getElementById('scrollToTop');
         
+        let scrollTimeout;
         window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                scrollToTopBtn.classList.add('visible');
-            } else {
-                scrollToTopBtn.classList.remove('visible');
-            }
-        });
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                if (window.pageYOffset > 300) {
+                    scrollToTopBtn.classList.add('visible');
+                } else {
+                    scrollToTopBtn.classList.remove('visible');
+                }
+            }, 100);
+        }, { passive: true });
         
         scrollToTopBtn.addEventListener('click', () => {
             window.scrollTo({

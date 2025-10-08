@@ -27,6 +27,166 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/tutorial.css">
+    
+    <style>
+        /* My Notes Page Modern Enhancements */
+        
+        /* Modern Navbar Styles */
+        .navbar {
+            backdrop-filter: blur(12px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+            background: rgba(15, 23, 42, 0.7) !important;
+            border-bottom: 1px solid rgba(147, 51, 234, 0.2);
+        }
+        
+        [data-theme="light"] .navbar {
+            background: rgba(255, 255, 255, 0.7) !important;
+            border-bottom: 1px solid rgba(147, 51, 234, 0.15);
+        }
+        
+        .navbar-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .nav-btn-primary,
+        .nav-btn-secondary,
+        .nav-btn-action {
+            padding: 0.625rem 1.125rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 0.9375rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap;
+        }
+        
+        .nav-btn-primary {
+            color: var(--text-primary);
+            background: rgba(147, 51, 234, 0.1);
+            border: 1px solid rgba(147, 51, 234, 0.2);
+        }
+        
+        .nav-btn-primary:hover {
+            background: rgba(147, 51, 234, 0.2);
+            border-color: rgba(147, 51, 234, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .nav-btn-secondary {
+            color: var(--text-secondary);
+            background: transparent;
+            border: 1px solid transparent;
+        }
+        
+        .nav-btn-secondary:hover {
+            color: var(--text-primary);
+            background: rgba(147, 51, 234, 0.1);
+            border-color: rgba(147, 51, 234, 0.2);
+        }
+        
+        .nav-btn-action {
+            background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500));
+            color: white;
+            border: none;
+            box-shadow: 0 4px 12px rgba(147, 51, 234, 0.3);
+        }
+        
+        .nav-btn-action:hover {
+            box-shadow: 0 6px 20px rgba(147, 51, 234, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .nav-divider {
+            width: 1px;
+            height: 24px;
+            background: rgba(147, 51, 234, 0.2);
+            margin: 0 0.25rem;
+        }
+        
+        /* Background - Disabled for performance */
+        .background-container .gradient-orb,
+        .background-container .grid-pattern {
+            display: none !important;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--color-purple-500), var(--color-blue-500));
+            border-radius: 6px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, var(--color-purple-600), var(--color-blue-600));
+        }
+        
+        /* Selection highlight */
+        ::selection {
+            background: rgba(147, 51, 234, 0.3);
+            color: var(--text-primary);
+        }
+        
+        /* Note Cards - No glassmorphism */
+        .note-card {
+            background: rgba(147, 51, 234, 0.05) !important;
+            border: 1px solid rgba(147, 51, 234, 0.1) !important;
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-lg);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        [data-theme="light"] .note-card {
+            background: rgba(147, 51, 234, 0.03) !important;
+            border-color: rgba(147, 51, 234, 0.15) !important;
+        }
+        
+        .note-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(147, 51, 234, 0.15);
+            border-color: rgba(147, 51, 234, 0.3) !important;
+        }
+        
+        /* Control Buttons */
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(147, 51, 234, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .navbar-actions {
+                gap: 0.375rem !important;
+            }
+            
+            .nav-btn-primary,
+            .nav-btn-secondary,
+            .nav-btn-action {
+                padding: 0.5rem 0.875rem !important;
+                font-size: 0.875rem !important;
+            }
+            
+            .nav-btn-secondary span,
+            .nav-btn-primary span {
+                display: none;
+            }
+            
+            .nav-divider {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="background-container">
@@ -55,17 +215,40 @@
             </div>
 
             <div class="navbar-actions">
-                <a href="index.html" class="action-btn demo-btn">
+                <!-- Learning Section -->
+                <a href="index.html" class="nav-btn-primary">
                     <i class="ri-book-open-line"></i>
-                    <span>All Lessons</span>
+                    <span>Lessons</span>
                 </a>
-                <a href="https://ipseudoeditor.netlify.app/" target="_blank" class="action-btn demo-btn">
-                    <i class="ri-play-circle-line"></i>
-                    <span>Try Live</span>
+                <a href="Exercises/exercises-index.html" class="nav-btn-primary">
+                    <i class="ri-trophy-line"></i>
+                    <span>Exercises</span>
                 </a>
-                <a href="https://ipseudo.netlify.app/#download" target="_blank" class="action-btn download-btn">
-                    <i class="ri-download-cloud-line"></i>
-                    <span>Download</span>
+                
+                <!-- Divider -->
+                <div class="nav-divider"></div>
+                
+                <!-- Tools Section -->
+                <a href="dashboard/index.html" class="nav-btn-secondary">
+                    <i class="ri-dashboard-line"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="statistics.html" class="nav-btn-secondary">
+                    <i class="ri-bar-chart-line"></i>
+                    <span>Stats</span>
+                </a>
+                <a href="my-notes.html" class="nav-btn-secondary">
+                    <i class="ri-sticky-note-line"></i>
+                    <span>Notes</span>
+                </a>
+                
+                <!-- Divider -->
+                <div class="nav-divider"></div>
+                
+                <!-- Action Button -->
+                <a href="https://ipseudoeditor.netlify.app/" target="_blank" class="nav-btn-action">
+                    <i class="ri-play-circle-fill"></i>
+                    <span>Try Live Editor</span>
                 </a>
             </div>
         </div>
@@ -120,6 +303,58 @@
 
     <footer class="footer">
         <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="brand-icon">
+                        <i class="ri-code-s-slash-line"></i>
+                    </div>
+                    <span class="brand-name">iPseudo IDE</span>
+                    <p class="footer-tagline">Making pseudocode beautiful</p>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Tutorial</h4>
+                        <ul>
+                            <li><a href="index.html">All Lessons</a></li>
+                            <li><a href="01-introduction-to-pseudocode.html">Getting Started</a></li>
+                            <li><a href="03-variables-and-data-types.html">Variables</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Exercises</h4>
+                        <ul>
+                            <li><a href="Exercises/exercises-index.html">Exercise Hub</a></li>
+                            <li><a href="Exercises/exercises-variables.html">Variables & Data Types</a></li>
+                            <li><a href="Exercises/exercises-operators.html">Operators</a></li>
+                            <li><a href="Exercises/exercises-conditionals.html">Conditionals</a></li>
+                            <li><a href="Exercises/exercises-loops.html">Loops</a></li>
+                            <li><a href="Exercises/exercises-functions.html">Functions</a></li>
+                            <li><a href="Exercises/exercises-arrays.html">Arrays</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="my-notes.html">My Notes</a></li>
+                            <li><a href="statistics.html">My Statistics</a></li>
+                            <li><a href="contact.html">Contact</a></li>
+                            <li><a href="https://ipseudoeditor.netlify.app/" target="_blank">Try Live Editor</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Support</h4>
+                        <ul>
+                            <li><a href="https://github.com/MbarkT3sto/iPseudoApp/issues">Report Issue</a></li>
+                            <li><a href="contact.html">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
             <div class="footer-bottom">
                 <p>&copy; 2025 iPseudo IDE by <strong>M'BARK</strong>. Free for personal & educational use.</p>
             </div>
@@ -130,15 +365,12 @@
         <i class="ri-arrow-up-line"></i>
     </button>
 
-    <script src="js/quick-jump.js"></script>
-    <script src="js/global-search.js"></script>
-    <script src="js/performance.js"></script>
-    <script src="js/performance.js"></script>
-    <script src="js/pwa-init.js"></script>
-    <script src="js/performance.js"></script>
-    <script src="js/performance.js"></script>
-    <script src="js/pwa-init.js"></script>
     <script src="js/script.js"></script>
+    <script src="js/global-search.js"></script>
+    <!-- Disabled for maximum performance -->
+    <!-- <script src="js/quick-jump.js"></script> -->
+    <!-- <script src="js/performance.js"></script> -->
+    <!-- <script src="js/pwa-init.js"></script> -->
     <script>
         // Lesson data
         const lessons = [

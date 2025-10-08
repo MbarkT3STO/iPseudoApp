@@ -28,11 +28,52 @@
     <link rel="stylesheet" href="../css/tutorial.css">
     
     <style>
+        /* MAXIMUM PERFORMANCE MODE - Optimized Styles */
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Selection highlight */
+        ::selection {
+            background: rgba(239, 68, 68, 0.3);
+            color: var(--text-primary);
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #ef4444, #dc2626);
+            border-radius: 6px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #dc2626, #ef4444);
+        }
+        
+        /* Reduce motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
         /* Exercise Page Enhanced Styles - Red Theme */
         .exercise-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: calc(var(--space-3xl) + 60px) var(--space-lg) var(--space-3xl);
+            contain: layout style;
         }
         
         /* Breadcrumb Navigation */
@@ -438,7 +479,342 @@
         }
         
         /* Mobile Responsive */
+        /* Modern Navbar Styles */
+        .navbar {
+            backdrop-filter: blur(12px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+            background: rgba(15, 23, 42, 0.7) !important;
+            border-bottom: 1px solid rgba(239, 68, 68, 0.2);
+        }
+        
+        [data-theme="light"] .navbar {
+            background: rgba(255, 255, 255, 0.7) !important;
+            border-bottom: 1px solid rgba(239, 68, 68, 0.15);
+        }
+        
+        .navbar-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .nav-btn-primary,
+        .nav-btn-secondary,
+        .nav-btn-action {
+            padding: 0.625rem 1.125rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 0.9375rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap;
+        }
+        
+        .nav-btn-primary {
+            color: var(--text-primary);
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+        
+        .nav-btn-primary:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .nav-btn-secondary {
+            color: var(--text-secondary);
+            background: transparent;
+            border: 1px solid transparent;
+        }
+        
+        .nav-btn-secondary:hover {
+            color: var(--text-primary);
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.2);
+        }
+        
+        .nav-btn-action {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+        
+        .nav-btn-action:hover {
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .nav-divider {
+            width: 1px;
+            height: 24px;
+            background: rgba(239, 68, 68, 0.2);
+            margin: 0 0.25rem;
+        }
+        
+        /* Hints System Styles */
+        .hints-container {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.05), rgba(220, 38, 38, 0.05));
+            border: 2px solid rgba(239, 68, 68, 0.15);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: var(--space-lg) 0;
+            box-shadow: 0 4px 16px rgba(239, 68, 68, 0.08);
+        }
+        
+        [data-theme="light"] .hints-container {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.03), rgba(220, 38, 38, 0.03));
+            border-color: rgba(239, 68, 68, 0.2);
+        }
+        
+        .hints-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #ef4444;
+        }
+        
+        .hints-header i {
+            font-size: 1.5rem;
+        }
+        
+        .hint-buttons {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        
+        .hint-btn {
+            padding: 0.625rem 1.25rem;
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid rgba(239, 68, 68, 0.25);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.9375rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .hint-btn:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .hint-btn.revealed {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .hint-display {
+            display: none;
+            padding: 1.25rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: var(--radius-md);
+            margin-top: 1rem;
+            animation: fadeInUp 0.3s ease;
+        }
+        
+        [data-theme="light"] .hint-display {
+            background: rgba(0, 0, 0, 0.02);
+        }
+        
+        .hint-display.visible {
+            display: block;
+        }
+        
+        .hint-display strong {
+            color: #ef4444;
+            display: block;
+            margin-bottom: 0.75rem;
+            font-size: 1.0625rem;
+        }
+        
+        .hint-display p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Mark as Completed Button */
+        .mark-completed-btn {
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            font-size: 1.0625rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mark-completed-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .mark-completed-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
+        }
+        
+        .mark-completed-btn:hover::before {
+            opacity: 1;
+        }
+        
+        .mark-completed-btn:active {
+            transform: scale(0.98);
+        }
+        
+        /* Completion Badge */
+        .exercise-card.completed .exercise-header::after {
+            content: '✓';
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.125rem;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+            animation: completionPulse 0.5s ease;
+            z-index: 10;
+        }
+        
+        @keyframes completionPulse {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Copy Code Button */
+        .copy-code-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 0.5rem 0.75rem;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10;
+        }
+        
+        .copy-code-btn:hover {
+            background: rgba(239, 68, 68, 0.25);
+            border-color: rgba(239, 68, 68, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .copy-code-btn:active {
+            transform: scale(0.95);
+        }
+        
+        /* Back to Hub Button */
+        .back-to-hub-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.625rem;
+            padding: 1rem 2rem;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .back-to-hub-btn:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        [data-theme="light"] .back-to-hub-btn {
+            background: rgba(239, 68, 68, 0.08);
+            border-color: rgba(239, 68, 68, 0.25);
+        }
+        
+        [data-theme="light"] .back-to-hub-btn:hover {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.4);
+        }
+        
+        /* Background - Disabled for performance */
+        .background-container .gradient-orb,
+        .background-container .grid-pattern {
+            display: none !important;
+        }
+        
         @media (max-width: 768px) {
+            .navbar-actions {
+                gap: 0.375rem !important;
+            }
+            
+            .nav-btn-primary,
+            .nav-btn-secondary,
+            .nav-btn-action {
+                padding: 0.5rem 0.875rem !important;
+                font-size: 0.875rem !important;
+            }
+            
+            .nav-btn-secondary span,
+            .nav-btn-primary span {
+                display: none;
+            }
+            
+            .nav-divider {
+                display: none;
+            }
+            
             .exercise-hero h1 {
                 font-size: 2rem;
             }
@@ -494,17 +870,40 @@
             </div>
 
             <div class="navbar-actions">
-                <a href="../index.html" class="action-btn demo-btn">
+                <!-- Learning Section -->
+                <a href="../index.html" class="nav-btn-primary">
                     <i class="ri-book-open-line"></i>
-                    <span>All Lessons</span>
+                    <span>Lessons</span>
                 </a>
-                <a href="exercises-index.html" class="action-btn demo-btn">
+                <a href="exercises-index.html" class="nav-btn-primary">
                     <i class="ri-trophy-line"></i>
-                    <span>Exercise Hub</span>
+                    <span>Exercises</span>
                 </a>
-                <a href="https://ipseudoeditor.netlify.app/" target="_blank" class="action-btn download-btn">
-                    <i class="ri-play-circle-line"></i>
-                    <span>Try Live</span>
+                
+                <!-- Divider -->
+                <div class="nav-divider"></div>
+                
+                <!-- Tools Section -->
+                <a href="../dashboard/index.html" class="nav-btn-secondary">
+                    <i class="ri-dashboard-line"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="../statistics.html" class="nav-btn-secondary">
+                    <i class="ri-bar-chart-line"></i>
+                    <span>Stats</span>
+                </a>
+                <a href="../my-notes.html" class="nav-btn-secondary">
+                    <i class="ri-sticky-note-line"></i>
+                    <span>Notes</span>
+                </a>
+                
+                <!-- Divider -->
+                <div class="nav-divider"></div>
+                
+                <!-- Action Button -->
+                <a href="https://ipseudoeditor.netlify.app/" target="_blank" class="nav-btn-action">
+                    <i class="ri-play-circle-fill"></i>
+                    <span>Try Live Editor</span>
                 </a>
             </div>
         </div>
@@ -556,7 +955,7 @@
                         Loops Theory
                         <i class="ri-arrow-right-line"></i>
                     </a>
-                </div>
+                    </div>
             </div>
         </div>
 
@@ -596,6 +995,31 @@
                     </div>
                     
                     <div class="solution-section">
+                        <!-- Hints System -->
+                        <div class="hints-container">
+                            <div class="hints-header">
+                                <i class="ri-lightbulb-flash-line"></i>
+                                <span>Need Help? Try These Hints First!</span>
+                            </div>
+                            <div class="hint-buttons">
+                                <button class="hint-btn" onclick="showHint(1, 1)">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Hint 1
+                                </button>
+                                <button class="hint-btn" onclick="showHint(1, 2)">
+                                    <i class="ri-lightbulb-flash-line"></i>
+                                    Hint 2
+                                </button>
+                                <button class="hint-btn" onclick="showHint(1, 3)">
+                                    <i class="ri-flashlight-line"></i>
+                                    Hint 3
+                                </button>
+                            </div>
+                            <div id="hint-1-1" class="hint-display"></div>
+                            <div id="hint-1-2" class="hint-display"></div>
+                            <div id="hint-1-3" class="hint-display"></div>
+                        </div>
+                        
                         <div style="text-align: center;" id="solution-1-hidden">
                             <button class="show-solution-btn" onclick="showSolution(1)"><i class="ri-eye-line"></i> Show Solution</button>
                         </div>
@@ -617,7 +1041,7 @@
                             </div>
                             
                             <div style="text-align: center; margin-top: var(--space-lg);">
-                                <button class="show-solution-btn" onclick="markAsCompleted(1)" style="background: linear-gradient(135deg, var(--color-success), var(--color-green-600)); box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);"><i class="ri-check-double-line"></i> Mark as Completed</button>
+                                <button class="mark-completed-btn" onclick="markAsCompleted(1)"><i class="ri-check-double-line"></i> Mark as Completed</button>
                             </div>
                         </div>
                     </div>
@@ -652,7 +1076,32 @@ Sum of first 5 numbers: 15</div>
                     </div>
                     
                     <div class="solution-section">
-                        <div style="text-align: center;" id="solution-2-hidden">
+                                                <!-- Hints System -->
+                        <div class="hints-container">
+                            <div class="hints-header">
+                                <i class="ri-lightbulb-flash-line"></i>
+                                <span>Need Help? Try These Hints First!</span>
+                            </div>
+                            <div class="hint-buttons">
+                                <button class="hint-btn" onclick="showHint(2, 1)">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Hint 1
+                                </button>
+                                <button class="hint-btn" onclick="showHint(2, 2)">
+                                    <i class="ri-lightbulb-flash-line"></i>
+                                    Hint 2
+                                </button>
+                                <button class="hint-btn" onclick="showHint(2, 3)">
+                                    <i class="ri-flashlight-line"></i>
+                                    Hint 3
+                                </button>
+                            </div>
+                            <div id="hint-2-1" class="hint-display"></div>
+                            <div id="hint-2-2" class="hint-display"></div>
+                            <div id="hint-2-3" class="hint-display"></div>
+                        </div>
+                        
+<div style="text-align: center;" id="solution-2-hidden">
                             <button class="show-solution-btn" onclick="showSolution(2)"><i class="ri-eye-line"></i> Show Solution</button>
                         </div>
                         <div class="solution-content" id="solution-2">
@@ -678,7 +1127,7 @@ Sum of first 5 numbers: 15</div>
                             </div>
                             
                             <div style="text-align: center; margin-top: var(--space-lg);">
-                                <button class="show-solution-btn" onclick="markAsCompleted(2)" style="background: linear-gradient(135deg, var(--color-success), var(--color-green-600)); box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);"><i class="ri-check-double-line"></i> Mark as Completed</button>
+                                <button class="mark-completed-btn" onclick="markAsCompleted(2)"><i class="ri-check-double-line"></i> Mark as Completed</button>
                             </div>
                         </div>
                     </div>
@@ -717,7 +1166,32 @@ Sum of first 5 numbers: 15</div>
                     </div>
                     
                     <div class="solution-section">
-                        <div style="text-align: center;" id="solution-3-hidden">
+                                                <!-- Hints System -->
+                        <div class="hints-container">
+                            <div class="hints-header">
+                                <i class="ri-lightbulb-flash-line"></i>
+                                <span>Need Help? Try These Hints First!</span>
+                            </div>
+                            <div class="hint-buttons">
+                                <button class="hint-btn" onclick="showHint(3, 1)">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Hint 1
+                                </button>
+                                <button class="hint-btn" onclick="showHint(3, 2)">
+                                    <i class="ri-lightbulb-flash-line"></i>
+                                    Hint 2
+                                </button>
+                                <button class="hint-btn" onclick="showHint(3, 3)">
+                                    <i class="ri-flashlight-line"></i>
+                                    Hint 3
+                                </button>
+                            </div>
+                            <div id="hint-3-1" class="hint-display"></div>
+                            <div id="hint-3-2" class="hint-display"></div>
+                            <div id="hint-3-3" class="hint-display"></div>
+                        </div>
+                        
+<div style="text-align: center;" id="solution-3-hidden">
                             <button class="show-solution-btn" onclick="showSolution(3)"><i class="ri-eye-line"></i> Show Solution</button>
                         </div>
                         <div class="solution-content" id="solution-3">
@@ -741,7 +1215,7 @@ Sum of first 5 numbers: 15</div>
                             </div>
                             
                             <div style="text-align: center; margin-top: var(--space-lg);">
-                                <button class="show-solution-btn" onclick="markAsCompleted(3)" style="background: linear-gradient(135deg, var(--color-success), var(--color-green-600)); box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);"><i class="ri-check-double-line"></i> Mark as Completed</button>
+                                <button class="mark-completed-btn" onclick="markAsCompleted(3)"><i class="ri-check-double-line"></i> Mark as Completed</button>
                             </div>
                         </div>
                     </div>
@@ -774,7 +1248,32 @@ Sum of first 5 numbers: 15</div>
 5! = 120</div>
                     </div>
                     <div class="solution-section">
-                        <div style="text-align: center;" id="solution-4-hidden">
+                                                <!-- Hints System -->
+                        <div class="hints-container">
+                            <div class="hints-header">
+                                <i class="ri-lightbulb-flash-line"></i>
+                                <span>Need Help? Try These Hints First!</span>
+                            </div>
+                            <div class="hint-buttons">
+                                <button class="hint-btn" onclick="showHint(4, 1)">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Hint 1
+                                </button>
+                                <button class="hint-btn" onclick="showHint(4, 2)">
+                                    <i class="ri-lightbulb-flash-line"></i>
+                                    Hint 2
+                                </button>
+                                <button class="hint-btn" onclick="showHint(4, 3)">
+                                    <i class="ri-flashlight-line"></i>
+                                    Hint 3
+                                </button>
+                            </div>
+                            <div id="hint-4-1" class="hint-display"></div>
+                            <div id="hint-4-2" class="hint-display"></div>
+                            <div id="hint-4-3" class="hint-display"></div>
+                        </div>
+                        
+<div style="text-align: center;" id="solution-4-hidden">
                             <button class="show-solution-btn" onclick="showSolution(4)"><i class="ri-eye-line"></i> Show Solution</button>
                         </div>
                         <div class="solution-content" id="solution-4">
@@ -798,7 +1297,7 @@ Sum of first 5 numbers: 15</div>
                                 </ul>
                             </div>
                             <div style="text-align: center; margin-top: var(--space-lg);">
-                                <button class="show-solution-btn" onclick="markAsCompleted(4)" style="background: linear-gradient(135deg, var(--color-success), var(--color-green-600)); box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);"><i class="ri-check-double-line"></i> Mark as Completed</button>
+                                <button class="mark-completed-btn" onclick="markAsCompleted(4)"><i class="ri-check-double-line"></i> Mark as Completed</button>
                             </div>
                         </div>
                     </div>
@@ -835,7 +1334,32 @@ Sum of first 5 numbers: 15</div>
 10</div>
                     </div>
                     <div class="solution-section">
-                        <div style="text-align: center;" id="solution-5-hidden">
+                                                <!-- Hints System -->
+                        <div class="hints-container">
+                            <div class="hints-header">
+                                <i class="ri-lightbulb-flash-line"></i>
+                                <span>Need Help? Try These Hints First!</span>
+                            </div>
+                            <div class="hint-buttons">
+                                <button class="hint-btn" onclick="showHint(5, 1)">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Hint 1
+                                </button>
+                                <button class="hint-btn" onclick="showHint(5, 2)">
+                                    <i class="ri-lightbulb-flash-line"></i>
+                                    Hint 2
+                                </button>
+                                <button class="hint-btn" onclick="showHint(5, 3)">
+                                    <i class="ri-flashlight-line"></i>
+                                    Hint 3
+                                </button>
+                            </div>
+                            <div id="hint-5-1" class="hint-display"></div>
+                            <div id="hint-5-2" class="hint-display"></div>
+                            <div id="hint-5-3" class="hint-display"></div>
+                        </div>
+                        
+<div style="text-align: center;" id="solution-5-hidden">
                             <button class="show-solution-btn" onclick="showSolution(5)"><i class="ri-eye-line"></i> Show Solution</button>
                         </div>
                         <div class="solution-content" id="solution-5">
@@ -846,7 +1370,7 @@ Sum of first 5 numbers: 15</div>
     <span style="color: #c678dd; font-weight: 600;">For</span> i = <span style="color: #d19a66;">1</span> <span style="color: #c678dd; font-weight: 600;">To</span> n
         <span style="color: #c678dd; font-weight: 600;">If</span> i mod <span style="color: #d19a66;">2</span> == <span style="color: #d19a66;">0</span> <span style="color: #c678dd; font-weight: 600;">Then</span>
             <span style="color: #c678dd; font-weight: 600;">Print</span> i
-        <span style="color: #c678dd; font-weight: 600;">Endif</span>
+    <span style="color: #c678dd; font-weight: 600;">Endif</span>
     <span style="color: #c678dd; font-weight: 600;">Endfor</span>
 <span style="color: #c678dd; font-weight: 600;">Endalgorithm</span></code></pre>
                             <div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), rgba(220, 38, 38, 0.08)); border: 1px solid rgba(239, 68, 68, 0.25); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md);">
@@ -858,7 +1382,7 @@ Sum of first 5 numbers: 15</div>
                                 </ul>
                             </div>
                             <div style="text-align: center; margin-top: var(--space-lg);">
-                                <button class="show-solution-btn" onclick="markAsCompleted(5)" style="background: linear-gradient(135deg, var(--color-success), var(--color-green-600)); box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);"><i class="ri-check-double-line"></i> Mark as Completed</button>
+                                <button class="mark-completed-btn" onclick="markAsCompleted(5)"><i class="ri-check-double-line"></i> Mark as Completed</button>
                             </div>
                         </div>
                     </div>
@@ -896,7 +1420,32 @@ Sum of first 5 numbers: 15</div>
 Blast off!</div>
                     </div>
                     <div class="solution-section">
-                        <div style="text-align: center;" id="solution-6-hidden">
+                                                <!-- Hints System -->
+                        <div class="hints-container">
+                            <div class="hints-header">
+                                <i class="ri-lightbulb-flash-line"></i>
+                                <span>Need Help? Try These Hints First!</span>
+                            </div>
+                            <div class="hint-buttons">
+                                <button class="hint-btn" onclick="showHint(6, 1)">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Hint 1
+                                </button>
+                                <button class="hint-btn" onclick="showHint(6, 2)">
+                                    <i class="ri-lightbulb-flash-line"></i>
+                                    Hint 2
+                                </button>
+                                <button class="hint-btn" onclick="showHint(6, 3)">
+                                    <i class="ri-flashlight-line"></i>
+                                    Hint 3
+                                </button>
+                            </div>
+                            <div id="hint-6-1" class="hint-display"></div>
+                            <div id="hint-6-2" class="hint-display"></div>
+                            <div id="hint-6-3" class="hint-display"></div>
+                        </div>
+                        
+<div style="text-align: center;" id="solution-6-hidden">
                             <button class="show-solution-btn" onclick="showSolution(6)"><i class="ri-eye-line"></i> Show Solution</button>
                         </div>
                         <div class="solution-content" id="solution-6">
@@ -920,7 +1469,7 @@ Blast off!</div>
                                 </ul>
                             </div>
                             <div style="text-align: center; margin-top: var(--space-lg);">
-                                <button class="show-solution-btn" onclick="markAsCompleted(6)" style="background: linear-gradient(135deg, var(--color-success), var(--color-green-600)); box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);"><i class="ri-check-double-line"></i> Mark as Completed</button>
+                                <button class="mark-completed-btn" onclick="markAsCompleted(6)"><i class="ri-check-double-line"></i> Mark as Completed</button>
                             </div>
                         </div>
                     </div>
@@ -957,7 +1506,32 @@ Blast off!</div>
 * * * * *</div>
                     </div>
                     <div class="solution-section">
-                        <div style="text-align: center;" id="solution-7-hidden">
+                                                <!-- Hints System -->
+                        <div class="hints-container">
+                            <div class="hints-header">
+                                <i class="ri-lightbulb-flash-line"></i>
+                                <span>Need Help? Try These Hints First!</span>
+                            </div>
+                            <div class="hint-buttons">
+                                <button class="hint-btn" onclick="showHint(7, 1)">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Hint 1
+                                </button>
+                                <button class="hint-btn" onclick="showHint(7, 2)">
+                                    <i class="ri-lightbulb-flash-line"></i>
+                                    Hint 2
+                                </button>
+                                <button class="hint-btn" onclick="showHint(7, 3)">
+                                    <i class="ri-flashlight-line"></i>
+                                    Hint 3
+                                </button>
+                            </div>
+                            <div id="hint-7-1" class="hint-display"></div>
+                            <div id="hint-7-2" class="hint-display"></div>
+                            <div id="hint-7-3" class="hint-display"></div>
+                        </div>
+                        
+<div style="text-align: center;" id="solution-7-hidden">
                             <button class="show-solution-btn" onclick="showSolution(7)"><i class="ri-eye-line"></i> Show Solution</button>
                         </div>
                         <div class="solution-content" id="solution-7">
@@ -982,7 +1556,7 @@ Blast off!</div>
                                 </ul>
                             </div>
                             <div style="text-align: center; margin-top: var(--space-lg);">
-                                <button class="show-solution-btn" onclick="markAsCompleted(7)" style="background: linear-gradient(135deg, var(--color-success), var(--color-green-600)); box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);"><i class="ri-check-double-line"></i> Mark as Completed</button>
+                                <button class="mark-completed-btn" onclick="markAsCompleted(7)"><i class="ri-check-double-line"></i> Mark as Completed</button>
                             </div>
                         </div>
                     </div>
@@ -1021,7 +1595,32 @@ Blast off!</div>
 8</div>
                     </div>
                     <div class="solution-section">
-                        <div style="text-align: center;" id="solution-8-hidden">
+                                                <!-- Hints System -->
+                        <div class="hints-container">
+                            <div class="hints-header">
+                                <i class="ri-lightbulb-flash-line"></i>
+                                <span>Need Help? Try These Hints First!</span>
+                            </div>
+                            <div class="hint-buttons">
+                                <button class="hint-btn" onclick="showHint(8, 1)">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Hint 1
+                                </button>
+                                <button class="hint-btn" onclick="showHint(8, 2)">
+                                    <i class="ri-lightbulb-flash-line"></i>
+                                    Hint 2
+                                </button>
+                                <button class="hint-btn" onclick="showHint(8, 3)">
+                                    <i class="ri-flashlight-line"></i>
+                                    Hint 3
+                                </button>
+                            </div>
+                            <div id="hint-8-1" class="hint-display"></div>
+                            <div id="hint-8-2" class="hint-display"></div>
+                            <div id="hint-8-3" class="hint-display"></div>
+                        </div>
+                        
+<div style="text-align: center;" id="solution-8-hidden">
                             <button class="show-solution-btn" onclick="showSolution(8)"><i class="ri-eye-line"></i> Show Solution</button>
                         </div>
                         <div class="solution-content" id="solution-8">
@@ -1047,7 +1646,7 @@ Blast off!</div>
                                 </ul>
                             </div>
                             <div style="text-align: center; margin-top: var(--space-lg);">
-                                <button class="show-solution-btn" onclick="markAsCompleted(8)" style="background: linear-gradient(135deg, var(--color-success), var(--color-green-600)); box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);"><i class="ri-check-double-line"></i> Mark as Completed</button>
+                                <button class="mark-completed-btn" onclick="markAsCompleted(8)"><i class="ri-check-double-line"></i> Mark as Completed</button>
                             </div>
                         </div>
                     </div>
@@ -1080,7 +1679,32 @@ Blast off!</div>
 17 is a prime number</div>
                     </div>
                     <div class="solution-section">
-                        <div style="text-align: center;" id="solution-9-hidden">
+                                                <!-- Hints System -->
+                        <div class="hints-container">
+                            <div class="hints-header">
+                                <i class="ri-lightbulb-flash-line"></i>
+                                <span>Need Help? Try These Hints First!</span>
+                            </div>
+                            <div class="hint-buttons">
+                                <button class="hint-btn" onclick="showHint(9, 1)">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Hint 1
+                                </button>
+                                <button class="hint-btn" onclick="showHint(9, 2)">
+                                    <i class="ri-lightbulb-flash-line"></i>
+                                    Hint 2
+                                </button>
+                                <button class="hint-btn" onclick="showHint(9, 3)">
+                                    <i class="ri-flashlight-line"></i>
+                                    Hint 3
+                                </button>
+                            </div>
+                            <div id="hint-9-1" class="hint-display"></div>
+                            <div id="hint-9-2" class="hint-display"></div>
+                            <div id="hint-9-3" class="hint-display"></div>
+                        </div>
+                        
+<div style="text-align: center;" id="solution-9-hidden">
                             <button class="show-solution-btn" onclick="showSolution(9)"><i class="ri-eye-line"></i> Show Solution</button>
                         </div>
                         <div class="solution-content" id="solution-9">
@@ -1091,11 +1715,11 @@ Blast off!</div>
     
     <span style="color: #c678dd; font-weight: 600;">If</span> number <= <span style="color: #d19a66;">1</span> <span style="color: #c678dd; font-weight: 600;">Then</span>
         isPrime = <span style="color: #c678dd; font-weight: 600;">False</span>
-    <span style="color: #c678dd; font-weight: 600;">Else</span>
+        <span style="color: #c678dd; font-weight: 600;">Else</span>
         <span style="color: #c678dd; font-weight: 600;">For</span> i = <span style="color: #d19a66;">2</span> <span style="color: #c678dd; font-weight: 600;">To</span> number - <span style="color: #d19a66;">1</span>
             <span style="color: #c678dd; font-weight: 600;">If</span> number mod i == <span style="color: #d19a66;">0</span> <span style="color: #c678dd; font-weight: 600;">Then</span>
                 isPrime = <span style="color: #c678dd; font-weight: 600;">False</span>
-            <span style="color: #c678dd; font-weight: 600;">Endif</span>
+        <span style="color: #c678dd; font-weight: 600;">Endif</span>
         <span style="color: #c678dd; font-weight: 600;">Endfor</span>
     <span style="color: #c678dd; font-weight: 600;">Endif</span>
     
@@ -1114,7 +1738,7 @@ Blast off!</div>
                                 </ul>
                             </div>
                             <div style="text-align: center; margin-top: var(--space-lg);">
-                                <button class="show-solution-btn" onclick="markAsCompleted(9)" style="background: linear-gradient(135deg, var(--color-success), var(--color-green-600)); box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);"><i class="ri-check-double-line"></i> Mark as Completed</button>
+                                <button class="mark-completed-btn" onclick="markAsCompleted(9)"><i class="ri-check-double-line"></i> Mark as Completed</button>
                             </div>
                         </div>
                     </div>
@@ -1149,7 +1773,32 @@ Blast off!</div>
 3  6  9</div>
                     </div>
                     <div class="solution-section">
-                        <div style="text-align: center;" id="solution-10-hidden">
+                                                <!-- Hints System -->
+                        <div class="hints-container">
+                            <div class="hints-header">
+                                <i class="ri-lightbulb-flash-line"></i>
+                                <span>Need Help? Try These Hints First!</span>
+                            </div>
+                            <div class="hint-buttons">
+                                <button class="hint-btn" onclick="showHint(10, 1)">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Hint 1
+                                </button>
+                                <button class="hint-btn" onclick="showHint(10, 2)">
+                                    <i class="ri-lightbulb-flash-line"></i>
+                                    Hint 2
+                                </button>
+                                <button class="hint-btn" onclick="showHint(10, 3)">
+                                    <i class="ri-flashlight-line"></i>
+                                    Hint 3
+                                </button>
+                            </div>
+                            <div id="hint-10-1" class="hint-display"></div>
+                            <div id="hint-10-2" class="hint-display"></div>
+                            <div id="hint-10-3" class="hint-display"></div>
+                        </div>
+                        
+<div style="text-align: center;" id="solution-10-hidden">
                             <button class="show-solution-btn" onclick="showSolution(10)"><i class="ri-eye-line"></i> Show Solution</button>
                         </div>
                         <div class="solution-content" id="solution-10">
@@ -1175,7 +1824,7 @@ Blast off!</div>
                                 </ul>
                             </div>
                             <div style="text-align: center; margin-top: var(--space-lg);">
-                                <button class="show-solution-btn" onclick="markAsCompleted(10)" style="background: linear-gradient(135deg, var(--color-success), var(--color-green-600)); box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);"><i class="ri-check-double-line"></i> Mark as Completed</button>
+                                <button class="mark-completed-btn" onclick="markAsCompleted(10)"><i class="ri-check-double-line"></i> Mark as Completed</button>
                             </div>
                         </div>
                     </div>
@@ -1185,7 +1834,7 @@ Blast off!</div>
 
         <!-- Back Button -->
         <div style="text-align: center; margin-top: var(--space-3xl);">
-            <a href="exercises-index.html" style="display: inline-flex; align-items: center; gap: 0.625rem; padding: 1rem 2rem; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-md); color: var(--text-primary); text-decoration: none; font-weight: 600; transition: all 0.3s ease; backdrop-filter: blur(20px);">
+            <a href="exercises-index.html" class="back-to-hub-btn">
                 <i class="ri-arrow-left-line"></i>
                 Back to Exercise Hub
             </a>
@@ -1210,7 +1859,7 @@ Blast off!</div>
                         <ul>
                             <li><a href="../index.html">All Lessons</a></li>
                             <li><a href="../01-introduction-to-pseudocode.html">Getting Started</a></li>
-                            <li><a href="../07-loops.html">Loops</a></li>
+                            <li><a href="../08-loops.html">Loops</a></li>
                         </ul>
                     </div>
                     
@@ -1259,11 +1908,12 @@ Blast off!</div>
     </button>
 
     <!-- Scripts -->
-    <script src="../js/global-search.js"></script>
-    <script src="../js/performance.js"></script>
-    <script src="../js/pwa-init.js"></script>
     <script src="../js/script.js"></script>
-    <script src="exercise-enhancements.js"></script>
+    <script src="../js/global-search.js"></script>
+    <!-- Disabled for maximum performance -->
+    <!-- <script src="../js/performance.js"></script> -->
+    <!-- <script src="../js/pwa-init.js"></script> -->
+    <!-- <script src="exercise-enhancements.js"></script> -->
     <script>
         // Toggle exercise expansion
         function toggleExercise(header) {
@@ -1280,44 +1930,295 @@ Blast off!</div>
             solutionDiv.classList.add('visible');
         }
 
-        // Mark as completed
+        // Hints System - Loops Exercise-specific hints
+        const exerciseHints = {
+            1: [
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: FOR Loop Basics</strong><p>A FOR loop repeats code a specific number of times. Use: For variable = start To end</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Loop Variable</strong><p>The loop variable (usually i) automatically increments from 1 to 10.</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Print Inside Loop</strong><p>For i = 1 To 10<br>&nbsp;&nbsp;Print i<br>Endfor</p>'
+            ],
+            2: [
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Accumulator Pattern</strong><p>Use a variable (like sum) to accumulate values as you loop. Initialize it to 0 before the loop.</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Add in Loop</strong><p>In each iteration, add the current loop variable to your sum: sum = sum + i</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Loop from 1 to N</strong><p>sum = 0<br>For i = 1 To n<br>&nbsp;&nbsp;sum = sum + i<br>Endfor<br>Print sum</p>'
+            ],
+            3: [
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Multiplication Table</strong><p>For each number from 1 to 10, multiply it by the input number.</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Loop Variable in Calculation</strong><p>Use the loop variable in your calculation: result = number * i</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Format Output</strong><p>For i = 1 To 10<br>&nbsp;&nbsp;result = number * i<br>&nbsp;&nbsp;Print number, "x", i, "=", result<br>Endfor</p>'
+            ],
+            4: [
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Factorial Concept</strong><p>Factorial (n!) means multiply all numbers from 1 to n. Example: 5! = 1 × 2 × 3 × 4 × 5 = 120</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Multiplicative Accumulator</strong><p>Start with factorial = 1 (NOT 0), then multiply by each number: factorial = factorial * i</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Complete Solution</strong><p>factorial = 1<br>For i = 1 To n<br>&nbsp;&nbsp;factorial = factorial * i<br>Endfor<br>Print factorial</p>'
+            ],
+            5: [
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Even Numbers</strong><p>A number is even if it\'s divisible by 2 (remainder is 0). Use the mod operator: i mod 2 == 0</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: IF Inside FOR</strong><p>Loop through all numbers, but only print those that are even using an IF statement inside the loop.</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Complete Logic</strong><p>For i = 1 To n<br>&nbsp;&nbsp;If i mod 2 == 0 Then<br>&nbsp;&nbsp;&nbsp;&nbsp;Print i<br>&nbsp;&nbsp;Endif<br>Endfor</p>'
+            ],
+            6: [
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: WHILE Loop</strong><p>Unlike FOR loops, WHILE loops continue as long as a condition is true. Use: While condition</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Decrement Counter</strong><p>Start with n and decrease it each time: n = n - 1. Loop continues while n > 0.</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Complete Countdown</strong><p>While n > 0<br>&nbsp;&nbsp;Print n<br>&nbsp;&nbsp;n = n - 1<br>Endwhile<br>Print "Blast off!"</p>'
+            ],
+            7: [
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Nested Loops</strong><p>Use one loop inside another. Outer loop controls rows, inner loop controls columns/stars per row.</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Variable Columns</strong><p>On row i, print i stars. Use inner loop: For j = 1 To i</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Build String</strong><p>For i = 1 To rows<br>&nbsp;&nbsp;line = ""<br>&nbsp;&nbsp;For j = 1 To i<br>&nbsp;&nbsp;&nbsp;&nbsp;line = line + "* "<br>&nbsp;&nbsp;Endfor<br>&nbsp;&nbsp;Print line<br>Endfor</p>'
+            ],
+            8: [
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Fibonacci Sequence</strong><p>Each number is the sum of the previous two. Start with 0 and 1, then: next = previous1 + previous2</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Three Variables</strong><p>Track two previous values (a and b) and calculate the next. After printing, update: a becomes b, b becomes next.</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Swap Pattern</strong><p>a = 0, b = 1<br>For i = 1 To n<br>&nbsp;&nbsp;Print a<br>&nbsp;&nbsp;temp = a + b<br>&nbsp;&nbsp;a = b<br>&nbsp;&nbsp;b = temp<br>Endfor</p>'
+            ],
+            9: [
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Prime Definition</strong><p>A prime number is only divisible by 1 and itself. Loop from 2 to n-1 and check if any divides evenly.</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Boolean Flag</strong><p>Use a boolean variable isPrime = True. If you find any divisor, set it to False.</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Check Divisibility</strong><p>isPrime = True<br>For i = 2 To number-1<br>&nbsp;&nbsp;If number mod i == 0 Then<br>&nbsp;&nbsp;&nbsp;&nbsp;isPrime = False<br>&nbsp;&nbsp;Endif<br>Endfor<br>Print isPrime</p>'
+            ],
+            10: [
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: 2D Grid with Nested Loops</strong><p>Use outer loop for rows and inner loop for columns. Both go from 1 to size.</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Multiply Both Variables</strong><p>For each position, multiply the row number (i) by column number (j): value = i * j</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Build Row String</strong><p>For i = 1 To size<br>&nbsp;&nbsp;row = ""<br>&nbsp;&nbsp;For j = 1 To size<br>&nbsp;&nbsp;&nbsp;&nbsp;row = row + (i*j) + "  "<br>&nbsp;&nbsp;Endfor<br>&nbsp;&nbsp;Print row<br>Endfor</p>'
+            ]
+        };
+        
+        // Show hint function
+        function showHint(exerciseNum, hintNum) {
+            const hintDiv = document.getElementById(`hint-${exerciseNum}-${hintNum}`);
+            const hintBtn = event.target.closest('.hint-btn');
+            
+            if (hintDiv && exerciseHints[exerciseNum] && exerciseHints[exerciseNum][hintNum - 1]) {
+                if (hintDiv.classList.contains('visible')) {
+                    // Hide hint
+                    hintDiv.classList.remove('visible');
+                    hintBtn.classList.remove('revealed');
+                } else {
+                    // Show hint
+                    hintDiv.innerHTML = exerciseHints[exerciseNum][hintNum - 1];
+                    hintDiv.classList.add('visible');
+                    hintBtn.classList.add('revealed');
+                    
+                    // Scroll hint into view
+                    setTimeout(() => {
+                        hintDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }, 100);
+                }
+            }
+        }
+
+        // Mark as completed - Enhanced with Dashboard/Stats/Notes Sync
         function markAsCompleted(num) {
             const card = document.getElementById(`exercise-${num}`);
             card.classList.add('completed');
             
-            // Save to localStorage
+            const btn = event.target.closest('button');
+            
+            // Get exercise details
+            const exerciseTitle = card.querySelector('.exercise-title').textContent;
+            const difficulty = card.querySelector('[class*="difficulty-"]').textContent.trim();
+            const timeEstimate = card.querySelector('.time-badge').textContent.trim();
+            
+            // Save to completedExercises (existing structure)
             const completedExercises = JSON.parse(localStorage.getItem('completedExercises') || '{}');
             completedExercises[`loops-${num}`] = true;
             localStorage.setItem('completedExercises', JSON.stringify(completedExercises));
             
-            // Show success message
-            const btn = event.target.closest('button');
+            // Sync with Dashboard - Save detailed progress
+            const dashboardProgress = JSON.parse(localStorage.getItem('dashboardProgress') || '{}');
+            if (!dashboardProgress.exercises) dashboardProgress.exercises = {};
+            
+            dashboardProgress.exercises[`loops-${num}`] = {
+                title: exerciseTitle,
+                topic: 'Loops',
+                difficulty: difficulty,
+                timeEstimate: timeEstimate,
+                completedAt: new Date().toISOString(),
+                status: 'completed'
+            };
+            
+            // Update topic progress
+            if (!dashboardProgress.topics) dashboardProgress.topics = {};
+            if (!dashboardProgress.topics.loops) dashboardProgress.topics.loops = { completed: 0, total: 10 };
+            
+            const loopsCompleted = Object.keys(completedExercises).filter(k => k.startsWith('loops-')).length;
+            dashboardProgress.topics.loops.completed = loopsCompleted;
+            
+            localStorage.setItem('dashboardProgress', JSON.stringify(dashboardProgress));
+            
+            // Sync with Statistics
+            const statistics = JSON.parse(localStorage.getItem('statistics') || '{}');
+            if (!statistics.exercises) statistics.exercises = [];
+            
+            statistics.exercises.push({
+                id: `loops-${num}`,
+                title: exerciseTitle,
+                topic: 'Loops',
+                difficulty: difficulty,
+                timestamp: new Date().toISOString(),
+                timeSpent: parseInt(timeEstimate) || 0
+            });
+            
+            if (!statistics.summary) statistics.summary = { total: 0, byDifficulty: {}, byTopic: {} };
+            statistics.summary.total = (statistics.summary.total || 0) + 1;
+            
+            localStorage.setItem('statistics', JSON.stringify(statistics));
+            
+            // Sync with My Notes - Auto-create entry
+            const notes = JSON.parse(localStorage.getItem('myNotes') || '[]');
+            notes.push({
+                id: Date.now(),
+                title: `✓ ${exerciseTitle}`,
+                content: `Completed ${exerciseTitle} (${difficulty}) exercise from Loops topic.`,
+                category: 'exercises',
+                tags: ['loops', difficulty.toLowerCase(), 'completed'],
+                metadata: {
+                    exerciseId: `loops-${num}`,
+                    topic: 'Loops',
+                    completedAt: new Date().toISOString(),
+                    autoNote: `Completed ${exerciseTitle} (${difficulty}) on ${new Date().toLocaleDateString()}`
+                },
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            });
+            localStorage.setItem('myNotes', JSON.stringify(notes));
+            
+            // Update dashboard stats
+            const dashboardStats = JSON.parse(localStorage.getItem('dashboardStats') || '{}');
+            dashboardStats.totalExercises = (dashboardStats.totalExercises || 0) + 1;
+            dashboardStats.loopsExercises = (dashboardStats.loopsExercises || 0) + 1;
+            dashboardStats.lastActivity = {
+                type: 'exercise',
+                    title: exerciseTitle,
+                topic: 'Loops',
+                    difficulty: difficulty
+            };
+            localStorage.setItem('dashboardStats', JSON.stringify(dashboardStats));
+            
+            // Visual feedback
             btn.innerHTML = '<i class="ri-check-double-line"></i> Completed!';
-            btn.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+            btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+            btn.disabled = true;
+            
+            // Confetti effect
+            createConfetti(btn);
             
             setTimeout(() => {
-                btn.disabled = true;
-                btn.style.opacity = '0.6';
+                btn.style.opacity = '0.7';
             }, 1000);
         }
-
-        // Scroll to top functionality
-        const scrollToTopBtn = document.getElementById('scrollToTop');
         
-        window.addEventListener('scroll', () => {
+        // Create confetti animation
+        function createConfetti(element) {
+            const colors = ['#ef4444', '#dc2626', '#f87171', '#10b981', '#fbbf24'];
+            const confettiCount = 30;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.left = element.getBoundingClientRect().left + element.offsetWidth / 2 + 'px';
+                confetti.style.top = element.getBoundingClientRect().top + 'px';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.borderRadius = '50%';
+                confetti.style.pointerEvents = 'none';
+                confetti.style.zIndex = '9999';
+                
+                document.body.appendChild(confetti);
+                
+                const angle = (Math.PI * 2 * i) / confettiCount;
+                const velocity = 5 + Math.random() * 5;
+                const vx = Math.cos(angle) * velocity;
+                const vy = Math.sin(angle) * velocity - 5;
+                
+                let x = 0, y = 0, gravity = 0.5;
+                
+                const animate = () => {
+                    y += vy;
+                    vy += gravity;
+                    x += vx;
+                    
+                    confetti.style.transform = `translate(${x}px, ${y}px) rotate(${x * 2}deg)`;
+                    confetti.style.opacity = Math.max(0, 1 - y / 300);
+                
+                    if (y < 300) {
+                        requestAnimationFrame(animate);
+                    } else {
+                    confetti.remove();
+                    }
+                };
+                
+                requestAnimationFrame(animate);
+            }
+        }
+        
+        // Debounce function for performance
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+        
+        // Optimized scroll handling
+        const handleScroll = debounce(() => {
+            const scrollToTopBtn = document.getElementById('scrollToTop');
             if (window.pageYOffset > 300) {
                 scrollToTopBtn.classList.add('visible');
             } else {
                 scrollToTopBtn.classList.remove('visible');
             }
-        });
+        }, 100);
         
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        
+        // Scroll to top
+        const scrollToTopBtn = document.getElementById('scrollToTop');
         scrollToTopBtn.addEventListener('click', () => {
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
             });
         });
+
+        // Add copy buttons to code blocks
+        function addCopyButtonsToCodeBlocks() {
+            document.querySelectorAll('pre code').forEach((codeBlock) => {
+                const pre = codeBlock.parentElement;
+                if (pre.querySelector('.copy-code-btn')) return;
+                
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'copy-code-btn';
+                copyBtn.innerHTML = '<i class="ri-file-copy-line"></i>';
+                copyBtn.setAttribute('aria-label', 'Copy code');
+                
+                copyBtn.addEventListener('click', () => {
+                    const code = codeBlock.textContent;
+                    navigator.clipboard.writeText(code).then(() => {
+                        copyBtn.innerHTML = '<i class="ri-check-line"></i>';
+                        copyBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+                        
+                            setTimeout(() => {
+                            copyBtn.innerHTML = '<i class="ri-file-copy-line"></i>';
+                            copyBtn.style.background = '';
+                            }, 2000);
+                        });
+                });
+                
+                pre.style.position = 'relative';
+                pre.appendChild(copyBtn);
+            });
+        }
+        
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', addCopyButtonsToCodeBlocks);
 
         // Load completed exercises on page load
         window.addEventListener('DOMContentLoaded', () => {

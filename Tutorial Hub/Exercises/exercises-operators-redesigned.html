@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conditionals - Practice Exercises | iPseudo Tutorial Hub</title>
+    <title>Operators - Practice Exercises | iPseudo Tutorial Hub</title>
     
     <!-- Performance Optimization Meta Tags -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -61,23 +61,23 @@
         }
         
         ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, var(--color-purple-500), var(--color-green-600));
+            background: linear-gradient(135deg, var(--color-orange-600), var(--color-green-600));
             border-radius: 10px;
             border: 2px solid var(--glass-bg);
         }
         
         ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, var(--color-green-600), var(--color-purple-500));
+            background: linear-gradient(135deg, var(--color-green-600), var(--color-orange-600));
         }
         
         /* Selection Highlighting */
         ::selection {
-            background: rgba(139, 92, 246, 0.3);
+            background: rgba(16, 185, 129, 0.3);
             color: var(--text-primary);
         }
         
         ::-moz-selection {
-            background: rgba(139, 92, 246, 0.3);
+            background: rgba(16, 185, 129, 0.3);
             color: var(--text-primary);
         }
         
@@ -183,7 +183,7 @@
             align-items: center;
             gap: 0.5rem;
             padding: 0.625rem 1.25rem;
-            background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+            background: linear-gradient(135deg, #ea580c, #f59e0b);
             border: none;
             border-radius: 10px;
             color: white;
@@ -191,13 +191,13 @@
             font-size: 0.875rem;
             text-decoration: none;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
         }
         
         .nav-btn-action:hover {
-            background: linear-gradient(135deg, #059669, #8b5cf6);
+            background: linear-gradient(135deg, #059669, #ea580c);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.35);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
         }
         
         .nav-btn-action i {
@@ -269,7 +269,7 @@
             margin-bottom: var(--space-xl);
             padding: 1rem 1.5rem;
             background: rgba(15, 23, 42, 0.6);
-            border: 2px solid rgba(139, 92, 246, 0.2);
+            border: 2px solid rgba(16, 185, 129, 0.2);
             border-radius: 12px;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
@@ -277,11 +277,11 @@
         
         [data-theme="light"] .breadcrumb {
             background: rgba(255, 255, 255, 0.95);
-            border-color: rgba(139, 92, 246, 0.3);
+            border-color: rgba(16, 185, 129, 0.3);
         }
         
         .breadcrumb:hover {
-            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.12);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.12);
             transform: translateY(-2px);
         }
         
@@ -298,8 +298,8 @@
         }
         
         .breadcrumb a:hover {
-            color: var(--color-purple-500);
-            background: rgba(139, 92, 246, 0.1);
+            color: var(--color-orange-600);
+            background: rgba(16, 185, 129, 0.1);
             transform: translateX(2px);
         }
         
@@ -312,7 +312,7 @@
         .breadcrumb-current {
             color: var(--text-primary);
             font-weight: 700;
-            background: rgba(139, 92, 246, 0.12);
+            background: rgba(16, 185, 129, 0.12);
             padding: 0.25rem 0.75rem;
             border-radius: 6px;
         }
@@ -323,9 +323,9 @@
             margin-bottom: var(--space-3xl);
             padding: var(--space-3xl) var(--space-xl);
             background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.9));
-            border: 2px solid rgba(139, 92, 246, 0.3);
+            border: 2px solid rgba(16, 185, 129, 0.3);
             border-radius: 24px;
-            box-shadow: 0 20px 60px rgba(139, 92, 246, 0.15), 0 0 100px rgba(139, 92, 246, 0.05);
+            box-shadow: 0 20px 60px rgba(16, 185, 129, 0.15), 0 0 100px rgba(16, 185, 129, 0.05);
             position: relative;
             overflow: hidden;
             contain: layout style paint;
@@ -333,7 +333,7 @@
         
         [data-theme="light"] .exercise-hero {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.95));
-            border-color: rgba(139, 92, 246, 0.3);
+            border-color: rgba(16, 185, 129, 0.3);
         }
         
         /* Removed rotating background for performance */
@@ -345,14 +345,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #8b5cf6, #a78bfa, #c4b5fd);
+            background: linear-gradient(135deg, #ea580c, #f59e0b, #fb923c);
             border-radius: 24px;
             font-size: 3rem;
             color: white;
             box-shadow: 
-                0 12px 40px rgba(139, 92, 246, 0.4),
-                0 0 0 10px rgba(139, 92, 246, 0.1),
-                0 0 0 20px rgba(139, 92, 246, 0.05);
+                0 12px 40px rgba(16, 185, 129, 0.4),
+                0 0 0 10px rgba(16, 185, 129, 0.1),
+                0 0 0 20px rgba(16, 185, 129, 0.05);
             position: relative;
             z-index: 1;
             contain: layout style paint;
@@ -366,7 +366,7 @@
         .exercise-hero h1 {
             font-size: 3.5rem;
             font-weight: 900;
-            background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 50%, #c4b5fd 100%);
+            background: linear-gradient(135deg, #ea580c 0%, #f59e0b 50%, #fb923c 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -374,7 +374,7 @@
             position: relative;
             z-index: 1;
             letter-spacing: -0.02em;
-            text-shadow: 0 0 40px rgba(139, 92, 246, 0.3);
+            text-shadow: 0 0 40px rgba(16, 185, 129, 0.3);
         }
         
         .exercise-hero-subtitle {
@@ -401,25 +401,25 @@
             align-items: center;
             gap: 0.5rem;
             padding: 0.75rem 1.5rem;
-            background: rgba(139, 92, 246, 0.15);
-            border: 2px solid rgba(139, 92, 246, 0.35);
+            background: rgba(16, 185, 129, 0.15);
+            border: 2px solid rgba(16, 185, 129, 0.35);
             border-radius: 50px;
-            color: var(--color-purple-500);
+            color: var(--color-orange-600);
             font-weight: 700;
             font-size: 0.9375rem;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
         }
         
         [data-theme="light"] .meta-badge {
-            background: rgba(139, 92, 246, 0.1);
-            border-color: rgba(139, 92, 246, 0.3);
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.3);
         }
         
         .meta-badge:hover {
             transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
-            border-color: rgba(139, 92, 246, 0.5);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+            border-color: rgba(16, 185, 129, 0.5);
         }
         
         .meta-badge i {
@@ -458,7 +458,7 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, var(--color-purple-500), var(--color-green-600), var(--color-purple-500));
+            background: linear-gradient(90deg, var(--color-orange-600), var(--color-green-600), var(--color-orange-600));
             opacity: 0;
             transition: opacity 0.3s;
         }
@@ -466,9 +466,9 @@
         .exercise-card:not(.expanded):hover {
             transform: translateY(-4px);
             box-shadow: 
-                0 16px 48px rgba(139, 92, 246, 0.2),
-                0 0 0 1px rgba(139, 92, 246, 0.1);
-            border-color: rgba(139, 92, 246, 0.5);
+                0 16px 48px rgba(16, 185, 129, 0.2),
+                0 0 0 1px rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.5);
         }
         
         .exercise-card:not(.expanded):hover::before {
@@ -476,9 +476,9 @@
         }
         
         .exercise-card.completed {
-            border-color: rgba(139, 92, 246, 0.7);
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(139, 92, 246, 0.03));
-            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.15);
+            border-color: rgba(16, 185, 129, 0.7);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(16, 185, 129, 0.03));
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.15);
         }
         
         .exercise-card.completed::before {
@@ -493,7 +493,7 @@
             right: 0;
             width: 32px;
             height: 32px;
-            background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+            background: linear-gradient(135deg, #ea580c 0%, #f59e0b 100%);
             color: white;
             border-radius: 20px 0 0 0;
             display: flex;
@@ -502,8 +502,8 @@
             font-weight: 800;
             font-size: 1rem;
             box-shadow: 
-                0 4px 12px rgba(139, 92, 246, 0.4),
-                0 0 0 3px rgba(139, 92, 246, 0.15),
+                0 4px 12px rgba(16, 185, 129, 0.4),
+                0 0 0 3px rgba(16, 185, 129, 0.15),
                 inset 0 -1px 4px rgba(0, 0, 0, 0.2),
                 inset 0 1px 4px rgba(255, 255, 255, 0.3);
             z-index: 10;
@@ -517,11 +517,11 @@
             align-items: center;
             transition: all 0.3s ease;
             position: relative;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.03), transparent);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.03), transparent);
         }
         
         .exercise-header:hover {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(139, 92, 246, 0.02));
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(16, 185, 129, 0.02));
         }
         
         .exercise-header::before {
@@ -531,7 +531,7 @@
             top: 0;
             height: 100%;
             width: 5px;
-            background: linear-gradient(180deg, #8b5cf6, #a78bfa, #8b5cf6);
+            background: linear-gradient(180deg, #ea580c, #f59e0b, #ea580c);
             opacity: 0;
             transition: all 0.3s ease;
             border-radius: 0 4px 4px 0;
@@ -539,15 +539,15 @@
         
         .exercise-card.expanded .exercise-header::before {
             opacity: 1;
-            box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
         }
         
         [data-theme="light"] .exercise-header {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.04), transparent);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.04), transparent);
         }
         
         [data-theme="light"] .exercise-header:hover {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.03));
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.03));
         }
         
         .exercise-title-section {
@@ -563,13 +563,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+            background: linear-gradient(135deg, #ea580c, #f59e0b);
             color: white;
             border-radius: 16px;
             font-weight: 800;
             font-size: 1.25rem;
             box-shadow: 
-                0 8px 20px rgba(139, 92, 246, 0.3),
+                0 8px 20px rgba(16, 185, 129, 0.3),
                 inset 0 -2px 10px rgba(0, 0, 0, 0.2),
                 inset 0 2px 10px rgba(255, 255, 255, 0.2);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -581,7 +581,7 @@
             position: absolute;
             inset: -3px;
             border-radius: 18px;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.4), transparent);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.4), transparent);
             opacity: 0;
             transition: opacity 0.3s;
         }
@@ -589,7 +589,7 @@
         .exercise-card:hover .exercise-number {
             transform: scale(1.1) rotate(5deg);
             box-shadow: 
-                0 12px 30px rgba(139, 92, 246, 0.5),
+                0 12px 30px rgba(16, 185, 129, 0.5),
                 inset 0 -2px 10px rgba(0, 0, 0, 0.2),
                 inset 0 2px 10px rgba(255, 255, 255, 0.3);
         }
@@ -599,7 +599,7 @@
         }
         
         .exercise-card.completed .exercise-number {
-            background: linear-gradient(135deg, #8b5cf6, #a78bfa, #c4b5fd);
+            background: linear-gradient(135deg, #ea580c, #f59e0b, #fb923c);
         }
         
         .exercise-info {
@@ -609,7 +609,7 @@
         .exercise-title {
             font-size: 1.5rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #e5e7eb, #8b5cf6);
+            background: linear-gradient(135deg, #e5e7eb, #ea580c);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -695,37 +695,37 @@
         
         .expand-icon {
             font-size: 1.75rem;
-            color: var(--color-purple-500);
+            color: var(--color-orange-600);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             width: 36px;
             height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(139, 92, 246, 0.1);
+            background: rgba(16, 185, 129, 0.1);
             border-radius: 8px;
-            border: 1.5px solid rgba(139, 92, 246, 0.25);
+            border: 1.5px solid rgba(16, 185, 129, 0.25);
         }
         
         .expand-icon:hover {
-            background: rgba(139, 92, 246, 0.2);
-            border-color: rgba(139, 92, 246, 0.4);
+            background: rgba(16, 185, 129, 0.2);
+            border-color: rgba(16, 185, 129, 0.4);
             transform: scale(1.1);
         }
         
         .exercise-card.expanded .expand-icon {
             transform: rotate(180deg);
-            background: rgba(139, 92, 246, 0.15);
-            border-color: rgba(139, 92, 246, 0.4);
+            background: rgba(16, 185, 129, 0.15);
+            border-color: rgba(16, 185, 129, 0.4);
         }
         
         [data-theme="light"] .expand-icon {
-            background: rgba(139, 92, 246, 0.08);
-            border-color: rgba(139, 92, 246, 0.2);
+            background: rgba(16, 185, 129, 0.08);
+            border-color: rgba(16, 185, 129, 0.2);
         }
         
         [data-theme="light"] .expand-icon:hover {
-            background: rgba(139, 92, 246, 0.15);
+            background: rgba(16, 185, 129, 0.15);
         }
         
         .exercise-content {
@@ -741,12 +741,12 @@
         .exercise-body {
             padding: 2rem 2.5rem;
             border-top: 1px solid rgba(71, 85, 105, 0.3);
-            background: linear-gradient(180deg, transparent, rgba(139, 92, 246, 0.02));
+            background: linear-gradient(180deg, transparent, rgba(16, 185, 129, 0.02));
         }
         
         [data-theme="light"] .exercise-body {
             border-top-color: rgba(226, 232, 240, 0.6);
-            background: linear-gradient(180deg, transparent, rgba(139, 92, 246, 0.03));
+            background: linear-gradient(180deg, transparent, rgba(16, 185, 129, 0.03));
         }
         
         /* Exercise section headings */
@@ -768,7 +768,7 @@
         .exercise-body h4 {
             font-size: 1rem;
             font-weight: 700;
-            color: var(--color-purple-500);
+            color: var(--color-orange-600);
             margin-top: 1.5rem;
             margin-bottom: 0.75rem;
             display: flex;
@@ -778,7 +778,7 @@
         
         .exercise-body h4::before {
             content: '▸';
-            color: var(--color-purple-500);
+            color: var(--color-orange-600);
             font-size: 1.25rem;
         }
         
@@ -800,7 +800,7 @@
         }
         
         .exercise-body li::marker {
-            color: var(--color-purple-500);
+            color: var(--color-orange-600);
             font-weight: 700;
         }
         
@@ -808,35 +808,35 @@
         .related-lesson {
             margin: var(--space-lg) 0;
             padding: 1.25rem 1.5rem;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.12), rgba(139, 92, 246, 0.08));
-            border: 2px solid rgba(139, 92, 246, 0.3);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(16, 185, 129, 0.08));
+            border: 2px solid rgba(16, 185, 129, 0.3);
             border-radius: 16px;
             display: flex;
             align-items: center;
             gap: var(--space-md);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.1);
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.1);
             position: relative;
             overflow: hidden;
         }
         
         [data-theme="light"] .related-lesson {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(52, 211, 153, 0.05));
-            border-color: rgba(139, 92, 246, 0.3);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.05));
+            border-color: rgba(16, 185, 129, 0.3);
         }
         
         .related-lesson::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), transparent);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), transparent);
             opacity: 0;
             transition: opacity 0.4s;
         }
         
         .related-lesson:hover {
             transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 12px 32px rgba(139, 92, 246, 0.2);
+            box-shadow: 0 12px 32px rgba(16, 185, 129, 0.2);
         }
         
         .related-lesson:hover::before {
@@ -845,7 +845,7 @@
         
         .related-lesson > i {
             font-size: 1.75rem;
-            color: var(--color-purple-500);
+            color: var(--color-orange-600);
             transition: transform 0.4s;
         }
         
@@ -869,7 +869,7 @@
         /* Beautiful Terminal-Style Output Box */
         .output-box {
             background: linear-gradient(145deg, #1a1f2e 0%, #0f1419 100%);
-            border: 2px solid rgba(139, 92, 246, 0.25);
+            border: 2px solid rgba(16, 185, 129, 0.25);
             border-radius: 16px;
             overflow: hidden;
             margin: var(--space-md) 0;
@@ -884,14 +884,14 @@
         .output-box:hover {
             box-shadow: 
                 0 16px 40px rgba(0, 0, 0, 0.6),
-                0 0 0 1px rgba(139, 92, 246, 0.3),
+                0 0 0 1px rgba(16, 185, 129, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            border-color: rgba(139, 92, 246, 0.4);
+            border-color: rgba(16, 185, 129, 0.4);
         }
         
         [data-theme="light"] .output-box {
             background: linear-gradient(145deg, #2d3748 0%, #1a202c 100%);
-            border-color: rgba(139, 92, 246, 0.3);
+            border-color: rgba(16, 185, 129, 0.3);
             box-shadow: 
                 0 8px 24px rgba(0, 0, 0, 0.25),
                 0 0 0 1px rgba(255, 255, 255, 0.1),
@@ -901,9 +901,9 @@
         [data-theme="light"] .output-box:hover {
             box-shadow: 
                 0 12px 32px rgba(0, 0, 0, 0.3),
-                0 0 0 1px rgba(139, 92, 246, 0.4),
+                0 0 0 1px rgba(16, 185, 129, 0.4),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            border-color: rgba(139, 92, 246, 0.5);
+            border-color: rgba(16, 185, 129, 0.5);
         }
         
         /* Terminal Header Bar - macOS Style */
@@ -953,7 +953,7 @@
         .output-content {
             padding: 1.25rem 1.5rem;
             font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
-            color: #8b5cf6 !important;
+            color: #ea580c !important;
             line-height: 1.9;
             white-space: pre-wrap;
             font-size: 0.9375rem;
@@ -964,7 +964,7 @@
         
         [data-theme="light"] .output-content {
             background: linear-gradient(180deg, #1a202c 0%, #161b22 100%) !important;
-            color: #8b5cf6 !important;
+            color: #ea580c !important;
         }
         
         /* Removed terminal prompt indicator */
@@ -972,7 +972,7 @@
         /* Terminal cursor blink effect */
         .output-content::after {
             content: '▊';
-            color: #8b5cf6;
+            color: #ea580c;
             animation: terminal-blink 1s step-end infinite;
             margin-left: 0.125rem;
             opacity: 0.8;
@@ -993,11 +993,11 @@
             height: 1px;
             background: linear-gradient(90deg, 
                 transparent 0%, 
-                rgba(139, 92, 246, 0.6) 20%, 
+                rgba(16, 185, 129, 0.6) 20%, 
                 rgba(52, 211, 153, 0.8) 50%, 
-                rgba(139, 92, 246, 0.6) 80%, 
+                rgba(16, 185, 129, 0.6) 80%, 
                 transparent 100%);
-            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
         }
         
         /* Window dots hover effects */
@@ -1007,11 +1007,11 @@
         
         /* Terminal text glow */
         .output-content {
-            text-shadow: 0 0 8px rgba(139, 92, 246, 0.3);
+            text-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
         }
         
         [data-theme="light"] .output-content {
-            text-shadow: 0 0 8px rgba(139, 92, 246, 0.25);
+            text-shadow: 0 0 8px rgba(16, 185, 129, 0.25);
         }
         
         /* Solution Section */
@@ -1026,7 +1026,7 @@
         }
         
         .show-solution-btn {
-            background: linear-gradient(135deg, #8b5cf6, #a78bfa, #8b5cf6);
+            background: linear-gradient(135deg, #ea580c, #f59e0b, #ea580c);
             background-size: 200% 100%;
             color: white;
             border: none;
@@ -1040,8 +1040,8 @@
             align-items: center;
             gap: 0.75rem;
             box-shadow: 
-                0 8px 24px rgba(139, 92, 246, 0.35),
-                0 0 0 0 rgba(139, 92, 246, 0.3);
+                0 8px 24px rgba(16, 185, 129, 0.35),
+                0 0 0 0 rgba(16, 185, 129, 0.3);
             position: relative;
             overflow: hidden;
         }
@@ -1067,8 +1067,8 @@
         .show-solution-btn:hover {
             transform: translateY(-4px) scale(1.03);
             box-shadow: 
-                0 16px 40px rgba(139, 92, 246, 0.45),
-                0 0 0 8px rgba(139, 92, 246, 0.1);
+                0 16px 40px rgba(16, 185, 129, 0.45),
+                0 0 0 8px rgba(16, 185, 129, 0.1);
             background-position: 100% 0;
         }
         
@@ -1124,14 +1124,14 @@
         .solution-content > h3 {
             font-size: 1.375rem !important;
             font-weight: 800 !important;
-            color: var(--color-purple-500) !important;
+            color: var(--color-orange-600) !important;
             margin-bottom: 1.5rem !important;
             display: flex !important;
             align-items: center !important;
             gap: 0.75rem !important;
             padding: 1rem 1.25rem !important;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.12), rgba(139, 92, 246, 0.05)) !important;
-            border-left: 4px solid var(--color-purple-500) !important;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(16, 185, 129, 0.05)) !important;
+            border-left: 4px solid var(--color-orange-600) !important;
             border-radius: 8px !important;
         }
         
@@ -1141,12 +1141,12 @@
         
         /* Key Concepts Box - Beautiful Design */
         .solution-content > div[style*="background: linear-gradient"] {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(52, 211, 153, 0.08)) !important;
-            border: 2px solid rgba(139, 92, 246, 0.3) !important;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(52, 211, 153, 0.08)) !important;
+            border: 2px solid rgba(16, 185, 129, 0.3) !important;
             border-radius: 12px !important;
             padding: 1.25rem 1.5rem !important;
             margin-top: 1.5rem !important;
-            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.1);
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.1);
             position: relative;
             overflow: hidden;
         }
@@ -1158,19 +1158,19 @@
             left: 0;
             width: 4px;
             height: 100%;
-            background: linear-gradient(180deg, #8b5cf6, #a78bfa);
-            box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+            background: linear-gradient(180deg, #ea580c, #f59e0b);
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
         }
         
         [data-theme="light"] .solution-content > div[style*="background: linear-gradient"] {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(52, 211, 153, 0.05)) !important;
-            border-color: rgba(139, 92, 246, 0.3) !important;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.05)) !important;
+            border-color: rgba(16, 185, 129, 0.3) !important;
         }
         
         .solution-content strong {
             font-size: 1rem !important;
             font-weight: 700 !important;
-            color: var(--color-purple-500) !important;
+            color: var(--color-orange-600) !important;
             display: flex !important;
             align-items: center !important;
             gap: 0.625rem !important;
@@ -1194,7 +1194,7 @@
         }
         
         .solution-content li::marker {
-            color: var(--color-purple-500);
+            color: var(--color-orange-600);
             font-weight: 700;
         }
         
@@ -1386,12 +1386,12 @@
         
         /* Completed state */
         .mark-completed-btn.completed {
-            background: linear-gradient(135deg, #8b5cf6, #a78bfa, #8b5cf6) !important;
-            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.35) !important;
+            background: linear-gradient(135deg, #ea580c, #f59e0b, #ea580c) !important;
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35) !important;
         }
         
         .mark-completed-btn.completed:hover {
-            box-shadow: 0 12px 32px rgba(139, 92, 246, 0.45) !important;
+            box-shadow: 0 12px 32px rgba(16, 185, 129, 0.45) !important;
         }
         
         /* Scroll to Top Button - Performance Optimized */
@@ -1401,7 +1401,7 @@
             right: 2rem;
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+            background: linear-gradient(135deg, #ea580c, #f59e0b);
             color: white;
             border: none;
             border-radius: 50%;
@@ -1410,7 +1410,7 @@
             align-items: center;
             justify-content: center;
             font-size: 1.75rem;
-            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
             z-index: 100;
         }
@@ -1422,8 +1422,8 @@
         .scroll-to-top:hover {
             transform: translateY(-4px) scale(1.08);
             box-shadow: 
-                0 12px 32px rgba(139, 92, 246, 0.45),
-                0 0 0 0 rgba(139, 92, 246, 0);
+                0 12px 32px rgba(16, 185, 129, 0.45),
+                0 0 0 0 rgba(16, 185, 129, 0);
         }
         
         .scroll-to-top:active {
@@ -1434,7 +1434,7 @@
         [data-theme="light"] .output-box,
         [data-theme="light"] pre code {
             background: rgba(248, 250, 252, 0.95) !important;
-            border-color: rgba(139, 92, 246, 0.3);
+            border-color: rgba(16, 185, 129, 0.3);
         }
         
         [data-theme="light"] .output-content {
@@ -1456,7 +1456,7 @@
             font-family: 'JetBrains Mono', monospace !important;
             line-height: 1.7 !important;
             background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.9)) !important;
-            border: 2px solid rgba(139, 92, 246, 0.3) !important;
+            border: 2px solid rgba(16, 185, 129, 0.3) !important;
             border-radius: 12px !important;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
@@ -1467,7 +1467,7 @@
         
         [data-theme="light"] .solution-content pre code {
             background: linear-gradient(135deg, #ffffff, #f8fafc) !important;
-            border: 2px solid rgba(139, 92, 246, 0.3) !important;
+            border: 2px solid rgba(16, 185, 129, 0.3) !important;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
         
@@ -1481,9 +1481,9 @@
             position: absolute;
             top: 0.75rem;
             right: 0.75rem;
-            background: rgba(139, 92, 246, 0.15);
-            border: 1.5px solid rgba(139, 92, 246, 0.3);
-            color: var(--color-purple-500);
+            background: rgba(16, 185, 129, 0.15);
+            border: 1.5px solid rgba(16, 185, 129, 0.3);
+            color: var(--color-orange-600);
             padding: 0.5rem 1rem;
             border-radius: 8px;
             font-size: 0.8125rem;
@@ -1497,14 +1497,14 @@
         }
         
         .copy-code-btn:hover {
-            background: rgba(139, 92, 246, 0.25);
-            border-color: rgba(139, 92, 246, 0.5);
+            background: rgba(16, 185, 129, 0.25);
+            border-color: rgba(16, 185, 129, 0.5);
             transform: translateY(-2px);
         }
         
         .copy-code-btn.copied {
-            background: rgba(139, 92, 246, 0.3);
-            border-color: rgba(139, 92, 246, 0.6);
+            background: rgba(16, 185, 129, 0.3);
+            border-color: rgba(16, 185, 129, 0.6);
         }
         
         .copy-code-btn i {
@@ -1532,13 +1532,13 @@
         }
         
         .back-to-hub-btn:hover {
-            background: rgba(139, 92, 246, 0.15);
-            border-color: rgba(139, 92, 246, 0.5);
+            background: rgba(16, 185, 129, 0.15);
+            border-color: rgba(16, 185, 129, 0.5);
             transform: translateX(-4px);
         }
         
         [data-theme="light"] .back-to-hub-btn:hover {
-            background: rgba(139, 92, 246, 0.1);
+            background: rgba(16, 185, 129, 0.1);
         }
         
         /* Minimized Footer Styles */
@@ -1587,38 +1587,6 @@
         }
         
         /* Mobile Responsive - Enhanced */
-        
-        /* Back to Hub Button Styles */
-        .back-to-hub-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.625rem;
-            padding: 1rem 2rem;
-            background: rgba(139, 92, 246, 0.1);
-            border: 1px solid rgba(139, 92, 246, 0.2);
-            border-radius: var(--radius-md);
-            color: var(--text-primary);
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .back-to-hub-btn:hover {
-            background: rgba(139, 92, 246, 0.2);
-            border-color: rgba(139, 92, 246, 0.4);
-            transform: translateY(-2px);
-        }
-        
-        [data-theme="light"] .back-to-hub-btn {
-            background: rgba(139, 92, 246, 0.08);
-            border-color: rgba(139, 92, 246, 0.25);
-        }
-        
-        [data-theme="light"] .back-to-hub-btn:hover {
-            background: rgba(139, 92, 246, 0.15);
-            border-color: rgba(139, 92, 246, 0.4);
-        }
-        
         @media (max-width: 768px) {
             .navbar-actions {
                 gap: 0.375rem !important;
@@ -1828,16 +1796,16 @@
             <span class="breadcrumb-separator">/</span>
             <a href="exercises-index.html">Exercise Hub</a>
             <span class="breadcrumb-separator">/</span>
-            <span class="breadcrumb-current">Conditionals</span>
+            <span class="breadcrumb-current">Operators</span>
         </nav>
 
         <!-- Hero Section -->
         <div class="exercise-hero">
             <div class="exercise-hero-icon">
-                <i class="ri-git-branch-line"></i>
+                <i class="ri-function-line"></i>
             </div>
-            <h1>Conditionals</h1>
-            <p class="exercise-hero-subtitle">Master If-Then-Else statements and decision-making with 10 hands-on exercises</p>
+            <h1>Operators</h1>
+            <p class="exercise-hero-subtitle">Master arithmetic, logical, and comparison operators with 10 hands-on exercises</p>
             
             <div class="exercise-meta">
                 <span class="meta-badge">
@@ -1854,19 +1822,19 @@
                 </span>
                 <span class="meta-badge">
                     <i class="ri-time-line"></i>
-                    ~70 min total
+                    ~75 min total
                 </span>
             </div>
             
-            <a href="../07-conditional-statements.html" class="related-lesson" style="text-decoration: none;">
+            <a href="../05-operators.html" class="related-lesson" style="text-decoration: none;">
                 <i class="ri-book-open-line"></i>
                 <div style="flex: 1; text-align: left;">
                     <div style="font-size: 0.75rem; color: var(--text-tertiary); margin-bottom: 0.25rem; text-transform: uppercase; letter-spacing: 0.05em;">Related Lesson</div>
-                    <div style="color: var(--color-purple-500); font-weight: 700; font-size: 1.0625rem; display: flex; align-items: center; gap: 0.625rem;">
-                        Conditional Statements Theory
+                    <div style="color: var(--color-orange-600); font-weight: 700; font-size: 1.0625rem; display: flex; align-items: center; gap: 0.625rem;">
+                        Operators Theory
                         <i class="ri-arrow-right-line"></i>
                     </div>
-            </div>
+                </div>
             </a>
         </div>
 
@@ -1876,13 +1844,16 @@
                 <div class="exercise-title-section">
                     <div class="exercise-number">1</div>
                     <div class="exercise-info">
-                        <h3 class="exercise-title">Positive/Negative/Zero</h3>
+                        <h3 class="exercise-title">Age Calculator</h3>
                         <div class="exercise-badges">
                             <span class="difficulty-badge difficulty-easy">
                                 <i class="ri-seedling-line"></i>
                                 Easy
                             </span>
-                            <span class="time-badge"><i class="ri-time-line"></i> 5 min</span>
+                            <span class="time-badge">
+                                <i class="ri-time-line"></i>
+                                5 min
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -1891,15 +1862,26 @@
             <div class="exercise-content">
                 <div class="exercise-body">
                     <h3 style="color: var(--text-primary); margin-bottom: var(--space-md);"><i class="ri-file-text-line" style="color: var(--color-purple-500); margin-right: 0.5rem;"></i>Problem:</h3>
-                    <p style="color: var(--text-secondary); line-height: 1.7;">Write a program to determine if a number is positive, negative, or zero.</p>
+                    <p style="color: var(--text-secondary); line-height: 1.7;">Write a pseudocode algorithm that asks the user for their birth year and calculates their current age.</p>
+                    
+                    <h4 style="color: var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">Requirements:</h4>
+                    <ul style="color: var(--text-secondary); line-height: 1.8; margin-left: var(--space-lg);">
+                        <li>Prompt the user to enter their birth year</li>
+                        <li>Calculate age using current year (2024)</li>
+                        <li>Display the calculated age</li>
+                    </ul>
                     
                     <h4 style="color: var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">Example Output:</h4>
                     <div class="output-box">
-                        <div class="output-header"><i class="ri-terminal-line"></i> Sample Run</div>
-                        <div class="output-content">Enter a number: -5
-The number is negative</div>
+                        <div class="output-header">
+                            <i class="ri-terminal-line"></i>
+                            Sample Run
+                        </div>
+                        <div class="output-content">Enter your birth year: 1990
+Your age is: 34 years old.</div>
                     </div>
                     
+                    <!-- Solution Section -->
                     <div class="solution-section">
                         <!-- Hints System -->
                         <div class="hints-container">
@@ -1927,28 +1909,33 @@ The number is negative</div>
                         </div>
                         
                         <div style="text-align: center;" id="solution-1-hidden">
-                            <button class="show-solution-btn" onclick="showSolution(1)"><i class="ri-eye-line"></i> Show Solution</button>
+                            <button class="show-solution-btn" onclick="showSolution(1)">
+                                <i class="ri-eye-line"></i>
+                                Show Solution
+                            </button>
                         </div>
                         <div class="solution-content" id="solution-1">
-                            <h3 style="color: var(--color-blue-500); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;"><i class="ri-checkbox-circle-line"></i> Solution</h3>
-                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">CheckSign</span>
-    <span style="color: #c678dd; font-weight: 600;">var</span> number = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter a number:"</span>
-    
-    <span style="color: #c678dd; font-weight: 600;">If</span> number > <span style="color: #d19a66;">0</span> <span style="color: #c678dd; font-weight: 600;">Then</span>
-        <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"The number is positive"</span>
-    <span style="color: #c678dd; font-weight: 600;">Elseif</span> number < <span style="color: #d19a66;">0</span> <span style="color: #c678dd; font-weight: 600;">Then</span>
-        <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"The number is negative"</span>
-    <span style="color: #c678dd; font-weight: 600;">Else</span>
-        <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"The number is zero"</span>
-    <span style="color: #c678dd; font-weight: 600;">Endif</span>
+                            <h3 style="color: var(--color-orange-600); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="ri-checkbox-circle-line"></i>
+                                Solution
+                            </h3>
+                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">AgeCalculator</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> currentYear = <span style="color: #d19a66;">2024</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> birthYear = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter your birth year:"</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> age = currentYear - birthYear
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Your age is:"</span>, age, <span style="color: #98c379;">"years old."</span>
 <span style="color: #c678dd; font-weight: 600;">Endalgorithm</span></code></pre>
                             
-                            <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(6, 182, 212, 0.08)); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md);">
-                                <strong style="color: var(--color-blue-500); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.625rem;"><i class="ri-lightbulb-line"></i> Key Concepts:</strong>
+                            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.08)); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md);">
+                                <strong style="color: var(--color-orange-600); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.625rem;">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Key Concepts:
+                                </strong>
                                 <ul style="color: var(--text-secondary); margin-top: 0.625rem; margin-left: var(--space-lg); line-height: 1.8;">
-                                    <li>If-Elseif-Else structure for multiple conditions</li>
-                                    <li>Comparison operators (>, <)</li>
-                                    <li>Only one branch executes</li>
+                                    <li>Variables store data</li>
+                                    <li>Input keyword gets user data</li>
+                                    <li>Arithmetic operators perform calculations</li>
+                                    <li>Print keyword displays output</li>
                                 </ul>
                             </div>
                             
@@ -1970,10 +1957,16 @@ The number is negative</div>
                 <div class="exercise-title-section">
                     <div class="exercise-number">2</div>
                     <div class="exercise-info">
-                        <h3 class="exercise-title">Grade Checker</h3>
+                        <h3 class="exercise-title">Rectangle Area</h3>
                         <div class="exercise-badges">
-                            <span class="difficulty-badge difficulty-easy"><i class="ri-seedling-line"></i> Easy</span>
-                            <span class="time-badge"><i class="ri-time-line"></i> 6 min</span>
+                            <span class="difficulty-badge difficulty-easy">
+                                <i class="ri-seedling-line"></i>
+                                Easy
+                            </span>
+                            <span class="time-badge">
+                                <i class="ri-time-line"></i>
+                                5 min
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -1982,16 +1975,29 @@ The number is negative</div>
             <div class="exercise-content">
                 <div class="exercise-body">
                     <h3 style="color: var(--text-primary); margin-bottom: var(--space-md);"><i class="ri-file-text-line" style="color: var(--color-purple-500); margin-right: 0.5rem;"></i>Problem:</h3>
-                    <p style="color: var(--text-secondary); line-height: 1.7;">Determine if a student passes or fails based on their score (passing score is 60 or above).</p>
+                    <p style="color: var(--text-secondary); line-height: 1.7;">Write a pseudocode algorithm to calculate the area of a rectangle given its length and width.</p>
                     
+                    <h4 style="color: var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">Requirements:</h4>
+                    <ul style="color: var(--text-secondary); line-height: 1.8; margin-left: var(--space-lg);">
+                        <li>Prompt the user to enter the length</li>
+                        <li>Prompt the user to enter the width</li>
+                        <li>Calculate the area (length × width)</li>
+                        <li>Display the calculated area</li>
+                    </ul>
+                    
+                    <h4 style="color: var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">Example Output:</h4>
                     <div class="output-box">
-                        <div class="output-header"><i class="ri-terminal-line"></i> Sample Run</div>
-                        <div class="output-content">Enter your score: 75
-Result: Pass</div>
+                        <div class="output-header">
+                            <i class="ri-terminal-line"></i>
+                            Sample Run
+                        </div>
+                        <div class="output-content">Enter length: 10
+Enter width: 5
+The area of the rectangle is: 50</div>
                     </div>
                     
                     <div class="solution-section">
-                                                <!-- Hints System -->
+                        <!-- Hints System -->
                         <div class="hints-container">
                             <div class="hints-header">
                                 <i class="ri-lightbulb-flash-line"></i>
@@ -2016,27 +2022,33 @@ Result: Pass</div>
                             <div id="hint-2-3" class="hint-display"></div>
                         </div>
                         
-<div style="text-align: center;" id="solution-2-hidden">
-                            <button class="show-solution-btn" onclick="showSolution(2)"><i class="ri-eye-line"></i> Show Solution</button>
+                        <div style="text-align: center;" id="solution-2-hidden">
+                            <button class="show-solution-btn" onclick="showSolution(2)">
+                                <i class="ri-eye-line"></i>
+                                Show Solution
+                            </button>
                         </div>
                         <div class="solution-content" id="solution-2">
-                            <h3 style="color: var(--color-blue-500); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;"><i class="ri-checkbox-circle-line"></i> Solution</h3>
-                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">GradeChecker</span>
-    <span style="color: #c678dd; font-weight: 600;">var</span> score = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter your score:"</span>
-    
-    <span style="color: #c678dd; font-weight: 600;">If</span> score >= <span style="color: #d19a66;">60</span> <span style="color: #c678dd; font-weight: 600;">Then</span>
-        <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Result: Pass"</span>
-    <span style="color: #c678dd; font-weight: 600;">Else</span>
-        <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Result: Fail"</span>
-    <span style="color: #c678dd; font-weight: 600;">Endif</span>
+                            <h3 style="color: var(--color-orange-600); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="ri-checkbox-circle-line"></i>
+                                Solution
+                            </h3>
+                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">RectangleAreaCalculator</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> length = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter length:"</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> width = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter width:"</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> area = length * width
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"The area of the rectangle is:"</span>, area
 <span style="color: #c678dd; font-weight: 600;">Endalgorithm</span></code></pre>
                             
-                            <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(6, 182, 212, 0.08)); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md);">
-                                <strong style="color: var(--color-blue-500); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.625rem;"><i class="ri-lightbulb-line"></i> Key Concepts:</strong>
+                            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.08)); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md);">
+                                <strong style="color: var(--color-orange-600); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.625rem;">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Key Concepts:
+                                </strong>
                                 <ul style="color: var(--text-secondary); margin-top: 0.625rem; margin-left: var(--space-lg); line-height: 1.8;">
-                                    <li>Simple If-Else structure</li>
-                                    <li>Greater than or equal (>=) operator</li>
-                                    <li>Binary decision making</li>
+                                    <li>Variables store numerical values</li>
+                                    <li>Multiplication operator (*) for area calculation</li>
+                                    <li>Input and Output operations are fundamental</li>
                                 </ul>
                             </div>
                             
@@ -2058,10 +2070,16 @@ Result: Pass</div>
                 <div class="exercise-title-section">
                     <div class="exercise-number">3</div>
                     <div class="exercise-info">
-                        <h3 class="exercise-title">Largest of Three</h3>
+                        <h3 class="exercise-title">String Concatenation</h3>
                         <div class="exercise-badges">
-                            <span class="difficulty-badge difficulty-easy"><i class="ri-seedling-line"></i> Easy</span>
-                            <span class="time-badge"><i class="ri-time-line"></i> 7 min</span>
+                            <span class="difficulty-badge difficulty-easy">
+                                <i class="ri-seedling-line"></i>
+                                Easy
+                            </span>
+                            <span class="time-badge">
+                                <i class="ri-time-line"></i>
+                                5 min
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -2070,16 +2088,29 @@ Result: Pass</div>
             <div class="exercise-content">
                 <div class="exercise-body">
                     <h3 style="color: var(--text-primary); margin-bottom: var(--space-md);"><i class="ri-file-text-line" style="color: var(--color-purple-500); margin-right: 0.5rem;"></i>Problem:</h3>
-                    <p style="color: var(--text-secondary); line-height: 1.7;">Find the largest of three numbers.</p>
+                    <p style="color: var(--text-secondary); line-height: 1.7;">Ask the user for their first name and last name, then combine them to display their full name.</p>
+                    
+                    <h4 style="color: var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">Requirements:</h4>
+                    <ul style="color: var(--text-secondary); line-height: 1.8; margin-left: var(--space-lg);">
+                        <li>Get first name from user</li>
+                        <li>Get last name from user</li>
+                        <li>Combine them with a space in between</li>
+                        <li>Display the full name</li>
+                    </ul>
+                    
+                    <h4 style="color: var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">Example Output:</h4>
                     <div class="output-box">
-                        <div class="output-header"><i class="ri-terminal-line"></i> Sample Run</div>
-                        <div class="output-content">Enter first number: 15
-Enter second number: 23
-Enter third number: 19
-The largest number is: 23</div>
+                        <div class="output-header">
+                            <i class="ri-terminal-line"></i>
+                            Sample Run
+                        </div>
+                        <div class="output-content">Enter first name: John
+Enter last name: Doe
+Your full name is: John Doe</div>
                     </div>
+                    
                     <div class="solution-section">
-                                                <!-- Hints System -->
+                        <!-- Hints System -->
                         <div class="hints-container">
                             <div class="hints-header">
                                 <i class="ri-lightbulb-flash-line"></i>
@@ -2104,36 +2135,36 @@ The largest number is: 23</div>
                             <div id="hint-3-3" class="hint-display"></div>
                         </div>
                         
-<div style="text-align: center;" id="solution-3-hidden">
-                            <button class="show-solution-btn" onclick="showSolution(3)"><i class="ri-eye-line"></i> Show Solution</button>
+                        <div style="text-align: center;" id="solution-3-hidden">
+                            <button class="show-solution-btn" onclick="showSolution(3)">
+                                <i class="ri-eye-line"></i>
+                                Show Solution
+                            </button>
                         </div>
                         <div class="solution-content" id="solution-3">
-                            <h3 style="color: var(--color-blue-500); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;"><i class="ri-checkbox-circle-line"></i> Solution</h3>
-                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">FindLargest</span>
-    <span style="color: #c678dd; font-weight: 600;">var</span> a = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter first number:"</span>
-    <span style="color: #c678dd; font-weight: 600;">var</span> b = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter second number:"</span>
-    <span style="color: #c678dd; font-weight: 600;">var</span> c = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter third number:"</span>
-    
-    <span style="color: #c678dd; font-weight: 600;">var</span> largest = a
-    
-    <span style="color: #c678dd; font-weight: 600;">If</span> b > largest <span style="color: #c678dd; font-weight: 600;">Then</span>
-        largest = b
-    <span style="color: #c678dd; font-weight: 600;">Endif</span>
-    
-    <span style="color: #c678dd; font-weight: 600;">If</span> c > largest <span style="color: #c678dd; font-weight: 600;">Then</span>
-        largest = c
-    <span style="color: #c678dd; font-weight: 600;">Endif</span>
-    
-    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"The largest number is:"</span>, largest
+                            <h3 style="color: var(--color-orange-600); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="ri-checkbox-circle-line"></i>
+                                Solution
+                            </h3>
+                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">FullNameGenerator</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> firstName = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter first name:"</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> lastName = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter last name:"</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> fullName = firstName + <span style="color: #98c379;">" "</span> + lastName
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Your full name is:"</span>, fullName
 <span style="color: #c678dd; font-weight: 600;">Endalgorithm</span></code></pre>
-                            <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(6, 182, 212, 0.08)); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md);">
-                                <strong style="color: var(--color-blue-500); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.625rem;"><i class="ri-lightbulb-line"></i> Key Concepts:</strong>
+                            
+                            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.08)); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md);">
+                                <strong style="color: var(--color-orange-600); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.625rem;">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Key Concepts:
+                                </strong>
                                 <ul style="color: var(--text-secondary); margin-top: 0.625rem; margin-left: var(--space-lg); line-height: 1.8;">
-                                    <li>Multiple IF statements in sequence</li>
-                                    <li>Variable reassignment</li>
-                                    <li>Finding maximum value</li>
+                                    <li>String variables store text</li>
+                                    <li>The + operator can concatenate (join) strings</li>
+                                    <li>Literal strings (like " ") are used for fixed text</li>
                                 </ul>
                             </div>
+                            
                             <div style="text-align: center; margin-top: var(--space-lg);">
                                 <button class="mark-completed-btn" onclick="markAsCompleted(3)">
                                     <i class="ri-check-double-line"></i>
@@ -2152,10 +2183,16 @@ The largest number is: 23</div>
                 <div class="exercise-title-section">
                     <div class="exercise-number">4</div>
                     <div class="exercise-info">
-                        <h3 class="exercise-title">Age Category</h3>
+                        <h3 class="exercise-title">Temperature Converter</h3>
                         <div class="exercise-badges">
-                            <span class="difficulty-badge difficulty-easy"><i class="ri-seedling-line"></i> Easy</span>
-                            <span class="time-badge"><i class="ri-time-line"></i> 6 min</span>
+                            <span class="difficulty-badge difficulty-medium">
+                                <i class="ri-alert-line"></i>
+                                Medium
+                            </span>
+                            <span class="time-badge">
+                                <i class="ri-time-line"></i>
+                                7 min
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -2164,14 +2201,17 @@ The largest number is: 23</div>
             <div class="exercise-content">
                 <div class="exercise-body">
                     <h3 style="color: var(--text-primary); margin-bottom: var(--space-md);"><i class="ri-file-text-line" style="color: var(--color-purple-500); margin-right: 0.5rem;"></i>Problem:</h3>
-                    <p style="color: var(--text-secondary); line-height: 1.7;">Categorize age as Child (<13), Teen (13-19), Adult (20-64), or Senior (65+).</p>
+                    <p style="color: var(--text-secondary); line-height: 1.7;">Convert a temperature from Celsius to Fahrenheit using the formula: F = C × 9/5 + 32</p>
+                    
+                    <h4 style="color: var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">Example Output:</h4>
                     <div class="output-box">
                         <div class="output-header"><i class="ri-terminal-line"></i> Sample Run</div>
-                        <div class="output-content">Enter age: 25
-Category: Adult</div>
+                        <div class="output-content">Enter temperature in Celsius: 25
+25 Celsius is 77 Fahrenheit</div>
                     </div>
+                    
                     <div class="solution-section">
-                                                <!-- Hints System -->
+                        <!-- Hints System -->
                         <div class="hints-container">
                             <div class="hints-header">
                                 <i class="ri-lightbulb-flash-line"></i>
@@ -2196,32 +2236,16 @@ Category: Adult</div>
                             <div id="hint-4-3" class="hint-display"></div>
                         </div>
                         
-<div style="text-align: center;" id="solution-4-hidden">
+                        <div style="text-align: center;" id="solution-4-hidden">
                             <button class="show-solution-btn" onclick="showSolution(4)"><i class="ri-eye-line"></i> Show Solution</button>
                         </div>
                         <div class="solution-content" id="solution-4">
-                            <h3 style="color: var(--color-blue-500); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;"><i class="ri-checkbox-circle-line"></i> Solution</h3>
-                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">AgeCategory</span>
-    <span style="color: #c678dd; font-weight: 600;">var</span> age = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter age:"</span>
-    
-    <span style="color: #c678dd; font-weight: 600;">If</span> age < <span style="color: #d19a66;">13</span> <span style="color: #c678dd; font-weight: 600;">Then</span>
-        <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Category: Child"</span>
-    <span style="color: #c678dd; font-weight: 600;">Elseif</span> age <= <span style="color: #d19a66;">19</span> <span style="color: #c678dd; font-weight: 600;">Then</span>
-        <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Category: Teen"</span>
-    <span style="color: #c678dd; font-weight: 600;">Elseif</span> age <= <span style="color: #d19a66;">64</span> <span style="color: #c678dd; font-weight: 600;">Then</span>
-        <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Category: Adult"</span>
-    <span style="color: #c678dd; font-weight: 600;">Else</span>
-        <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Category: Senior"</span>
-    <span style="color: #c678dd; font-weight: 600;">Endif</span>
+                            <h3 style="color: var(--color-orange-600); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;"><i class="ri-checkbox-circle-line"></i> Solution</h3>
+                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">CelsiusToFahrenheit</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> celsius = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter temperature in Celsius:"</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> fahrenheit = (celsius * <span style="color: #d19a66;">9</span> / <span style="color: #d19a66;">5</span>) + <span style="color: #d19a66;">32</span>
+    <span style="color: #c678dd; font-weight: 600;">Print</span> celsius, <span style="color: #98c379;">"Celsius is"</span>, fahrenheit, <span style="color: #98c379;">"Fahrenheit"</span>
 <span style="color: #c678dd; font-weight: 600;">Endalgorithm</span></code></pre>
-                            <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(6, 182, 212, 0.08)); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md);">
-                                <strong style="color: var(--color-blue-500); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.625rem;"><i class="ri-lightbulb-line"></i> Key Concepts:</strong>
-                                <ul style="color: var(--text-secondary); margin-top: 0.625rem; margin-left: var(--space-lg); line-height: 1.8;">
-                                    <li>Multiple Elseif statements</li>
-                                    <li>Range checking with <= operator</li>
-                                    <li>Mutually exclusive categories</li>
-                                </ul>
-                            </div>
                             <div style="text-align: center; margin-top: var(--space-lg);">
                                 <button class="mark-completed-btn" onclick="markAsCompleted(4)">
                                     <i class="ri-check-double-line"></i>
@@ -2240,10 +2264,16 @@ Category: Adult</div>
                 <div class="exercise-title-section">
                     <div class="exercise-number">5</div>
                     <div class="exercise-info">
-                        <h3 class="exercise-title">Leap Year Checker</h3>
+                        <h3 class="exercise-title">Shopping Bill Calculator</h3>
                         <div class="exercise-badges">
-                            <span class="difficulty-badge difficulty-medium"><i class="ri-alert-line"></i> Medium</span>
-                            <span class="time-badge"><i class="ri-time-line"></i> 8 min</span>
+                            <span class="difficulty-badge difficulty-medium">
+                                <i class="ri-alert-line"></i>
+                                Medium
+                            </span>
+                            <span class="time-badge">
+                                <i class="ri-time-line"></i>
+                                8 min
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -2252,14 +2282,20 @@ Category: Adult</div>
             <div class="exercise-content">
                 <div class="exercise-body">
                     <h3 style="color: var(--text-primary); margin-bottom: var(--space-md);"><i class="ri-file-text-line" style="color: var(--color-purple-500); margin-right: 0.5rem;"></i>Problem:</h3>
-                    <p style="color: var(--text-secondary); line-height: 1.7;">Determine if a year is a leap year (divisible by 4, but not by 100 unless also by 400).</p>
+                    <p style="color: var(--text-secondary); line-height: 1.7;">Calculate the total bill for two items, including a 10% sales tax.</p>
+                    
+                    <h4 style="color: var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">Example Output:</h4>
                     <div class="output-box">
                         <div class="output-header"><i class="ri-terminal-line"></i> Sample Run</div>
-                        <div class="output-content">Enter year: 2024
-2024 is a leap year</div>
+                        <div class="output-content">Enter price of item 1: 20
+Enter price of item 2: 30
+Subtotal: 50.0
+Tax (10%): 5.0
+Total Bill: 55.0</div>
                     </div>
+                    
                     <div class="solution-section">
-                                                <!-- Hints System -->
+                        <!-- Hints System -->
                         <div class="hints-container">
                             <div class="hints-header">
                                 <i class="ri-lightbulb-flash-line"></i>
@@ -2284,32 +2320,21 @@ Category: Adult</div>
                             <div id="hint-5-3" class="hint-display"></div>
                         </div>
                         
-<div style="text-align: center;" id="solution-5-hidden">
+                        <div style="text-align: center;" id="solution-5-hidden">
                             <button class="show-solution-btn" onclick="showSolution(5)"><i class="ri-eye-line"></i> Show Solution</button>
                         </div>
                         <div class="solution-content" id="solution-5">
-                            <h3 style="color: var(--color-blue-500); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;"><i class="ri-checkbox-circle-line"></i> Solution</h3>
-                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">LeapYearChecker</span>
-    <span style="color: #c678dd; font-weight: 600;">var</span> year = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter year:"</span>
-    
-    <span style="color: #c678dd; font-weight: 600;">If</span> (year mod <span style="color: #d19a66;">400</span> == <span style="color: #d19a66;">0</span>) <span style="color: #c678dd; font-weight: 600;">Then</span>
-        <span style="color: #c678dd; font-weight: 600;">Print</span> year, <span style="color: #98c379;">"is a leap year"</span>
-    <span style="color: #c678dd; font-weight: 600;">Elseif</span> (year mod <span style="color: #d19a66;">100</span> == <span style="color: #d19a66;">0</span>) <span style="color: #c678dd; font-weight: 600;">Then</span>
-        <span style="color: #c678dd; font-weight: 600;">Print</span> year, <span style="color: #98c379;">"is not a leap year"</span>
-    <span style="color: #c678dd; font-weight: 600;">Elseif</span> (year mod <span style="color: #d19a66;">4</span> == <span style="color: #d19a66;">0</span>) <span style="color: #c678dd; font-weight: 600;">Then</span>
-        <span style="color: #c678dd; font-weight: 600;">Print</span> year, <span style="color: #98c379;">"is a leap year"</span>
-    <span style="color: #c678dd; font-weight: 600;">Else</span>
-        <span style="color: #c678dd; font-weight: 600;">Print</span> year, <span style="color: #98c379;">"is not a leap year"</span>
-    <span style="color: #c678dd; font-weight: 600;">Endif</span>
+                            <h3 style="color: var(--color-orange-600); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;"><i class="ri-checkbox-circle-line"></i> Solution</h3>
+                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">ShoppingBill</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> price1 = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter price of item 1:"</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> price2 = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter price of item 2:"</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> subtotal = price1 + price2
+    <span style="color: #c678dd; font-weight: 600;">var</span> taxAmount = subtotal * <span style="color: #d19a66;">0.10</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> totalBill = subtotal + taxAmount
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Subtotal:"</span>, subtotal
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Tax (10%):"</span>, taxAmount
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Total Bill:"</span>, totalBill
 <span style="color: #c678dd; font-weight: 600;">Endalgorithm</span></code></pre>
-                            <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(6, 182, 212, 0.08)); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md);">
-                                <strong style="color: var(--color-blue-500); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.625rem;"><i class="ri-lightbulb-line"></i> Key Concepts:</strong>
-                                <ul style="color: var(--text-secondary); margin-top: 0.625rem; margin-left: var(--space-lg); line-height: 1.8;">
-                                    <li>Complex conditional logic</li>
-                                    <li>Multiple conditions with Elseif</li>
-                                    <li>Modulo operator for divisibility</li>
-                                </ul>
-                            </div>
                             <div style="text-align: center; margin-top: var(--space-lg);">
                                 <button class="mark-completed-btn" onclick="markAsCompleted(5)">
                                     <i class="ri-check-double-line"></i>
@@ -2328,10 +2353,10 @@ Category: Adult</div>
                 <div class="exercise-title-section">
                     <div class="exercise-number">6</div>
                     <div class="exercise-info">
-                        <h3 class="exercise-title">Grade Letter</h3>
+                        <h3 class="exercise-title">Time Converter</h3>
                         <div class="exercise-badges">
                             <span class="difficulty-badge difficulty-medium"><i class="ri-alert-line"></i> Medium</span>
-                            <span class="time-badge"><i class="ri-time-line"></i> 7 min</span>
+                            <span class="time-badge"><i class="ri-time-line"></i> 8 min</span>
                         </div>
                     </div>
                 </div>
@@ -2340,14 +2365,20 @@ Category: Adult</div>
             <div class="exercise-content">
                 <div class="exercise-body">
                     <h3 style="color: var(--text-primary); margin-bottom: var(--space-md);"><i class="ri-file-text-line" style="color: var(--color-purple-500); margin-right: 0.5rem;"></i>Problem:</h3>
-                    <p style="color: var(--text-secondary); line-height: 1.7;">Convert a numerical grade to letter grade (A: 90-100, B: 80-89, C: 70-79, D: 60-69, F: <60).</p>
+                    <p style="color: var(--text-secondary); line-height: 1.7;">Convert a given number of days into years, weeks, and remaining days (365 days/year, 7 days/week).</p>
+                    
+                    <h4 style="color: var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">Example Output:</h4>
                     <div class="output-box">
                         <div class="output-header"><i class="ri-terminal-line"></i> Sample Run</div>
-                        <div class="output-content">Enter grade: 85
-Letter Grade: B</div>
+                        <div class="output-content">Enter total days: 400
+400 days is:
+1 Year
+5 Weeks
+0 Days</div>
                     </div>
+                    
                     <div class="solution-section">
-                                                <!-- Hints System -->
+                        <!-- Hints System -->
                         <div class="hints-container">
                             <div class="hints-header">
                                 <i class="ri-lightbulb-flash-line"></i>
@@ -2372,34 +2403,38 @@ Letter Grade: B</div>
                             <div id="hint-6-3" class="hint-display"></div>
                         </div>
                         
-<div style="text-align: center;" id="solution-6-hidden">
+                        <div style="text-align: center;" id="solution-6-hidden">
                             <button class="show-solution-btn" onclick="showSolution(6)"><i class="ri-eye-line"></i> Show Solution</button>
                         </div>
                         <div class="solution-content" id="solution-6">
-                            <h3 style="color: var(--color-blue-500); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;"><i class="ri-checkbox-circle-line"></i> Solution</h3>
-                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">GradeLetter</span>
-    <span style="color: #c678dd; font-weight: 600;">var</span> grade = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter grade:"</span>
+                            <h3 style="color: var(--color-orange-600); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;"><i class="ri-checkbox-circle-line"></i> Solution</h3>
+                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">TimeBreakdown</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> totalDays = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter total days:"</span>
     
-    <span style="color: #c678dd; font-weight: 600;">If</span> grade >= <span style="color: #d19a66;">90</span> <span style="color: #c678dd; font-weight: 600;">Then</span>
-        <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Letter Grade: A"</span>
-    <span style="color: #c678dd; font-weight: 600;">Elseif</span> grade >= <span style="color: #d19a66;">80</span> <span style="color: #c678dd; font-weight: 600;">Then</span>
-        <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Letter Grade: B"</span>
-    <span style="color: #c678dd; font-weight: 600;">Elseif</span> grade >= <span style="color: #d19a66;">70</span> <span style="color: #c678dd; font-weight: 600;">Then</span>
-        <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Letter Grade: C"</span>
-    <span style="color: #c678dd; font-weight: 600;">Elseif</span> grade >= <span style="color: #d19a66;">60</span> <span style="color: #c678dd; font-weight: 600;">Then</span>
-        <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Letter Grade: D"</span>
-    <span style="color: #c678dd; font-weight: 600;">Else</span>
-        <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Letter Grade: F"</span>
-    <span style="color: #c678dd; font-weight: 600;">Endif</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> years = totalDays / <span style="color: #d19a66;">365</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> remainingDays = totalDays mod <span style="color: #d19a66;">365</span>
+    
+    <span style="color: #c678dd; font-weight: 600;">var</span> weeks = remainingDays / <span style="color: #d19a66;">7</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> finalDays = remainingDays mod <span style="color: #d19a66;">7</span>
+    
+    <span style="color: #c678dd; font-weight: 600;">Print</span> totalDays, <span style="color: #98c379;">"days is:"</span>
+    <span style="color: #c678dd; font-weight: 600;">Print</span> years, <span style="color: #98c379;">"Year"</span>
+    <span style="color: #c678dd; font-weight: 600;">Print</span> weeks, <span style="color: #98c379;">"Weeks"</span>
+    <span style="color: #c678dd; font-weight: 600;">Print</span> finalDays, <span style="color: #98c379;">"Days"</span>
 <span style="color: #c678dd; font-weight: 600;">Endalgorithm</span></code></pre>
-                            <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(6, 182, 212, 0.08)); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md);">
-                                <strong style="color: var(--color-blue-500); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.625rem;"><i class="ri-lightbulb-line"></i> Key Concepts:</strong>
+                            
+                            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.08)); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md);">
+                                <strong style="color: var(--color-orange-600); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.625rem;">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Key Concepts:
+                                </strong>
                                 <ul style="color: var(--text-secondary); margin-top: 0.625rem; margin-left: var(--space-lg); line-height: 1.8;">
-                                    <li>Cascading Elseif statements</li>
-                                    <li>Range-based categorization</li>
-                                    <li>Order matters (check highest first)</li>
+                                    <li>Integer division (/) for whole units</li>
+                                    <li>Modulo operator (mod) for remainders</li>
+                                    <li>Sequential calculations</li>
                                 </ul>
                             </div>
+                            
                             <div style="text-align: center; margin-top: var(--space-lg);">
                                 <button class="mark-completed-btn" onclick="markAsCompleted(6)">
                                     <i class="ri-check-double-line"></i>
@@ -2418,10 +2453,10 @@ Letter Grade: B</div>
                 <div class="exercise-title-section">
                     <div class="exercise-number">7</div>
                     <div class="exercise-info">
-                        <h3 class="exercise-title">Triangle Validator</h3>
+                        <h3 class="exercise-title">BMI Calculator</h3>
                         <div class="exercise-badges">
-                            <span class="difficulty-badge difficulty-medium"><i class="ri-alert-line"></i> Medium</span>
-                            <span class="time-badge"><i class="ri-time-line"></i> 8 min</span>
+                            <span class="difficulty-badge difficulty-hard"><i class="ri-fire-line"></i> Hard</span>
+                            <span class="time-badge"><i class="ri-time-line"></i> 10 min</span>
                         </div>
                     </div>
                 </div>
@@ -2430,16 +2465,18 @@ Letter Grade: B</div>
             <div class="exercise-content">
                 <div class="exercise-body">
                     <h3 style="color: var(--text-primary); margin-bottom: var(--space-md);"><i class="ri-file-text-line" style="color: var(--color-purple-500); margin-right: 0.5rem;"></i>Problem:</h3>
-                    <p style="color: var(--text-secondary); line-height: 1.7;">Check if three sides can form a valid triangle (sum of any two sides must be greater than the third).</p>
+                    <p style="color: var(--text-secondary); line-height: 1.7;">Calculate the Body Mass Index (BMI) given weight in kilograms and height in meters. Formula: BMI = weight / (height × height)</p>
+                    
+                    <h4 style="color: var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">Example Output:</h4>
                     <div class="output-box">
                         <div class="output-header"><i class="ri-terminal-line"></i> Sample Run</div>
-                        <div class="output-content">Enter side 1: 3
-Enter side 2: 4
-Enter side 3: 5
-These sides form a valid triangle</div>
+                        <div class="output-content">Enter weight in kg: 70
+Enter height in meters: 1.75
+Your BMI is: 22.86</div>
                     </div>
+                    
                     <div class="solution-section">
-                                                <!-- Hints System -->
+                        <!-- Hints System -->
                         <div class="hints-container">
                             <div class="hints-header">
                                 <i class="ri-lightbulb-flash-line"></i>
@@ -2464,30 +2501,31 @@ These sides form a valid triangle</div>
                             <div id="hint-7-3" class="hint-display"></div>
                         </div>
                         
-<div style="text-align: center;" id="solution-7-hidden">
+                        <div style="text-align: center;" id="solution-7-hidden">
                             <button class="show-solution-btn" onclick="showSolution(7)"><i class="ri-eye-line"></i> Show Solution</button>
                         </div>
                         <div class="solution-content" id="solution-7">
-                            <h3 style="color: var(--color-blue-500); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;"><i class="ri-checkbox-circle-line"></i> Solution</h3>
-                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">TriangleValidator</span>
-    <span style="color: #c678dd; font-weight: 600;">var</span> a = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter side 1:"</span>
-    <span style="color: #c678dd; font-weight: 600;">var</span> b = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter side 2:"</span>
-    <span style="color: #c678dd; font-weight: 600;">var</span> c = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter side 3:"</span>
+                            <h3 style="color: var(--color-orange-600); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;"><i class="ri-checkbox-circle-line"></i> Solution</h3>
+                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">BMICalculator</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> weightKg = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter weight in kg:"</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> heightMeters = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter height in meters:"</span>
     
-    <span style="color: #c678dd; font-weight: 600;">If</span> (a + b > c) <span style="color: #c678dd; font-weight: 600;">AND</span> (b + c > a) <span style="color: #c678dd; font-weight: 600;">AND</span> (a + c > b) <span style="color: #c678dd; font-weight: 600;">Then</span>
-        <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"These sides form a valid triangle"</span>
-    <span style="color: #c678dd; font-weight: 600;">Else</span>
-        <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"These sides do NOT form a valid triangle"</span>
-    <span style="color: #c678dd; font-weight: 600;">Endif</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> bmi = weightKg / (heightMeters * heightMeters)
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Your BMI is:"</span>, bmi
 <span style="color: #c678dd; font-weight: 600;">Endalgorithm</span></code></pre>
-                            <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(6, 182, 212, 0.08)); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md);">
-                                <strong style="color: var(--color-blue-500); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.625rem;"><i class="ri-lightbulb-line"></i> Key Concepts:</strong>
+                            
+                            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.08)); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md);">
+                                <strong style="color: var(--color-orange-600); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.625rem;">
+                                    <i class="ri-lightbulb-line"></i>
+                                    Key Concepts:
+                                </strong>
                                 <ul style="color: var(--text-secondary); margin-top: 0.625rem; margin-left: var(--space-lg); line-height: 1.8;">
-                                    <li>Logical AND to combine conditions</li>
-                                    <li>Mathematical rules in code</li>
-                                    <li>All conditions must be true</li>
+                                    <li>Exponentiation (squaring) using multiplication</li>
+                                    <li>Float variables for precise calculations</li>
+                                    <li>Order of operations with parentheses</li>
                                 </ul>
                             </div>
+                            
                             <div style="text-align: center; margin-top: var(--space-lg);">
                                 <button class="mark-completed-btn" onclick="markAsCompleted(7)">
                                     <i class="ri-check-double-line"></i>
@@ -2506,10 +2544,10 @@ These sides form a valid triangle</div>
                 <div class="exercise-title-section">
                     <div class="exercise-number">8</div>
                     <div class="exercise-info">
-                        <h3 class="exercise-title">Voting Eligibility</h3>
+                        <h3 class="exercise-title">Circle Properties</h3>
                         <div class="exercise-badges">
                             <span class="difficulty-badge difficulty-medium"><i class="ri-alert-line"></i> Medium</span>
-                            <span class="time-badge"><i class="ri-time-line"></i> 6 min</span>
+                            <span class="time-badge"><i class="ri-time-line"></i> 7 min</span>
                         </div>
                     </div>
                 </div>
@@ -2518,15 +2556,18 @@ These sides form a valid triangle</div>
             <div class="exercise-content">
                 <div class="exercise-body">
                     <h3 style="color: var(--text-primary); margin-bottom: var(--space-md);"><i class="ri-file-text-line" style="color: var(--color-purple-500); margin-right: 0.5rem;"></i>Problem:</h3>
-                    <p style="color: var(--text-secondary); line-height: 1.7;">Check if someone can vote (age >= 18 AND citizen = true).</p>
+                    <p style="color: var(--text-secondary); line-height: 1.7;">Calculate both area and circumference of a circle given its radius (π = 3.14159).</p>
+                    
+                    <h4 style="color: var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">Example Output:</h4>
                     <div class="output-box">
                         <div class="output-header"><i class="ri-terminal-line"></i> Sample Run</div>
-                        <div class="output-content">Enter age: 20
-Are you a citizen? (yes/no): yes
-You are eligible to vote</div>
+                        <div class="output-content">Enter radius: 5
+Circle Area: 78.53975
+Circle Circumference: 31.4159</div>
                     </div>
+                    
                     <div class="solution-section">
-                                                <!-- Hints System -->
+                        <!-- Hints System -->
                         <div class="hints-container">
                             <div class="hints-header">
                                 <i class="ri-lightbulb-flash-line"></i>
@@ -2551,29 +2592,31 @@ You are eligible to vote</div>
                             <div id="hint-8-3" class="hint-display"></div>
                         </div>
                         
-<div style="text-align: center;" id="solution-8-hidden">
+                        <div style="text-align: center;" id="solution-8-hidden">
                             <button class="show-solution-btn" onclick="showSolution(8)"><i class="ri-eye-line"></i> Show Solution</button>
                         </div>
                         <div class="solution-content" id="solution-8">
-                            <h3 style="color: var(--color-blue-500); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;"><i class="ri-checkbox-circle-line"></i> Solution</h3>
-                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">VotingEligibility</span>
-    <span style="color: #c678dd; font-weight: 600;">var</span> age = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter age:"</span>
-    <span style="color: #c678dd; font-weight: 600;">var</span> citizen = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Are you a citizen? (yes/no):"</span>
+                            <h3 style="color: var(--color-orange-600); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;"><i class="ri-checkbox-circle-line"></i> Solution</h3>
+                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">CircleProperties</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> pi = <span style="color: #d19a66;">3.14159</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> radius = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter radius:"</span>
     
-    <span style="color: #c678dd; font-weight: 600;">If</span> (age >= <span style="color: #d19a66;">18</span>) <span style="color: #c678dd; font-weight: 600;">AND</span> (citizen == <span style="color: #98c379;">"yes"</span>) <span style="color: #c678dd; font-weight: 600;">Then</span>
-        <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"You are eligible to vote"</span>
-    <span style="color: #c678dd; font-weight: 600;">Else</span>
-        <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"You are NOT eligible to vote"</span>
-    <span style="color: #c678dd; font-weight: 600;">Endif</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> area = pi * radius * radius
+    <span style="color: #c678dd; font-weight: 600;">var</span> circumference = <span style="color: #d19a66;">2</span> * pi * radius
+    
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Circle Area:"</span>, area
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Circle Circumference:"</span>, circumference
 <span style="color: #c678dd; font-weight: 600;">Endalgorithm</span></code></pre>
-                            <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(6, 182, 212, 0.08)); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md);">
-                                <strong style="color: var(--color-blue-500); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.625rem;"><i class="ri-lightbulb-line"></i> Key Concepts:</strong>
+                            
+                            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.08)); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md);">
+                                <strong style="color: var(--color-orange-600); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.625rem;"><i class="ri-lightbulb-line"></i> Key Concepts:</strong>
                                 <ul style="color: var(--text-secondary); margin-top: 0.625rem; margin-left: var(--space-lg); line-height: 1.8;">
-                                    <li>Logical AND for multiple requirements</li>
-                                    <li>Both conditions must be true</li>
-                                    <li>String comparison with ==</li>
+                                    <li>Constants (like π) stored in variables</li>
+                                    <li>Mathematical formulas in pseudocode</li>
+                                    <li>Squaring by multiplying number by itself</li>
                                 </ul>
                             </div>
+                            
                             <div style="text-align: center; margin-top: var(--space-lg);">
                                 <button class="mark-completed-btn" onclick="markAsCompleted(8)">
                                     <i class="ri-check-double-line"></i>
@@ -2592,7 +2635,7 @@ You are eligible to vote</div>
                 <div class="exercise-title-section">
                     <div class="exercise-number">9</div>
                     <div class="exercise-info">
-                        <h3 class="exercise-title">Nested IF Example</h3>
+                        <h3 class="exercise-title">Currency Exchange</h3>
                         <div class="exercise-badges">
                             <span class="difficulty-badge difficulty-hard"><i class="ri-fire-line"></i> Hard</span>
                             <span class="time-badge"><i class="ri-time-line"></i> 10 min</span>
@@ -2604,16 +2647,20 @@ You are eligible to vote</div>
             <div class="exercise-content">
                 <div class="exercise-body">
                     <h3 style="color: var(--text-primary); margin-bottom: var(--space-md);"><i class="ri-file-text-line" style="color: var(--color-purple-500); margin-right: 0.5rem;"></i>Problem:</h3>
-                    <p style="color: var(--text-secondary); line-height: 1.7;">Use nested IF statements to check age eligibility for different licenses (16+ for car, 18+ for motorcycle with car license).</p>
+                    <p style="color: var(--text-secondary); line-height: 1.7;">Convert USD to EUR, GBP, and JPY with proper formatting (1 USD = 0.85 EUR, 0.73 GBP, 110.50 JPY).</p>
+                    
+                    <h4 style="color: var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">Example Output:</h4>
                     <div class="output-box">
                         <div class="output-header"><i class="ri-terminal-line"></i> Sample Run</div>
-                        <div class="output-content">Enter age: 17
-Have car license? (yes/no): yes
-You can drive a car
-You cannot get motorcycle license yet</div>
+                        <div class="output-content">Enter amount in USD: 100
+$100.00 USD equals:
+€85.00 EUR
+£73.00 GBP
+¥11050.00 JPY</div>
                     </div>
+                    
                     <div class="solution-section">
-                                                <!-- Hints System -->
+                        <!-- Hints System -->
                         <div class="hints-container">
                             <div class="hints-header">
                                 <i class="ri-lightbulb-flash-line"></i>
@@ -2638,35 +2685,37 @@ You cannot get motorcycle license yet</div>
                             <div id="hint-9-3" class="hint-display"></div>
                         </div>
                         
-<div style="text-align: center;" id="solution-9-hidden">
+                        <div style="text-align: center;" id="solution-9-hidden">
                             <button class="show-solution-btn" onclick="showSolution(9)"><i class="ri-eye-line"></i> Show Solution</button>
                         </div>
                         <div class="solution-content" id="solution-9">
-                            <h3 style="color: var(--color-blue-500); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;"><i class="ri-checkbox-circle-line"></i> Solution</h3>
-                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">LicenseChecker</span>
-    <span style="color: #c678dd; font-weight: 600;">var</span> age = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter age:"</span>
-    <span style="color: #c678dd; font-weight: 600;">var</span> hasCarLicense = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Have car license? (yes/no):"</span>
+                            <h3 style="color: var(--color-orange-600); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;"><i class="ri-checkbox-circle-line"></i> Solution</h3>
+                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">CurrencyExchange</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> usdToEur = <span style="color: #d19a66;">0.85</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> usdToGbp = <span style="color: #d19a66;">0.73</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> usdToJpy = <span style="color: #d19a66;">110.50</span>
     
-    <span style="color: #c678dd; font-weight: 600;">If</span> age >= <span style="color: #d19a66;">16</span> <span style="color: #c678dd; font-weight: 600;">Then</span>
-        <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"You can drive a car"</span>
-        
-        <span style="color: #c678dd; font-weight: 600;">If</span> (age >= <span style="color: #d19a66;">18</span>) <span style="color: #c678dd; font-weight: 600;">AND</span> (hasCarLicense == <span style="color: #98c379;">"yes"</span>) <span style="color: #c678dd; font-weight: 600;">Then</span>
-            <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"You can get motorcycle license"</span>
-        <span style="color: #c678dd; font-weight: 600;">Else</span>
-            <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"You cannot get motorcycle license yet"</span>
-        <span style="color: #c678dd; font-weight: 600;">Endif</span>
-    <span style="color: #c678dd; font-weight: 600;">Else</span>
-        <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"You cannot drive yet"</span>
-    <span style="color: #c678dd; font-weight: 600;">Endif</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> usdAmount = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter amount in USD:"</span>
+    
+    <span style="color: #c678dd; font-weight: 600;">var</span> eurAmount = usdAmount * usdToEur
+    <span style="color: #c678dd; font-weight: 600;">var</span> gbpAmount = usdAmount * usdToGbp
+    <span style="color: #c678dd; font-weight: 600;">var</span> jpyAmount = usdAmount * usdToJpy
+    
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"$"</span>, usdAmount, <span style="color: #98c379;">"USD equals:"</span>
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"€"</span>, eurAmount, <span style="color: #98c379;">"EUR"</span>
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"£"</span>, gbpAmount, <span style="color: #98c379;">"GBP"</span>
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"¥"</span>, jpyAmount, <span style="color: #98c379;">"JPY"</span>
 <span style="color: #c678dd; font-weight: 600;">Endalgorithm</span></code></pre>
-                            <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(6, 182, 212, 0.08)); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md);">
-                                <strong style="color: var(--color-blue-500); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.625rem;"><i class="ri-lightbulb-line"></i> Key Concepts:</strong>
+                            
+                            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.08)); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md);">
+                                <strong style="color: var(--color-orange-600); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.625rem;"><i class="ri-lightbulb-line"></i> Key Concepts:</strong>
                                 <ul style="color: var(--text-secondary); margin-top: 0.625rem; margin-left: var(--space-lg); line-height: 1.8;">
-                                    <li>Nested IF statements (IF within IF)</li>
-                                    <li>Multiple levels of decision making</li>
-                                    <li>Proper indentation for readability</li>
+                                    <li>Multiple related constants</li>
+                                    <li>One input for multiple calculations</li>
+                                    <li>Currency symbols for user-friendly output</li>
                                 </ul>
                             </div>
+                            
                             <div style="text-align: center; margin-top: var(--space-lg);">
                                 <button class="mark-completed-btn" onclick="markAsCompleted(9)">
                                     <i class="ri-check-double-line"></i>
@@ -2685,7 +2734,7 @@ You cannot get motorcycle license yet</div>
                 <div class="exercise-title-section">
                     <div class="exercise-number">10</div>
                     <div class="exercise-info">
-                        <h3 class="exercise-title">Complex Discount System</h3>
+                        <h3 class="exercise-title">Student Grade Average</h3>
                         <div class="exercise-badges">
                             <span class="difficulty-badge difficulty-hard"><i class="ri-fire-line"></i> Hard</span>
                             <span class="time-badge"><i class="ri-time-line"></i> 12 min</span>
@@ -2697,18 +2746,25 @@ You cannot get motorcycle license yet</div>
             <div class="exercise-content">
                 <div class="exercise-body">
                     <h3 style="color: var(--text-primary); margin-bottom: var(--space-md);"><i class="ri-file-text-line" style="color: var(--color-purple-500); margin-right: 0.5rem;"></i>Problem:</h3>
-                    <p style="color: var(--text-secondary); line-height: 1.7;">Calculate final price with tiered discounts: VIP members get 20%, regular members get 10%, purchases over $100 get extra 5%.</p>
+                    <p style="color: var(--text-secondary); line-height: 1.7;">Calculate a student's final grade average from 5 test scores and determine pass/fail status (average >= 60).</p>
+                    
+                    <h4 style="color: var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">Example Output:</h4>
                     <div class="output-box">
                         <div class="output-header"><i class="ri-terminal-line"></i> Sample Run</div>
-                        <div class="output-content">Enter purchase amount: 150
-Membership (VIP/Regular/None): VIP
-Base discount: 20%
-Large purchase bonus: 5%
-Total discount: 25%
-Final price: 112.50</div>
+                        <div class="output-content">Enter test 1 score: 85
+Enter test 2 score: 92
+Enter test 3 score: 78
+Enter test 4 score: 88
+Enter test 5 score: 95
+---Student Report---
+Test Scores: 85, 92, 78, 88, 95
+Total: 438
+Average: 87.6
+Status: Pass</div>
                     </div>
+                    
                     <div class="solution-section">
-                                                <!-- Hints System -->
+                        <!-- Hints System -->
                         <div class="hints-container">
                             <div class="hints-header">
                                 <i class="ri-lightbulb-flash-line"></i>
@@ -2733,44 +2789,43 @@ Final price: 112.50</div>
                             <div id="hint-10-3" class="hint-display"></div>
                         </div>
                         
-<div style="text-align: center;" id="solution-10-hidden">
+                        <div style="text-align: center;" id="solution-10-hidden">
                             <button class="show-solution-btn" onclick="showSolution(10)"><i class="ri-eye-line"></i> Show Solution</button>
                         </div>
                         <div class="solution-content" id="solution-10">
-                            <h3 style="color: var(--color-blue-500); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;"><i class="ri-checkbox-circle-line"></i> Solution</h3>
-                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">DiscountSystem</span>
-    <span style="color: #c678dd; font-weight: 600;">var</span> amount = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter purchase amount:"</span>
-    <span style="color: #c678dd; font-weight: 600;">var</span> membership = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Membership (VIP/Regular/None):"</span>
+                            <h3 style="color: var(--color-orange-600); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem;"><i class="ri-checkbox-circle-line"></i> Solution</h3>
+                            <pre><code style="display: block; padding: var(--space-md); font-family: 'JetBrains Mono', monospace; line-height: 1.7;"><span style="color: #c678dd; font-weight: 600;">Algorithm</span> <span style="color: #61afef;">StudentGradeAverage</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> test1 = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter test 1 score:"</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> test2 = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter test 2 score:"</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> test3 = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter test 3 score:"</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> test4 = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter test 4 score:"</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> test5 = <span style="color: #c678dd; font-weight: 600;">Input</span> <span style="color: #98c379;">"Enter test 5 score:"</span>
     
-    <span style="color: #c678dd; font-weight: 600;">var</span> discountPercent = <span style="color: #d19a66;">0</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> total = test1 + test2 + test3 + test4 + test5
+    <span style="color: #c678dd; font-weight: 600;">var</span> average = total / <span style="color: #d19a66;">5</span>
     
-    <span style="color: #c678dd; font-weight: 600;">If</span> membership == <span style="color: #98c379;">"VIP"</span> <span style="color: #c678dd; font-weight: 600;">Then</span>
-        discountPercent = <span style="color: #d19a66;">20</span>
-        <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Base discount: 20%"</span>
-    <span style="color: #c678dd; font-weight: 600;">Elseif</span> membership == <span style="color: #98c379;">"Regular"</span> <span style="color: #c678dd; font-weight: 600;">Then</span>
-        discountPercent = <span style="color: #d19a66;">10</span>
-        <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Base discount: 10%"</span>
+    <span style="color: #c678dd; font-weight: 600;">var</span> status = <span style="color: #98c379;">"Fail"</span>
+    <span style="color: #c678dd; font-weight: 600;">If</span> average >= <span style="color: #d19a66;">60</span> <span style="color: #c678dd; font-weight: 600;">Then</span>
+        status = <span style="color: #98c379;">"Pass"</span>
     <span style="color: #c678dd; font-weight: 600;">Endif</span>
     
-    <span style="color: #c678dd; font-weight: 600;">If</span> amount > <span style="color: #d19a66;">100</span> <span style="color: #c678dd; font-weight: 600;">Then</span>
-        discountPercent = discountPercent + <span style="color: #d19a66;">5</span>
-        <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Large purchase bonus: 5%"</span>
-    <span style="color: #c678dd; font-weight: 600;">Endif</span>
-    
-    <span style="color: #c678dd; font-weight: 600;">var</span> finalPrice = amount - (amount * discountPercent / <span style="color: #d19a66;">100</span>)
-    
-    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Total discount:"</span>, discountPercent, <span style="color: #98c379;">"%"</span>
-    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Final price:"</span>, finalPrice
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"---Student Report---"</span>
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Test Scores:"</span>, test1, <span style="color: #98c379;">","</span>, test2, <span style="color: #98c379;">","</span>, test3, <span style="color: #98c379;">","</span>, test4, <span style="color: #98c379;">","</span>, test5
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Total:"</span>, total
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Average:"</span>, average
+    <span style="color: #c678dd; font-weight: 600;">Print</span> <span style="color: #98c379;">"Status:"</span>, status
 <span style="color: #c678dd; font-weight: 600;">Endalgorithm</span></code></pre>
-                            <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(6, 182, 212, 0.08)); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md);">
-                                <strong style="color: var(--color-blue-500); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.625rem;"><i class="ri-lightbulb-line"></i> Key Concepts:</strong>
+                            
+                            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.08)); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md);">
+                                <strong style="color: var(--color-orange-600); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.625rem;"><i class="ri-lightbulb-line"></i> Key Concepts:</strong>
                                 <ul style="color: var(--text-secondary); margin-top: 0.625rem; margin-left: var(--space-lg); line-height: 1.8;">
-                                    <li>Multiple independent IF statements</li>
-                                    <li>Accumulating values across conditions</li>
-                                    <li>Real-world business logic</li>
-                                    <li>Complex decision trees</li>
+                                    <li>Multiple related variables (test1, test2, etc.)</li>
+                                    <li>Accumulating values for totals</li>
+                                    <li>Average calculation: sum ÷ count</li>
+                                    <li>Comparison operators (>=) for conditions</li>
                                 </ul>
                             </div>
+                            
                             <div style="text-align: center; margin-top: var(--space-lg);">
                                 <button class="mark-completed-btn" onclick="markAsCompleted(10)">
                                     <i class="ri-check-double-line"></i>
@@ -2810,7 +2865,7 @@ Final price: 112.50</div>
                         <ul>
                             <li><a href="../index.html">All Lessons</a></li>
                             <li><a href="../01-introduction-to-pseudocode.html">Getting Started</a></li>
-                            <li><a href="../07-conditional-statements.html">Conditionals</a></li>
+                            <li><a href="../03-variables-and-data-types.html">Variables</a></li>
                         </ul>
                     </div>
                     
@@ -2818,7 +2873,7 @@ Final price: 112.50</div>
                         <h4>Exercises</h4>
                         <ul>
                             <li><a href="exercises-index.html">Exercise Hub</a></li>
-                            <li><a href="exercises-variables.html">Variables & Data Types</a></li>
+                            <li><a href="exercises-variables.html">Operators</a></li>
                             <li><a href="exercises-operators.html">Operators</a></li>
                             <li><a href="exercises-conditionals.html">Conditionals</a></li>
                             <li><a href="exercises-loops.html">Loops</a></li>
@@ -2881,57 +2936,57 @@ Final price: 112.50</div>
             solutionDiv.classList.add('visible');
         }
 
-        // Hints System - Conditionals Exercise-specific hints
+        // Hints System - Exercise-specific hints
         const exerciseHints = {
             1: [
-                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Three Possible Outcomes</strong><p>A number can only be positive (greater than zero), negative (less than zero), or exactly zero.</p>',
-                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: If-Elseif-Else Structure</strong><p>Use If for the first condition, Elseif for the second, and Else for the final case.</p>',
-                '<strong><i class="ri-flashlight-line"></i> Hint 3: Complete Logic</strong><p>If number > 0 Then Print "positive"<br>Elseif number < 0 Then Print "negative"<br>Else Print "zero"<br>Endif</p>'
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Variables</strong><p>You\'ll need to store two values: the current year (2024) and the birth year from user input.</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Calculation</strong><p>Age is calculated by subtracting birth year from current year. Use the subtraction operator (-).</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Steps</strong><p>1) Declare currentYear = 2024<br>2) Get birthYear from Input<br>3) Calculate: age = currentYear - birthYear<br>4) Print the result</p>'
             ],
             2: [
-                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Passing Score</strong><p>You need to compare the score with 60. Use the >= operator to check if the student passes.</p>',
-                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Two Outcomes Only</strong><p>This only has two possible outcomes: Pass or Fail. Use a simple If-Else statement.</p>',
-                '<strong><i class="ri-flashlight-line"></i> Hint 3: Complete Code</strong><p>If score >= 60 Then<br>&nbsp;&nbsp;Print "Pass"<br>Else<br>&nbsp;&nbsp;Print "Fail"<br>Endif</p>'
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Inputs</strong><p>You need two Input statements - one for length and one for width.</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Formula</strong><p>Rectangle area = length × width. Use the multiplication operator (*).</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Structure</strong><p>Get length → Get width → Calculate area = length * width → Print the result</p>'
             ],
             3: [
-                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Three Comparisons</strong><p>You need to compare three numbers pairwise to find the largest one.</p>',
-                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Nested Conditionals</strong><p>Use nested If statements: First find the larger of num1 and num2, then compare that winner with num3.</p>',
-                '<strong><i class="ri-flashlight-line"></i> Hint 3: Complete Structure</strong><p>If num1 > num2 Then<br>&nbsp;&nbsp;If num1 > num3 Then<br>&nbsp;&nbsp;&nbsp;&nbsp;max = num1<br>&nbsp;&nbsp;Else<br>&nbsp;&nbsp;&nbsp;&nbsp;max = num3<br>&nbsp;&nbsp;Endif<br>Else<br>&nbsp;&nbsp;If num2 > num3 Then<br>&nbsp;&nbsp;&nbsp;&nbsp;max = num2<br>&nbsp;&nbsp;Else<br>&nbsp;&nbsp;&nbsp;&nbsp;max = num3<br>&nbsp;&nbsp;Endif<br>Endif</p>'
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: String Variables</strong><p>You\'ll work with string (text) variables, not numbers. Use Input to get both names.</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Concatenation</strong><p>Join strings using the + operator. Don\'t forget to add a space " " between first and last name!</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Example</strong><p>fullName = firstName + " " + lastName</p>'
             ],
             4: [
-                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Four Age Categories</strong><p>There are 4 age categories: Child (<13), Teen (13-19), Adult (20-64), Senior (65+).</p>',
-                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Multiple Elseif</strong><p>Use a chain of If-Elseif-Elseif-Else to check each age range.</p>',
-                '<strong><i class="ri-flashlight-line"></i> Hint 3: Check Ranges</strong><p>If age < 13 Then Print "Child"<br>Elseif age < 20 Then Print "Teen"<br>Elseif age < 65 Then Print "Adult"<br>Else Print "Senior"<br>Endif</p>'
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Formula</strong><p>The formula is: F = C × 9/5 + 32. Follow the order of operations carefully!</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Parentheses</strong><p>Use parentheses to ensure multiplication happens before addition: (celsius * 9 / 5) + 32</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Variables</strong><p>Store celsius from input, then calculate fahrenheit, then print both values.</p>'
             ],
             5: [
-                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Leap Year Rules</strong><p>A leap year is divisible by 4, BUT if it\'s divisible by 100, it must also be divisible by 400.</p>',
-                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Complex Condition</strong><p>You need to combine conditions with AND and OR operators. Check divisibility using the mod operator (year mod 4 == 0 means divisible by 4).</p>',
-                '<strong><i class="ri-flashlight-line"></i> Hint 3: Complete Logic</strong><p>If (year mod 4 == 0) AND ((year mod 100 != 0) OR (year mod 400 == 0)) Then<br>&nbsp;&nbsp;Print "Leap year"<br>Else<br>&nbsp;&nbsp;Print "Not a leap year"<br>Endif</p>'
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Multiple Values</strong><p>You need variables for: price1, price2, subtotal, taxAmount, and totalBill.</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Tax Calculation</strong><p>10% tax means multiply subtotal by 0.10 (or 0.1). Remember: 10% = 10/100 = 0.10</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Steps</strong><p>1) Add prices → subtotal<br>2) Calculate tax: subtotal * 0.10<br>3) Add subtotal + tax → total<br>4) Print all three values</p>'
             ],
             6: [
-                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Five Letter Grades</strong><p>There are 5 possible letter grades based on score ranges: A (90-100), B (80-89), C (70-79), D (60-69), F (below 60).</p>',
-                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Multiple Elseif</strong><p>Use a chain of If-Elseif-Elseif-Elseif-Else to check each range.</p>',
-                '<strong><i class="ri-flashlight-line"></i> Hint 3: Start High to Low</strong><p>Always check from highest to lowest:<br>If grade >= 90 Then Print "A"<br>Elseif grade >= 80 Then Print "B"<br>Elseif grade >= 70 Then Print "C"<br>Elseif grade >= 60 Then Print "D"<br>Else Print "F"<br>Endif</p>'
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Integer Division</strong><p>Use division (/) to get whole numbers and modulo (mod) to get remainders.</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Sequential</strong><p>First convert to years and get remaining days. Then convert remaining days to weeks and final days.</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Operations</strong><p>years = totalDays / 365<br>remainingDays = totalDays mod 365<br>weeks = remainingDays / 7<br>days = remainingDays mod 7</p>'
             ],
             7: [
-                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Triangle Inequality Theorem</strong><p>A valid triangle requires that the sum of any two sides must be greater than the third side. You need to check all three combinations.</p>',
-                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Three Separate Checks</strong><p>Check these three conditions: (side1 + side2 > side3) AND (side1 + side3 > side2) AND (side2 + side3 > side1)</p>',
-                '<strong><i class="ri-flashlight-line"></i> Hint 3: Using AND Operator</strong><p>All three conditions must be true simultaneously:<br>If (a+b>c) AND (a+c>b) AND (b+c>a) Then<br>&nbsp;&nbsp;Print "Valid triangle"<br>Else<br>&nbsp;&nbsp;Print "Invalid triangle"<br>Endif</p>'
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Formula</strong><p>BMI = weight / (height × height). Height must be multiplied by itself (squared).</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Parentheses</strong><p>Use parentheses for the height squared calculation: (heightMeters * heightMeters)</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Variables</strong><p>Get weight and height from input, calculate BMI using the formula, then print the result.</p>'
             ],
             8: [
-                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Two Requirements</strong><p>To vote, BOTH conditions must be true: age must be >= 18 AND person must be a citizen.</p>',
-                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: AND Operator</strong><p>Use the AND operator to combine both conditions. Both must be true for eligibility.</p>',
-                '<strong><i class="ri-flashlight-line"></i> Hint 3: Complete Logic</strong><p>If (age >= 18) AND (citizen == "yes") Then<br>&nbsp;&nbsp;Print "You are eligible to vote"<br>Else<br>&nbsp;&nbsp;Print "You are not eligible to vote"<br>Endif</p>'
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Pi Constant</strong><p>Store π (pi) as a variable: pi = 3.14159. You\'ll use it for both calculations.</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Formulas</strong><p>Area = π × radius × radius<br>Circumference = 2 × π × radius</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Squaring</strong><p>To square the radius, multiply it by itself: radius * radius</p>'
             ],
             9: [
-                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Two License Types</strong><p>Car license requires age >= 16. Motorcycle license requires age >= 18 AND having a car license.</p>',
-                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Nested Structure</strong><p>Use nested If statements: First check car eligibility (age >= 16), then inside that, check motorcycle eligibility (age >= 18 AND has car license).</p>',
-                '<strong><i class="ri-flashlight-line"></i> Hint 3: Complete Logic</strong><p>If age >= 16 Then<br>&nbsp;&nbsp;Print "Can drive car"<br>&nbsp;&nbsp;If (age >= 18) AND (hasCarLicense == "yes") Then<br>&nbsp;&nbsp;&nbsp;&nbsp;Print "Can get motorcycle license"<br>&nbsp;&nbsp;Else<br>&nbsp;&nbsp;&nbsp;&nbsp;Print "Cannot get motorcycle license"<br>&nbsp;&nbsp;Endif<br>Else<br>&nbsp;&nbsp;Print "Too young"<br>Endif</p>'
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Exchange Rates</strong><p>Store all three exchange rates as constants at the beginning: usdToEur, usdToGbp, usdToJpy.</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Multiple Conversions</strong><p>Get USD amount once, then multiply by each exchange rate to get EUR, GBP, and JPY amounts.</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Output</strong><p>Print each currency with its symbol: $, €, £, ¥ for better formatting.</p>'
             ],
             10: [
-                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Tiered Discounts</strong><p>There are multiple discount tiers: VIP (20%), Regular (10%), None (0%). Plus an extra 5% if purchase > $100.</p>',
-                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Nested Conditions</strong><p>First check membership type using If-Elseif-Else to set base discount. Then, inside each branch, check if amount > 100 to add extra 5%.</p>',
-                '<strong><i class="ri-flashlight-line"></i> Hint 3: Structure</strong><p>If membership == "VIP" Then<br>&nbsp;&nbsp;discount = 20<br>&nbsp;&nbsp;If amount > 100 Then discount += 5<br>Elseif membership == "Regular" Then<br>&nbsp;&nbsp;discount = 10<br>&nbsp;&nbsp;If amount > 100 Then discount += 5<br>Else<br>&nbsp;&nbsp;discount = 0<br>&nbsp;&nbsp;If amount > 100 Then discount = 5<br>Endif<br>finalPrice = amount - (amount × discount / 100)</p>'
+                '<strong><i class="ri-lightbulb-line"></i> Hint 1: Five Inputs</strong><p>You need to get 5 test scores from the user. Use 5 separate Input statements.</p>',
+                '<strong><i class="ri-lightbulb-flash-line"></i> Hint 2: Calculate Total and Average</strong><p>Add all 5 scores to get total. Then divide total by 5 to get average.</p>',
+                '<strong><i class="ri-flashlight-line"></i> Hint 3: Pass/Fail</strong><p>Use an If statement to check: If average >= 60, status = "Pass", otherwise status = "Fail"</p>'
             ]
         };
         
@@ -2982,7 +3037,7 @@ Final price: 112.50</div>
             
             dashboardProgress.exercises[`variables-${num}`] = {
                 title: exerciseTitle,
-                topic: 'Conditionals',
+                topic: 'Operators',
                 difficulty: difficulty,
                 timeEstimate: timeEstimate,
                 completedAt: new Date().toISOString(),
@@ -3016,7 +3071,7 @@ Final price: 112.50</div>
             userStats.exerciseActivity.push({
                 type: 'exercise_completed',
                 exercise: exerciseTitle,
-                topic: 'Conditionals',
+                topic: 'Operators',
                 difficulty: difficulty,
                 timestamp: new Date().toISOString(),
                 date: new Date().toLocaleDateString()
@@ -3042,7 +3097,7 @@ Final price: 112.50</div>
             if (!exerciseNotes[`variables-${num}`]) {
                 exerciseNotes[`variables-${num}`] = {
                     title: exerciseTitle,
-                    topic: 'Conditionals',
+                    topic: 'Operators',
                     completedAt: new Date().toISOString(),
                     autoNote: `Completed ${exerciseTitle} (${difficulty}) on ${new Date().toLocaleDateString()}`
                 };
@@ -3054,7 +3109,7 @@ Final price: 112.50</div>
                 detail: {
                     exerciseId: `variables-${num}`,
                     title: exerciseTitle,
-                    topic: 'Conditionals',
+                    topic: 'Operators',
                     difficulty: difficulty
                 }
             }));
@@ -3073,7 +3128,7 @@ Final price: 112.50</div>
         
         // Confetti effect for completion
         function createConfetti(button) {
-            const colors = ['#8b5cf6', '#a78bfa', '#c4b5fd', '#3b82f6', '#60a5fa'];
+            const colors = ['#ea580c', '#f59e0b', '#fb923c', '#3b82f6', '#60a5fa'];
             const rect = button.getBoundingClientRect();
             
             for (let i = 0; i < 20; i++) {
@@ -3151,7 +3206,7 @@ Final price: 112.50</div>
             const dashboardProgress = JSON.parse(localStorage.getItem('dashboardProgress') || '{}');
             
             Object.keys(completedExercises).forEach(key => {
-                if (key.startsWith('conditionals-')) {
+                if (key.startsWith('operators-')) {
                     const num = key.split('-')[1];
                     const card = document.getElementById(`exercise-${num}`);
                     if (card) {
